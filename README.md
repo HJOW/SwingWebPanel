@@ -1,5 +1,16 @@
 # SwingWebPanel
 
+
+## 소개
+
+Java 의 Swing 용 웹 브라우저 컴포넌트입니다.
+일부 에셋을 제외하면 순수 자바로 구현되어 있습니다.
+Java 6 이상 버전을 모두 지원합니다.
+    
+우리 프로젝트에서는 AI를 적극 사용합니다.
+
+## 소개 (AI 작성)
+
 Java Swing 에서 쓰는 웹 브라우저 컴포넌트입니다. HTML 파서, CSS 처리기, 레이아웃/렌더링 엔진, JavaScript 엔진(ES2015 대상), DOM, 이미지/오디오 디코더, HTTP/HTTPS/FTP 요청 계층을
 **순수 Java 로 직접 구현**했고 외부 라이브러리, 기존 JavaScript 엔진(Rhino 등), JavaFX WebView, 네이티브 코드(JNI 등), OS 브라우저 실행에 의존하지 않습니다.
 
@@ -139,3 +150,19 @@ HTTPS 의 연결/TLS 처리 실패일 때만 같은 주소의 HTTP 접근을 한
 | [docs/FEATURE_MATRIX.md](docs/FEATURE_MATRIX.md) | 기능별 규격 판본, 구현 클래스, 검증 사례, 지원 상태와 제약 |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 패키지 구성, 데이터 흐름, 캐시/수명/진행률 구조 |
 | [docs/PROGRESS.md](docs/PROGRESS.md) | 진행 기록, 검증 결과, 미해결 사항, 다음 작업 |
+
+## License
+
+Copyright 2026 HJOW
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
