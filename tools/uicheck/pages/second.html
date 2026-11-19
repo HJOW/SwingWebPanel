@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>uicheck 두 번째</title>
+</head>
+<body style="font: 18px sans-serif">
+<h1>두 번째 페이지</h1>
+<p><a href="links.html">링크 페이지로</a></p>
+<script>
+const old = sessionStorage.getItem('links');
+sessionStorage.setItem('links', (old ? old + '\n' : '') + 'loaded second ' + location.search);
+</script>
+</body>
+</html>

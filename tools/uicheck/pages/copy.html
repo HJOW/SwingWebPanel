@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>uicheck 클립보드 확인</title>
+<style>
+body { font: 20px sans-serif; margin: 12px; }
+#ed { border: 1px solid #888888; min-height: 30px; padding: 4px; width: 400px; margin-top: 20px; }
+</style>
+</head>
+<body>
+<p id="txt">복사할 <b>굵은 글</b> 끝</p>
+<div id="ed" contenteditable="true"></div>
+<p><input id="a" type="text"></p>
+<script>
+// 클립보드 이벤트와 붙인 결과를 sessionStorage 에 남긴다.
+const rec = (k, v) => sessionStorage.setItem(k, v);
+document.addEventListener('copy', e => rec('copy', 'copy ' + (e.target.id || e.target.nodeName) + ' selection=' + String(getSelection())), true);
+document.addEventListener('paste', e => {
+  const dt = e.clipboardData;
+  rec('paste-types', dt ? Array.prototype.join.call(dt.types, ',') : 'none');
+  rec('paste-html', dt ? dt.getData('text/html') : '');
+  rec('paste-text', dt ? dt.getData('text/plain') : '');
+}, true);
+document.addEventListener('input', e => {
+  rec('html-ed', document.getElementById('ed').innerHTML);
+  rec('value-a', document.getElementById('a').value);
+}, true);
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>uicheck 오디오 혼합 확인</title>
+</head>
+<body style="font: 16px sans-serif; margin: 12px">
+<p>440 Hz 와 660 Hz 사인파(각 진폭 0.1)를 두 audio 요소로 동시에 14초 재생한다. 시스템 피크 미터는 둘의 합(최대 약 0.2)을 보여야 한다.</p>
+<audio id="a" controls src="/tone.wav?sec=14&amp;hz=440&amp;amp=0.1"></audio>
+<audio id="b" controls src="/tone.wav?sec=14&amp;hz=660&amp;amp=0.1"></audio>
+<script>
+const lines = [];
+const mark = (text) => { lines.push(Date.now() + ' ' + text); sessionStorage.setItem('phases', lines.join('\n')); };
+['a', 'b'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('playing', () => mark('playing ' + id));
+  el.addEventListener('ended', () => mark('ended ' + id));
+  el.play();
+});
+</script>
+</body>
+</html>

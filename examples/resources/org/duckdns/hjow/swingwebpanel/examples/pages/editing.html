@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Editing and drag and drop</title>
+<style>
+  body { font: 16px sans-serif; margin: 16px; background: #f4f6f8; color: #223; }
+  h1 { font-size: 20px; margin: 0 0 8px 0; }
+  h2 { font-size: 16px; margin: 18px 0 6px 0; }
+  p.hint { margin: 2px 0 6px 0; color: #556; font-size: 13px; }
+  #editor { border: 1px solid #889; background: #fff; padding: 8px; min-height: 60px; width: 420px; }
+  #editor:focus { border-color: #36c; }
+  ul#items { list-style: none; padding: 0; margin: 0; }
+  ul#items li { display: inline-block; margin: 0 6px 6px 0; padding: 6px 10px; background: #fd8; border: 1px solid #a82; cursor: move; }
+  #zone { width: 420px; height: 50px; border: 2px dashed #889; background: #eef; padding: 6px; }
+  #zone.over { background: #cfc; border-color: #484; }
+  #field { width: 420px; }
+  #log { width: 420px; height: 110px; overflow: auto; background: #fff; border: 1px solid #889; font: 12px monospace; padding: 4px; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<h1>Editing and drag and drop</h1>
+<p class="hint">이 페이지는 편집(contenteditable), 한글 입력, 붙여넣기, 끌어다 놓기를 사람이 확인하기 위한 것이다. Open this page to try typing, Hangul input, paste and drag and drop by hand.</p>
+
+<h2>contenteditable</h2>
+<p class="hint">클릭해서 입력하세요. Ctrl+B/I/U 서식, Ctrl+Z/Y 되돌리기, Ctrl+X/C/V, 화살표/Home/End, Shift 선택. Click and type.</p>
+<div id="editor" contenteditable="true">Edit me. 여기에 한글을 입력해 보세요.</div>
+
+<h2>Drag these into the zone, the editor or the field</h2>
+<ul id="items">
+  <li draggable="true" data-value="apple">Apples</li>
+  <li draggable="true" data-value="orange">Oranges</li>
+  <li draggable="true" data-value="pear">Pears</li>
+</ul>
+<div id="zone">Drop here</div>
+<p class="hint">선택한 글자도 끌 수 있다(편집 영역 안에서는 이동, Ctrl 을 누르면 복사). Selected text can be dragged too.</p>
+<input id="field" value="text field">
+
+<h2>Events</h2>
+<div id="log"></div>
+
+<script>
+(function () {
+  var log = document.getElementById('log');
+  var last = '';
+  function say(text) {
+    if (text === last) { return; }
+    last = text;
+    log.appendChild(document.createTextNode(text + '\n'));
+    log.scrollTop = log.scrollHeight;
+  }
+  var editor = document.getElementById('editor');
+  var types = ['beforeinput', 'input', 'compositionstart', 'compositionend', 'cut', 'paste'];
+  for (var i = 0; i < types.length; i++) {
+    editor.addEventListener(types[i], function (e) {
+      say(e.type + (e.inputType ? ' ' + e.inputType : '') + (e.data ? ' "' + e.data + '"' : ''));
+    });
+  }
+  var zone = document.getElementById('zone');
+  document.getElementById('items').addEventListener('dragstart', function (e) {
+    e.dataTransfer.setData('text/plain', e.target.getAttribute('data-value'));
+    e.dataTransfer.effectAllowed = 'copyMove';
+    say('dragstart ' + e.target.getAttribute('data-value'));
+  });
+  zone.addEventListener('dragenter', function (e) { e.preventDefault(); zone.className = 'over'; });
+  zone.addEventListener('dragover', function (e) { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; });
+  zone.addEventListener('dragleave', function () { zone.className = ''; });
+  zone.addEventListener('drop', function (e) {
+    e.preventDefault();
+    zone.className = '';
+    zone.appendChild(document.createTextNode(' ' + e.dataTransfer.getData('text/plain')));
+    say('drop ' + e.dataTransfer.getData('text/plain') + ' (' + e.dataTransfer.types.join() + ')');
+  });
+  document.addEventListener('dragend', function (e) { say('dragend ' + e.dataTransfer.dropEffect); });
+})();
+</script>
+</body>
+</html>

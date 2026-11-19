@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>uicheck 오디오 확인</title>
+<style>
+body { font: 16px sans-serif; margin: 12px; }
+audio { width: 400px; }
+</style>
+</head>
+<body>
+<p>440 Hz 사인파(진폭 0.1)를 재생하며 상태를 바꾼다(앞 7초는 장치가 깨어나는 지연을 위한 여유, 그 뒤 3초마다): 음량 1 → 음량 0.5 → 음소거 → 음소거 해제(음량 1) → 일시정지.</p>
+<audio id="a" controls src="/tone.wav?sec=20&amp;hz=440&amp;amp=0.1"></audio>
+<script>
+// 단계와 시각(Date.now)을 sessionStorage 'phases' 에 남긴다. 시스템 피크 미터의 시각과 맞추어 본다.
+const a = document.getElementById('a');
+const lines = [];
+const mark = (text) => { lines.push(Date.now() + ' ' + text); sessionStorage.setItem('phases', lines.join('\n')); };
+let started = false;
+a.addEventListener('playing', () => {
+  if (started) { return; }
+  started = true;
+  mark('full volume=' + a.volume);
+  setTimeout(() => { a.volume = 0.5; mark('half volume=' + a.volume); }, 7000);
+  setTimeout(() => { a.muted = true; mark('muted'); }, 10000);
+  setTimeout(() => { a.muted = false; a.volume = 1; mark('unmuted volume=' + a.volume); }, 13000);
+  setTimeout(() => { a.pause(); mark('paused paused=' + a.paused); }, 16000);
+});
+a.addEventListener('error', () => mark('error code=' + (a.error ? a.error.code : '?')));
+a.play().then(() => mark('play resolved'), (e) => mark('play rejected ' + e));
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>uicheck 입력 확인</title>
+<style>
+body { font: 16px sans-serif; margin: 10px; }
+input, textarea { font-size: 18px; }
+p { margin: 6px 0; }
+a { padding: 2px 4px; }
+input:focus, textarea:focus, a:focus, button:focus { outline: 3px solid #e00000; }
+a:hover { background: #ffee00; }
+button:active { background: #00aa00; color: #fff; }
+#ed { border: 1px solid #888888; min-height: 28px; padding: 4px; font-size: 18px; width: 380px; }
+#ed:focus { outline: 3px solid #0000e0; }
+</style>
+</head>
+<body>
+<p><a id="l1" href="#top">링크 하나</a> <button id="b1" type="button">단추</button> <a id="l2" href="#second">링크 둘</a></p>
+<p>이름: <input id="a" type="text" value=""></p>
+<p>메모: <textarea id="b" rows="2" cols="28"></textarea></p>
+<div id="ed" contenteditable="true"></div>
+<script>
+// 이벤트를 sessionStorage 의 'log' 에 줄 단위로 남긴다(도구의 --log 단계가 찍는다).
+var lines = [];
+function rec(text) {
+  lines.push(text);
+  if (lines.length > 300) { lines.shift(); }
+  sessionStorage.setItem('log', lines.join('\n'));
+}
+function idOf(t) { return t && t.id ? t.id : (t && t.nodeName ? t.nodeName : String(t)); }
+const a = document.getElementById('a');
+const b = document.getElementById('b');
+const ed = document.getElementById('ed');
+const save = () => {
+  sessionStorage.setItem('value-a', a.value);
+  sessionStorage.setItem('value-b', b.value);
+  sessionStorage.setItem('value-ed', ed.textContent);
+  sessionStorage.setItem('html-ed', ed.innerHTML);
+};
+document.addEventListener('keydown', e => rec('keydown ' + idOf(e.target) + ' key=' + e.key + ' code=' + e.code + ' keyCode=' + e.keyCode + ' composing=' + e.isComposing), true);
+document.addEventListener('keyup', e => rec('keyup ' + idOf(e.target) + ' key=' + e.key + ' composing=' + e.isComposing), true);
+['compositionstart', 'compositionupdate', 'compositionend'].forEach(type => {
+  document.addEventListener(type, e => rec(type + ' ' + idOf(e.target) + ' data=' + e.data), true);
+});
+document.addEventListener('beforeinput', e => rec('beforeinput ' + idOf(e.target) + ' type=' + e.inputType + ' data=' + e.data + ' composing=' + e.isComposing), true);
+document.addEventListener('input', e => { rec('input ' + idOf(e.target) + ' type=' + e.inputType + ' data=' + e.data + ' composing=' + e.isComposing); save(); }, true);
+document.addEventListener('focusin', e => rec('focusin ' + idOf(e.target)), true);
+document.addEventListener('focusout', e => rec('focusout ' + idOf(e.target)), true);
+document.addEventListener('mouseover', e => { if (e.target.id) { rec('mouseover ' + idOf(e.target)); } }, true);
+document.addEventListener('mouseout', e => { if (e.target.id) { rec('mouseout ' + idOf(e.target)); } }, true);
+document.addEventListener('click', e => rec('click ' + idOf(e.target) + ' isTrusted=' + e.isTrusted), true);
+document.addEventListener('copy', e => rec('copy ' + idOf(e.target)), true);
+document.addEventListener('paste', e => {
+  const dt = e.clipboardData;
+  rec('paste ' + idOf(e.target) + ' types=' + (dt ? Array.prototype.join.call(dt.types, ',') : 'none'));
+}, true);
+window.addEventListener('hashchange', () => rec('hashchange ' + location.hash));
+save();
+rec('ready');
+</script>
+</body>
+</html>

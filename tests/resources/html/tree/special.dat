@@ -1,0 +1,396 @@
+#data
+<template><div>x</div></template>
+#document
+| <html>
+|   <head>
+|     <template>
+|       content
+|         <div>
+|           "x"
+|   <body>
+
+#data
+<body><template><div>x</div></template>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <template>
+|       content
+|         <div>
+|           "x"
+
+#data
+<template><tr><td>x</td></tr></template>
+#document
+| <html>
+|   <head>
+|     <template>
+|       content
+|         <tr>
+|           <td>
+|             "x"
+|   <body>
+
+#data
+<template><col></template>
+#document
+| <html>
+|   <head>
+|     <template>
+|       content
+|         <col>
+|   <body>
+
+#data
+<template>a<b>c</template>
+#document
+| <html>
+|   <head>
+|     <template>
+|       content
+|         "a"
+|         <b>
+|           "c"
+|   <body>
+
+#data
+<template><template><p>x</template></template>
+#document
+| <html>
+|   <head>
+|     <template>
+|       content
+|         <template>
+|           content
+|             <p>
+|               "x"
+|   <body>
+
+#data
+<template></template><p>x
+#document
+| <html>
+|   <head>
+|     <template>
+|       content
+|   <body>
+|     <p>
+|       "x"
+
+#data
+<template><p>a</template>b
+#document
+| <html>
+|   <head>
+|     <template>
+|       content
+|         <p>
+|           "a"
+|   <body>
+|     "b"
+
+#data
+<div><template><span></template></div>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <div>
+|       <template>
+|         content
+|           <span>
+
+#data
+<template><style>a</style><td>x
+#document
+| <html>
+|   <head>
+|     <template>
+|       content
+|         <style>
+|           "a"
+|         <td>
+|           "x"
+|   <body>
+
+#data
+<table><template><tr><td>x</template></table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <template>
+|         content
+|           <tr>
+|             <td>
+|               "x"
+
+#data
+<select><div>x</select>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|       "x"
+
+#data
+<select><input>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|     <input>
+
+#data
+<select><select>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|     "x"
+
+#data
+<select><option>a</option></select><div>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|       <option>
+|         "a"
+|     <div>
+|       "x"
+
+#data
+<frameset><frame>
+#document
+| <html>
+|   <head>
+|   <frameset>
+|     <frame>
+
+#data
+<frameset><frameset><frame></frameset></frameset>
+#document
+| <html>
+|   <head>
+|   <frameset>
+|     <frameset>
+|       <frame>
+
+#data
+<p><frameset>
+#document
+| <html>
+|   <head>
+|   <frameset>
+
+#data
+<p>a<frameset>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+
+#data
+<noscript><b>x</b></noscript>
+#document
+| <html>
+|   <head>
+|     <noscript>
+|       "<b>x</b>"
+|   <body>
+
+#data
+<noscript><b>x</b></noscript>
+#script-off
+#document
+| <html>
+|   <head>
+|     <noscript>
+|   <body>
+|     <b>
+|       "x"
+
+#data
+<body><noscript><b>x</b></noscript>
+#script-off
+#document
+| <html>
+|   <head>
+|   <body>
+|     <noscript>
+|       <b>
+|         "x"
+
+#data
+<body><noscript><b>x</b></noscript>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <noscript>
+|       "<b>x</b>"
+
+#data
+<head><base href=x><link rel=a><meta charset=utf-8></head>
+#document
+| <html>
+|   <head>
+|     <base>
+|       href="x"
+|     <link>
+|       rel="a"
+|     <meta>
+|       charset="utf-8"
+|   <body>
+
+#data
+<head></head><title>x</title>
+#document
+| <html>
+|   <head>
+|     <title>
+|       "x"
+|   <body>
+
+#data
+<head><script>a</script><style>b</style></head>
+#document
+| <html>
+|   <head>
+|     <script>
+|       "a"
+|     <style>
+|       "b"
+|   <body>
+
+#data
+<blink><menuitem>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <blink>
+|       <menuitem>
+|         "x"
+
+#data
+<isindex prompt="Find: " action="/s" class=c><menuitem>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <form>
+|       action="/s"
+|       <hr>
+|       <label>
+|         "Find: "
+|         <input>
+|           class="c"
+|           name="isindex"
+|       <hr>
+|     <menuitem>
+|       "x"
+
+#data
+<keygen><applet><b>x</applet>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <keygen>
+|     <applet>
+|       <b>
+|         "x"
+|     "y"
+
+#data
+<textarea><b>x</textarea>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <textarea>
+|       "<b>x"
+
+#data
+<details><summary>x</summary>y</details>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <details>
+|       <summary>
+|         "x"
+|       "y"
+
+#data
+<p>a<body>b
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "ab"
+
+#data
+<head><p>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "x"
+
+#data
+<html><frameset></frameset>x
+#document
+| <html>
+|   <head>
+|   <frameset>
+
+#data
+<head></head><body></body><p>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "x"
+
+#data
+<script>a<!--b</script>c
+#document
+| <html>
+|   <head>
+|     <script>
+|       "a<!--b"
+|   <body>
+|     "c"
+
+#data
+<script>a<!--<script>b</script>c</script>d
+#document
+| <html>
+|   <head>
+|     <script>
+|       "a<!--<script>b</script>c"
+|   <body>
+|     "d"
+
+#data
+<textarea>a&lt;b</textarea>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <textarea>
+|       "a<b"

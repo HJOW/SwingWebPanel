@@ -1,0 +1,385 @@
+#data
+<p>Hello
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "Hello"
+
+#data
+
+#document
+| <html>
+|   <head>
+|   <body>
+
+#data
+Hello
+#document
+| <html>
+|   <head>
+|   <body>
+|     "Hello"
+
+#data
+<!DOCTYPE html><p>x
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "x"
+
+#data
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><b>x
+#document
+| <!DOCTYPE html "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+| <html>
+|   <head>
+|   <body>
+|     <b>
+|       "x"
+
+#data
+<html><head><title>T</title></head><body>B</body></html>
+#document
+| <html>
+|   <head>
+|     <title>
+|       "T"
+|   <body>
+|     "B"
+
+#data
+<head><title>x</title>
+#document
+| <html>
+|   <head>
+|     <title>
+|       "x"
+|   <body>
+
+#data
+<title>a<b>c</title>
+#document
+| <html>
+|   <head>
+|     <title>
+|       "a<b>c"
+|   <body>
+
+#data
+<!--c--><p>
+#document
+| <!-- c -->
+| <html>
+|   <head>
+|   <body>
+|     <p>
+
+#data
+<p>a<!--b-->c
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|       <!-- b -->
+|       "c"
+
+#data
+</html><!--x-->
+#document
+| <html>
+|   <head>
+|   <body>
+| <!-- x -->
+
+#data
+<html a=1><html b=2 a=3>
+#document
+| <html>
+|   a="1"
+|   b="2"
+|   <head>
+|   <body>
+
+#data
+<body a=1><body b=2 a=3>
+#document
+| <html>
+|   <head>
+|   <body>
+|     a="1"
+|     b="2"
+
+#data
+<p>x</p>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "x"
+|     "y"
+
+#data
+</p>
+#document
+| <html>
+|   <head>
+|   <body>
+
+#data
+<body></p>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+
+#data
+</br>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <br>
+
+#data
+<br/><br></br>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <br>
+|     <br>
+|     <br>
+
+#data
+<img src="a" alt=b>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <img>
+|       alt="b"
+|       src="a"
+
+#data
+<image src=a>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <img>
+|       src="a"
+
+#data
+<div id=a class="b c">t</div>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <div>
+|       class="b c"
+|       id="a"
+|       "t"
+
+#data
+<h1>a<h2>b
+#document
+| <html>
+|   <head>
+|   <body>
+|     <h1>
+|       "a"
+|     <h2>
+|       "b"
+
+#data
+<h1>a</h2>b
+#document
+| <html>
+|   <head>
+|   <body>
+|     <h1>
+|       "a"
+|     "b"
+
+#data
+<ul><li>1<li>2</ul>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <ul>
+|       <li>
+|         "1"
+|       <li>
+|         "2"
+
+#data
+<dl><dt>a<dd>b<dt>c</dl>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <dl>
+|       <dt>
+|         "a"
+|       <dd>
+|         "b"
+|       <dt>
+|         "c"
+
+#data
+<p>a<p>b
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|     <p>
+|       "b"
+
+#data
+<pre>\nx</pre>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <pre>
+|       "x"
+
+#data
+<pre>\n\nx</pre>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <pre>
+|       "\nx"
+
+#data
+<textarea>\nx</textarea>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <textarea>
+|       "x"
+
+#data
+<listing>\nx
+#document
+| <html>
+|   <head>
+|   <body>
+|     <listing>
+|       "x"
+
+#data
+<p>a<hr>b
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|     <hr>
+|     "b"
+
+#data
+<!DOCTYPE html><p>a<table>
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|     <table>
+
+#data
+<p>a<table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|       <table>
+
+#data
+<body>x</body>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     "xy"
+
+#data
+<html> <head> </head> <body> </body> </html>
+#document
+| <html>
+|   <head>
+|     " "
+|   " "
+|   <body>
+|     "  "
+
+#data
+<p>a<span><div>x</span>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|       <span>
+|     <div>
+|       "xy"
+
+#data
+</div>
+#document
+| <html>
+|   <head>
+|   <body>
+
+#data
+<div></p>x</div>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <div>
+|       <p>
+|       "x"
+
+#data
+<input type=hidden><input type=text name=a>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <input>
+|       type="hidden"
+|     <input>
+|       name="a"
+|       type="text"
+
+#data
+<a href=x>l</a>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <a>
+|       href="x"
+|       "l"

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>uicheck 폼 확인</title>
+<style>
+body { font: 16px sans-serif; margin: 10px; }
+input, select, textarea { font-size: 16px; }
+p { margin: 8px 0; }
+</style>
+</head>
+<body>
+<form id="post" method="post" action="/echo/post" accept-charset="utf-8">
+<p>검색어: <input id="q" name="q" type="text"> <input name="hidden" type="hidden" value="숨김 값"></p>
+<p><label><input name="agree" type="checkbox" value="yes" checked> 동의</label>
+<select name="pick"><option value="first">첫째</option><option value="second" selected>둘째</option></select></p>
+<p><input id="send" type="submit" name="send" value="보내기"></p>
+</form>
+<form id="multi" method="post" action="/echo/multipart" enctype="multipart/form-data">
+<p>설명: <input id="desc" name="desc" type="text"> 파일: <input id="file" name="upload" type="file"></p>
+<p><input id="send2" type="submit" value="파일 보내기"></p>
+</form>
+<form id="get" method="get" action="/echo/get">
+<p>GET: <input id="g" name="g" type="text"></p>
+</form>
+<script>
+document.addEventListener('submit', e => sessionStorage.setItem('submitted', e.target.id), true);
+document.getElementById('file').addEventListener('change', e => sessionStorage.setItem('file', e.target.files.length + ' ' + (e.target.files[0] ? e.target.files[0].name + ' ' + e.target.files[0].size : '')));
+</script>
+</body>
+</html>

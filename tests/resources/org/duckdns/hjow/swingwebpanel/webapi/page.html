@@ -1,0 +1,15 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>web request api on the class path</title></head>
+<body>
+<script>
+// The page lives on the class path; its requests go to the class path, never to a web server.
+var x = new XMLHttpRequest();
+x.open('GET', 'data.txt');
+x.onload = function () { sessionStorage.setItem('cpx', x.status + ':' + x.responseText); };
+x.onerror = function () { sessionStorage.setItem('cpx', 'error'); };
+x.send();
+fetch('data.txt').then(function (r) { return r.text(); }).then(function (t) { sessionStorage.setItem('cpf', t); });
+fetch('missing.txt').then(function (r) { sessionStorage.setItem('cpm', String(r.status)); }, function () { sessionStorage.setItem('cpm', 'ERR'); });
+fetch('http://localhost:1/x').then(function () { sessionStorage.setItem('cph', 'resolved'); }, function (e) { sessionStorage.setItem('cph', 'ERR:' + e.name); });
+</script>
+</body></html>

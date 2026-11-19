@@ -1,0 +1,451 @@
+#data
+<!DOCTYPE html>
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+
+#data
+<!DOCTYPE>
+#document
+| <!DOCTYPE >
+| <html>
+|   <head>
+|   <body>
+
+#data
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+#document
+| <!DOCTYPE html "" "about:legacy-compat">
+| <html>
+|   <head>
+|   <body>
+
+#data
+<!--a--><!DOCTYPE html>
+#document
+| <!-- a -->
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+
+#data
+<!DOCTYPE html><!DOCTYPE foo>
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+
+#data
+x<!DOCTYPE html>
+#document
+| <html>
+|   <head>
+|   <body>
+|     "x"
+
+#data
+<?xml version="1.0"?><p>
+#document
+| <!-- ?xml version="1.0"? -->
+| <html>
+|   <head>
+|   <body>
+|     <p>
+
+#data
+<![CDATA[x]]><p>
+#document
+| <!-- [CDATA[x]] -->
+| <html>
+|   <head>
+|   <body>
+|     <p>
+
+#data
+<!---->
+#document
+| <!--  -->
+| <html>
+|   <head>
+|   <body>
+
+#data
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><p>a<table>
+#document
+| <!DOCTYPE html "-//W3C//DTD HTML 3.2 Final//EN" "">
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|       <table>
+
+#data
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><p>a<table>
+#document
+| <!DOCTYPE html "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|     <table>
+
+#data
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><p>a<table>
+#document
+| <!DOCTYPE html "-//W3C//DTD HTML 4.01 Transitional//EN" "">
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|       <table>
+
+#data
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><p>a<table>
+#document
+| <!DOCTYPE html "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|     <table>
+
+#data
+<!DOCTYPE foo><p>a<table>
+#document
+| <!DOCTYPE foo>
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|       <table>
+
+#data
+a\n\nb
+#document
+| <html>
+|   <head>
+|   <body>
+|     "a\n\nb"
+
+#data
+a\r\nb\rc
+#document
+| <html>
+|   <head>
+|   <body>
+|     "a\nb\nc"
+
+#data
+a\0b
+#document
+| <html>
+|   <head>
+|   <body>
+|     "ab"
+
+#data
+<body>x</body><!--c-->
+#document
+| <html>
+|   <head>
+|   <body>
+|     "x"
+|   <!-- c -->
+
+#data
+<p>x</p></body></html><!--c-->y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "x"
+|     "y"
+| <!-- c -->
+
+#data
+<font face=Arial size=2>x</font><center>y</center>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <font>
+|       face="Arial"
+|       size="2"
+|       "x"
+|     <center>
+|       "y"
+
+#data
+<frameset cols="50%,50%"><frame src=a><frame src=b></frameset><noframes>n</noframes>
+#document
+| <html>
+|   <head>
+|   <frameset>
+|     cols="50%,50%"
+|     <frame>
+|       src="a"
+|     <frame>
+|       src="b"
+|   <noframes>
+|     "n"
+
+#data
+<body bgcolor=white text=black>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     bgcolor="white"
+|     text="black"
+|     "x"
+
+#data
+<table border=1 cellpadding=2><tr><td nowrap>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       border="1"
+|       cellpadding="2"
+|       <tbody>
+|         <tr>
+|           <td>
+|             nowrap=""
+|             "x"
+
+#data
+<a name=top></a><img border=0 hspace=5><br clear=all>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <a>
+|       name="top"
+|     <img>
+|       border="0"
+|       hspace="5"
+|     <br>
+|       clear="all"
+
+#data
+<applet code=x><param name=a value=b>y</applet>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <applet>
+|       code="x"
+|       <param>
+|         name="a"
+|         value="b"
+|       "y"
+
+#data
+<dir><li>x</dir><menu><li>y</menu>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <dir>
+|       <li>
+|         "x"
+|     <menu>
+|       <li>
+|         "y"
+
+#data
+<p>&copy;&#169;&copy &hearts;
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "©©© ♥"
+
+#data
+<a href="?x=1&copy=2&amp;y=3">l</a>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <a>
+|       href="?x=1&copy=2&y=3"
+|       "l"
+
+#data
+<p id=a title='it"s' class=x>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       class="x"
+|       id="a"
+|       title="it"s"
+
+#data
+<br/>x<hr/>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <br>
+|     "x"
+|     <hr>
+|     "y"
+
+#data
+<DIV CLASS=A>X</DIV>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <div>
+|       class="A"
+|       "X"
+
+#data
+<body><script>a</script><p>b
+#document
+| <html>
+|   <head>
+|   <body>
+|     <script>
+|       "a"
+|     <p>
+|       "b"
+
+#data
+<p title="a>b" data-x='1>2'>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       data-x="1>2"
+|       title="a>b"
+|       "x"
+
+#data
+<div<p>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <div<p>
+|       "x"
+
+#data
+<a b="c"d="e">
+#document
+| <html>
+|   <head>
+|   <body>
+|     <a>
+|       b="c"
+|       d="e"
+
+#data
+<p>x<!--y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "x"
+|       <!-- y -->
+
+#data
+<p/>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "x"
+
+#data
+<script>a
+#document
+| <html>
+|   <head>
+|     <script>
+|       "a"
+|   <body>
+
+#data
+<textarea>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <textarea>
+|       "x"
+
+#data
+<title>x
+#document
+| <html>
+|   <head>
+|     <title>
+|       "x"
+|   <body>
+
+#data
+<p>a<b>c<p>d</b>e
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|       <b>
+|         "c"
+|     <p>
+|       <b>
+|         "d"
+|       "e"
+
+#data
+<ul><li>a</ul><li>b
+#document
+| <html>
+|   <head>
+|   <body>
+|     <ul>
+|       <li>
+|         "a"
+|     <li>
+|       "b"
+
+#data
+<body>a</body>b</body>c
+#document
+| <html>
+|   <head>
+|   <body>
+|     "abc"
+
+#data
+<table><tr><td>x</td></tr></table></td></tr></table>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             "x"
+|     "y"

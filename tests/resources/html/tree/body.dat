@@ -1,0 +1,454 @@
+#data
+<b><p>x</b>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <b>
+|     <p>
+|       <b>
+|         "x"
+|       "y"
+
+#data
+<a>1<a>2
+#document
+| <html>
+|   <head>
+|   <body>
+|     <a>
+|       "1"
+|     <a>
+|       "2"
+
+#data
+<a><b>1</a>2</b>3
+#document
+| <html>
+|   <head>
+|   <body>
+|     <a>
+|       <b>
+|         "1"
+|     <b>
+|       "2"
+|     "3"
+
+#data
+<b>1<i>2</b>3</i>4
+#document
+| <html>
+|   <head>
+|   <body>
+|     <b>
+|       "1"
+|       <i>
+|         "2"
+|     <i>
+|       "3"
+|     "4"
+
+#data
+<b><div>x</b>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <b>
+|     <div>
+|       <b>
+|         "x"
+|       "y"
+
+#data
+<p><b>1<p>2
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       <b>
+|         "1"
+|     <p>
+|       <b>
+|         "2"
+
+#data
+<nobr>1<nobr>2
+#document
+| <html>
+|   <head>
+|   <body>
+|     <nobr>
+|       "1"
+|     <nobr>
+|       "2"
+
+#data
+<button><button>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <button>
+|     <button>
+|       "x"
+
+#data
+<form><div><form>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <form>
+|       <div>
+|         "x"
+
+#data
+<ul><li>a<ul><li>b</ul><li>c</ul>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <ul>
+|       <li>
+|         "a"
+|         <ul>
+|           <li>
+|             "b"
+|       <li>
+|         "c"
+
+#data
+<ul><li><b>a<li>b
+#document
+| <html>
+|   <head>
+|   <body>
+|     <ul>
+|       <li>
+|         <b>
+|           "a"
+|       <li>
+|         <b>
+|           "b"
+
+#data
+<p>a<div>b</div>c
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|     <div>
+|       "b"
+|     "c"
+
+#data
+<plaintext><p>x</plaintext>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <plaintext>
+|       "<p>x</plaintext>"
+
+#data
+<xmp><b>x</xmp>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <xmp>
+|       "<b>x"
+|     "y"
+
+#data
+<iframe><b>x</iframe>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <iframe>
+|       "<b>x"
+|     "y"
+
+#data
+<noembed><b>x</noembed>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <noembed>
+|       "<b>x"
+
+#data
+<style>a<b></style>
+#document
+| <html>
+|   <head>
+|     <style>
+|       "a<b>"
+|   <body>
+
+#data
+x<style>a<b></style>
+#document
+| <html>
+|   <head>
+|   <body>
+|     "x"
+|     <style>
+|       "a<b>"
+
+#data
+<script>if (a<b && c>d) x();</script>
+#document
+| <html>
+|   <head>
+|     <script>
+|       "if (a<b && c>d) x();"
+|   <body>
+
+#data
+<select><option>a<option>b</select>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|       <option>
+|         "a"
+|       <option>
+|         "b"
+
+#data
+<select><optgroup><option>a<optgroup><option>b</select>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|       <optgroup>
+|         <option>
+|           "a"
+|       <optgroup>
+|         <option>
+|           "b"
+
+#data
+<ruby><rb>a<rt>b<rp>c</ruby>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <ruby>
+|       <rb>
+|         "a"
+|       <rt>
+|         "b"
+|       <rp>
+|         "c"
+
+#data
+<center><p>x</center>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <center>
+|       <p>
+|         "x"
+|     "y"
+
+#data
+<blockquote><p>a</blockquote>b
+#document
+| <html>
+|   <head>
+|   <body>
+|     <blockquote>
+|       <p>
+|         "a"
+|     "b"
+
+#data
+<p>1<ul><li>2</ul>3
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "1"
+|     <ul>
+|       <li>
+|         "2"
+|     "3"
+
+#data
+<object><param name=a><b>x</object>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <object>
+|       <param>
+|         name="a"
+|       <b>
+|         "x"
+|     "y"
+
+#data
+<b>1<marquee>2</b>3</marquee>4
+#document
+| <html>
+|   <head>
+|   <body>
+|     <b>
+|       "1"
+|       <marquee>
+|         "23"
+|       "4"
+
+#data
+<a href=1>x<div>y</a>z
+#document
+| <html>
+|   <head>
+|   <body>
+|     <a>
+|       href="1"
+|       "x"
+|     <div>
+|       <a>
+|         href="1"
+|         "y"
+|       "z"
+
+#data
+<table><b><tr><td>aaa</td></tr>bbb</table>ccc
+#document
+| <html>
+|   <head>
+|   <body>
+|     <b>
+|     <b>
+|       "bbb"
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             "aaa"
+|     <b>
+|       "ccc"
+
+#data
+<b>1<b>2<b>3<b>4<p>5
+#document
+| <html>
+|   <head>
+|   <body>
+|     <b>
+|       "1"
+|       <b>
+|         "2"
+|         <b>
+|           "3"
+|           <b>
+|             "4"
+|             <p>
+|               "5"
+
+#data
+<b><b><b><b>x</b></b></b></b>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <b>
+|       <b>
+|         <b>
+|           <b>
+|             "x"
+|     "y"
+
+#data
+<font color=red>a<p>b</font>c
+#document
+| <html>
+|   <head>
+|   <body>
+|     <font>
+|       color="red"
+|       "a"
+|     <p>
+|       <font>
+|         color="red"
+|         "b"
+|       "c"
+
+#data
+&amp;&lt;&notit;&#65;&#x42;
+#document
+| <html>
+|   <head>
+|   <body>
+|     "&<¬it;AB"
+
+#data
+<p title="&amp;&lt;x">
+#document
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       title="&<x"
+
+#data
+<div>a\nb c</div>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <div>
+|       "a\nb c"
+
+#data
+<tr><td>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     "x"
+
+#data
+<td>x</td><div>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     "x"
+|     <div>
+|       "y"
+
+#data
+<em><em><em>a</em>b
+#document
+| <html>
+|   <head>
+|   <body>
+|     <em>
+|       <em>
+|         <em>
+|           "a"
+|         "b"
+
+#data
+<span id=a id=b>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <span>
+|       id="a"

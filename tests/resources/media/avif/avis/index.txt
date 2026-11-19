@@ -1,0 +1,12 @@
+# name|colour sequence|alpha sequence|frames|WxH|delay of every frame (ms)|plays (0 = forever)|description
+avis_default|seq_default|-|12|160x120|40,40,40,40,40,40,40,40,40,40,40,40|0|plain sequence at 25 fps, repeat forever
+avis_altref|seq_altref|-|12|128x96|83,83,83,83,83,83,83,83,83,83,83,83|0|hidden alternative reference frames and show_existing_frame
+avis_tiles|seq_tiles|-|6|320x192|125,125,125,125,125,125|0|several tiles per frame
+avis_odd|seq_odd|-|6|130x76|100,100,100,100,100,100|0|odd frame size 130x76
+avis_10bit|seq_10bit|-|6|96x64|100,100,100,100,100,100|0|10 bit
+avis_grain|seq_grain|-|8|96x64|100,100,100,100,100,100,100,100|0|film grain
+avis_alpha|seq_444|seq_gray|6|96x64|67,67,67,67,67,67|0|4:4:4 colour track with a monochrome alpha track
+avis_once|seq_10bit|-|6|96x64|100,100,100,100,100,100|1|edit list without the repeat flag: one play
+avis_plays3|seq_10bit|-|6|96x64|100,100,100,100,100,100|3|edit list of three times the duration of the samples: three plays
+avis_nometa|seq_basic8|-|8|128x96|50,50,50,50,50,50,50,50|0|no meta box: the file has only the track
+avis_varsize|seq_resize_fixed|-|10|160x120|100,100,100,100,100,100,100,100,100,100|0|frames of different sizes: the decoder falls back to the primary item

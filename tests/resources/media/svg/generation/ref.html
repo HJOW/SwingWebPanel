@@ -1,0 +1,28 @@
+<!doctype html><meta charset="utf-8"><body><pre id="log">starting</pre><script>
+async function post(name, bytes){ await fetch('/save?name='+encodeURIComponent(name), {method:'POST', body: bytes}); }
+function load(src){ return new Promise(function(res){ var im=new Image(); im.onload=function(){res({im:im,ok:true});}; im.onerror=function(){res({im:im,ok:false});}; im.src=src; }); }
+(async function(){
+  var log=document.getElementById('log');
+  var list=(await (await fetch('list.txt?'+Date.now())).text()).split('\n').filter(function(l){return l.trim().length>0;});
+  var infos=[];
+  for (var i=0;i<list.length;i++){
+    var parts=list[i].trim().split(/\s+/); var name=parts[0];
+    var r=await load('svg/'+name+'?'+Date.now());
+    var info={name:name, ok:r.ok};
+    if(r.ok){
+      var nw=r.im.naturalWidth, nh=r.im.naturalHeight; info.nw=nw; info.nh=nh;
+      var w=parts[1]?parseInt(parts[1]):nw, h=parts[2]?parseInt(parts[2]):nh;
+      if(w>0&&h>0){
+        var c=document.createElement('canvas'); c.width=w; c.height=h; var g=c.getContext('2d', {willReadFrequently:true});
+        g.drawImage(r.im,0,0,w,h);
+        var d=g.getImageData(0,0,w,h).data;
+        var buf=new Uint8Array(8+d.length); var dv=new DataView(buf.buffer); dv.setUint32(0,w,true); dv.setUint32(4,h,true); buf.set(d,8);
+        await post(name+'.rgba', buf); info.w=w; info.h=h;
+      }
+    }
+    infos.push(info);
+  }
+  await post('_info.json', JSON.stringify(infos));
+  log.textContent='done '+list.length+'\n'+JSON.stringify(infos);
+})();
+</script>

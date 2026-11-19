@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>uicheck 링크 확인</title>
+<style>
+body { font: 18px sans-serif; margin: 12px; }
+p { margin: 18px 0; }
+a { padding: 4px 8px; border: 1px solid #8888cc; }
+a:hover { background: #ffee00; }
+a:focus { outline: 3px solid #e00000; }
+</style>
+</head>
+<body>
+<p><a id="go" href="second.html">두 번째 페이지로</a></p>
+<p><a id="stop" href="second.html?cancelled">취소되는 링크</a></p>
+<p><a id="out" href="mailto:nobody@example.invalid">차단되는 스킴</a></p>
+<script>
+// 링크 이벤트를 sessionStorage 'links' 에 남긴다(이동한 뒤에도 같은 오리진이라 남는다).
+const log = (text) => {
+  const old = sessionStorage.getItem('links');
+  sessionStorage.setItem('links', (old ? old + '\n' : '') + text);
+};
+['mouseover', 'mouseout', 'mousedown', 'mouseup', 'click', 'keydown', 'focus', 'blur'].forEach(type => {
+  document.querySelectorAll('a').forEach(link => link.addEventListener(type, e => log(type + ' ' + link.id + (type === 'keydown' ? ' ' + e.key : ''))));
+});
+document.getElementById('stop').addEventListener('click', e => { e.preventDefault(); log('prevented stop'); });
+log('loaded links');
+</script>
+</body>
+</html>

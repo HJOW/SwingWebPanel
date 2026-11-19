@@ -1,0 +1,83 @@
+package org.duckdns.hjow.swingwebpanel.js.dom;
+
+import org.duckdns.hjow.swingwebpanel.js.Js;
+import org.duckdns.hjow.swingwebpanel.js.JsObject;
+
+/**
+ * Creates the JavaScript <code>DOMException</code> objects (name, message and the legacy numeric code). They inherit from the
+ * <code>DOMException</code> prototype, which inherits from <code>Error.prototype</code>, so <code>e instanceof Error</code> and
+ * <code>e instanceof DOMException</code> are both true.
+ * <p>
+ * JavaScript <code>DOMException</code> 객체(name, message, 예전 숫자 code)를 만든다. <code>DOMException</code> 프로토타입을 상속하고 그것이
+ * <code>Error.prototype</code> 을 상속하므로 <code>e instanceof Error</code> 와 <code>e instanceof DOMException</code> 이 모두 참이다.
+ */
+public final class DomExceptionObjects {
+
+    /**
+     * Names of the legacy error codes, indexed by code (index 0 unused).
+     * <p>
+     * 예전 오류 코드의 이름. 코드가 위치이다(0 번은 쓰지 않음).
+     */
+    private static final String[] NAMES = { "", "IndexSizeError", "DOMStringSizeError", "HierarchyRequestError", "WrongDocumentError",
+        "InvalidCharacterError", "NoDataAllowedError", "NoModificationAllowedError", "NotFoundError", "NotSupportedError",
+        "InUseAttributeError", "InvalidStateError", "SyntaxError", "InvalidModificationError", "NamespaceError", "InvalidAccessError",
+        "ValidationError", "TypeMismatchError", "SecurityError", "NetworkError", "AbortError", "URLMismatchError", "QuotaExceededError",
+        "TimeoutError", "InvalidNodeTypeError", "DataCloneError" };
+
+    /**
+     * Private constructor: static helper class.
+     * <p>
+     * 비공개 생성자: 정적 도우미 클래스이다.
+     */
+    private DomExceptionObjects() {
+    }
+
+    /**
+     * Returns the legacy numeric code of an error name, or 0.
+     * <p>
+     * 오류 이름의 예전 숫자 코드를 반환한다. 없으면 0.
+     *
+     * @param name the error name / 오류 이름
+     * @return the code / 코드
+     */
+    public static int codeOf(String name) {
+        // 이름 표를 훑어 위치(=코드)를 찾는다.
+        for (int i = 1; i < NAMES.length; i++) {
+            if (NAMES[i].equals(name)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Returns the list of legacy error names (for the constants of the interface object).
+     * <p>
+     * 예전 오류 이름 목록을 반환한다(인터페이스 객체의 상수용).
+     *
+     * @return names indexed by code / 코드로 색인한 이름
+     */
+    public static String[] legacyNames() {
+        return NAMES.clone();
+    }
+
+    /**
+     * Creates a <code>DOMException</code> object.
+     * <p>
+     * <code>DOMException</code> 객체를 만든다.
+     *
+     * @param bridge  the bridge of the page / 페이지의 브리지
+     * @param name    the error name such as <code>NotFoundError</code> / <code>NotFoundError</code> 같은 오류 이름
+     * @param message the message / 메시지
+     * @return the object / 객체
+     */
+    public static JsObject create(DomBridge bridge, String name, String message) {
+        DomBridge.InterfaceInfo info = bridge.getInterface("DOMException");
+        JsObject proto = info != null ? info.getPrototype() : bridge.getRealm().getErrorPrototype(org.duckdns.hjow.swingwebpanel.js.ErrorKind.ERROR);
+        JsObject e = new JsObject(proto);
+        e.defineData("message", Js.str(message == null ? "" : message), true, false, true);
+        e.defineData("name", Js.str(name), true, false, true);
+        e.defineData("code", Js.num(codeOf(name)), true, false, true);
+        return e;
+    }
+}

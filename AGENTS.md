@@ -1,0 +1,603 @@
+# 프로젝트 목표
+
+java Swing 에서 사용할 수 있는 웹브라우저 컴포넌트 개발.
+외부 라이브러리 의존성 없이 구현.
+
+# 목표 - 지원 기능
+
+* HTML5 지원 (이전 버전 모두 지원)
+* CSS3, ES6 지원 (DOM 객체 및 DOM 이벤트 모두 지원해야 함), 하이퍼링크 지원
+  자바스크립트 엔진 및 DOM 및 렌더링 엔진의 자체 개발이 필요
+* HTML 웹 표준에서 지원하는 이미지, 오디오 모두 지원, 비디오는 일딘 미지원 (해당 위치에 미지원 비디오임을 표시해야 함)
+* 이미지, 오디오 URL 접근 실패 시 해당 위치에 미지원 URL 표시 및 alt 태그 존재 시 alt 내용 출력
+* 메소드 지원
+- setUserAgent(String agent)
+  User-Agent 값 지정 (이 메소드를 호출하지 않은 경우 "swingwebpanel/1.0" 사용)
+- getUserAgent()
+  User-Agent 값 반환
+- setPage(String url)
+  해당 URL 페이지 호출, URL스키마 "classpath://" 사용 시 클래스패스 경로 내 html 파일 호출
+  "about:blank" 입력 시 빈 페이지 호출
+- getPage()
+  현재의 URL 반환. setContent 메소드로 컨텐츠를 임의로 입력한 경우 "about:text" 반환
+- setJavascriptEnabled(boolean enabled)
+  자바스크립트 활성화 여부 지정
+- back()
+  히스토리 1칸 뒤로가기 호출 (더 이상 뒤로 갈 페이지가 없는 경우 아무 동작 안 함)
+- back(int n)
+  히스토리 n칸 뒤로가기 호출 (더 이상 뒤로 갈 페이지가 없는 경우 아무 동작 안 함)
+- forward()
+  히스토리 1칸 앞으로 가기 호출 (더 이상 앞으로 갈 페이지가 없는 경우 아무 동작 안 함)
+- forward(int n)
+  히스토리 n칸 앞으로 가기 호출 (더 이상 앞으로 갈 페이지가 없는 경우 아무 동작 안 함)
+- getHistories()
+  페이지 이동 히스토리를 Vector 에 담아 반환 (원소는 String)
+- refresh()
+  페이지 새로 고침
+- refresh(boolean force)
+  페이지 새로 고침, force 를 true 입력 시 캐싱된 컨텐츠도 강제로 새로 고침
+- getContent()
+  웹브라우저 컴포넌트에 현재 출력된 컨텐츠 텍스트 반환 (String)
+  화면에 표시되는 내용이 아닌 브라우저가 받는 컨텐츠 내용을 반환해야 함. (웹페이지 출력 중인 경우 수신받은 HTML문을 반환)
+- setContent(String content, String contentType)
+  웹브라우저 컴포넌트에 컨텐츠 출력 (contentType 에는 Mime Type 입력)
+  text/html, text/plain, text/markdown, application/xhtml+xml 지원
+- getStatusText()
+  상태바 메시지를 문자열로 반환
+- getProgress()
+  상태바의 진행상태바 값을 정수로 반환, 단 indeterminates 인 경우 -1 반환
+- addHyperlinkListener(HyperlinkListener listener)
+  하이퍼링크 이벤트 리스너 등록, javax.swing.event.HyperlinkListener 타입 이용
+- removeHyperlinkListener(HyperlinkListener listener)
+  하이퍼링크 이벤트 리스너 제거
+- removeHyperlinkEvents()
+  이 객체에 연결된 하이퍼링크 이벤트 모두 제거
+- clean()
+  "about:blank" 호출 (페이지 비우기) 및 캐시 전부 삭제
+  Storage API 로 저장된 컨텐츠도 모두 삭제
+- dispose()
+  위 clean 메소드 호출 후 연결된 하이퍼링크 이벤트를 비롯해 이 객체에 연결된 모든 이벤트 제거
+- addHeaders(Map headers)
+  추가 헤더값 지정 (서버에 요청 시 헤더 포함)
+  Map 은 java.util.Map 타입이며 키와 값 모두 String 타입으로 지정
+  이 메소드 사용 시, 이미 추가된 헤더값을 삭제하지 않고 덮어쓰기로 적용해야 함
+  User Agent 값은 이 메소드로 변경할 수 없음
+- getHeaders()
+  추가된 헤더값 정보를 Map 타입으로 반환 (키와 값 모두 String)
+  User Agent 값은 이 메소드로 조회할 수 없음
+- getCookies()
+  현재 쿠키값 전부 하나의 문자열로 반환
+- getLocalStorage()
+  Storage API 의 localStorage 로 저장된 컨텐츠를 Collection 으로 반환
+- getSessionStorage()
+  Storage API 의 sessionStorage 로 저장된 컨텐츠를 Collection 으로 반환
+* JScrollPane 을 통한 스크롤 지원
+* Storage API 지원
+- sessionStorage 는 이 웹브라우저 컴포넌트 하나 당 개별로 메모리 상에 저장
+  이 컴포넌트 사용 중지 (GC될 때) 시 같이 사라져야 함
+- localStorage 는 프로세스 당 개별로 저장 (임시 파일 경로상에 저장)
+  따로 삭제할 필요는 없음 (OS의 임시 파일 삭제 기능으로 삭제되도록)
+  외부에서 삭제되더라도 별다른 조치 하지 않음 
+  단, 이 객체 사용으로 localStorage 를 불러와야 할 때 파싱 실패 시에는 초기화 후 사용해야 함
+* 404, 500 등 오류 코드 발생을 대비하여 오류 페이지 구현
+* ftp:// 프로토콜 호출 시 해당 주소로 ftp 접근 (anonymous 사용), 접근 실패 시에는 404 처리, 성공 시에는 파일 목록 출력, 디렉토리는 하이퍼링크로 출력하여 클릭 시 해당 디렉토리로 접근할 수 있어야 함. 디렉토리 접근 시 최상위에 "../" 하이퍼링크 출력하여 상위 디렉토리로 이동도 지원해야 함
+* http://, https:// 및 ftp:// 스키마만 지원, mailto 및 기타 스키마는 미지원
+* SSL은 현재의 JRE 에서 지원하는 버전을 사용하며, 단 SSL 처리 메소드를 별도로 분리 및 protected 로 지정하여 오버라이드할 수 있도록 구현. https 접근 실패 시 http 접근 시도.
+* 3D 가속 기능 미지원, webgl 및 webgpu 미지원, 2D 캔버스는 지원.
+* 링크 클릭 시 파일 다운로드가 필요한 경우를 위해 Swing 기반 다운로드 팝업이 구현되어야 한다.
+
+# 주의사항
+
+* Java 6 이상 버전 지원해야 하며, JRE 6 에서 동작해야 함.
+* com.sun 관련 패키지는 사용하지 말 것
+* 클래스, 메소드, 필드, 상수에 javadoc 주석이 영어와 한국어로 달려야 함. 
+  이 때, 해당 객체의 설명과 사용 방법이 주 내용이 되어야 함.
+* 반복문 및 중요 분기문에 한국어 주석으로 설명이 달려야 함. (이 때는 영어 주석은 달 필요 없음)
+* java 소스, md 문서, sh 파일은 UTF-8 캐릭터셋 사용, bat 파일은 MSWIN949 사용
+* 네이티브 코드 (C/C++ 등) 는 사용하지 않는다.
+* 작업 단위마다 git 에 commit 을 수행한다. (push 는 사용자에게 맡긴다.)
+  commit 메시지는 한 줄로, 앞에 YYYYMMDD 형식 날짜를 붙이고 3자리 번호를 붙인 후 그 뒤 한 줄로 요약 내용을 적는다.
+* 웹 브라우징 등 특수 기능이 필요한 경우, tools 디렉토리 하위에 도구를 만들고 활용한다.
+  이 때 도구는 Java 6 언어로 작성한다.
+  도구 작성 시 해당 디렉토리에 AGENTS.md 및 README.md 문서를 작성해 도구 사용법을 설명해야 한다.
+  AGENTS.md 는 다른 AI를 위해, README.md 는 사용자를 위해 작성한다. (README.md 는 한국어로 작성한다.)
+* 이 문서에서 "프로젝트 목표", "목표 - 지원 기능", "주의사항" 단락은 수정하지 않는다.
+
+# 참고 자료
+
+* Chromium Project - https://github.com/chromium/chromium.git
+  (소스 코드 전체 Clone 시 중간에 접속이 끊긴다. 웹 브라우저로 접속하여 내용을 봐야 할 것 같다.)
+
+* JDK 1.6 (Java 6 지원) 설치 경로는 보편적으로 "C:\Program Files\Java\jdk1.6.0_45" 에 설치된 경우가 많다.
+
+# 개발 계획
+
+이 계획은 외부 라이브러리, Rhino 등 기존 엔진, 네이티브 코드(C/C++, JNI 등) 없이 JavaScript, DOM, HTML 파서, CSS 처리기와 렌더링 엔진을 순수 Java로 직접 개발하는 것을 전제로 한다. Java 6은 이 엔진을 실행하는 Java 코드의 호환성 기준이며, JavaScript의 지원 목표는 ES6이다. 단계별 부분 구현은 허용하지만, 부분 구현을 HTML5/CSS3/ES6 전체 지원으로 표시해서는 안 된다.
+
+## 계획 사용 방법과 완료 표시
+
+작업 번호 `P00-01` 등의 번호를 유지한다. `[ ]`는 미완료이며, 구현과 해당 검증이 모두 끝났을 때만 `[x]`로 바꾼다. 계획을 읽거나 클래스의 빈 틀만 작성한 상태는 완료가 아니다. 단계의 마지막 완료 항목은 그 단계의 모든 작업과 검증이 끝나야 체크한다.
+
+후속 AI는 매 작업 시작 시 이 문서와 `docs/PROGRESS.md`를 읽고, 선행 단계가 완료된 첫 번째 미완료 항목을 선택한다. 해당 항목에서 사용하는 규격과 관련 클래스, 기존 검증 자료를 읽은 뒤 작은 단위로 구현한다. 작업 후 변경한 파일, 검증 명령과 결과, 아직 실패하는 사례, 다음 작업 번호를 `docs/PROGRESS.md`에 기록하고, 그 작업 단위를 아래 공통 작업 규칙에 따라 git에 commit한다. 검증 환경이 없으면 그 항목은 미완료로 남기고 필요한 환경을 기록한다.
+
+한 항목이 여러 클래스나 많은 규격 기능으로 나뉘면 구현 전에 `P13-09-a` 같은 하위 번호로 체크리스트를 추가한다. 각 하위 항목에도 입력 사례, 기대 결과, 구현 파일과 완료 조건을 적는다. 상위 항목은 모든 하위 항목을 검증한 뒤 체크한다. 클래스 이름과 패키지는 이 계획의 기본안이며, 변경할 때는 구조 문서와 기능 표의 경로를 함께 갱신한다.
+
+검증 환경이 없거나 요구사항 충돌로 진행할 수 없는 항목은 필요한 조건을 기록하고 미완료로 유지한다. 같은 실패를 반복하지 말고, 그 항목에 의존하지 않으며 선행 조건이 충족된 다음 작업을 진행한다. 일부 항목을 먼저 구현해도 단계/전체 완료 조건은 생략하지 않는다.
+
+상단 요구사항은 유지한다. 이 계획에서 정한 기본 동작은 문서에 정의되지 않은 부분에 대한 구현 계약이다. 요구사항과 실제 구현이 충돌하면 해당 기능을 완료 처리하거나 요구사항을 임의로 축소하지 말고, 충돌 원인과 수정 방안을 인계 문서에 기록한다.
+
+### 공통 작업 규칙
+
+상단 "주의사항"과 "참고 자료"를 작업 절차에 적용하는 방법이다. 모든 단계의 모든 항목에 적용한다.
+
+**git commit**
+
+- 작업 번호(또는 하위 번호) 하나를 끝냈을 때, 검증 가능한 중간 상태에 도달했을 때, 문서만 고쳤을 때를 각각 하나의 작업 단위로 보고 `docs/PROGRESS.md`를 갱신한 뒤 commit한다. push는 하지 않고 사용자에게 맡긴다.
+- commit 메시지는 본문이나 추가 줄 없이 한 줄로 쓴다. `YYYYMMDD` 날짜, 3자리 번호, 요약 순서로 적는다. 번호는 같은 날짜 안에서 `001`부터 1씩 늘리며, 그날의 마지막 번호는 `git log --oneline`으로 확인한다. 예: `20261116-001 P00-01 작업 추적 문서 작성`.
+- 요약에는 가능하면 작업 번호를 넣는다. 검증이 실패한 상태를 commit할 때는 PROGRESS의 미해결 사항에 기록하고 해당 항목을 완료로 체크하지 않는다.
+
+**네이티브 코드 금지**
+
+- C/C++ 등의 네이티브 소스, JNI(`native` 메서드, `System.loadLibrary`/`System.load`), JNA 같은 네이티브 연결 라이브러리, `.dll`/`.so`/`.dylib` 파일을 제품, 테스트, 도구 어디에도 넣지 않는다.
+- 미디어 디코더, 글꼴 처리, 네트워크, 렌더링 중 JRE 표준 공개 API가 제공하지 않는 부분은 순수 Java로 직접 구현한다. Java2D, ImageIO, Java Sound, JSSE 등 JRE 표준 공개 API의 호출은 허용하며, 그 API를 구현하는 JRE 내부는 이 금지의 대상이 아니다.
+- 제품 코드는 `Runtime.exec`/`ProcessBuilder`로 OS 프로그램, 외부 브라우저, 코덱 실행 파일을 호출하여 기능을 대신하지 않는다.
+
+**도구(`tools/`)**
+
+- 웹 페이지와 규격 문서 조회, Chromium 소스 열람, 규격 자료로부터 표 생성(예: P07-04 문자 참조 표), 인코딩/금지 API/Javadoc 검사(예: P02-07, P02-09, P22-08) 등 제품 기능이 아닌 특수 기능이 필요하면 `tools/<도구 이름>/` 아래에 도구를 만들어 사용한다. 규격 URL과 판본을 확인해야 하는 P00-02~P00-07에 웹 조회가 필요한데 도구가 없으면 먼저 웹 조회 도구를 작성하고, 그 작업을 PROGRESS에 기록한다.
+- 도구는 Java 6 언어로 작성하여 JDK 6의 `javac -source 1.6 -target 1.6`으로 컴파일되게 한다. 외부 라이브러리, `com.sun.*`/`sun.*`, 네이티브 코드를 사용하지 않으며, Javadoc, 한국어 주석, 파일 인코딩 규칙도 제품 코드와 같게 적용한다.
+- 각 도구 디렉터리에 `AGENTS.md`와 `README.md`를 둔다. `AGENTS.md`는 다른 AI를 위해 목적, 빌드/실행 명령, 입력/출력 형식, 종료 코드, 제약, 실제로 실행해 본 JRE를 적는다. `README.md`는 사용자를 위해 한국어로 목적, 사용법, 실행 예시를 적는다. 도구 동작을 바꾸면 두 문서를 함께 갱신한다.
+- 새 도구를 만들기 전에 `tools/` 아래 기존 도구의 `AGENTS.md`를 읽고, 가능하면 기존 도구를 재사용하거나 확장한다. 도구 목록과 용도는 `docs/ARCHITECTURE.md`에 기록한다.
+- 도구 소스는 `tools/<도구 이름>/src`에, 빌드/실행 스크립트는 같은 디렉터리에 sh(UTF-8)와 bat(MSWIN949)로 둔다. 도구 클래스는 제품 소스(`src`)와 제품 JAR에 포함하지 않으며, 제품과 테스트 코드는 도구 클래스에 의존하지 않는다.
+- 도구로 얻은 규격 발췌와 참고 자료에는 원본 URL, 판본 또는 리비전, 조회 날짜를 함께 기록한다. 도구 출력은 보조 자료이며 제품 기능의 검증을 대신하지 않는다.
+- 공개 업데이트의 마지막 판인 JDK 6u45의 JSSE는 TLS 1.2와 클라이언트 SNI를 지원하지 않는 것으로 알려져 있어 현대 HTTPS 사이트 조회가 실패할 수 있다. 첫 웹 조회 도구 작성 시 이를 실제로 확인한다. 실패하면 도구 소스는 Java 6 문법/API로 유지한 채 더 새 JRE에서 실행할 수 있으며, 실행한 JRE 버전을 도구 문서와 PROGRESS에 기록한다.
+
+**참고 자료 활용**
+
+- 기능 판정의 기준은 P00에서 고정한 규격 판본이다. Chromium은 실제 브라우저의 구조, 오류 복구, 경계 사례를 확인하는 참고 구현으로 사용한다. Chromium 동작이 기준 판본과 다르면 그 차이와 선택한 동작을 기능 표에 기록한다.
+- Chromium 저장소는 전체를 clone하지 않는다. 필요한 파일만 `tools/`의 웹 조회 도구로 읽는다. 예: GitHub 미러 원문 `https://raw.githubusercontent.com/chromium/chromium/main/<경로>`, 또는 Gitiles `https://chromium.googlesource.com/chromium/src/+/refs/heads/main/<경로>?format=TEXT`(Base64 본문).
+- 참고 위치 예: HTML 파서 `third_party/blink/renderer/core/html/parser`, DOM `third_party/blink/renderer/core/dom`, CSS `third_party/blink/renderer/core/css`, 레이아웃 `third_party/blink/renderer/core/layout`. 경로는 리비전에 따라 바뀔 수 있으므로 조회 시 확인한다. JavaScript 엔진 V8은 별도 저장소이므로 ES6 구현은 ECMA-262 본문을 우선 기준으로 한다.
+- 참고한 Chromium 파일 경로와 리비전(커밋 해시 또는 조회 날짜)을 해당 기능의 기능 표나 설계 문서에 남긴다. Chromium 코드의 구조를 Java로 옮겨 적을 정도로 차용하면 Chromium 라이선스(BSD 계열) 고지를 보존하고 해당 Java 파일을 기록한다. Chromium의 C++ 코드를 빌드하거나 연결하지 않는다.
+- JDK 6은 기본적으로 `C:\Program Files\Java\jdk1.6.0_45`에서 찾는다. 빌드/검증 스크립트는 환경 변수(예: `JAVA6_HOME`)로 경로를 바꿀 수 있게 하고, JDK 6을 찾지 못하면 다른 JDK로 조용히 대체하지 말고 오류로 종료한다. 다른 JDK는 명시적으로 지정했을 때만 사용하며, 그 실행 결과를 JRE 6 검증으로 기록하지 않는다.
+
+### P00. 작업 추적과 표준 범위 정리
+
+선행 작업: 없음. 산출물: `docs/PROGRESS.md`, `docs/FEATURE_MATRIX.md`, `docs/ARCHITECTURE.md`, `docs/API_CONTRACT.md`.
+
+- [x] P00-01. 위 네 문서를 UTF-8로 만들고, 작업을 시작한 날짜와 현재 소스 상태를 기록한다. 진행 문서에는 `현재 작업 번호`, `완료한 내용`, `변경 파일`, `검증 결과`, `미해결 사항`, `다음 작업 번호` 항목을 둔다.
+- [x] P00-02. 기능 표의 각 행에 `기능 ID`, `요구사항`, `규격 URL 및 판본`, `구현 클래스`, `검증 사례`, `지원 상태`, `제약`을 기록한다. 지원 상태는 미구현/부분 구현/검증 완료로 구분한다. 상단의 모든 공개 메서드와 프로토콜, 미디어, Storage 요구사항을 빠짐없이 행으로 옮긴다.
+- [x] P00-03. HTML5의 출발 기준을 [W3C HTML5 2014 권고안](https://www.w3.org/TR/2014/REC-html5-20141028/)으로 기록한다. HTML 이전 판본의 요소, 속성, 문자 참조, 프레임, 문서 모드와 폐기된 기능을 별도 목록으로 작성한다. 이전 버전 지원을 오래된 태그 몇 개의 표시만으로 완료 처리하지 않는다.
+- [x] P00-04. ES6 기준을 [ECMA-262 제6판, ECMAScript 2015](https://262.ecma-international.org/6.0/)로 기록한다. 언어 문법, 실행 의미, 표준 내장 객체, 모듈을 별도 영역으로 나눈다. ES2015 이후 기능은 별도 확장 목록에 기록하며, ES6의 미구현 기능을 확장 기능으로 분류하지 않는다.
+- [x] P00-05. CSS3는 여러 모듈로 구성되므로 [W3C CSS 규격 목록](https://www.w3.org/TR/CSS/)을 확인하여 모듈 이름과 정확한 판본을 기능 표에 고정한다. CSS 2.1 기본 레이아웃과 선택자, 색상, 배경, 경계선, 글꼴, 텍스트, 변환, 애니메이션, 미디어 질의 등의 모듈을 각각 추적한다. 작업 중 목록이 바뀌면 이유와 영향도 함께 기록한다. 변환은 2D 변환만 다루는 CSS Transforms Level 1을 기본 대상 판본으로 하고, 3D 변환(Level 2의 perspective, transform-style, backface-visibility, 3D 변환 함수)은 상단의 3D 미지원 요구에 따라 명시적 예외로 기록하는 것을 기본으로 한다.
+- [x] P00-06. DOM 노드/조회/변경, DOM 이벤트, HTML 요소별 인터페이스, 브라우저 API를 분리한다. HTML 규격에서 다른 규격을 참조하는 기능은 참조 규격과 판본도 기록한다. 단순히 태그가 화면에 보인다는 이유로 관련 DOM API를 지원 완료로 표시하지 않는다.
+- [x] P00-07. 이미지와 오디오의 컨테이너, 코덱, MIME 타입을 각각 조사하여 지원 대상 표를 작성한다. JRE가 기본 제공하는 형식과 자체 디코더가 필요한 형식을 구분한다. HTML 표준이 모든 코덱의 지원을 강제하는 것으로 가정하지 말고, 프로젝트의 '모두 지원' 목표를 판정할 대상 목록을 명시한다.
+- [x] P00-08. 비디오는 표시 영역에 미지원 문구를 출력하는 명시적 예외로 기록한다. 3D 가속 기능, WebGL, WebGPU도 명시적 미지원 예외로 기록하고, 이를 요청하는 페이지에 대한 동작(컨텍스트 요청의 null 반환, 관련 전역 객체 미노출)을 정한다. 2D 캔버스(Canvas 2D)는 예외가 아니라 지원 대상으로 기능 표에 넣는다. 외부 플러그인이 필요한 과거 HTML 기능, 허용되지 않은 URL 스키마 등은 상단 제약과 연결하여 처리 정책과 남은 호환성 차이를 기록한다.
+- [x] P00-09. Rhino, Nashorn, GraalJS, JRE의 기존 JavaScript 제공자, JavaFX WebView, JCEF, OS 브라우저 실행을 엔진 대체 수단으로 사용하지 않는다고 설계 문서에 명시한다. `javax.script.ScriptEngineManager`를 통한 내장 Rhino의 우회 사용도 금지한다. C/C++ 등 네이티브 코드, JNI/JNA, 네이티브 라이브러리를 사용하지 않는다는 원칙과 JRE 표준 공개 API의 허용 범위도 함께 명시한다.
+- [x] P00-10. 전체 목표를 축소하지 않고 중간 실행 가능한 단계를 구분했는지 검토한다. P00 산출물과 요구사항 대응표가 완성되면 이 단계를 완료 처리한다.
+
+### P01. 공개 API와 기본 동작 계약 확정
+
+선행 작업: P00. 산출물: `docs/API_CONTRACT.md`의 메서드별 입력, 반환값, 예외, 상태 변화, 검증 사례.
+
+- [x] P01-01. (2026-11-19 사용자 요청으로 주 패키지를 `swingwebpanel` 에서 `org.duckdns.hjow.swingwebpanel` 로 변경했다. 소스 경로는 `src/org/duckdns/hjow/swingwebpanel`, 클래스패스 자료 경로는 `org/duckdns/hjow/swingwebpanel/` 이다. User-Agent 기본값 `swingwebpanel/1.0`, JAR 이름 `swingwebpanel.jar`, 스레드 이름 접두사 `swingwebpanel-` 는 패키지명이 아니므로 그대로 둔다.) 공개 진입점을 `org.duckdns.hjow.swingwebpanel.SwingWebPanel`로 정하고 `JPanel`을 상속하며 `Scrollable`을 구현하도록 설계한다. 호출자가 `new JScrollPane(panel)`로 감쌀 수 있게 하고, 내부에 또 다른 스크롤 창을 강제하지 않는다. 렌더링 부품과 페이지 상태는 별도 클래스에 둔다.
+- [x] P01-02. 생성 직후 URL은 `about:blank`, 원문은 빈 문자열, 이력은 `about:blank` 하나, User-Agent는 `swingwebpanel/1.0`, 추가 헤더와 쿠키는 빈 상태, JavaScript는 활성 상태, 진행률은 100으로 정한다. JavaScript 기본값과 초기 상태를 사용자 문서에도 기록한다.
+- [x] P01-03. 이동/콘텐츠 설정 메서드는 반환형 `void`, URL/원문/상태/쿠키/User-Agent 조회는 `String`, 진행률은 `int`로 정한다. 이력은 `Vector<String>`, 헤더는 `Map<String,String>`, 저장소 조회는 `Collection<StorageEntry>`로 정한다. `StorageEntry`에는 origin, key, value를 포함하고 읽기 전용 복사본을 반환한다.
+- [x] P01-04. 모든 공개 메서드를 EDT와 일반 스레드에서 호출할 수 있도록 계약을 정한다. 입력 검증은 호출 시 수행하고, 화면 상태 변경은 EDT에 요청한다. 네트워크와 긴 파싱/실행은 EDT를 막지 않는다. 조회 메서드는 마지막 확정 상태의 복사본이나 불변 값을 반환한다.
+- [x] P01-05. `setPage`는 비동기 이동으로 정한다. 로딩 중 `getPage()`와 `getContent()`는 이전 확정 페이지를 반환하고, 새 페이지가 확정되면 URL/원문/문서/이력 위치를 함께 교체한다. 네트워크 실패는 오류 페이지로 확정하며, 잘못된 메서드 인수는 `IllegalArgumentException`으로 처리한다.
+- [x] P01-06. `getContent()`는 문자셋으로 디코딩한 수신 원문을 보관하여 반환한다. DOM 변경이나 Markdown의 HTML 변환으로 값을 바꾸지 않는다. `setContent`는 입력 문자열을 그대로 보관한다. HTTP 오류 응답 본문이 있으면 그 원문을 유지하고, FTP 목록/본문 없는 로컬 오류 페이지는 내부 생성 문서 원문을 반환하도록 기록한다.
+- [x] P01-07. 이력에는 확정된 주 문서 이동을 기록한다. 리디렉션은 최종 URL 한 건, 하위 리소스 요청은 이력 제외로 정한다. `setContent`도 이력에 넣고 원문과 MIME 타입을 함께 보관하여 복원한다. 뒤로 이동한 뒤 새 이동을 하면 앞쪽 이력을 삭제하고, 연속된 동일 URL 이동은 별도 항목으로 보관한다.
+- [x] P01-08. `back()`과 `forward()`는 각각 한 칸 이동한다. `n <= 0`이거나 정확히 n칸 이동할 수 없으면 아무 동작도 하지 않는다. 가능한 범위로 n을 자동 보정하지 않는다. 이동과 새로고침은 이력 항목을 추가하지 않으며, `getHistories()`는 전체 이력 URL의 복사본을 반환한다.
+- [x] P01-09. `refresh(false)`는 현재 원문/리소스의 캐시 정책을 따르고, `refresh(true)`는 주 문서와 그 이동에서 요청하는 하위 리소스의 캐시를 우회한다. `about:text`는 저장한 입력 원문으로 다시 구성하고 `about:blank`는 빈 상태를 유지한다. force가 다른 컴포넌트의 캐시까지 삭제하는 것으로 구현하지 않는다.
+- [x] P01-10. 헤더 이름은 대소문자를 구분하지 않고 기존 값을 덮어쓴다. 어떠한 대소문자의 `User-Agent`도 `addHeaders`에서 받지 않고 무시하며 조회 결과에서도 제외한다. null, String 이외의 키/값, 헤더의 CR/LF 입력은 거부한다. `getHeaders()`는 복사본을 반환한다.
+- [x] P01-11. 쿠키 저장소는 컴포넌트별로 분리한다. `getCookies()`는 해당 저장소의 만료되지 않은 쿠키 전부를 `name=value; name=value` 형식으로 반환한다. 도메인/경로/이름 순으로 정렬하고 동명 쿠키도 보존한다. JavaScript의 `document.cookie`는 현재 URL에 적용되는 쿠키만 반환하고 HttpOnly를 숨긴다.
+- [x] P01-12. 외부 페이지 이동은 HTTP/HTTPS/FTP만 허용하고, `classpath://`, `about:blank`, 내부 `about:text`는 명시적 특수 주소로 처리한다. `setPage("about:text")`로 임의 원문을 만들지는 않는다. `file`, `jar`, `mailto`, `javascript`, `data`, `blob` 등은 허용 스키마에 추가하지 않고 차단 정책을 기록한다.
+- [x] P01-13. `classpath://` 경로는 클래스패스 루트 기준으로 해석하고 클래스 로더의 스트림으로 읽는다. 공백과 퍼센트 인코딩, 상대 리소스, 루트 경로를 정규화한다. `about:text`의 상대 주소에는 외부 기준 URL이 없으므로 `<base>`가 없으면 해석 실패로 처리한다.
+- [x] P01-14. sessionStorage는 컴포넌트별/오리진별로, localStorage는 같은 JVM 프로세스의 컴포넌트들이 공유하되 오리진별로 분리한다. Java 조회 메서드는 각 저장소의 모든 오리진 항목을 복사하여 반환한다. 웹 스크립트에는 현재 오리진 영역만 노출한다.
+- [x] P01-15. `clean()`은 진행 중 작업을 취소하고 빈 페이지로 전환하며 이력을 `about:blank` 하나로 초기화한다. 이 컴포넌트의 모든 캐시와 sessionStorage 및 프로세스 공용 localStorage 전체를 비운다. User-Agent, 추가 헤더, 쿠키, JavaScript 설정, 사용자 리스너는 유지하도록 정한다. 공유 localStorage 삭제의 다른 컴포넌트 영향도 문서화한다.
+- [x] P01-16. `dispose()`는 한 번만 자원을 해제하며 반복 호출은 안전하게 끝낸다. clean 처리 후 이 객체에 등록된 모든 사용자 리스너와 자체 생성 이벤트 연결, 타이머, 작업, 미디어, 하위 프레임을 제거한다. Swing UI 위임 계층의 필수 연결과 사용자 등록 연결을 구분하여 제거 대상 표를 만든다. 폐기 후 변경 메서드는 `IllegalStateException`, 조회는 마지막 빈 상태를 반환하도록 정한다.
+- [x] P01-17. null/빈 URL, null 콘텐츠, null MIME, 미지원 MIME, null 리스너, 빈 User-Agent의 동작을 메서드별로 적는다. null 콘텐츠는 거부하고 빈 콘텐츠는 허용한다. MIME은 매개변수를 분리하고 타입 부분을 대소문자 무관하게 처리한다. 리스너 중복 등록/제거는 Swing의 일반적인 등록 단위 동작과 일치시킨다.
+- [x] P01-18. 파일 다운로드 계약을 정한다. 주 문서 이동의 응답이 `Content-Disposition: attachment`이거나 동일 오리진의 `<a download>` 링크이거나, P17에서 정하는 표시 가능 형식이 아닌 MIME이면 페이지를 교체하지 않고 Swing 다운로드 팝업을 띄운다. 링크 클릭을 기준으로 하되 폼 전송, 스크립트 이동, `setPage`도 같은 판정을 사용하는 것을 기본으로 한다. 다운로드는 `getPage()`/`getContent()`/이력/페이지 진행률을 바꾸지 않는다. 팝업은 파일명/출처 URL/크기, 저장 위치 선택, 진행률(크기를 모르면 indeterminate), 취소, 완료/실패 결과를 제공한다. 팝업 생성은 호스트와 시험 코드가 대체할 수 있도록 protected 메서드로 분리한다. 헤드리스 환경에서는 다운로드를 취소하고 상태 메시지로 알린다. clean/dispose는 진행 중 다운로드를 취소하고 팝업을 닫으며, 완료된 파일은 지우지 않는다.
+- [x] P01-19. 상태 메시지와 진행률 0~100/-1의 상태표를 작성한다. 전체 크기를 모를 때는 -1, 로딩 시작은 0, 문서와 필수 하위 작업의 성공/실패 정리가 끝나면 100으로 정한다. '연결 성공'만으로 100을 반환하지 않는다. P01 계약과 상단 요구사항의 대응을 검토한 뒤 이 단계를 완료 처리한다.
+
+### P02. Java 6 빌드와 프로젝트 구조
+
+선행 작업: P01. 산출물: Java 6 빌드/검증 스크립트, 소스 패키지, 자체 검증 실행기.
+
+- [x] P02-01. `src/org/duckdns/hjow/swingwebpanel` 아래에 `core`, `net`, `html`, `dom`, `css`, `layout`, `render`, `js`, `storage`, `media`, `content`, `download` 패키지를 만든다. 테스트는 `tests/src`, 입력 자료는 `tests/resources`, 예제는 `examples`, 개발 보조 도구는 `tools/<도구 이름>`, 생성물은 `build`로 분리한다. 생성물과 IDE 출력(`build`, `bin`)은 `.gitignore`로 commit 대상에서 제외한다. 클래스 하나에 여러 엔진을 몰아넣지 않는다.
+- [x] P02-02. 네트워크 결과 `ResourceResponse`, 원문과 문서 상태 `PageSnapshot`, DOM의 `Document`, 계산 스타일 `ComputedStyle`, 레이아웃 결과 `LayoutBox`, 그림 명령 `DisplayList`, JavaScript 실행 환경 `JsRealm`의 책임과 데이터 흐름을 정한다. 이름은 구현 중 조정할 수 있지만 책임 분리는 유지한다.
+- [x] P02-03. Java 코드에 람다, 다이아몬드 문법, try-with-resources, NIO.2, `StandardCharsets`, Java 8 이후 API를 사용하지 않는다. JavaScript 엔진의 ES6 처리를 Java 소스의 Java 8 문법으로 대신 구현하지 않는다.
+- [x] P02-04. JDK 6에서 `javac -encoding UTF-8 -source 1.6 -target 1.6`으로 빌드하는 스크립트를 sh(UTF-8)와 bat(MSWIN949)로 만든다. JDK 경로는 공통 작업 규칙에 따라 기본값 `C:\Program Files\Java\jdk1.6.0_45`와 환경 변수 재지정을 지원하고, 찾지 못하면 오류로 종료한다. 더 새 JDK를 사용할 경우 해당 JDK의 Java 6 대상 컴파일 가능 여부와 JRE 6 API 검사 방법을 별도로 기록한다. target 옵션만으로 JRE 6 API 호환성이 증명된다고 적지 않는다.
+- [x] P02-05. 검증 실행기를 표준 Java만으로 만든다. `main`에서 사례를 실행하고 실패 시 0이 아닌 종료 코드를 반환한다. JVM 옵션에 따라 비활성화되는 `assert`에만 의존하지 말고 명시적인 실패 판정을 사용한다. 제품 JAR에 테스트 클래스, 입력 자료와 `tools/`의 도구를 포함하지 않는다.
+- [x] P02-06. 로컬 HTTP 시험 서버는 `java.net.ServerSocket`, HTTPS 시험 서버는 `SSLServerSocket` 등 공개 API로 작성한다. 시험용 키/인증서/신뢰 저장소는 시험 범위에만 적용하고, JVM 전역 신뢰 설정을 바꾸지 않는다. 금지된 `com.sun.net.httpserver`를 테스트에서도 사용하지 않는다. 서버 종료 시 소켓과 스레드를 정리하도록 한다.
+- [x] P02-07. java/md/sh는 UTF-8, bat는 MSWIN949로 저장하는 규칙을 스크립트와 편집기 설정에 반영한다. 읽기/쓰기 시 플랫폼 기본 인코딩에 기대지 않는다. bat에 UTF-8 한국어가 섞이지 않는지 별도로 확인한다. 인코딩 검사는 `tools/` 아래 Java 6 도구로 만들어 `src`, `tests`, `examples`, `tools`, 문서 전체에 반복 실행할 수 있게 한다.
+- [x] P02-08. 모든 클래스/메서드/필드/상수에 영어와 한국어 Javadoc을 작성한다. 중요한 분기와 반복문은 한국어 주석을 넣는다. 설명에는 책임, 입력 조건, 반환값, 예외, 스레드 조건, 간단한 사용 방법을 포함한다.
+- [x] P02-09. 공개 문서화된 `java.*`, `javax.*` API만 사용한다. `com.sun.*`, `sun.*`, JRE 내부 Rhino 클래스, 외부 JAR, 네이티브 코드(C/C++ 소스, `native` 메서드, `System.loadLibrary`/`System.load`, JNA, `.dll`/`.so`/`.dylib`), 제품 코드의 `Runtime.exec`/`ProcessBuilder` 사용이 없는지 검사하는 도구를 `tools/`에 만든다. 검사 대상에는 `src`, `tests`, `examples`, `tools`를 모두 포함한다. 빈 실행기 빌드와 실패 사례의 종료 코드까지 확인하고 P02를 완료 처리한다.
+
+### P03. 컴포넌트 골격과 페이지 상태 관리
+
+선행 작업: P02. 산출물: `SwingWebPanel`, `BrowserSession`, 페이지 이동 제어기와 빈 페이지 예제.
+
+- [x] P03-01. 공개 클래스와 상단의 모든 공개 메서드를 P01 계약대로 선언한다. 미구현 기능의 메서드가 거짓 성공을 반환하지 않게 상태를 명시하고, 기능 표에는 미구현으로 기록한다.
+- [x] P03-02. 페이지의 URL, 원문, MIME, DOM, 상태 메시지, 진행률, 이력 위치를 별도 모델로 관리한다. 원문을 DOM 직렬화 결과로 덮어쓰지 않는다. 조회 값의 일관성을 위해 페이지 확정 스냅샷을 한 번에 교체한다.
+- [x] P03-03. 이동 요청마다 증가하는 요청 번호를 부여한다. 새로운 이동이 시작되면 이전 요청을 취소하고, 번호가 오래된 완료 콜백은 화면/이력/원문에 반영하지 않는다.
+- [x] P03-04. 백그라운드 작업과 EDT 반영을 분리한다. 문서와 JavaScript 상태의 변경은 한 소유 스레드에서 직렬 처리하고, 렌더러에는 변경되지 않는 스냅샷을 전달한다. 서로 다른 스레드가 DOM을 동시에 수정하지 않도록 한다.
+- [x] P03-05. `Scrollable`의 뷰포트 크기, 스크롤 단위, 블록 단위, 폭 추적 정책을 구현한다. 뷰포트 폭 변경 시 재배치하고, 내용이 넓어야 하는 문서에서는 가로 스크롤을 허용할 기준을 문서화한다.
+- [x] P03-06. `about:blank`, 빈 콘텐츠, 상태 메시지와 진행률 조회, User-Agent/헤더 설정을 먼저 연결한다. 상태 변경을 호스트 애플리케이션이 관찰할 수 있도록 `page`, `statusText`, `progress` 등의 속성 변경 알림을 EDT에서 발생시킨다.
+- [x] P03-07. 반복 생성/폐기, EDT와 일반 스레드의 호출, 오래된 응답 취소, 이력 복사본 변경이 내부 상태에 영향을 주지 않는 사례를 확인한다. 빈 페이지를 `JScrollPane`으로 감싼 예제가 실행되면 P03을 완료 처리한다.
+
+### P04. URL, HTTP, HTTPS와 리소스 요청
+
+선행 작업: P03. 산출물: URL 처리기, HTTP 요청기, SSL 확장 지점, 리소스 응답 모델.
+
+- [x] P04-01. `URI` 기반의 URL 해석/상대 주소 결합/경로 정규화/프래그먼트 분리를 구현한다. 퍼센트 인코딩된 경로를 중복 디코딩하지 않고, URL 경로의 `+`를 폼의 공백처럼 처리하지 않는다. 상대 주소와 `<base>`를 공통 경로에서 처리한다.
+- [x] P04-02. 허용 스키마 검사를 최초 주소, 리디렉션 주소, 하위 리소스 주소에 적용한다. 차단된 주소는 서버에 연결하지 않는다. 클래스패스 주소가 로컬 파일 URL이나 다른 허용되지 않은 스키마로 변환되어 우회되지 않게 한다.
+- [x] P04-03. `HttpURLConnection`으로 GET/HEAD와 폼 전송에 필요한 POST를 구현한다. 연결/읽기 제한 시간, 리디렉션 횟수, 최대 응답 크기는 이름 있는 상수로 두고 기본값과 초과 시 동작을 문서화한다. 다운로드 응답은 메모리에 모으지 않고 파일로 스트리밍 저장하므로, 메모리 응답 크기 제한과 다운로드 크기 정책을 따로 둔다. 취소와 예외 경로에서도 스트림과 연결을 닫는다.
+- [x] P04-04. User-Agent와 추가 헤더를 주 문서/이미지/오디오/CSS/스크립트 요청에 동일한 요청 계층에서 적용한다. 리디렉션으로 오리진이 바뀔 때 인증 관련 헤더를 전달할 범위를 정하고 검증한다. 쿠키 헤더는 별도 쿠키 정책으로 계산한다.
+- [x] P04-05. 리디렉션 응답을 직접 처리하고 상대 Location, 순환, 제한 초과, POST의 메서드 전환, HTTPS/HTTP 이동을 구분한다. 최종 유효 URL을 문서 기준 주소와 `getPage()`에 사용한다.
+- [x] P04-06. 응답 코드, 헤더, MIME, 문자셋, 압축 해제한 본문, 최종 URL을 응답 모델에 저장한다. 오류 본문은 `getErrorStream()`으로 읽는다. gzip/deflate 등의 응답을 지원할 때는 실제 해제 가능 형식만 요청 헤더에 알린다.
+- [x] P04-07. SSL 설정을 `protected void configureSsl(HttpsURLConnection connection) throws IOException` 같은 별도 메서드로 분리하고 모든 HTTPS 요청에서 호출한다. JRE 기본 신뢰 저장소와 호스트 이름 검증을 사용하며, 전역 SSL 설정을 변경하거나 인증서 검증을 무조건 통과시키지 않는다.
+- [x] P04-08. HTTPS의 연결/TLS 처리 실패 시에만 같은 주소의 HTTP 접근을 한 번 시도한다. HTTP 404/500 응답은 HTTPS 접근 자체의 실패로 간주하지 않는다. 기본 443 포트는 HTTP의 기본 포트로 바꾸고 명시한 다른 포트는 유지한다. 재시도 성공 시 실제 HTTP URL과 상태를 표시하며 순환 재시도를 막는다.
+- [x] P04-09. HTTPS에서 HTTP로 바뀌면 Secure 쿠키를 보내지 않는다. 평문 전환이 발생했다는 사실과 추가 헤더 전달 정책을 문서에 적는다. 보호 메서드를 재정의한 시험 하위 클래스에서 호출 여부와 적용 범위를 확인한다.
+- [x] P04-10. 쿠키의 Domain/Path/Expires/Max-Age/Secure/HttpOnly와 삭제를 처리하고, 응답별로 갱신한다. `CookieManager`를 활용해도 컴포넌트별로 호출하며 `CookieHandler.setDefault`나 `Authenticator.setDefault` 등 JVM 전역 상태를 바꾸지 않는다.
+- [x] P04-11. 오리진을 스키마/호스트/유효 포트로 계산한다. 동일 오리진 정책과 교차 오리진 허용 조건을 요청 목적별로 구분한다. 이미지 표시가 가능하다는 이유로 교차 오리진 응답 본문을 스크립트에 노출하지 않는다.
+- [x] P04-12. 로컬 시험 서버로 200/404/500, 리디렉션, 지연/취소, 잘린 응답, 압축, 쿠키, 헤더, SSL 실패 후 HTTP 재시도를 확인한다. 네트워크 없는 문자열 검사만으로 요청 계층을 완료 표시하지 않는다. P04 사례가 통과하면 이 단계를 완료 처리한다.
+
+### P05. FTP와 클래스패스 접근
+
+선행 작업: P04. 산출물: 익명 FTP 목록 처리기, 클래스패스 로더, 링크가 있는 목록 문서.
+
+- [x] P05-01. FTP의 제어 연결과 데이터 연결을 표준 소켓 API로 구현한다. 익명 사용자, 응답 코드, 여러 줄 응답, 로그인, 종료, 제한 시간과 취소를 처리한다. 주소에 인증 정보가 있어도 임의 사용자 로그인으로 바꾸지 않고 익명 정책을 지킨다. 디코딩된 경로에 CR/LF가 있으면 FTP 명령에 삽입하지 않고 거부한다. JRE 내부 FTP 클래스를 가져오지 않는다.
+- [x] P05-02. EPSV/PASV 순서와 실패 대체 규칙을 정한다. 데이터 연결 주소와 포트의 유효성을 검사하고, 디렉터리 목록 수신 전후의 응답을 모두 처리한다. 데이터 소켓만 열고 완료 응답을 무시하지 않는다.
+- [x] P05-03. MLSD 지원을 확인하고 우선 사용하며, 지원하지 않으면 LIST로 전환한다. UNIX/DOS 등의 LIST 형식, 공백/비ASCII 파일명, 디렉터리, 심볼릭 링크를 판별한다. 판별할 수 없는 행을 디렉터리로 잘못 표시하지 않도록 원문과 진단을 보관한다.
+- [x] P05-04. 목록의 디렉터리는 URL 인코딩한 링크로, 파일은 파일 항목으로 표시한다. 상위 이동 `../` 링크를 목록 맨 위에 만들고 FTP 루트에서는 루트보다 위로 이동하지 않게 한다. 파일명이 HTML 태그처럼 해석되지 않도록 이스케이프한다.
+- [x] P05-05. FTP 주소가 파일을 가리킬 때의 수신/표시 MIME 정책과 디렉터리 여부 판정 규칙을 기록한다. 주 문서로 표시할 수 없는 FTP 파일은 P01의 다운로드 계약에 따라 다운로드 팝업으로 연결한다. 접근/인증/목록 해석 실패는 프로젝트 요구에 따라 404 화면으로 처리하고 연결을 모두 닫는다.
+- [x] P05-06. 클래스 로더 스트림으로 HTML과 상대 리소스를 읽고, 없는 리소스는 오류 페이지/대체 표시로 연결한다. JAR 안의 클래스패스 리소스도 파일 경로로 변환하지 않고 읽는다.
+- [x] P05-07. 자체 로컬 FTP 시험 서버로 하위/상위 디렉터리, 루트, MLSD 미지원, 여러 줄 응답, 한글/공백 이름, 실패와 취소를 검증한다. 디렉터리 링크가 실제 이동을 일으키는 것은 렌더러 연결 후 다시 검증한다. 현재 검증 범위를 기록하고 P05를 완료 처리한다.
+
+### P06. DOM 자료 구조와 이벤트 모델
+
+선행 작업: P02, P03. P07부터 이 DOM을 사용한다. 산출물: DOM 트리와 JavaScript에 독립적인 이벤트 처리기.
+
+- [x] P06-01. Document/Element/Text/Comment/DocumentType/DocumentFragment와 부모/자식/형제/소유 문서 관계를 구현한다. HTML과 XML의 이름 대소문자, 네임스페이스와 속성 정책을 구분한다.
+- [x] P06-02. appendChild/insertBefore/removeChild/replaceChild/cloneNode와 문서 간 이동을 구현한다. 조상 아래에 자신을 삽입하는 순환, 잘못된 부모, 없는 자식 등의 오류를 검출한다. 모든 변경을 공통 변경 경로에 모은다.
+- [x] P06-03. getAttribute/setAttribute/removeAttribute, id/className/classList, textContent를 구현한다. 텍스트 노드와 속성의 이스케이프를 별도 처리하며 textContent 입력을 HTML로 실행하지 않는다.
+- [x] P06-04. getElementById/getElementsByTagName/getElementsByClassName을 구현한다. live 컬렉션과 고정 스냅샷의 차이를 정하고 DOM 변경 후 반환 결과가 규격에 맞게 바뀌는지 확인한다.
+- [x] P06-05. querySelector/querySelectorAll/matches가 사용할 선택자 조회 인터페이스와 노드 순회 규칙을 설계한다. 선택자 해석기와 실제 조회 구현/검증은 P08-09에서 수행하며, 그때까지 해당 기능은 기능 표에서 미구현으로 유지한다. DOM 기반 단계가 후속 CSS 단계의 완료를 기다리지 않도록 한다.
+- [x] P06-06. EventTarget/Event에 addEventListener/removeEventListener/dispatchEvent를 구현한다. 캡처/대상/버블 순서, target/currentTarget, cancelable, preventDefault, stopPropagation, stopImmediatePropagation을 처리한다.
+- [x] P06-07. 이벤트 처리 중 리스너 추가/제거, 같은 리스너의 중복, capture 인수 차이, 한 리스너의 예외가 다른 리스너에 미치는 영향을 규격에 따라 처리한다. 기본 동작은 이벤트 처리 후 취소 여부를 보고 수행한다.
+- [x] P06-08. DOM 변경을 스타일/레이아웃/그리기 무효화와 연결할 수 있게 변경 종류를 구분한다. 분리된 노드의 변경 때문에 전체 화면을 항상 다시 구성하지 않도록 한다.
+- [x] P06-09. DOM 순환 방지, 노드 이동, 문자열과 속성 변경, live 컬렉션, 이벤트 전파/취소의 기대 결과를 자동 검증한다. JavaScript 없이 DOM과 이벤트가 독립적으로 검증되면 P06을 완료 처리한다.
+
+### P07. HTML5 파서와 이전 HTML 호환 처리
+
+선행 작업: P04, P06. 산출물: HTML 토큰화기, 트리 생성기, 문서 모드와 오류 복구 처리.
+
+- [x] P07-01. 네트워크 본문 인코딩 판정과 HTML 파싱용 입력 정규화를 분리한다. BOM/응답 charset/meta charset/기본값의 우선순위를 문서화한다. meta 판정으로 재디코딩해야 하는 경우를 위해 필요한 원본 바이트를 보관한다. `getContent()`용 원문은 줄바꿈/공백을 보존하고, 파서에 필요한 정규화는 별도 입력에서 한다.
+- [x] P07-02. 토큰 종류를 시작 태그/종료 태그/문자/주석/DOCTYPE/EOF로 정의하고 위치 정보를 보관한다. 속성 이름/값, 따옴표 유무, 자기 닫기 표기, 중복 속성과 문자 참조를 처리한다.
+- [x] P07-03. data, tag, attribute, comment, RCDATA, RAWTEXT, script data 등의 상태를 명시적인 상태 기계로 구현한다. HTML을 하나의 정규식이나 XML 파서 호출로 처리하지 않는다.
+- [x] P07-04. HTML5의 이름 있는 문자 참조와 숫자 참조, 세미콜론 누락, 잘못된 코드 포인트와 속성 안의 참조를 처리한다. 직접 작성한 표와 처리기의 출처/생성 방법을 문서화한다. 표를 규격 자료에서 생성한다면 생성 도구를 `tools/`에 두고 원본 판본을 기록한다.
+- [x] P07-05. 트리 생성의 삽입 모드와 열린 요소 스택을 구현한다. 생략된 html/head/body, p/li 종료, 잘못 중첩된 서식 요소, 테이블 안의 잘못된 내용 등 대표 복구 사례를 먼저 추가하고 규격 전체로 확장한다.
+- [x] P07-06. template, SVG/MathML 외부 콘텐츠, 네임스페이스 전환, 문서 조각 파싱을 구현한다. innerHTML용 조각 파서는 요소 문맥에 따라 다른 결과가 나오는 사례를 처리한다.
+  - [x] P07-06-a. template 내용의 전역 보관을 요소 소유로 바꾸고 복제/가져오기/이동을 처리한다. 입력: 중첩 template의 shallow/deep clone, 다른 Document의 importNode/adoptNode와 문서 해제. 기대: shallow 내용은 비고 deep 내용은 독립 복제되며 소유 문서가 일관되고 전역 참조가 문서 수거를 막지 않는다. 구현 파일: `dom/Element.java`, `dom/Node.java`, `html/ParserNodeData.java`; 완료 조건: 위 사례와 HTML/DOM 회귀 검증 통과.
+- [x] P07-07. DOCTYPE에 따른 표준/제한 호환/호환 모드를 구분한다. 과거 HTML 요소/속성의 표시 규칙을 기능 표대로 처리하고, 오래된 문서를 HTML5 태그 목록만으로 누락하지 않는다.
+  - [x] P07-07-a. DOCTYPE 및 과거 요소의 파싱을 검증한다. 입력: HTML 2/3.2/4.01/XHTML DOCTYPE, 폐기 요소와 속성; 기대: 세 문서 모드와 고정 DOM; 구현: `html/DocumentModes.java`, `tests/.../html/{DocumentModesTest,LegacyHtmlTest,TreeConstructionTest}`; 완료 조건: HTML/DOM 회귀 103건 통과(2026-11-16).
+  - [x] P07-07-b. LEG-01/03~06/08/11의 UA 스타일·표현 속성·목록·문서 모드별 화면 규칙을 구현한다. 입력: 해당 LEG 표의 요소/속성을 섞은 페이지; 기대: 계산 스타일 및 상자·표식·픽셀; 구현: `css/cascade`, `layout`, `render`; 완료 조건: 각 LEG 행의 스타일/화면 검증 근거 연결. P09/P10 통합 후 확인한다.
+    - [x] P07-07-b-1. body link/vlink/alink 표현 힌트를 상태 선택자와 연결한다. 입력: 미방문/방문/활성 링크, 속성 변경/본문 교체, 작성자 CSS 우선순위; 기대: HTML5 2014 §10.3.2 색·캐시 무효화와 :link/:visited 구분; 구현: `css/cascade/HtmlPresentationalHints.java`, `StyleResolver.java`, `css/selector/SelectorMatcher.java`; 완료 조건: 계산 스타일/선택자 및 기존 CSS 회귀 통과. 실제 방문/활성 입력 상태 연결은 P11에 별도 유지한다.
+    - [x] P07-07-b-2. body 여백의 첫 존재 속성 우선순위와 실패 기본값을 구현한다. 입력: marginwidth/height와 left/right/top/bottommargin 동시 지정, 잘못된 상위 값, 부호·공백·선행 0·긴 숫자, DOM 속성 변경; 기대: HTML5 2014 §10.3.2와 §2.4.4의 해석·기본 8px, 작성자 CSS 우선, 상자/픽셀; 구현: `css/cascade/HtmlPresentationalHints.java`; 완료 조건: 계산 스타일/화면 및 CSS 회귀 통과. 컨테이너 frame/iframe 속성 상속은 P20-02 후속이다.
+    - [x] P07-07-b-3. font의 color/face/size 표현 힌트를 규격에 맞게 처리한다. 입력: 한 자리·빈 공백·긴 색, CSS3 색 이름, 절대/상대 크기와 긴 선행 0·부호 뒤 공백, 글꼴 목록·주석·선언 구분자, 속성 변경과 작성자 CSS; 기대: HTML5 2014 §2.4.6 및 §10.3.4의 계산 값, 예외 없는 색 해석, 독립된 속성 파싱과 상자/픽셀; 구현: `css/cascade/HtmlPresentationalHints.java`, `tests/src/org/duckdns/hjow/swingwebpanel/css/cascade/LegacyFontHintsTest.java`, `tests/src/org/duckdns/hjow/swingwebpanel/SwingRenderingTest.java`; 완료 조건: 해당 8건·Swing 오프스크린 1건 및 CSS/레이아웃/렌더링 회귀 558건 JRE 6 통과(2026-11-17). basefont 및 다른 LEG-01 요소는 후속으로 유지한다.
+    - [x] P07-07-b-4. LEG-01의 정적 UA 표시와 center 텍스트 정렬을 검증·보완한다. 입력: big/small/tt/strike/s/u/blink/basefont/center/nobr, nobr 안팎의 wbr, 작성자·사용자 CSS 및 변경; 기대: HTML5 2014 §10.3.1/3/4의 계산 값·크기·장식 화소, center 힌트의 캐스케이드, nowrap 안의 명시적 줄바꿈 기회와 실제 Swing 표시; 구현: `css/cssom/UaStyleSheet.java`, `css/cascade/HtmlPresentationalHints.java`, `layout/{BoxBuilder,InlineItem,InlineLayouter}.java`, 해당 CSS/렌더링 및 Swing 시험; 완료 조건: JRE 6u45 집중 15건(새 UA 13건·Swing 2건) 및 전체 2520 통과/0 실패/선택적 Opus 원본 벡터 12건 건너뜀, 제품 JAR·실행기 종료 코드·소스 규칙 검증 통과(2026-11-17). marquee 정적 상자, basefont의 과거 판본 효과, center의 자손 블록 정렬은 별도 후속으로 유지한다.
+    - [x] P07-07-b-5. center 및 div align의 자손 블록 정렬을 구현한다. 입력: 고정 폭 자손, 중첩 center/div align, auto 여백·넘치는 폭·자손 자신의 유효한 align, 작성자 text-align 재정의; 기대: HTML5 2014 §10.2 align-descendants의 적용 조건·가장 가까운 정렬 조상·사용 여백 보정이며 텍스트 정렬과 독립적으로 동작; 구현: `layout/BlockLayouter.java` 및 필요한 정렬 도우미와 CSS/레이아웃/렌더링 시험; 완료 조건: 조건별 상자·픽셀·실제 Swing 오프스크린 검증의 JRE 6 통과. 완료(2026-11-17): `layout/AlignDescendants.java`(정렬 요소 판정과 가장 가까운 조상), `BlockLayouter.resolveMargins`(margin 상자 중앙/오른쪽 보정, 안쪽 float 문맥 x 보정), 시험 `AlignDescendantsLayoutTest` 16건·`SwingRenderingTest.testAlignDescendantsPaintsAlignedBlocks` 1건, 전체 2537 통과/0 실패/선택적 Opus 원본 벡터 12건 건너뜀. marquee·basefont의 남은 판본별 동작은 별도 후속으로 유지한다.
+    - [x] P07-07-b-6. LEG-03의 목록 속성을 규격대로 처리한다. 입력: `ol/ul/li type`의 대소문자·알 수 없는 값·부모와 다른 종류의 li, `ol start`/`li value`의 앞 공백·부호·뒤따르는 글자·큰 수·빈 값, `reversed`, `dir/menu`, 작성자 CSS 우선순위; 기대: HTML5 2014 §4.5.5~4.5.8 및 §10.3.8의 표식 문자열과 순서 값; 구현: `css/cascade/HtmlPresentationalHints.java`, `layout/BoxBuilder.java`; 완료 조건: `LegacyListsTest` 및 레이아웃/CSS 회귀의 JRE 6 통과. 완료(2026-11-17): `LegacyListsTest` 6건(수정 전 소스에서는 4건 실패), 전체 2543 통과/0 실패/선택적 Opus 원본 벡터 12건 건너뜀. `li value` 는 `ol` 이외의 부모에서도 적용한다(현행 WHATWG 동작; HTML5 2014 와의 차이는 docs/progress/legacy.md).
+    - [x] P07-07-b-7. LEG-06의 표 표현 속성을 점검·구현한다. 입력: `table border/frame/rules/cellpadding/cellspacing/hspace/vspace/width/height/bgcolor/background/align`, `colgroup/col span/width`, `tr height`, 셀 `align=absmiddle/valign/nowrap/width/height`, 표 안 `form`, quirks 모드 표의 글꼴 초기화; 기대: HTML5 2014 §10.3.9의 UA 규칙과 표현 힌트별 계산 스타일·경계선·상자·화소; 구현: `css/cascade/HtmlPresentationalHints.java`, `css/cssom/UaStyleSheet.java`, `layout/TableLayouter.java`; 완료 조건: 규칙별 시험과 표 회귀의 JRE 6 통과. 완료(2026-11-17): `css/cascade/{LegacyAttributes,TableHints}`, 시험 `LegacyTablesTest` 21건·`SwingRenderingTest.testLegacyTableAttributesPaint`(수정 전 소스에서는 15건 실패 확인), 병합 뒤 전체 2803 통과. 숨겨진 표 부품은 규격의 `visibility:collapse` 가 아닌 `display:none`(한계는 docs/progress/legacy.md).
+    - [x] P07-07-b-8. LEG-05의 나머지 정렬·크기 속성을 점검·구현한다. 입력: `hr color/noshade/size/width/align`, `img/object/embed/iframe align hspace vspace border width height`, `br clear`, `p/h1~h6 align`, `legend align`, `fieldset`; 기대: HTML5 2014 §10.3.12, §10.3.13, §10.4의 UA 규칙과 힌트; 구현: `css/cascade/HtmlPresentationalHints.java`, `css/cssom/UaStyleSheet.java`, `layout`; 완료 조건: 규칙별 계산 스타일/상자/화소 시험의 JRE 6 통과. 완료(2026-11-17): hr·삽입/치환 요소·`br clear`·fieldset/legend·문단/제목 align, 시험 `LegacyEmbeddedTest` 17건(수정 전 11건 실패 확인), 병합 뒤 전체 2803 통과.
+    - [x] P07-07-b-9. LEG-08의 `plaintext/listing/xmp/isindex`와 LEG-01의 `marquee/basefont` 남은 동작을 처리한다. 입력: 각 요소의 파싱·표시·작성자 CSS; 기대: HTML5 2014의 파서 상태와 §10.3의 UA 스타일 및 프로젝트의 정적 marquee 정책; 구현: `html/**`, `css/cssom/UaStyleSheet.java`, `layout`; 완료 조건: 파싱 트리와 표시 시험의 JRE 6 통과. 완료(2026-11-17): isindex 확장(HTML5 2014 §8.2.5.4.7), marquee 정적 상자(애니메이션 제외), `pre[wrap]`, 숨김 요소(`source`/`track`/`embed[hidden]`), plaintext/listing/xmp/basefont 시험, `LegacyElementsTest` 12건(수정 전 7건 실패 확인), 병합 뒤 전체 2803 통과. marquee 애니메이션은 프로젝트의 정적 정책으로 미구현.
+    - [x] P07-07-b-10. LEG-11의 문서 모드(quirks/limited-quirks/no-quirks)별 화면 차이를 구현한다. 입력: quirks 모드의 `form margin-bottom`, 표 글꼴 초기화, 단위 없는 길이, 해시 없는 색, body 높이, 이미지 아래 간격 등 규격에 있는 차이와 모드 판정; 기대: WHATWG Quirks Mode Standard 및 HTML5 2014 §10의 차이를 판본과 함께 고정한 결과; 구현: `html/DocumentModes.java`, `css/**`, `layout/**`; 완료 조건: 모드별 계산 스타일·상자 시험의 JRE 6 통과. 완료(2026-11-17, 일부): DOCTYPE 모드 판정, form margin-bottom, 표 글꼴 초기화·body 색 상속, 여백 병합 quirk, 단위 없는 길이·# 없는 16진수 색, `:hover/:active` quirk, html/body 뷰포트 채우기(가로쓰기), 줄 높이 quirk(이미지 아래 간격), collapsing table, `LegacyQuirksTest` 13건(수정 전 10건 실패 확인). 남은 호환 모드 규칙은 b-11.
+    - [x] P07-07-b-11. 호환 모드의 남은 화면 규칙을 구현한다. 입력: Quirks Mode Standard 3.5(백분율 높이), 3.8(셀 안 이미지 줄바꿈), 3.9(nowrap 셀의 최소 너비), 3.13(셀 높이 box-sizing), HTML5 2014 §10.4.2(호환 모드 이미지 대체 상자), `clip: rect()` quirk, `element.style` 스크립트 설정의 quirk, html/body 채우기의 세로쓰기와 자손 재배치; 기대: 각 규격 절의 계산 값과 상자; 구현: `css/cascade/QuirkHints`, `css/props/QuirkyValues`, `layout/**`; 완료 조건: 모드별 계산 스타일·상자 시험의 JRE 6 통과. 완료(2026-11-17): Quirks 3.5/3.8/3.9/3.13(`LegacyQuirksBoxesTest` 4), §10.4.2 이미지 대체 텍스트(`BrokenImageFallbackTest` 4), `clip: rect()`·`element.style`/`rule.style`/`insertRule`/`@supports` quirk(`QuirksStyleScriptTest` 4, `LegacyQuirksTest` 16), html/body 채우기의 세로쓰기·자손 재배치. 병합 뒤 전체 3092 통과. 한계는 docs/progress/legacy.md.
+  - [x] P07-07-c. LEG-02/07/09/12~15의 프레임·이미지 맵·플러그인 대체·XHTML·폼·이동 동작을 검증한다. 입력: 기능 표 각 LEG 행의 페이지; 기대: 별도 문맥/기본 동작과 금지 스키마 차단; 구현: `core`, `content`, `dom`, `render`; 완료 조건: P11/P17/P20 구현 및 각 LEG 검증 근거 연결. 완료(2026-11-17): LEG-02 는 P20-02, LEG-09 는 P20-11, LEG-07/12/13/14/15 는 `ImageMapTest`·`ImageMapIntegrationTest`, `LegacyXhtmlPageTest`·`XmlStylesheetInstructionTest`, `LegacyScriptCompatTest`, `LegacyFormCompatTest`·`ImageButtonIntegrationTest`, `MetaRefreshTest`·`MetaRefreshIntegrationTest`·`LegacyLink*Test`(새 시험 62건)로 검증했다. 한계는 docs/progress/legacy.md 와 기능 표 LEG 행.
+- [x] P07-08. script/style의 원문과 외부 주소, async/defer/기본 실행 순서를 문서 로딩 모델에 등록한다. 파싱 중 스크립트 실행과 document.write는 P15에서 연결하고, JavaScript 비활성 시에도 HTML 파싱은 정상 진행한다.
+- [x] P07-09. 정상/깨진 HTML 입력별 기대 DOM 트리를 고정 자료로 만든다. 속성 속 `>` 문자, script 안의 비교식, 잘못된 테이블, 문자 참조, 조각 파싱 등을 검증한다. 태그 이름을 인식하는 것과 요소 동작 구현 상태는 별도로 기록하고 P07을 완료 처리한다.
+
+### P08. CSS 파서, 선택자와 계산 스타일
+
+선행 작업: P06, P07. 산출물: CSS 구문 트리, 선택자 일치기, 스타일 계산기.
+
+- [x] P08-01. CSS 토큰화에서 주석, 문자열, 이스케이프, 식별자, 숫자/단위, 함수, URL을 처리한다. 잘못된 선언 하나 때문에 전체 스타일시트를 폐기하지 않도록 규격의 오류 복구 경계를 구현한다.
+- [x] P08-02. 외부 stylesheet, style 요소, style 속성, 사용자 에이전트 기본 스타일을 읽는다. @import의 주소 기준, 순환, 가져오기 순서와 로딩 완료를 처리한다. 외부 CSS도 공통 요청기/캐시/헤더를 사용한다.
+- [x] P08-03. 타입/id/class/속성 선택자와 자식/자손/인접/일반 형제 조합자를 구현한다. 의사 클래스와 의사 요소는 기능 표에 따라 추가하고, HTML 대소문자/네임스페이스 처리도 검증한다.
+- [x] P08-04. 중요도, 출처, 구체성, 소스 순서로 우선순위를 계산한다. 단축 속성의 개별 속성 확장, !important, 상속, initial/inherit/unset의 적용 범위를 처리한다.
+- [x] P08-05. 길이/백분율/색/글꼴/문자열/URL 등의 값 자료형을 둔다. 지정 값/계산 값/실제 레이아웃 값을 구분하고, 백분율을 너무 일찍 픽셀로 확정하지 않는다.
+- [x] P08-06. 미디어 질의와 뷰포트/상태 의존 선택자를 연결한다. 창 크기, hover/focus/active, class/속성/DOM 변경 시 해당 스타일을 다시 계산한다.
+- [x] P08-07. display, position, margin/padding/border, font, color, background, text, overflow 등 기본 속성부터 구현하고 기능 표의 모듈별 속성으로 확장한다. 미지원 선언은 브라우저식 무시 처리와 진단을 제공하되 지원 완료로 표시하지 않는다.
+- [x] P08-08. 상속/구체성/중요도/단축 속성, 잘못된 CSS 복구, 상대 URL, 미디어 질의, DOM 변경 후 계산 값의 기대 결과를 검증한다.
+- [x] P08-09. P06-05의 인터페이스에 선택자 엔진을 연결하여 querySelector/querySelectorAll/matches를 구현한다. 잘못된 선택자 오류, 첫 일치/전체 일치, 문서 순서와 querySelectorAll의 고정 결과를 검증한다. 계산 스타일과 DOM 선택자 조회 검증이 통과하면 P08을 완료 처리한다.
+
+### P09. 기본 레이아웃과 자체 렌더링
+
+선행 작업: P03, P07, P08. 산출물: 레이아웃 트리, 그림 명령, Java2D 렌더러, 정적 HTML 실행 예제.
+
+- [x] P09-01. DOM 트리와 레이아웃 트리를 분리한다. display:none, 익명 상자, 인라인 텍스트, 치환 요소를 처리하고 DOM 노드와 표시 영역 사이의 연결 정보를 보관한다.
+- [x] P09-02. 블록/인라인 레이아웃, 가로/세로 크기, margin/padding/border, box-sizing, 백분율, 최소/최대 크기를 구현한다. margin collapsing과 정상 흐름의 상자 배치를 검증한다.
+- [x] P09-03. 글꼴 선택/대체, 문자 측정, 줄바꿈, 공백 축약, white-space, 줄 높이, 정렬, 목록 표식과 텍스트 장식을 구현한다. 한글, 영문, 결합 문자, 서로게이트 쌍과 양방향 문자를 검증 자료에 넣는다.
+- [x] P09-04. Java2D의 Graphics2D/TextLayout 등 공개 API로 계산된 내용만 그린다. JEditorPane/HTMLEditorKit나 외부 브라우저에 실제 HTML/CSS 렌더링을 위임하지 않는다. GPU/OpenGL/Direct3D 등 3D 가속에 의존하지 않으며, JVM 전역 Java2D 파이프라인 속성을 설정하지 않는다.
+- [x] P09-05. 배경/경계선/텍스트/이미지/대체 문구의 그림 순서를 구현한다. Graphics2D 상태를 저장/복구하고 클리핑, 투명도, 화면 축척과 스크롤 위치를 반영한다.
+- [x] P09-06. 레이아웃 상자에 대한 좌표 조회를 구현하여 링크/요소 hit testing에 사용한다. 그림과 입력이 같은 변환/스크롤 좌표계를 사용하도록 한다.
+- [x] P09-07. 내용 높이에 따라 preferredSize를 갱신하고 revalidate/repaint를 EDT에서 호출한다. 창 폭 변경과 CSS 변경에 따른 재배치가 반복 갱신 루프를 만들지 않게 한다.
+  - [x] P09-07-a. 문서 스레드에서 레이아웃/그림 명령을 만들고 EDT에서 게시·그린다. 입력: 긴 문단, inline CSS, 폭/높이 변경, DOM 변경, 연속 이동과 clean/dispose; 기대: 실제 픽셀·스크롤 크기 갱신과 오래된 결과 폐기, 같은 폭에서 반복 재배치 없음; 구현: `core/PageView.java`, `SwingWebPanel.java`; 완료 조건: Swing 오프스크린 통합 시험과 기존 core 회귀 통과.
+  - [x] P09-07-b. 외부 스타일시트/이미지 완료를 재배치에 연결한다. 입력: 느린 CSS/@import/이미지, 오류 URL, 새로고침 force와 이동 중 완료; 기대: EDT/문서 큐를 막지 않는 로딩, 완료 후 최신 페이지에만 게시, 공통 헤더/캐시 사용; 구현: `core/PageResources.java`, `core/PageView.java`; 완료 조건: 시험 서버 요청/픽셀/취소 검증 통과.
+- [x] P09-08. HTTP/클래스패스의 제목, 문단, 목록, 링크, 표, 이미지 대체 문구가 있는 정적 페이지를 표시한다. hit testing과 공통 이동 제어기로 기본 href 이동을 연결하고 뒤/앞 이동, 새로고침과 원문 조회를 확인한다. DOM 클릭 취소와 Swing 링크 통지의 전체 처리/검증은 P11에서 연결한다.
+  - [x] P09-08-a. 기본 링크 입력을 연결한다. 입력: 링크 진입/이탈/클릭, DOM 취소, Swing 리스너 직접 이동/전체 제거, 금지 스키마; 기대: EDT 링크 통지와 취소되지 않은 단일 이동, 통지 제거 후 기본 이동 유지; 구현: `core/PageInput.java`, `BrowserSession.java`, `SwingWebPanel.java`; 완료 조건: 실제 컴포넌트 MouseEvent 및 문서 큐 회귀 검증 통과.
+  - [x] P09-08-b. 정적 페이지 예제와 HTTP/classpath 이력·새로고침을 검증한다. 입력: 제목/문단/목록/링크/표/이미지 대체 문구와 상대 리소스를 포함한 페이지; 기대: 표시·뒤/앞 이동·원문 보존; 구현: `examples/src`, `examples/resources`, `tests/src/org/duckdns/hjow/swingwebpanel`; 완료 조건: JRE 6 오프스크린 검증 및 Swing 예제 실행 결과 기록. 표의 완전한 배치는 P10-02에 남긴다.
+    - [x] P09-08-b-1. 자동 검증과 실행 예제. 입력: 동일 HTML/CSS의 HTTP/classpath 페이지, 상대 링크, 이력/force; 기대: 제목·픽셀·원문·이력 복원과 예제 smoke 성공; 구현: `SwingRenderingTest`, `StaticPageExample`, `examples/run.sh|bat`; 완료 조건: JRE 6 headless 통합 6건 및 smoke 통과(2026-11-16).
+    - [x] P09-08-b-2. 실제 Swing 창 확인. 입력: StaticPageExample의 링크 클릭/스크롤/뒤·앞 이동/닫기; 기대: 눈으로 확인한 페이지 전환·스크롤·대체 문구와 정상 dispose; 구현: 동일 예제/입력 계층; 완료 조건: Windows 창 캡처·입력이 가능한 환경에서 결과 기록. 이전에는 Computer Use의 FrameArrived/window capture timeout으로 시각 검증을 완료하지 못했다(2026-11-16). 완료(2026-11-18): `tools/uicheck`(Java 6, `java.awt.Robot` 화면 캡처)로 이 PC(Windows 10, JDK 6u45)에서 **실제 StaticPageExample 창**을 확인했다 — 한글/English 문단·목록·표·단추·스크롤 막대·미지원 URL과 대체 문구 표시, 실제 OS 마우스 클릭(Robot)으로 링크 이동, 도구 모음의 `<` `>` `R` 이동, 스크롤, `dispose()` 후 예외 없이 종료. 스크린샷과 한계(첫 클릭 경쟁 관찰, 실제 키보드/IME/휠 미확인; 긴 URL 문구가 상자에서 잘리던 결함은 발견해 고침)는 `docs/progress/uicheck.md`.
+- [x] P09-09. 레이아웃 좌표/크기와 그리기 결과를 검증한다. 글꼴/OS 차이가 있는 전체 화면 픽셀 비교만으로 합격을 판정하지 말고 글자 배치/상자/클리핑 기대값을 함께 확인한다. 기본 정적 페이지의 통합 검증이 끝나면 P09를 완료 처리한다.
+
+### P10. CSS 레이아웃과 시각 효과 확대
+
+선행 작업: P09. 산출물: CSS 기능 표의 나머지 레이아웃/시각 모듈과 회귀 입력.
+
+- [x] P10-01. float/clear, 상대/절대/고정 배치, 포함 블록과 stacking context, z-index, overflow/clip을 구현한다. 화면 밖 요소의 표시와 클릭 좌표도 함께 검증한다.
+- [x] P10-02. table의 열 폭/행 높이/셀 병합/경계선 모델과 caption을 구현한다. 단순 고정 폭 격자로 처리한 상태를 HTML 테이블 전체 지원으로 표시하지 않는다.
+- [x] P10-03. 기능 표의 flexbox, 다단, writing-mode 등 레이아웃 모듈을 모듈별로 구현한다. grid 등 추가 대상으로 정한 모듈은 독립 항목으로 추적한다. 각 모듈의 크기 결정과 배치 사례를 먼저 검증한 뒤 함께 사용한 문서를 검증한다.
+  - [x] P10-03-a. Flexible Box Layout Level 1. 입력: 방향/줄바꿈/grow·shrink/정렬/order/gap/기준선/중첩 컨테이너; 기대: 규격 9장 좌표와 화소; 구현: `layout/FlexLayouter.java`, `BoxBuilder`, `PaintWalker`; 완료 조건: `FlexLayoutTest`/`FlexEdgeLayoutTest`/`FlexPaintTest` JRE 6 통과(2026-11-16). 한계는 FEATURE_MATRIX CSS-19.
+  - [x] P10-03-b. Multi-column Layout Level 1. 입력: column-count/width/gap/rule/fill/span, 줄·블록 사이 끊기; 기대: 열 배치와 상자 조각; 구현: `layout/MulticolLayouter.java`; 완료 조건: `MulticolLayoutTest`/`MulticolPaintTest` JRE 6 통과(2026-11-16). 한계는 CSS-20.
+  - [x] P10-03-c. Writing Modes Level 3 세로쓰기(눕힌 글자). 입력: vertical-rl/lr, sideways-lr, 가로/세로 혼합, 직교 흐름; 기대: 물리 좌표 변환과 글리프 회전; 구현: `layout/OrthogonalLayouter.java`, `render/DisplayCommands.RotatedText`; 완료 조건: `WritingModeLayoutTest`/`VerticalTextPaintTest` JRE 6 통과(2026-11-16). 똑바로 선 CJK 글자는 P10-03-e.
+  - [x] P10-03-d. Grid Layout Level 1. 입력: 트랙 정의/자동 배치/이름 있는 선·영역/정렬/절대 배치 자식/단축 속성; 기대: 규격 11장 트랙 크기와 배치; 구현: `layout/GridLayouter.java`, `css/props/Shorthands.java`; 완료 조건: `GridLayoutTest`/`GridSizingTest`/`GridPaintTest`/`GridShorthandTest` JRE 6 통과(2026-11-17, 조정자가 HEAD 스냅샷 전체로 재확인). subgrid·baseline 정렬 등 한계는 CSS-21.
+  - [x] P10-03-e. `text-orientation: mixed/upright` 로 CJK 글자를 똑바로 세우고 `text-combine-upright`, 세로쓰기 줄 안의 글자 방향 판정(글리프 세로 advance)을 구현한다. 입력: 한글/한자/가나와 라틴/숫자가 섞인 vertical-rl/lr 문단, `upright` 지정; 기대: 규격 Writing Modes 3 의 mixed(기본) 방향 규칙대로 CJK 는 똑바로(advance = 1em), 라틴은 눕힘, 줄 길이와 줄바꿈과 히트가 일치; 구현: `layout/InlineLayouter`(글자 단위 방향), `render/*`; 완료 조건: 위 입력의 좌표/화소 시험 JRE 6 통과. 이 하위 항목이 끝나야 P10-03 상위 항목을 체크한다(그리드 `baseline` 정렬은 별도 한계로 기능 표에 둔다).
+- [x] P10-04. 배경 이미지/다중 배경/그라디언트, border-radius, box-shadow, opacity와 의사 요소를 구현한다. 이미지 로딩 완료 후 필요한 영역을 다시 배치하거나 그린다.
+  - [x] P10-04-a. 둥근 모서리(`border-radius`: 타원, 겹침 축소, 둥근 border 고리, `overflow` 둥근 클립). 입력: 네 모서리 반지름/타원/겹침, 둥근 border 와 배경, overflow 클립; 기대: 규격 backgrounds-3 5장 모양과 화소; 구현: `render/RoundedBox.java`, `BoxCommands.java`; 완료 조건: `BoxDecorationPaintTest` JRE 6 통과(2026-11-17).
+  - [x] P10-04-b. `box-shadow`(바깥, inset, 블러, 퍼짐, 여러 개, opacity 그룹 안). 구현: `render/BoxShadows.java`; 완료 조건: 같은 시험 통과. 한계는 CSS-11.
+  - [x] P10-04-c. 다중 배경 레이어와 `background-*` 6 속성(origin/clip/size/position 1~4 값/repeat `space`·`round`). 구현: `render/BackgroundLayers.java`, `css/props`; 완료 조건: 같은 시험 통과.
+  - [x] P10-04-d. 그라디언트(linear/radial/conic/repeating, 색 힌트, 프리멀티플라이드 보간). 구현: `render/GradientSpec.java`; 완료 조건: 같은 시험 통과.
+  - [x] P10-04-e. 생성 콘텐츠(CSS 카운터, `::before/::after`, `::first-letter`, `::marker`). 구현: `layout/GeneratedContent.java`; 완료 조건: `PseudoElementLayoutTest` 8 JRE 6 통과(2026-11-17).
+  - [x] P10-04-f. `::first-line`(첫 줄에만 적용되는 스타일), 그리고 `opacity`/이미지 로딩 후 재배치를 컴포넌트 수준으로 확인한다. 입력: `::first-line` 의 글꼴/색/배경이 첫 줄에만 적용되는 문단과 줄바꿈이 바뀌는 폭 변경, 배경 이미지가 늦게 도착하는 실제 컴포넌트 페이지; 기대: 규격 pseudo-4 의 첫 줄 규칙, 이미지 도착 후 레이어가 나타남; 구현: `layout/InlineLayouter`, `render/BackgroundLayers`; 완료 조건: 좌표/화소 시험과 `TestHttpServer` 통합 시험 JRE 6 통과. 이 하위 항목이 끝나야 P10-04 상위 항목을 체크한다.
+- [x] P10-05. @font-face의 대상 글꼴 형식과 글꼴 로딩/대체 정책을 정의한다. JRE가 읽을 수 없는 웹 글꼴 형식은 필요한 자체 처리를 추적하고, 글꼴 URL도 허용 스키마와 공통 요청 정책을 적용한다.
+- [x] P10-06. transform과 transform-origin을 구현하고 입력 좌표에는 역변환을 적용한다. 3D 변환은 P00-05에서 정한 예외 정책을 따른다. 시각적으로 이동한 요소가 원래 위치에서만 클릭되는 오류를 막는다.
+- [x] P10-07. transition과 animation의 시간 진행, 반복/지연/종료, 스타일 갱신과 관련 이벤트를 구현한다. 페이지 이동/폐기 시 관련 작업을 정리한다. JavaScript 비활성 설정은 JavaScript 이벤트 핸들러에 적용하고 CSS 자체 애니메이션은 계속 동작하게 한다.
+- [x] P10-08. 기능 표의 CSS3 모듈별 미구현 속성/선택자/규칙을 다시 확인하고 각각 구현/검증한다. 기본 속성 검증만 통과한 상태를 CSS3 전체 완료로 표시하지 않는다. 모듈별 근거가 모두 기록되면 P10을 완료 처리한다. 완료(2026-11-19): 하위 항목 a~h 를 모두 구현·검증하고 모듈별 근거를 `docs/progress/cssg.md`(19~34절)와 `webanim.md` 에 기록했다(구조적으로 불가능한 것은 명시적 예외 EXC-09~13 으로 확정). 이로써 P10 단계를 완료 처리한다. 이는 CSS3 전체 완료 표시가 아니다: 기능 표의 CSS 행 다수가 남은 한계 때문에 `부분 구현` 이며 전체 판정은 P22-16 의 대조에서 한다.
+  - [x] P10-08-a. CSS-I 의 모듈: `@page`, `backdrop-filter`, 글꼴 기능(`font-variant`), `text-emphasis`, 어두운 색 구성표의 폼 컨트롤, 스크롤 속성(계산 값), 등록된 사용자 정의 속성의 전환·애니메이션, Motion Path, `hanging-punctuation`, `mask-border`, `initial-letter`. 완료(2026-11-17): `docs/progress/cssg.md` 19~29절.
+  - [x] P10-08-b. CSS-J 의 모듈: `border-image`, `font-synthesis-*`, `text-justify`, `contain: style`, `image-set()`, CSS `cursor`, Anchor Positioning 기본 형태, 명시적 예외 EXC-09~13. 완료(2026-11-17): `docs/progress/cssg.md` 30절.
+  - [x] P10-08-c. CSS-K 의 모듈: `position: sticky`, `background-attachment: fixed/local`, `background-clip: text`, `line-break` loose/normal/strict·`text-wrap: pretty`, `text-decoration-skip-ink`·`text-underline-offset`, `position-area`, `transition-behavior: allow-discrete`와 의사 요소 전환, 교차 오리진 웹 글꼴(CORS), `box-decoration-break: clone`(인라인 조각). 완료(2026-11-18): `docs/progress/cssg.md` 31절.
+  - [x] P10-08-d. 남은 후속 중 세로쓰기 텍스트의 `text-emphasis`, `resize` 핸들, `shape-outside` 이미지 모양과 `shape-image-threshold`, `filter`/`clip-path`/`mask` 의 SVG 요소 참조(`url(#id)`), `anchor()` 의 `calc()` 안 사용·암묵 앵커, 다단 조각의 `box-decoration-break: clone`, `font-display` 의 기간 모델(늦게 온 글꼴의 사용 판정). 구현: `layout/**`, `render/**`, `css/**`, `core/PageResize`; 완료 조건: 화소/좌표 시험 JRE 6 통과. 완료(2026-11-19, CSS-L): `docs/progress/cssg.md` 32절, 시험 `ResizingLayoutTest`·`ResizeIntegrationTest`, `ShapeImageLayoutTest`·`ShapeImageIntegrationTest`, `SvgReferencePaintTest`, `VerticalEmphasisPaintTest`, `MulticolCloneLayoutTest`, `AnchorCalcImplicitLayoutTest`, `FontDisplayLateTest`·`FontDisplayIntegrationTest`, 병합 뒤 통합 전체 3644 íµê³¼/0 ì¤í¨/14 ê±´ëë(JDK 6u45). 한계는 cssg 32.4.
+  - [x] P10-08-e. WOFF2(`@font-face` 의 `format('woff2')`): Brotli 디코더(RFC 7932, 정적 사전과 변환 표는 `tools/brotlidict` 가 RFC 부록에서 CRC-32 를 대조하며 생성)와 WOFF2 컨테이너·변환된 `glyf`/`loca`/`hmtx` 복원. 입력: 참조 Brotli 인코더(Node.js)의 스트림, 합성 글꼴과 실제 JRE 글꼴(시험 때 변환)의 WOFF2, 독립 인코더 fontTools 가 만든 WOFF2, 규격이 거부하라는 위반·잘림·무작위 변조; 기대: 바이트 단위 복원, 원본과 테이블별·글리프별·Java2D 윤곽선이 같음, 손상은 `IOException` 으로만 끝남; 구현: `media/font/{Brotli,BrotliData,Woff2}`, `layout/WebFontSet`; 완료(2026-11-19): `BrotliTest`, `Woff2Test`(fontTools 파일 포함), `WebFontTest.testWoff2SourceIsDecoded`, `WebFontIntegrationTest.testWoff2FontIsUsedByThePage` JRE 6 통과. 한계: 브라우저가 만든 WOFF2 로는 확인하지 못함, JRE 의 Lucida 글꼴로 만든 파일은 라이선스 때문에 저장소에 두지 않음(cssg 32.5, 32.10, 32.12).
+  - [x] P10-08-f. Anchor Positioning 의 위치 대안: `@position-try`(CSSOM 포함), `position-try-fallbacks`/`-order`, 단축 속성 `position-try`, `position-visibility`, `anchor-scope`, `anchor-center`. 완료(2026-11-19, CSS-L): `PositionTryLayoutTest`, `PositionTryPropertiesTest`, `CssomModernRulesTest.testPositionTryRule` JRE 6 통과. 한계(마지막으로 성공한 대안을 기억하지 않음, 대안 최대 16개 등)는 cssg 32.4, 32.6.
+  - [x] P10-08-g. `font-display` 의 block 기간에 보이지 않는 텍스트: 웹 글꼴이 오는 동안 block 기간(`auto`/`block` 3초, `fallback`/`optional` 100ms, `swap` 없음)에는 대체 글꼴의 크기로 자리를 잡되 글자를 그리지 않고, 기간이 끝나면 다시 그려 대체 글꼴을 보인다. 입력: 지연 응답 글꼴의 각 `font-display` 값, 기간 중·뒤의 화소, 앞의 쓸 수 있는 패밀리, 기간 중 폐기; 기대: CSS Fonts 4 4.8 절의 기간별 표시, 타이머가 페이지 수명을 넘지 않음; 구현: `layout/{WebFontSet,WebFontSource,FontResolver,InlineLayouter,LayoutBox}`, `render/DisplayListBuilder`, `core/PagePresentation`; 완료(2026-11-19): `FontBlockPaintTest` 5, `FontBlockIntegrationTest` 3(다시 그리기 예약을 뺀 변형으로 실패함을 확인), 병합 뒤 통합 전체 3668 íµê³¼/0 ì¤í¨/14 ê±´ëë(JDK 6u45). 한계(목록 표식·줄임표·폼 컨트롤 글자는 막지 않음, 실제 창 미확인)는 cssg 33.3.
+  - [x] P10-08-h. 32.7 이 건드리지 않았다고 기록한 나머지: `cross-fade()`/`element()`, `::file-selector-button`/`::backdrop`/`::highlight()`, `@font-feature-values`, `contain-intrinsic-*`, Motion Path 의 남은 부분, `element.animate()`(Web Animations). 각 항목을 기능 표의 판본에 대조해 구현·검증하거나 근거 있는 명시적 예외(기능 표 3절)로 확정한다. 구현: `css/**`, `layout/**`, `render/**`, `js/**`; 완료 조건: 항목별 계산 값·화소/좌표 시험 JRE 6 통과 또는 예외 근거 기록. 이 하위 항목이 끝나야 P10-08 상위 항목을 체크한다(모듈별 근거가 모두 기록되면 P10 을 닫는다). 완료(2026-11-19): CSS-M 이 `cross-fade()`/`image()`/`element()`(`ImageFunctionsPaintTest` 9), `::file-selector-button`/`::backdrop`(모달 dialog 최상위 계층)/`::highlight()` 와 Custom Highlight API(`HighlightPaintTest` 5, `HighlightApiTest` 4, `PseudoElementsMorePaintTest` 3, `ModalDialogTest` 1), `@font-feature-values` 와 웹 글꼴의 GSUB 대체 글리프(`FontFeatureValuesLayoutTest` 2, `FontFeatureValuesCssomTest` 3), `contain-intrinsic-*` 의 `auto`·논리 속성·기억한 크기(`ContainIntrinsicSizeTest` 3), Motion Path 의 `coord-box`·둥근 상자 경로·`url(#id)`·보간(`MotionPathMoreLayoutTest` 4)을 구현했고(`docs/progress/cssg.md` 34절), WEBANIM 이 Web Animations Level 1(`element.animate()`, `getAnimations`, `Animation`, `KeyframeEffect`, `document.timeline`; 시험 38건, `docs/progress/webanim.md`, 기능 표 CSS-47)을 구현했다. 병합 상태 전체 회귀 3752 통과/0 실패/12 건너뜀(JDK 6u45). 새 명시적 예외는 없고 남은 한계(`content: <image>`, 안쪽 표식 이미지, `CSS.elementSources`, `CSSAnimation`/`CSSTransition` 객체 노출, 하이라이트의 세로쓰기 등)는 기능 표 해당 행의 제약으로 둔다.
+
+### P11. 마우스, 키보드, 링크와 폼
+
+선행 작업: P06, P09. 시각 효과에 관련된 검증은 P10도 필요하다. 산출물: 입력을 DOM 이벤트와 기본 동작으로 연결하는 처리기.
+
+- [x] P11-01. Mouse/Keyboard/Focus/Input/Composition 등의 이벤트 종류, 좌표, 키 값, 보조 키, 버튼, relatedTarget과 전파 여부를 기능 표로 작성한다. AWT 이벤트를 DOM 이벤트로 바꿀 때 스크롤/변환 좌표를 반영한다. 완료(2026-11-18): 기능 표 EVT-03(마우스·휠: 좌표 screen/client/page/offset, button/buttons, 보조 키, detail, relatedTarget, 전파), EVT-04(키보드: key/code/location/repeat/keyCode, 보조 키, `isComposing`), EVT-05(포커스·입력·조합), EVT-11(포인터 이벤트)로 작성했고 실제 AWT 이벤트로 `DomMouseEventTest`, `PageInputTest`, `PointerEventIntegrationTest`, `KeyboardFocusTest`, `KeyboardCodeTest` 를 확인했으며 스크롤/배율/변환 좌표는 `HitTestTest.testScrollAndScaleConversions` 와 변환 hit 시험(P10-06)이 확인한다. 실제 한글 IME 확인은 P11-02/P11-10 에 남는다.
+- [x] P11-02. hover/active/focus와 탭 이동을 구현하고 상태 변경을 CSS에 전달한다. IME의 조합 중 입력을 확정된 문자 입력으로 중복 처리하지 않는다. 한글 입력/삭제/조합/포커스 이동을 실제 Swing 환경에서 확인한다. 완료(2026-11-19): hover/active/focus/Tab 은 기존 구현(`KeyboardFocusTest` 등)에 더해 **실제 Swing 창**에서 실제 OS 포인터·키로 `:hover`·`:active`·`:focus`·Tab/Shift+Tab 이동을 확인했다. **실제 Windows 한국어 입력기**(Robot 의 실제 키를 OS 입력기가 조합; 한글 모드 전환만 `InputContext` 공개 API)로 폼 입력란·텍스트 영역·contenteditable 에서 입력/조합 중 삭제/확정/포커스 이동을 확인했고 확정 글이 중복되지 않았다. 이때 찾은 결함(폼 컨트롤의 `compositionend` data 빔·`isComposing` false·`beforeinput` 없음, Space 확정의 두 이벤트)을 고쳤다(`FormImeEventsTest` 5, `EditingInputTest.testSpaceCommitInTwoEventsEndsTheCompositionOnce`). 병합 상태 전체 회귀 3716 통과/1 실패(간헐 `CanvasTextStyleTest.testKerning`, 단독 4/4 통과)/12 건너뜀(JDK 6u45). 기록 `docs/progress/uicheck.md` 2026-11-19, 도구 `tools/uicheck`. 남은 차이: 입력기가 소비한 키의 `keydown`(`Process`/229) 없음, 한/영 키 자체와 한자 후보 창은 미확인(FEATURE_MATRIX EVT-05).
+- [x] P11-03. 링크 진입/이탈/활성화를 `HyperlinkEvent.EventType.ENTERED/EXITED/ACTIVATED`로 알린다. HTTP/HTTPS/FTP는 URL과 설명을 제공하고 특수 주소는 URL 객체를 만들 수 없으면 null URL과 유효한 주소 설명을 제공한다.
+- [x] P11-04. DOM click 이벤트와 Swing 리스너 통지 후 취소되지 않은 기본 동작으로 링크를 이동한다. 리스너가 직접 새 페이지 이동을 시작했으면 오래된 기본 이동을 추가 실행하지 않는다. `removeHyperlinkEvents()` 후에도 브라우저 자체의 링크 이동은 작동하도록 사용자 통지와 내부 이동 처리를 분리한다.
+- [x] P11-05. input/textarea/select/button 등의 상태, 속성과 현재 값, 선택/체크/비활성/읽기 전용, 라디오 그룹, label 연결, tabIndex를 구현한다. 렌더링 엔진이 HTML 요소 상태를 소유하고 편집용 Swing 부품을 사용하더라도 상태와 좌표를 동기화한다.
+- [x] P11-06. form의 action/method/enctype/기준 URL, 이름 있는 필드, 체크된 항목과 submit 버튼을 규격대로 직렬화한다. GET/POST, URL 인코딩과 multipart, 문자셋, 파일 선택과 취소를 처리한다.
+- [x] P11-07. 폼 검증, submit/reset 이벤트와 기본 동작 취소를 DOM 모델에 연결한다. 프로그램에서 DOM 값이 바뀌면 폼 표시/전송도 갱신되게 하고, JavaScript 객체 연결은 P15에서 수행한다. 파일 읽기는 사용자가 선택한 파일에 한정하고 페이지 스크립트가 임의의 로컬 경로를 열지 못하게 한다.
+- [x] P11-08. 텍스트 선택, 캐럿, 복사/붙여넣기와 페이지 확대의 범위를 정하고 구현한다. 클립보드와 파일 선택 같은 OS 기능은 실제 UI 확인 결과를 별도 기록한다. 완료(2026-11-17): 범위와 규칙은 `docs/progress/textsel.md` 1~2절. 마우스·키보드 선택(드래그, 더블/트리플 클릭, Shift, Ctrl+A, 자동 스크롤, `user-select`), 선택 강조, 복사(`copy` 이벤트, 시스템 클립보드 `text/plain`+`text/html`), 페이지 확대(`setZoom/getZoom`, Ctrl+휠/키)를 구현했고 일반 페이지의 캐럿 브라우징은 하지 않기로 정했다(폼 컨트롤 캐럿은 기존 편집기, `contenteditable` 은 P20-06). 시험 `SelectionListenerTest` 6, `TextSelectionTest` 11, `TextSelectionIntegrationTest` 8, `TextZoomTest` 6, 병합 뒤 전체 2740 통과/0 실패. **실제 UI 확인(실제 마우스, 서식 있는 붙여넣기, 한글 IME, 한글 자판의 Ctrl+`+`)은 하지 못했고** textsel.md 4.2 절에 미확인으로 기록했다(P11-02/P11-10 의 IME 확인과 P22-10 에서 사람이 확인).
+- [x] P11-09. 링크 활성화로 시작한 이동이 P01의 다운로드 판정에 해당하면 Swing 다운로드 팝업을 띄운다. 팝업은 패널이 속한 창을 부모로 하는 `JDialog`와 `JFileChooser`로 구현하고, 전송은 백그라운드 스레드에서, 화면 갱신은 EDT에서 수행한다. 전송에는 공통 요청 계층(User-Agent, 추가 헤더, 쿠키, SSL 확장 지점, 스키마 제한)을 사용한다. 파일명은 Content-Disposition의 `filename`/`filename*` 또는 URL 경로에서 정하되, 경로 구분자와 OS 예약 이름을 제거하여 선택한 디렉터리 밖에 쓰지 않게 한다. 부분 파일은 임시 이름으로 저장한 뒤 완료 시 대상 파일로 옮기고, 같은 이름의 파일은 덮어쓰기 확인을 거친다. 취소/실패 시 부분 파일을 지우며, 여러 다운로드를 동시에 처리할 수 있게 한다.
+- [x] P11-10. 링크 이벤트 순서/취소/등록·제거, 키보드 이동, 한글 편집, 폼 요청 본문을 검증한다. 다운로드 판정, 팝업 표시, 저장, 취소, 실패, 한글 파일명, 크기 불명 응답도 검증한다. 팝업은 대체한 protected 메서드로 자동 검증하고 실제 Swing 팝업 조작은 별도로 확인한다. DOM 검증과 실제 AWT 입력 확인을 각각 기록하고 P11을 완료 처리한다. 완료(2026-11-19): DOM·자동 검증(링크 `PageInputTest`·`HyperlinkDispatcherTest`·`PublicApiContractIntegrationTest`(등록·제거·`removeHyperlinkEvents`), 폼 `FormSubmissionTest`/`FormNavigationIntegrationTest`, 다운로드 `DownloadManagerTest`/`DownloadFileNamesTest`/`DownloadIntegrationTest`/`LinkDownloadIntegrationTest`, 팝업은 대체한 protected 메서드)과 **실제 AWT/OS 입력 확인**을 따로 기록했다(`docs/progress/uicheck.md` 2026-11-18/19): 실제 포인터의 링크 `ENTERED/EXITED/ACTIVATED`(EDT)와 DOM 이벤트 순서, 취소된 링크(이동 없음), 차단 스킴, Tab/Enter 링크 활성화, 실제 IME 한글 입력 뒤 Enter 의 암묵적 제출과 서버가 받은 요청 본문(UTF-8 퍼센트 인코딩, 기본 단추 제출자), 실제 `JFileChooser` 로 고른 파일의 multipart 본문, 다운로드 팝업의 한글 파일 이름·크기 불명·끊긴 응답·덮어쓰기 확인·`Save as`·취소. 찾은 결함(Save as 선택 무시 경쟁, 크기 불명 0%, 실패 때 낡은 진행, 폼 붙여넣기의 `text/html` 누락)을 고쳤다(`DownloadManagerTest.testChoiceWhileTheTransferFinishes`, `SwingDownloadDialogTest.testUnknownSizeBarHasNoPercentage`, `FormClipboardTest.testPasteShowsTheHtmlOfTheClipboard`). 이로써 P11 단계를 완료 처리한다.
+
+### P12. JavaScript 값, 객체, 토큰과 구문 트리
+
+선행 작업: P02. DOM과 분리하여 먼저 개발한다. 산출물: 자체 JavaScript 값 모델, 토큰화기, 구문 분석기.
+
+- [x] P12-01. `JsValue` 계층으로 Undefined/Null/Boolean/Number/String/Symbol/Object를 구분한다. Number는 double 의미를 사용하고 NaN, Infinity, 음의 0을 보존한다. Java의 null 하나로 JavaScript의 null과 undefined를 함께 표현하지 않는다.
+- [x] P12-02. JavaScript String은 UTF-16 코드 단위 의미를 유지한다. 코드 포인트 단위 API와 문자열 인덱스/length의 차이를 구분한다. Symbol은 설명이 같은 문자열이어도 서로 다른 값이며 문자열 프로퍼티 키와 분리한다.
+- [x] P12-03. 객체의 자체 프로퍼티, 프로토타입, 데이터/접근자 프로퍼티와 writable/enumerable/configurable를 구현한다. 프로퍼티 조회/설정/삭제/열거의 공통 연산을 만들고 모든 내장 객체와 DOM 연결이 이를 사용하게 한다.
+- [x] P12-04. 규격의 형 변환, ToPrimitive, 동등 비교/엄격 비교/SameValue 계열과 정수 비트 연산을 공통 함수로 구현한다. Java의 equals, int 변환, 문자열 연결만으로 JavaScript 의미를 대신하지 않는다.
+- [x] P12-05. 토큰화에서 Unicode 식별자, 숫자 표기, 문자열/이스케이프, 주석, 줄 끝, 연산자, 템플릿과 정규식 리터럴을 처리한다. 위치/줄/열 정보를 SyntaxError에 제공한다.
+- [x] P12-06. 나눗셈과 정규식 리터럴을 구문 문맥으로 구분하고 자동 세미콜론 삽입 규칙을 구현한다. return 뒤 줄바꿈, postfix 연산, 문자열 속 구분 문자 등을 검증한다.
+- [x] P12-07. 표현식/문장의 명시적 AST 노드와 연산자 우선순위/결합법칙을 구현한다. 잘못된 토큰과 아직 미구현인 문법은 위치가 있는 오류로 보고하며 빈 문장으로 무시하지 않는다.
+- [x] P12-08. Script와 Module 파싱 목표를 구분하고 strict mode, 선언 중복과 기타 early error를 검사한다. 실행 가능한 문법의 범위를 기능 표에 표시한다.
+- [x] P12-09. 값 변환/객체 속성/연산자 우선순위/문자열/Unicode/세미콜론/오류 위치를 DOM 없이 검증한다. Rhino 또는 다른 엔진 실행을 제품의 평가 경로에 호출하지 않았는지 확인하고 P12를 완료 처리한다.
+
+### P13. 자체 JavaScript 실행기와 ES6 언어 의미
+
+선행 작업: P12. 산출물: 인터프리터, 실행 환경, 함수/선언/제어 흐름과 ES6 문법 구현.
+
+- [x] P13-01. 우선 AST 인터프리터 방식으로 실행기를 구현한다. LexicalEnvironment/EnvironmentRecord, 실행 문맥, 변수 참조와 Reference 자료형을 분리한다. 최적화나 Java 바이트코드 생성은 정확한 의미 검증 후 별도 작업으로 둔다.
+- [x] P13-02. var/함수 선언의 생성과 hoisting, let/const의 블록 스코프와 초기화 전 접근 오류, 재선언과 재대입 제한을 구현한다. Java Map에 이름을 넣기만 하는 방식으로 모든 스코프를 처리하지 않는다.
+- [x] P13-03. 산술/비교/논리/비트/조건/할당, short-circuit, 프로퍼티 참조, delete/typeof/in/instanceof와 호출을 구현한다. 평가 순서와 getter/setter의 호출 횟수를 확인한다.
+- [x] P13-04. if/switch/for/while/do/for-in, break/continue/label, return/throw/try/catch/finally를 구현한다. 정상 종료/return/throw/break/continue를 명시적인 Completion 자료형으로 표현하여 finally와 중첩 반복문에서 보존한다.
+- [x] P13-05. 함수, 클로저, this, arguments, call/apply/bind, new와 프로토타입 연결을 구현한다. strict/non-strict의 this와 arguments 차이를 테스트한다. 함수가 종료되어도 참조되는 상위 스코프는 유지한다.
+- [x] P13-06. 객체/배열 리터럴, 축약 프로퍼티/메서드, 계산된 키, 기본 매개변수, rest/spread, 배열/객체 분해 할당, 템플릿 문자열과 태그 템플릿을 구현한다.
+- [x] P13-07. 화살표 함수의 this/arguments 캡처와 생성자 호출 제한을 구현한다. 일반 함수를 화살표 표기로 바꾸는 단순 문자열 치환으로 처리하지 않는다.
+- [x] P13-08. class/extends/constructor/super, 정적/인스턴스 메서드, getter/setter, 상속과 new.target을 구현한다. 클래스 실행 의미와 초기 오류 조건을 객체 리터럴과 구분한다.
+- [x] P13-09. iterator/for-of와 generator/yield/yield*를 구현한다. 중단된 실행 위치와 환경을 명시적으로 보관하고 next/return/throw 및 반복 중 조기 종료의 iterator 정리를 검증한다. generator마다 Java 스레드를 만드는 방식은 사용하지 않는다.
+- [x] P13-10. ES6 import/export, 모듈 환경, live binding, namespace, 재수출, 순환 의존성, 인스턴스화와 평가를 구현한다. 모듈 주소 해석과 실제 리소스 요청은 브라우저 연결 계층으로 분리한다.
+- [x] P13-11. eval/Function 생성자와 strict mode의 스코프 규칙을 구현한다. 동적 코드도 동일 파서/실행기와 실행 제한을 사용한다. Java 코드나 셸 명령 실행으로 우회하지 않는다.
+- [x] P13-12. 실행 단계 수/시간/호출 깊이/배열·문자열 크기 등의 제한과 취소 지점을 구현한다. 무한 반복과 재귀가 EDT를 멈추지 않게 하고, 페이지 이동/폐기 시 실행을 종료할 수 있게 한다. 제한 값과 제한 초과 오류는 문서화한다.
+- [x] P13-13. 클로저/TDZ/this/finally/클래스/분해 할당/이터레이터/generator/순환 모듈/동적 코드/취소의 기대 결과를 검증한다. ES2015 문법 목록과 실행 의미 목록을 모두 대조한 뒤 P13을 완료 처리한다.
+
+### P14. ES6 표준 내장 객체와 실행 검증
+
+선행 작업: P13. 산출물: ES2015의 내장 객체/함수와 언어 적합성 결과.
+
+- [x] P14-01. Object/Function/Boolean/Number/String/Array/Error 계열, Math, 전역 상수와 함수의 프로퍼티/생성자/프로토타입 메서드를 규격 목록으로 추적한다. 배열의 빈 슬롯, length 조정과 프로퍼티 순서를 처리한다.
+- [x] P14-02. Date의 시간값, 날짜 변환, 파싱, 타임존 경계와 JSON 직렬화를 구현한다. Java Date/Calendar를 사용해도 JavaScript의 범위/변환 규칙을 별도로 검증한다.
+- [x] P14-03. RegExp의 구문, 상태, 플래그, lastIndex, 그룹과 관련 String API를 구현한다. Java Pattern과 다른 문법/Unicode/치환 의미를 명시적으로 처리한다. Java Pattern에 입력을 그대로 넘긴 상태를 ES6 정규식 지원 완료로 표시하지 않는다.
+- [x] P14-04. JSON parse/stringify의 숫자/이스케이프/순환/undefined/replacer/reviver 규칙을 구현한다. JSON을 eval로 읽거나 Java 객체 직렬화 형식을 웹에 노출하지 않는다.
+- [x] P14-05. Map/Set/WeakMap/WeakSet, Symbol과 well-known symbol을 구현한다. 키 비교/삽입 순서/반복 동작을 규격대로 처리하고 WeakMap/WeakSet 때문에 키가 강하게 유지되지 않게 한다.
+- [x] P14-06. ArrayBuffer/DataView/TypedArray의 바이트 표현/경계/정렬/엔디언/숫자 변환과 관련 생성자를 구현한다. 타입 배열을 일반 JavaScript Array와 구분한다.
+- [x] P14-07. Proxy/Reflect의 동작과 프로퍼티 불변 조건을 구현한다. 원래 객체가 허용하지 않는 결과를 trap이 반환하는 사례의 오류를 검증한다.
+- [x] P14-08. Promise의 상태/then 연결/thenable 처리/예외/resolve/reject/all/race와 독립적인 microtask 큐를 구현한다. Promise 콜백을 동기 호출하지 않고, DOM 없는 시험 실행기에서 큐를 소비하여 순서를 검증한다. P15에서는 이 큐를 브라우저 event loop에 연결한다.
+- [x] P14-09. ES2015의 Annex B 등 웹 호환 동작을 기능 표에 따로 추적하고 Script/Module 및 strict mode에 따른 차이를 검증한다. 구현한 내장 메서드마다 이름/인수 개수/프로퍼티 속성도 확인한다.
+- [x] P14-10. 자체 사례 외에 ES2015 적합성 사례 목록을 작성한다. 외부 검증 자료를 사용할 경우 `tools/` 도구로 내려받고 판본과 이용 조건을 기록하며 허용된 자료만 검증 입력으로 사용한다. 외부 엔진을 실행 의존성으로 넣지 않는다.
+- [x] P14-11. 성공/실패/건너뜀/아직 지원하지 않는 사례 수와 이유를 기능별로 기록한다. 전체 ES6 완료는 P13/P14의 대상 목록에 미구현과 설명 없는 건너뜀이 없을 때만 체크한다. 이 조건을 만족하면 P14를 완료 처리한다.
+
+### P15. JavaScript와 DOM, 브라우저 작업 흐름 연결
+
+선행 작업: P06~P09, P11, P13, P14. 산출물: 웹 스크립트가 자체 DOM과 렌더러를 제어하는 페이지.
+
+- [x] P15-01. 페이지마다 분리된 JsRealm/Window/Document와 허용된 브라우저 객체를 만든다. DOM을 wrapping하는 객체의 동일성을 유지하여 같은 노드를 두 번 조회해도 JavaScript의 동일 객체 비교가 맞게 한다.
+- [x] P15-02. DOM 노드/속성/메서드/컬렉션/Event/EventTarget을 JavaScript 객체 모델에 연결한다. Java 클래스/리플렉션/파일/프로세스/임의 Java 메서드 호출 기능을 자동으로 노출하지 않는다.
+- [x] P15-03. innerHTML/outerHTML, createElement/createTextNode, querySelector, classList, style, 요소별 HTML 인터페이스를 연결한다. DOM/스타일 변경 후 필요한 재배치와 repaint가 일어나도록 한다. `getContent()`는 수신 원문을 유지한다.
+- [x] P15-04. 인라인 script, 외부 script, 이벤트 핸들러 속성, on... 프로퍼티, addEventListener를 연결한다. 기본/async/defer 스크립트와 DOMContentLoaded/load의 실행 순서를 처리한다. ES6 모듈을 페이지에서 불러오는 방식의 규격과 일반 script와의 차이도 기능 표에 기록한다.
+  - [x] P15-04-a. script 발굴 시 취소 가능한 외부 소스 요청을 시작하고 완료 결과를 DOM 소유자에게 전달한다. 입력: 지연된 일반/async/defer 요청과 페이지 교체·비활성화; 기대: 병렬 가져오기와 소유권을 벗어난 DOM 실행 금지, 늦은 콜백 억제; 구현: js.host의 소스 요청 계약, core 스크립트 요청 상태와 파서 제어; 완료 조건: JRE 6 요청 시작/완료 순서·스레드·취소 통합 시험 통과.
+  - [x] P15-04-b. async를 준비된 시점에 실행하고 파서 대기/EOF 이후에도 이벤트 루프를 진행한다. 입력: 서로 다른 응답 순서의 async, 지연 일반 script/CSS, defer와 DOMContentLoaded/load; 기대: async를 문서 순서나 EOF 뒤로 고정하지 않음, DOMContentLoaded는 async 완료를 기다리지 않음, load는 필요한 작업을 기다림; 구현: PageScripts/파서 소유자 루프/페이지 로딩 단계; 완료 조건: JRE 6 제어된 HTTP 장벽으로 가능한 순서와 금지 순서를 검증. 현재 completeParsing의 async 목록 순차 실행은 완료 근거가 아니다.
+    - [x] P15-04-b-1. 스크립트 범위의 준비 시 실행·문서 큐 인계·동적 스크립트. 입력: 응답 순서를 바꾼 async/defer/차단 스크립트(HTTP 장벽), 느린 async 중 DOMContentLoaded/확정/load, 스크립트가 삽입한 인라인·외부·`async=false` 스크립트, 이동·비활성화; 기대: async는 가져오는 대로(파서 대기 중이거나 확정 뒤 문서 큐에서) 실행, DOMContentLoaded는 기다리지 않고 페이지는 확정되며 load는 스크립트 완료 뒤, 동적 스크립트 순서·중첩 마이크로태스크 지연, 늦은 응답 억제; 구현: `js/host/PageScripts.java`, `ScriptLoads.java`, `ElementExtras.java`, `html/ParserNodeData.java`; 완료 조건: `ScriptLoadingTest` 및 `ParallelScriptLoadingTest`(실제 컴포넌트·HTTP 장벽) JRE 6 통과(2026-11-16).
+    - [x] P15-04-b-2. load가 CSS/이미지/프레임 같은 하위 리소스 로딩도 기다린다. 입력: 지연 이미지·스타일시트·iframe 이 있는 페이지의 load/`onload`; 기대: 모든 필수 리소스가 끝나거나 실패한 뒤 load; 구현: 리소스 대기 훅(`PageScripts` 로드 차단자 + `PageResources`/미디어/프레임 완료); 완료 조건: P18-05(이미지 load/error 이벤트), P19-08(진행률 통합), P20-02(프레임) 연결 뒤 JRE 6 HTTP 장벽 시험. 완료(2026-11-17): 지연 이미지 `ImageLoadIntegrationTest.testWindowLoadWaitsForSlowImage`, 지연 스타일시트 `LoadProgressIntegrationTest.testSlowStylesheetKeepsTheLoadOpen`, 지연 iframe `FrameRenderingTest.testParentLoadAndProgressWaitForASlowFrame`(모두 실제 컴포넌트와 HTTP 장벽, 이미지·프레임 실패 시 load 가 영구히 막히지 않음은 `testBrokenImagesFireErrorAndDoNotBlockLoad`, `testFailedFrameShowsErrorInsideTheFrameOnly`), FRAMES 병합 뒤 전체 회귀(2643 통과)에서 통과.
+  - [x] P15-04-c. ES2015 모듈 언어와 브라우저 로딩 규칙을 분리하여 module graph/async/defer 및 MIME/CORS/credentials를 연결한다. 입력: 상대/리디렉션 의존성·순환·중복 모듈, 잘못된 MIME·다른 오리진·쿠키; 기대: 그래프별 올바른 1회 평가/순서와 모듈 전용 요청 정책; 구현: ModuleLoader/ScriptSource, 페이지 요청·오리진 정책과 script 준비; 완료 조건: 조회 판본을 기능 표에 고정하고 JRE 6 실제 HTTP 모듈 통합 시험 통과. HTML5 2014에 없는 브라우저 module 호스트 규칙은 WHATWG HTML 조회 판본을 별도로 기록한다.
+- [x] P15-05. 파싱 중 script가 DOM을 변경하거나 document.write로 입력을 추가할 때 HTML 파서가 이어서 처리하게 한다. 단순히 문서 파싱 후 모든 script를 한꺼번에 실행하는 방식으로 기본 script를 완료 처리하지 않는다.
+- [x] P15-06. task/microtask 큐와 event loop를 구현하고 한 문서의 DOM/JavaScript 변경을 직렬화한다. 타이머/입력/네트워크 완료/Promise 처리 순서와 microtask 실행 지점을 검증한다. EDT 대기와 엔진 대기가 서로 순환하지 않게 한다.
+- [x] P15-07. setTimeout/clearTimeout/setInterval/clearInterval과 대상 목록의 animation frame API를 연결한다. 페이지가 교체되면 이전 페이지의 작업을 취소하고 오래된 콜백이 새 페이지 DOM을 바꾸지 못하게 한다.
+- [x] P15-08. location/document.URL/document.baseURI, 브라우저 history와 링크/폼 기본 동작을 공통 이동 제어기에 연결한다. `<a download>`와 스크립트 이동의 다운로드 판정도 같은 제어기에서 처리한다. 임의 스키마/다른 오리진/프레임 접근이 이동 정책을 우회하지 않게 한다. 완료(2026-11-17): 하위 a·b·c(스크립트 이동, 링크·폼·`<a download>`) 외에 프레임의 이동도 같은 정책(`NavigationPolicy`/`FrameNavigator`)을 거친다(`FrameNavigationTest` 11건: 차단 스킴 `testBlockedSchemesStayBlockedInFrames`, target `_top`·이름·`window.open`, 프레임 지역 이력, 폼 target, 프래그먼트; `FrameSandboxTest` 7건: allow-forms/popups/top-navigation 없는 샌드박스의 이동 제한), FRAMES 병합 뒤 전체 회귀에서 통과.
+  - [x] P15-08-a. 페이지 확정 전 타이머를 보류하고 확정 뒤 문서 큐에서 실행하는 스케줄러를 만든다. 이 하위 기반의 선행 범위는 P03의 문서 큐와 P15-06/07의 Scheduler 계약이다. 입력: 확정 전/후 타이머, 취소·교체·폐기·참조 해제; 기대: 직렬 실행과 늦은 콜백 억제, 공용 시계가 페이지를 강하게 붙잡지 않음; 구현: `core/DocumentScheduler.java`; 완료 조건: JRE 6 큐/수명/ReferenceQueue 시험 통과. P15 단계 전체의 선행·완료 조건은 유지한다.
+  - [x] P15-08-b. 파싱 전 PageScripts/HostEnvironment를 만들고 수명·리소스·Storage·CSS를 연결한다. 입력: 파싱 중 script/document.write, 외부/defer/async/module, 타이머/Promise/DOM 변경; 기대: 동일 문서 소유권과 원문 보존, 공통 요청 정책 및 이동 중 취소; 구현: `core/ParsingPageLoader.java`, `HtmlPageDocument.java`, 페이지 런타임; 완료 조건: 실제 SwingWebPanel 통합 페이지 시험 통과.
+    - [x] P15-08-b-1. 실행 중 잠금을 기다리지 않는 스크립트 폐기 요청을 분리한다. 입력: 페이지 작업이 잠금을 소유한 동안 중단 요청, 대기 타이머/이벤트와 후속 해제; 기대: 즉시 disposed/실행 취소 표시, 새 실행 억제, 별도 스레드에서 완전 해제 가능; 구현: `js/host/PageScripts.java`; 완료 조건: JRE 6 동시성·콜백/해제 및 기존 JS host 회귀 통과. 런타임 설치는 상위 b의 남은 작업이다.
+    - [x] P15-08-b-2. 표준 로더가 HTML 파싱 전에 페이지 실행 환경을 설치하고 컴포넌트의 쿠키·Storage·스크립트 요청·수명과 연결한다. 입력: 파싱 중 DOM 관측/document.write, 외부 script, Promise/타이머, 교체·비활성화·폐기 중 실행; 기대: 원문 보존, 확정 전 타이머 보류, 취소 후 실행 억제와 세션별 저장소; 구현: `core/PageRuntime.java`, `ParsingPageLoader.java`, `HtmlPageDocument.java`, `BrowserSession.java`, `SwingWebPanel.java`; 완료 조건: JRE 6 실제 컴포넌트 통합과 수명 시험 통과.
+    - [x] P15-08-b-3. 페이지 CSS/레이아웃 조회와 실제 입력 이벤트를 실행 환경에 연결한다. 입력: getComputedStyle/getBoundingClientRect와 스크롤, 신뢰 click/Promise/취소; 기대: 같은 문서 큐에서 정확한 스타일·뷰포트 좌표와 작업 종료 체크포인트; 구현: `core/PageRuntime.java`, `PageView.java`, `PageInput.java`, `js/host/PageScripts.java`; 완료 조건: 실제 컴포넌트 스타일·좌표·클릭 통합 시험 통과. 외부 CSS 차단과 async/module 실행 순서도 상위 b 완료 전에 검증한다.
+      - [x] P15-08-b-3-a. 실제 포인터 click을 신뢰 이벤트와 페이지 작업 종료 체크포인트로 전달하고 중단 직후 JS 리스너를 차단한다. 입력: const/화살표 클릭 카운터, Promise/MutationObserver/타이머, preventDefault, 비활성화 직후 Java DOM/기본 링크; 기대: JS 작업 순서와 신뢰성 유지, 중단된 JS는 재개하지 않고 기본 이동 유지; 구현: PageScripts/DomBridge/JS 리스너, HtmlPageDocument/PageInput; 완료 조건: JRE 6 실제 AWT 전달·그리기·기본 링크 통합 시험 통과.
+      - [x] P15-08-b-3-b. 파싱 중 및 확정 뒤 CSS·배치·뷰포트 좌표 조회를 연결한다. 입력: 외부/내부 스타일과 DOM 변경 직후 조회, JScrollPane 이동; 기대: 같은 문서의 최신 계산 스타일과 실제 뷰포트 좌표; 구현: PageRuntime/PageView 및 연결 서비스; 완료 조건: JRE 6 파싱·그리기·스크롤 좌표 통합 시험 통과.
+        - [x] P15-08-b-3-b-1. 확정 뒤 동일 페이지 CSS/레이아웃 엔진 조회를 연결하고 DOM 변경 직후 레이아웃을 동기 반영한다. 입력: 타이머/클릭 중 계산 스타일·사각형, 표시/숨김, JViewport 이동·크기; 기대: 문서 큐의 최신 스타일과 뷰포트 기준 border-box 합집합, EDT 선행 통지 여부에 독립적인 확정 후 조회; 구현: PageRuntime/PageView/ParsingPageLoader/SwingWebPanel; 완료 조건: JRE 6 실제 컴포넌트 조회·재배치·스크롤 시험 통과. 파싱 중 조회·외부 CSS 차단은 다음 하위 항목이다.
+        - [x] P15-08-b-3-b-2. 파서 소유 중에도 CSS/배치 조회를 제공하고 앞선 차단 스타일시트를 반영한다. 입력: 파싱 중 내부/외부/import 스타일과 조회, 지연 CSS와 이동 취소; 기대: 올바른 파서 순서·문서 소유권·스크립트 차단, 다음 이동을 막지 않는 취소; 구현: 페이지 표현 상태와 로더/뷰 인계; 완료 조건: JRE 6 파싱 시 스타일·좌표·네트워크/취소 통합 시험 통과.
+          - [x] P15-08-b-3-b-2-a. 파서와 확정 후 뷰가 동일 페이지 표현 상태를 소유권 인계하도록 분리한다. 입력: 파싱 중 내부 스타일·좌표 조회와 이후 변경/타이머/뷰포트, 파싱 실패·비활성화·폐기; 기대: 단일 CSS/리소스/배치 상태, 원문 보존, EDT 대기 없는 해제와 중단 후 HTML/CSS 유지; 구현: PagePresentation/PageCleanup, PageView/PageRuntime/HtmlPageDocument/ParsingPageLoader; 완료 조건: JRE 6 파싱 중 조회·인계·기존 컴포넌트 회귀 통과. 외부 CSS 대기는 다음 항목에서 검증한다.
+          - [x] P15-08-b-3-b-2-b. 앞선 적용 가능한 파서 스타일시트/import 완료를 일반·defer 스크립트 실행 전에 기다린다. 입력: 지연 CSS/import와 내부·외부 script, 미일치 media/비활성/동적 스타일, 교체·JS 비활성화 중 대기; 기대: 실행 시 올바른 스타일/좌표, 불필요한 차단 없음, 즉시 취소 및 다음 이동 보장; 구현: PageResources/페이지 표현과 contextual CSS loader/HostEnvironment/PageScripts; 완료 조건: JRE 6 요청·차단·비차단·취소 통합 시험 통과, 조회한 HTML5 2014 규칙 기록.
+  - [x] P15-08-c. location/history/링크/폼과 다운로드를 공통 이동 정책으로 연결한다. 입력: 스크립트 assign/replace/reload/go, 링크 download와 금지 주소/오리진; 기대: 올바른 이력 및 단일 다운로드 판정, 정책 우회 없음; 구현: `core/BrowserSession.java`, 페이지 호스트, `core/PageInput.java`; 완료 조건: 요청·이력·다운로드 통합 시험 통과.
+    - [x] P15-08-c-1. 스크립트·링크의 페이지 시작 이동을 공통 이동 정책으로 연결한다(같은 문서 안의 프래그먼트 이동 포함). 입력: `location.assign/replace/href/hash`, `reload`, `history.go/back/forward`, 차단 스킴·네트워크 문서의 classpath 주소, 같은 문서의 앵커 링크 클릭과 뒤/앞 이동; 기대: 허용된 주소만 이동하고 replace는 이력 항목을 더하지 않으며 프래그먼트만 바뀌면 재요청 없이 URL/이력/hashchange/스크롤이 처리됨, 스크립트가 바로 읽는 `location.href`가 새 주소; 구현: `core/NavigationPolicy.java`, `BrowserSession.java`, `PageRuntime.java`, `PageInput.java`, `PageSnapshot.java`, `HtmlPageDocument.java`, `SwingWebPanel.java`; 완료 조건: `ScriptNavigationTest`(실제 컴포넌트·HTTP) JRE 6 통과(2026-11-16). `:target` 선택자 상태는 P11-02 연동으로 남김.
+    - [x] P15-08-c-2. `<a download>` 링크와 폼 제출을 같은 정책·다운로드 판정으로 연결한다. 입력: 동일 오리진/교차 오리진 download 링크, 폼 GET/POST 이동과 금지 주소; 기대: 단일 다운로드 판정, 폼 본문 직렬화는 P11-06 에서; 구현: `PageInput`, `BrowserSession`, `NavigationRequest`, `NetworkPageLoader`; 완료 조건: P11-06/P11-09 와 함께 요청·이력·다운로드 통합 시험 통과.
+- [x] P15-09. document.cookie를 P04 쿠키 정책에 연결한다. 사용자 에이전트 객체, DOMException, console 및 대상 브라우저 API의 오류를 JavaScript 측에서 올바른 객체로 전달한다.
+- [x] P15-10. `setJavascriptEnabled(false)`에서 script, 인라인 핸들러, 타이머와 후속 script 실행을 중지한다. HTML/CSS/링크/기본 폼 기능은 계속 동작한다. true로 되돌려도 이미 중단한 페이지 script를 자동 재실행하지 않고, 다음 콘텐츠 설정/이동/새로고침부터 정상 실행하도록 정한다.
+- [x] P15-11. MutationObserver 등 대상 DOM API의 변경 통지를 이벤트 작업 흐름과 연결한다. 원래 콜백을 호출한 뒤 발생한 변경도 규격 순서에 맞게 처리한다.
+- [x] P15-12. const/화살표 함수로 클릭 횟수를 바꾸고 요소 텍스트/class/style을 수정하는 페이지를 실행한다. 이벤트 취소, Promise/타이머 순서, JavaScript 비활성, 실행 오류/무한 반복, 이동 중 취소와 원문 보존을 확인하고 P15를 완료 처리한다.
+
+### P16. Storage API와 임시 파일 저장소
+
+선행 작업: P03, P15. 산출물: StorageEntry, 오리진별 Storage와 프로세스 전용 임시 파일.
+
+- [x] P16-01. length/key/getItem/setItem/removeItem/clear와 문자열 변환/존재하지 않는 키 반환을 구현한다. DOM Storage 객체를 일반 Java Map처럼 그대로 공개하지 않는다. 객체 프로퍼티 방식 접근도 규격대로 연결한다.
+- [x] P16-02. sessionStorage는 BrowserSession의 인스턴스 필드에 두고 같은 컴포넌트의 오리진별 영역으로 나눈다. JVM 전역 Map에 컴포넌트나 sessionStorage를 강한 참조로 등록하지 않는다.
+- [x] P16-03. localStorage는 프로세스별 하나의 관리 객체로 공유하되 저장 데이터만 보관한다. 프로세스마다 구별되는 임시 경로를 만들고 다른 프로세스의 저장 파일을 읽거나 지우지 않는다. 오리진에는 명시/기본 포트 정규화를 적용한다.
+- [x] P16-04. 저장 파일에 형식 식별자, 버전, 오리진/키/값과 길이 정보를 명시한다. 문자열은 UTF-8로 읽고 쓰며 길이/항목 수 제한을 검사한다. Java 객체 역직렬화로 파일을 읽지 않는다.
+- [x] P16-05. 읽기 시 파일 부재는 빈 저장소로 처리한다. 외부 삭제를 감시하거나 즉시 복구하지 않고, 다음 실제 읽기에서 부재를 처리한다. 파싱 실패/잘린 데이터/알 수 없는 버전은 해당 프로세스 저장소를 초기화한 뒤 사용한다.
+- [x] P16-06. 같은 프로세스의 읽기/쓰기/clean을 동기화한다. 임시 파일에 먼저 기록한 뒤 교체하고, Java 6의 rename 동작이 실패할 때 원본과 새 파일을 잃지 않는 복구 절차를 구현한다. 임시 경로 밖으로 쓰기/삭제하지 않는다.
+- [x] P16-07. 저장 용량 제한과 초과 오류를 문서화한다. 현재 오리진을 계산할 수 없는 내부 주소의 저장소 정책을 정하고, 다른 웹 오리진에 접근 권한을 주지 않는다. classpath 문서끼리 공유할 범위도 명시한다.
+- [x] P16-08. localStorage 변경을 같은 오리진의 다른 활성 문서에 storage 이벤트로 알린다. 변경을 수행한 문서에 같은 이벤트를 중복 전달하지 않는다. 컴포넌트별 sessionStorage의 통지 범위는 별도로 구현한다.
+- [x] P16-09. `getLocalStorage`/`getSessionStorage`의 복사본과 `clean()`을 연결한다. 한 컴포넌트의 clean이 프로세스 공용 localStorage를 비우는 동작과 다른 컴포넌트의 조회/통지를 확인한다. 자동 종료 파일 삭제를 요구하지 않는다.
+- [x] P16-10. 컴포넌트 두 개의 session 분리/local 공유, 오리진 분리, 다른 프로세스 분리, 파일 외부 삭제, 파일 손상, 동시 쓰기, 용량 초과와 clean을 검증한다. GC 시점 자체를 보장한다고 주장하지 말고 강한 외부 참조 때문에 수거가 막히지 않는지 확인한다. P16을 완료 처리한다.
+
+### P17. MIME별 콘텐츠와 오류 화면
+
+선행 작업: P07~P09, P15. 산출물: HTML/텍스트/Markdown/XHTML 처리기와 오류 페이지 생성기.
+
+- [x] P17-01. Content-Type의 타입/매개변수/charset을 분리하고 대소문자/공백을 처리한다. 네트워크 응답과 `setContent`가 같은 콘텐츠 처리 경로를 사용하게 한다. MIME이 없거나 미지원일 때의 표시 정책도 기록한다. 네트워크 응답 중 주 문서로 표시할 수 없는 것은 P01의 다운로드 계약으로 넘기고, `setContent`의 미지원 MIME은 다운로드 대상이 아니라 P01-17의 입력 오류 정책을 따른다.
+- [x] P17-02. text/plain은 태그/스크립트로 해석하지 않고 줄바꿈과 원문을 보존하여 표시한다. HTML처럼 보이는 문자열을 전달해도 스크립트가 실행되지 않는지 확인한다.
+- [x] P17-03. text/markdown의 기준 문법과 판본을 정한다. 자체 블록/인라인 파서로 제목, 문단, 목록, 인용, 코드, 강조, 링크, 이미지와 이스케이프를 구현한다. 코드 속 HTML을 실행하지 않으며, 원문 HTML을 허용하는 문법의 처리 정책은 명시한다.
+- [x] P17-04. Markdown에서 생성한 HTML은 동일 DOM/렌더링 경로를 사용하고 `getContent()`는 원래 Markdown을 반환한다. 변환된 HTML로 원문과 이력 내용을 덮어쓰지 않는다.
+- [x] P17-05. application/xhtml+xml은 XML의 대소문자/네임스페이스/문법 오류를 처리한다. Java 표준 XML 파서를 사용한다면 외부 엔티티와 외부 DTD 접근을 막고 결과를 자체 DOM으로 변환한다. XML 오류를 관대한 HTML 복구로 숨기지 않는다.
+- [x] P17-06. 4xx/5xx, DNS/연결/제한 시간, 차단 스키마, 클래스패스 누락, FTP 실패에 대한 오류 화면을 만든다. 응답 코드/주소/재시도 링크를 표시하고, 오류 주소/메시지를 HTML에 넣을 때 이스케이프한다.
+- [x] P17-07. 서버 오류 본문과 표시용 오류 DOM을 분리하고 P01의 원문 반환 계약을 지킨다. 오류 페이지 내부 링크도 일반 이동/이벤트 정책을 사용하게 한다.
+- [x] P17-08. 네 MIME의 표시/원문/이력 복원/스크립트 동작, 잘못된 XHTML, Markdown 코드, MIME 매개변수, 오류 페이지를 검증한다. 오류 화면이 이전 정상 페이지의 JavaScript나 타이머를 계속 실행하지 않는지 확인하고 P17을 완료 처리한다.
+
+### P18. 이미지, 오디오와 비디오 대체 표시
+
+선행 작업: P04, P09, P11, P15. 산출물: 대상 형식별 디코더, 미디어 상태와 DOM 이벤트, 대체 표시.
+
+- [x] P18-01. 이미지/오디오의 가져오기, 형식 판별, 디코딩, 크기/시간 정보, 표시/재생 상태를 분리한다. 확장자만 믿지 않고 MIME과 파일 시그니처를 함께 검사한다. 실패 종류를 접근 실패/형식 미지원/손상으로 구분한다. 완료(2026-11-17): 이미지·오디오 모두 시그니처 판별과 실패 종류 구분 `MediaFailureKindsTest` 5건(대응표 `docs/progress/media-matrix.md` 4절), 접근 실패는 네트워크 계층·소리 출력에서 `AudioRobustnessIntegrationTest` 로 확인.
+- [x] P18-02. ImageIO/Java Sound의 공개 API로 읽을 수 있는 형식을 먼저 연결한다. 실제 JRE 6의 지원을 확인하고, JRE가 제공하지 않는 형식은 자체 디코더 작업으로 기능 표에 남긴다. 자체 디코더는 순수 Java로 작성하고 OS 코덱, 네이티브 디코더, 외부 실행 파일을 호출하지 않는다. 최신 개발 JRE에서 읽힌다는 이유로 JRE 6 지원으로 표시하지 않는다. 완료(2026-11-17): JDK 6u45 의 `ImageIO.getReaderFormatNames()`/`AudioSystem.getAudioFileTypes()`/믹서를 실제 실행해 기록했고(`media-matrix.md` 1절) JRE 가 못 읽는 형식은 모두 자체 디코더로 구현했다.
+- [x] P18-03. 이미지 대상 표의 PNG/APNG/GIF/JPEG/SVG/WebP/AVIF 등 조사된 형식과 변형을 각각 구현한다. 이 예시 목록만으로 '모두'를 판정하지 말고 P00의 전체 목록과 대조한다. 애니메이션/투명도/진행형 JPEG/방향 정보/색 처리도 독립 검증한다. 완료(2026-11-18): 방향 정보(JPEG EXIF, PNG `eXIf`, WebP `EXIF`, AVIF `irot`/`imir`/`clap`, CSS `image-orientation`), 색 관리(ICC 행렬/TRC·회색조 프로필, PNG gAMA/cHRM/cICP/iCCP, JPEG/WebP/BMP/AVIF 프로필, CICP), AV1 필름 그레인·인트라 블록 복사·초해상도·인터 프레임 전체(단일/복합 참조, OBMC, 워프, 마스크 복합)·애니메이션 AVIF(`avis`)·계층 이미지(`a1op`/`lsel`)·중첩 오버레이를 libdav1d(이 PC 의 ffmpeg)와 프레임별 비트 단위로 비교해 구현·검증했다(정지 77개 스트림, 시퀀스 39개 321프레임, 애니메이션 파일 11개, 계층 11개; `Av1StreamTest`, `Av1SequenceTest`, `AvifSequenceTest`, `AvifLayerTest`). 병합 뒤 통합 전체 3542 passed, 0 failed, 12 skipped (StaticStateAuditTest was the only failure and was fixed and rerun alone). **남은 한계(기능 표 IMG-* 행에 기록, 대상 판정은 조정자 결정)**: 이중 필터·실제 공간 계층 간 예측·다른 도구가 만든 애니메이션 AVIF 는 비트 단위로 확인하지 못함, ICC 룩업 테이블/CMYK 프로필과 PQ/HLG 톤 매핑 곡선은 적용하지 않음, JPEG 산술/무손실/12비트, BMP BI_JPEG/BI_PNG/RLE24, SVG 의 CSS/SMIL 애니메이션은 브라우저(Chromium)도 일부 지원하지 않거나 별도 기능이라 명시적 한계로 둠(`docs/progress/media-matrix.md` 10.5절).
+- [x] P18-04. SVG의 자체 DOM/좌표/도형/경로/문자/변환/스타일 처리와 외부 리소스 제한을 구현한다. SVG 파일을 빈 이미지로 읽은 상태를 지원 완료로 표시하지 않는다.
+- [x] P18-05. img/picture/source의 크기, 자연 크기, src/srcset/sizes, 오디오 source 목록의 형식 선택을 처리한다. 로딩 완료/실패 이벤트를 DOM에 알리고 배치에 필요한 크기가 바뀌면 재배치한다.
+- [x] P18-06. 이미지/오디오 URL 실패 시 해당 위치에 미지원 URL과 alt가 있으면 그 내용을 표시한다. audio의 alt는 프로젝트 확장 속성으로 처리하고 HTML 자체의 대체 자식 콘텐츠도 고려한다. 깨진 파일명/alt를 HTML로 실행하지 않는다.
+- [x] P18-07. 오디오 대상 표의 PCM/WAV/AIFF/AU/MP3/AAC/Ogg 계열/FLAC 등 조사된 코덱·컨테이너를 각각 구현한다. 자체 디코딩 결과를 Java Sound에 전달할 PCM으로 바꾸며, 확장자가 같아도 실제 코덱이 다른 사례를 처리한다.
+- [ ] P18-08. audio의 재생/일시정지/종료/탐색/반복/음량/음소거, preload/autoplay/controls와 Media 관련 DOM 상태/이벤트를 대상 규격대로 구현한다. 버퍼와 오디오 라인을 닫고, 긴 오디오 전체를 항상 메모리에 적재하지 않도록 한다.
+- [x] P18-09. video 요소는 원래 위치/크기를 확보하여 미지원 비디오 문구를 표시한다. 비디오 디코더나 외부 재생기를 실행하지 않고, 비디오 관련 DOM 호출에는 명시적인 미지원 결과를 제공한다.
+- [x] P18-10. 오디오 출력 장치 부재, 디코더 실패, 손상/과대 파일, 접근 실패, 페이지 이동/clean/dispose 도중 재생, 여러 컴포넌트 재생을 검증한다. 디코딩/상태 검증과 실제 장치 청취를 분리하여 결과를 기록한다. 완료(2026-11-17, 자동 검증): 장치 없음 `MediaPlayerTest`/`JavaSoundDeviceTest`/`AudioIntegrationTest`, 디코더 실패 `MediaFailureKindsTest`, 손상/과대/잘린/거짓 헤더 파일·접근 실패·이동/clean/dispose 도중 재생·여러 컴포넌트 동시 재생 `AudioRobustnessIntegrationTest`/`AudioIntegrationTest`. **소리를 귀로 확인하지 못했고** `docs/progress/media-play.md` "미확인" 표에 분리해 기록했다(P22-10 에서 사람이 확인).
+- [ ] P18-11. 형식별 입력 자료/기대 픽셀 또는 PCM/상태 변화와 실패 사례를 기록한다. '하나의 이미지와 WAV가 재생됨'으로 전체 미디어 목표를 완료 처리하지 않는다. 비디오 예외를 제외한 대상 표에 미구현이 없으면 P18을 완료 처리한다. 기록(2026-11-19): 오디오는 `docs/progress/media-matrix.md` 11절(MEDIA-D: 실제 인코더 ffmpeg/libmp3lame/AAC/libvorbis/libopus/flac 파일 117개와 ffmpeg 참조 PCM, 무손실 비트 단위·손실 ISO/IEC 11172-4 허용 오차, 거부 형식 4개, 손상 사본, 탐색; `ReferenceDecodeTest` 15건), 이미지는 5·9·10절. 비디오 예외를 뺀 대상 표에 미구현 행은 없으나 P18 의 마지막 항목이므로 P18-08(소리 청취, 사람 필요)이 닫힌 뒤 체크한다(11.7절).
+
+### P19. 이력 복원, 캐시, 새로고침과 진행률 통합
+
+선행 작업: P04, P05, P15~P18. 산출물: 모든 콘텐츠에 동일하게 적용되는 페이지 수명과 캐시 처리.
+
+- [x] P19-01. 이력 항목에 URL/원문/MIME/기준 주소와 필요한 복원 정보를 보관한다. `about:text` 원문을 URL 문자열만으로 복원하지 않는다. 일반 URL의 이력 이동은 캐시 정책을 따르며 캐시가 없으면 다시 요청하도록 한다.
+- [x] P19-02. 뒤/앞 이동, 새 이동, 리디렉션, 프래그먼트, 폼 전송, 오류 페이지에서 이력 위치를 검증한다. 프래그먼트 이동은 원문/문서를 불필요하게 다시 내려받지 않도록 별도 처리한다.
+- [x] P19-03. 요청 메서드/URL/오리진/응답의 Vary와 관련 헤더를 고려한 캐시 키를 만든다. 다른 사용자/컴포넌트의 응답이나 다른 요청 본문을 같은 URL 캐시로 공유하지 않는다.
+- [x] P19-04. Cache-Control/Expires/ETag/Last-Modified와 no-store/no-cache, 조건부 요청/304 처리를 구현한다. 304를 빈 페이지로 표시하지 않고 기존 본문과 새 메타데이터를 결합한다.
+- [x] P19-05. 원문, 이미지/CSS/스크립트/오디오, 디코딩 데이터와 레이아웃 캐시의 범위/용량/제거 정책을 분리한다. 캐시에서 제거했어도 화면이 참조 중인 데이터는 안전하게 유지하고, 화면 교체 후 해제한다.
+- [x] P19-06. force 새로고침의 이동 번호에 강제 재요청 정책을 붙여 주 문서와 하위 요청에 전달한다. 일반 새로고침, 캐시 사용, 조건부 요청, force 요청을 시험 서버의 요청 횟수와 헤더로 구분해 확인한다.
+- [x] P19-07. POST 등 자동 반복에 영향을 주는 요청의 이력/새로고침 정책을 명시한다. 재전송이 필요한 경우 사용자 결정이 필요한 동작과 GET 재요청을 구분하여 구현한다.
+- [x] P19-08. 상태/진행률을 주 문서 가져오기/파싱/리소스/스크립트/배치/완료에 연결한다. Content-Length가 없거나 총량이 불명확하면 -1을 반환한다. 이미지를 하나 실패했다는 이유로 로딩 완료 처리를 영원히 막지 않는다.
+- [x] P19-09. 로딩 중 취소/오류/새로고침/연속 이동 시 원문/URL/이력/상태가 같은 요청에 속하는지 확인한다. 지연 응답 뒤에 이전 페이지가 다시 나타나는 사례를 검증한다.
+- [x] P19-10. 모든 MIME와 FTP/클래스패스/오류 페이지에 대한 뒤/앞 이동과 새로고침을 검증한다. 이력·캐시·진행률이 실제 요청과 연결되어 일관되게 동작하면 P19를 완료 처리한다.
+
+### P20. HTML5와 DOM의 나머지 API 및 문서 호환성
+
+선행 작업: P10~P19. 산출물: P00의 전체 대상 목록에서 아직 구현되지 않은 웹 기능의 구현과 근거.
+
+- [x] P20-01. HTML 요소별 인터페이스/속성 반영 규칙/메서드/기본 동작을 기능 표에 대조한다. document의 제목/준비 상태, 링크/이미지/폼 컬렉션, HTML 문서 생성·변경 등 공통 API를 빠짐없이 추적한다. 완료(2026-11-17): HTML5 2014 REC 의 모든 요소가 전용 인터페이스를 가지고(`HTMLUnknownElement` 로 남는 것은 REC 가 인터페이스를 정하지 않은 과거·비표준 태그뿐) 반영 속성·상태가 구현됐다. 이번에 `console` 전체, `window.event`, `elementsFromPoint`, `clientTop/offsetParent`, `Node.lookupNamespaceURI`, 폐기된 IDL 반영 속성, `details/summary`, 이미지 맵, `meta refresh`, 인라인 SVG, `object` 대체 내용을 구현·시험했다. 남은 것(`HTMLObjectElement.validity`, `HTMLImageElement.x/y`, SVG DOM 등)과 근거는 `docs/progress/htmlifaces-audit.md`.
+- [x] P20-02. iframe, srcdoc와 과거 frame/frameset을 별도 브라우징 문맥으로 구현한다. 부모/자식 Window 관계, target 이동, 기준 주소, 오리진, sandbox, 재귀 프레임 제한과 자원 해제를 처리한다. 하위 프레임 이동을 주 문서 이력과 연결할 규칙을 정한다. 완료(2026-11-17): `docs/progress/frames.md`(설계, 단계 b~g). 시험 `core.frames` 패키지 59건(iframe 렌더링·입력·로딩·진행률, 창 관계와 교차 오리진 `SecurityError`, target 이동·`window.open`·프레임 지역 이력, sandbox 토큰, frameset/frame/noframes 배치, 한도(깊이 8, 프레임 64, 자기 자신 포함 취소), 수명·누수). 병합 뒤 TEXTSEL 포함 전체 회귀 2740 통과/0 실패에서 프레임 수명 시험까지 모두 통과(부하가 큰 실행에서는 `FrameLifecycleTest` 가 간헐적으로 시간 초과).
+- [x] P20-03. Range/Selection/TreeWalker/NodeIterator와 DOM의 남은 인터페이스를 구현한다. live 상태와 노드 삭제/이동 시의 보정, 선택 영역의 화면 좌표와 텍스트 추출을 검증한다. 완료(2026-11-17): `render/TextSelections.rects/caretRectAt` 로 `Range.getBoundingClientRect/getClientRects`·`Element.getClientRects` 가 실제 글자·상자 기하를 돌려주고(CSSOM View), `DOMRect/DOMRectReadOnly/DOMRectList/DOMPoint*` 가 `instanceof` 가능하며, `Node.normalize()` 의 live range 보정과 `Range.insertNode` 사전 검사, NodeIterator 제거 보정(`replaceChildren` 시험 보강), `Selection.toString()` 의 렌더링 텍스트를 구현했다. 시험 `RangeRectsTest`, `RangeNormalizeTest`, `RangeGeometryIntegrationTest` 외, 통합 후 전체 2921 통과/0 실패(제품 JAR 검사 1건은 이름 변경으로 수정). 상세·한계는 `docs/progress/edit.md`.
+- [x] P20-04. DOMParser/XMLSerializer, HTML 조각과 직렬화 기능을 구현한다. 이는 JavaScript에서 사용하는 기능이며 `getContent()`가 변경된 DOM을 반환하는 동작으로 연결하지 않는다.
+- [x] P20-05. Canvas 2D의 상태/변환/경로/색/선/그리기/문자/이미지/픽셀 API를 자체 객체와 Java2D로 구현한다. 이미지의 교차 오리진 상태와 픽셀 조회 제한, 크기 변경 시 상태 초기화, TypedArray와의 연결을 검증한다. 상단 요구사항(2D 캔버스 지원, WebGL/WebGPU 미지원)에 따라 `getContext`는 `2d`를 지원하고, `webgl`/`webgl2`/`experimental-webgl`/`webgpu` 요청에는 null을 반환한다. `navigator.gpu`와 WebGL 인터페이스 객체는 노출하지 않는다.
+  - [x] P20-05-a. 본문의 요구 전부: 상태/변환/경로/색/선/그리기/문자/이미지/픽셀 API, 교차 오리진 이미지의 오염과 픽셀 조회 제한, 크기 변경 시 초기화, TypedArray 연결, `getContext('2d')` 지원과 webgl/webgl2/experimental-webgl/webgpu 요청의 null, `navigator.gpu`/WebGL 인터페이스 미노출. 구현: `js/host/canvas/**`, `render/CanvasSource`, `core/PagePresentation`; 완료 조건: `CanvasBasicsTest`/`CanvasPathsTest`/`CanvasPaintTest`/`CanvasPixelsTest`/`CanvasPath2DTest` 45건과 `CanvasIntegrationTest`/`CanvasRepaintTest` JRE 6 통과(2026-11-17). 화면 밖 그리기만 확인했으므로 실제 Swing 창 확인은 P22-10 에 남긴다. 한계는 `docs/progress/canvas.md`.
+  - [x] P20-05-b. `OffscreenCanvas`, `ImageBitmap`/`createImageBitmap`, `createConicGradient`, `filter`, 텍스트 확장 속성(`letterSpacing` `wordSpacing` `fontKerning` `fontStretch` `fontVariantCaps` `textRendering`), `DOMMatrix`, 히트 영역, `crossorigin` 이미지 요청의 `Origin` 헤더(P20-08-c 의 소켓 연결로 가능). 입력: 각 API 를 쓰는 페이지; 기대: 규격 결과와 화소; 구현: `js/host/canvas/**`, `core/PageResources`; 완료 조건: 화소/상태 시험 JRE 6 통과. 완료(2026-11-17): `OffscreenCanvas`/`ImageBitmap`/`createImageBitmap`/`transferControlToOffscreen`(`CanvasOffscreenTest`), `createConicGradient`(`CanvasExtrasTest`), `DOMMatrix`/`DOMMatrixReadOnly` 와 캔버스 연결(`DomMatrixTest` 9, `CanvasMatrixTest` 4), 텍스트 확장 속성(`CanvasTextStyleTest`: `letterSpacing`/`wordSpacing`/`fontKerning` 은 효과가 있고 `fontStretch`/`fontVariantCaps`/`textRendering`/`lang` 은 상태만 보관), `ctx.filter`(`CanvasFilterTest` 5), `crossorigin` 이미지의 `Origin`·CORS 검사와 캔버스 오염(`CrossOriginImageIntegrationTest`), `drawFocusIfNeeded`/`isContextLost`/컨텍스트 이벤트 핸들러 속성, 히트 영역은 현행 WHATWG 규격에서 삭제되어 구현하지 않고 근거를 기록(EXC-08). 병합 뒤 전체 회귀로 확인. 한계는 `docs/progress/canvas.md` 와 기능 표 WEB-05f~h(실제 Swing 창 확인은 P22-10).
+- [x] P20-06. 드래그/드롭, 요소 편집, 데이터 전달, 포커스/입력과 관련된 남은 HTML API와 DOM 이벤트를 구현한다. 사용자 입력을 필요로 하는 기능은 프로그램 호출만으로 실제 입력 검증을 대체하지 않는다. 완료(2026-11-17, 자동 검증): 편집 엔진을 화면 입력에 연결(캐럿·키·마우스·서식 단축키·되돌리기, 한글 조합 `PageComposition`), `cut`/`paste`(편집 호스트와 폼 컨트롤), HTML 끌어다 놓기(`PageDragDrop`, `DataTransfer` 전체). 시험은 실제 AWT 이벤트를 컴포넌트에 보내는 방식으로 `EditingInputTest` 14, `EditingClipboardTest` 7, `FormClipboardTest` 3, `DragDropIntegrationTest` 12, `DataTransferApiTest` 6, 병합 뒤 전체 3030 통과. **실제 입력 확인(한글 IME, 실제 키보드·마우스 드래그, 시스템 클립보드 서식)은 하지 못했다**: `docs/progress/edit.md` 6절에 미확인으로 기록했고 P11-02/P11-10/P22-10 에서 사람이 확인한다. 사람이 해 볼 수 있는 예제 `examples/run.sh EditingExample`.
+- [x] P20-07. history.pushState/replaceState, popstate/hashchange와 상태 직렬화의 규칙을 구현한다. 이동 API의 이력과 두 종류의 상태 변경을 연결하고, 오리진을 변경하는 잘못된 주소를 거부한다.
+- [x] P20-08. 대상 표의 비동기 웹 요청 API를 공통 요청 계층에 연결한다. 요청 상태/헤더/응답 형식/취소/오류/교차 오리진 정책을 구현한다. 외부 요청 API가 User-Agent, 쿠키, SSL 확장 지점과 스키마 제한을 우회하지 않게 한다.
+  - [x] P20-08-a. XMLHttpRequest/fetch/Request/Response/Headers/AbortController/FormData/Blob/File/FileReader/URL/URLSearchParams/TextEncoder/TextDecoder와 공통 요청 서비스 계층(`core/PageWebRequests`). 입력: 같은 오리진/교차 오리진 GET/POST, 쿠키 자격 증명 모드, 금지 헤더/스킴, 취소와 폐기; 기대: User-Agent·추가 헤더·쿠키·SSL 확장 지점·스키마 제한 적용, 늦은 응답은 스크립트를 실행하지 않음; 구현: `js/host/web/**`, `core/PageWebRequests.java`; 완료 조건: JRE 6 `js.host.web` 36건과 `WebRequestApiTest` 15건 통과(2026-11-16). 조회 판본과 제약은 `docs/progress/webapi.md`.
+  - [x] P20-08-c. 교차 오리진 사전 요청(preflight)과 `Origin` 헤더. 입력: 안전하지 않은 메서드/헤더(`Content-Type: application/json` 등)의 교차 오리진 fetch/XHR, `Origin` 이 있어야 `Access-Control-Allow-Origin` 을 내는 서버; 기대: OPTIONS 사전 요청과 `Access-Control-Request-*`/`Origin` 전송, 허용 시 본 요청 실행·거부 시 네트워크 오류; 구현: JRE 6 `HttpURLConnection` 이 제한 헤더를 보낼 수 없으므로 `net` 에 `Socket`/`SSLSocket` 기반 HTTP/1.1 클라이언트가 필요(`configureSsl` 확장 지점과의 관계 포함); 완료 조건: 로컬 HTTP/HTTPS 두 오리진 서버로 허용/거부/자격 증명 사전 요청 검증, 이후 P20-08 상위 항목 체크. 완료(2026-11-17): `net/SocketHttpClient`·`SocketHttpURLConnection`·`SocketHttpsURLConnection`·`HostnameMatcher`, `HttpFetcher` 의 사전 요청과 `OriginPolicy.checkPreflight`; 시험 `SocketHttpClientTest` 19건·`CorsPreflightTest` 9건·`WebRequestApiTest` 15건 JRE 6 통과. 한계: JVM 프록시가 적용되면 JRE 연결을 써서 `Origin` 이 사라지고, 이미지/스타일시트 요청은 `Origin` 을 싣지 않는다(docs/progress/net.md). `PATCH` 도 소켓 연결로 보낸다(`SocketHttpClientTest.testFetcherSendsPatch`).
+- [x] P20-09. 대상 규격의 Worker/message 관련 기능은 별도 실행 문맥과 제한된 객체 집합으로 구현한다. 메시지의 구조화 복사/전달, 큐, 오류, 종료를 처리하고 Worker에서 DOM을 직접 변경하지 못하게 한다.
+  - [x] P20-09-a. 구조화 복제와 창/채널 메시징: `structuredClone`, `window.postMessage`, `MessageChannel`, `MessagePort`, `MessageEvent`, `ArrayBuffer` 전달, 비동기 전달·큐·`start()`/`onmessage`. 구현: `js/host/structured/**`, `js/host/MessagingApi`; 완료 조건: 구조화 복제 16건·메시징 7건 JRE 6 통과(2026-11-17, `docs/progress/domapi-b.md`).
+  - [x] P20-09-b. `Worker`/`SharedWorker` 별도 실행 문맥(DOM 없는 제한된 전역), `BroadcastChannel`, `MessagePort` 의 전달(transfer), `targetOrigin` 필터. 입력: 워커 스크립트와 메시지 왕복·오류·종료; 기대: 별도 realm 의 직렬 실행, DOM 접근 불가, 종료 뒤 콜백 없음; 구현: `js/worker/**`; 완료 조건: 시험 JRE 6 통과 후 P20-09 상위 항목 체크. 완료(2026-11-17): `js/worker/**`, 시험 `js.worker` 45건(Broadcast 3, Error 6, GlobalScope 4, Lifecycle 12, Messaging 6, Port 5, Request 3, Shared 6), master 병합 뒤 전체 2588 통과/0 실패/선택적 Opus 원본 벡터 12건 건너뜀. 한계는 `docs/progress/worker.md`.
+- [x] P20-10. HTML 규격과 참조 규격에 포함된 나머지 기능을 표에서 확인한다. WebSocket 등의 기능이 추가 스키마를 요구하면 현재 스키마 제한과의 관계를 명시하고 차단/지원 결과를 기록한다. 규격 대상과 제약의 충돌이 남으면 전체 호환 완료 항목은 미완료로 둔다. 완료(2026-11-17): FEATURE_MATRIX 11절이 HTML5 2014 REC 의 참조 규격을 모두 열거해 구현함/스킴 정책으로 차단·실패(WebSocket: EXC-06 연결 실패)/범위 밖(근거)/미구현으로 분류했고 마이크로데이터를 구현했다. 미구현으로 남은 것은 새 항목 P20-13 에 모았다.
+- [x] P20-11. SVG/MathML, 각종 문서 모드, 오래된 HTML 속성, 프레임, 폼/표, 현대 문서를 섞어 검증한다. 미지원 플러그인 콘텐츠는 대체 내용을 표시하고 실제 플러그인 실행을 지원했다고 기록하지 않는다. 완료(2026-11-17): `MixedDocumentsIntegrationTest` 6건(SVG+MathML+표+폼+iframe+object+video 혼합 HTML5 페이지, 호환 모드 구식 페이지, XHTML+SVG, DOCTYPE 8종 `compatMode`, frameset, 플러그인 대체 내용)과 `DetailsMapRefreshIntegrationTest` 3건. 시험이 드러낸 결함(닫힌 `details`, 이미지 맵 클릭, `meta refresh`, 인라인 SVG, `object` 대체 내용)은 고쳤다.
+- [x] P20-12. JavaScript 언어/DOM/DOM 이벤트/HTML 표시/CSS 표시/미디어의 각 축별로 미구현·부분 구현·검증 완료를 대조한다. 명시적 예외(비디오, 3D 가속/WebGL/WebGPU)는 미구현과 구분하여 예외 근거와 함께 적는다. 이 단계의 대상 규격에서 남은 항목을 모두 처리한 뒤 P20을 완료 처리한다. 대조 완료(2026-11-17): FEATURE_MATRIX 13절에 축별 개수표(검증 완료/부분/미구현/예외: ES 33/3/0/0, DOM 23/16/1/0, DOM 이벤트 5/7/1/0, HTML 표시 23/18/0/1, CSS 표시 14/29/2/0, 미디어 18/3/0/1, API·프로토콜 47/2/0/1)와 남은 행 ID 목록, 명시적 예외 EXC-01..07 을 근거와 함께 적었다. 이 항목은 대조 자체이며 P20 단계 전체는 미구현·부분 구현이 남아 있어 완료로 표시하지 않는다(P20-05-b, P20-13 등 개별 항목에서 처리).
+- [x] P20-13. 기능 표 11~13절이 미구현으로 남긴 웹 플랫폼 기능을 구현한다. 입력: `EventSource`(서버 전송 이벤트: 스트리밍 응답 읽기, 재연결, `Last-Event-ID`), `PointerEvent`(마우스형 포인터의 `pointerdown/move/up/enter/leave/over/out/cancel`, `setPointerCapture`), 페이지 수명 이벤트(`pageshow/pagehide/beforeunload/unload/visibilitychange`, 창 `focus/blur/online/offline`), `IntersectionObserver`/`ResizeObserver`, XPath(`document.evaluate`), 텍스트 트랙/WebVTT(`track`, `TextTrack`, `TextTrackCue`), `performance.mark/measure/timing`, 인터페이스 객체 이름(`Navigator/Location/History/Screen/Performance`, `DOMStringMap`, `MutationRecord`), 키보드 `code`/`isComposing`; 기대: 각 규격의 상태·이벤트 순서와 스킴 정책(요청 계층)·수명 정리; 구현: `js/host/**`, `core/**`, `dom/**`; 완료 조건: 기능별 JRE 6 시험 통과와 기능 표 갱신. Custom Elements/Shadow DOM 은 HTML5 2014 REC 이후 규격이므로 이 항목의 대상이 아니다(확장 목록 EXT 로 기록). 완료(2026-11-18): `EventSource`(`EventSourceTest` 14, `EventSourceIntegrationTest` 7), `PointerEvent`(`PointerApiTest` 5, `PointerEventIntegrationTest` 5; 끌기 시작 때 대기 중인 포인터 캡처 결함을 고침), 페이지 수명 이벤트(`PageLifecycleTest` 9, `PageLifecycleIntegrationTest` 9; 수명 결함 3건 수정), `IntersectionObserver`/`ResizeObserver`(`RenderObserversTest` 18, `RenderObserversIntegrationTest` 3), `performance`(`PagePerformanceTest` 6, `PerformanceIntegrationTest` 1), 인터페이스 객체 이름(`InterfaceNamesTest` 3), 키보드 `code`/`isComposing`(`KeyboardCodeTest` 2), XPath(`XPathApiTest` 13), 텍스트 트랙/WebVTT(`VttParserTest` 7, `VttCueTextTest` 6, `TextTrackTest` 16, `TextTrackIntegrationTest` 2) 를 구현·검증했다. 병합 뒤 통합 전체 3439 통과/0 실패/12 건너뜀. 한계(자막을 그리지 않음, 비디오 트랙은 구조만, 실제 한글 IME 미확인 등)는 기능 표 VID-02/HEI-08/EVT-04 와 `docs/progress/webapi2.md`.
+
+### P21. clean, dispose, GC와 자원 정리
+
+선행 작업: P16, P18, P19. P20에서 구현한 기능의 자원도 함께 검토한다. 산출물: 페이지 교체/정리/폐기 시 누수가 없는 수명 관리. P20 기능이 이후 추가되면 해당 자원의 정리 검증을 다시 수행한다.
+
+- [x] P21-01. 페이지가 소유하는 요청/스트림/DOM/JsRealm/리스너/작업 큐/타이머/미디어/프레임/캐시 참조와 컴포넌트가 소유하는 다운로드 작업/팝업의 목록을 작성한다. 페이지 교체, clean, dispose, 취소에서 각 항목을 정리하는 담당 클래스를 표로 정한다.
+- [x] P21-02. clean은 모든 진행 중 작업의 요청 번호를 무효화한 뒤 빈 페이지/이력을 확정하고 대상 캐시/Storage를 지운다. cleanup 도중 완료된 비동기 작업이 이전 화면/원문/저장소를 복원하지 못하게 한다.
+- [x] P21-03. dispose는 clean 처리를 수행하고 모든 사용자 이벤트 등록, 자체 DOM 이벤트, 타이머/작업/오디오/하위 프레임, 진행 중 다운로드와 다운로드 팝업을 해제한다. Hyperlink뿐 아니라 Mouse/Key/Focus/PropertyChange 등 이 객체의 사용자 등록 리스너도 P01의 대상 표에 따라 제거한다. 완료(2026-11-17): 사용자 AWT/PropertyChange/Hyperlink 리스너 제거 `SwingWebPanelTest.testDisposeRemovesAttachedListeners`, 타이머 `PageRuntimeIntegrationTest.testNavigationAndDisposeCancelRunningTimer`, 오디오 `AudioIntegrationTest.testNavigationCleanAndDisposeCloseTheOutput`, 진행 중 다운로드와 팝업 `DownloadIntegrationTest.testDisposeCancelsARunningDownload`(새로 추가), 하위 프레임 `FrameLifecycleTest`(dispose 도중 로딩, 프레임 스크립트 정지, 수거), worker `WorkerLifecycleTest.testDisposeTerminatesAllWorkers`, 반복 호출 `LifecycleTest.testDisposeIsIdempotentAndLeavesEmptyState`.
+- [x] P21-04. clean/dispose를 반복하거나 로딩/이벤트 처리/스크립트 실행/오디오 재생 도중 호출해도 예외 누수/교착/이중 해제가 발생하지 않게 한다. 폐기 완료 뒤 도착한 콜백은 상태를 바꾸지 못하게 한다.
+- [x] P21-05. static 저장소, executor, AWT/Swing 타이머, 백그라운드 스레드가 컴포넌트를 영구히 붙잡지 않는지 검사한다. 필요한 비동기 연결은 WeakReference와 수명 토큰으로 끊고, 프로세스 공용 localStorage가 BrowserSession을 참조하지 않게 한다.
+- [x] P21-06. finalizer의 호출 시점이나 명시적 dispose만으로 sessionStorage의 GC 요구를 처리하지 않는다. 컴포넌트와 그 세션이 외부 루트 없이 수거 가능한 구조를 만들고, 남은 작업도 유한하게 종료되도록 한다.
+- [x] P21-07. 반복 생성/이동/clean/dispose에서 열린 소켓/스레드/오디오 라인 수와 메모리 참조를 확인한다. WeakReference/ReferenceQueue 확인은 GC의 비결정성을 감안하여 근거를 기록하고, 정확한 특정 시간에 GC가 실행된다고 보장하지 않는다.
+- [x] P21-08. 정리 후 캐시/Storage/원문/이력/이벤트와 유지 대상 설정의 상태를 P01 계약에 대조한다. 자원 정리 검증과 모든 호출 경로의 처리가 끝나면 P21을 완료 처리한다.
+
+### P22. 최종 통합 검증, 사용 문서와 배포 준비
+
+선행 작업: P00~P21. 산출물: 기능별 검증 근거, 사용 예제, 빌드 가능한 독립 JAR, 완료/미완료 인계.
+
+- [x] P22-01. 공개 API 대응표에서 `setUserAgent/getUserAgent`, `setPage/getPage`, `setJavascriptEnabled`, `getContent/setContent`의 초기값/정상/오류/호출 시점/JavaScript 변경 영향 사례를 확인한다.
+- [x] P22-02. `back/back(int)/forward/forward(int)/getHistories`, `refresh/refresh(boolean)`의 경계/복원/분기 이력/리디렉션/force와 캐시 사례를 확인한다.
+- [x] P22-03. `getStatusText/getProgress`, `addHyperlinkListener/removeHyperlinkListener/removeHyperlinkEvents`, `clean/dispose`의 상태 전환/통지/취소/반복 호출 사례를 확인한다.
+- [x] P22-04. `addHeaders/getHeaders/getCookies`, `getLocalStorage/getSessionStorage`의 복사본/대소문자/헤더 덮어쓰기/User-Agent 제외/쿠키 범위/저장소 공유·분리/손상 복구 사례를 확인한다. 상단 메서드에 검증 근거가 누락된 것이 없는지 대조한다.
+- [x] P22-05. 로컬 시험 페이지 하나에 외부 CSS/스크립트/이미지/오디오, const/화살표 함수/Promise, DOM 이벤트/변경, Storage, 링크와 폼을 넣는다. 실제 요청/쿠키/원문 반환/화면 갱신/스크롤/뒤·앞 이동/새로고침/폐기를 끝까지 확인한다.
+- [x] P22-06. HTTP/HTTPS/FTP/클래스패스/특수 주소와 네 MIME, 404/500, 리소스 실패/alt, 비디오 미지원 화면, WebGL/WebGPU를 요청하는 페이지, 다운로드 팝업(첨부 응답, 표시할 수 없는 MIME, `<a download>`)의 통합 사례를 실행한다. SSL 메서드의 하위 클래스 재정의도 함께 확인한다.
+- [ ] P22-07. JRE 6(기본 `C:\Program Files\Java\jdk1.6.0_45` 또는 지정한 JDK 6)에서 실제 실행하여 연결/파싱/렌더링/JavaScript/오디오/저장소를 확인한다. JRE 6의 TLS 지원 범위 때문에 실제 HTTPS 사이트가 실패할 수 있으므로 그 결과와 HTTP 재시도 동작을 따로 기록한다. 더 새 JRE와 최소 대상 JRE의 차이를 기록한다. class 파일 버전 50 확인과 컴파일 통과만으로 JRE 6 실행 검증을 대체하지 않는다.
+- [x] P22-08. `com.sun`/`sun`/Rhino/외부 엔진·JAR, 네이티브 코드(C/C++ 소스, JNI/JNA, 네이티브 라이브러리)와 외부 프로그램 실행 의존성, Java 6 이후 API/문법, 빠진 영어·한국어 Javadoc, 중요한 분기/반복문의 한국어 주석과 파일 인코딩을 검사한다. `tools/`의 각 도구도 같은 기준으로 검사하고, `AGENTS.md`/`README.md`가 있으며 현재 동작과 맞는지 확인한다.
+- [x] P22-09. 크거나 깨진 HTML/CSS/JavaScript/미디어, 순환 DOM/리디렉션/모듈/프레임, 무한 스크립트, 지연 응답과 연속 이동을 확인한다. 각 제한 초과가 명시적인 오류/취소로 끝나고 UI가 반응하는지 검증한다. 완료(2026-11-17), 근거는 모두 JDK 6u45 통합 시험이다: 매우 깊은 중첩·엄청난 요소/규칙 수·리디렉션 순환과 끝없는 사슬·끝없는/욕심 많은 스크립트·메모리 한도를 넘는 응답·느린 응답 뒤의 다음 이동 `RobustnessIntegrationTest`(위 5건; 각 사례마다 EDT 왕복 감시), 깨지거나 빈 파일·종류가 틀린 파일·10만 x 10만 화소를 약속하는 PNG 머리·잘린 PNG·잡음 오디오 `RobustnessIntegrationTest.testBrokenAndOversizedMedia`(새로 추가: 이미지 5개와 오디오 1개가 error 이벤트로 끝나고 올바른 이미지는 load), 디코더 손상 입력(`WebpRobustnessTest`, AVIF 손상 24,000건, `OpusRobustnessTest` 등), 순환 모듈 `ModuleScriptTest.testDuplicateModulesAndCycles`·`ModuleTest.testCyclicDependencies`, 순환 DOM 삽입 거부 `TreeMutationTest.testHierarchyAndNotFoundErrors`, 순환/깊은/많은 프레임 `FrameRenderingTest.testPageThatEmbedsItselfStopsAtTheFirstFrame/testNestingStopsAtTheDepthLimit/testPageHasAtMostSixtyFourFrames`, 지연 응답과 연속 이동 `PendingNavigationIntegrationTest.testRefreshAndQuickNavigationsWinOverALoad/testLateResponseNeverBringsTheOldPageBack`, worker 무한 반복 `WorkerLifecycleTest.testEndlessLoopIsAbortedByTheTaskLimitAndTheWorkerLivesOn`.
+- [ ] P22-10. 렌더링/입력/오디오의 자동 검증 결과와 실제 Swing/OS/오디오 장치에서 확인한 결과를 구분하여 기록한다. 한 계층의 성공을 다른 계층의 실제 동작 근거로 사용하지 않는다.
+- [x] P22-11. README와 사용 예제에 최소 Java 버전, 빌드/실행 명령, JPanel/JScrollPane 사용, 공개 메서드, 비동기 이동, 상태 관찰, SSL 재정의, 다운로드 팝업과 그 대체 방법, 저장소/clean 영향, dispose와 원문 반환 동작, 비디오/3D 가속/WebGL/WebGPU 미지원을 작성한다. 영어 문서를 추가하면 한국어 문서의 동작 설명과 함께 갱신한다.
+- [x] P22-12. 사용자 예제의 모든 메서드/이벤트/타이머도 영어·한국어 Javadoc과 필요한 한국어 설명을 작성한다. 예제가 폐기 동작까지 보여주도록 하고, 예제 실행 때문에 외부 엔진을 필요로 하지 않게 한다.
+- [x] P22-13. 제품 JAR에 실행에 필요한 자체 클래스/리소스만 포함하고 테스트와 `tools/`의 도구는 넣지 않는다. 별도 외부 라이브러리가 없어도 최소 예제가 빌드되고 실행되는지 확인한다. JAR의 클래스패스 HTML과 상대 리소스도 확인한다.
+- [x] P22-14. FEATURE_MATRIX에 실제 검증된 판본/환경/사례와 남은 호환성 차이를 적는다. 미구현이나 설명 없는 건너뜀, 상단 제약과 충돌하는 기능이 남으면 전체 목표는 완료로 표시하지 않는다. 기록 완료(2026-11-17): 기능 표의 계획용 번호(`T-...`/`C-...`)를 실제 시험 클래스 이름으로 바꾸고 인용한 시험 430개가 존재하고 통과하는지, 인용한 제품 클래스가 `src` 에 있는지 대조했으며 낡은 `미구현` 행 74개를 현실에 맞췄다. 14절에 환경·시험 수·남은 호환성 차이를 적었다. 남은 미구현·부분 구현이 있으므로 **전체 목표 완료(P22-16)는 표시하지 않는다**. 기능 표는 구현이 진행될 때마다 계속 갱신한다.
+- [ ] P22-15. PROGRESS에 최종 변경 파일/검증 명령/결과/미해결 작업 번호/필요 환경을 인계한다. 변경 내용을 검토한 뒤 공통 작업 규칙의 형식으로 commit하고 push는 사용자에게 맡긴다.
+- [ ] P22-16. 상단 요구사항의 각 행이 구현 파일과 성공한 검증 사례에 연결되고, 명시된 비디오, 3D 가속/WebGL/WebGPU 예외와 런타임 제약 외의 미완료 목표가 없는지 최종 대조한다. 이 조건과 모든 선행 단계가 충족될 때만 P22 및 전체 개발 완료를 표시한다.
+
+## 중간 실행 목표와 다음 작업 선택
+
+| 실행 목표 | 필요한 단계 | 확인해야 하는 동작 | 완료 판정의 범위 |
+| --- | --- | --- | --- |
+| 빈 Swing 컴포넌트 | P00~P03 | 생성, JScrollPane, 빈 페이지, 기본 설정과 상태 조회 | 컴포넌트 골격 |
+| 정적 HTML 페이지 | P04~P09 및 P11의 링크 처리 | HTTP/클래스패스, 자체 파싱·표시, 링크, 원문과 이력 | 실제 구현한 HTML/CSS 기능 |
+| 자체 JavaScript 페이지 | P11~P15 및 필요한 선행 단계 | ES6 실행, DOM 변경, 입력/이벤트, 원문 보존 | 실제 검증한 언어·DOM 기능 |
+| 저장소·미디어 통합 | P16~P19 | 저장소 공유·분리, MIME, 이미지/오디오, 캐시와 새로고침 | 대상 표에서 검증한 기능 |
+| 요구사항 전체 완료 | P00~P22 | 표준 기능 표, JRE 6 실제 실행과 모든 공개 API | 상단 목표 전체와 명시적 예외 |
+
+다음 AI가 작업을 시작할 때는 실행 목표만 보고 앞 단계를 생략하지 않는다. 예를 들어 `P15-12`가 미완료이고 P15의 이전 항목이 끝났다면, 새 기능을 더하기 전에 통합 페이지의 오류 원인을 확인한다. 파서 문제인지 실행기 문제인지 DOM 연결 문제인지 입력/그리기 문제인지 분리된 검증으로 확인하고, 수정 후 해당 계층과 통합 사례를 다시 검증한다.
+
+`docs/PROGRESS.md`에는 다음 형태로 기록한다. 아래 예시 값은 개발 완료 근거가 아니다.
+
+```text
+현재 작업 번호: P00-01
+완료한 내용: 아직 구현 작업을 시작하지 않음
+변경 파일: 실제 변경한 파일을 기록
+검증 결과: 실제 실행한 명령, 환경, 성공/실패와 확인하지 못한 내용을 기록
+미해결 사항: 실패 입력, 기대 결과, 실제 결과, 원인과 필요한 작업을 기록
+다음 작업 번호: 선행 조건이 충족된 첫 미완료 번호를 기록
+```

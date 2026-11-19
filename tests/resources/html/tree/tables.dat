@@ -1,0 +1,441 @@
+#data
+<table><tr><td>x</td></tr></table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             "x"
+
+#data
+<table><td>a</td><td>b</td></table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             "a"
+|           <td>
+|             "b"
+
+#data
+<table><tr><th>h<tr><td>d</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <th>
+|             "h"
+|         <tr>
+|           <td>
+|             "d"
+
+#data
+<table>x</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     "x"
+|     <table>
+
+#data
+<table> x</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     " x"
+|     <table>
+
+#data
+<table> </table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       " "
+
+#data
+<table><caption>c</caption><tr><td>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <caption>
+|         "c"
+|       <tbody>
+|         <tr>
+|           <td>
+|             "x"
+
+#data
+<table><colgroup><col><col></colgroup><tr><td>x</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <colgroup>
+|         <col>
+|         <col>
+|       <tbody>
+|         <tr>
+|           <td>
+|             "x"
+
+#data
+<table><col>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <colgroup>
+|         <col>
+
+#data
+<table><div>x</div></table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <div>
+|       "x"
+|     <table>
+
+#data
+<table><tr><td><table><tr><td>in</table></table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             <table>
+|               <tbody>
+|                 <tr>
+|                   <td>
+|                     "in"
+
+#data
+<table><thead><tr><th>h</thead><tbody><tr><td>d</tbody><tfoot><tr><td>f</tfoot></table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <thead>
+|         <tr>
+|           <th>
+|             "h"
+|       <tbody>
+|         <tr>
+|           <td>
+|             "d"
+|       <tfoot>
+|         <tr>
+|           <td>
+|             "f"
+
+#data
+<table><form><input></form></table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <input>
+|     <table>
+|       <form>
+
+#data
+<table><input type=hidden>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <input>
+|         type="hidden"
+
+#data
+<table><input type=text>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <input>
+|       type="text"
+|     <table>
+
+#data
+<table><tr></table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+
+#data
+<table><td>a<tr>b</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     "b"
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             "a"
+|         <tr>
+
+#data
+<table><tr><td>a<caption>c</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             "a"
+|       <caption>
+|         "c"
+
+#data
+<table><tr><td><p>a<td>b</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             <p>
+|               "a"
+|           <td>
+|             "b"
+
+#data
+<table><tr><td><b>x</td><td>y</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             <b>
+|               "x"
+|           <td>
+|             "y"
+
+#data
+<table><tr><td>x</table>y
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             "x"
+|     "y"
+
+#data
+<table><tr><td><select><option>a</select></table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             <select>
+|               <option>
+|                 "a"
+
+#data
+<table><select><option>x</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|       <option>
+|         "x"
+|     <table>
+
+#data
+<table><tr><td>a</td>b</tr>
+#document
+| <html>
+|   <head>
+|   <body>
+|     "b"
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             "a"
+
+#data
+<table><caption>a<p>b</caption>c</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     "c"
+|     <table>
+|       <caption>
+|         "a"
+|         <p>
+|           "b"
+
+#data
+<table><thead><td>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <thead>
+|         <tr>
+|           <td>
+|             "x"
+
+#data
+<table></table><table></table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|     <table>
+
+#data
+<table><tr><td>x<tr><td>y</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             "x"
+|         <tr>
+|           <td>
+|             "y"
+
+#data
+<table><colgroup>x</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     "x"
+|     <table>
+|       <colgroup>
+
+#data
+<tbody><tr><td>x
+#document
+| <html>
+|   <head>
+|   <body>
+|     "x"
+
+#data
+<table><b><i>x</table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <b>
+|       <i>
+|         "x"
+|     <table>
+
+#data
+<table> <tr> <td>x</td> </tr> </table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       " "
+|       <tbody>
+|         <tr>
+|           " "
+|           <td>
+|             "x"
+|           " "
+|         " "
+
+#data
+<table><tr><td>a<table><tr><td>b</td></tr></table>c</td></tr></table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             "a"
+|             <table>
+|               <tbody>
+|                 <tr>
+|                   <td>
+|                     "b"
+|             "c"
+
+#data
+<table><tr><td><div>a</td></tr></table>
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             <div>
+|               "a"
+
+#data
+<!DOCTYPE html><p>a<table><tr><td>b
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "a"
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             "b"
