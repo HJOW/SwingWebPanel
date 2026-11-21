@@ -230,20 +230,22 @@ public class WebAudioInterfaceTest {
     }
 
     /**
-     * The names that must not exist: the media stream interfaces, the worklet and the script processor (until a later stage adds it); the factories that are refused say so with
-     * <code>NotSupportedError</code>.
+     * The names that must not exist: the media stream interfaces and the worklet (a later stage adds the worklet); the factories that are refused say so with
+     * <code>NotSupportedError</code>. The script processor and the media element source exist since the output stage (their tests are in <code>WebAudioOutputScriptTest</code> and
+     * <code>MediaElementSourceScriptTest</code>).
      * <p>
-     * 있으면 안 되는 이름: 미디어 스트림 인터페이스, worklet, 스크립트 프로세서(이후 단계가 더할 때까지). 거부하는 팩터리는 <code>NotSupportedError</code> 로 그렇게 알린다.
+     * 있으면 안 되는 이름: 미디어 스트림 인터페이스와 worklet(worklet 은 이후 단계가 더한다). 거부하는 팩터리는 <code>NotSupportedError</code> 로 그렇게 알린다. 스크립트 프로세서와 미디어 요소 원천은
+     * 출력 단계부터 있다(시험은 <code>WebAudioOutputScriptTest</code> 와 <code>MediaElementSourceScriptTest</code> 에 있다).
      */
     public void testExcludedNames() {
-        Check.equal("undefined:undefined:undefined:undefined:undefined:undefined", page.run("[typeof MediaStreamAudioSourceNode, typeof MediaStreamAudioDestinationNode, typeof MediaStreamTrackAudioSourceNode,"
-                + " typeof AudioWorkletNode, typeof AudioWorklet, typeof ScriptProcessorNode].join(':')"), "excluded interfaces");
+        Check.equal("undefined:undefined:undefined:undefined:undefined:function:function", page.run("[typeof MediaStreamAudioSourceNode, typeof MediaStreamAudioDestinationNode, typeof MediaStreamTrackAudioSourceNode,"
+                + " typeof AudioWorkletNode, typeof AudioWorklet, typeof ScriptProcessorNode, typeof MediaElementAudioSourceNode].join(':')"), "excluded interfaces");
         page.run("var ctx = new OfflineAudioContext(1, 128, 44100); var rt = new AudioContext();");
-        Check.equal("NotSupportedError", page.errorOf("ctx.createScriptProcessor(4096, 1, 1)"), "the script processor");
+        Check.equal("no error", page.errorOf("ctx.createScriptProcessor(4096, 1, 1)"), "the script processor exists");
         Check.equal("NotSupportedError", page.errorOf("rt.createMediaStreamDestination()"), "createMediaStreamDestination");
         Check.equal("NotSupportedError", page.errorOf("rt.createMediaStreamSource({})"), "createMediaStreamSource");
         Check.equal("NotSupportedError", page.errorOf("rt.createMediaStreamTrackSource({})"), "createMediaStreamTrackSource");
-        Check.equal("NotSupportedError", page.errorOf("rt.createMediaElementSource(document.body)"), "createMediaElementSource (added by a later stage)");
+        Check.equal("TypeError", page.errorOf("rt.createMediaElementSource(document.body)"), "createMediaElementSource of something that is no media element");
         Check.equal("undefined", page.run("typeof ctx.audioWorklet"), "no audioWorklet");
         rtClose();
     }

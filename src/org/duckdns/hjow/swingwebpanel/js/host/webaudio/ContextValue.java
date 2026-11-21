@@ -1,9 +1,15 @@
 package org.duckdns.hjow.swingwebpanel.js.host.webaudio;
 
+import java.lang.ref.WeakReference;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import org.duckdns.hjow.swingwebpanel.dom.EventTarget;
+import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.AudioDestinationNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementTap;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.OfflineAudioContext;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.OutputRenderDriver;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.decode.AudioDecodeService;
 
@@ -94,6 +100,22 @@ final class ContextValue extends EventTarget {
     boolean sinkNone;
 
     /**
+     * The taps of the media elements that were connected to this context with <code>createMediaElementSource</code>, which are released when the context is closed (the elements stay
+     * bound to their nodes for good and go on playing silently). Any thread may read the list.
+     * <p>
+     * 이 컨텍스트에 <code>createMediaElementSource</code> 로 연결한 미디어 요소의 탭. 컨텍스트를 닫을 때 놓는다(요소는 영구히 자기 노드에 묶인 채 소리 없이 계속 재생된다). 어느 스레드든
+     * 목록을 읽을 수 있다.
+     */
+    private final List<MediaElementTap> taps = new CopyOnWriteArrayList<MediaElementTap>();
+
+    /**
+     * The script object of this context, held weakly: the page list recognizes a context that no script can reach any more (see {@link WebAudioApi#register}).
+     * <p>
+     * 이 컨텍스트의 스크립트 객체(약한 참조). 페이지 목록은 어떤 스크립트도 더는 닿을 수 없는 컨텍스트를 이것으로 알아본다({@link WebAudioApi#register} 참고).
+     */
+    private volatile WeakReference<JsObject> wrapper;
+
+    /**
      * Creates the value of a context.
      * <p>
      * 컨텍스트의 값을 만든다.
@@ -137,6 +159,64 @@ final class ContextValue extends EventTarget {
      */
     RealtimeAudioContext realtime() {
         return engine instanceof RealtimeAudioContext ? (RealtimeAudioContext) engine : null;
+    }
+
+    /**
+     * Returns the driver that plays a real-time context to an output, or null for an offline context.
+     * <p>
+     * 실시간 컨텍스트를 출력으로 재생하는 드라이버를 반환한다. 오프라인 컨텍스트면 null.
+     *
+     * @return the driver or null / 드라이버. 없으면 null
+     */
+    OutputRenderDriver outputDriver() {
+        RealtimeAudioContext r = realtime();
+        return r != null && r.getDriver() instanceof OutputRenderDriver ? (OutputRenderDriver) r.getDriver() : null;
+    }
+
+    /**
+     * Remembers the script object of this context (weakly).
+     * <p>
+     * 이 컨텍스트의 스크립트 객체를 기억한다(약하게).
+     *
+     * @param w the script object / 스크립트 객체
+     */
+    void bindWrapper(JsObject w) {
+        this.wrapper = new WeakReference<JsObject>(w);
+    }
+
+    /**
+     * Tells whether the script object of this context was collected: no script can reach the context any more.
+     * <p>
+     * 이 컨텍스트의 스크립트 객체가 수거되었는지 알려 준다: 어떤 스크립트도 더는 컨텍스트에 닿을 수 없다.
+     *
+     * @return true if the script object is gone / 스크립트 객체가 사라졌으면 true
+     */
+    boolean isUnreachable() {
+        WeakReference<JsObject> w = wrapper;
+        return w != null && w.get() == null;
+    }
+
+    /**
+     * Adds the tap of a media element that was connected to this context.
+     * <p>
+     * 이 컨텍스트에 연결한 미디어 요소의 탭을 더한다.
+     *
+     * @param t the tap / 탭
+     */
+    void addTap(MediaElementTap t) {
+        taps.add(t);
+    }
+
+    /**
+     * Releases the taps of the media elements that were connected to this context (called when the context is closed or the page ends): the elements go on, silently.
+     * <p>
+     * 이 컨텍스트에 연결한 미디어 요소의 탭을 놓는다(컨텍스트를 닫거나 페이지가 끝날 때 부른다): 요소는 소리 없이 계속 진행한다.
+     */
+    void releaseTaps() {
+        // 연결된 요소의 탭을 하나씩 놓는다.
+        for (MediaElementTap t : taps) {
+            t.release();
+        }
     }
 
     /**

@@ -61,7 +61,8 @@ public class RealtimeContextScriptTest {
         page.waitFor("rt.state === 'running'", 5000, "the context runs");
         page.pumpFor(50);
         Check.equal("init:suspended|running", page.run("log.join('|')"), "one event for the change");
-        Check.equal("48000:2:true:0", page.run("[rt.sampleRate, rt.destination.channelCount, rt.baseLatency > 0, rt.outputLatency].join(':')"), "the defaults without a device");
+        // 소리 장치가 없을 때도(무음 출력) 출력 지연은 출력에 쌓아 둔 오디오의 시간(대략 50 ms)이다.
+        Check.equal("48000:2:true:true", page.run("[rt.sampleRate, rt.destination.channelCount, rt.baseLatency > 0, rt.outputLatency >= 0 && rt.outputLatency < 0.2].join(':')"), "the defaults without a device");
         Check.equal("22050", page.run("var r2 = new AudioContext({sampleRate: 22050}); String(r2.sampleRate)"), "the sample rate option");
         Check.equal("true:true:true", page.run("var rI = new AudioContext({latencyHint: 'interactive'}), rB = new AudioContext({latencyHint: 'balanced'}), rP = new AudioContext({latencyHint: 'playback'});"
                 + " var rN = new AudioContext({latencyHint: 0.05}); [rI.baseLatency < rB.baseLatency, rB.baseLatency < rP.baseLatency, rN.baseLatency >= 0.05].join(':')"), "the latency hints order the base latency");
@@ -206,6 +207,7 @@ public class RealtimeContextScriptTest {
         page.run("var rt = new AudioContext(); var ts0 = rt.getOutputTimestamp();");
         Check.equal("true", page.run("String(typeof ts0.contextTime === 'number' && typeof ts0.performanceTime === 'number' && ts0.contextTime <= rt.currentTime)"), "the shape");
         page.waitFor("rt.currentTime > 0.2", 5000, "the context runs");
-        Check.equal("true", page.run("var ts = rt.getOutputTimestamp(); String(ts.contextTime > 0 && ts.contextTime < rt.currentTime && ts.performanceTime >= 0)"), "behind the current time");
+        Check.equal("true", page.run("var ts = rt.getOutputTimestamp(); String(ts.contextTime > 0 && ts.contextTime <= rt.currentTime && ts.contextTime > rt.currentTime - 0.5 && ts.performanceTime >= 0)"),
+                "not after the current time and not far behind it");
     }
 }

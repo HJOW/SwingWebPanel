@@ -16,12 +16,14 @@ import org.duckdns.hjow.swingwebpanel.js.dom.HostObject;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBuffer;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.AudioException;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext;
-import org.duckdns.hjow.swingwebpanel.media.webaudio.ClockRenderDriver;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.OfflineAudioContext;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.OutputRenderDriver;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.PeriodicWave;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.ScriptProcessorNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.WebAudioLimits;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeWarningCallback;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory;
 
 /**
  * The script interfaces of the contexts (Web Audio API 1.1 to 1.3): <code>BaseAudioContext</code> (the clock, the destination, the listener, the state, the factories of all nodes, buffers
@@ -667,17 +669,16 @@ final class ContextApi {
         });
         api.method(proto, "createScriptProcessor", 0, new WebAudioApi.Op() {
             /**
-             * Is not supported yet (the output stage adds <code>ScriptProcessorNode</code>).
+             * Creates a script processor (deprecated, 1.29): <code>createScriptProcessor(bufferSize = 0, numberOfInputChannels = 2, numberOfOutputChannels = 2)</code>.
              * <p>
-             * 아직 지원하지 않는다(출력 단계가 <code>ScriptProcessorNode</code> 를 더한다).
+             * 스크립트 프로세서를 만든다(폐기 예정, 1.29): <code>createScriptProcessor(bufferSize = 0, numberOfInputChannels = 2, numberOfOutputChannels = 2)</code>.
              *
              * @param self this value / this 값
-             * @param args arguments / 인수
-             * @return never / 반환하지 않음
+             * @param args arguments: the buffer size and the numbers of channels / 인수: 버퍼 크기와 채널 수
+             * @return the node / 노드
              */
             public JsValue call(JsValue self, JsValue[] args) {
-                contextOf(self);
-                throw new AudioException(AudioException.Kind.NOT_SUPPORTED, "ScriptProcessorNode is not supported yet.");
+                return createScriptProcessor(contextOf(self), args);
             }
         });
         promiseMethod(proto, "decodeAudioData", 1, new WebAudioApi.Op() {
@@ -856,6 +857,96 @@ final class ContextApi {
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------
+    // 스크립트 프로세서
+    // ---------------------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Implements <code>createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels)</code> (1.29, deprecated): <code>bufferSize</code> 0 lets the implementation pick
+     * (2048), otherwise a power of two from 256 to 16384; the numbers of channels are from 0 to 32, not both 0 (everything else is an <code>IndexSizeError</code>). The handlers of the
+     * <code>audioprocess</code> event run as tasks of the page, two blocks of <code>bufferSize</code> frames behind the audio (see {@link ScriptProcessorNode}).
+     * <p>
+     * <code>createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels)</code> 를 구현한다(1.29, 폐기 예정): <code>bufferSize</code> 0 은 구현이 고르고(2048), 아니면
+     * 256 ~ 16384 의 2 의 거듭제곱이다. 채널 수는 0 ~ 32 이며 둘 다 0 은 안 된다(나머지는 모두 <code>IndexSizeError</code>). <code>audioprocess</code> 이벤트의 핸들러는 페이지의 작업으로
+     * 실행되며 오디오보다 <code>bufferSize</code> 프레임 블록 둘만큼 뒤진다({@link ScriptProcessorNode} 참고).
+     *
+     * @param c    the context / 컨텍스트
+     * @param args the arguments / 인수
+     * @return the node / 노드
+     */
+    private JsValue createScriptProcessor(ContextValue c, JsValue[] args) {
+        int bufferSize = args.length > 0 && !args[0].isUndefined() ? Idl.ulong(args[0]) : 0;
+        int inputs = args.length > 1 && !args[1].isUndefined() ? Idl.ulong(args[1]) : 2;
+        int outputs = args.length > 2 && !args[2].isUndefined() ? Idl.ulong(args[2]) : 2;
+        ScriptProcessorNode node = c.engine().createScriptProcessor(bufferSize, inputs, outputs);
+        NodeValue v = nodes.wrap(c, node);
+        node.setProcessListener(new ScriptProcessing(v));
+        return bridge.toJs(v);
+    }
+
+    /**
+     * The code that the engine runs for each block of a script processor (as a task of the page): it builds the <code>AudioProcessingEvent</code> over the input and the output of the block,
+     * dispatches it at the node, and takes the <code>outputBuffer</code> that the handlers filled back into the engine. Without a listener of the event nothing is built and the output stays
+     * silent.
+     * <p>
+     * 엔진이 스크립트 프로세서의 블록마다 (페이지의 작업으로) 실행하는 코드: 블록의 입력과 출력 위에 <code>AudioProcessingEvent</code> 를 만들어 노드에 전달하고, 핸들러가 채운
+     * <code>outputBuffer</code> 를 엔진으로 되가져간다. 이벤트의 리스너가 없으면 아무것도 만들지 않으며 출력은 무음으로 남는다.
+     */
+    private final class ScriptProcessing implements ScriptProcessorNode.ProcessListener {
+
+        /**
+         * The node that the event is dispatched at.
+         * <p>
+         * 이벤트를 전달할 노드.
+         */
+        private final NodeValue node;
+
+        /**
+         * Creates the code of a node.
+         * <p>
+         * 노드의 코드를 만든다.
+         *
+         * @param node the node / 노드
+         */
+        ScriptProcessing(NodeValue node) {
+            this.node = node;
+        }
+
+        /**
+         * Processes one block: the buffers of the event are the buffers of the block (a script that touches a channel gets its own bytes, a channel that it does not touch costs no copy);
+         * what the output buffer holds when the handlers have run is played, and the buffers are made independent of the block before it goes back to the pool of the node.
+         * <p>
+         * 블록 하나를 처리한다: 이벤트의 버퍼는 블록의 버퍼이다(스크립트가 닿은 채널은 자기 바이트를 얻고 닿지 않은 채널은 복사가 없다). 핸들러가 실행된 뒤 출력 버퍼에 있는 것이 재생되며,
+         * 버퍼는 노드의 풀로 돌아가기 전에 블록에서 독립하게 한다.
+         *
+         * @param inputBuffer  the input of the block, or null / 블록의 입력. 없으면 null
+         * @param outputBuffer the output of the block, silent at first, or null / 블록의 출력. 처음에는 무음. 없으면 null
+         * @param playbackTime the context time at which the output starts to play / 출력이 재생되기 시작하는 컨텍스트 시간
+         */
+        public void process(AudioBuffer inputBuffer, AudioBuffer outputBuffer, double playbackTime) {
+            // 이벤트의 리스너(addEventListener 와 onaudioprocess)가 없거나 페이지가 끝났으면 출력은 무음으로 둔다.
+            if (api.isDisposed() || !node.hasEventListeners("audioprocess")) {
+                return;
+            }
+            AudioBufferValue in = inputBuffer == null ? null : AudioBufferValue.adopt(inputBuffer);
+            AudioBufferValue out = outputBuffer == null ? null : AudioBufferValue.adopt(outputBuffer);
+            AudioProcessingEvent e = new AudioProcessingEvent("audioprocess", false, false, playbackTime, in, out);
+            api.adopt(e, processingProto);
+            try {
+                api.fire(node, e);
+            } finally {
+                // 핸들러가 쓴 출력을 엔진 블록으로 되가져가고, 두 버퍼를 블록에서 독립하게 한다(블록은 곧 재활용된다).
+                if (out != null) {
+                    out.storeInto(outputBuffer);
+                    out.detach();
+                }
+                if (in != null) {
+                    in.detach();
+                }
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------------------------
     // 실시간 컨텍스트
     // ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -1001,18 +1092,20 @@ final class ContextApi {
         });
         api.method(proto, "createMediaElementSource", 1, new WebAudioApi.Op() {
             /**
-             * Is not supported yet (the output stage connects the <code>audio</code> elements).
+             * Creates a source node for the audio of an <code>audio</code> element: from now on the sound of the element goes through the graph, not to the speakers.
              * <p>
-             * 아직 지원하지 않는다(출력 단계가 <code>audio</code> 요소를 연결한다).
+             * <code>audio</code> 요소의 오디오를 위한 원천 노드를 만든다: 이제부터 요소의 소리는 스피커가 아니라 그래프를 거쳐 나간다.
              *
              * @param self this value / this 값
-             * @param args arguments / 인수
-             * @return never / 반환하지 않음
+             * @param args arguments: the element / 인수: 요소
+             * @return the node / 노드
              */
             public JsValue call(JsValue self, JsValue[] args) {
-                contextOf(self);
+                ContextValue c = contextOf(self);
                 Idl.requireArgs(args, 1, "createMediaElementSource", "AudioContext");
-                throw new AudioException(AudioException.Kind.NOT_SUPPORTED, "MediaElementAudioSourceNode is not supported yet.");
+                JsObject options = realm.newObject();
+                options.defineData("mediaElement", args[0], true, true, true);
+                return createNode(self, "MediaElementAudioSourceNode", options);
             }
         });
         String[] refused = {"createMediaStreamSource", "createMediaStreamTrackSource", "createMediaStreamDestination"};
@@ -1069,6 +1162,7 @@ final class ContextApi {
                     throw api.error(e);
                 }
                 HostObject w = bridge.wrap(c);
+                c.bindWrapper(w);
                 w.setPrototypeOf(Ops.getPrototypeFromConstructor(r, newTarget, realtimeProto));
                 return w;
             }
@@ -1098,17 +1192,57 @@ final class ContextApi {
         }
         JsValue rate = Idl.member(dict, "sampleRate");
         float sampleRate = rate.isUndefined() ? RealtimeAudioContext.DEFAULT_SAMPLE_RATE : Idl.flt(rate);
+        // sinkId 는 기본 장치(빈 문자열)이거나 {type: "none"} 이다. 다른 장치는 지원하지 않는다.
+        JsValue sink = Idl.member(dict, "sinkId");
+        boolean none = sink.isUndefined() ? false : parseSink(sink, "Failed to construct 'AudioContext'");
         if (api.isDisposed()) {
             throw new AudioException(AudioException.Kind.INVALID_STATE, "The document is not fully active.");
         }
-        RealtimeAudioContext engine = new RealtimeAudioContext(sampleRate, latency, new ClockRenderDriver("swingwebpanel-audio-render-" + api.nextRenderSerial()));
+        RealtimeAudioContext engine = OutputRenderDriver.createContext(sampleRate, latency, none ? OutputRenderDriver.silentOutputs() : hostOutputs(),
+                "swingwebpanel-audio-render-" + api.nextRenderSerial());
         ContextValue c = new ContextValue(api, engine);
+        c.sinkNone = none;
         api.register(c);
         engine.setTaskSink(api.sink());
         c.destination = nodes.wrap(c, engine.getDestination());
         engine.resume();
         syncLater(c);
         return c;
+    }
+
+    /**
+     * Returns the factory of the outputs that the component chose for the real-time contexts of the page, or null for the system output (Java Sound).
+     * <p>
+     * 컴포넌트가 페이지의 실시간 컨텍스트를 위해 고른 출력의 팩터리를 반환한다. 시스템 출력(Java Sound)이면 null.
+     *
+     * @return the factory or null / 팩터리 또는 null
+     */
+    private OutputFactory hostOutputs() {
+        return api.page().getEnvironment().getWebAudioOutputFactory();
+    }
+
+    /**
+     * Reads a sink identifier of the constructor or of <code>setSinkId</code>: the empty string is the default device (false), <code>{type: "none"}</code> is no output (true); any other
+     * device is a <code>NotSupportedError</code> (the project has one output device, the one that the host chose).
+     * <p>
+     * 생성자나 <code>setSinkId</code> 의 싱크 식별자를 읽는다: 빈 문자열은 기본 장치(false), <code>{type: "none"}</code> 은 출력 없음(true)이다. 다른 장치는
+     * <code>NotSupportedError</code> 이다(프로젝트에는 호스트가 고른 출력 장치 하나뿐이다).
+     *
+     * @param sink the value / 값
+     * @param who  the call for the messages / 메시지에 쓸 호출
+     * @return true for no output / 출력 없음이면 true
+     */
+    private static boolean parseSink(JsValue sink, String who) {
+        if (sink.isObject()) {
+            JsValue type = ((JsObject) sink).get("type");
+            if (type.isUndefined() || !"none".equals(Ops.toString(type))) {
+                throw JsException.typeError(who + ": The provided value is not a valid AudioSinkOptions.");
+            }
+            return true;
+        } else if ("".equals(Ops.toString(sink))) {
+            return false;
+        }
+        throw new AudioException(AudioException.Kind.NOT_SUPPORTED, who + ": the audio output device '" + Ops.toString(sink) + "' is not supported.");
     }
 
     /**
@@ -1156,6 +1290,8 @@ final class ContextApi {
             c.closeRequested = true;
             c.realtime().close();
             c.closeDecoder();
+            // 연결된 미디어 요소는 영구히 노드에 묶인 채 소리 없이 계속 진행하도록 탭을 놓는다.
+            c.releaseTaps();
             api.unregister(c);
         }
         api.postTask(new Runnable() {
@@ -1183,22 +1319,21 @@ final class ContextApi {
      */
     private JsValue setSinkId(final ContextValue c, JsValue[] args) {
         Idl.requireArgs(args, 1, "setSinkId", "AudioContext");
-        boolean none;
-        if (args[0].isObject()) {
-            JsValue type = ((JsObject) args[0]).get("type");
-            if (type.isUndefined() || !"none".equals(Ops.toString(type))) {
-                throw JsException.typeError("Failed to execute 'setSinkId' on 'AudioContext': The provided value is not a valid AudioSinkOptions.");
-            }
-            none = true;
-        } else if ("".equals(Ops.toString(args[0]))) {
-            none = false;
-        } else {
-            throw new AudioException(AudioException.Kind.NOT_SUPPORTED, "Failed to execute 'setSinkId' on 'AudioContext': the audio output device '" + Ops.toString(args[0])
-                    + "' is not supported.");
+        boolean none = parseSink(args[0], "Failed to execute 'setSinkId' on 'AudioContext'");
+        if (api.isDisposed()) {
+            throw api.domError("InvalidStateError", "Failed to execute 'setSinkId' on 'AudioContext': the document is not fully active.");
         }
         final Promises.Deferred d = Promises.create(realm);
         final boolean changed = c.sinkNone != none;
         c.sinkNone = none;
+        OutputRenderDriver driver = c.outputDriver();
+        // 렌더링 드라이버에 새 출력의 팩터리를 알리고, 달라졌으면 돌고 있는 구간을 곧바로 새 출력으로 바꾼다(일시정지 중이면 다음 재개부터 새 출력을 쓴다).
+        if (driver != null) {
+            driver.setOutputFactory(none ? OutputRenderDriver.silentOutputs() : hostOutputs());
+            if (changed) {
+                driver.restart();
+            }
+        }
         api.postTask(new Runnable() {
             /**
              * Fires <code>sinkchange</code> if the sink changed and resolves the promise.
@@ -1229,11 +1364,20 @@ final class ContextApi {
         double performanceTime = 0;
         // 첫 quantum 을 렌더링한 뒤에만 값이 있다. 컨텍스트 시간은 현재 시간보다 앞서지 않는다.
         if (e.getCurrentFrame() > 0) {
-            contextTime = Math.max(0.0, e.getCurrentTime() - e.getBaseLatency() - e.getOutputLatency());
+            OutputRenderDriver driver = c.outputDriver();
+            double now = 0;
             JsValue perf = realm.getGlobalObject().get("performance");
             if (perf.isObject()) {
-                JsValue now = Ops.invoke(realm, perf, "now", Js.NO_ARGS);
-                performanceTime = Ops.toNumber(now);
+                now = Ops.toNumber(Ops.invoke(realm, perf, "now", Js.NO_ARGS));
+            }
+            // 장치로 재생하는 드라이버는 지금 들리는 컨텍스트 시간을 안다. 그 시각과 지금의 차이만큼 페이지 시계를 되돌려 같은 순간의 페이지 시계 값을 만든다.
+            if (driver != null) {
+                OutputRenderDriver.Timestamp ts = driver.getOutputTimestamp();
+                contextTime = Math.max(0.0, ts.getContextTime());
+                performanceTime = Math.max(0.0, now - (System.nanoTime() - ts.getNanoTime()) / 1e6);
+            } else {
+                contextTime = Math.max(0.0, e.getCurrentTime() - e.getBaseLatency() - e.getOutputLatency());
+                performanceTime = now;
             }
         }
         JsObject o = realm.newObject();

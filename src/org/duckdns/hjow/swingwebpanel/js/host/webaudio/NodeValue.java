@@ -54,6 +54,15 @@ final class NodeValue extends EventTarget {
     JsObject assignedCurve;
 
     /**
+     * The media element of a <code>MediaElementAudioSourceNode</code> (the script object that was passed to <code>createMediaElementSource</code>), or null; the node holds the element,
+     * as the <code>mediaElement</code> attribute shows it.
+     * <p>
+     * <code>MediaElementAudioSourceNode</code> 의 미디어 요소(<code>createMediaElementSource</code> 에 넘긴 스크립트 객체). 없으면 null. <code>mediaElement</code> 속성이 보여 주듯
+     * 노드가 요소를 붙잡는다.
+     */
+    JsObject mediaElement;
+
+    /**
      * Creates the value of a node.
      * <p>
      * 노드의 값을 만든다.

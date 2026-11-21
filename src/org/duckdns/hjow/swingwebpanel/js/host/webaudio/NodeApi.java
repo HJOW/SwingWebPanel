@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.duckdns.hjow.swingwebpanel.dom.Element;
+import org.duckdns.hjow.swingwebpanel.dom.Namespaces;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
@@ -19,6 +21,7 @@ import org.duckdns.hjow.swingwebpanel.js.dom.HostObject;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.AnalyserNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBufferSourceNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.AudioDestinationNode;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.AudioException;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.AudioScheduledSourceNode;
@@ -32,9 +35,12 @@ import org.duckdns.hjow.swingwebpanel.media.webaudio.DelayNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.DynamicsCompressorNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.GainNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.IIRFilterNode;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementAudioSourceNode;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementTap;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.OscillatorNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.PannerNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.PeriodicWave;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.ScriptProcessorNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.StereoPannerNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.WaveShaperNode;
 
@@ -81,6 +87,25 @@ final class NodeApi {
          * @return the node / 노드
          */
         AudioNode make(BaseAudioContext engine, JsObject options);
+    }
+
+    /**
+     * Creates the whole node value of a type that needs more than the engine context to be made (the node of a media element connects the element of the page to the graph).
+     * <p>
+     * 엔진 컨텍스트보다 더 많은 것이 있어야 만들 수 있는 형식의 노드 값을 통째로 만든다(미디어 요소의 노드는 페이지의 요소를 그래프에 연결한다).
+     */
+    private interface ContextMaker {
+
+        /**
+         * Creates the node value.
+         * <p>
+         * 노드 값을 만든다.
+         *
+         * @param c       the context / 컨텍스트
+         * @param options the options, null for none / 옵션. 없으면 null
+         * @return the node value / 노드 값
+         */
+        NodeValue make(ContextValue c, JsObject options);
     }
 
     /**
@@ -169,6 +194,13 @@ final class NodeApi {
          * 인터페이스의 프로토타입.
          */
         JsObject proto;
+
+        /**
+         * The creator of the whole node value, or null if {@link #maker} creates the engine node (the usual case).
+         * <p>
+         * 노드 값을 통째로 만드는 쪽. {@link #maker} 가 엔진 노드를 만드는 보통의 경우에는 null.
+         */
+        ContextMaker contextMaker;
 
         /**
          * Creates the description.
@@ -322,8 +354,7 @@ final class NodeApi {
      */
     NodeValue create(ContextValue c, String type, JsObject options) {
         Type t = types.get(type);
-        AudioNode node = t.maker.make(c.engine(), options);
-        NodeValue v = wrap(c, node);
+        NodeValue v = t.contextMaker != null ? t.contextMaker.make(c, options) : wrap(c, t.maker.make(c.engine(), options));
         if (options != null) {
             apply(v, t, options);
         }
@@ -474,6 +505,117 @@ final class NodeApi {
         installScheduledSource();
         installDestination();
         installTypes();
+        installMediaElementSource();
+        installScriptProcessor();
+    }
+
+    /**
+     * Installs <code>ScriptProcessorNode</code> (deprecated; a script cannot construct it, <code>createScriptProcessor</code> is the way): the read only <code>bufferSize</code> and
+     * the <code>onaudioprocess</code> handler. The node is created and wired to its event by {@code ContextApi}.
+     * <p>
+     * <code>ScriptProcessorNode</code> 를 설치한다(폐기 예정. 스크립트가 생성할 수 없고 <code>createScriptProcessor</code> 가 유일한 방법이다): 읽기 전용 <code>bufferSize</code> 와
+     * <code>onaudioprocess</code> 핸들러. 노드의 생성과 이벤트 연결은 {@code ContextApi} 가 한다.
+     */
+    private void installScriptProcessor() {
+        DomBridge.InterfaceInfo info = bridge.defineInterface("ScriptProcessorNode", "AudioNode", NodeValue.class, new String[0]);
+        names.put(ScriptProcessorNode.class, "ScriptProcessorNode");
+        members.attributes(info.getPrototype(), ScriptProcessorNode.class, "ScriptProcessorNode", "a:bufferSize");
+        bridge.getEventHandlers().define(info.getPrototype(), NodeValue.class, new String[] {"audioprocess"});
+    }
+
+    /**
+     * Installs <code>MediaElementAudioSourceNode</code> (1.22): <code>new MediaElementAudioSourceNode(context, {mediaElement})</code> and
+     * <code>AudioContext.createMediaElementSource(element)</code> connect an <code>audio</code> element of the page to the graph of a real-time context: the sound of the element is no
+     * longer played to the speakers, it goes through the graph, with the graph as the clock of the element (see {@code MediaElementTap}). An element can be connected once, for good (a
+     * second node is an <code>InvalidStateError</code>); a <code>video</code> element is a <code>NotSupportedError</code> (the project has no video playback) and anything that is no
+     * media element, or an offline context, is a <code>TypeError</code>. The node holds the element (the read only <code>mediaElement</code>), and the context releases the tap
+     * when it is closed.
+     * <p>
+     * <code>MediaElementAudioSourceNode</code> 를 설치한다(1.22): <code>new MediaElementAudioSourceNode(context, {mediaElement})</code> 와
+     * <code>AudioContext.createMediaElementSource(element)</code> 는 페이지의 <code>audio</code> 요소를 실시간 컨텍스트의 그래프에 연결한다: 요소의 소리는 더는 스피커로 재생되지 않고
+     * 그래프를 거치며, 그래프가 요소의 시계가 된다({@code MediaElementTap} 참고). 요소는 한 번만, 영구히 연결할 수 있다(두 번째 노드는 <code>InvalidStateError</code>).
+     * <code>video</code> 요소는 <code>NotSupportedError</code> 이고(프로젝트에는 비디오 재생이 없다) 미디어 요소가 아닌 것이나 오프라인 컨텍스트는 <code>TypeError</code> 이다.
+     * 노드가 요소를 붙잡고(읽기 전용 <code>mediaElement</code>) 컨텍스트는 닫힐 때 탭을 놓는다.
+     */
+    private void installMediaElementSource() {
+        Type t = define("MediaElementAudioSourceNode", "AudioNode", MediaElementAudioSourceNode.class, new Maker() {
+            public AudioNode make(BaseAudioContext e, JsObject o) {
+                throw new IllegalStateException("the node of a media element is created through its context maker");
+            }
+        }, new String[0], new String[0], new String[] {"mediaElement:x"});
+        t.contextMaker = new ContextMaker() {
+            /**
+             * Connects the element of the options to the graph of the context and creates the node.
+             * <p>
+             * 옵션의 요소를 컨텍스트의 그래프에 연결하고 노드를 만든다.
+             *
+             * @param c       the context / 컨텍스트
+             * @param options the options / 옵션
+             * @return the node value / 노드 값
+             */
+            public NodeValue make(ContextValue c, JsObject options) {
+                return createMediaElementSource(c, required(options, "mediaElement", "MediaElementAudioSourceNode"));
+            }
+        };
+        api.accessor(t.proto, "mediaElement", new WebAudioApi.Op() {
+            /**
+             * Returns the media element of the node.
+             * <p>
+             * 노드의 미디어 요소를 반환한다.
+             *
+             * @param self this value / this 값
+             * @param args arguments / 인수
+             * @return the element / 요소
+             */
+            public JsValue call(JsValue self, JsValue[] args) {
+                NodeValue v = nodeOf(self);
+                if (!(v.node() instanceof MediaElementAudioSourceNode)) {
+                    throw JsException.typeError("Illegal invocation");
+                }
+                return v.mediaElement == null ? Js.NULL : v.mediaElement;
+            }
+        }, null);
+    }
+
+    /**
+     * Connects a media element to the graph of a context and creates its source node.
+     * <p>
+     * 미디어 요소를 컨텍스트의 그래프에 연결하고 그 원천 노드를 만든다.
+     *
+     * @param c       the context / 컨텍스트
+     * @param element the script value of the element / 요소의 스크립트 값
+     * @return the node value / 노드 값
+     */
+    private NodeValue createMediaElementSource(ContextValue c, JsValue element) {
+        if (c.isOffline()) {
+            throw JsException.typeError("Failed to construct 'MediaElementAudioSourceNode': parameter 1 is not of type 'AudioContext'.");
+        }
+        Element el = (Element) DomBridge.targetOf(element, Element.class);
+        boolean media = el != null && Namespaces.HTML.equals(el.getNamespaceURI()) && ("audio".equals(el.getLocalName()) || "video".equals(el.getLocalName()));
+        if (!media) {
+            throw JsException.typeError("Failed to construct 'MediaElementAudioSourceNode': Failed to read the 'mediaElement' property from 'MediaElementAudioSourceOptions': "
+                    + "The provided value is not of type 'HTMLMediaElement'.");
+        }
+        // 비디오는 재생하지 않으므로 요소를 건드리지 않고 거부한다.
+        if ("video".equals(el.getLocalName())) {
+            throw new AudioException(AudioException.Kind.NOT_SUPPORTED, "Failed to construct 'MediaElementAudioSourceNode': video elements are not supported.");
+        }
+        if (api.isDisposed() || c.closeRequested) {
+            throw new AudioException(AudioException.Kind.INVALID_STATE, "Failed to construct 'MediaElementAudioSourceNode': the context is closed or the document is not fully active.");
+        }
+        MediaElementTap tap;
+        try {
+            tap = api.page().connectMediaElement(el, c.engine().getSampleRate());
+        } catch (IllegalStateException e) {
+            throw new AudioException(AudioException.Kind.INVALID_STATE, "Failed to construct 'MediaElementAudioSourceNode': HTMLMediaElement already connected previously to a different"
+                    + " MediaElementSourceNode");
+        } catch (IllegalArgumentException e) {
+            throw new AudioException(AudioException.Kind.NOT_SUPPORTED, "Failed to construct 'MediaElementAudioSourceNode': " + e.getMessage());
+        }
+        NodeValue v = wrap(c, new MediaElementAudioSourceNode(c.engine(), tap));
+        v.mediaElement = (JsObject) element;
+        c.addTap(tap);
+        return v;
     }
 
     /**

@@ -318,6 +318,69 @@ public class MediaElementTapTest {
     }
 
     /**
+     * The conversions between the two common rates (44100 Hz and 48000 Hz, both ways, mono and stereo) deliver the exact length, which is the length of half a second at the new rate, and the
+     * position of the media is half a second at the end.
+     * <p>
+     * 흔한 두 주파수 사이의 변환(44100 Hz 와 48000 Hz, 양방향, 모노와 스테레오)은 새 주파수의 0.5 초 길이인 정확한 길이를 전달하고, 끝에서 미디어의 위치는 0.5 초이다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testTheCommonRatesDeliverTheExactLength() throws Exception {
+        int[][] pairs = {{44100, 48000}, {48000, 44100}};
+        // 두 방향의 변환과 모노, 스테레오를 차례로 확인한다.
+        for (int k = 0; k < pairs.length; k++) {
+            for (int channels = 1; channels <= 2; channels++) {
+                int mediaRate = pairs[k][0];
+                int contextRate = pairs[k][1];
+                MediaElementTap tap = new MediaElementTap(contextRate);
+                RecordingListener l = new RecordingListener();
+                MediaPlayer p = load(tap, l, rampWav(channels, mediaRate, mediaRate / 2));
+                p.play();
+                long expected = (long) contextRate / 2;
+                float[][] got = pullFrames(tap, channels, (int) expected, 10000);
+                Check.equal(expected, got[0].length, "half a second from " + mediaRate + " Hz to " + contextRate + " Hz, " + channels + " channels");
+                l.await("ended", 1);
+                float[][] late = pullFrames(tap, channels, 200, 300);
+                Check.equal(0, late[0].length, "and not a frame more");
+                Check.near(0.5, p.getPosition(), 1e-9, "the position of the media is half a second at the end");
+                p.close();
+            }
+        }
+    }
+
+    /**
+     * The converted audio is the very result of the resampler of the decoding path, from the first frame to the last (the converter is streaming, so the way that the quanta cut the
+     * signal does not matter: the result is bit for bit the same as the conversion of the whole signal at once).
+     * <p>
+     * 변환된 오디오는 디코딩 경로의 리샘플러의 결과 그 자체이다(첫 프레임부터 마지막 프레임까지). 변환기는 스트리밍이므로 quantum 이 신호를 어떻게 나누든 상관없다: 결과는 신호 전체를 한꺼번에
+     * 변환한 것과 비트 단위로 같다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testConvertedAudioIsTheResamplerResultFromTheFirstFrame() throws Exception {
+        int frames = 5000;
+        float[] input = new float[frames];
+        // 입력은 16비트 표본을 32768 로 나눈 값이다.
+        for (int i = 0; i < frames; i++) {
+            input[i] = (short) Math.round(16384 * Math.sin(2 * Math.PI * 440 * i / 44100.0)) / 32768f;
+        }
+        float[] want = org.duckdns.hjow.swingwebpanel.media.webaudio.decode.Resampler.resample(input, 44100, 48000);
+        MediaElementTap tap = new MediaElementTap(48000f);
+        RecordingListener l = new RecordingListener();
+        MediaPlayer p = load(tap, l, sineWav(44100, 440, frames));
+        p.play();
+        float[][] got = pullFrames(tap, 1, want.length, 10000);
+        Check.equal(want.length, got[0].length, "the length of the conversion");
+        // 변환 결과가 참조 결과와 모든 프레임에서 같아야 한다.
+        for (int i = 0; i < want.length; i++) {
+            if (got[0][i] != want[i]) {
+                Check.fail("frame " + i + " of the converted audio is " + got[0][i] + " but the resampler gives " + want[i]);
+            }
+        }
+        p.close();
+    }
+
+    /**
      * Audio that the page may not read is consumed at the normal pace and delivered as silence: the element is not stalled (its position and its end follow the pulls) and the page
      * learns nothing of the samples.
      * <p>

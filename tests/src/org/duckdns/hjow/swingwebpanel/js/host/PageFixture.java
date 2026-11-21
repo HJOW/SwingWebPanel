@@ -646,6 +646,26 @@ public final class PageFixture {
         }
 
         /**
+         * The factory of the outputs of the real-time Web Audio contexts of the page: silent outputs by default, so that a test of a page never makes a sound or opens a device; a test that
+         * wants to see the audio that a context plays sets a recording factory.
+         * <p>
+         * 페이지의 실시간 Web Audio 컨텍스트의 출력 팩터리: 기본은 무음 출력이므로 페이지 시험이 소리를 내거나 장치를 열지 않는다. 컨텍스트가 재생하는 오디오를 보려는 시험은 기록하는
+         * 팩터리를 정한다.
+         */
+        public org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory webAudioOutputs = org.duckdns.hjow.swingwebpanel.media.webaudio.OutputRenderDriver.silentOutputs();
+
+        /**
+         * Returns the factory of the outputs of the real-time Web Audio contexts.
+         * <p>
+         * 실시간 Web Audio 컨텍스트의 출력 팩터리를 반환한다.
+         *
+         * @return the factory / 팩터리
+         */
+        public org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory getWebAudioOutputFactory() {
+            return webAudioOutputs;
+        }
+
+        /**
          * Returns the style resolver.
          * <p>
          * 스타일 리졸버를 반환한다.

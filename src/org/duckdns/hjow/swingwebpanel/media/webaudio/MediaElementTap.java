@@ -21,7 +21,8 @@ import org.duckdns.hjow.swingwebpanel.media.webaudio.decode.Resampler;
  * <code>volume</code> and <code>muted</code> of the element also apply to the audio that enters the graph (a browser does the same: the volume of the element is applied to the audio that it
  * provides to the node).</li>
  * <li><strong>Sample rate.</strong> If the media was recorded at another rate than the context runs at, the pipe converts it with the streaming {@link Resampler} (one instance per
- * channel; the delay of the filter, about 1.5 ms, is not noticeable, and the tail of the converter is delivered when the player closes the pipe at the end of the media).</li>
+ * channel; it takes from the ring only as many frames as the quantum needs, but the filter looks about 65 source frames ahead, so the position of the media leads the audio that
+ * the graph has delivered by about 1.5 ms, which is not noticeable; the tail of the converter is delivered when the player closes the pipe at the end of the media).</li>
  * <li><strong>Cross-origin media</strong> that the page may not read (fetched without the permission of the server): {@link #setOutputAllowed(boolean) the host says so}; the pipe is
  * then drained at the normal pace but the node receives silence, so the element is not stalled and the page learns nothing of the audio.</li>
  * <li><strong>After the node is released</strong> ({@link #release()}, called when the context is closed): the element stays bound to the node for good (a browser cannot restore the
@@ -40,8 +41,9 @@ import org.duckdns.hjow.swingwebpanel.media.webaudio.decode.Resampler;
  * 가져가지 않으면 미디어가 멈춘다).</li>
  * <li><strong>음량과 음소거</strong>는 재생기의 일이다: 재생기가 샘플을 쓰기 전에 요소의 음량(음소거이면 0)을 곱한다. 그래서 요소의 <code>volume</code> 과 <code>muted</code> 는 그래프로
  * 들어가는 오디오에도 적용된다(브라우저도 요소가 노드에 주는 오디오에 요소의 음량을 적용한다).</li>
- * <li><strong>샘플링 주파수.</strong> 미디어가 컨텍스트가 도는 것과 다른 주파수로 녹음되었으면 파이프가 스트리밍 {@link Resampler}(채널마다 인스턴스 하나)로 바꾼다. 필터의 지연은 약
- * 1.5 ms 로 들리지 않으며, 변환기의 꼬리는 미디어가 끝나 재생기가 파이프를 닫을 때 내보낸다.</li>
+ * <li><strong>샘플링 주파수.</strong> 미디어가 컨텍스트가 도는 것과 다른 주파수로 녹음되었으면 파이프가 스트리밍 {@link Resampler}(채널마다 인스턴스 하나)로 바꾼다. quantum 이 필요로 하는
+ * 만큼만 링에서 가져오지만 필터는 원본 프레임을 약 65 개 앞서 보므로, 미디어의 위치는 그래프가 전달한 오디오보다 약 1.5 ms 앞선다(들리지 않는다). 변환기의 꼬리는 미디어가 끝나 재생기가
+ * 파이프를 닫을 때 내보낸다.</li>
  * <li><strong>페이지가 읽을 수 없는 교차 오리진 미디어</strong>(서버의 허가 없이 가져온 것): {@link #setOutputAllowed(boolean) 호스트가 알린다}. 파이프는 그래도 보통 속도로
  * 비워지지만 노드는 무음을 받으므로 요소는 멈추지 않고 페이지는 오디오에 대해 아무것도 알 수 없다.</li>
  * <li><strong>노드를 놓은 뒤</strong>({@link #release()}. 컨텍스트가 닫힐 때 부른다): 요소는 영원히 노드에 묶인 채로 남는다(브라우저도 요소의 보통 출력을 되돌릴 수 없다). 파이프는 그때부터
@@ -520,9 +522,10 @@ public final class MediaElementTap implements MediaElementPcmSource, AudioOutput
             }
             // 탐색으로 큐를 비웠으면 변환기와 쌓아 둔 변환 결과를 버리고 새로 시작한다.
             discardIfFlushed();
-            // 원하는 프레임이 모일 때까지 원본을 가져와 변환한다.
+            // 원하는 프레임이 모일 때까지 원본을 가져와 변환한다. 필요한 만큼만 가져와야 링의 프레임이 그래프가 소비한 만큼만 줄어 요소의 위치가 앞서가지 않는다.
             while (convertedCount < frames) {
-                int got = takeSource();
+                int wanted = (int) Math.ceil((frames - convertedCount) * (double) rate / contextRate) + 2;
+                int got = takeSource(Math.min(CHUNK_FRAMES, wanted));
                 if (got == 0) {
                     break;
                 }
@@ -590,18 +593,19 @@ public final class MediaElementTap implements MediaElementPcmSource, AudioOutput
         }
 
         /**
-         * Takes up to {@link #CHUNK_FRAMES} source frames from the ring into the input arrays as floating point.
+         * Takes up to a number of source frames (at most {@link #CHUNK_FRAMES}) from the ring into the input arrays as floating point.
          * <p>
-         * 링에서 최대 {@link #CHUNK_FRAMES} 개의 원본 프레임을 부동 소수점으로 입력 배열에 가져온다.
+         * 링에서 최대 정해진 수(많아야 {@link #CHUNK_FRAMES})의 원본 프레임을 부동 소수점으로 입력 배열에 가져온다.
          *
+         * @param most the largest number of frames to take / 가져올 최대 프레임 수
          * @return the number of frames taken / 가져온 프레임 수
          */
-        private int takeSource() {
+        private int takeSource(int most) {
             synchronized (lock) {
                 if (!started || closed || queued == 0) {
                     return 0;
                 }
-                int n = Math.min(CHUNK_FRAMES, queued);
+                int n = Math.min(most, queued);
                 convertFrames(input, 0, n);
                 readIndex = (readIndex + n) % capacity;
                 queued -= n;

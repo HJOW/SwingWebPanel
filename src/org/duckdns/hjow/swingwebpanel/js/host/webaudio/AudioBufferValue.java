@@ -290,6 +290,47 @@ final class AudioBufferValue {
     }
 
     /**
+     * Copies what a script wrote into this buffer back into the engine buffer that the value was adopted from: for a channel that a script reached (its bytes are the store) the
+     * samples are decoded into the engine arrays in place; a channel that no script reached already <em>is</em> the array of the engine buffer. The script processor uses it to take the
+     * <code>outputBuffer</code> that an <code>audioprocess</code> handler filled (1.4.3: the content of the output buffer is acquired when the event has been dispatched).
+     * <p>
+     * 스크립트가 이 버퍼에 쓴 것을 값이 넘겨받은 엔진 버퍼로 되돌려 복사한다: 스크립트가 닿은 채널(바이트가 저장소이다)은 표본을 엔진 배열에 제자리에서 풀어 넣고, 스크립트가 닿지 않은 채널은
+     * 이미 엔진 버퍼의 배열 <em>그 자체</em>이다. 스크립트 프로세서가 <code>audioprocess</code> 핸들러가 채운 <code>outputBuffer</code> 를 가져가는 데 쓴다(1.4.3: 출력 버퍼의 내용은
+     * 이벤트 전달이 끝났을 때 가져간다).
+     *
+     * @param target the engine buffer that this value was adopted from / 이 값이 넘겨받은 엔진 버퍼
+     */
+    void storeInto(AudioBuffer target) {
+        // 채널마다 스크립트가 쓴 바이트를 엔진 배열로 풀어 넣는다.
+        for (int c = 0; c < channels; c++) {
+            float[] dst = target.getChannelData(c);
+            if (bytes[c] != null) {
+                Idl.readFloats(bytes[c], dst);
+            } else if (data[c] != dst) {
+                System.arraycopy(data[c], 0, dst, 0, Math.min(length, dst.length));
+            }
+        }
+    }
+
+    /**
+     * Makes the value independent of the engine buffer that it was adopted from: a channel that still shares the array of the engine buffer gets a copy of its own, so that the script
+     * can keep the buffer without seeing the engine reuse the array (the block of a script processor goes back to its pool after the event). Channels that a script reached
+     * have their own bytes already.
+     * <p>
+     * 값이 넘겨받은 엔진 버퍼에서 독립하게 한다: 아직 엔진 버퍼의 배열을 공유하는 채널은 자기만의 복사본을 얻으므로, 스크립트는 엔진이 배열을 재사용하는 것을 보지 않고 버퍼를 간직할 수
+     * 있다(스크립트 프로세서의 블록은 이벤트 뒤에 풀로 돌아간다). 스크립트가 닿은 채널은 이미 자기 바이트를 가졌다.
+     */
+    void detach() {
+        // 엔진 배열을 공유하는 채널은 복사본으로 바꾼다.
+        for (int c = 0; c < channels; c++) {
+            if (data[c] != null) {
+                data[c] = data[c].clone();
+            }
+        }
+        snapshot = null;
+    }
+
+    /**
      * Acquires the content of the buffer (1.4.3): returns an engine buffer with the data of this moment that nobody changes any more. Channels that no script
      * reached are shared with this value and with the other results (they are never written again); channels that a script reached are copied from their bytes.
      * <p>

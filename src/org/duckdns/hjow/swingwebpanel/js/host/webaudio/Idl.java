@@ -433,11 +433,24 @@ final class Idl {
      */
     static float[] fromBytes(byte[] src) {
         float[] out = new float[src.length / 4];
-        // 네 바이트마다 표본 하나를 읽는다.
-        for (int i = 0; i < out.length; i++) {
-            out[i] = Float.intBitsToFloat(readInt(src, i * 4));
-        }
+        readFloats(src, out);
         return out;
+    }
+
+    /**
+     * Converts the little endian bytes of a <code>Float32Array</code> into an existing <code>float[]</code> (no allocation): as many samples as the shorter of the two holds.
+     * <p>
+     * <code>Float32Array</code> 의 리틀 엔디언 바이트를 기존 <code>float[]</code> 에 바꿔 넣는다(할당 없음): 둘 중 짧은 쪽이 담는 만큼의 표본을 넣는다.
+     *
+     * @param src the bytes / 바이트
+     * @param dst the samples that receive the values / 값을 받는 표본
+     */
+    static void readFloats(byte[] src, float[] dst) {
+        int n = Math.min(dst.length, src.length / 4);
+        // 네 바이트마다 표본 하나를 읽는다.
+        for (int i = 0; i < n; i++) {
+            dst[i] = Float.intBitsToFloat(readInt(src, i * 4));
+        }
     }
 
     /**
