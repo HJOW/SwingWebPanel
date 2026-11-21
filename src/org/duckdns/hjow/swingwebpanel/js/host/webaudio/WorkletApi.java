@@ -49,8 +49,10 @@ import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
  * <li><strong><code>audioWorklet.addModule(url, options)</code>.</strong> The address is resolved against the base address of the document (a failure is a rejected promise with
  * <code>SyntaxError</code>); <code>options.credentials</code> is <code>omit</code>, <code>same-origin</code> (the default) or <code>include</code>. The scope fetches the module and
  * everything it imports through the request layer of the component (user agent, headers, cookies, scheme limits, CORS and the MIME type of modules), evaluates it in the worklet
- * realm, and the promise is resolved after the names that the module registered are known to the page, or rejected with <code>AbortError</code> if the fetch, the parsing or the
- * evaluation failed. A module that was added before is not evaluated again. The context of a closed <code>AudioContext</code> rejects with <code>InvalidStateError</code>.</li>
+ * realm, and the promise is resolved after the names that the module registered are known to the page. It is rejected with an <code>AbortError</code> if a module cannot be fetched
+ * (network, scheme, origin policy, MIME type) and with the error itself (a <code>SyntaxError</code>, an error object and no <code>DOMException</code>) if a module has a syntax error or cannot
+ * be linked; an exception that a module throws while it runs, an error of <code>registerProcessor()</code> included, does not reject: it is reported to the console and the promise resolves
+ * (HTML Standard "Worklets"; this is what Chromium does). A module that was added before is not evaluated again. The context of a closed <code>AudioContext</code> rejects with <code>InvalidStateError</code>.</li>
  * <li><strong><code>new AudioWorkletNode(context, name, options)</code>.</strong> The options dictionary is converted as WebIDL says; the name must be registered
  * (<code>InvalidStateError</code> otherwise); the node is configured by <code>numberOfInputs</code>, <code>numberOfOutputs</code> and <code>outputChannelCount</code> (see
  * {@link AudioWorkletNode}); the <code>parameters</code> map is made from the descriptors of the processor and <code>parameterData</code> sets the initial values; the options are
@@ -65,7 +67,7 @@ import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
  * <ul>
  * <li><strong><code>audioWorklet.addModule(url, options)</code>.</strong> 주소는 문서의 기준 주소를 기준으로 해석한다(실패는 <code>SyntaxError</code> 로 거부된 프라미스). <code>options.credentials</code> 는
  * <code>omit</code>, <code>same-origin</code>(기본), <code>include</code> 이다. 스코프가 컴포넌트의 요청 계층(User-Agent, 헤더, 쿠키, 스킴 제한, CORS 와 모듈의 MIME 타입)으로 모듈과 그것이 import 하는
- * 모든 것을 가져와 worklet realm 에서 평가하며, 모듈이 등록한 이름을 페이지가 알게 된 뒤에 프라미스가 resolve 되고, 가져오기, 파싱, 평가가 실패하면 <code>AbortError</code> 로 거부된다. 전에 추가한 모듈은 다시
+ * 모든 것을 가져와 worklet realm 에서 평가하며, 모듈이 등록한 이름을 페이지가 알게 된 뒤에 프라미스가 resolve 된다. 모듈을 가져올 수 없으면(네트워크, 스킴, 오리진 정책, MIME 타입) <code>AbortError</code> 로, 모듈에 구문 오류가 있거나 링크할 수 없으면 그 오류 자체(<code>DOMException</code> 이 아닌 <code>SyntaxError</code> 오류 객체)로 거부된다. 모듈이 실행 중 던지는 예외(<code>registerProcessor()</code> 의 오류 포함)는 거부하지 않고 콘솔에 보고한 채 프라미스가 resolve 된다(HTML Standard "Worklets", Chromium 의 동작). 전에 추가한 모듈은 다시
  * 평가하지 않는다. 닫힌 <code>AudioContext</code> 는 <code>InvalidStateError</code> 로 거부한다.</li>
  * <li><strong><code>new AudioWorkletNode(context, name, options)</code>.</strong> 옵션 사전은 WebIDL 대로 변환한다. 이름은 등록되어 있어야 한다(아니면 <code>InvalidStateError</code>). 노드는
  * <code>numberOfInputs</code>, <code>numberOfOutputs</code>, <code>outputChannelCount</code>(={@link AudioWorkletNode} 참고)로 구성된다. <code>parameters</code> 맵은 프로세서의 설명으로 만들고
@@ -621,6 +623,11 @@ final class WorkletApi implements WorkletHost {
                 public void finished(String errorName, String message) {
                     if (errorName == null) {
                         d.resolve(Js.UNDEFINED);
+                    } else if ("SyntaxError".equals(errorName)) {
+                        // 구문 오류와 링크 오류는 error to rethrow 이므로 DOMException 이 아닌 그 오류 객체로 reject 한다.
+                        d.reject(JsException.syntaxError(message).getValue(realm));
+                    } else if ("TypeError".equals(errorName)) {
+                        d.reject(JsException.typeError(message).getValue(realm));
                     } else {
                         d.reject(api.domError(errorName, message).getValue(realm));
                     }

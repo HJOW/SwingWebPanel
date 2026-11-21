@@ -15,9 +15,9 @@
 | HTML Standard(Living) "Worklets" 장 | https://html.spec.whatwg.org/multipage/worklets.html | WHATWG Living Standard, `last-modified` 2026-11-20 (본문 24222 바이트) | `Worklet.addModule()` 알고리즘, added modules 목록, 모듈 응답 맵, 수명 |
 
 - `https://www.w3.org/TR/worklets-1/` 은 조회 시점에 HTML Standard 의 목차(`https://html.spec.whatwg.org/multipage/`)로 연결되었다(Worklets 가 HTML Standard 로 이동했다). 그래서 위 장을 직접 읽었다.
-- **규격과 다르게 한 점(브리프의 지시를 따름)**: HTML Standard 의 `addModule()` 은 (1) 가져오기 실패는 `AbortError`, (2) **모듈 구문 분석 오류는 그 오류(`SyntaxError`)로 reject**, (3) **평가 중 예외는 프라미스를 reject 하지 않고 콘솔로 보고한 채 resolve** 라고 적는다. 이 구현은 브리프("실패(네트워크, 구문 오류, 평가 중 예외)는 `AbortError` 로 reject")와 실제 Chromium 의 동작(`AbortError: Unable to load a worklet's module.`)에 맞춰 **세 가지 모두 `AbortError`** 이다. 이유는 콘솔에 있다(구문 오류, 던진 오류는 `Uncaught ...` 로 보고). 규격 그대로를 원하면 `WorkletScope.loadModule` 의 두 `catch` 와 `evaluate` 의 반환값만 바꾸면 된다(조정자 판단 요청).
-- 주소를 해석할 수 없으면 `SyntaxError`(규격과 같다), 인수가 없거나 `credentials` 가 잘못되면 거부된 프라미스의 `TypeError`(WebIDL 의 프라미스 반환 연산 규칙).
-- Chromium 의 `third_party/blink/renderer/modules/webaudio/audio_worklet*.cc` 는 이번에 읽지 않았다(규격 본문과 Chromium 의 알려진 동작: `processorerror` 후 영구 무음, 배열 재사용).
+- **`addModule()` 실패의 종류(HTML Standard 와 실제 Chromium 에 맞춤. 20261122-367 에서 조정자 결정으로 고침)**: 처음에는 브리프의 지시("실패는 모두 `AbortError`")대로 만들었으나, 조정자가 이 PC 의 실제 Chromium 156(내장 브라우저, 2026-11-22)에서 `audioWorklet.addModule(blobURL)` 를 직접 실행해 확인한 결과와 HTML Standard 의 알고리즘이 같아서 그쪽으로 바꿨다. 동작: (1) **가져오기 실패**(404, 허용되지 않는 스킴, 교차 오리진 CORS 거부, 모듈 MIME 타입 오류, 가져올 수 없는 import)는 `AbortError`(`DOMException`); (2) **구문 오류**와 **링크 실패**(import 한 이름을 모듈이 export 하지 않음)와 해석할 수 없는 지정자는 "error to rethrow" 이므로 **그 오류 자체**(`DOMException` 이 아닌 `SyntaxError`/`TypeError` 오류 객체)로 reject; (3) **모듈이 실행 중 던지는 예외**(`throw`, 모듈 안의 `registerProcessor` 중복 이름과 생성자 아님 같은 오류 포함)는 **reject 하지 않는다**: 페이지 콘솔에 처리되지 않은 예외(`Uncaught ...`)로 보고하고 프라미스는 resolve 한다(예외 전에 등록한 이름은 등록된 채로 남는다). 모듈은 평가에 이르렀으면(실행 중 던졌어도) 평가한 것으로 쳐서 다시 추가해도 다시 실행하지 않고, 구문 오류/링크 실패/가져오기 실패는 기억하지 않아 다시 추가하면 다시 시도한다(규격의 module map 은 실패도 기억한다).
+- 주소를 해석할 수 없으면 `SyntaxError` **`DOMException`**(규격과 같다. (2)의 오류 객체와 다르다), 인수가 없거나 `credentials` 가 잘못되면 거부된 프라미스의 `TypeError`(WebIDL 의 프라미스 반환 연산 규칙).
+- **확인한 것과 하지 못한 것**: Chromium 156 에서 확인한 것은 정상 모듈 resolve, 구문 오류의 `SyntaxError` reject, 평가 중 예외 resolve(콘솔 보고), 모듈 안의 `registerProcessor` 중복 이름/`{}` 인수 resolve, 404 `AbortError` 이다(조정자의 실행 결과이며 이 작업자가 직접 실행한 것이 아니다). **링크 실패(없는 export 의 import)와 해석할 수 없는 지정자(`import 'bare'`)를 `SyntaxError`/`TypeError` 로 reject 하는 것은 HTML Standard("error to rethrow")를 따른 것이고 Chromium 에서 확인하지 않았다.** 링크 실패는 엔진이 던진 `SyntaxError`(메시지가 `The requested module '...'` 로 시작)로 식별한다(`WorkletScope.isLinkError`). Chromium 의 `audio_worklet*.cc` 는 이번에도 읽지 않았다.
 
 ## 2. 구현 파일
 
@@ -48,7 +48,7 @@ JavaScript 쪽(`src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/`):
 | `media/webaudio/AudioWorkletNodeTest` | 13 | 엔진 노드를 Java 프로세서로: 이득, 사인 생성기, active source flag, 입력 null, 파라미터(a/k-rate, 램프), 채널 구성, 검증, 실패와 통지, 건너뜀, 지연 생성, 파라미터 구동 |
 | `js/host/webaudio/worklet/AudioWorkletRenderTest` | 3 | 이득, 사인(`currentFrame`/`sampleRate`), bypass(규격 예제) 의 렌더링 PCM 이 닫힌 식 |
 | `.../AudioWorkletParametersTest` | 5 | a-rate/k-rate 램프의 프레임별 값, `AudioParamMap` 인터페이스 전체, `parameterData`, 명목 범위, 출력 연결로 파라미터 구동 |
-| `.../AudioWorkletModulesTest` | 7 | `addModule` 의 해결 시점, 오류 이름(`AbortError`/`SyntaxError`/`TypeError`/`InvalidStateError`), 한 번만 평가, 상대 import/순환/절대 주소, `registerProcessor` 의 오류 전부(15개 호출), 생성자 오류와 속성, 전역 범위의 구성 |
+| `.../AudioWorkletModulesTest` | 8 | `addModule` 의 해결 시점, 실패의 종류(가져오기 실패 `AbortError`, 구문 오류/링크 실패는 그 `SyntaxError`/`TypeError` 오류 객체로 reject, 실행 중 예외는 resolve + 콘솔 보고, 닫힌 컨텍스트 `InvalidStateError`), 한 번만 평가, 상대 import/순환/절대 주소, `registerProcessor` 의 오류 전부(15개 호출), 생성자 오류와 속성, 전역 범위의 구성 |
 | `.../AudioWorkletMessagingTest` | 7 | 양방향 메시지, 구조화 복제(Map/Date/객체), 전달한 `ArrayBuffer`, 순서(200건), 오프라인 렌더링 전에 보낸 메시지가 첫 quantum 전에 전달, 닫힌 포트, `start()` 규칙, 옵션 객체 |
 | `.../AudioWorkletFailureTest` | 6 | `process`/생성자의 예외 → `processorerror`(메시지, 파일, 줄)와 영구 무음과 이웃 무영향, `process` 없음/삭제, 무한 반복의 중단, 반환 값과 마이크로태스크 순서, 메시지 핸들러의 예외 |
 | `.../AudioWorkletChannelsTest` | 4 | 입력 둘 출력 둘, 채널 수(입력이 따라가는 것, `explicit`, 연결 없음, `outputChannelCount`), 출력이 매번 0 으로 채워짐, 얼린 배열과 재사용과 전달 뒤 재생성 |
@@ -92,7 +92,7 @@ JavaScript 쪽(`src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/`):
 | 명령 | 결과 |
 | --- | --- |
 | `sh scripts/pkgtest.sh wd1 "media" "media/webaudio" --filter org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNodeTest` | 13 통과 / 0 실패 |
-| `sh scripts/pkgtest.sh wd1 "js dom html css net storage core content layout render download media @root" "js/host/webaudio" --filter org.duckdns.hjow.swingwebpanel.js.host.webaudio` | **110 통과 / 0 실패 / 0 건너뜀**(약 46 초): C1 의 64건 + 이번 46건. C1 의 `WebAudioInterfaceTest` 두 단언은 worklet 노출에 맞게 고쳤다 |
+| `sh scripts/pkgtest.sh wd1 "js dom html css net storage core content layout render download media @root" "js/host/webaudio" --filter org.duckdns.hjow.swingwebpanel.js.host.webaudio` | **137 통과 / 0 실패 / 0 건너뜀**(약 59 초; coordinator 의 rebase 로 C2b 시험이 더해진 뒤): C1/C2b 의 90건 + 이번 47건. worklet 시험만(`...js.host.webaudio.worklet`)은 47 통과. 같은 명령을 다른 작업자가 컴퓨터를 쓰는 동안 돌렸을 때 C1 의 시간 민감한 시험 `WebAudioLifecycleTest`(`testResultsAreTasksOfThePage`, `testConsoleAndErrorsFromHandlers`, `testDisposeCancelsAnOfflineRendering`)가 번갈아 한두 건 실패했다가 다시 돌리면 통과했다(worklet 과 무관한 타이밍 시험, 부하 때문으로 보인다. 원인을 파고들지는 않았다) |
 | `media.webaudio` 전체(엔진 A1/A2/B/C2a + 새 13건, pkgtest 컴파일 뒤 `TestRunner --scan ... --filter org.duckdns.hjow.swingwebpanel.media.webaudio`) | 344 통과 / 0 실패 / 0 건너뜀 |
 | `sh build.sh` | OK(엔진/브라우저 경계 검사 통과) |
 | `StaticStateAuditTest`, `ThreadCreationAuditTest`, `JarContentTest`, `BrowserJarsTest`(빌드한 JAR 위에서) | 각각 통과 |
@@ -111,6 +111,7 @@ JavaScript 쪽(`src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/`):
 | `ProcessorRunner`: 전달되어 분리된 배열을 다시 만들지 않음 | `AudioWorkletChannelsTest.testTheFrozenArraysAndTheirReuse` |
 | `ProcessorRunner`: 출력을 호출마다 0 으로 채우지 않음 | `AudioWorkletChannelsTest.testOutputsAreZeroFilledForEveryCall` |
 | `registerProcessor`: 이름 중복 검사 제거 | `AudioWorkletModulesTest.testRegisterProcessorErrors` |
+| `WorkletScope.evaluate`: 모듈 평가 중 예외를 resolve 하지 않고 reject(`AbortError`) | `AudioWorkletModulesTest.testAnExceptionWhileTheModuleRunsResolves`(20261122-367) |
 | 모듈 import 를 리디렉션 뒤 최종 주소가 아니라 처음 주소로 해석 | `AudioWorkletComponentTest.testAModuleThroughTheRequestLayer` |
 | 실시간에서 `tryLock(2 ms)` 대신 `lock()`(블로킹) | `AudioWorkletRealtimeTest.testABusyWorkletDoesNotHoldTheRenderingThread`("skipped for 1.0 quanta", 150 기대) |
 
@@ -141,7 +142,7 @@ JavaScript 쪽(`src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/`):
 - 소리 장치가 있는 컴퓨터에서 `latencyHint`/버퍼 크기에 따른 worklet 의 끊김 빈도.
 
 한계와 규격/참조와의 차이(기능 표 제약에 옮길 것):
-1. `addModule` 실패는 모두 `AbortError`(규격: 구문 오류는 그 오류로 reject, 평가 중 예외는 resolve). 1절.
+1. `addModule` 실패의 종류는 1절대로 HTML Standard 와 Chromium 에 맞췄다. 남은 차이: 실패한 모듈 가져오기를 기억하지 않는다(규격의 module map 은 기억한다); 링크 실패의 식별이 엔진의 메시지 접두사에 기댄다.
 2. 실패한 모듈 가져오기를 캐시하지 않는다(규격의 module map 은 실패도 기억한다): 다시 호출하면 다시 시도한다. 같은 URL 은 realm 의 모듈 맵 덕에 한 번만 평가한다.
 3. `credentials: "omit"` = `same-origin`. `[SecureContext]` 미강제.
 4. worklet 전역에 `Event`/`EventTarget` 등 DOM 이벤트 핵심 인터페이스가 함께 보인다(규격은 `AudioWorkletGlobalScope` 에 노출하지 않는다). `window`, `document`, 타이머, 요청 API 는 없다.
@@ -161,7 +162,7 @@ JavaScript 쪽(`src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/`):
 | 기능 ID | 요구사항 | 규격/판본 | 구현 클래스 | 검증 사례 | 지원 상태 | 제약 |
 | --- | --- | --- | --- | --- | --- | --- |
 | WAU-09a | `AudioWorkletNode` 엔진 노드(입력/출력 수, `outputChannelCount` 규칙, 이름 있는 파라미터, active source flag, 실패 뒤 영구 무음, 지연 생성, 건너뜀) | Web Audio API 1.0 REC 1.32.3, 1.5.3 | `media.webaudio.{AudioWorkletNode,WorkletProcessorException}` | `AudioWorkletNodeTest` 13 | 검증 완료(엔진) | 프로세서는 렌더링 스레드에서 호출(`Processor` 가 공급) |
-| WAU-09b | `AudioWorklet.addModule`(공통 요청 계층, ES2015 모듈 그래프 선취득, 한 번만 평가), `AudioWorkletGlobalScope`(`registerProcessor`, `currentFrame`/`currentTime`/`sampleRate`, `console`→페이지 콘솔), `AudioWorkletNode`/`AudioWorkletProcessor`(`process`, `parameterDescriptors`, `AudioParamMap`, `port`, `onprocessorerror`), 렌더링 스레드 실행과 한도 | 1.32, HTML Standard Worklets(2026-11-20) | `js.host.webaudio.{WorkletApi,worklet.*}`, `js.worker.ChannelPorts` | `js/host/webaudio/worklet/` 시험 46건 | 검증 완료(자동. 장치 청취는 P22-10) | 6절 1~10(`addModule` 실패 모두 `AbortError`, 실시간에서 realm 이 바쁘면 그 quantum 무음, `credentials: omit`=`same-origin`, `SecureContext` 미강제, 전역에 DOM 이벤트 인터페이스, worklet 의 미처리 거부 미보고) |
+| WAU-09b | `AudioWorklet.addModule`(공통 요청 계층, ES2015 모듈 그래프 선취득, 한 번만 평가; 실패: 가져오기 실패 `AbortError`, 구문 오류/링크 실패는 그 `SyntaxError` 로 reject, 실행 중 예외는 resolve 하고 콘솔 보고), `AudioWorkletGlobalScope`(`registerProcessor`, `currentFrame`/`currentTime`/`sampleRate`, `console`→페이지 콘솔), `AudioWorkletNode`/`AudioWorkletProcessor`(`process`, `parameterDescriptors`, `AudioParamMap`, `port`, `onprocessorerror`), 렌더링 스레드 실행과 한도 | 1.32, HTML Standard Worklets(2026-11-20), Chromium 156 에서 `addModule` 오류 동작 확인(2026-11-22, 조정자) | `js.host.webaudio.{WorkletApi,worklet.*}`, `js.worker.ChannelPorts` | `js/host/webaudio/worklet/` 시험 47건 | 검증 완료(자동. 장치 청취는 P22-10) | 6절 1~10(링크 실패의 `SyntaxError` reject 는 Chromium 미확인, 실패한 가져오기를 기억하지 않음, 실시간에서 realm 이 바쁘면 그 quantum 무음, `credentials: omit`=`same-origin`, `SecureContext` 미강제, 전역에 DOM 이벤트 인터페이스, worklet 의 미처리 거부 미보고) |
 
 ## 9. 다음 단계(D2)를 위한 메모
 
@@ -177,6 +178,6 @@ JavaScript 쪽(`src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/`):
 3. **ARCHITECTURE.md**: 패키지 표에 `js.host.webaudio.worklet`(오디오 worklet 의 realm 과 스레드)와 새 공개 클래스 `js.worker.ChannelPorts`; 스레드 모델에 "오디오 worklet: 컨텍스트마다 worklet 스레드(`swingwebpanel-audio-worklet-N`, 데몬, 모듈 평가와 realm 작업)와 realm 공정 잠금. `process()` 는 오디오 컨텍스트의 렌더링 스레드가 호출(실시간은 `tryLock` 2 ms, 못 쥐면 그 quantum 무음 + 콘솔 경고, 오프라인은 기다리며 쌓인 메시지를 먼저 실행)"; "자원 소유 목록과 정리 담당(P21-01)" 표에 한 행: `WorkletScope`(realm, worklet 스레드, 작업 큐) ← 정리 담당 `WebAudioApi.unregister`/`dispose()` → `WorkletApi.contextClosed`/`dispose()` → `WorkletScope.dispose()`.
 4. **README(루트)**: 사용 설명에 "`audioWorklet.addModule()` 로 `AudioWorkletProcessor` 모듈을 불러와 `AudioWorkletNode` 로 쓸 수 있다. 프로세서는 렌더링 스레드에서 도는 인터프리터 코드이므로 단순한 프로세서 일곱 개 안팎이 48 kHz 실시간 한계이고 스크립트가 바쁘면 그 quantum 은 무음이다(콘솔에 경고)"를 적어 주세요. 새 공개 Java API 는 없다(`SwingWebPanel` 의 공개 API 는 변하지 않았다).
 5. **기존 파일 변경 목록(C2b 와의 병합 조율)**: `js/host/webaudio/WebAudioApi.java` 4곳(2절), `tests/.../js/host/webaudio/WebAudioInterfaceTest.java` 두 단언과 표 4행(2절). C2b 가 같은 파일을 고치면 충돌은 작은 줄 단위이다. `js/worker/ChannelPorts.java` 는 새 파일이다.
-6. **규격 판단**: 1절의 `addModule` 실패 이름(모두 `AbortError`)이 브리프/Chromium 과 HTML Standard 가 다르다. 규격대로(구문 오류는 그 오류로 reject, 평가 중 예외는 resolve)로 바꿀지 판단해 주세요(`WorkletScope.loadModule`/`evaluate` 한 곳씩).
+6. **규격 판단**: 처리 완료. 조정자가 결정한 대로 HTML Standard/Chromium 에 맞췄다(1절, 20261122-367). 링크 실패와 해석할 수 없는 지정자의 reject 는 규격만 따랐고 Chromium 에서 확인하지 못했다.
 7. **`scripts/**`**: 변경 요청 없음. `scripts/pkgtest.sh` 설명의 시험 실행 예에 위 9절의 소스 패키지 목록을 메모해 주면 좋다.
 8. **다음 브리프**: C2b(실시간 장치 연결, `ScriptProcessorNode` 바인딩, `<audio>` 어댑터)가 끝나면 D2(P25-08 최종 검증과 문서). worklet 이 장치 출력과 함께 도는 확인(P22-10, 사람)을 `docs/progress/media-play.md` "미확인" 표에 더해 주세요: 오디오 worklet 프로세서(사인, 이득)가 실제 스피커로 들리는지, 프로세서가 바쁠 때 끊김이 어떻게 들리는지, 7 개 안팎의 프로세서에서 끊김 없이 도는지.

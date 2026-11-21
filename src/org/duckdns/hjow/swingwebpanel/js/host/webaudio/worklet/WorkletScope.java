@@ -15,6 +15,7 @@ import org.duckdns.hjow.swingwebpanel.dom.EventTarget;
 import org.duckdns.hjow.swingwebpanel.dom.ListenerErrorHandler;
 import org.duckdns.hjow.swingwebpanel.js.ConsoleRecord;
 import org.duckdns.hjow.swingwebpanel.js.ConsoleRecordHook;
+import org.duckdns.hjow.swingwebpanel.js.ErrorKind;
 import org.duckdns.hjow.swingwebpanel.js.ExecutionLimits;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -95,12 +96,15 @@ public final class WorkletScope {
     public interface Completion {
 
         /**
-         * Called when the module and its imports were evaluated, or when that failed.
+         * Called when the module and its imports were evaluated (also when the module threw while it ran: that is reported to the console and the promise resolves), or when the call failed.
          * <p>
-         * 모듈과 그것이 import 하는 것을 평가했거나 실패했을 때 불린다.
+         * 모듈과 그것이 import 하는 것을 평가했을 때(모듈이 실행 중 던졌어도 마찬가지: 콘솔에 보고하고 프라미스는 resolve 된다), 또는 호출이 실패했을 때 불린다.
          *
-         * @param errorName the name of the <code>DOMException</code> that rejects the promise (<code>AbortError</code>), or null on success / 프라미스를 거부하는
-         *                  <code>DOMException</code> 의 이름(<code>AbortError</code>). 성공하면 null
+         * @param errorName how the promise is rejected, or null if it resolves: <code>AbortError</code> (a fetch failure: network, scheme, origin policy, MIME type) and
+         *                  <code>InvalidStateError</code> are <code>DOMException</code> names; <code>SyntaxError</code> (a syntax error or a module that cannot be linked) and
+         *                  <code>TypeError</code> (a specifier that cannot be resolved) are plain error objects of that kind / 프라미스를 어떻게 reject 하는지. resolve 되면 null.
+         *                  <code>AbortError</code>(가져오기 실패: 네트워크, 스킴, 오리진 정책, MIME 타입)와 <code>InvalidStateError</code> 는 <code>DOMException</code> 이름이고,
+         *                  <code>SyntaxError</code>(구문 오류, 링크할 수 없는 모듈)와 <code>TypeError</code>(해석할 수 없는 지정자)는 그 종류의 일반 오류 객체이다
          * @param message   the message of the error, null on success / 오류 메시지. 성공하면 null
          */
         void finished(String errorName, String message);
@@ -944,6 +948,12 @@ public final class WorkletScope {
             report(ConsoleRecord.Kind.HOST_ERROR, "Failed to load the audio worklet module " + key + ": " + e.getMessage(), key, 0, 0);
             finish(done, "AbortError", "Unable to load a worklet's module.");
             return;
+        } catch (JsException e) {
+            // 구문 오류와 해석할 수 없는 지정자는 "error to rethrow" 이다: 그 오류(SyntaxError, TypeError)로 reject 한다.
+            reportException(e);
+            String name = errorNameOf(e);
+            finish(done, name == null ? "AbortError" : name, name == null ? "Unable to load a worklet's module." : messageOf(e));
+            return;
         } catch (RuntimeException e) {
             reportException(e);
             finish(done, "AbortError", "Unable to load a worklet's module.");
@@ -960,31 +970,47 @@ public final class WorkletScope {
                 return;
             }
             ensureRealm();
-            boolean ok = evaluate(key);
-            if (ok) {
+            String[] rejection = evaluate(key);
+            // 평가에 이르렀으면(평가 중 예외로 끝났어도) 모듈은 평가한 것으로 친다. 같은 모듈은 다시 평가하지 않는다.
+            if (rejection == null) {
                 loadedKeys.addAll(texts.keySet());
             }
-            finish(done, ok ? null : "AbortError", ok ? null : "Unable to load a worklet's module.");
+            finish(done, rejection == null ? null : rejection[0], rejection == null ? null : rejection[1]);
         } finally {
             lock.unlock();
         }
     }
 
     /**
-     * Loads, links and evaluates a module in the realm with the lock held; a failure is reported to the console.
+     * Loads, links and evaluates a module in the realm with the lock held (the HTML Standard step "run a module script" after "fetch a worklet script graph"). What fails <em>before</em> the
+     * module runs, a syntax error or a module that cannot be linked (an import of a name that the module does not export), is an <em>error to rethrow</em>: the promise of
+     * <code>addModule()</code> is rejected with that error. An exception that the module throws <em>while it runs</em> (a <code>throw</code>, an error of <code>registerProcessor()</code> in the
+     * module) does not reject the promise: it is reported to the console as an uncaught exception and the promise resolves (the names that were registered before the exception stay registered).
      * <p>
-     * 모듈을 잠금을 쥔 채 realm 에서 불러오고, 링크하고, 평가한다. 실패는 콘솔에 보고한다.
+     * 모듈을 잠금을 쥔 채 realm 에서 불러오고, 링크하고, 평가한다(HTML Standard 의 "fetch a worklet script graph" 뒤 "run a module script" 단계). 모듈이 실행되기 <em>전에</em> 실패하는 것, 곧 구문 오류와
+     * 링크할 수 없는 모듈(모듈이 export 하지 않은 이름의 import)은 <em>error to rethrow</em> 이다: <code>addModule()</code> 의 프라미스는 그 오류로 reject 된다. 모듈이 <em>실행되는 동안</em> 던지는 예외
+     * (<code>throw</code>, 모듈 안의 <code>registerProcessor()</code> 오류)는 프라미스를 reject 하지 않는다: 처리되지 않은 예외로 콘솔에 보고하고 프라미스는 resolve 된다(예외 전에 등록한 이름은 등록된 채로 남는다).
      *
      * @param key the key of the module / 모듈의 키
-     * @return true if the module and its imports were evaluated / 모듈과 import 한 것을 평가했으면 true
+     * @return null if the promise resolves; otherwise the name of the error that rejects it and its message / 프라미스가 resolve 되면 null. 아니면 reject 하는 오류의 이름과 메시지
      */
-    private boolean evaluate(String key) {
+    private String[] evaluate(String key) {
         JsRealm r = realm;
         ExecutionLimits limits = r.getLimits();
         limits.setMaxSteps(ExecutionLimits.DEFAULT_MAX_STEPS);
         limits.setMaxTimeMillis(host.getPage().getEnvironment().getTaskTimeLimitMillis());
+        ModuleGraph graph;
         try {
-            ModuleGraph graph = r.loadModule(key, moduleTexts.get(key));
+            graph = r.loadModule(key, moduleTexts.get(key));
+        } catch (RuntimeException e) {
+            // 불러오는 단계(파싱, 의존 모듈 해석)의 실패는 error to rethrow 이다.
+            if (!disposed) {
+                reportException(e);
+            }
+            String name = e instanceof JsException ? errorNameOf((JsException) e) : null;
+            return new String[] {name == null ? "AbortError" : name, name == null ? "Unable to load a worklet's module." : messageOf((JsException) e)};
+        }
+        try {
             graph.evaluate();
             limits.beginTask();
             try {
@@ -992,13 +1018,58 @@ public final class WorkletScope {
             } finally {
                 limits.endTask();
             }
-            return true;
+            return null;
         } catch (RuntimeException e) {
-            if (!disposed) {
-                reportException(e);
+            if (disposed) {
+                return null;
             }
-            return false;
+            reportException(e);
+            // 링크 단계의 실패(import 한 이름을 export 하지 않음)는 error to rethrow 이므로 reject 한다. 모듈이 실행 중 던진 예외는 resolve 한다.
+            if (e instanceof JsException && isLinkError((JsException) e)) {
+                return new String[] {"SyntaxError", messageOf((JsException) e)};
+            }
+            return null;
         }
+    }
+
+    /**
+     * Tells whether an exception is a failure of linking the modules: the engine throws a <code>SyntaxError</code> whose message starts with "The requested module" when an import
+     * names something that the imported module does not export (or exports ambiguously). A <code>SyntaxError</code> that the script of a module throws has another message.
+     * <p>
+     * 예외가 모듈 링크의 실패인지 알려 준다: import 가 가져온 모듈이 export 하지 않는(또는 모호하게 export 하는) 이름을 가리키면 엔진이 "The requested module" 로 시작하는 메시지의
+     * <code>SyntaxError</code> 를 던진다. 모듈의 스크립트가 던지는 <code>SyntaxError</code> 는 메시지가 다르다.
+     *
+     * @param e the exception / 예외
+     * @return true for a link error / 링크 오류이면 true
+     */
+    private static boolean isLinkError(JsException e) {
+        String m = e.getErrorMessage();
+        return e.getKind() == ErrorKind.SYNTAX_ERROR && m != null && m.startsWith("The requested module '");
+    }
+
+    /**
+     * Returns the name of the error that rejects the promise for an exception of the loading, or null if the exception is no <code>SyntaxError</code> or <code>TypeError</code>.
+     * <p>
+     * 불러오기 단계의 예외에 대해 프라미스를 reject 하는 오류의 이름을 반환한다. <code>SyntaxError</code> 나 <code>TypeError</code> 가 아니면 null.
+     *
+     * @param e the exception / 예외
+     * @return <code>SyntaxError</code>, <code>TypeError</code> or null / <code>SyntaxError</code>, <code>TypeError</code>, 또는 null
+     */
+    private static String errorNameOf(JsException e) {
+        ErrorKind k = e.getKind();
+        return k == ErrorKind.SYNTAX_ERROR ? "SyntaxError" : k == ErrorKind.TYPE_ERROR ? "TypeError" : null;
+    }
+
+    /**
+     * Returns the message of an exception without the name of its kind.
+     * <p>
+     * 예외의 메시지를 종류의 이름 없이 반환한다.
+     *
+     * @param e the exception / 예외
+     * @return the message / 메시지
+     */
+    private static String messageOf(JsException e) {
+        return e.getErrorMessage() != null ? e.getErrorMessage() : String.valueOf(e.getMessage());
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------
@@ -1313,10 +1384,7 @@ public final class WorkletScope {
         int col = 0;
         if (e instanceof JsException) {
             JsException je = (JsException) e;
-            message = je.hasValue() ? JsException.describe(je.getValue(realm)) : je.getErrorMessage();
-            if (message == null) {
-                message = String.valueOf(je.getMessage());
-            }
+            message = describe(je);
             // 던진 위치(런타임 오류)가 있으면 그것을, 없으면 구문 오류의 위치를 쓴다.
             source = sourceOf(je);
             line = je.getThrowLine() > 0 ? je.getThrowLine() : je.getLine();
@@ -1326,6 +1394,31 @@ public final class WorkletScope {
         }
         reportException(e);
         return new WorkletProcessorException(message, source, line, col);
+    }
+
+    /**
+     * Describes an exception of the script as text, as the console shows it: the description of the thrown value (<code>Error: boom</code>), or, for an error that the engine or the host threw
+     * without a value (a failed <code>registerProcessor()</code>, a syntax error), the name of its kind and its message (<code>TypeError: ...</code>).
+     * <p>
+     * 스크립트의 예외를 콘솔이 보여 주는 문자열로 기술한다: 던진 값의 설명(<code>Error: boom</code>), 또는 엔진이나 호스트가 값 없이 던진 오류(실패한 <code>registerProcessor()</code>, 구문 오류)는 종류의 이름과
+     * 메시지(<code>TypeError: ...</code>).
+     *
+     * @param je the exception / 예외
+     * @return the text / 문자열
+     */
+    private String describe(JsException je) {
+        try {
+            if (je.hasValue()) {
+                return JsException.describe(je.getValue(realm));
+            }
+        } catch (RuntimeException ignored) {
+            // realm 이 아직 없거나 값을 만들 수 없으면 아래의 메시지로 대신한다.
+        }
+        String m = je.getErrorMessage();
+        if (m == null) {
+            return String.valueOf(je.getMessage());
+        }
+        return je.getKind() == null ? m : je.getKind().getErrorName() + ": " + m;
     }
 
     /**
@@ -1356,13 +1449,7 @@ public final class WorkletScope {
             report(ConsoleRecord.Kind.SCRIPT_ABORTED, "Script aborted: " + e.getMessage(), "", 0, 0);
         } else if (e instanceof JsException) {
             JsException je = (JsException) e;
-            String message;
-            try {
-                message = je.hasValue() ? JsException.describe(je.getValue(realm)) : je.getErrorMessage();
-            } catch (RuntimeException ignored) {
-                message = null;
-            }
-            report(ConsoleRecord.Kind.UNCAUGHT_EXCEPTION, "Uncaught " + (message == null ? String.valueOf(je.getMessage()) : message), sourceOf(je),
+            report(ConsoleRecord.Kind.UNCAUGHT_EXCEPTION, "Uncaught " + describe(je), sourceOf(je),
                     je.getThrowLine() > 0 ? je.getThrowLine() : je.getLine(), je.getThrowLine() > 0 ? je.getThrowColumn() : je.getColumn());
         } else {
             report(ConsoleRecord.Kind.HOST_ERROR, "Internal error of the audio worklet: " + e, "", 0, 0);
