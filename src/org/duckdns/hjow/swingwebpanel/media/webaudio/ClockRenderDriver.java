@@ -42,6 +42,13 @@ public final class ClockRenderDriver implements RealtimeAudioContext.Driver, Run
     public static final int MAX_CATCH_UP_QUANTA = 64;
 
     /**
+     * The prefix of the name of every rendering thread of a real-time context; a name that does not start with it gets it.
+     * <p>
+     * 실시간 컨텍스트의 모든 렌더링 스레드 이름의 접두사. 접두사가 없는 이름에는 붙인다.
+     */
+    public static final String THREAD_NAME_PREFIX = "swingwebpanel-audio-render-";
+
+    /**
      * The name of the rendering thread.
      * <p>
      * 렌더링 스레드의 이름.
@@ -108,7 +115,8 @@ public final class ClockRenderDriver implements RealtimeAudioContext.Driver, Run
         if (threadName == null) {
             throw new IllegalArgumentException("threadName must not be null");
         }
-        this.threadName = threadName;
+        // 제품의 모든 스레드는 소유자를 알 수 있는 접두사로 시작해야 하므로 접두사가 없으면 붙인다.
+        this.threadName = threadName.startsWith(THREAD_NAME_PREFIX) ? threadName : THREAD_NAME_PREFIX + threadName;
     }
 
     /**
