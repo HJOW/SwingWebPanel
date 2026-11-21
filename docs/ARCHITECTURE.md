@@ -141,6 +141,7 @@ bat 는 MS949(현재는 ASCII 만 사용), sh/java/md 는 UTF-8 이다.
 | `tools/vogen` | Unicode `VerticalOrientation.txt`(UAX #50)에서 세로쓰기 글자 방향 표를 생성(P10-03-e). 입력 판본 Unicode 18.0.0, 조회 2026-11-17. 사용법은 `tools/vogen/AGENTS.md`, `README.md` |
 | `tools/uicheck` | 실제 Swing 창(JFrame+JScrollPane+SwingWebPanel 또는 예제 창)을 띄우고 단계(열기/스크롤/클릭/뒤·앞/새로고침/폐기)를 실행하며 `java.awt.Robot` 으로 실제 화면 스크린샷을 저장(P09-08-b-2, P22-10). 기본은 AWT 이벤트 큐로 클릭하고 `--realmouse` 는 OS 마우스를 쓴다. 사용법은 `tools/uicheck/AGENTS.md`, `README.md`, 결과는 `docs/progress/uicheck.md` |
 | `tools/brotlidict` | RFC 7932 부록 A/B 의 텍스트에서 Brotli 정적 사전(122,784바이트)·변환 표·문맥 조회표를 읽고 RFC 가 적은 CRC-32 와 대조한 뒤 `media.font.BrotliData` 를 생성(P10-08-e) | `tools/brotlidict/AGENTS.md`, `README.md` |
+| `tools/hrtfgen` | MIT KEMAR compact 자료(`tools/webfetch` 로 받은 `compact.zip`)를 귀마다 최소 위상 커널 + 지연으로 바꿔 제품 자원 `media/webaudio/dsp/kemar-compact.hrtf` 를 생성(P25 A2). 저자 표기 조건과 원본 URL·조회일은 도구 문서와 README 에 있음 | `tools/hrtfgen/AGENTS.md`, `README.md` |
 
 (도구가 추가되면 이 표에 갱신한다.)
 
@@ -480,3 +481,4 @@ P20-01 에서 더한 것의 소유 영역: `js/host/LegacyWebApi`(`window.event`
 - **채널 믹스**: 기존 `media.audio.ChannelMixer`(디코딩 결과를 스테레오로 줄이는 용도)는 재사용하지 않고 규격 4.4/4.5절 행렬을 `ChannelMixing` 에 구현했다.
 - 도구 목록은 변경 없음(`tools/webfetch` 로 규격 조회). A2 에서 `tools/hrtfgen`(HRTF 자료 변환)이 추가될 예정이다. 상세 `docs/progress/webaudio.md`.
 - **디코딩(P25-05, `media.webaudio.decode`)**: `AudioBufferDecoder`(바이트 → P18 디코더(`AudioDecoders.open`, 시그니처 판별) → float → 채널별 `Resampler`(Kaiser 창 sinc 다상, 정지 대역 100 dB) → `AudioBuffer`)와 `AudioDecodeService`(인스턴스마다 데몬 스레드 풀 `swingwebpanel-audio-decode-N`, 유휴 5초 뒤 종료, 정적 상태 없음, 콜백은 호출자가 준 `Executor`(문서 큐용), 취소/닫기/한도). 스레드가 하나이면 요청 순서, 둘 이상이면 순서 비보장(규격이 정하지 않음).
+- **A2 노드와 JAR 리소스(P25-04)**: `media.webaudio` 에 `WaveShaperNode`(2x/4x 과표본화, Kaiser 반대역 필터), `ConvolverNode`(지연 없는 분할 FFT 합성곱), `DynamicsCompressorNode`(Chromium 설계를 옮김, BSD 고지 유지), `AnalyserNode`, `PannerNode`/`AudioListener`(equalpower, HRTF), `MediaElementAudioSourceNode`(순수 Java 쪽, `<audio>` 어댑터는 C 단계)가 추가됐다. 제품 JAR 에 **비자바 리소스 `media/webaudio/dsp/kemar-compact.hrtf`(약 381 KB)가 처음으로 들어간다**(`build.sh` 가 복사; `scripts/pkgtest.sh` 도 같이 복사하도록 고쳤다). HRTF 자료를 못 읽으면 패너는 equalpower 로 되돌아간다.

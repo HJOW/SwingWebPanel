@@ -48,6 +48,9 @@ for p in $TESTP; do
   done
 done
 "$JAVAC" -encoding UTF-8 -source 1.6 -target 1.6 -g -cp "$B/classes" -sourcepath "tests/src${PATHSEP}engine/tests/src" -d "$B/test-classes" @"$B/test-sources.txt" || exit 1
+# 소스 트리에 둔 비 java 제품 리소스(예: HRTF 자료 media/webaudio/dsp/kemar-compact.hrtf)를 build.sh 처럼 클래스 경로 루트로 복사한다.
+(cd src && find . -type f ! -name '*.java' -exec cp --parents {} "../$B/classes/" \; ) 2>/dev/null
+(cd engine/src && find . -type f ! -name '*.java' -exec cp --parents {} "../../$B/classes/" \; ) 2>/dev/null
 # 엔진 모듈의 비 java 리소스(javax.script 제공자 등록 파일 등)와 시험 입력 자료를 클래스 경로 루트로 복사한다.
 (cd engine/resources 2>/dev/null && find . -type f -exec cp --parents {} "../../$B/classes/" \; ) 2>/dev/null
 (cd engine/tests/resources 2>/dev/null && find . -type f -exec cp --parents {} "../../../$B/test-classes/" \; ) 2>/dev/null

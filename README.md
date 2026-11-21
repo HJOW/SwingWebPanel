@@ -226,6 +226,11 @@ Invocable inv = (Invocable) engine;                  // Compilable 도 구현
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 패키지 구성, 데이터 흐름, 캐시/수명/진행률 구조 |
 | [docs/PROGRESS.md](docs/PROGRESS.md) | 진행 기록, 검증 결과, 미해결 사항, 다음 작업 |
 
+## 제3자 자료와 고지
+
+- **HRTF 자료(Web Audio `PannerNode` 의 HRTF 모드)**: MIT KEMAR 더미 헤드 측정 자료(compact 세트), Bill Gardner 와 Keith Martin, MIT Media Lab Machine Listening Group, 1994, <https://sound.media.mit.edu/resources/KEMAR.html>. Copyright 1994 by the MIT Media Laboratory. 자료를 쓸 때 저자를 표기하면 사용 제한 없이 무료로 쓸 수 있다는 조건으로 제공된 자료이며, 이 프로젝트는 그것을 `tools/hrtfgen` 으로 변환한 자원 `media/webaudio/dsp/kemar-compact.hrtf` 를 제품 JAR 에 넣습니다(원본 compact.zip 은 시험의 독립 기준으로 `tests/resources/kemar/` 에만 있습니다).
+- **DynamicsCompressorNode**: Chromium(Blink)의 압축기 설계를 Java 로 옮겼으므로 해당 클래스(`DynamicsCompressorKernel.java`)에 Chromium 의 BSD 3-clause 고지를 그대로 유지합니다.
+
 ## License
 
 Copyright 2026 HJOW
