@@ -21,7 +21,7 @@ import org.duckdns.hjow.swingwebpanel.media.webaudio.OfflineAudioContext;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.PeriodicWave;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.WebAudioLimits;
-import org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCallback;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeWarningCallback;
 
 /**
  * The script interfaces of the contexts (Web Audio API 1.1 to 1.3): <code>BaseAudioContext</code> (the clock, the destination, the listener, the state, the factories of all nodes, buffers
@@ -773,7 +773,20 @@ final class ContextApi {
         byte[] bytes = data.getData();
         data.detach();
         try {
-            c.decoder().decode(bytes, null, c.engine().getSampleRate(), new DecodeCallback() {
+            c.decoder().decode(bytes, null, c.engine().getSampleRate(), new DecodeWarningCallback() {
+                /**
+                 * Reports on the console of the page that the audio data was damaged or cut off and that the buffer holds only what could be decoded (the specification of 1.1.2 recommends a warning
+                 * for developers; the promise still resolves, as the decoder returns what it decoded). It is called just before {@link #onSuccess(AudioBuffer)}, in the same task of the page.
+                 * <p>
+                 * 오디오 데이터가 손상되었거나 잘려서 버퍼가 디코딩할 수 있었던 만큼만 담고 있다는 경고를 페이지의 콘솔에 보고한다(1.1.2 는 개발자를 위한 경고를 권고한다. 디코더가
+                 * 디코딩한 만큼을 돌려주므로 프라미스는 그대로 resolve 된다). {@link #onSuccess(AudioBuffer)} 직전에 같은 페이지 작업에서 불린다.
+                 *
+                 * @param message the warning of the decoder / 디코더의 경고
+                 */
+                public void onWarning(String message) {
+                    realm.getConsole().message("warn", "decodeAudioData: " + message);
+                }
+
                 /**
                  * Resolves the promise with the decoded buffer and calls the success callback.
                  * <p>

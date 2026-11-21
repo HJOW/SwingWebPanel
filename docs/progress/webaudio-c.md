@@ -1,6 +1,6 @@
 # WEBAUDIO-C 작업 기록 (P25 JavaScript 바인딩과 오프라인 렌더링/디코딩의 연결, C1 단계)
 
-이 문서는 WEBAUDIO-C1 작업자의 기록이다. 작업 번호 대역은 `20261122-170` ~ `199` 이다(이번에 170~174 를 썼다). 앞 단계의 기록: `docs/progress/webaudio.md`(A1/A2, 엔진), `docs/progress/webaudio-b.md`(디코딩 서비스).
+이 문서는 WEBAUDIO-C1 작업자의 기록이다. 작업 번호 대역은 `20261122-170` ~ `199` 이다(이번에 170~175 를 썼다. 175 는 B2 병합 뒤의 후속: 7절). 앞 단계의 기록: `docs/progress/webaudio.md`(A1/A2, 엔진), `docs/progress/webaudio-b.md`(디코딩 서비스).
 조정자만 고치는 문서(`AGENTS.md`, `docs/PROGRESS.md`, `docs/FEATURE_MATRIX.md`, `docs/ARCHITECTURE.md`, `scripts/**`, 루트 `README.md`)에 대한 요청은 맨 아래 "조정자 요청"에 모았다.
 
 범위(C1): 순수 Java 엔진(`media.webaudio`) 위의 **JavaScript 바인딩**(`js.host.webaudio`)과 오프라인 렌더링/디코딩/컨텍스트 수명의 연결, 실시간 `AudioContext` 의 **JS 쪽 형태**(장치 출력과 `ScriptProcessorNode`, `<audio>` 어댑터는 C2). 기준 규격은 Web Audio API 1.0 권고안(2021-06-17, https://www.w3.org/TR/2021/REC-webaudio-20210617/ , `tools/webfetch` 로 2026-11-22 에 다시 내려받아 1.1(BaseAudioContext), 1.2(AudioContext), 1.3(OfflineAudioContext), 1.4(AudioBuffer, "acquire the content")를 읽었다).
@@ -24,9 +24,9 @@ JavaScript 쪽(`src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/`, 새 패�
 | `OfflineRender` | 오프라인 렌더링 스레드(`swingwebpanel-audio-offline-N`), 일시 중단/재개/완료/취소 |
 | `Promises`, `OfflineAudioCompletionEvent`, `AudioProcessingEvent` | 프라미스 도우미, 두 이벤트 클래스 |
 
-기존 파일에 넣은 연결(조정자가 다른 작업자와 조율할 수 있도록 목록): `js/host/WindowGlobals.java` 3곳(필드 1개, `install()` 끝에 `WebAudioApi.install(page)` 1줄, `cancelRequests()` 에 `webAudio.dispose()` 4줄). 다른 기존 파일은 고치지 않았다.
+기존 파일에 넣은 연결(조정자가 다른 작업자와 조율할 수 있도록 목록): `js/host/WindowGlobals.java` 3곳(필드 1개, `install()` 끝에 `WebAudioApi.install(page)` 1줄, `cancelRequests()` 에 `webAudio.dispose()` 4줄). 다른 기존 파일은 고치지 않았다. (후속 175 는 이 패키지의 `ContextApi.java` 한 파일만 고쳤다.)
 
-시험(`tests/src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/`): 도우미 `WebAudioPage`(스위트 아님), `WebAudioInterfaceTest` 7, `OfflineRenderingTest` 10, `OfflineContextTest` 6, `AudioBufferScriptTest` 5, `DecodeAudioDataTest` 6, `RealtimeContextScriptTest` 8, `WebAudioLifecycleTest` 8, `WebAudioComponentTest` 5(실제 `SwingWebPanel` + `TestHttpServer`) (합계 55건).
+시험(`tests/src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/`): 도우미 `WebAudioPage`(스위트 아님), `WebAudioInterfaceTest` 7, `OfflineRenderingTest` 10, `OfflineContextTest` 6, `AudioBufferScriptTest` 5, `DecodeAudioDataTest` 6, `RealtimeContextScriptTest` 8, `WebAudioLifecycleTest` 8, `WebAudioComponentTest` 5(실제 `SwingWebPanel` + `TestHttpServer`), `DecodeDamagedDataTest` 9(후속 175, 7절) (합계 64건).
 
 ## 2. 설계 결정
 
@@ -59,6 +59,7 @@ REC 1.4.3 과의 **차이**: REC 는 가져오는 순간 앞서 `getChannelData(
 
 ### 2.5 `decodeAudioData`
 `ContextValue` 마다 `AudioDecodeService` 하나(처음 부를 때 만든다). 스크립트 단계: 호출 자체의 실패(받는 이가 컨텍스트가 아님, 인수 누락/형식, 콜백이 함수가 아님)는 **reject 된 프라미스**(WebIDL 의 프라미스 반환 연산 규칙; `TypeError`), 닫힌 컨텍스트는 `InvalidStateError`, 이미 분리된 `ArrayBuffer` 는 `DataCloneError`(오류 콜백도 자기 작업에서 부른다), 그 밖은 `ArrayBuffer` 를 분리하고 바이트를 서비스에 넘긴다(복사 없음). 서비스가 다른 스레드에서 디코딩하고 컨텍스트 표본율로 리샘플링한 결과를 `Executor`(= `api.postTask`)를 통해 **페이지 작업으로** 전달하고, 그 작업에서 프라미스를 resolve 하고 성공 콜백을 부른다(성공 콜백이 프라미스 반응보다 먼저: 반응은 작업 뒤 마이크로태스크). 실패는 `EncodingError`(`DOMException`)로 reject 하고 오류 콜백에 같은 객체를 준다. 콜백이 던진 예외는 페이지에 보고하며 프라미스를 방해하지 않는다. 컨텍스트를 `close()` 하거나 페이지가 끝나면 서비스를 닫는다(대기 요청은 콜백 없이 취소).
+**잘리거나 손상된 파일(후속 175, B2 병합 뒤)**: 서비스는 디코딩한 만큼의 버퍼로 `onSuccess` 를 부르며, 파일이 약속한 길이보다 짧거나 디코더가 손상을 알렸으면 그 직전에 같은 페이지 작업에서 `DecodeWarningCallback.onWarning(String)` 을 부른다. 바인딩은 이 경고를 **페이지 콘솔에 `warn` 수준으로** 보고한다(문구 `decodeAudioData: ` + 디코더의 경고, 예: `...cut off: 9860 of the 16000 frames that the file announces were decoded`; 컴포넌트에서는 `ConsoleEvent` 의 `Level.WARN`, 문서 URL 은 페이지, 리스너는 EDT). 1.1.2 가 권고하는 "손상됐지만 디코딩을 계속했을 때 개발자에게 경고" 이다. 프라미스와 성공 콜백은 평소처럼 resolve/호출된다(부분 결과도 성공). 프레임이 하나도 없으면(머리 안에서 자른 파일, 데이터 청크가 없는 파일) 경고 없이 `EncodingError` 로 reject 한다.
 
 ### 2.6 `OfflineAudioContext`
 생성자 두 형식(사전: `numberOfChannels` 기본 1, `length`/`sampleRate` 필수; 인수 셋). `startRendering()` 은 스레드 `swingwebpanel-audio-offline-N`(데몬, 우선순위 보통-1)을 시작하고, 스레드는 quantum 을 연달아 렌더링하다가 일시 중단 지점(`suspend(time)` 의 quantum 올림 프레임)에서 페이지에 알리고 `resume()` 을 기다린다. 그 동안 스크립트가 그래프를 바꾼다(제어 메시지는 다음 quantum 시작에 적용되므로 새 값은 중단한 quantum 의 첫 프레임부터 들린다: `testSuspendAndChangeTheGraph`). 상태: `suspended` → (`startRendering` 호출 즉시) `running` → (일시 중단 때) `suspended` → `closed`(끝). 끝나면 페이지 작업 하나에서 `closed` 로 바꾸고 `statechange` 를 발생시키고 프라미스를 resolve 하며, **별도 작업**에서 `complete`(`OfflineAudioCompletionEvent`, `renderedBuffer` 는 프라미스가 준 객체)를 발생시킨다. 순서는 `statechange(running)`, `statechange(closed)`, 프라미스 반응, `complete`, `oncomplete`(`testStatesAndOrder`). `suspend` 오류: 양자화한 프레임이 음수이거나 현재 이전/같음이거나 길이 이상이거나 이미 예약됨 → `InvalidStateError`(reject). 렌더링 스레드는 스크립트를 부르지 않고 `postTask` 로만 알린다. 페이지가 끝나면 `cancel()`(플래그 + 인터럽트)으로 아무에게도 알리지 않고 끝낸다.
@@ -100,7 +101,7 @@ REC 1.4.3 과의 **차이**: REC 는 가져오는 순간 앞서 `getChannelData(
 3. 컨텍스트는 페이지가 끝나거나 `close()`/렌더링 완료까지 목록에 남는다(GC 의 시점에 기대지 않는다). 실시간 컨텍스트는 6 개, 오프라인은 16 개/메모리 2^25 표본이다. 닫지 않고 버린 실시간 컨텍스트는 자기 스레드를 페이지가 끝날 때까지 쥔다. 오프라인 컨텍스트는 만들 때 결과 전체를 할당한다(엔진 A1 설계).
 4. 기본 표본율 48000 고정(장치를 묻지 않는다). `outputLatency` 는 0. `getOutputTimestamp().performanceTime` 은 호출 시점의 `performance.now()` 이다(실제 출력 시점의 추정이 아니다).
 5. `sinkId` 는 기본 장치만(결정 e). `{type:"none"}` 은 상태만 바꾸고 이 단계에서 달라지는 소리는 없다(원래 소리가 없다). 1.1 작업 초안의 `onerror`, `AudioPlaybackStats`, `AudioContextOptions.renderSizeHint` 는 구현하지 않았다. `renderQuantumSize` 속성은 있다(값 128).
-6. `decodeAudioData` 의 한계는 B 단계 기록 그대로이다: 채널 셋 이상은 P18 디코더가 스테레오로 다운믹스, 24비트 이상/float 는 16비트로 반올림, 잘린 Ogg/FLAC 은 `EncodingError`(B2 가 P18 쪽을 개선 중이며 `AudioDecodeService` 의 시그니처는 그대로).
+6. `decodeAudioData` 의 채널/정밀도 한계는 **B2 병합으로 해소되었다**(후속 175 에서 JS 경로로 확인, 7절): 채널은 파일의 수(최대 32, 33 은 `EncodingError`)이고 24비트 정수와 float 는 정확한 값으로 디코딩되며(1 을 넘는 float 도 깎지 않음), 잘린/손상된 파일은 디코딩한 만큼 성공하고 경고가 콘솔에 닿는다. **남은 한계(B2 의 정책이 그대로 JS 에 보인다)**: 경고는 디코더가 잘림을 알아볼 때만 온다 — 머리가 길이를 알리는 FLAC 네이티브, 그리고 손상을 감지하는 Vorbis/Ogg FLAC/FLAC 의 손상. 잘린 WAV, 잘린 Ogg Vorbis/Opus, MP3, ADTS AAC 는 짧은 정상 파일과 구별되지 않아 **경고 없이 더 짧게** resolve 한다(7.3절의 표). Opus 의 float 정밀도는 libopus 와 약 0.3 LSB 다르다(B2 10.5절). 채널 순서는 B2 10.4절의 결정(WAVEFORMATEXTENSIBLE 마스크 순서)을 따른다.
 7. `OfflineAudioContext.suspend(time)` 은 quantum 경계로 올림한다(규격). 같은 quantum 안의 두 번째 예약은 `InvalidStateError`. `resume()` 이 일시 중단이 아닌 때(렌더링 중)에 불리면 바로 resolve 하고 아무것도 하지 않는다.
 8. 스크립트가 `AudioListener` 의 파라미터를 노드 출력으로 구동하면 한 quantum 늦는다(엔진 A1 한계 5.3-4).
 9. `PannerNode.panningModel = "HRTF"` 를 처음 정하면 페이지 스레드가 HRTF 자료를 읽는다(약 60 ms, A2 6.4절 8).
@@ -118,10 +119,62 @@ REC 1.4.3 과의 **차이**: REC 는 가져오는 순간 앞서 `getChannelData(
 
 ## 6. 체크박스 후보 (체크는 조정자 몫)
 
-- **P25-05**: 이 단계로 항목의 요구 중 **JavaScript 노출까지 끝났다**: `createBuffer`/`AudioBuffer` 생성자와 `getChannelData`/`copyFromChannel`/`copyToChannel`(1.4), 자체 디코더를 재사용하는 `decodeAudioData`(Promise 와 콜백 형식, `ArrayBuffer` 분리, `DataCloneError`/`EncodingError`, 컨텍스트 표본율로의 리샘플링, 문서 큐로 전달, 취소), acquire 규칙. B 단계가 남긴 "채널 3개 이상과 24비트 이상 정밀도"(B2, P18 쪽)가 끝나면 **체크 가능**하다고 본다(항목 본문은 그 한계를 요구하지 않으나 B 기록이 완료 조건으로 적었다). 판단은 조정자에게 맡긴다.
+- **P25-05**: 이 단계로 항목의 요구 중 **JavaScript 노출까지 끝났다**: `createBuffer`/`AudioBuffer` 생성자와 `getChannelData`/`copyFromChannel`/`copyToChannel`(1.4), 자체 디코더를 재사용하는 `decodeAudioData`(Promise 와 콜백 형식, `ArrayBuffer` 분리, `DataCloneError`/`EncodingError`, 컨텍스트 표본율로의 리샘플링, 문서 큐로 전달, 취소), acquire 규칙. B 단계가 남긴 "채널 3개 이상과 24비트 이상 정밀도"는 B2 가 병합되었고 후속 175 가 JS 경로(`DecodeDamagedDataTest`)로 확인했으므로(5.1 은 6채널, 24비트 FLAC 7.1 은 8채널과 24비트 정밀도, 합성 24비트/float WAV 는 정확한 값, 32채널까지, 잘린/손상 파일의 경고) **체크 가능**하다고 본다. 판단은 조정자에게 맡긴다.
 - **P25-07**: **미완료로 유지**(C2): 실시간 출력(`SourceDataLine`), `latencyHint` 의 버퍼 크기, 장치 지연, 출력 장치/`sinkId`, 여러 컨텍스트의 라인 공유, `<audio>` 연결, 이동/clean/dispose 때 오디오 라인 정리는 C2. 이 단계에서 끝난 것: `OfflineAudioContext`(`startRendering`/`complete`/`suspend`/`resume`), 컨텍스트 수/버퍼 한도, 상태 전이와 `statechange`, 이동/clean/dispose/스크립트 끔 때의 컨텍스트·렌더링 스레드·디코딩 정리(P21 연결).
 - **P25-02**: C1 로 "렌더링은 별도 오디오 스레드에서"(실시간 `AudioContext` 의 스레드 `swingwebpanel-audio-render-N` 와 오프라인 스레드 `swingwebpanel-audio-offline-N`)가 충족되었다(시계 드라이버). 장치로 내보내는 것은 C2 의 P25-07 이다. P25-02 를 체크할지는 조정자의 판단이다.
 - P25-06(AudioWorklet), P25-08: 시작하지 않음.
+
+## 7. 후속 175: B2 병합 뒤의 `decodeAudioData` 보강 (잘린/손상 파일의 경고, 다채널과 정밀도)
+
+조정자가 이 브랜치를 B2/A2 가 병합된 `main`(2d69db1) 위로 rebase 했다(HEAD e14f0b8). B2 가 `AudioBufferDecoder.decodeResult`/`DecodeResult`/`DecodeWarningCallback` 과 넓은 디코딩 경로(원래 채널, float 정밀도)를 더했으므로 `js/host/webaudio` 쪽을 따라 맞췄다. 고친 제품 파일은 `js/host/webaudio/ContextApi.java` 한 파일이다(익명 `DecodeCallback` → `DecodeWarningCallback`, `onWarning` 이 `realm.getConsole().message("warn", "decodeAudioData: " + 경고)`).
+
+### 7.1 시험 (`tests/src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/DecodeDamagedDataTest`, 9건)
+
+입력은 `tests/resources/media/audio`(실제 인코더가 만든 파일, 바이트는 16진수 문자열로 페이지에 넘겨 `decodeAudioData`)와 스크립트가 표본 단위로 만든 확장형 WAV 이다. 공통 도우미 `decodeAndCompare` 는 같은 바이트를 엔진의 `AudioBufferDecoder.decodeResult` 로도 디코딩해 (a) 프라미스가 resolve 되고 (b) 성공 콜백이 불리고 (c) 길이/채널 수/채널별 체크섬이 엔진 결과와 같고 (d) **콘솔 경고가 있는 것은 엔진이 잘림으로 표시한 결과일 때와 같고 문구가 엔진의 것과 같음**을 확인한다.
+
+| 시험 | 확인하는 것 |
+| --- | --- |
+| `testCutFlacResolvesWithAWarning` | 70 % 에서 자른 FLAC(9860/16000 프레임): resolve, 길이가 줄어듦, 콘솔에 `warn` 한 건이 **성공 콜백의 `log` 보다 먼저**, 전체 파일은 경고 없음 |
+| `testCutFilesOfEveryFormatResolveShorter` | 6 형식(Vorbis, Opus, FLAC, Ogg FLAC, MP3, AAC)을 70 % 에서 자른 사본이 전부 전체보다 짧게 resolve, 경고는 엔진이 잘림으로 표시한 FLAC 한 건뿐 |
+| `testDamagedBlockInTheMiddle` | 가운데 300 바이트를 0 으로 만든 6 사본: 엔진 결과와 같음, Vorbis(83520/88200)는 경고가 있음 |
+| `testCutWavResolves` | 데이터 청크가 선언보다 짧은 WAV: resolve, 약 절반의 프레임 |
+| `testNoFrameIsAnEncodingError` | 머리 안(40 바이트)에서 자른 6 사본, 머리만 있는 WAV, 0 으로만 된 500 바이트: 전부 프라미스와 오류 콜백이 `EncodingError`(`DOMException`), 성공 콜백 없음, 경고 없음 |
+| `testFiveOneFiles` | 5.1 WAV 는 6채널 500프레임이고 스크립트가 파일의 데이터 청크에서 읽은 표본과 **비트 단위로 같음**. 5.1 FLAC 은 채널마다 모노 참조 디코딩과 같음(차이 0). Opus 5.1(2880프레임), Vorbis 5.1(2048프레임), AAC 6채널(3072프레임)은 채널 수·프레임 수가 인코더가 쓴 것이고 채널마다 자기 참조 채널과 최대 차이 2e-4 이하 |
+| `testTwentyFourBitFlacKeepsPrecision` | 24비트 7.1 FLAC: 8채널 300프레임, 16비트 참조에서 반 단계(16비트) 이내이며 16비트 간격의 배수가 아닌 표본이 100개를 넘음(16비트 경로였다면 반올림되어 없을 값) |
+| `testExactValuesOfSyntheticFiles` | 스크립트가 만든 24비트 6채널 WAV(극단값 8388607/-8388608 포함)는 `정수/2^23` 과 정확히 같음. 32비트 float 6채널은 1 을 넘는 값까지 그대로(`!==` 비교). 32채널 WAV 는 디코딩되고 값이 채널 자리에 있음, 33채널은 `EncodingError` |
+| `testCutFlacWarnsThroughTheComponent` | 실제 `SwingWebPanel` + `TestHttpServer`: 페이지가 잘린 FLAC 을 `fetch` 해 디코딩하고, 컴포넌트의 `ConsoleListener` 가 **EDT 에서** `Level.WARN` 이벤트(문구 `decodeAudioData: ` + 엔진의 경고, 문서 URL 은 페이지)를 받은 뒤 성공 콜백의 `LOG` 이벤트를 받음 |
+
+### 7.2 검증 (JDK 6u45, 실제로 실행한 것)
+
+| 명령 | 결과 |
+| --- | --- |
+| `sh build.sh` | OK(제품 JAR 세 개, 엔진/브라우저 경계 통과) |
+| 시험 컴파일(`-sourcepath tests/src:engine/tests/src`) 뒤 `TestRunner --scan build/wa-test --filter org.duckdns.hjow.swingwebpanel.js.host.webaudio.DecodeDamagedDataTest` | **9 통과 / 0 실패 / 0 건너뜀**(약 8 초) |
+| 같은 방식으로 `--filter ...js.host.webaudio`(기존 55건 + 새 9건) | **64 통과 / 0 실패 / 0 건너뜀**(20 초) |
+| `--filter ...media.webaudio`(엔진, rebase 뒤 B2/A2 의 시험 포함) | **286 통과 / 0 실패 / 0 건너뜀**(49 초) |
+| `StaticStateAuditTest`, `ThreadCreationAuditTest`, `JarContentTest` | 3건 통과 |
+| `sh tools/sourcecheck/run.sh src/org/duckdns/hjow/swingwebpanel/js/host/webaudio tests/src/org/duckdns/hjow/swingwebpanel/js/host/webaudio` | 0 위반(26개 파일) |
+| **손 변이 시험**: `onWarning` 이 콘솔에 아무것도 쓰지 않게 바꾼 `ContextApi` 를 따로 컴파일해 클래스패스 맨 앞에 두고 새 클래스 실행 | 9건 중 **4건 실패**(`testCutFlacResolvesWithAWarning`, `testCutFilesOfEveryFormatResolveShorter`, `testDamagedBlockInTheMiddle`, `testCutFlacWarnsThroughTheComponent`: "the warning and the line of the success callback ... expected 2 but was 1"). 나머지 5건(경고와 무관한 다채널/정밀도/오류)은 통과 |
+
+전체 회귀(`test.sh`)는 실행하지 않았다.
+
+### 7.3 발견한 것: 어떤 사본에서 경고가 오는가 (엔진 `decodeResult` 를 직접 찍은 값, JS 시험이 이와 같음을 확인)
+
+| 파일(전체 프레임) | 70 % 에서 자름 | 가운데 300 바이트 손상 |
+| --- | --- | --- |
+| Vorbis (88200) | 50752 프레임, 경고 없음 | 83520 프레임, **경고**(`cut off: 83520 of the 88200`) |
+| Opus (96000) | 66888, 경고 없음 | 91848, 경고 없음(손상을 가림) |
+| FLAC 네이티브 (16000) | 9860, **경고**(`cut off: 9860 of the 16000`) | 5950, **경고**(`damaged after 5950 frames ... negative FLAC LPC shift`) |
+| Ogg FLAC (16000) | 11050, 경고 없음 | 15150, **경고** |
+| MP3 (88200) | 60552, 경고 없음 | 87048, 경고 없음 |
+| AAC (90112) | 64512, 경고 없음 | 89088, 경고 없음 |
+| WAV (1500) | 절반으로 자르면 740 프레임, 경고 없음 | |
+
+즉 조정자가 요청한 "(c) 경고가 콘솔 이벤트로 도착"은 **디코더가 잘림이나 손상을 알아보는 경우**(FLAC 의 잘림과 손상, Vorbis/Ogg FLAC 의 손상)에 성립한다. 잘린 WAV 와 잘린 Ogg Vorbis/Opus/MP3/AAC 는 B2 의 정책상 "짧은 정상 파일"로 보여 resolve 만 하고 경고가 없다(B2 10.6절이 같은 표를 적었다). 이를 바꾸려면 디코더 쪽(B2 영역: 예를 들어 WAV 데이터 청크 선언 크기와 실제 크기의 차이를 잘림으로 표시)에서 해야 하며 이 후속의 범위가 아니다.
+
+### 7.4 해소된 한계와 남은 것
+
+해소: 4절 6번(채널/정밀도). 남은 것: 7.3 의 경고 범위, Opus 의 정밀도(B2 10.5), 채널 33 이상은 `EncodingError`, 실제 브라우저와의 비교는 하지 않았다. 시험 중 알게 된 페이지 한도: 렌더링하지 않은 오프라인 컨텍스트는 페이지당 16 개이므로 디코딩 시험은 표본율마다 컨텍스트 하나를 재사용한다(2.4절).
 
 ## 조정자 요청
 
@@ -132,7 +185,7 @@ REC 1.4.3 과의 **차이**: REC 는 가져오는 순간 앞서 `getChannelData(
 | WAU-08a | JavaScript 바인딩: 전역 인터페이스 27개(`BaseAudioContext`, `AudioContext`, `OfflineAudioContext`, `AudioNode`, `AudioScheduledSourceNode`, `AudioDestinationNode` 와 노드 15종, `AudioParam`, `AudioBuffer`, `AudioListener`, `PeriodicWave`, `OfflineAudioCompletionEvent`, `AudioProcessingEvent`), 생성자와 `createX` 팩터리, 옵션 사전, `connect`/`disconnect` 전 형식, WebIDL 변환과 오류 이름, `webkitAudioContext` 별칭 | Web Audio API 1.0 REC 1.1~1.32 | `js.host.webaudio.{WebAudioApi,Members,Idl,ContextApi,NodeApi,ValueApi,BufferApi}` | `WebAudioInterfaceTest` 7, `OfflineRenderingTest` 10 | 검증 완료(`MediaElementAudioSourceNode`, `ScriptProcessorNode`, `AudioWorklet` 제외) | `MediaStream*` 미노출(EXC-14), `createMediaElementSource`/`createScriptProcessor` 는 C2 까지 `NotSupportedError`, `audioWorklet` 없음 |
 | WAU-08b | `OfflineAudioContext`: 생성자 두 형식, `startRendering`(전용 스레드), `suspend(time)`/`resume`(그래프 변경), `complete`/`statechange` 순서, `length`/`oncomplete`, 페이지 한도 | 1.3 | `js.host.webaudio.{ContextApi,OfflineRender,WebAudioHostLimits}` | `OfflineContextTest` 6, `OfflineRenderingTest`, `WebAudioComponentTest` | 검증 완료 | 컨텍스트 16개/메모리 2^25 표본(최대 134 MB), 버린 컨텍스트도 렌더링 종료/페이지 종료까지 몫 유지 |
 | WAU-08c | 실시간 `AudioContext` 의 JS 쪽: 상태/`statechange`, `resume`/`suspend`/`close`, 시간, 지연, `getOutputTimestamp`, `sinkId`/`setSinkId`/`sinkchange`, 6개 한도, 시계 드라이버(소리 없이 벽시계 속도로 렌더링) | 1.2, 1.1 WD | `media.webaudio.{RealtimeAudioContext,ClockRenderDriver}`, `js.host.webaudio.ContextApi` | `RealtimeAudioContextTest` 7, `RealtimeContextScriptTest` 8, `WebAudioComponentTest` | 부분 구현(장치 출력은 C2) | 자동 재생 제한 없음(결정 e), 표본율 48000 고정, `outputLatency` 0, `sinkId` 는 기본 장치 또는 none |
-| WAU-07 | `AudioBuffer`, `getChannelData`(같은 `Float32Array`, 내용이 버퍼의 내용), `copyFrom/ToChannel`, acquire 규칙, `decodeAudioData`(프라미스/콜백, 분리, `DataCloneError`/`EncodingError`, 리샘플링, 문서 큐 전달) | 1.4, 1.1.2 | `js.host.webaudio.{AudioBufferValue,BufferApi,ContextApi}` | `AudioBufferScriptTest` 5, `DecodeAudioDataTest` 6, `WebAudioComponentTest` | 검증 완료(JS 경로 포함) | acquire 때 이전 배열을 분리하지 않음(Chromium 과 같고 REC 1.4.3 과 다름). 채널/정밀도 한계는 B 기록(B2 가 P18 쪽 개선) |
+| WAU-07 | `AudioBuffer`, `getChannelData`(같은 `Float32Array`, 내용이 버퍼의 내용), `copyFrom/ToChannel`, acquire 규칙, `decodeAudioData`(프라미스/콜백, 분리, `DataCloneError`/`EncodingError`, 리샘플링, 문서 큐 전달) | 1.4, 1.1.2 | `js.host.webaudio.{AudioBufferValue,BufferApi,ContextApi}` | `AudioBufferScriptTest` 5, `DecodeAudioDataTest` 6, `DecodeDamagedDataTest` 9, `WebAudioComponentTest` | 검증 완료(JS 경로 포함. 채널 최대 32, 24비트/float 정밀도, 잘린/손상 파일은 디코딩한 만큼 resolve 하고 콘솔에 `warn`) | acquire 때 이전 배열을 분리하지 않음(Chromium 과 같고 REC 1.4.3 과 다름). 경고는 디코더가 잘림을 알아볼 때만(FLAC 네이티브의 잘림, Vorbis/Ogg FLAC/FLAC 의 손상): 잘린 WAV/Ogg Vorbis/Opus/MP3/AAC 는 경고 없이 짧게 resolve |
 | WAU-10 | 수명과 정리: 페이지 이동/`clean()`/`dispose()`/스크립트 끔 때 컨텍스트, 렌더링 스레드, 디코딩 서비스를 닫고 늦은 결과를 버림 | P21 | `js.host.webaudio.WebAudioApi.dispose`, `js.host.WindowGlobals` | `WebAudioLifecycleTest` 8, `WebAudioComponentTest` 5 | 검증 완료(오디오 라인은 C2) | 스레드 이름 `swingwebpanel-audio-{render,offline,decode}-N` |
 
 2. **ARCHITECTURE.md**: 패키지 표에 `js.host.webaudio`(Web Audio 의 JavaScript 바인딩)를 더하고, 스레드 모델에 "실시간 컨텍스트: `RealtimeAudioContext` + `ClockRenderDriver`(스레드 `swingwebpanel-audio-render-N`, 벽시계 속도, 출력 버림. C2 가 장치 드라이버로 대체)", "오프라인 렌더링: `OfflineRender`(스레드 `swingwebpanel-audio-offline-N`)", "엔진 스레드가 알리는 것은 `WebAudioApi.postTask` 로만 페이지의 작업이 된다" 를 적고, "자원 소유 목록과 정리 담당(P21-01)" 표에 한 행을 더해 달라: `WebAudioApi`(실시간/오프라인 컨텍스트, 렌더링 스레드, 디코딩 서비스) ← 정리 담당 `WindowGlobals.cancelRequests()` → `WebAudioApi.dispose()`.
@@ -140,5 +193,5 @@ REC 1.4.3 과의 **차이**: REC 는 가져오는 순간 앞서 `getChannelData(
 4. **README(루트) 사용 설명**: `AudioContext` 가 소리 없이 시계만 도는 단계임(C2 가 장치를 더한다)을 쓸 때 적어 달라. 이 단계에서 README 사용법을 바꿀 새 공개 Java API 는 없다(스크립트 API 만 늘었다).
 5. **`docs/progress/media-play.md` "미확인" 표**: C2 와 별개로, 이 단계의 실시간 컨텍스트는 소리를 내지 않으므로 청취 항목은 없다. C2 가 추가할 항목은 그때 요청한다.
 6. **`scripts/**`**: 변경 요청 없음. 다만 `scripts/pkgtest.sh` 로 JavaScript 호스트 시험을 돌릴 때는 소스 패키지에 `js`(엔진 포함)를 써야 한다(`"js/host/webaudio media/webaudio"` 만 쓰면 엔진의 내장 객체 일부가 컴파일되지 않아 `%Promise%` 가 비는 오류가 난다. `javac -sourcepath` 가 리플렉션으로만 쓰이는 클래스를 컴파일하지 않기 때문이다): `sh scripts/pkgtest.sh wac "js media/webaudio" "js/host/webaudio" --filter org.duckdns.hjow.swingwebpanel.js.host.webaudio`.
-7. **B2 병합 뒤의 한 줄 보강(권장)**: 이 브랜치는 B2 가 병합되기 전의 `main`(c76902b)에서 갈라졌으므로 `DecodeWarningCallback`(B2: 부분 결과일 때 `onSuccess` 직전에 `onWarning(String)`)을 쓰지 않는다. B2 병합 뒤 `ContextApi.decodeAudioData` 의 익명 `DecodeCallback` 을 `DecodeWarningCallback` 으로 바꾸고 `onWarning(String m)` 에서 페이지의 콘솔로 경고를 보내면 된다(1.1 WD 의 "손상됐지만 계속 디코딩했으면 개발자 도구에 경고" 권고. 콘솔 경로는 `PageScripts.getRealm().getConsole()` 의 `message("warn", m)`). `DecodeCallback` 의 시그니처는 B2 에서 바뀌지 않았으므로(`main` 에서 확인) 이 브랜치는 그대로 컴파일된다. B2 의 부분 결과 정책으로 Promise 는 잘린 파일에도 resolve 한다.
+7. **B2 병합 뒤의 보강: 후속 175 로 완료**(7절): `ContextApi.decodeAudioData` 가 `DecodeWarningCallback` 을 써서 부분 결과의 경고를 페이지 콘솔(`warn`)로 보고한다. 이 요청은 더 필요 없다.
 8. **다른 작업자와의 조율**: 이 작업이 건드린 기존 파일은 `js/host/WindowGlobals.java`(3곳)와 `media/webaudio/AudioBufferSourceNode.java`(메서드 1개 추가)뿐이다. B2 는 `media/audio/**` 와 `media/webaudio/decode/AudioBufferDecoder.java`, `docs/progress/webaudio-b.md` 를 고치므로 겹치지 않는다. 전체 회귀(`test.sh`)는 실행하지 않았다.
