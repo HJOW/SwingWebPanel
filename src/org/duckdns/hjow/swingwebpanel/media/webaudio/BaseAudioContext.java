@@ -785,6 +785,20 @@ public abstract class BaseAudioContext {
     }
 
     /**
+     * Creates a source for the audio of a media element (<code>createMediaElementSource</code>). The host supplies the audio of the
+     * element through a {@link MediaElementPcmSource}; a video element is refused by the host before it gets here.
+     * <p>
+     * 미디어 요소의 오디오를 위한 원천을 만든다(<code>createMediaElementSource</code>). 호스트가 {@link MediaElementPcmSource} 로 요소의 오디오를 공급한다.
+     * 비디오 요소는 여기에 오기 전에 호스트가 거부한다.
+     *
+     * @param source the supplier of the audio / 오디오 공급자
+     * @return the node / 노드
+     */
+    public final MediaElementAudioSourceNode createMediaElementSource(MediaElementPcmSource source) {
+        return new MediaElementAudioSourceNode(this, source);
+    }
+
+    /**
      * Creates a silent buffer.
      * <p>
      * 무음 버퍼를 만든다.
