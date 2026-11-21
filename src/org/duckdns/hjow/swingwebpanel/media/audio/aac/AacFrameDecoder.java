@@ -246,6 +246,92 @@ final class AacFrameDecoder {
      * @throws AacException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
      */
     void decode(AacBits in, float[][] out, int wanted) throws AacException {
+        parse(in);
+        mixDown(out, wanted);
+    }
+
+    /**
+     * Decodes one raw data block and returns every decoded channel (the wide path, plan item P25-05): the samples of the channels in the range -1 to
+     * 1 as the decoder produces them, in the canonical channel order (front left, right, centre, LFE, back left, right, side left, right: AAC codes the
+     * centre first, then left and right, then the back channels and the LFE; the order of the elements is mapped with the speaker roles of the channel
+     * configuration; where the configuration does not define the roles the order of the elements is kept). Output channels that the block did not
+     * decode are silent.
+     * <p>
+     * 원시 데이터 블록 하나를 해독해 해독한 모든 채널을 반환한다(넓은 경로, 계획 P25-05). 채널의 표본은 디코더가 만든 그대로 -1 ~ 1 범위이며 표준 채널 순서(앞 왼쪽, 오른쪽, 중앙,
+     * LFE, 뒤 왼쪽, 오른쪽, 옆 왼쪽, 오른쪽)이다. AAC 는 중앙을 먼저, 그다음 왼쪽과 오른쪽, 뒤 채널과 LFE 를 부호화한다. 요소의 순서를 채널 구성의 스피커 역할로 바꾸며
+     * 구성이 역할을 정하지 않으면 요소의 순서를 유지한다. 블록이 해독하지 않은 출력 채널은 무음이다.
+     *
+     * @param in  input / 입력
+     * @param out output [channel][1024]; its length is the number of channels that the caller wants / 출력. 길이가 호출한 쪽이 원하는 채널 수이다
+     * @return the number of channels that the block decoded / 블록이 해독한 채널 수
+     * @throws AacException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
+     */
+    int decodeWide(AacBits in, float[][] out) throws AacException {
+        parse(in);
+        final float scale = 1.0f / 32768.0f;
+        int n = decoded;
+        // 한두 채널만 해독했는데 출력 채널 수가 다르면 16비트 경로와 같게 맞춘다(모노를 두 채널에 복제, 스테레오를 모노로 평균).
+        if (n >= 1 && n <= 2 && out.length <= 2 && out.length != n) {
+            for (int i = 0; i < FRAME; i++) {
+                float l = chOut[0][i] * scale;
+                float r = (n == 2 ? chOut[1][i] : chOut[0][i]) * scale;
+                if (out.length == 1) {
+                    out[0][i] = n == 2 ? (l + r) * 0.5f : l;
+                } else {
+                    out[0][i] = l;
+                    out[1][i] = r;
+                }
+            }
+            return n;
+        }
+        int[] order = wideOrder(n);
+        // 출력 채널마다 해독한 채널을 표준 순서로 복사하거나 없으면 무음으로 채운다.
+        for (int c = 0; c < out.length; c++) {
+            if (c >= n) {
+                java.util.Arrays.fill(out[c], 0f);
+                continue;
+            }
+            float[] src = chOut[order[c]];
+            // 항목마다 반복해서 처리한다.
+            for (int i = 0; i < FRAME; i++) {
+                out[c][i] = src[i] * scale;
+            }
+        }
+        return n;
+    }
+
+    /**
+     * Returns for every channel of the canonical order the index of the decoded channel (the identity for one or two channels and where the channel
+     * configuration does not define the speaker roles).
+     * <p>
+     * 표준 순서의 채널마다 해독한 채널의 인덱스를 반환한다(채널이 한두 개이거나 채널 구성이 스피커 역할을 정하지 않으면 항등).
+     *
+     * @param n the number of decoded channels / 해독한 채널 수
+     * @return the order / 순서
+     */
+    private int[] wideOrder(int n) {
+        int[] roles = n > 2 ? rolesOf(channelConfig) : null;
+        // 역할이 해독한 채널 수와 맞으면 역할 순으로 정렬한 순서를 쓴다.
+        if (roles != null && roles.length == n) {
+            return ChannelMixer.forRoles(roles).canonicalOrder();
+        }
+        int[] o = new int[n];
+        // 아니면 요소의 순서를 그대로 쓴다.
+        for (int i = 0; i < n; i++) {
+            o[i] = i;
+        }
+        return o;
+    }
+
+    /**
+     * Reads the syntactic elements of one raw data block and decodes the channels into {@link #chOut}.
+     * <p>
+     * 원시 데이터 블록 하나의 구문 요소를 읽고 채널을 {@link #chOut} 으로 해독한다.
+     *
+     * @param in input / 입력
+     * @throws AacException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
+     */
+    private void parse(AacBits in) throws AacException {
         decoded = 0;
         boolean end = false;
         // 요소를 END 가 나올 때까지 읽는다.
@@ -278,7 +364,6 @@ final class AacFrameDecoder {
                 throw new AacException("frame data is truncated");
             }
         }
-        mixDown(out, wanted);
     }
 
     /**

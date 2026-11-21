@@ -28,7 +28,7 @@ final class WideKit {
      * <p>
      * 자기 넓은 경로를 가진 디코더의 계열(시험 자료 색인의 <code>group</code> 열). 나머지는 최대 채널 둘을 주는 16비트 경로로 쓴다.
      */
-    static final java.util.Set<String> WIDE_GROUPS = new java.util.HashSet<String>(Arrays.asList("wav", "aiff", "au", "flac", "vorbis", "opus", "webm", "mp3"));
+    static final java.util.Set<String> WIDE_GROUPS = new java.util.HashSet<String>(Arrays.asList("wav", "aiff", "au", "flac", "vorbis", "opus", "webm", "mp3", "aac"));
 
     /**
      * Private constructor: static helpers only.

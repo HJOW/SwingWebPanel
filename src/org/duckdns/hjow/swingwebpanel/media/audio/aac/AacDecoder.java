@@ -2,8 +2,9 @@ package org.duckdns.hjow.swingwebpanel.media.audio.aac;
 
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.mp4.Mp4File;
 import org.duckdns.hjow.swingwebpanel.media.audio.mp4.Mp4Track;
 
@@ -19,7 +20,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.mp4.Mp4Track;
  * AAC-LC 핵심으로 해독한다(핵심 샘플링 주파수로 대역이 줄어든 채 재생). LTP, 스케일러블, 오류 내성, 960선, ADIF 스트림은 미지원으로 보고한다.
  * 레지스트리가 리플렉션으로 등록하며 인수 없는 공개 생성자가 있다.
  */
-public final class AacDecoder implements AudioDecoder {
+public final class AacDecoder implements WideAudioDecoder {
 
     /**
      * Creates the decoder. / 디코더를 만든다.
@@ -56,6 +57,35 @@ public final class AacDecoder implements AudioDecoder {
 
     /** Opens the data and prepares the block list; blocks are decoded on demand. / 데이터를 열어 블록 목록을 준비하며 블록은 요청할 때 해독한다. */
     public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
+        return (PcmSource) create(data, limits, false);
+    }
+
+    /**
+     * Opens the data with every channel of the stream and the float output of the decoder (see {@link WideAudioDecoder}).
+     * <p>
+     * 스트림의 모든 채널과 디코더의 float 출력으로 데이터를 연다({@link WideAudioDecoder} 참조).
+     *
+     * @param data   the data / 데이터
+     * @param limits limits / 제한
+     * @return float source / float 소스
+     * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
+     */
+    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
+        return (FloatPcmSource) create(data, limits, true);
+    }
+
+    /**
+     * Finds the ADTS stream or the MP4 file and creates the source of the form that was asked for.
+     * <p>
+     * ADTS 스트림이나 MP4 파일을 찾아 요청한 형태의 소스를 만든다.
+     *
+     * @param data   the data / 데이터
+     * @param limits limits / 제한
+     * @param wide   true for the wide path / 넓은 경로이면 true
+     * @return a {@link PcmSource} or a {@link FloatPcmSource} / {@link PcmSource} 또는 {@link FloatPcmSource}
+     * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
+     */
+    private Object create(byte[] data, DecodeLimits limits, boolean wide) throws MediaException {
         if (data.length > limits.getMaxBytes()) {
             throw new MediaException(MediaException.Kind.TOO_LARGE, "audio data is too large");
         }
@@ -63,10 +93,10 @@ public final class AacDecoder implements AudioDecoder {
         try {
             int a = findAdts(data, start);
             if (a >= 0) {
-                return openAdts(data, a);
+                return openAdts(data, a, wide);
             }
             if (Mp4File.looksLikeMp4(data)) {
-                return openMp4(data);
+                return openMp4(data, wide);
             }
         } catch (AacException e) {
             throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, e.getMessage());
@@ -175,7 +205,7 @@ public final class AacDecoder implements AudioDecoder {
      * @throws MediaException on damaged data / 손상된 데이터일 때
      * @throws AacException   on an unsupported profile / 지원하지 않는 프로파일일 때
      */
-    private PcmSource openAdts(byte[] d, int first) throws MediaException, AacException {
+    private Object openAdts(byte[] d, int first, boolean wide) throws MediaException, AacException {
         int profile = ((d[first + 2] >> 6) & 3) + 1;
         int rate = (d[first + 2] >> 2) & 15;
         int cc = ((d[first + 2] & 1) << 2) | ((d[first + 3] >> 6) & 3);
@@ -220,6 +250,9 @@ public final class AacDecoder implements AudioDecoder {
         int[] fo = java.util.Arrays.copyOf(off, n);
         int[] fl2 = java.util.Arrays.copyOf(len, n);
         AacConfig cfg = new AacConfig(profile, rate, cc, false);
+        if (wide) {
+            return new AacFloatSource(d, fo, fl2, cfg, wideChannels(d, fo, fl2, cfg), 0, (long) n * AacFrameDecoder.FRAME);
+        }
         int channels = probeChannels(d, fo, fl2, cfg);
         return new AacSource(d, fo, fl2, cfg, channels, 0, (long) n * AacFrameDecoder.FRAME);
     }
@@ -234,7 +267,7 @@ public final class AacDecoder implements AudioDecoder {
      * @throws MediaException on damaged data / 손상된 데이터일 때
      * @throws AacException   on an unsupported stream / 지원하지 않는 스트림일 때
      */
-    private PcmSource openMp4(byte[] d) throws MediaException, AacException {
+    private Object openMp4(byte[] d, boolean wide) throws MediaException, AacException {
         Mp4Track t = Mp4File.parse(d).firstAudioTrack();
         if (t == null || !"mp4a".equals(t.getFormat())) {
             throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "the MP4 file has no AAC audio track");
@@ -273,8 +306,34 @@ public final class AacDecoder implements AudioDecoder {
         }
         int[] fo = java.util.Arrays.copyOf(off, count);
         int[] fl = java.util.Arrays.copyOf(len, count);
+        if (wide) {
+            return new AacFloatSource(d, fo, fl, cfg, wideChannels(d, fo, fl, cfg), skip, total);
+        }
         int channels = probeChannels(d, fo, fl, cfg);
         return new AacSource(d, fo, fl, cfg, channels, skip, total);
+    }
+
+    /**
+     * Returns the number of channels of the stream for the wide path: the channels of the configuration, or, when the configuration does not tell it
+     * (a program configuration element), the number of channels that the first block decodes.
+     * <p>
+     * 넓은 경로를 위한 스트림의 채널 수를 반환한다: 구성의 채널 수, 구성이 알려 주지 않으면(프로그램 구성 요소) 첫 블록이 해독하는 채널 수.
+     *
+     * @param d   data / 데이터
+     * @param off block offsets / 블록 위치
+     * @param len block lengths / 블록 길이
+     * @param cfg configuration / 구성
+     * @return channels of the stream / 스트림의 채널 수
+     * @throws AacException if the first block cannot be decoded / 첫 블록을 해독할 수 없으면
+     */
+    private static int wideChannels(byte[] d, int[] off, int[] len, AacConfig cfg) throws AacException {
+        int ch = cfg.channels();
+        if (ch > 0) {
+            return ch;
+        }
+        AacFrameDecoder dec = new AacFrameDecoder(cfg.rateIndex, 0);
+        float[][] tmp = new float[8][AacFrameDecoder.FRAME];
+        return Math.max(1, dec.decodeWide(new AacBits(d, off[0], len[0]), tmp));
     }
 
     /**
