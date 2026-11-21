@@ -55,7 +55,7 @@ public class WebAudioInterfaceTest {
      */
     public void testInterfaceMembers() {
         String[][] table = {
-            {"BaseAudioContext", "constructor,createAnalyser,createBiquadFilter,createBuffer,createBufferSource,createChannelMerger,createChannelSplitter,createConstantSource,"
+            {"BaseAudioContext", "audioWorklet,constructor,createAnalyser,createBiquadFilter,createBuffer,createBufferSource,createChannelMerger,createChannelSplitter,createConstantSource,"
                 + "createConvolver,createDelay,createDynamicsCompressor,createGain,createIIRFilter,createOscillator,createPanner,createPeriodicWave,createScriptProcessor,"
                 + "createStereoPanner,createWaveShaper,currentTime,decodeAudioData,destination,listener,onstatechange,renderQuantumSize,sampleRate,state"},
             {"AudioContext", "baseLatency,close,constructor,createMediaElementSource,createMediaStreamDestination,createMediaStreamSource,createMediaStreamTrackSource,"
@@ -66,6 +66,10 @@ public class WebAudioInterfaceTest {
             {"AudioDestinationNode", "constructor,maxChannelCount"},
             {"AudioBufferSourceNode", "buffer,constructor,detune,loop,loopEnd,loopStart,playbackRate,start"},
             {"OscillatorNode", "constructor,detune,frequency,setPeriodicWave,type"},
+            {"Worklet", "addModule,constructor"},
+            {"AudioWorklet", "constructor"},
+            {"AudioWorkletNode", "constructor,onprocessorerror,parameters,port"},
+            {"AudioParamMap", "constructor,entries,forEach,get,has,keys,size,values"},
             {"ConstantSourceNode", "constructor,offset"},
             {"GainNode", "constructor,gain"},
             {"DelayNode", "constructor,delayTime"},
@@ -230,15 +234,15 @@ public class WebAudioInterfaceTest {
     }
 
     /**
-     * The names that must not exist: the media stream interfaces and the worklet (a later stage adds the worklet); the factories that are refused say so with
-     * <code>NotSupportedError</code>. The script processor and the media element source exist since the output stage (their tests are in <code>WebAudioOutputScriptTest</code> and
-     * <code>MediaElementSourceScriptTest</code>).
+     * The names that must not exist: the media stream interfaces; the factories that are refused say so with <code>NotSupportedError</code>. The script processor
+     * and the media element source exist since the output stage (their tests are in <code>WebAudioOutputScriptTest</code> and <code>MediaElementSourceScriptTest</code>)
+     * and the worklet since P25-06.
      * <p>
-     * 있으면 안 되는 이름: 미디어 스트림 인터페이스와 worklet(worklet 은 이후 단계가 더한다). 거부하는 팩터리는 <code>NotSupportedError</code> 로 그렇게 알린다. 스크립트 프로세서와 미디어 요소 원천은
-     * 출력 단계부터 있다(시험은 <code>WebAudioOutputScriptTest</code> 와 <code>MediaElementSourceScriptTest</code> 에 있다).
+     * 있으면 안 되는 이름: 미디어 스트림 인터페이스. 거부하는 팩터리는 <code>NotSupportedError</code> 로 그렇게 알린다. 스크립트 프로세서와 미디어 요소 원천은
+     * 출력 단계부터(시험은 <code>WebAudioOutputScriptTest</code> 와 <code>MediaElementSourceScriptTest</code> 에 있다), worklet 은 P25-06 부터 있다.
      */
     public void testExcludedNames() {
-        Check.equal("undefined:undefined:undefined:undefined:undefined:function:function", page.run("[typeof MediaStreamAudioSourceNode, typeof MediaStreamAudioDestinationNode, typeof MediaStreamTrackAudioSourceNode,"
+        Check.equal("undefined:undefined:undefined:function:function:function:function", page.run("[typeof MediaStreamAudioSourceNode, typeof MediaStreamAudioDestinationNode, typeof MediaStreamTrackAudioSourceNode,"
                 + " typeof AudioWorkletNode, typeof AudioWorklet, typeof ScriptProcessorNode, typeof MediaElementAudioSourceNode].join(':')"), "excluded interfaces");
         page.run("var ctx = new OfflineAudioContext(1, 128, 44100); var rt = new AudioContext();");
         Check.equal("no error", page.errorOf("ctx.createScriptProcessor(4096, 1, 1)"), "the script processor exists");
@@ -246,7 +250,7 @@ public class WebAudioInterfaceTest {
         Check.equal("NotSupportedError", page.errorOf("rt.createMediaStreamSource({})"), "createMediaStreamSource");
         Check.equal("NotSupportedError", page.errorOf("rt.createMediaStreamTrackSource({})"), "createMediaStreamTrackSource");
         Check.equal("TypeError", page.errorOf("rt.createMediaElementSource(document.body)"), "createMediaElementSource of something that is no media element");
-        Check.equal("undefined", page.run("typeof ctx.audioWorklet"), "no audioWorklet");
+        Check.equal("object", page.run("typeof ctx.audioWorklet"), "audioWorklet exists since P25-06 (D1)");
         rtClose();
     }
 
