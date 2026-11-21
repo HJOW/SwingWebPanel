@@ -27,7 +27,7 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
   (2026-11-22 갱신) **사용자 지시로 진행 순서를 바꿨다: P23(Maven 전환)은 최대한 나중으로 미룬다.** 순서는 P24 → P25 → P26 → P23(마지막)이며, 그 전까지 현재 `src`/`tests/src` 구조와 `build.sh`/`test.sh` 를 쓴다. 이 PC 에는 Maven 이 없고 사용자가 직접 설치하겠다고 했다(P23 을 시작할 때 `mvn` 이 PATH 에 있는지 먼저 확인하고 없으면 사용자에게 요청한다). P26 은 Maven 없이 `engine/` 디렉터리 + 기존 스크립트로 분리하고 P23 에서 그 디렉터리를 Maven 모듈로 옮긴다(`docs/progress/briefs/engine.md`).
   (2026-11-22) **P24 완료**(아래 작업 로그). 다음: P25(Web Audio)와 P26(엔진 분리)을 작업자 두 명이 병렬로(`docs/progress/briefs/webaudio.md`, `engine.md`), 조정자는 병합·전체 회귀를 맡는다.
   (2026-11-22) **P26 완료·main 병합**(커밋 `20261122-200`~`204`, 엔진 작업자). 엔진을 `engine/` 으로 분리하고(`engine/src`, `engine/tests`, `engine/resources`) 독립 API `js.embed`, `javax.script` 제공자 `js.script`, JAR 세 개를 만들었다. **빌드/시험 구조가 바뀌었다**: `build.sh|bat` 는 엔진→브라우저→합친 클래스 순서로 빌드하고 `test.sh|bat` 는 엔진 단계(엔진 클래스만, headless)와 브라우저 단계를 차례로 돌려 `=== TOTAL (engine + browser): ... ===` 를 출력한다. 엔진 소스 경로는 `src/.../js/{*.java,ast,parser,interp,builtins,date,num,regexp,text}` → `engine/src/...` (브라우저는 `js.host/dom/worker` 만 `src` 에 남음). 전체 회귀(조정자가 직접 재실행, JDK 6u45): **3823 통과/0 실패/14 건너뜀**(엔진 648 + 브라우저 3175). 상세 `docs/progress/engine.md`.
-  (2026-11-22) P25 A1(그래프 엔진·AudioParam·1차 노드, `20261122-100`~`109`)은 작업자 완료, 병합 전 회귀 중. 다음은 A2(남은 노드)와 B(AudioBuffer/디코딩)를 병렬로.
+  (2026-11-22) **P25 A1 병합**(그래프 엔진·AudioParam·1차 노드, 커밋 `20261122-100`~`109`, `media/webaudio`). AGENTS 에서 P25-01, P25-03 체크, P25-02/04 는 미완료 유지(실시간 오디오 스레드는 C, 남은 노드는 A2). 진행 중 작업자 2명: **A2**(WaveShaper/Convolver/DynamicsCompressor/Analyser/Panner·HRTF/MediaElementAudioSource, 커밋 번호 110~139, `tools/hrtfgen` 추가 예정)와 **B**(AudioBuffer 마무리·`decodeAudioData` 순수 Java 쪽·리샘플러·비동기 디코딩 서비스, 140~169). 이후 C(JavaScript 바인딩·실시간 출력·`ScriptProcessorNode`), D(AudioWorklet·검증) → P23.
 ```
 
 ## 2026-11-20 주 패키지명 변경: `swingwebpanel` → `org.duckdns.hjow.swingwebpanel`
@@ -292,6 +292,11 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-22 · P25 A1 Web Audio 그래프 엔진 병합 (WEBAUDIO 작업자, 커밋 `20261122-100`~`109`)
+- **구현**: `media.webaudio`(+`.dsp`) 순수 Java. render quantum 128, 제어 메시지 모델, `connect/disconnect` 전 형태, 규격 4.4/4.5 채널 믹스(12쌍 행렬), 순환 규칙(Tarjan: DelayNode 든 순환만 허용, 아니면 무음), 꼬리 시간/수명, `OfflineAudioContext`, AudioParam 자동화 전부, 노드 11종(Destination, BufferSource, Oscillator+PeriodicWave, ConstantSource, Gain, Delay, Biquad, IIR, StereoPanner, ChannelSplitter/Merger)과 기본 `AudioBuffer`. 판본·결정·한계는 `docs/progress/webaudio.md`(기능 표 8.4절 WAU-01~09, 예외 EXC-14 로 옮김).
+- **검증(JDK 6u45)**: 작업자: `media/webaudio` 시험 121건 통과(기대값은 닫힌 식/독립 계산, 변이 시험 3건), 속도 약 6배속 이상(공유 PC, 참고값). 조정자: 새 구조로 rebase 한 상태의 스냅샷에서 전체 회귀 **3943 통과/1 실패/14 건너뜀**(엔진 648 + 브라우저 3295). 1건은 `CanvasTextStyleTest.testKerning`(아래). 새 시험은 120건이라 전체 3823 → 3943.
+- **`CanvasTextStyleTest.testKerning` 불안정의 원인(새로 확인)**: A1 과 무관. 단독 실행을 반복하면 가끔 **JRE 6u45 의 `fontmanager.dll` 접근 위반으로 JVM 이 죽는다**(`hs_err`: `sun.font.SunLayoutEngine.nativeLayout` ← `Font.layoutGlyphVector` ← `js.host.canvas.CanvasText.layout` ← `Context2D.measureText`, 5회 중 2회). 전체 회귀에서는 같은 시험이 단언 실패(`with a font that has kerning pairs normal kerning ...`)로 나타나기도 했다(P11-02 때 기록한 "간헐 실패"와 같은 시험). 코드는 이미 히브리어를 `layoutGlyphVector` 에 주지 않는 방어를 두었는데(`CanvasText` 22행), 커닝 경로(`TextAttribute.KERNING_ON` + `layoutGlyphVector`)에도 같은 종류의 JRE 6 결함이 있어 보인다. **제품 영향 가능성**: `ctx.fontKerning = 'normal'` + `measureText/fillText` 가 JRE 6 에서 호스트 JVM 을 죽일 수 있다. 미해결(후속: 원인 글꼴/텍스트 조합을 찾아 커닝 경로를 `TextLayout` 이나 글리프별 측정으로 우회하거나 JRE 6 에서는 `normal` 을 `auto` 로 처리하고 기능 표에 제약으로 기록).
 
 ### 2026-11-22 · P26 JavaScript 엔진 분리와 Java Scripting API 지원 (완료, 엔진 작업자, 브랜치 `worktree-agent-a8e4159237316313b`)
 - **분리(P26-01)**: 엔진 핵심(`js` 루트, `ast parser interp builtins date num regexp text`, 새 `embed script`)을 `engine/` 으로 옮겼다(파일 275개, git 이 rename 으로 인식). 패키지 이름은 유지. 경계는 네 겹으로 강제한다: 엔진은 빈 클래스패스/소스패스로 컴파일, 브라우저는 컴파일된 엔진 클래스만 참조, `tools/sourcecheck` 새 규칙 `engine-boundary`, 클래스 상수 풀 시험과 headless 엔진 단계 시험. 작업자가 임시로 `java.awt` 를 쓰는 클래스를 넣어 각 장치가 실제로 실패함을 확인했다.

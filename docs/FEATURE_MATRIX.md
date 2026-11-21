@@ -119,6 +119,7 @@
 | EXC-11 | OpenType 기능과 가변 글꼴(합자, 숫자 모양, 대체 형태, 동아시아 형태와 `vert`, 커닝 제어, `font-variation-settings`, `font-optical-sizing`, `font-palette`, `font-feature-settings` 의 효과) | **JRE 6 의 한계**: JRE 6u45 에서 `TextAttribute.KERNING_ON`/`LIGATURES_ON` 을 글꼴 10종으로 시험했다(2026-11-18, 근거와 표: docs/progress/cssg.md 30.4). 커닝은 옛 `kern` 표가 있는 글꼴(Verdana, Palatino Linotype)에서만 너비가 바뀌고 Consolas 는 너비 0 을 돌려주며, 합자는 `fi fl ffi` 의 글리프 수가 바뀌지 않는다(Palatino Linotype 만 너비가 조금 달라지나 합자 치환으로 확인하지 못했다). GSUB/GPOS 를 제어하는 공개 API 와 가변 글꼴 축 API 가 없다 | 해석한 기능 태그는 `layout.FontFeatures` 가 보관한다. 이 엔진이 직접 재현하는 것(작은/petite 대문자, 위/아래첨자, 전각 형태, 합성 굵게·기울임)만 화면 효과가 있다 | 글꼴의 고급 조판 기능 없음 |
 | EXC-12 | `hyphens: auto`(자동 음절 나눔) | **언어 자원 없음**: 언어별 하이픈 패턴 자료를 번들하지 않았고 번들할 근거 자료도 없다. 규격은 언어에 맞는 자원이 없으면 자동 하이픈을 넣지 않아도 된다고 한다(CSS Text 3 하이픈 절) | `auto` 는 `manual` 처럼 동작한다: 소프트 하이픈(U+00AD)에서만 나누고 `hyphens: none` 은 소프트 하이픈을 없앤다(`HyphensAndBalanceLayoutTest`) | 긴 낱말이 자동으로 나뉘지 않음 |
 | EXC-13 | 컴포넌트가 스크롤을 소유해야 하는 기능(`scroll-snap-*`, `scrollbar-width/color/gutter`, `overscroll-behavior`, `scroll-behavior: smooth`, `scroll-state()` 질의, `animation-timeline` 의 `scroll()/view()`, scroll anchoring, 요소 안의 `overflow: auto/scroll` 스크롤) | **구현 구조의 한계**: 스크롤바와 스크롤 위치는 호스트 `JScrollPane` 이 소유하며 컴포넌트에는 자체 스크롤 컨테이너가 없다(`layout.Css.clips`: `overflow` 가 `visible` 이 아니면 자르기만 한다). 호스트의 스크롤바는 컴포넌트 안에서 꾸밀 수 없다 | 선언은 파싱하고 계산 값만 있다(`ScrollPropertiesTest`) | 스냅과 스크롤바 꾸미기 없음, 요소 안 스크롤 없음 |
+| EXC-14 | `MediaStream` 계열 노드(`createMediaStreamSource/Destination/TrackSource`), `getUserMedia` | 장치 입력 없음(EXC-07 과 같은 범위) | `createMediaStream*` 은 `NotSupportedError`, 전역 `MediaStream*` 미노출(C) | | 명시적 예외 | 마이크/캡처 불가 |
 
 ## 4. HTML (HTML) 과 이전 버전 호환 (LEG)
 
@@ -425,6 +426,22 @@ JRE 6 가 제공하는 것: `ImageIO` = PNG, JPEG(기본/프로그레시브 일�
 | VID-01 | `<video>` 요소 | EXC-01(미지원 표시). DOM 부분 구현: `HTMLVideoElement` 는 아무것도 가져오지 않고 `canPlayType` 은 항상 `""`, 선택은 `error`(MEDIA_ERR_SRC_NOT_SUPPORTED, code 4), `play()` 는 `NotSupportedError` 로 reject, `videoWidth`/`videoHeight` 는 0(`MediaElementsTest`). 화면의 "미지원 비디오" 문구(레이아웃/그리기)는 미구현 | 예외, DOM 검증 완료 |
 | VID-02 | `<track>`(자막), `<source>` 선택 | 오디오 `<source>` 선택(`type`, `media` 질의, 가져오기/디코딩 실패 시 다음 후보, 새로 삽입된 `source` 대기)은 검증 완료(`MediaElementsTest`). **텍스트 트랙(`audio` 요소만)**: `<track>`(`kind/src/srclang/label/default/readyState/track`, `load`/`error`/`cuechange`), `TextTrack`/`TextTrackList`/`TextTrackCueList`/`TextTrackCue`/`VTTCue`/`VTTRegion`/`TrackEvent`, `textTracks`/`addTextTrack`, WebVTT 파일 파서와 cue 텍스트 파서(`media.vtt.*`), 재생 위치에 따른 `activeCues` 와 `enter`/`exit`/`cuechange`(time marches on, `pauseOnExit`), `default` 자동 선택을 구현·검증했다(`media.vtt.VttParserTest` 7, `VttCueTextTest` 6, `js.host.TextTrackTest` 16, `core.TextTrackIntegrationTest` 2). 한계: 자막을 화면에 그리지 않는다(audio 요소에는 그릴 곳이 없고 video 는 EXC-01), 인밴드 트랙과 `::cue` 스타일, 언어 선호에 의한 자동 선택은 없다. 구현 클래스는 `js.host.{TextTracks,TextTrackBindings,TextTrackValue,TextTrackCueValue,...}`, `media.vtt.*` | 부분 구현 |
 
+### 8.4 Web Audio API (P25, 2026-11-22)
+
+기준 판본: W3C Web Audio API 1.0 권고안(2021-06-17)이 기능 기준이고 `https://www.w3.org/TR/webaudio/` 는 2026-11-22 에 1.1 작업 초안(2026-09-22)으로 풀렸다(조회 `tools/webfetch`). 참고 구현: Chromium `third_party/blink/renderer/modules/webaudio`(리비전 `8d101571406d3ef5bda7446b34568192ad99b3b5`). HTML5 2014 REC 이후의 규격이므로 ES2015 이후 확장과 마찬가지로 별도 추적한다. 상세 표, 결정 a~e, 한계는 `docs/progress/webaudio.md`.
+
+| 기능 ID | 요구사항 | 규격/판본 | 구현 클래스 | 검증 사례 | 지원 상태 | 제약 |
+| --- | --- | --- | --- | --- | --- | --- |
+| WAU-01 | 컨텍스트와 렌더링 루프: `BaseAudioContext`, `OfflineAudioContext`(제어 메시지, render quantum 128, 순서/순환, 꼬리 시간과 수명) | Web Audio API 1.0 REC(2021-06-17) + 1.1 WD(2026-09-22) 2절, 3절 | `media.webaudio.BaseAudioContext`, `OfflineAudioContext`, `RenderGraph`, `AudioNode*` | `GraphTest` 18, `EngineStateTest` 6 | 부분 구현 | 실시간 `AudioContext`/장치 출력, JavaScript 바인딩, `suspend/resume`, Promise/이벤트는 C. 연결도 시작도 없는 노드는 처리하지 않음(파라미터 값이 시간에 따라 변하지 않음) |
+| WAU-02 | 채널 믹스: `channelCount/Mode/Interpretation`, 4.4/4.5절 행렬 | Web Audio API 4절 | `ChannelMixing`, `AudioBus`, `AudioNodeInput` | `ChannelMixingTest` 8, `GraphTest` | 엔진 검증 완료(JS 노출 C) | 스피커 배치는 1/2/4/6 채널 |
+| WAU-03 | `AudioParam` 자동화 전부(a/k-rate, 명목 범위, 입력 합산) | Web Audio API 1.6 | `AudioParam`, `AudioParamTimeline` | `AudioParamTest` 22, `GraphTest` | 엔진 검증 완료(JS 노출 C) | 이벤트 65536 상한, 오래된 이벤트는 접힘, `cancelScheduledValues` 는 시작한 목표 이벤트를 취소하지 않음 |
+| WAU-04 | 원천 노드: `AudioBufferSourceNode`, `OscillatorNode`/`PeriodicWave`, `ConstantSourceNode`, `AudioDestinationNode` | 1.7, 1.9, 1.16, 1.26, 1.28, 1.10 | `media.webaudio.*SourceNode`, `OscillatorNode`, `PeriodicWave`, `AudioDestinationNode` | `AudioBufferSourceNodeTest` 14, `OscillatorNodeTest` 12, `PeriodicWaveTest` 3 | 엔진 검증 완료(JS 노출 C) | 5.3절 1, 2, 6 (destination 출력 0, 버퍼 공유, 소수 루프 근사, 발진기 표) |
+| WAU-05 | 처리 노드: `GainNode`, `DelayNode`(순환), `BiquadFilterNode`, `IIRFilterNode`, `StereoPannerNode`, `ChannelSplitterNode`, `ChannelMergerNode` | 1.20, 1.18, 1.13, 1.21, 1.30, 1.15, 1.14 | `media.webaudio.*Node`, `dsp.*` | `DelayNodeTest` 8, `BiquadFilterNodeTest` 10, `IIRFilterNodeTest` 6, `StereoPannerNodeTest` 5, `ChannelSplitMergeTest` 5 | 엔진 검증 완료(JS 노출 C) | 꼬리 시간은 추정(30초 상한) |
+| WAU-06 | 나머지 노드: `WaveShaperNode`, `ConvolverNode`, `DynamicsCompressorNode`, `AnalyserNode`, `PannerNode`/`AudioListener`(HRTF), `MediaElementAudioSourceNode`(`<audio>` 만) | 1.31, 1.17, 1.19, 1.8, 1.27, 1.11, 1.22 | (A2) | | 미구현 | HRTF 는 KEMAR 자료(저자 표기 조건), `<video>` 원천은 `NotSupportedError` |
+| WAU-07 | `AudioBuffer`, `decodeAudioData`(자체 디코더 재사용, 리샘플러) | 1.4, 1.1.2 | (B) | | 부분 구현 | A1 은 노드가 쓰는 자료형만 |
+| WAU-08 | 실시간 `AudioContext`(Java Sound 출력, 상태/`resume`/`suspend`/`close`), `OfflineAudioContext` 의 Promise/`oncomplete`/`suspend`, JavaScript 바인딩(`js.host.webaudio`), `ScriptProcessorNode` | 1.2, 1.3, 1.29 | (C) | | 미구현 | 자동 재생 정책 없음, `sinkId` 는 기본 장치만 |
+| WAU-09 | `AudioWorklet`(`addModule`, `AudioWorkletNode`/`Processor`) | 1.32 | (D, `js.worker` 재사용) | | 미구현 | |
+
 ## 9. 저장소와 콘텐츠 (STO / CNT)
 
 | 기능 ID | 요구사항 | 규격 | 구현 클래스 | 검증 사례 | 지원 상태 | 제약 |
@@ -533,6 +550,8 @@ AGENTS.md 상단 "목표 - 지원 기능"의 각 행이 이 표의 어느 기능
 | CSS 표시 | 15 | 31 | 0 | 1 | 47 |
 | 미디어 | 18 | 3 | 0 | 1 | 22 |
 | 공개 API와 프로토콜 | 59 | 0 | 0 | 1 | 60 |
+
+(2026-11-22) 8.4절 Web Audio(WAU-01~09)와 예외 EXC-14 는 P25 진행 중이라 위 개수표에 넣지 않았다. P25 완료 때 집계한다.
 
 **명시적 예외(미구현과 구분)**: EXC-01 비디오(미지원 문구 표시), EXC-02 3D 가속·WebGL·WebGPU(`getContext` 가 `null`, 전역 객체 없음), EXC-03 CSS 3D 변환, EXC-04 플러그인(대체 내용 또는 안내), EXC-05 허용되지 않은 URL 스킴, EXC-06 `ws:`/`wss:`, EXC-07 미디어 캡처/EME/WebRTC, EXC-08 캔버스 히트 영역(규격에서 삭제됨). 근거는 3절이다.
 
