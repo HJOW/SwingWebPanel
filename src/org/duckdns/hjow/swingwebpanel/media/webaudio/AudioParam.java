@@ -476,6 +476,19 @@ public final class AudioParam {
     }
 
     /**
+     * Tells whether a value curve (<code>setValueCurveAtTime</code>) was set on this parameter and is still in its timeline: the
+     * deprecated <code>setPosition</code> and <code>setOrientation</code> methods of the spatial nodes refuse to run then.
+     * <p>
+     * 이 파라미터에 값 곡선(<code>setValueCurveAtTime</code>)을 설정했고 타임라인에 아직 남아 있는지 알려 준다. 공간 노드의 폐기 예정 <code>setPosition</code>,
+     * <code>setOrientation</code> 메서드는 그러면 실행을 거부한다.
+     *
+     * @return true if there is a value curve / 값 곡선이 있으면 true
+     */
+    boolean hasValueCurve() {
+        return timeline.hasValueCurve();
+    }
+
+    /**
      * Computes the values of one render quantum (rendering thread). The <code>[[current value]]</code> becomes the intrinsic value at the
      * first frame; then the mono sum of the active connected outputs is added, a NaN is replaced by the default value and the result is
      * clamped to the nominal range.

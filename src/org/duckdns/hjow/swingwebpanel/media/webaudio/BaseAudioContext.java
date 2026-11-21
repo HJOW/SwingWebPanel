@@ -1,8 +1,11 @@
 package org.duckdns.hjow.swingwebpanel.media.webaudio;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.HrtfDatabase;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.HrtfSet;
 
 /**
  * A set of audio nodes and their connections, and the loop that renders them (Web Audio API 1.1 and 2): the base of the real-time and the
@@ -108,6 +111,34 @@ public abstract class BaseAudioContext {
      * 목적지 노드.
      */
     private final AudioDestinationNode destination;
+
+    /**
+     * The listener of the context.
+     * <p>
+     * 컨텍스트의 청취자.
+     */
+    private final AudioListener listener;
+
+    /**
+     * The HRTF data of the context prepared for its sample rate, or null while it was not loaded or could not be loaded.
+     * <p>
+     * 컨텍스트의 샘플링 주파수에 맞춰 준비한 HRTF 자료. 아직 읽지 않았거나 읽지 못했으면 null.
+     */
+    private volatile HrtfSet hrtfSet;
+
+    /**
+     * True once loading the HRTF data was tried (guarded by {@link #hrtfLock}).
+     * <p>
+     * HRTF 자료를 읽어 보았으면 true({@link #hrtfLock} 으로 보호).
+     */
+    private boolean hrtfTried;
+
+    /**
+     * The lock of the HRTF data loading.
+     * <p>
+     * HRTF 자료 읽기의 잠금.
+     */
+    private final Object hrtfLock = new Object();
 
     /**
      * The sink of the tasks for the control side.
@@ -222,6 +253,7 @@ public abstract class BaseAudioContext {
         this.sampleRate = sampleRate;
         this.renderQuantumSize = renderQuantumSize;
         this.destination = new AudioDestinationNode(this, destinationChannels, maxChannelCount, offline);
+        this.listener = new AudioListener(this);
     }
 
     /**
@@ -796,6 +828,74 @@ public abstract class BaseAudioContext {
      */
     public final MediaElementAudioSourceNode createMediaElementSource(MediaElementPcmSource source) {
         return new MediaElementAudioSourceNode(this, source);
+    }
+
+    /**
+     * Returns the listener of the context.
+     * <p>
+     * 컨텍스트의 청취자를 반환한다.
+     *
+     * @return the listener / 청취자
+     */
+    public final AudioListener getListener() {
+        return listener;
+    }
+
+    /**
+     * Loads the HRTF data of the product and prepares it for the sample rate of the context, if that was not tried yet. A failure is
+     * remembered: the panners then fall back to the equal power processing (see {@link #isHrtfAvailable()}). Called from the control
+     * thread when a panner selects the <code>HRTF</code> model, so that the rendering thread never waits for the data.
+     * <p>
+     * 제품의 HRTF 자료를 읽어 컨텍스트의 샘플링 주파수에 맞게 준비한다(아직 시도하지 않았다면). 실패는 기억한다. 그러면 패너는 등전력 처리로 대신한다
+     * ({@link #isHrtfAvailable()} 참고). 패너가 <code>HRTF</code> 모델을 고를 때 제어 스레드에서 부르므로 렌더링 스레드는 자료를 기다리지 않는다.
+     */
+    final void prepareHrtf() {
+        synchronized (hrtfLock) {
+            if (hrtfTried) {
+                return;
+            }
+            hrtfTried = true;
+            try {
+                hrtfSet = new HrtfSet(HrtfDatabase.load(), sampleRate);
+            } catch (IOException e) {
+                hrtfSet = null;
+            }
+        }
+    }
+
+    /**
+     * Returns the prepared HRTF data, or null if it was not prepared or could not be loaded.
+     * <p>
+     * 준비된 HRTF 자료를 반환한다. 준비하지 않았거나 읽지 못했으면 null.
+     *
+     * @return the data, or null / 자료. 없으면 null
+     */
+    final HrtfSet getLoadedHrtfSet() {
+        return hrtfSet;
+    }
+
+    /**
+     * Tells whether the HRTF data of the product is available (it is loaded, if that has not happened yet, by this call): the
+     * <code>HRTF</code> panning model works only if it is.
+     * <p>
+     * 제품의 HRTF 자료를 쓸 수 있는지 알려 준다(아직 읽지 않았다면 이 호출이 읽는다). <code>HRTF</code> 패닝 모델은 그럴 때만 동작한다.
+     *
+     * @return true if the data is available / 자료를 쓸 수 있으면 true
+     */
+    public final boolean isHrtfAvailable() {
+        prepareHrtf();
+        return hrtfSet != null;
+    }
+
+    /**
+     * Creates a panner (<code>createPanner</code>).
+     * <p>
+     * 패너를 만든다(<code>createPanner</code>).
+     *
+     * @return the node / 노드
+     */
+    public final PannerNode createPanner() {
+        return new PannerNode(this);
     }
 
     /**

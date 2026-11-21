@@ -22,8 +22,8 @@ import java.util.zip.ZipFile;
  * <code>compact.zip</code>) into the resource file that the Web Audio engine of SwingWebPanel reads for the <code>HRTF</code> panning
  * model of the <code>PannerNode</code>. The tool reads the 16-bit stereo WAV files of the archive (128 frames at 44100 Hz: the left and
  * the right ear impulse response of one source direction), splits every impulse response into a minimum phase kernel and a delay (the
- * minimum phase kernel has the magnitude response of the measurement; the delay is the low frequency group delay of the remaining excess
- * phase), removes the delay that is common to all measurements, and writes everything as one binary file. The format is described in
+ * minimum phase kernel has the magnitude response of the measurement; the delay is the one for which the delayed minimum phase
+ * kernel fits the measured response best between 150 Hz and 1200 Hz, in the least squares sense of the complex spectrum), removes the delay that is common to all measurements, and writes everything as one binary file. The format is described in
  * the AGENTS.md of the tool and in <code>HrtfDatabase</code> of the engine.
  * <p>
  * Usage: <code>HrtfGen compact.zip output.hrtf [--retrieved YYYY-MM-DD]</code>. Exit codes: 0 success, 1 usage error, 2 failure to read
@@ -31,8 +31,8 @@ import java.util.zip.ZipFile;
  * <p>
  * MIT KEMAR 더미 헤드 측정(Bill Gardner, Keith Martin, MIT Media Lab, 1994)의 compact HRTF 자료(<code>compact.zip</code>)를 SwingWebPanel 의 Web Audio
  * 엔진이 <code>PannerNode</code> 의 <code>HRTF</code> 패닝 모델에 쓰는 자원 파일로 바꾼다. 도구는 압축 파일의 16비트 스테레오 WAV 파일(44100 Hz, 128 프레임.
- * 음원 방향 하나의 왼쪽과 오른쪽 귀 임펄스 응답)을 읽고, 임펄스 응답마다 최소 위상 커널과 지연으로 나눈 뒤(최소 위상 커널은 측정의 크기 응답을 가지며, 지연은 나머지
- * 초과 위상의 저주파 군지연이다) 모든 측정에 공통인 지연을 빼고 전부를 하나의 이진 파일로 쓴다. 형식은 도구의 AGENTS.md 와 엔진의 <code>HrtfDatabase</code> 에
+ * 음원 방향 하나의 왼쪽과 오른쪽 귀 임펄스 응답)을 읽고, 임펄스 응답마다 최소 위상 커널과 지연으로 나눈 뒤(최소 위상 커널은 측정의 크기 응답을 가지며, 지연은 지연한 최소
+ * 위상 커널이 150 Hz ~ 1200 Hz 에서 측정한 응답에 복소 스펙트럼의 최소 제곱 의미로 가장 잘 맞는 값이다) 모든 측정에 공통인 지연을 빼고 전부를 하나의 이진 파일로 쓴다. 형식은 도구의 AGENTS.md 와 엔진의 <code>HrtfDatabase</code> 에
  * 설명되어 있다.
  * <p>
  * 사용법: <code>HrtfGen compact.zip output.hrtf [--retrieved YYYY-MM-DD]</code>. 종료 코드: 0 성공, 1 사용법 오류, 2 압축 파일을 읽지 못하거나 파일을 쓰지 못함.
@@ -61,11 +61,18 @@ public final class HrtfGen {
     static final int FFT_SIZE = 16384;
 
     /**
-     * The number of FFT bins (from 1) over which the low frequency group delay is averaged: 512 bins at 16384 points are 1378 Hz.
+     * The lower edge in Hz of the low frequency band in which the delay of an ear is fitted.
      * <p>
-     * 저주파 군지연을 평균하는 FFT 빈 수(1 번부터). 16384 점에서 512 빈은 1378 Hz 이다.
+     * 귀의 지연을 맞추는 저주파 대역의 아래쪽 경계(Hz).
      */
-    static final int DELAY_BINS = 512;
+    static final double FIT_LOW_HZ = 150.0;
+
+    /**
+     * The upper edge in Hz of the low frequency band in which the delay of an ear is fitted.
+     * <p>
+     * 귀의 지연을 맞추는 저주파 대역의 위쪽 경계(Hz).
+     */
+    static final double FIT_HIGH_HZ = 1200.0;
 
     /**
      * The magic bytes at the start of the output file.
@@ -465,23 +472,8 @@ public final class HrtfGen {
             }
         }
         result[2] = total > 0 ? (total - kept) / total : 0.0;
-        // 초과 위상의 저주파 군지연(샘플)을 구한다: 이웃한 빈 사이의 위상 차이를 가중 평균한다.
-        double weighted = 0.0;
-        double weights = 0.0;
-        // 낮은 주파수 빈마다 이웃 빈과의 위상 차이에서 군지연을 구해 크기로 가중한다.
-        for (int k = 1; k < DELAY_BINS; k++) {
-            double ar = hr[k] * mr[k] + hi[k] * mi[k];
-            double ai = hi[k] * mr[k] - hr[k] * mi[k];
-            double br = hr[k + 1] * mr[k + 1] + hi[k + 1] * mi[k + 1];
-            double bi = hi[k + 1] * mr[k + 1] - hr[k + 1] * mi[k + 1];
-            double dr = br * ar + bi * ai;
-            double di = bi * ar - br * ai;
-            double dphase = Math.atan2(di, dr);
-            double w = Math.hypot(hr[k], hi[k]) * Math.hypot(hr[k + 1], hi[k + 1]);
-            weighted += w * (-dphase / (2.0 * Math.PI / n));
-            weights += w;
-        }
-        result[0] = weights > 0 ? weighted / weights : 0.0;
+        // 응답이 저주파(FIT_LOW_HZ ~ FIT_HIGH_HZ)에서 최소 위상 커널을 d 샘플 지연한 것과 가장 잘 맞는 d 를 구한다.
+        result[0] = fitDelay(hr, hi, mr, mi, n);
         // 잘린 커널의 크기 응답이 원래 응답과 얼마나 다른지 100 Hz ~ 16 kHz 에서 잰다.
         double[] kr = new double[n];
         double[] ki = new double[n];
@@ -561,6 +553,82 @@ public final class HrtfGen {
             cosCache[k] = Math.cos(2.0 * Math.PI * k / n);
             sinCache[k] = Math.sin(2.0 * Math.PI * k / n);
         }
+    }
+
+    /**
+     * Finds the delay <code>d</code> in samples for which the minimum phase spectrum delayed by <code>d</code> is closest (in the least
+     * squares sense of the complex values) to the measured spectrum in the low frequency band {@link #FIT_LOW_HZ} to
+     * {@link #FIT_HIGH_HZ}. Minimizing <code>sum |H - Hmin e^(-j w d)|^2</code> is the same as maximizing
+     * <code>sum Re(H conj(Hmin) e^(j w d))</code>, which is searched on a grid of quarter samples and refined by a ternary search.
+     * <p>
+     * 최소 위상 스펙트럼을 <code>d</code> 샘플 지연한 것이 저주파 대역 {@link #FIT_LOW_HZ} ~ {@link #FIT_HIGH_HZ} 에서 측정한 스펙트럼에 (복소수 값의 최소 제곱 의미에서)
+     * 가장 가까운 지연 <code>d</code>(샘플)를 찾는다. <code>sum |H - Hmin e^(-j w d)|^2</code> 의 최소화는 <code>sum Re(H conj(Hmin) e^(j w d))</code> 의 최대화와 같다.
+     * 1/4 샘플 격자에서 찾고 삼분 탐색으로 다듬는다.
+     *
+     * @param hr the real part of the measured spectrum / 측정한 스펙트럼의 실수부
+     * @param hi the imaginary part of the measured spectrum / 측정한 스펙트럼의 허수부
+     * @param mr the real part of the minimum phase spectrum / 최소 위상 스펙트럼의 실수부
+     * @param mi the imaginary part of the minimum phase spectrum / 최소 위상 스펙트럼의 허수부
+     * @param n  the FFT size / FFT 크기
+     * @return the delay in samples / 지연(샘플)
+     */
+    static double fitDelay(double[] hr, double[] hi, double[] mr, double[] mi, int n) {
+        int lo = (int) Math.ceil(FIT_LOW_HZ * n / RATE);
+        int hiBin = (int) Math.floor(FIT_HIGH_HZ * n / RATE);
+        int count = (hiBin - lo) / 2 + 1;
+        double[] cr = new double[count];
+        double[] ci = new double[count];
+        double[] w = new double[count];
+        // 두 빈에 하나씩 H 와 Hmin 의 켤레의 곱과 각주파수를 모은다.
+        for (int i = 0; i < count; i++) {
+            int k = lo + 2 * i;
+            cr[i] = hr[k] * mr[k] + hi[k] * mi[k];
+            ci[i] = hi[k] * mr[k] - hr[k] * mi[k];
+            w[i] = 2.0 * Math.PI * k / n;
+        }
+        double best = -1e9;
+        double bestD = 0.0;
+        // 거친 격자(1/4 샘플)에서 목적 함수가 가장 큰 지연을 찾는다.
+        for (double d = -40.0; d <= 80.0; d += 0.25) {
+            double c = objective(cr, ci, w, d);
+            if (c > best) {
+                best = c;
+                bestD = d;
+            }
+        }
+        double a = bestD - 0.25;
+        double b = bestD + 0.25;
+        // 삼분 탐색으로 격자 사이를 다듬는다.
+        for (int it = 0; it < 40; it++) {
+            double m1 = a + (b - a) / 3.0;
+            double m2 = b - (b - a) / 3.0;
+            if (objective(cr, ci, w, m1) < objective(cr, ci, w, m2)) {
+                a = m1;
+            } else {
+                b = m2;
+            }
+        }
+        return 0.5 * (a + b);
+    }
+
+    /**
+     * The objective of {@link #fitDelay}: <code>sum Re(c e^(j w d))</code>.
+     * <p>
+     * {@link #fitDelay} 의 목적 함수: <code>sum Re(c e^(j w d))</code>.
+     *
+     * @param cr the real parts of the products / 곱의 실수부
+     * @param ci the imaginary parts of the products / 곱의 허수부
+     * @param w  the angular frequencies / 각주파수
+     * @param d  the delay / 지연
+     * @return the value / 값
+     */
+    private static double objective(double[] cr, double[] ci, double[] w, double d) {
+        double s = 0.0;
+        // 빈마다 위상을 d 만큼 돌린 곱의 실수부를 더한다.
+        for (int i = 0; i < cr.length; i++) {
+            s += cr[i] * Math.cos(w[i] * d) - ci[i] * Math.sin(w[i] * d);
+        }
+        return s;
     }
 
     /**

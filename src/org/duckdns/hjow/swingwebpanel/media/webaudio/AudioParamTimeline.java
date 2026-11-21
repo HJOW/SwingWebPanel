@@ -178,6 +178,23 @@ final class AudioParamTimeline {
     }
 
     /**
+     * Tells whether a value curve (<code>setValueCurveAtTime</code>) is among the events.
+     * <p>
+     * 이벤트 중에 값 곡선(<code>setValueCurveAtTime</code>)이 있는지 알려 준다.
+     *
+     * @return true if there is a value curve / 값 곡선이 있으면 true
+     */
+    synchronized boolean hasValueCurve() {
+        // 이벤트 중 값 곡선이 하나라도 있는지 찾는다.
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).type == SET_VALUE_CURVE) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Throws a <code>NotSupportedError</code> if the time lies inside a value curve (the interval from its start, inclusive, to its end,
      * exclusive).
      * <p>
