@@ -161,6 +161,13 @@ public final class WebAudioApi {
     private ContextApi contextApi;
 
     /**
+     * The audio worklets of the contexts (P25-06); see {@link WorkletApi}.
+     * <p>
+     * 컨텍스트의 오디오 worklet(P25-06). {@link WorkletApi} 참고.
+     */
+    private WorkletApi worklets;
+
+    /**
      * Creates the installer; {@link #install(PageScripts)} is the way in.
      * <p>
      * 설치기를 만든다. 진입점은 {@link #install(PageScripts)} 이다.
@@ -227,6 +234,8 @@ public final class WebAudioApi {
         new ValueApi(this, members).install(g);
         nodes.install(g);
         contextApi.install(g);
+        worklets = new WorkletApi(this, nodes);
+        worklets.install(g);
     }
 
     /**
@@ -578,6 +587,10 @@ public final class WebAudioApi {
             offlineSamples -= c.reservedSamples;
             c.reservedSamples = 0;
         }
+        // 닫히거나 렌더링이 끝난 컨텍스트의 오디오 worklet 도 끝낸다.
+        if (worklets != null) {
+            worklets.contextClosed(c);
+        }
     }
 
     /**
@@ -692,6 +705,10 @@ public final class WebAudioApi {
                 r.cancel();
             }
             c.closeDecoder();
+        }
+        // 컨텍스트마다 가진 오디오 worklet 도 폐기한다.
+        if (worklets != null) {
+            worklets.dispose();
         }
     }
 
