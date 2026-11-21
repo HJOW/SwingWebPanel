@@ -519,6 +519,17 @@ public abstract class AudioNode {
     }
 
     /**
+     * Connects output 0 of this node to a parameter.
+     * <p>
+     * 이 노드의 출력 0 을 파라미터에 연결한다.
+     *
+     * @param destination the destination parameter / 대상 파라미터
+     */
+    public final void connect(AudioParam destination) {
+        connect(destination, 0);
+    }
+
+    /**
      * Disconnects every outgoing connection.
      * <p>
      * 나가는 모든 연결을 끊는다.

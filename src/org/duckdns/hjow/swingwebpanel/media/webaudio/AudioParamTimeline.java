@@ -142,6 +142,13 @@ final class AudioParamTimeline {
     private double base;
 
     /**
+     * True if the list may contain a value curve; the check for a curve is skipped while it is false.
+     * <p>
+     * 목록에 값 곡선이 있을 수 있으면 true. false 인 동안은 곡선 검사를 건너뛴다.
+     */
+    private boolean maybeCurves;
+
+    /**
      * True while the {@link Event#left} values are valid.
      * <p>
      * {@link Event#left} 값이 유효한 동안 true.
@@ -179,13 +186,21 @@ final class AudioParamTimeline {
      * @param time the time of the new event / 새 이벤트의 시간
      */
     private void checkNotInsideCurve(double time) {
-        // 값 곡선이 지속되는 동안에는 다른 이벤트를 넣을 수 없다.
+        if (!maybeCurves) {
+            return;
+        }
+        boolean any = false;
+        // 값 곡선이 지속되는 동안에는 다른 이벤트를 넣을 수 없다. 곡선이 하나도 없으면 다음부터 이 검사를 건너뛴다.
         for (int i = 0; i < events.size(); i++) {
             Event e = events.get(i);
-            if (e.type == SET_VALUE_CURVE && time >= e.time && time < e.time + e.duration) {
-                throw new AudioException(AudioException.Kind.NOT_SUPPORTED, "the time " + time + " lies inside a value curve");
+            if (e.type == SET_VALUE_CURVE) {
+                any = true;
+                if (time >= e.time && time < e.time + e.duration) {
+                    throw new AudioException(AudioException.Kind.NOT_SUPPORTED, "the time " + time + " lies inside a value curve");
+                }
             }
         }
+        maybeCurves = any;
     }
 
     /**
@@ -331,6 +346,7 @@ final class AudioParamTimeline {
         e.duration = duration;
         int pos = upperBound(time);
         events.add(pos, e);
+        maybeCurves = true;
         Event end = new Event(SET_VALUE, time + duration, values[values.length - 1]);
         events.add(upperBound(time + duration), end);
         prepared = false;
