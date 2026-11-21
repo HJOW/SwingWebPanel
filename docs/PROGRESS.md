@@ -28,6 +28,7 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
   (2026-11-22) **P24 완료**(아래 작업 로그). 다음: P25(Web Audio)와 P26(엔진 분리)을 작업자 두 명이 병렬로(`docs/progress/briefs/webaudio.md`, `engine.md`), 조정자는 병합·전체 회귀를 맡는다.
   (2026-11-22) **P26 완료·main 병합**(커밋 `20261122-200`~`204`, 엔진 작업자). 엔진을 `engine/` 으로 분리하고(`engine/src`, `engine/tests`, `engine/resources`) 독립 API `js.embed`, `javax.script` 제공자 `js.script`, JAR 세 개를 만들었다. **빌드/시험 구조가 바뀌었다**: `build.sh|bat` 는 엔진→브라우저→합친 클래스 순서로 빌드하고 `test.sh|bat` 는 엔진 단계(엔진 클래스만, headless)와 브라우저 단계를 차례로 돌려 `=== TOTAL (engine + browser): ... ===` 를 출력한다. 엔진 소스 경로는 `src/.../js/{*.java,ast,parser,interp,builtins,date,num,regexp,text}` → `engine/src/...` (브라우저는 `js.host/dom/worker` 만 `src` 에 남음). 전체 회귀(조정자가 직접 재실행, JDK 6u45): **3823 통과/0 실패/14 건너뜀**(엔진 648 + 브라우저 3175). 상세 `docs/progress/engine.md`.
   (2026-11-22) **P25 A1 병합**(그래프 엔진·AudioParam·1차 노드, 커밋 `20261122-100`~`109`, `media/webaudio`). AGENTS 에서 P25-01, P25-03 체크, P25-02/04 는 미완료 유지(실시간 오디오 스레드는 C, 남은 노드는 A2). 진행 중 작업자 2명: **A2**(WaveShaper/Convolver/DynamicsCompressor/Analyser/Panner·HRTF/MediaElementAudioSource, 커밋 번호 110~139, `tools/hrtfgen` 추가 예정)와 **B**(AudioBuffer 마무리·`decodeAudioData` 순수 Java 쪽·리샘플러·비동기 디코딩 서비스, 140~169). 이후 C(JavaScript 바인딩·실시간 출력·`ScriptProcessorNode`), D(AudioWorklet·검증) → P23.
+  (2026-11-22) **P25 B 병합**(`20261122-140`~`147`, `media/webaudio/decode`·`AudioBuffer`): 조정자 전체 회귀 **4005 통과/0 실패/14 건너뜀**(JDK 6u45). 이 시점 main = aad54f2 + 문서 커밋. B 작업자는 이어서 **B2**(P18 디코더에 원래 채널 수·float 정밀도 선택 경로 추가, 잘린 파일은 디코딩한 만큼 돌려주는 관대 정책; 커밋 148~)를 진행 중이고 A2 는 `tools/hrtfgen` 까지 커밋했다. P25-05 는 JavaScript 노출(C 단계)이 남아 미완료.
 ```
 
 ## 2026-11-20 주 패키지명 변경: `swingwebpanel` → `org.duckdns.hjow.swingwebpanel`
@@ -292,6 +293,13 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-22 · P25 B AudioBuffer·decodeAudioData 순수 Java 쪽 병합 (WEBAUDIO-B 작업자, 커밋 `20261122-140`~`147`)
+- **구현**: `AudioBuffer` 복사 규칙을 규격 1.4.3(`max(0, min(N_b-k, N_f))`, `bufferOffset` 이 길이 이상이어도 오류 아님)으로 바로잡음(A1 의 `EngineStateTest` 어서션 1개 수정), `AudioBuffer.wrap`. `media.webaudio.decode`: `Resampler`(Kaiser 창 sinc 다상, 설계 정지 대역 100 dB·130 탭, 정확한 위상 표/1024행 보간 표, 길이 `ceil(N·out/in)`, 입력 분할과 무관하게 비트 단위 같은 결과), `AudioBufferDecoder`(P18 `AudioDecoders.open` 시그니처 판별 → float → 채널별 리샘플 → `AudioBuffer`, 모든 실패는 원인이 붙은 `EncodingError`), `AudioDecodeService`(데몬 스레드 풀, `Executor` 콜백, 취소·닫기·한도 64요청/256 MB·콜백 예외 격리). 상세 `docs/progress/webaudio-b.md`.
+- **품질(시험이 출력한 실측)**: 통과 대역 이득 오차 최대 9.3e-5 dB, 95% 나이퀴스트에서 -6.02 dB, 정지 대역 가장 약한 것 -100.8 dB, 올릴 때 잔차 -104.7 dB, 사인 재현 오차 5.1e-6(진폭 0.5), 보간 표 대 정확한 위상 표 8.3e-7. ffmpeg(libsoxr VHQ)와 길이·시간 정렬이 같고 정확도가 같은 수준(참고 비교, 합격 기준은 해석식). 모노 60초 분량을 0.5~1.3초에 변환.
+- **디코딩 검증**: P18 시험 자료 121개가 아홉 계열 모두 같은 경로로 디코딩, 무손실은 ffmpeg 참조 PCM 과 비트 단위 일치, 손상 사본 1089개는 703 디코딩/386 `EncodingError`/그 밖의 예외 0.
+- **검증(JDK 6u45)**: 작업자 `media/webaudio` 182건(A1 121 + 새 61) 통과, 조정자 전체 회귀(rebase 한 스냅샷) **4005 통과/0 실패/14 건너뜀**.
+- **한계와 결정**: (1) P18 디코더가 3채널 이상을 스테레오로 내리고 24비트 이상·float 를 16비트로 반올림 → **B2 승인**(원래 채널·float 선택 경로를 `media/audio/**` 에 추가, 기존 16비트 경로 출력은 비트 단위 불변). (2) 잘린 파일은 처음에 엄격(`EncodingError`)이었으나 **관대 정책으로 변경 결정**(디코딩한 프레임이 하나라도 있으면 그만큼 성공, 실제 브라우저·1.1 WD 비규범 주석에 맞춤). (3) 실제 64 MB 입력/2^25 표본 출력, 트랙이 여럿인 MP4/WebM, Chromium 의 길이 식(`ceil` 인지)은 확인하지 못함. (4) P25-05 는 `decodeAudioData` 의 Promise/콜백/ArrayBuffer 분리/문서 큐 전달(C 단계)이 남아 미완료.
 
 ### 2026-11-22 · P25 A1 Web Audio 그래프 엔진 병합 (WEBAUDIO 작업자, 커밋 `20261122-100`~`109`)
 - **구현**: `media.webaudio`(+`.dsp`) 순수 Java. render quantum 128, 제어 메시지 모델, `connect/disconnect` 전 형태, 규격 4.4/4.5 채널 믹스(12쌍 행렬), 순환 규칙(Tarjan: DelayNode 든 순환만 허용, 아니면 무음), 꼬리 시간/수명, `OfflineAudioContext`, AudioParam 자동화 전부, 노드 11종(Destination, BufferSource, Oscillator+PeriodicWave, ConstantSource, Gain, Delay, Biquad, IIR, StereoPanner, ChannelSplitter/Merger)과 기본 `AudioBuffer`. 판본·결정·한계는 `docs/progress/webaudio.md`(기능 표 8.4절 WAU-01~09, 예외 EXC-14 로 옮김).

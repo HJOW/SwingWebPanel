@@ -479,3 +479,4 @@ P20-01 에서 더한 것의 소유 영역: `js/host/LegacyWebApi`(`window.event`
 - **렌더링 규칙**: 렌더링 중에는 새 배열을 만들지 않고 `AudioBus`/`float[]` 를 재사용한다(채널 수가 바뀔 때만 재할당). 시작한 원천과 꼬리 시간 안의 노드만 엔진이 붙잡고, 연결도 시작도 없는 노드는 처리하지 않는다. DelayNode 가 든 순환은 읽기/쓰기 두 단계로 나누고 그 밖의 순환은 무음 처리한다(Tarjan). 한도는 `WebAudioLimits` 의 이름 있는 상수(활성 노드 20000, 자동화 이벤트 65536 등).
 - **채널 믹스**: 기존 `media.audio.ChannelMixer`(디코딩 결과를 스테레오로 줄이는 용도)는 재사용하지 않고 규격 4.4/4.5절 행렬을 `ChannelMixing` 에 구현했다.
 - 도구 목록은 변경 없음(`tools/webfetch` 로 규격 조회). A2 에서 `tools/hrtfgen`(HRTF 자료 변환)이 추가될 예정이다. 상세 `docs/progress/webaudio.md`.
+- **디코딩(P25-05, `media.webaudio.decode`)**: `AudioBufferDecoder`(바이트 → P18 디코더(`AudioDecoders.open`, 시그니처 판별) → float → 채널별 `Resampler`(Kaiser 창 sinc 다상, 정지 대역 100 dB) → `AudioBuffer`)와 `AudioDecodeService`(인스턴스마다 데몬 스레드 풀 `swingwebpanel-audio-decode-N`, 유휴 5초 뒤 종료, 정적 상태 없음, 콜백은 호출자가 준 `Executor`(문서 큐용), 취소/닫기/한도). 스레드가 하나이면 요청 순서, 둘 이상이면 순서 비보장(규격이 정하지 않음).
