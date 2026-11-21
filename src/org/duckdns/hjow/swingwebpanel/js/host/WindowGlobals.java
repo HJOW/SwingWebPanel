@@ -143,6 +143,13 @@ final class WindowGlobals {
     private volatile org.duckdns.hjow.swingwebpanel.js.host.anim.WebAnimationsApi animations;
 
     /**
+     * The Web Audio API of the page (<code>AudioContext</code> and the nodes, P25), closed when the scripts of the page stop.
+     * <p>
+     * 페이지의 Web Audio API(<code>AudioContext</code> 와 노드, P25). 페이지의 스크립트가 멈추면 함께 닫힌다.
+     */
+    private volatile org.duckdns.hjow.swingwebpanel.js.host.webaudio.WebAudioApi webAudio;
+
+    /**
      * The listener for sessionStorage changes of other documents of the component.
      * <p>
      * 컴포넌트의 다른 문서의 sessionStorage 변경을 듣는 리스너.
@@ -334,6 +341,8 @@ final class WindowGlobals {
         web = WebApis.install(page);
         workers = new org.duckdns.hjow.swingwebpanel.js.worker.WorkerApi(page);
         workers.install();
+        // Web Audio(AudioContext 등)는 DOM 인터페이스(EventTarget, Event)가 생긴 뒤에 설치한다(P25).
+        webAudio = org.duckdns.hjow.swingwebpanel.js.host.webaudio.WebAudioApi.install(page);
     }
 
     /**
@@ -368,6 +377,11 @@ final class WindowGlobals {
         org.duckdns.hjow.swingwebpanel.js.host.anim.WebAnimationsApi an = animations;
         if (an != null) {
             an.dispose();
+        }
+        // Web Audio 컨텍스트도 기다리지 않고 닫는다(렌더링 스레드와 오프라인 렌더링, 디코딩 서비스가 끝난다).
+        org.duckdns.hjow.swingwebpanel.js.host.webaudio.WebAudioApi wa = webAudio;
+        if (wa != null) {
+            wa.dispose();
         }
     }
 
