@@ -557,9 +557,17 @@ public abstract class BaseAudioContext {
             list.remove(list.size() - 1);
         }
         RenderGraph.Plan plan = RenderGraph.order(list);
+        AudioNode[] previous = steps;
         steps = plan.nodes;
         phases = plan.phases;
         mutedNodes = plan.mutedCount;
+        HashSet<AudioNode> now = new HashSet<AudioNode>(java.util.Arrays.asList(steps));
+        // 이제 처리하지 않는 노드는 출력을 무음 채널 하나로 되돌리고 내부 상태를 지운다.
+        for (int i = 0; i < previous.length; i++) {
+            if (!now.contains(previous[i])) {
+                previous[i].drop();
+            }
+        }
     }
 
     /**

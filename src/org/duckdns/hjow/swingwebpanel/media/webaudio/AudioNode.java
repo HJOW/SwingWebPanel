@@ -792,6 +792,26 @@ public abstract class AudioNode {
     }
 
     /**
+     * Called when the context does not process the node any more (it is not started, active or within its tail time, and nothing that
+     * is processed reaches it): the outputs become a single silent channel that is not active, and the internal state is cleared.
+     * <p>
+     * 컨텍스트가 노드를 더 이상 처리하지 않을 때(시작했거나 활성이거나 꼬리 시간 안에 있지 않고 처리 중인 어떤 것도 닿지 않을 때) 불린다: 출력은 활성이 아닌 무음
+     * 채널 하나가 되고 내부 상태는 지워진다.
+     */
+    final void drop() {
+        // 모든 출력을 무음 채널 하나로 되돌리고 도장을 지운다.
+        for (int i = 0; i < outputs.length; i++) {
+            outputs[i].bus.makeSilentMono();
+            outputs[i].active = false;
+            outputs[i].stamp = -1;
+        }
+        if (wasActive) {
+            resetState();
+        }
+        wasActive = false;
+    }
+
+    /**
      * Pulls the inputs and decides whether the node is active.
      * <p>
      * 입력을 끌어오고 노드가 활성인지 정한다.
