@@ -31,6 +31,7 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
   (2026-11-22) **P25 B 병합**(`20261122-140`~`147`, `media/webaudio/decode`·`AudioBuffer`): 조정자 전체 회귀 **4005 통과/0 실패/14 건너뜀**(JDK 6u45). 이 시점 main = aad54f2 + 문서 커밋. B 작업자는 이어서 **B2**(P18 디코더에 원래 채널 수·float 정밀도 선택 경로 추가, 잘린 파일은 디코딩한 만큼 돌려주는 관대 정책; 커밋 148~)를 진행 중이고 A2 는 `tools/hrtfgen` 까지 커밋했다. P25-05 는 JavaScript 노출(C 단계)이 남아 미완료.
   (2026-11-22) **P25 A2 병합**(`20261122-110`~`117`, 나머지 노드): 조정자 전체 회귀 **4097 통과/0 실패/14 건너뜀**(JDK 6u45). main = fc209dc + 문서 커밋. 남은 것: B2(진행 중), C1(JavaScript 바인딩), C2(실시간 출력·`ScriptProcessorNode`·`<audio>` 어댑터·수명), D(AudioWorklet·검증). P25-04 체크는 C2 의 `<audio>` 어댑터 뒤.
   (2026-11-22) **P25 B2 병합**(`20261122-148`~`155`, P18 디코더 아홉 개의 넓은 경로 + 관대 손상 정책): 아래 로그 참조. 진행 중: **C1**(JavaScript 바인딩·OfflineAudioContext·decodeAudioData, 커밋 번호 170~199).
+  (2026-11-22) **P25 C1 병합**(`20261122-170`~`175`): 전체 회귀 **4186 통과/0 실패/14 건너뜀**(JDK 6u45, 시험 안정화 뒤). AGENTS 에서 **P25-05 체크**. 진행 중: C2a 완료·회귀 중(실시간 출력 구동기, `ScriptProcessorNode` 엔진 노드, 커밋 300~303), 다음은 **C2b**(JS 연결: `OutputRenderDriver` 로 교체, `createScriptProcessor`, `createMediaElementSource` `<audio>` 어댑터, 수명)와 D(AudioWorklet·검증).
 ```
 
 ## 2026-11-20 주 패키지명 변경: `swingwebpanel` → `org.duckdns.hjow.swingwebpanel`
@@ -295,6 +296,14 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-22 · P25 C1 JavaScript 바인딩·OfflineAudioContext·decodeAudioData 병합 (WEBAUDIO-C1 작업자, 커밋 `20261122-170`~`175`)
+- **구현**: `js.host.webaudio`(`WebAudioApi`, `Members`, `Idl`, `ContextApi`, `NodeApi`, `ValueApi`, `BufferApi`, `OfflineRender`, 값 래퍼, `OfflineAudioCompletionEvent`, `AudioProcessingEvent` 등): 전역 인터페이스 27개와 생성자·`createX` 팩터리·옵션 사전·`connect`/`disconnect` 전 형식·WebIDL 변환·오류 이름·`webkitAudioContext` 별칭. `OfflineAudioContext`(전용 스레드 `swingwebpanel-audio-offline-N`, `suspend(time)`/`resume`, `complete` 이벤트 순서). `decodeAudioData`(Promise/콜백, ArrayBuffer 분리, 문서 큐 전달, 취소, 잘림·손상 경고를 콘솔 `warn` 으로). 실시간 `AudioContext` 의 JS 쪽(상태, `statechange`, `resume`/`suspend`/`close`, `getOutputTimestamp`, `sinkId`)은 `media.webaudio.RealtimeAudioContext` + 교체 가능한 `Driver`(기본 `ClockRenderDriver`: 벽시계 속도로 렌더링하고 출력은 버림). 정리: `WindowGlobals.cancelRequests()` → `WebAudioApi.dispose()`. 기존 파일 변경은 `WindowGlobals.java` 3곳과 `AudioBufferSourceNode.acquireBuffer` 1개. 상세 `docs/progress/webaudio-c.md`.
+- **중심 설계(`getChannelData`)**: 채널마다 기준 저장소 하나(건드리기 전 `float[]`, 건드린 뒤 `byte[]` 가 안정된 `Float32Array` 를 뒷받침), 노드는 `acquire()` 스냅샷으로 가져감(건드리지 않은 채널은 복사 없이 공유). 규격 1.4.3 과 달리 acquire 때 이전 배열을 분리하지 않음(Chromium 방식).
+- **한도**: 실시간 컨텍스트 6개, 오프라인 16개와 합계 2^25 표본(134 MB).
+- **검증(JDK 6u45)**: 작업자: JS 시험 64건(기존 55 + 후속 9), `media.webaudio` 286건, 감사 시험 3종, 소스 점검 0 위반, 손 변이 시험 5건. 조정자 전체 회귀(시험 안정화 `20261122-010` 뒤) **4186 통과/0 실패/14 건너뜀**. 후속 175(경고 전달, 6채널/24비트/float/32채널 JS 시험): 6채널·8채널은 채널 수대로, 24비트는 `정수/2^23` 과 비트 단위로 같고, 33채널과 프레임 0개는 `EncodingError`.
+- **알려진 한계**: 경고 없이 더 짧게 resolve 되는 잘림(WAV, Ogg Vorbis/Opus, MP3, AAC; 디코더가 잘림을 표시하지 않음, B2 영역), 33채널 이상, 버린 컨텍스트도 렌더링 종료/페이지 종료까지 한도 몫 유지. 실제 Swing 창·소리 청취·다른 브라우저와의 비교는 하지 않음.
+- **회귀 불안정의 원인 해소(같은 날)**: 전체 회귀에서만 실패하던 두 시험을 조사했다. `BrowserJarsTest`: 제품 JAR 을 별도 클래스 로더로 다시 읽을 때 JRE 6 의 PermGen 한도를 넘음(`OutOfMemoryError: PermGen space`) → 시험 JVM 에 `-XX:MaxPermSize=256m`(`test.sh`/`test.bat`/`scripts/pkgtest.sh`). `TextTrackIntegrationTest`: 가짜 출력이 재생을 즉시 끝내서 큐 처리가 스레드 경쟁에 달려 있던 시험 설계 문제(통과할 때도 30~67 ms, 앞서 "부하 때문"이라 적은 것은 부정확했다) → 가짜 출력을 수동 모드로 두고 시험이 재생 위치를 0.05초씩 정하도록 고침. 둘 다 고친 뒤 회귀가 통과했다.
 
 ### 2026-11-22 · P25 B2 넓은 디코딩 경로와 관대 손상 정책 병합 (WEBAUDIO-B 작업자, 커밋 `20261122-148`~`155`)
 - **구현**: `media.audio` 에 `FloatPcmSource`, `WideAudioDecoder`(`openWide`), `BlockFloatSource`, `PcmFloatAdapter`, 형식별 `*FloatSource`, `pcm/{RawFloatSource,AdpcmFloatSource,PcmSources}`. P18 디코더 아홉 개(WAV, AIFF, AU, FLAC, MP3, AAC, Vorbis, Opus, WebM)가 **파일의 모든 채널(최대 32)을 표준 순서(FL FR FC LFE BL BR BC SL SR)로, float 정밀도로, 클리핑 없이** 낸다. 재생용 16비트 `PcmSource` 경로는 그대로이고 두 경로는 같은 디코딩 코어를 공유한다. `AudioBufferDecoder.decodeResult` → `DecodeResult`(`getBuffer`, `isTruncated`, `getWarning`, `getCause`), `DecodeWarningCallback`(`onSuccess` 직전 `onWarning`). 상세 `docs/progress/webaudio-b.md` 10절, 요약은 `docs/progress/media-matrix.md` 12절.
