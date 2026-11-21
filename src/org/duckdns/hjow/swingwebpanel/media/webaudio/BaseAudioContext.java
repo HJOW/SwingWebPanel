@@ -899,6 +899,22 @@ public abstract class BaseAudioContext {
     }
 
     /**
+     * Creates a script processor (<code>createScriptProcessor</code>, deprecated; see {@link ScriptProcessorNode} for the delay and the rules
+     * of the blocks).
+     * <p>
+     * 스크립트 프로세서를 만든다(<code>createScriptProcessor</code>, 폐기 예정. 지연과 블록의 규칙은 {@link ScriptProcessorNode} 참고).
+     *
+     * @param bufferSize             0 to let the implementation pick, or a power of two from 256 to 16384 / 0 이면 구현이 고르고, 아니면 256 ~ 16384 의 2 의 거듭제곱
+     * @param numberOfInputChannels  the number of input channels, from 0 to 32 / 입력 채널 수(0 ~ 32)
+     * @param numberOfOutputChannels the number of output channels, from 0 to 32; not both 0 / 출력 채널 수(0 ~ 32). 둘 다 0 은 안 된다
+     * @return the node / 노드
+     * @throws AudioException <code>IndexSizeError</code> if a value is out of range / 값이 범위 밖이면 <code>IndexSizeError</code>
+     */
+    public final ScriptProcessorNode createScriptProcessor(int bufferSize, int numberOfInputChannels, int numberOfOutputChannels) {
+        return new ScriptProcessorNode(this, bufferSize, numberOfInputChannels, numberOfOutputChannels);
+    }
+
+    /**
      * Creates a silent buffer.
      * <p>
      * 무음 버퍼를 만든다.
