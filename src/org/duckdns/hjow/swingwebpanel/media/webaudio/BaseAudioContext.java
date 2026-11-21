@@ -741,6 +741,17 @@ public abstract class BaseAudioContext {
     }
 
     /**
+     * Creates a wave shaper (<code>createWaveShaper</code>).
+     * <p>
+     * 웨이브셰이퍼를 만든다(<code>createWaveShaper</code>).
+     *
+     * @return the node / 노드
+     */
+    public final WaveShaperNode createWaveShaper() {
+        return new WaveShaperNode(this);
+    }
+
+    /**
      * Creates a silent buffer.
      * <p>
      * 무음 버퍼를 만든다.

@@ -835,7 +835,21 @@ public abstract class AudioNode {
         if (inputActive) {
             lastInputActiveEnd = frame0 + frames;
         }
-        return inputActive || frame0 < lastInputActiveEnd + tailFrames();
+        return inputActive || alwaysActive() || frame0 < lastInputActiveEnd + tailFrames();
+    }
+
+    /**
+     * Tells whether the node produces non-silent output even when its inputs are silent or not connected, so that it is processed in every
+     * quantum (a wave shaper whose curve maps zero to a non-zero value produces a constant signal). A node that returns true must be
+     * pinned by the context while it does.
+     * <p>
+     * 입력이 무음이거나 연결되지 않았어도 노드가 무음이 아닌 출력을 만드는지 알려 준다. 그러면 노드를 모든 quantum 에서 처리한다(곡선이 0 을 0 이 아닌 값으로
+     * 옮기는 웨이브셰이퍼는 일정한 신호를 만든다). true 를 반환하는 동안 컨텍스트가 노드를 붙잡고 있어야 한다.
+     *
+     * @return true if the node is always active / 항상 활성이면 true
+     */
+    boolean alwaysActive() {
+        return false;
     }
 
     /**
