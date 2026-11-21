@@ -2,8 +2,9 @@ package org.duckdns.hjow.swingwebpanel.media.audio.webm;
 
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.opus.OpusDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.opus.OpusInOgg;
 import org.duckdns.hjow.swingwebpanel.media.audio.vorbis.VorbisDecoder;
@@ -18,7 +19,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.vorbis.VorbisDecoder;
  * 트랙(이 프로젝트의 Opus 디코더 사용)을 해독한다. 다른 오디오 코덱의 Matroska 파일은 인식하되 미지원으로 보고한다. 레지스트리가 리플렉션으로 등록하며
  * 인수 없는 공개 생성자가 있다.
  */
-public final class WebmDecoder implements AudioDecoder {
+public final class WebmDecoder implements WideAudioDecoder {
 
     /**
      * Creates the decoder. / 디코더를 만든다.
@@ -50,6 +51,35 @@ public final class WebmDecoder implements AudioDecoder {
 
     /** Opens the file and the decoder of its first audio track. / 파일과 첫 오디오 트랙의 디코더를 연다. */
     public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
+        return (PcmSource) create(data, limits, false);
+    }
+
+    /**
+     * Opens the file with every channel and the float output of the decoder of its first audio track (see {@link WideAudioDecoder}).
+     * <p>
+     * 첫 오디오 트랙의 디코더의 모든 채널과 float 출력으로 파일을 연다({@link WideAudioDecoder} 참조).
+     *
+     * @param data   the file / 파일
+     * @param limits limits / 제한
+     * @return float source / float 소스
+     * @throws MediaException the failures of {@link #open} / {@link #open} 의 실패
+     */
+    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
+        return (FloatPcmSource) create(data, limits, true);
+    }
+
+    /**
+     * Re-muxes the first audio track as an Ogg stream and opens it with the decoder of its codec, in the form that was asked for.
+     * <p>
+     * 첫 오디오 트랙을 Ogg 스트림으로 다시 묶어 그 코덱의 디코더로 요청한 형태로 연다.
+     *
+     * @param data   the file / 파일
+     * @param limits limits / 제한
+     * @param wide   true for the wide path / 넓은 경로이면 true
+     * @return a {@link PcmSource} or a {@link FloatPcmSource} / {@link PcmSource} 또는 {@link FloatPcmSource}
+     * @throws MediaException on a damaged or unsupported file / 손상되었거나 지원하지 않는 파일이면
+     */
+    private Object create(byte[] data, DecodeLimits limits, boolean wide) throws MediaException {
         if (data.length > limits.getMaxBytes()) {
             throw new MediaException(MediaException.Kind.TOO_LARGE, "audio data is too large");
         }
@@ -59,10 +89,12 @@ public final class WebmDecoder implements AudioDecoder {
             throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "the file has no audio track");
         }
         if ("A_VORBIS".equals(t.getCodecId())) {
-            return new VorbisDecoder().open(VorbisInOgg.build(t, data), limits);
+            byte[] ogg = VorbisInOgg.build(t, data);
+            return wide ? (Object) new VorbisDecoder().openWide(ogg, limits) : new VorbisDecoder().open(ogg, limits);
         }
         if ("A_OPUS".equals(t.getCodecId())) {
-            return new OpusDecoder().open(OpusInOgg.build(t, data), limits);
+            byte[] ogg = OpusInOgg.build(t, data);
+            return wide ? (Object) new OpusDecoder().openWide(ogg, limits) : new OpusDecoder().open(ogg, limits);
         }
         throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "the WebM audio codec " + t.getCodecId() + " is not supported");
     }

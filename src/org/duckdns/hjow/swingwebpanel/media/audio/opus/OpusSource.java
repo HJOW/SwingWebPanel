@@ -436,6 +436,96 @@ final class OpusSource extends BlockPcmSource {
      * @throws MediaException CORRUPT for a stream that cannot be decoded / 디코딩할 수 없는 스트림이면 CORRUPT
      */
     protected int fill(byte[] out) throws MediaException {
+        int n = nextBlock();
+        return n < 0 ? -1 : convert(blockLink, blockFrom, blockTo, out);
+    }
+
+    /**
+     * The link of the block that {@link #nextBlock()} produced.
+     * <p>
+     * {@link #nextBlock()} 이 만든 블록의 고리.
+     */
+    private Link blockLink;
+
+    /**
+     * First frame of the block in {@link #blockChannels()}.
+     * <p>
+     * {@link #blockChannels()} 안에서 블록의 첫 프레임.
+     */
+    private int blockFrom;
+
+    /**
+     * End of the block in {@link #blockChannels()}.
+     * <p>
+     * {@link #blockChannels()} 안에서 블록의 끝.
+     */
+    private int blockTo;
+
+    /**
+     * Returns the decoded samples of the block that {@link #nextBlock()} produced: the frames from {@link #blockFrom()} on, one array per channel
+     * (the wide path reads them directly).
+     * <p>
+     * {@link #nextBlock()} 이 만든 블록의 디코딩된 표본을 반환한다: {@link #blockFrom()} 부터의 프레임. 채널마다 배열 하나(넓은 경로가 직접 읽는다).
+     *
+     * @return the decoded samples / 디코딩된 표본
+     */
+    float[][] blockChannels() {
+        return chan;
+    }
+
+    /**
+     * Returns the index of the first frame of the block in {@link #blockChannels()}.
+     * <p>
+     * {@link #blockChannels()} 안에서 블록의 첫 프레임의 인덱스를 반환한다.
+     *
+     * @return the first frame / 첫 프레임
+     */
+    int blockFrom() {
+        return blockFrom;
+    }
+
+    /**
+     * Returns the channel count of every link if it is the same in all of them and every link uses the same channel mapping family, else -1 (a
+     * chained stream that changes its layout cannot be given with a fixed number of channels).
+     * <p>
+     * 모든 고리의 채널 수와 채널 매핑 군이 같으면 그 채널 수를, 아니면 -1 을 반환한다(배치가 바뀌는 연결된 스트림은 고정된 채널 수로 줄 수 없다).
+     *
+     * @return the channels or -1 / 채널 수 또는 -1
+     */
+    int uniformChannels() {
+        int ch = links.get(0).head.channels;
+        int family = links.get(0).head.family;
+        // 모든 고리가 같은 채널 수와 매핑 군을 가졌는지 확인한다.
+        for (Link l : links) {
+            if (l.head.channels != ch || l.head.family != family) {
+                return -1;
+            }
+        }
+        return ch;
+    }
+
+    /**
+     * Returns the channel mapping family of the first link.
+     * <p>
+     * 첫 고리의 채널 매핑 군을 반환한다.
+     *
+     * @return the family / 매핑 군
+     */
+    int family() {
+        return links.get(0).head.family;
+    }
+
+    /**
+     * Decodes packets until one produces output; the samples are then in {@link #blockChannels()} from {@link #blockFrom()}. Both the 16 bit path and
+     * the wide path read blocks through this method.
+     * <p>
+     * 출력이 나오는 패킷이 나올 때까지 디코딩한다. 샘플은 그다음 {@link #blockChannels()} 의 {@link #blockFrom()} 부터에 있다. 16비트 경로와 넓은 경로가 모두 이
+     * 메서드로 블록을 읽는다.
+     *
+     * @return the number of frames of the block, or -1 at the end / 블록의 프레임 수. 끝이면 -1
+     * @throws MediaException CORRUPT for a stream that cannot be decoded / 디코딩할 수 없는 스트림이면 CORRUPT
+     */
+    int nextBlock() throws MediaException {
         // 출력이 나오는 패킷을 찾을 때까지 패킷을 디코딩한다.
         for (;;) {
             OggPacket p = nextPacket();
@@ -482,7 +572,10 @@ final class OpusSource extends BlockPcmSource {
             if (to <= from) {
                 continue;
             }
-            return convert(l, from, to, out);
+            blockLink = l;
+            blockFrom = from;
+            blockTo = to;
+            return to - from;
         }
     }
 

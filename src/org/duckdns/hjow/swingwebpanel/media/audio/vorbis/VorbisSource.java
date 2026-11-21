@@ -139,6 +139,42 @@ final class VorbisSource extends BlockPcmSource {
      * @throws MediaException CORRUPT for invalid packets / 패킷이 올바르지 않으면 CORRUPT
      */
     protected int fill(byte[] out) throws MediaException {
+        int n = nextBlock();
+        return n < 0 ? -1 : convert(n, out);
+    }
+
+    /**
+     * Returns the decoded channels of the block that {@link #nextBlock()} produced, one array per channel (the wide path reads them directly).
+     * <p>
+     * {@link #nextBlock()} 이 만든 블록의 디코딩된 채널을 채널마다 배열 하나로 반환한다(넓은 경로가 직접 읽는다).
+     *
+     * @return the decoded samples / 디코딩된 표본
+     */
+    float[][] blockOutput() {
+        return core.output;
+    }
+
+    /**
+     * Returns the number of channels of the stream (the 16 bit path outputs at most two).
+     * <p>
+     * 스트림의 채널 수를 반환한다(16비트 경로는 최대 둘을 출력한다).
+     *
+     * @return channels / 채널 수
+     */
+    int sourceChannels() {
+        return channels;
+    }
+
+    /**
+     * Decodes packets until one produces output; the samples are then in {@link #blockOutput()}. Both the 16 bit path and the wide path read
+     * blocks through this method.
+     * <p>
+     * 출력을 만드는 패킷이 나올 때까지 디코딩한다. 샘플은 그다음 {@link #blockOutput()} 에 있다. 16비트 경로와 넓은 경로가 모두 이 메서드로 블록을 읽는다.
+     *
+     * @return the number of frames of the block, or -1 at the end / 블록의 프레임 수. 끝이면 -1
+     * @throws MediaException CORRUPT for invalid packets / 패킷이 올바르지 않으면 CORRUPT
+     */
+    int nextBlock() throws MediaException {
         // 출력이 나오는 패킷을 찾을 때까지 패킷을 디코딩한다.
         for (;;) {
             OggPacket p = nextPacket();
@@ -159,7 +195,7 @@ final class VorbisSource extends BlockPcmSource {
             if (n == 0) {
                 continue;
             }
-            return convert(n, out);
+            return n;
         }
     }
 

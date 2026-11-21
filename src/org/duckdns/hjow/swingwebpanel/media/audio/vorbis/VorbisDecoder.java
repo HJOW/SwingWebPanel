@@ -2,8 +2,9 @@ package org.duckdns.hjow.swingwebpanel.media.audio.vorbis;
 
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPacket;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPacketStream;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggReader;
@@ -19,7 +20,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream;
  * 스테레오로 다운믹스). Ogg 파일의 첫 Vorbis 스트림을 재생한다. 다중화 파일의 다른 스트림은 무시하고, 체인 파일은 첫 고리만 재생한다(고리마다 샘플링
  * 주파수와 채널 수가 바뀔 수 있는데 하나의 PCM 스트림으로는 표현할 수 없다).
  */
-public final class VorbisDecoder implements AudioDecoder {
+public final class VorbisDecoder implements WideAudioDecoder {
 
     /**
      * Creates the decoder.
@@ -74,6 +75,34 @@ public final class VorbisDecoder implements AudioDecoder {
      * @throws MediaException on damaged data / 손상된 데이터일 때
      */
     public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
+        return create(data);
+    }
+
+    /**
+     * Opens the data with every channel of the stream and the float output of the decoder (see {@link WideAudioDecoder}); the channels are in the
+     * canonical order (see {@link VorbisFloatSource}).
+     * <p>
+     * 스트림의 모든 채널과 디코더의 float 출력으로 데이터를 연다({@link WideAudioDecoder} 참조). 채널은 표준 순서이다({@link VorbisFloatSource} 참조).
+     *
+     * @param data   the data / 데이터
+     * @param limits limits / 제한
+     * @return float source / float 소스
+     * @throws MediaException on damaged data / 손상된 데이터일 때
+     */
+    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
+        return new VorbisFloatSource(create(data));
+    }
+
+    /**
+     * Parses the headers of the first Vorbis stream and creates the packet decoder that both paths use.
+     * <p>
+     * 첫 Vorbis 스트림의 헤더를 해석하고 두 경로가 쓰는 패킷 디코더를 만든다.
+     *
+     * @param data the data / 데이터
+     * @return the source that decodes packet after packet / 패킷을 차례로 디코딩하는 소스
+     * @throws MediaException on damaged data / 손상된 데이터일 때
+     */
+    private static VorbisSource create(byte[] data) throws MediaException {
         OggReader reader = OggReader.scan(data);
         OggStream stream = reader.findFirst("vorbis");
         if (stream == null) {

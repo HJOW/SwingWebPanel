@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.PcmFloatAdapter;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggReader;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream;
 
@@ -23,7 +25,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream;
  * 시그니처로 알아본다. 출력은 48 kHz 16비트 PCM 이며 채널이 둘보다 많으면 스테레오로 다운믹스한다. WebM/Matroska 안의 Opus 는
  * {@link org.duckdns.hjow.swingwebpanel.media.audio.webm.WebmDecoder} 를 통해 디코딩한다.
  */
-public final class OpusDecoder implements AudioDecoder {
+public final class OpusDecoder implements WideAudioDecoder {
 
     /**
      * Creates the decoder.
@@ -78,6 +80,41 @@ public final class OpusDecoder implements AudioDecoder {
      * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
      */
     public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
+        return create(data);
+    }
+
+    /**
+     * Opens the data with every channel of the stream and the float output of the decoder (see {@link WideAudioDecoder}). A chained stream whose
+     * links differ in the channel layout cannot be given with a fixed number of channels; it is given through the 16 bit path (stereo).
+     * <p>
+     * 스트림의 모든 채널과 디코더의 float 출력으로 데이터를 연다({@link WideAudioDecoder} 참조). 고리마다 채널 배치가 다른 연결된 스트림은 고정된 채널 수로 줄 수
+     * 없으므로 16비트 경로(스테레오)로 준다.
+     *
+     * @param data   the data / 데이터
+     * @param limits limits / 제한
+     * @return float source / float 소스
+     * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
+     */
+    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
+        OpusSource source = create(data);
+        int channels = source.uniformChannels();
+        // 고리마다 채널 배치가 다르면 16비트 경로로 준다.
+        if (channels < 0) {
+            return new PcmFloatAdapter(source);
+        }
+        return new OpusFloatSource(source, channels);
+    }
+
+    /**
+     * Opens the Opus logical streams of the data and indexes their packets.
+     * <p>
+     * 데이터의 Opus 논리 스트림을 열고 패킷을 색인한다.
+     *
+     * @param data the data / 데이터
+     * @return the source that decodes packet after packet / 패킷을 차례로 디코딩하는 소스
+     * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
+     */
+    private static OpusSource create(byte[] data) throws MediaException {
         OggReader reader = OggReader.scan(data);
         List<OggStream> streams = new ArrayList<OggStream>();
         // Opus 논리 스트림만 모은다(다른 코덱의 스트림은 무시한다).
