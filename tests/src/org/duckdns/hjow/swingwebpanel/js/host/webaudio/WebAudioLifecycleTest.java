@@ -231,4 +231,28 @@ public class WebAudioLifecycleTest {
             p.fixture.scripts.dispose();
         }
     }
+
+    /**
+     * A promise of the audio API that is rejected and that no script handles is reported on the console as an error that names the exception (P24), and a promise whose rejection is handled
+     * is not.
+     * <p>
+     * 오디오 API 의 프라미스가 거부되었는데 스크립트가 처리하지 않으면 콘솔에 예외의 이름과 함께 오류로 보고되고(P24), 거부를 처리한 프라미스는 보고되지 않는다.
+     */
+    public void testUnhandledRejectionIsReported() {
+        WebAudioPage p = new WebAudioPage();
+        try {
+            // 시작하지 않은 오프라인 컨텍스트의 resume() 은 InvalidStateError 로 거부된다. 한쪽은 처리하고 한쪽은 처리하지 않는다.
+            p.run("var handled = false; var a = new OfflineAudioContext(1, 128, 8000); a.resume().then(null, function (e) { handled = e.name; });"
+                    + " var b = new OfflineAudioContext(1, 128, 8000); b.resume(); 1");
+            p.waitFor("handled === 'InvalidStateError'", 5000, "the handled rejection reaches its handler");
+            p.pumpFor(200);
+            String console = p.fixture.console.toString();
+            Check.contains(console, "InvalidStateError", "the unhandled rejection is reported with its name: " + console);
+            // 처리한 거부는 보고하지 않으므로 보고는 한 건뿐이다.
+            int first = console.indexOf("InvalidStateError");
+            Check.isTrue(console.indexOf("InvalidStateError", first + 1) < 0, "only the unhandled rejection is reported: " + console);
+        } finally {
+            p.fixture.scripts.dispose();
+        }
+    }
 }
