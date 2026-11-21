@@ -175,6 +175,7 @@
 | 실제 Java Sound 라인 | `JavaSoundDeviceTest`: 이 PC 의 믹서(DirectSound 3개)로 실제 라인을 열고 **무음**을 쓰고 위치 시계가 끝에 닿는 것(JRE 6u45) | **소리가 귀에 들리는지**, 음량/음소거가 장치에서 실제로 작동하는지, 속도 변환된 소리의 음질 |
 | 마우스 조작 | `AudioControlsIntegrationTest`: 합성한 AWT `MouseEvent` 를 실제 컴포넌트에 보내 재생/일시정지/탐색/음소거/음량(클릭과 끌기)과 그려진 막대의 변화 | 실제 마우스, 실제 Swing 창에서의 모양과 반응 |
 | 동시 재생 | 컴포넌트 둘, 한 페이지의 요소 둘(각자의 출력에 각자의 PCM) | 두 소리가 실제 장치에서 섞여 들리는 것 |
+| Web Audio 실시간 출력(P25 C2a, `OutputRenderDriver`) | 가짜 출력/가짜 `SourceDataLine` 에서 PCM 이 같은 그래프의 오프라인 렌더링과 float 로 한 비트도 다르지 않음(16비트 경로는 반올림한 정수와 정확히 같음), 일시정지의 장치 해제, 멈춘 장치가 일시정지/닫기를 붙잡지 않음, 100개 컨텍스트 생성/닫기 뒤 스레드·열린 출력 0, `NullOutput` 의 벽시계 속도(`OutputRenderDriverTest`, `JavaSoundOutputTest`, `NullOutputTest`) | **소리 장치가 있는 PC 에서 귀로**: 오실레이터/버퍼 소리가 나는지, 일시정지가 곧바로 조용한지, 끊김이 없는지, `latencyHint` 세 종류의 체감 지연, 장치가 44100 Hz 를 지원하지 않을 때 변환된 소리의 품질, 두 컨텍스트 동시 재생, 장치를 다른 프로그램이 쓸 때 무음으로 대체되는지, `setSinkId({type:'none'})` 뒤의 무음. 실제 `SourceDataLine` 의 `available()` 값, `write` 의 비블록 여부, 일부 장치의 버퍼 크기 조정 |
 
 ## 작업 기록
 

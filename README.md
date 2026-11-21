@@ -145,7 +145,7 @@ HTTPS 의 연결/TLS 처리 실패일 때만 같은 주소의 HTTP 접근을 한
 출력을 바꿀 수 있고, 장치가 없으면 `error` 이벤트가 됩니다). `<video>` 는 **재생하지 않으며** 요소의 자리에 미지원 비디오임을 표시하는 것이 목표입니다(`canPlayType` 은 항상 `""`).
 이미지/오디오 주소에 접근하지 못하면 그 자리에 미지원 URL 과 `alt` 가 표시됩니다.
 
-**Web Audio API(개발 중, P25)**: `AudioContext`/`OfflineAudioContext` 와 오디오 노드 그래프(원천, 게인, 지연, 필터, 웨이브셰이퍼, 컨볼버, 컴프레서, 애널라이저, 패너와 HRTF 등)를 순수 Java 로 구현합니다. 현재 단계에서 `OfflineAudioContext` 는 완전히 동작하고(렌더링 결과를 `AudioBuffer` 로 받을 수 있음) `decodeAudioData` 는 위 디코더를 재사용하며 컨텍스트의 표본율로 변환합니다. 실시간 `AudioContext` 는 **아직 소리를 내지 않고 시계만 흐릅니다**(장치 출력, `ScriptProcessorNode`, `<audio>` 연결, AudioWorklet 은 구현 중이며, 구현 상태는 [docs/FEATURE_MATRIX.md](docs/FEATURE_MATRIX.md) 의 Web Audio 절). `MediaStream` 계열(마이크 등 장치 입력)은 지원하지 않습니다.
+**Web Audio API(개발 중, P25)**: `AudioContext`/`OfflineAudioContext` 와 오디오 노드 그래프(원천, 게인, 지연, 필터, 웨이브셰이퍼, 컨볼버, 컴프레서, 애널라이저, 패너와 HRTF 등)를 순수 Java 로 구현합니다. 현재 단계에서 `OfflineAudioContext` 는 완전히 동작하고(렌더링 결과를 `AudioBuffer` 로 받을 수 있음) `decodeAudioData` 는 위 디코더를 재사용하며 컨텍스트의 표본율로 변환합니다. 실시간 `AudioContext` 는 **JavaScript 연결 전이라 이 단계의 페이지에서는 아직 소리를 내지 않고 시계만 흐릅니다**(Java Sound 출력 구동기와 `ScriptProcessorNode` 엔진은 구현했으며 페이지에 연결하는 중이고, `<audio>` 연결과 AudioWorklet 은 구현 중이며, 구현 상태는 [docs/FEATURE_MATRIX.md](docs/FEATURE_MATRIX.md) 의 Web Audio 절). `MediaStream` 계열(마이크 등 장치 입력)은 지원하지 않습니다.
 
 ### 콘솔 출력 받기
 
