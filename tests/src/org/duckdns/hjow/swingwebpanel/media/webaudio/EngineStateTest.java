@@ -84,11 +84,10 @@ public class EngineStateTest {
         Check.near(1.0, dst[1], 0, "second");
         Check.near(2.0, dst[2], 0, "third");
         Check.near(0.0, dst[3], 0, "the rest of the destination is untouched");
-        WebAudioTestKit.assertThrows(AudioException.Kind.INDEX_SIZE, new Runnable() {
-            public void run() {
-                b.copyFromChannel(new float[1], 0, 100);
-            }
-        }, "offset at the length");
+        // 규격 1.4.3: 시작이 길이와 같거나 뒤여도 오류가 아니며 아무것도 복사하지 않는다(P25-05 에서 바로잡았다).
+        float[] untouched = {7f};
+        b.copyFromChannel(untouched, 0, 100);
+        Check.near(7.0, untouched[0], 0, "an offset at the length copies nothing and is not an error");
         WebAudioTestKit.assertThrows(AudioException.Kind.INDEX_SIZE, new Runnable() {
             public void run() {
                 b.copyToChannel(new float[1], 5, 0);
