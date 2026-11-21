@@ -123,7 +123,7 @@ public final class SourceCheck {
             return SelfTest.run(out, err);
         }
         if (paths.isEmpty()) {
-            paths.addAll(Arrays.asList("src", "tests", "examples", "tools", "scripts", "docs", "AGENTS.md", "build.sh", "build.bat", "test.sh", "test.bat"));
+            paths.addAll(Arrays.asList("src", "engine", "tests", "examples", "tools", "scripts", "docs", "AGENTS.md", "build.sh", "build.bat", "test.sh", "test.bat"));
         }
         List<File> files = new ArrayList<File>();
         // 지정한 경로(파일 또는 디렉터리)마다 검사 대상 파일을 모은다.
@@ -201,8 +201,8 @@ public final class SourceCheck {
             out.add(new Violation(path, 0, "native-artifact", "native/binary/C source file is not allowed in the repository"));
             return;
         }
-        // 시험 입력 자료(tests/resources)는 의도적으로 다른 인코딩일 수 있어 내용 검사를 하지 않는다.
-        if (path.startsWith("tests/resources/")) {
+        // 시험 입력 자료(tests/resources, engine/tests/resources)는 의도적으로 다른 인코딩일 수 있어 내용 검사를 하지 않는다.
+        if (path.startsWith("tests/resources/") || path.startsWith("engine/tests/resources/")) {
             return;
         }
         if (!"java".equals(ext) && !"md".equals(ext) && !"sh".equals(ext) && !"bat".equals(ext)) {

@@ -49,13 +49,24 @@ final class SelfTest {
             SourceCheck.writeAll(new File(dir, "bad/broken.md"), new byte[] { 'a', (byte) 0xFF, 'b' });
             SourceCheck.writeAll(new File(dir, "bad/Bom.java"), concat(new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF },
                     "/** English text here. 한글 설명. */ class Bom { }\n".getBytes("UTF-8")));
+            // 엔진 모듈 경계(P26): 엔진 소스가 AWT, 파일, 브라우저 패키지, javax.script 를 쓰는 불량 샘플과 제공자 패키지의 양호 샘플.
+            write(dir, "bad/engine/src/org/duckdns/hjow/swingwebpanel/js/Leak.java", BAD_ENGINE_JAVA);
+            write(dir, "bad/engine/tests/src/org/duckdns/hjow/swingwebpanel/js/LeakTest.java", BAD_ENGINE_TEST_JAVA);
+            write(dir, "good/engine/src/org/duckdns/hjow/swingwebpanel/js/script/Provider.java", GOOD_ENGINE_JAVA);
 
             String badReport = capture(dir, "bad");
             String goodReport = capture(dir, "good");
             Set<String> missing = new HashSet<String>();
             String[] expected = { "bad/Bad.java:", "[javadoc]", "[javadoc-lang]", "[loop-comment]", "[forbidden-engine]", "[forbidden-native]",
                 "[forbidden-process]", "[java6-syntax]", "[default-charset]", "bad/crlf.sh:1: [sh-crlf]", "[native-artifact]", "[bat-utf8]",
-                "[bat-crlf]", "[utf8]", "[bom]" };
+                "[bat-crlf]", "[utf8]", "[bom]",
+                "bad/engine/src/org/duckdns/hjow/swingwebpanel/js/Leak.java:3: [engine-boundary]",
+                "bad/engine/src/org/duckdns/hjow/swingwebpanel/js/Leak.java:4: [engine-boundary]",
+                "bad/engine/src/org/duckdns/hjow/swingwebpanel/js/Leak.java:5: [engine-boundary]",
+                "bad/engine/src/org/duckdns/hjow/swingwebpanel/js/Leak.java:6: [engine-boundary]",
+                "bad/engine/src/org/duckdns/hjow/swingwebpanel/js/Leak.java:7: [forbidden-engine]",
+                "bad/engine/tests/src/org/duckdns/hjow/swingwebpanel/js/LeakTest.java:3: [engine-boundary]",
+                "bad/engine/tests/src/org/duckdns/hjow/swingwebpanel/js/LeakTest.java:4: [engine-boundary]" };
             // 기대한 규칙이 불량 샘플 보고서에 모두 있는지 확인한다.
             for (int i = 0; i < expected.length; i++) {
                 if (badReport.indexOf(expected[i]) < 0) {
@@ -179,6 +190,49 @@ final class SelfTest {
             + "    }\n"
             + "    native void nat();\n"
             + "}\n";
+
+    /**
+     * Sample of an engine source that leaks into the browser, the display, the network, the files and the scripting API.
+     * <p>
+     * 브라우저, 화면, 네트워크, 파일, 스크립팅 API 로 새는 엔진 소스 샘플.
+     */
+    private static final String BAD_ENGINE_JAVA =
+            "package org.duckdns.hjow.swingwebpanel.js;\n"
+            + "/** English only description text. */\n"
+            + "import java.awt.Color;\n"
+            + "import java.net.URL;\n"
+            + "import org.duckdns.hjow.swingwebpanel.core.BrowserSession;\n"
+            + "import org.duckdns.hjow.swingwebpanel.js.host.Window;\n"
+            + "import javax.script.ScriptEngineManager;\n"
+            + "class Leak { }\n";
+
+    /**
+     * Sample of an engine test that leaks into the display and the browser (the test runner package and files are allowed).
+     * <p>
+     * 화면과 브라우저로 새는 엔진 시험 샘플(시험 실행기 패키지와 파일은 허용된다).
+     */
+    private static final String BAD_ENGINE_TEST_JAVA =
+            "package org.duckdns.hjow.swingwebpanel.js;\n"
+            + "/** English only description text. */\n"
+            + "import javax.swing.JPanel;\n"
+            + "import org.duckdns.hjow.swingwebpanel.SwingWebPanel;\n"
+            + "import org.duckdns.hjow.swingwebpanel.testing.Check;\n"
+            + "import java.io.File;\n"
+            + "class LeakTest { }\n";
+
+    /**
+     * Sample of an engine provider source that may use the scripting API and the standard data API.
+     * <p>
+     * 스크립팅 API 와 표준 데이터 API 를 써도 되는 엔진 제공자 소스 샘플.
+     */
+    private static final String GOOD_ENGINE_JAVA =
+            "package org.duckdns.hjow.swingwebpanel.js.script;\n"
+            + "import java.io.Reader;\n"
+            + "import java.util.Map;\n"
+            + "import javax.script.ScriptEngineManager;\n"
+            + "import org.duckdns.hjow.swingwebpanel.js.JsRealm;\n"
+            + "/**\n * Provider sample.\n * <p>\n * 제공자 샘플.\n */\n"
+            + "class Provider { }\n";
 
     /**
      * Compliant sample.

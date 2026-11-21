@@ -13,12 +13,13 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
  * JVM alive after the application ended and is a root that holds everything it refers to for ever, so every source file that creates a
  * thread directly must make its threads daemon threads and must give them a name that identifies the owner (<code>swingwebpanel-...</code>),
  * which also lets the leak tests count them. Thread pools are checked through their thread factories in the same way. The test reads the
- * sources below <code>src/org/duckdns/hjow/swingwebpanel</code> of the working directory and is skipped if they are not there.
+ * sources below <code>src/org/duckdns/hjow/swingwebpanel</code> (browser module) and <code>engine/src/org/duckdns/hjow/swingwebpanel</code> (engine module)
+ * of the working directory and is skipped if they are not there.
  * <p>
  * 제품 코드가 스레드를 시작하는 모든 곳의 소스 점검(계획 P21-05): 데몬이 아닌 스레드는 응용이 끝난 뒤에도 JVM 을 살려 두고 자기가 참조하는 모든 것을 영원히
  * 붙잡는 뿌리이므로, 스레드를 직접 만드는 모든 소스 파일은 스레드를 데몬으로 만들고 소유자를 알 수 있는 이름(<code>swingwebpanel-...</code>)을 붙여야 하며,
  * 이름은 누수 시험이 스레드를 세는 데에도 쓰인다. 스레드 풀은 스레드 팩터리로 같은 방식으로 점검한다. 시험은 작업 디렉터리의
- * <code>src/org/duckdns/hjow/swingwebpanel</code> 아래 소스를 읽으며 없으면 건너뛴다.
+ * <code>src/org/duckdns/hjow/swingwebpanel</code>(브라우저 모듈)과 <code>engine/src/org/duckdns/hjow/swingwebpanel</code>(엔진 모듈) 아래 소스를 읽으며 없으면 건너뛴다.
  */
 public class ThreadCreationAuditTest {
 
@@ -92,6 +93,8 @@ public class ThreadCreationAuditTest {
         }
         List<File> sources = new ArrayList<File>();
         collect(root, sources);
+        // 엔진 모듈(engine/src, P26)의 소스도 같은 점검 대상이다.
+        collect(new File("engine/src/org/duckdns/hjow/swingwebpanel"), sources);
         Check.isTrue(sources.size() > 500, "the sources were found: " + sources.size());
         List<String> missingDaemon = new ArrayList<String>();
         List<String> missingName = new ArrayList<String>();

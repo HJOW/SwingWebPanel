@@ -67,11 +67,39 @@ final class ForbiddenChecks {
      */
     private static final List<Rule> RULES = new ArrayList<Rule>();
 
+    /**
+     * Matches a use of the Java Scripting API.
+     * <p>
+     * Java Scripting API 사용에 일치한다.
+     */
+    private static final Pattern SCRIPT_API = Pattern.compile("\\bjavax\\s*\\.\\s*script\\b");
+
+    /**
+     * Matches display related packages that no part of the engine module may use (AWT, Swing and what depends on them).
+     * <p>
+     * 엔진 모듈의 어느 부분도 쓸 수 없는 화면 관련 패키지(AWT, Swing과 그에 의존하는 것)에 일치한다.
+     */
+    private static final Pattern ENGINE_ALWAYS = Pattern.compile("\\bjava\\s*\\.\\s*(awt|applet)\\b|\\bjavax\\s*\\.\\s*(swing|imageio|sound|print|accessibility)\\b");
+
+    /**
+     * Matches the network, remote and file facilities that the engine sources may not use.
+     * <p>
+     * 엔진 소스가 쓸 수 없는 네트워크, 원격, 파일 기능에 일치한다.
+     */
+    private static final Pattern ENGINE_SOURCE_ONLY = Pattern.compile("\\bjava\\s*\\.\\s*(net|rmi|sql|nio)\\b|\\bjavax\\s*\\.\\s*(net|sql|rmi|naming)\\b"
+            + "|\\bjava\\s*\\.\\s*io\\s*\\.\\s*(File|FileInputStream|FileOutputStream|FileReader|FileWriter|RandomAccessFile)\\b");
+
+    /**
+     * Matches a package or class of this project below the main package; group 1 is the first name after it and group 2 the second.
+     * <p>
+     * 주 패키지 아래의 이 프로젝트의 패키지나 클래스에 일치한다. 그룹 1은 그 뒤의 첫 이름, 그룹 2는 두 번째 이름이다.
+     */
+    private static final Pattern PROJECT_PACKAGE = Pattern.compile("\\borg\\s*\\.\\s*duckdns\\s*\\.\\s*hjow\\s*\\.\\s*swingwebpanel\\s*\\.\\s*(\\w+)(?:\\s*\\.\\s*(\\w+))?");
+
     static {
         add("forbidden-api", "\\bcom\\s*\\.\\s*sun\\b", "com.sun.* packages are forbidden");
         add("forbidden-api", "(?<![\\w.])sun\\s*\\.\\s*[a-z]", "sun.* packages are forbidden");
         add("forbidden-api", "\\bjdk\\s*\\.\\s*(internal|nashorn)\\b", "JDK internal/Nashorn packages are forbidden");
-        add("forbidden-engine", "\\bjavax\\s*\\.\\s*script\\b", "javax.script (JavaScript engine bridge) is forbidden");
         add("forbidden-engine", "\\borg\\s*\\.\\s*mozilla\\b", "Rhino (org.mozilla) is forbidden");
         add("forbidden-engine", "\\b(org\\s*\\.\\s*graalvm|com\\s*\\.\\s*oracle\\s*\\.\\s*truffle)\\b", "GraalJS/Truffle is forbidden");
         add("forbidden-engine", "\\bjavafx\\b", "JavaFX (WebView) is forbidden");
@@ -157,6 +185,124 @@ final class ForbiddenChecks {
             }
         }
         checkDefaultCharset(sc, path, out);
+        checkScriptingApi(sc, path, out);
+        checkEngineBoundary(sc, path, out);
+    }
+
+    /**
+     * Normalizes a display path to forward slashes with a leading slash, so that a directory can be recognized by text such as
+     * <code>/engine/src/</code> both in the repository and in the self test samples.
+     * <p>
+     * 표시 경로를 슬래시 구분에 맨 앞 슬래시가 있는 형태로 바꿔, 저장소에서나 자체 시험 샘플에서나 <code>/engine/src/</code> 같은 글자로 디렉터리를 알아볼 수 있게 한다.
+     *
+     * @param path display path / 표시 경로
+     * @return the normalized path / 정규화된 경로
+     */
+    private static String normalized(String path) {
+        return "/" + path.replace('\\', '/');
+    }
+
+    /**
+     * Tells whether a source may use the Java Scripting API (<code>javax.script</code>). Only the provider package of the own engine
+     * (<code>js/script</code> below <code>engine/src</code> and <code>engine/tests/src</code>) and the examples package that shows its use
+     * may. Product code (the browser component, the rest of the engine) must never reach a JavaScript engine through
+     * <code>ScriptEngineManager</code>, because that could silently run the Rhino or Nashorn engine of the JRE (plan items P00-09, P26-05).
+     * <p>
+     * 소스가 Java Scripting API(<code>javax.script</code>)를 써도 되는지 알려 준다. 자체 엔진의 제공자 패키지(<code>engine/src</code>와
+     * <code>engine/tests/src</code> 아래 <code>js/script</code>)와 그 사용법을 보여 주는 예제 패키지만 쓸 수 있다. 제품 코드(브라우저 컴포넌트와
+     * 엔진의 나머지)는 <code>ScriptEngineManager</code> 로 JavaScript 엔진에 닿으면 안 된다. JRE 의 Rhino 나 Nashorn 이 몰래 실행될 수 있기 때문이다
+     * (계획 P00-09, P26-05).
+     *
+     * @param path display path / 표시 경로
+     * @return true if javax.script is allowed in the file / 파일에서 javax.script 를 써도 되면 true
+     */
+    static boolean mayUseScriptingApi(String path) {
+        String p = normalized(path);
+        boolean providerPackage = p.indexOf("/engine/") >= 0 && p.indexOf("/swingwebpanel/js/script/") >= 0;
+        boolean examplePackage = p.indexOf("/examples/src/") >= 0 && p.indexOf("/swingwebpanel/examples/script/") >= 0;
+        return providerPackage || examplePackage;
+    }
+
+    /**
+     * Reports uses of <code>javax.script</code> outside the places where it is allowed (see {@link #mayUseScriptingApi(String)}).
+     * <p>
+     * 허용된 곳 밖에서 <code>javax.script</code> 를 쓰는 것을 보고한다({@link #mayUseScriptingApi(String)} 참조).
+     *
+     * @param sc   scanned source / 스캔된 소스
+     * @param path display path / 표시 경로
+     * @param out  list receiving violations / 위반을 받을 목록
+     */
+    private static void checkScriptingApi(JavaScanner sc, String path, List<Violation> out) {
+        if (mayUseScriptingApi(path)) {
+            return;
+        }
+        Matcher m = SCRIPT_API.matcher(sc.code);
+        // 일치하는 곳을 모두 보고한다.
+        while (m.find()) {
+            int line = sc.lineOf(m.start());
+            if (!isAllowed(sc, line)) {
+                out.add(new Violation(path, line, "forbidden-engine",
+                        "javax.script (JavaScript engine bridge) is forbidden here; only the engine provider package js/script and the examples/script package may use it"));
+            }
+        }
+    }
+
+    /**
+     * Reports references that would tie the engine module (<code>engine/</code>) to the browser: AWT and Swing, the network and the file
+     * system, and any package of the browser module. The engine sources may use the JRE's standard API for data (collections, text,
+     * math, reflection for the Java Scripting API) but nothing that needs a display, a connection or a file (plan item P26-01). The test
+     * sources of the engine follow the same rule except that they may use the shared test runner package <code>testing</code> and files.
+     * <p>
+     * 엔진 모듈(<code>engine/</code>)을 브라우저에 묶는 참조를 보고한다: AWT와 Swing, 네트워크와 파일 시스템, 브라우저 모듈의 모든 패키지. 엔진 소스는
+     * 데이터를 다루는 JRE 표준 API(컬렉션, 텍스트, 수학, Java Scripting API 를 위한 리플렉션)를 쓸 수 있지만 화면, 연결, 파일이 필요한 것은 쓸 수
+     * 없다(계획 P26-01). 엔진의 시험 소스도 같은 규칙을 따르되 공용 시험 실행기 패키지 <code>testing</code> 과 파일은 쓸 수 있다.
+     *
+     * @param sc   scanned source / 스캔된 소스
+     * @param path display path / 표시 경로
+     * @param out  list receiving violations / 위반을 받을 목록
+     */
+    private static void checkEngineBoundary(JavaScanner sc, String path, List<Violation> out) {
+        String p = normalized(path);
+        boolean engineSource = p.indexOf("/engine/src/") >= 0;
+        boolean engineTest = p.indexOf("/engine/tests/src/") >= 0;
+        if (!engineSource && !engineTest) {
+            return;
+        }
+        Matcher m = ENGINE_ALWAYS.matcher(sc.code);
+        // AWT/Swing 등 화면 관련 패키지는 엔진 소스와 엔진 시험 모두 쓸 수 없다.
+        while (m.find()) {
+            int line = sc.lineOf(m.start());
+            if (!isAllowed(sc, line)) {
+                out.add(new Violation(path, line, "engine-boundary", "the engine module must not use " + m.group().replaceAll("\\s+", "") + " (display facilities)"));
+            }
+        }
+        if (engineSource) {
+            m = ENGINE_SOURCE_ONLY.matcher(sc.code);
+            // 엔진 소스는 네트워크와 파일 시스템도 쓸 수 없다.
+            while (m.find()) {
+                int line = sc.lineOf(m.start());
+                if (!isAllowed(sc, line)) {
+                    out.add(new Violation(path, line, "engine-boundary", "the engine module must not use " + m.group().replaceAll("\\s+", "") + " (network or files)"));
+                }
+            }
+        }
+        m = PROJECT_PACKAGE.matcher(sc.code);
+        // 프로젝트의 다른 패키지 참조를 찾는다. js 아래의 엔진 패키지(와 시험의 testing)만 허용한다.
+        while (m.find()) {
+            String first = m.group(1);
+            String second = m.group(2);
+            boolean allowed;
+            if (first.equals("js")) {
+                allowed = !("host".equals(second) || "dom".equals(second) || "worker".equals(second));
+            } else {
+                allowed = engineTest && first.equals("testing");
+            }
+            int line = sc.lineOf(m.start());
+            if (!allowed && !isAllowed(sc, line)) {
+                out.add(new Violation(path, line, "engine-boundary", "the engine module must not refer to the browser module package "
+                        + (first.equals("js") ? "js." + second : first)));
+            }
+        }
     }
 
     /**

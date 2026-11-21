@@ -18,7 +18,8 @@ import java.util.List;
  * so that an infinite loop in a case cannot hang the run. The process exit code is 0 only if no case failed.
  * <p>
  * Usage: <code>java org.duckdns.hjow.swingwebpanel.testing.TestRunner [--scan classesDir] [--filter text] [SuiteClassName ...]</code>.
- * With <code>--scan</code> every class named <code>*Test</code> or <code>*Tests</code> under the directory is a suite.
+ * With <code>--scan</code> every class named <code>*Test</code> or <code>*Tests</code> under the directory is a suite; the option may be
+ * repeated to scan several directories (for example the test classes of the engine and of the browser).
  * <p>
  * 표준 Java 만으로 만든 리플렉션 기반 최소 시험 실행기(JUnit 미사용). <em>스위트</em>는 public 기본 생성자가 있는 public 클래스이며,
  * 이름이 <code>test</code> 로 시작하는 public 인스턴스 메서드 하나가 사례 하나이다. 선택적인 <code>setUp()</code>/<code>tearDown()</code>
@@ -26,7 +27,8 @@ import java.util.List;
  * 사례마다 제한 시간이 있어 무한 반복이 전체 실행을 멈추지 못한다. 실패한 사례가 하나도 없을 때만 종료 코드가 0 이다.
  * <p>
  * 사용법: <code>java org.duckdns.hjow.swingwebpanel.testing.TestRunner [--scan 클래스디렉터리] [--filter 문자열] [스위트클래스이름 ...]</code>.
- * <code>--scan</code> 을 쓰면 해당 디렉터리 아래에서 이름이 <code>*Test</code> 또는 <code>*Tests</code> 인 클래스를 모두 스위트로 본다.
+ * <code>--scan</code> 을 쓰면 해당 디렉터리 아래에서 이름이 <code>*Test</code> 또는 <code>*Tests</code> 인 클래스를 모두 스위트로 보며, 이 옵션을 여러 번
+ * 써서 디렉터리 여러 개(예: 엔진 시험 클래스와 브라우저 시험 클래스)를 검색할 수 있다.
  */
 public final class TestRunner {
 
@@ -91,12 +93,12 @@ public final class TestRunner {
     public static int run(String[] args, PrintStream out) {
         List<String> suites = new ArrayList<String>();
         String filter = null;
-        File scanDir = null;
-        // 인수를 앞에서부터 해석한다.
+        List<File> scanDirs = new ArrayList<File>();
+        // 인수를 앞에서부터 해석한다. --scan 은 여러 번 쓸 수 있다.
         for (int i = 0; i < args.length; i++) {
             String a = args[i];
             if ("--scan".equals(a) && i + 1 < args.length) {
-                scanDir = new File(args[++i]);
+                scanDirs.add(new File(args[++i]));
             } else if ("--filter".equals(a) && i + 1 < args.length) {
                 filter = args[++i];
             } else if (a.startsWith("--")) {
@@ -106,7 +108,9 @@ public final class TestRunner {
                 suites.add(a);
             }
         }
-        if (scanDir != null) {
+        // 지정한 디렉터리마다 스위트를 찾는다.
+        for (int i = 0; i < scanDirs.size(); i++) {
+            File scanDir = scanDirs.get(i);
             scan(scanDir, scanDir, suites);
         }
         if (suites.isEmpty()) {
