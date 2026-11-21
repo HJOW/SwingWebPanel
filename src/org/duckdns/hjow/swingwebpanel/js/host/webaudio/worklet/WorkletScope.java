@@ -306,6 +306,34 @@ public final class WorkletScope {
     private volatile long calls;
 
     /**
+     * The number of calls of <code>process()</code> in a real-time context that took longer than a render quantum lasts.
+     * <p>
+     * 실시간 컨텍스트에서 render quantum 이 지속되는 시간보다 오래 걸린 <code>process()</code> 호출의 수.
+     */
+    private volatile long overrunCalls;
+
+    /**
+     * The time of the last warning to the console (nanoseconds), and the counts that it reported; used by the rendering thread only.
+     * <p>
+     * 콘솔에 마지막으로 경고한 시각(나노초)과 그때 보고한 수. 렌더링 스레드만 쓴다.
+     */
+    private long lastWarnNanos = System.nanoTime() - 2000000000L;
+
+    /**
+     * The number of skipped calls that the last warning reported.
+     * <p>
+     * 마지막 경고가 보고한 건너뛴 호출의 수.
+     */
+    private long warnedSkips;
+
+    /**
+     * The number of overrun calls that the last warning reported.
+     * <p>
+     * 마지막 경고가 보고한 느린 호출의 수.
+     */
+    private long warnedOverruns;
+
+    /**
      * The handler of the failures of listeners (the ports of the processors) in the realm: they go to the console of the page.
      * <p>
      * realm 안의 리스너(프로세서의 포트) 실패를 받는 핸들러: 페이지의 콘솔로 간다.
@@ -563,6 +591,17 @@ public final class WorkletScope {
      */
     public long getCallCount() {
         return calls;
+    }
+
+    /**
+     * Returns the number of calls of <code>process()</code> in a real-time context that took longer than a render quantum lasts (for tests and diagnostics).
+     * <p>
+     * 실시간 컨텍스트에서 render quantum 이 지속되는 시간보다 오래 걸린 <code>process()</code> 호출의 수를 반환한다(시험과 진단용).
+     *
+     * @return the number of calls / 호출 수
+     */
+    public long getOverrunCallCount() {
+        return overrunCalls;
     }
 
     /**
@@ -1172,6 +1211,7 @@ public final class WorkletScope {
         boolean offline = node.getContext() instanceof OfflineAudioContext;
         if (!acquire(offline, WorkletLimits.REALTIME_LOCK_WAIT_MILLIS, node.getContext().getCurrentFrame())) {
             skippedCalls++;
+            warnIfTrouble();
             return AudioWorkletNode.SKIPPED;
         }
         try {
@@ -1182,13 +1222,24 @@ public final class WorkletScope {
             if (offline) {
                 drainRealmTasks();
             }
+            // 건너뛴 quantum 이 있었으면 (초당 한 번까지) 그 수를 알린다.
+            if (!offline) {
+                warnIfTrouble();
+            }
             ExecutionLimits limits = realm.getLimits();
             limits.setMaxSteps(WorkletLimits.PROCESS_STEP_LIMIT);
             limits.setMaxTimeMillis(offline ? 0L : WorkletLimits.REALTIME_PROCESS_TIME_LIMIT_MILLIS);
             limits.beginTask();
             calls++;
+            long started = offline ? 0L : System.nanoTime();
             try {
-                return runner.invoke(node, frames);
+                int result = runner.invoke(node, frames);
+                // 실시간에서는 호출이 render quantum 의 길이보다 오래 걸렸는지 센다. 그만큼 오디오가 장치 버퍼보다 늦게 만들어진다.
+                if (!offline && System.nanoTime() - started > quantumNanos(node)) {
+                    overrunCalls++;
+                    warnIfTrouble();
+                }
+                return result;
             } catch (JsException e) {
                 throw failure(e);
             } catch (ScriptAbortedException e) {
@@ -1202,6 +1253,44 @@ public final class WorkletScope {
             }
         } finally {
             lock.unlock();
+        }
+    }
+
+    /**
+     * Returns how long a render quantum of the context of a node lasts.
+     * <p>
+     * 노드의 컨텍스트에서 render quantum 하나가 지속되는 시간을 반환한다.
+     *
+     * @param node the node / 노드
+     * @return the time in nanoseconds / 시간(나노초)
+     */
+    private static long quantumNanos(AudioWorkletNode node) {
+        BaseAudioContext c = node.getContext();
+        return (long) (1.0e9 * c.getRenderQuantumSize() / c.getSampleRate());
+    }
+
+    /**
+     * Warns on the console of the page, at most once per second, that the worklet could not keep up with the clock of a real-time context: quanta of a processor that were skipped (the script realm
+     * was busy, so the node was silent in them) and calls of <code>process()</code> that took longer than a render quantum. The rendering thread calls it; it only writes to the console when the counts
+     * changed since the last warning, so a healthy worklet is never reported.
+     * <p>
+     * 실시간 컨텍스트의 시계를 worklet 이 따라가지 못했음을 페이지의 콘솔에 초당 한 번까지 경고한다: 건너뛴 프로세서의 quantum(스크립트 realm 이 바빠서 노드가 그 quantum 에 무음이었다)과 render quantum 보다
+     * 오래 걸린 <code>process()</code> 호출. 렌더링 스레드가 부르며, 마지막 경고 뒤에 수가 바뀐 경우에만 콘솔에 쓰므로 멀쩡한 worklet 은 보고되지 않는다.
+     */
+    private void warnIfTrouble() {
+        long now = System.nanoTime();
+        if (now - lastWarnNanos < 1000000000L || (skippedCalls == warnedSkips && overrunCalls == warnedOverruns)) {
+            return;
+        }
+        lastWarnNanos = now;
+        long skips = skippedCalls;
+        long overruns = overrunCalls;
+        String text = "AudioWorklet: the audio worklet could not keep up with the clock: " + (skips - warnedSkips) + " quanta of processors were silent because the script was busy, and "
+                + (overruns - warnedOverruns) + " calls of process() took longer than a render quantum.";
+        warnedSkips = skips;
+        warnedOverruns = overruns;
+        if (!disposed) {
+            host.getPage().workerConsole(ConsoleRecord.call("warn", "warn", text, Collections.singletonList(text), consoleSource, 0, 0, 0), consoleSource, false);
         }
     }
 

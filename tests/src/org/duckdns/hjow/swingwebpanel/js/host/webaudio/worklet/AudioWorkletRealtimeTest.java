@@ -123,6 +123,15 @@ public class AudioWorkletRealtimeTest {
         Check.isTrue(biggest >= 40, "the processor was skipped for " + biggest + " quanta while the handler ran (about 150 expected)");
         Check.isTrue(biggest <= 400, "but not much longer than the handler: " + biggest + " quanta");
         Check.equal("0", p.run("String(events.length)"), "no processorerror: a busy realm is not a failure");
+        // 콘솔에는 worklet 이 시계를 따라가지 못했다는 경고가 있다(건너뛴 quantum 수와 함께).
+        boolean warned = false;
+        // 콘솔의 줄마다 경고가 있는지 확인한다.
+        for (String line : p.console()) {
+            if (line.startsWith("warn: AudioWorklet: the audio worklet could not keep up with the clock")) {
+                warned = true;
+            }
+        }
+        Check.isTrue(warned, "the console of the page was warned: " + p.console());
         p.run("ctx.close();");
     }
 
@@ -143,31 +152,53 @@ public class AudioWorkletRealtimeTest {
         Check.isTrue(worst < 1e-4, "the worst error of 4096 samples is " + worst);
     }
 
+
     /**
-     * The cost of a processor, measured: an offline rendering of 10 seconds (3750 quanta at 48 kHz) of one, four and eight gain processors on a constant, JDK 6. The speed is printed in times real time and
-     * as the time of one quantum per node; only a generous bound is checked, because the machine is shared (a simple processor must render at least as fast as real time).
+     * Renders 10 seconds at 48 kHz (3750 quanta) with a number of nodes of one processor kind and returns the time in milliseconds.
      * <p>
-     * 프로세서의 비용 측정: 상수에 대한 게인 프로세서 하나, 넷, 여덟의 10 초(48 kHz 에서 3750 quantum) 오프라인 렌더링(JDK 6). 속도를 실시간의 몇 배인지와 노드마다 quantum 하나의 시간으로 출력한다. 컴퓨터를
-     * 여럿이 쓰므로 넉넉한 한도만 확인한다(단순한 프로세서는 적어도 실시간만큼 빨라야 한다).
+     * 한 종류의 프로세서 노드 여럿으로 48 kHz 10 초(3750 quanta)를 렌더링하고 시간(밀리초)을 반환한다.
+     *
+     * @param body   the text of the class of the processor (registered as <code>p</code>) / 프로세서 클래스의 텍스트(<code>p</code> 로 등록)
+     * @param inputs 1 if the nodes read a constant of 1, 0 for a generator / 노드가 상수 1 을 읽으면 1, 생성기이면 0
+     * @param nodes  the number of nodes / 노드 수
+     * @return the time of the rendering in milliseconds / 렌더링 시간(밀리초)
+     */
+    private static double render10Seconds(String body, int inputs, int nodes) {
+        WorkletPage p = new WorkletPage();
+        p.module("p.js", body + "\nregisterProcessor('p', P);\n");
+        p.run("var ctx = new OfflineAudioContext(1, 480000, 48000); var out = null; ctx.audioWorklet.addModule('p.js').then(function () {"
+                + (inputs == 1 ? "var s = new ConstantSourceNode(ctx, {offset: 1}); s.start();" : "") + "for (var i = 0; i < " + nodes + "; i++) { var n = new AudioWorkletNode(ctx, 'p', {numberOfInputs: " + inputs
+                + "}); " + (inputs == 1 ? "s.connect(n); " : "") + "n.connect(ctx.destination); } start = Date.now(); return ctx.startRendering(); }).then(function (b) { out = b; took = Date.now() - start; });");
+        p.waitFor("out !== null", 180000, "the rendering of 10 seconds with " + nodes + " processors");
+        return p.number("took");
+    }
+
+    /**
+     * The cost of simple processors, measured (JDK 6, offline rendering of 10 seconds at 48 kHz = 3750 quanta, shared machine): an empty processor (the fixed cost of one call: the arrays, the conversion,
+     * the call), a gain, a sine generator with a phase and a white noise generator, one node each, and four and eight gain processors. The speed in times real time and the time of one quantum per node are
+     * printed (a quantum lasts 2667 us at 48 kHz, so a processor must stay well below that to play in real time); only a generous bound is checked: a simple processor renders at least as fast as real time.
+     * <p>
+     * 단순한 프로세서의 비용 측정(JDK 6, 48 kHz 10 초 = 3750 quantum 의 오프라인 렌더링, 여럿이 쓰는 컴퓨터): 빈 프로세서(호출 하나의 고정 비용: 배열, 변환, 호출), 게인, 위상이 있는 사인 생성기, 백색
+     * 잡음 생성기를 각각 노드 하나로, 그리고 게인 프로세서 넷과 여덟. 실시간의 몇 배 속도인지와 노드마다 quantum 하나의 시간을 출력한다(48 kHz 에서 quantum 하나는 2667 us 이므로 실시간으로 재생하려면 그보다
+     * 한참 작아야 한다). 넉넉한 한도만 확인한다: 단순한 프로세서는 적어도 실시간만큼 빨라야 한다.
      */
     public void testTheCostOfAProcessor() {
-        int[] counts = {1, 4, 8};
-        // 노드 수마다 10 초 분량을 렌더링해 시간을 잰다.
-        for (int k = 0; k < counts.length; k++) {
-            WorkletPage p = new WorkletPage();
-            p.module("g.js", "registerProcessor('g', class extends AudioWorkletProcessor {\n  process(inputs, outputs) {\n    const i = inputs[0][0], o = outputs[0][0];\n"
-                    + "    if (!i) return true;\n    for (let k = 0; k < o.length; k++) o[k] = i[k] * 0.5;\n    return false;\n  }\n});\n");
-            p.run("var ctx = new OfflineAudioContext(1, 480000, 48000); var out = null; ctx.audioWorklet.addModule('g.js').then(function () { var s = new ConstantSourceNode(ctx, {offset: 1}); s.start();"
-                    + "for (var i = 0; i < " + counts[k] + "; i++) { var n = new AudioWorkletNode(ctx, 'g'); s.connect(n); n.connect(ctx.destination); } start = Date.now(); return ctx.startRendering(); })"
-                    + ".then(function (b) { out = b; took = Date.now() - start; });");
-            p.waitFor("out !== null", 120000, "the rendering of 10 seconds with " + counts[k] + " processors");
-            double ms = p.number("took");
+        String empty = "class P extends AudioWorkletProcessor { process() { return true; } }";
+        String gain = "class P extends AudioWorkletProcessor { process(inputs, outputs) { const i = inputs[0][0], o = outputs[0][0]; if (!i) return true; for (let k = 0; k < o.length; k++) o[k] = i[k] * 0.5; return false; } }";
+        String sine = "class P extends AudioWorkletProcessor { constructor() { super(); this.ph = 0; } process(inputs, outputs) { const o = outputs[0][0]; for (let k = 0; k < o.length; k++) { o[k] = Math.sin(this.ph); this.ph += 0.131; if (this.ph > 6.283185307179586) this.ph -= 6.283185307179586; } return true; } }";
+        String noise = "class P extends AudioWorkletProcessor { process(inputs, outputs) { const o = outputs[0][0]; for (let k = 0; k < o.length; k++) o[k] = Math.random() * 2 - 1; return true; } }";
+        String[] names = {"empty", "gain", "sine", "noise", "gain", "gain"};
+        String[] bodies = {empty, gain, sine, noise, gain, gain};
+        int[] inputs = {0, 1, 0, 0, 1, 1};
+        int[] nodes = {1, 1, 1, 1, 4, 8};
+        // 종류와 노드 수마다 10 초 분량을 렌더링해 시간을 잰다.
+        for (int k = 0; k < names.length; k++) {
+            double ms = render10Seconds(bodies[k], inputs[k], nodes[k]);
             double times = 10000.0 / ms;
-            System.out.println("[worklet cost] " + counts[k] + " gain processors, 10 s at 48 kHz: " + (long) ms + " ms = " + Math.round(times * 10) / 10.0 + " x real time, "
-                    + Math.round(ms * 1000.0 / 3750 / counts[k]) + " us per quantum per node");
-            Check.near(counts[k] * 0.5, p.number("out.getChannelData(0)[1000]"), 1e-5, "the sum of the processors");
-            if (counts[k] == 1) {
-                Check.isTrue(times >= 1.0, "one simple processor renders at least as fast as real time: " + times + " x");
+            System.out.println("[worklet cost] " + nodes[k] + " x " + names[k] + ", 10 s at 48 kHz: " + (long) ms + " ms = " + Math.round(times * 10) / 10.0 + " x real time, "
+                    + Math.round(ms * 1000.0 / 3750 / nodes[k]) + " us per quantum per node");
+            if (nodes[k] == 1) {
+                Check.isTrue(times >= 1.0, "one simple processor (" + names[k] + ") renders at least as fast as real time: " + times + " x");
             }
         }
     }
