@@ -2,8 +2,9 @@ package org.duckdns.hjow.swingwebpanel.media.audio.mp3;
 
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
 
 /**
  * The MP3 decoder (plan item P18-07, FEATURE_MATRIX AUD-04): MPEG-1/2/2.5 Layer III with ID3v2/ID3v1 tags, Xing/Info/VBRI and LAME
@@ -19,7 +20,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
  *
  * Usage / 사용법: <code>PcmSource s = new Mp3Decoder().open(bytes, DecodeLimits.DEFAULT); s.read(buf, 0, buf.length);</code>
  */
-public final class Mp3Decoder implements AudioDecoder {
+public final class Mp3Decoder implements WideAudioDecoder {
 
     /**
      * Creates the decoder. / 디코더를 만든다.
@@ -45,5 +46,19 @@ public final class Mp3Decoder implements AudioDecoder {
     /** Opens the data and reads the headers; frames are decoded on demand. / 데이터를 열어 헤더를 읽으며 프레임은 요청할 때 해독한다. */
     public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
         return new Mp3Source(data, limits);
+    }
+
+    /**
+     * Opens the data and reads the headers; frames are decoded on demand and delivered as the floats of the decoder (see {@link WideAudioDecoder}).
+     * <p>
+     * 데이터를 열어 헤더를 읽으며 프레임은 요청할 때 해독하여 디코더의 float 로 준다({@link WideAudioDecoder} 참조).
+     *
+     * @param data   the data / 데이터
+     * @param limits limits / 제한
+     * @return float source / float 소스
+     * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
+     */
+    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
+        return new Mp3FloatSource(new Mp3Source(data, limits));
     }
 }

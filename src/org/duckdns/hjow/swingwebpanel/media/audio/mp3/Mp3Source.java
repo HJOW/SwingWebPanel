@@ -67,6 +67,12 @@ final class Mp3Source implements PcmSource {
     private long dropFrames;
     /** Number of output frames delivered or dropped so far, counted from the logical start. / 논리적 시작부터 지금까지 내보냈거나 버린 출력 프레임 수. */
     private long outPos;
+    /** First output frame of the block that {@link #decodeBlock()} decoded. / {@link #decodeBlock()} 이 해독한 블록의 첫 출력 프레임. */
+    private int blockFrom;
+    /** Number of output frames of that block. / 그 블록의 출력 프레임 수. */
+    private int blockUsable;
+    /** Channels of the frame header of that block (it can differ from the stream). / 그 블록의 프레임 헤더의 채널 수(스트림과 다를 수 있다). */
+    private int blockSrcCh;
     /** True after {@link #close()}. / {@link #close()} 뒤에는 true. */
     private boolean closed;
 
@@ -393,6 +399,84 @@ final class Mp3Source implements PcmSource {
      * @throws MediaException if the thread was interrupted / 스레드가 인터럽트되었으면
      */
     private boolean decodeNext() throws MediaException {
+        if (!decodeBlock()) {
+            return false;
+        }
+        int bi = 0;
+        // 샘플을 16비트 PCM 바이트로 바꾼다.
+        for (int i = 0; i < blockUsable; i++) {
+            for (int c = 0; c < channels; c++) {
+                float f = sampleOf(c, blockFrom + i);
+                int s = (int) Math.floor(f * 32768.0f + 0.5f);
+                if (s > 32767) {
+                    s = 32767;
+                } else if (s < -32768) {
+                    s = -32768;
+                }
+                pcm[bi++] = (byte) s;
+                pcm[bi++] = (byte) (s >> 8);
+            }
+        }
+        pcmPos = 0;
+        pcmLen = bi;
+        return true;
+    }
+
+    /**
+     * Returns the float sample of an output channel at an index of the block that {@link #decodeBlock()} decoded: the channel itself if the frame
+     * has the channel layout of the stream, the mean of both channels if the stream is mono but the frame is not, the first channel if the stream is
+     * stereo but the frame is not.
+     * <p>
+     * {@link #decodeBlock()} 이 해독한 블록의 인덱스에서 출력 채널의 float 샘플을 반환한다: 프레임이 스트림의 채널 배치이면 그 채널, 스트림은 모노인데 프레임이
+     * 아니면 두 채널의 평균, 스트림은 스테레오인데 프레임이 아니면 첫 채널.
+     *
+     * @param c     the output channel / 출력 채널
+     * @param index the index in the decoded frame / 해독한 프레임 안의 인덱스
+     * @return the sample / 샘플
+     */
+    float sampleOf(int c, int index) {
+        if (blockSrcCh == channels) {
+            return frameBuf[c][index];
+        } else if (channels == 1) {
+            return (frameBuf[0][index] + frameBuf[1][index]) * 0.5f;
+        }
+        return frameBuf[0][index];
+    }
+
+    /**
+     * Returns the frames of the block that {@link #decodeBlock()} decoded that are output: <code>blockUsable()</code> frames from
+     * <code>blockFrom()</code> (the start delay and the end trim are already applied).
+     * <p>
+     * {@link #decodeBlock()} 이 해독한 블록에서 출력하는 프레임: <code>blockFrom()</code> 부터 <code>blockUsable()</code> 프레임(시작 지연과 끝 자르기는 이미 적용했다).
+     *
+     * @return the number of output frames, possibly 0 / 출력하는 프레임 수. 0 일 수 있다
+     */
+    int blockUsable() {
+        return blockUsable;
+    }
+
+    /**
+     * Returns the index of the first output frame of the block.
+     * <p>
+     * 블록의 첫 출력 프레임의 인덱스를 반환한다.
+     *
+     * @return the index / 인덱스
+     */
+    int blockFrom() {
+        return blockFrom;
+    }
+
+    /**
+     * Decodes the next frame into {@link #frameBuf} and works out which of its samples are output (the start delay and the end trim); both
+     * the 16 bit path ({@link #decodeNext()}) and the wide path ({@link Mp3FloatSource}) read through this method.
+     * <p>
+     * 다음 프레임을 {@link #frameBuf} 로 해독하고 그 표본 중 어느 것을 출력하는지 정한다(시작 지연과 끝 자르기). 16비트 경로({@link #decodeNext()})와
+     * 넓은 경로({@link Mp3FloatSource})가 모두 이 메서드로 읽는다.
+     *
+     * @return false at the end of the stream / 스트림 끝이면 false
+     * @throws MediaException if the thread was interrupted / 스레드가 인터럽트되었으면
+     */
+    boolean decodeBlock() throws MediaException {
         if (Thread.currentThread().isInterrupted()) {
             throw new MediaException(MediaException.Kind.CANCELLED, "decoding was interrupted");
         }
@@ -426,30 +510,9 @@ final class Mp3Source implements PcmSource {
         }
         long remaining = totalFrames - outPos;
         int usable = (int) Math.min(count - from, remaining);
-        int bi = 0;
-        // 샘플을 16비트 PCM 바이트로 바꾼다.
-        for (int i = 0; i < usable; i++) {
-            for (int c = 0; c < channels; c++) {
-                float f;
-                if (srcCh == channels) {
-                    f = frameBuf[c][from + i];
-                } else if (channels == 1) {
-                    f = (frameBuf[0][from + i] + frameBuf[1][from + i]) * 0.5f;
-                } else {
-                    f = frameBuf[0][from + i];
-                }
-                int s = (int) Math.floor(f * 32768.0f + 0.5f);
-                if (s > 32767) {
-                    s = 32767;
-                } else if (s < -32768) {
-                    s = -32768;
-                }
-                pcm[bi++] = (byte) s;
-                pcm[bi++] = (byte) (s >> 8);
-            }
-        }
-        pcmPos = 0;
-        pcmLen = bi;
+        blockFrom = from;
+        blockUsable = usable;
+        blockSrcCh = srcCh;
         outPos += usable;
         return true;
     }
