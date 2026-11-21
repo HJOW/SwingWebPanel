@@ -35,13 +35,17 @@ import org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory;
  * queues a task of the page; in that task the visible state is set to what the engine is in at that moment, the <code>statechange</code> event is fired when it changed, and the promise is
  * resolved, as the specification describes ("queue a media element task"). A new <code>AudioContext</code> is <code>suspended</code> until its first task has run and <code>running</code> afterwards
  * (there is no autoplay restriction: the decision (e) of the plan, because the component is a Swing application whose host can decide for itself), whether or not a sound device exists; time
- * advances with the wall clock (see {@link ClockRenderDriver}). An offline context is <code>suspended</code>, becomes <code>running</code> when its rendering starts, <code>suspended</code>
- * at a suspension and <code>closed</code> when the rendering is complete.
+ * advances with the output that the context plays to (see {@link OutputRenderDriver}), or with the wall clock if the output cannot be opened. An offline context is <code>suspended</code>, becomes
+ * <code>running</code> when its rendering starts, <code>suspended</code> at a suspension and <code>closed</code> when the rendering is complete.
+ * <p>
+ * <b>The output.</b> A real-time context plays to the output that the host chose ({@code HostEnvironment.getWebAudioOutputFactory()}, Java Sound by default; a context without a usable output
+ * runs silently at real speed). The options <code>latencyHint</code>, <code>sampleRate</code> and <code>sinkId</code> choose the buffer, the rate and the output; <code>setSinkId</code> accepts the empty
+ * string (the output that the host chose) and <code>{type: "none"}</code> (no output at all) and refuses any other device with <code>NotSupportedError</code>; it takes effect at once for a
+ * running context (the output is switched, at most one buffer of audio, 50 to 80 ms, is lost) and <code>sinkchange</code> comes after it did. <code>getOutputTimestamp()</code> reports what the
+ * output plays now. <code>createScriptProcessor</code> and <code>createMediaElementSource</code> create the deprecated script processor and the source of an <code>audio</code> element.
  * <p>
  * <b>Not supported here.</b> <code>createMediaStreamSource</code>, <code>createMediaStreamTrackSource</code> and <code>createMediaStreamDestination</code> throw <code>NotSupportedError</code> (the project has no media streams
- * or capture devices, the explicit exception EXC-14); <code>createMediaElementSource</code> and <code>createScriptProcessor</code> are added by the output stage and throw <code>NotSupportedError</code>
- * until then; the output device of a context is the default one (<code>sinkId</code> is the empty string; <code>setSinkId</code> accepts the empty string and <code>{type: "none"}</code> and refuses any other
- * device with <code>NotSupportedError</code>).
+ * or capture devices, the explicit exception EXC-14).
  * <p>
  * 컨텍스트의 스크립트 인터페이스(Web Audio API 1.1~1.3): <code>BaseAudioContext</code>(시계, 목적지, 청취자, 상태, 모든 노드와 버퍼와 파형의 팩터리, <code>decodeAudioData</code>),
  * <code>AudioContext</code>(소리를 내는 페이지의 컨텍스트: <code>resume</code>, <code>suspend</code>, <code>close</code>, 지연, 출력 타임스탬프, 싱크), <code>OfflineAudioContext</code>
@@ -51,12 +55,18 @@ import org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory;
  * <b>상태.</b> <code>state</code> 속성은 {@link ContextValue} 의 <em>보이는</em> 상태이다. 제어 호출(<code>resume</code>, <code>suspend</code>, <code>close</code>)은 엔진에 즉시 요청하고 페이지의
  * 작업을 쌓는다. 그 작업에서 보이는 상태를 그 순간 엔진이 있는 상태로 정하고, 바뀌었으면 <code>statechange</code> 이벤트를 발생시키고, 프라미스를 resolve 한다(규격이 말하는
  * "queue a media element task"). 새 <code>AudioContext</code> 는 첫 작업이 실행될 때까지 <code>suspended</code> 이고 그 뒤에는 <code>running</code> 이다(자동 재생 제한은 없다: 계획의 결정 e.
- * 컴포넌트는 호스트가 스스로 정할 수 있는 Swing 응용이기 때문이다). 소리 장치가 있든 없든 같다. 시간은 벽시계와 함께 흐른다({@link ClockRenderDriver} 참고). 오프라인 컨텍스트는
- * <code>suspended</code> 이고, 렌더링이 시작되면 <code>running</code>, 일시 중단에서 <code>suspended</code>, 렌더링이 끝나면 <code>closed</code> 이다.
+ * 컴포넌트는 호스트가 스스로 정할 수 있는 Swing 응용이기 때문이다). 소리 장치가 있든 없든 같다. 시간은 컨텍스트가 재생하는 출력과 함께 흐르고({@link OutputRenderDriver} 참고),
+ * 출력을 열 수 없으면 벽시계와 함께 흐른다. 오프라인 컨텍스트는 <code>suspended</code> 이고, 렌더링이 시작되면 <code>running</code>, 일시 중단에서 <code>suspended</code>, 렌더링이 끝나면
+ * <code>closed</code> 이다.
+ * <p>
+ * <b>출력.</b> 실시간 컨텍스트는 호스트가 고른 출력으로 재생한다({@code HostEnvironment.getWebAudioOutputFactory()}. 기본은 Java Sound. 쓸 수 있는 출력이 없는 컨텍스트는 소리 없이 실제 속도로
+ * 돈다). 옵션 <code>latencyHint</code>, <code>sampleRate</code>, <code>sinkId</code> 가 버퍼, 주파수, 출력을 고른다. <code>setSinkId</code> 는 빈 문자열(호스트가 고른 출력)과
+ * <code>{type: "none"}</code>(출력 없음)을 받고 다른 장치는 <code>NotSupportedError</code> 로 거부한다. 실행 중인 컨텍스트에서는 곧바로 적용되며(출력이 바뀌고 많아야 버퍼 하나
+ * 분량인 50 ~ 80 ms 의 오디오를 잃는다) <code>sinkchange</code> 는 그 뒤에 온다. <code>getOutputTimestamp()</code> 는 출력이 지금 재생하는 것을 보고한다.
+ * <code>createScriptProcessor</code> 와 <code>createMediaElementSource</code> 는 폐기 예정인 스크립트 프로세서와 <code>audio</code> 요소의 원천을 만든다.
  * <p>
  * <b>여기서 지원하지 않는 것.</b> <code>createMediaStreamSource</code>, <code>createMediaStreamTrackSource</code>, <code>createMediaStreamDestination</code> 은 <code>NotSupportedError</code> 를 던진다(프로젝트에는 미디어
- * 스트림과 캡처 장치가 없다. 명시적 예외 EXC-14). <code>createMediaElementSource</code> 와 <code>createScriptProcessor</code> 는 출력 단계가 더하며 그때까지 <code>NotSupportedError</code> 를 던진다.
- * 컨텍스트의 출력 장치는 기본 장치이다(<code>sinkId</code> 는 빈 문자열. <code>setSinkId</code> 는 빈 문자열과 <code>{type: "none"}</code> 을 받고 다른 장치는 <code>NotSupportedError</code> 로 거부한다).
+ * 스트림과 캡처 장치가 없다. 명시적 예외 EXC-14).
  */
 final class ContextApi {
 

@@ -454,6 +454,56 @@ public class MediaElementSourceScriptTest {
     }
 
     /**
+     * A suspended context stalls the elements that are connected to it: nobody takes their sound, so their position stands still (the element is not paused: <code>paused</code> stays false), and
+     * <code>resume()</code> lets them go on without a lost or a repeated frame.
+     * <p>
+     * 일시정지된 컨텍스트는 거기에 연결된 요소를 멈춘다: 아무도 소리를 가져가지 않으므로 위치가 멈춘다(요소는 일시정지가 아니다: <code>paused</code> 는 false 로 남는다). <code>resume()</code>
+     * 은 잃거나 반복하는 프레임 없이 이어 가게 한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testSuspendedContextStallsTheElementAndResumeContinues() throws Exception {
+        connected(rampWav(RATE, 9000), 1.0, "http://example.test/dir/s.wav");
+        js("a.play();");
+        until("a.currentTime > 0.03", "the element plays");
+        js("var susp = false; rt.suspend().then(function () { susp = true; });");
+        until("susp", "the context is suspended");
+        settle(100);
+        double position = Double.parseDouble(js("String(a.currentTime)"));
+        settle(300);
+        Check.equal(position, Double.parseDouble(js("String(a.currentTime)")), "the position of the element stands still while the context is suspended");
+        Check.equal("false", js("String(a.paused)"), "the element is not paused");
+        js("var ended = false; a.onended = function () { ended = true; }; rt.resume();");
+        until("ended", "the element goes on after the context was resumed");
+        float[] heard = stable(outputs.waitFor(1, 10000));
+        Check.isTrue(outputs.count() >= 2, "the resumed context opened a new output");
+        // 일시정지 전과 뒤의 모든 출력을 이어 붙이면 파일 전체가 한 번씩 순서대로여야 한다.
+        float[] all = new float[0];
+        // 컨텍스트의 모든 구간(출력)의 들리는 표본을 이어 붙인다.
+        for (int i = 0; i < outputs.count(); i++) {
+            float[] part = stable(outputs.get(i));
+            float[] joined = java.util.Arrays.copyOf(all, all.length + part.length);
+            System.arraycopy(part, 0, joined, all.length, part.length);
+            all = joined;
+        }
+        // 일시정지는 렌더링 스레드가 요소에서 가져왔지만 아직 장치에 넘기지 못한 오디오(많아야 청크 하나, interactive 에서 3 ms 안팎)를 잃는다. 그 밖의 프레임은 한 번씩 순서대로여야 한다.
+        int lost = 9000 - all.length;
+        Check.isTrue(lost >= 0 && lost <= 256, "the stream holds the file less the audio that was in flight at the suspension (the first output held " + heard.length + "): " + lost + " frames missing");
+        int joint = 0;
+        // 파일의 표본과 처음 달라지는 자리(일시정지 때 잃은 부분)를 찾는다.
+        while (joint < all.length && all[joint] == ramp(joint) / 32768f) {
+            joint++;
+        }
+        Check.isTrue(lost == 0 || (joint > 0 && joint < all.length), "the loss is at the join of the two outputs: " + joint);
+        // 그 뒤로는 잃은 만큼 건너뛴 파일의 표본과 같아야 한다.
+        for (int i = joint; i < all.length; i++) {
+            if (all[i] != ramp(i + lost) / 32768f) {
+                Check.fail("sample " + i + " of the whole stream after the loss of " + lost + " frames: " + all[i] + " instead of " + ramp(i + lost) / 32768f);
+            }
+        }
+    }
+
+    /**
      * An element with <code>loop</code> goes on through the graph at the end of the file without a gap: the audible samples are the file over and over, in order.
      * <p>
      * <code>loop</code> 가 있는 요소는 파일의 끝에서 틈 없이 그래프를 거쳐 계속 간다: 들리는 표본은 파일이 되풀이되는 것이며 순서대로이다.
