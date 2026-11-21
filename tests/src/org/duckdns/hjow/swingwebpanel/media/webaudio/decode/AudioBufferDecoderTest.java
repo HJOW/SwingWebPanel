@@ -9,7 +9,8 @@ import java.util.concurrent.CancellationException;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
 import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoders;
-import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.PcmConverter;
 import org.duckdns.hjow.swingwebpanel.media.audio.reference.ReferenceFixture;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBuffer;
@@ -81,10 +82,10 @@ public class AudioBufferDecoderTest {
     }
 
     /**
-     * Converts a buffer back to interleaved 16 bit samples (<code>round(x * 32768)</code>), which is exact for what the pipeline makes of
-     * 16 bit samples.
+     * Reduces a buffer to interleaved 16 bit samples with the conversion of the 16 bit path (rounding and clipping), which is exact for what the pipeline
+     * makes of 16 bit samples.
      * <p>
-     * 버퍼를 인터리브된 16비트 표본(<code>round(x * 32768)</code>)으로 되돌린다. 파이프라인이 16비트 표본으로 만든 값에는 정확하다.
+     * 버퍼를 16비트 경로의 변환(반올림과 클리핑)으로 인터리브된 16비트 표본으로 줄인다. 파이프라인이 16비트 표본으로 만든 값에는 정확하다.
      *
      * @param b the buffer / 버퍼
      * @return the samples / 표본
@@ -97,7 +98,7 @@ public class AudioBufferDecoderTest {
             float[] d = b.getChannelData(c);
             // 채널의 모든 표본을 16비트 정수로 되돌린다.
             for (int f = 0; f < d.length; f++) {
-                r[f * ch + c] = (short) Math.round(d[f] * 32768f);
+                r[f * ch + c] = PcmConverter.clip16(d[f]);
             }
         }
         return r;
@@ -126,10 +127,13 @@ public class AudioBufferDecoderTest {
             }
             checked++;
             AudioBuffer b = AudioBufferDecoder.decode(f.readFile(), f.mime, f.rate, null);
-            int outCh = Math.min(f.channels, 2);
-            if (b.getNumberOfChannels() != outCh || b.getSampleRate() != f.rate || b.getLength() != f.expected) {
-                problems.add(f.name + ": " + b.getNumberOfChannels() + " channels, " + b.getSampleRate() + " Hz, " + b.getLength() + " frames instead of " + outCh + ", "
+            if (b.getNumberOfChannels() != f.channels || b.getSampleRate() != f.rate || b.getLength() != f.expected) {
+                problems.add(f.name + ": " + b.getNumberOfChannels() + " channels, " + b.getSampleRate() + " Hz, " + b.getLength() + " frames instead of " + f.channels + ", "
                         + f.rate + " Hz, " + f.expected);
+                continue;
+            }
+            // 채널이 셋 이상이면 16비트 경로는 믹스하므로 채널별 비교는 WideReferenceTest 가 한다.
+            if (f.channels > 2) {
                 continue;
             }
             short[] ours = toShorts(b);
@@ -170,26 +174,25 @@ public class AudioBufferDecoderTest {
     }
 
     /**
-     * The sources of more than two channels are mixed down to stereo by the media decoders and 24 bit samples are rounded to 16 bits inside
-     * them, so a 5.1 file gives a stereo buffer: a documented limit of this pipeline (<code>docs/progress/webaudio-b.md</code>), checked here so
-     * that the day a decoder interface delivers the original channels this test is changed on purpose.
-     *
+     * Files of more than two channels (3, 4, 6 and 8 channels in WAV, AIFF, FLAC, AAC, Vorbis and Opus) give a buffer with every channel of the file: a 5.1 file
+     * gives six channels (the order and the values of every channel are checked against ffmpeg's decoders by <code>WideReferenceTest</code>).
      * <p>
-     * 채널이 둘보다 많은 소스는 미디어 디코더가 스테레오로 다운믹스하고 24비트 표본은 그 안에서 16비트로 반올림하므로 5.1 파일은 스테레오 버퍼가 된다. 이 파이프라인의 문서화한 한계(<code>docs/progress/webaudio-b.md</code>)이며, 디코더 인터페이스가 원래 채널을 주는 날 이 시험을 의도적으로 바꾸도록 여기서 확인한다.
+     * 채널이 둘보다 많은 파일(WAV, AIFF, FLAC, AAC, Vorbis, Opus 의 3, 4, 6, 8채널)은 파일의 모든 채널을 가진 버퍼가 된다. 5.1 파일은 채널 여섯 개가 된다(모든 채널의
+     * 순서와 값은 <code>WideReferenceTest</code> 가 ffmpeg 의 디코더와 비교해 확인한다).
      *
      * @throws Exception if a fixture cannot be read / 시험 자료를 읽을 수 없으면
      */
-    public void testMultichannelFilesAreMixedDownByTheMediaDecoders() throws Exception {
+    public void testMultichannelFilesKeepEveryChannel() throws Exception {
         int seen = 0;
-        // 채널이 셋 이상인 모든 파일이 스테레오 버퍼가 되는지 확인한다.
+        // 채널이 셋 이상인 모든 파일이 파일의 채널 수를 가진 버퍼가 되는지 확인한다.
         for (ReferenceFixture f : ReferenceFixture.loadAll()) {
             if (f.isRefused() || f.channels <= 2) {
                 continue;
             }
             seen++;
-            Check.equal(2, AudioBufferDecoder.decode(f.readFile(), f.mime, f.rate, null).getNumberOfChannels(), f.name + " (" + f.channels + " channels)");
+            Check.equal(f.channels, AudioBufferDecoder.decode(f.readFile(), f.mime, f.rate, null).getNumberOfChannels(), f.name + " (" + f.channels + " channels)");
         }
-        Check.isTrue(seen >= 8, "the multichannel fixtures were found: " + seen);
+        Check.isTrue(seen >= 14, "the multichannel fixtures were found: " + seen);
     }
 
     /**
@@ -375,11 +378,11 @@ public class AudioBufferDecoderTest {
 
     /**
      * Damaged copies of every file (cut off, bytes changed in the middle, a block of zeros, bytes changed in the headers and anywhere) either
-     * decode (to a valid buffer: at least one frame, the rate asked for, finite samples of at most 4 in size: a full scale noise that a damaged file decodes to overshoots 1 when it is converted) or fail with an
+     * decode (to a valid buffer: at least one frame, the rate asked for, finite samples; damage after the first frames only ends the decoding there and marks the result truncated) or fail with an
      * <code>EncodingError</code>: no other exception, no error such as an array index, escapes.
      *
      * <p>
-     * 모든 파일의 손상된 사본(잘림, 가운데 바이트 변경, 0 블록, 헤더와 임의 위치의 바이트 변경)은 올바른 버퍼(프레임 1 개 이상, 요청한 표본율, 크기 4 이하의 유한한 표본)로 디코딩되거나 <code>EncodingError</code> 로 실패한다. 그 밖의 예외나 배열 인덱스 같은 오류는 새어 나가지 않는다.
+     * 모든 파일의 손상된 사본(잘림, 가운데 바이트 변경, 0 블록, 헤더와 임의 위치의 바이트 변경)은 올바른 버퍼(프레임 1 개 이상, 요청한 표본율, 유한한 표본. 처음 프레임 뒤의 손상은 거기서 디코딩을 끝내고 결과를 잘린 것으로 표시할 뿐이다)로 디코딩되거나 <code>EncodingError</code> 로 실패한다. 그 밖의 예외나 배열 인덱스 같은 오류는 새어 나가지 않는다.
      *
      * @throws Exception if a fixture cannot be read / 시험 자료를 읽을 수 없으면
      */
@@ -388,6 +391,7 @@ public class AudioBufferDecoderTest {
         List<String> problems = new ArrayList<String>();
         int decoded = 0;
         int failed = 0;
+        int truncated = 0;
         // 시험 자료마다 손상 종류별 사본을 디코딩한다.
         for (ReferenceFixture f : ReferenceFixture.loadAll()) {
             byte[] orig = f.readFile();
@@ -424,9 +428,12 @@ public class AudioBufferDecoderTest {
                     what = n + " bytes changed anywhere";
                 }
                 try {
-                    AudioBuffer b = AudioBufferDecoder.decode(d, f.mime, 48000f, null);
+                    DecodeResult r = AudioBufferDecoder.decodeResult(d, f.mime, 48000f, null);
                     decoded++;
-                    String bad = validate(b, 48000f);
+                    if (r.isTruncated()) {
+                        truncated++;
+                    }
+                    String bad = validate(r.getBuffer(), 48000f);
                     if (bad != null) {
                         problems.add(f.name + " (" + what + "): " + bad);
                     }
@@ -440,7 +447,7 @@ public class AudioBufferDecoderTest {
                 }
             }
         }
-        System.out.println("damaged copies: " + decoded + " decoded, " + failed + " gave an EncodingError");
+        System.out.println("damaged copies: " + decoded + " decoded (" + truncated + " of them marked truncated), " + failed + " gave an EncodingError");
         Check.isTrue(decoded > 0 && failed > 0, "both outcomes occur: " + decoded + " / " + failed);
         Check.isTrue(problems.isEmpty(), problems.size() + " damaged copies ended in something else:\n" + join(problems));
     }
@@ -461,12 +468,12 @@ public class AudioBufferDecoderTest {
         if (b.getSampleRate() != rate) {
             return "rate " + b.getSampleRate();
         }
-        // 모든 표본이 유한하고 유한하고 크기가 4 이하인지 본다(손상된 데이터가 만든 풀 스케일 잡음을 변환하면 필터의 오버슈트로 1 을 넘을 수 있으며 그 한계는 커널의 가중치 절댓값 합 2~3 이다).
+        // 모든 표본이 유한해야 한다(유한하지 않은 표본은 파이프라인이 무음으로 바꾼다). 크기는 제한하지 않는다. 반올림 없는 디코더가 손상된 데이터에서 큰 값을 낼 수 있다.
         for (int c = 0; c < b.getNumberOfChannels(); c++) {
             float[] d = b.getChannelData(c);
             // 채널의 모든 표본을 확인한다.
             for (int i = 0; i < d.length; i++) {
-                if (!(Math.abs(d[i]) <= 4f)) {
+                if (d[i] - d[i] != 0f) {
                     return "sample " + i + " of channel " + c + " is " + d[i];
                 }
             }
@@ -515,7 +522,7 @@ public class AudioBufferDecoderTest {
             if (f.isRefused()) {
                 continue;
             }
-            PcmSource s = AudioDecoders.open(f.readFile(), f.mime, DecodeLimits.DEFAULT);
+            FloatPcmSource s = AudioDecoders.openWide(f.readFile(), f.mime, DecodeLimits.DEFAULT);
             long known = s.getFrameCount();
             s.close();
             // 길이를 알려 주지 않는 첫 파일로 한도 아래와 위를 확인한다.
@@ -658,12 +665,13 @@ public class AudioBufferDecoderTest {
     }
 
     /**
-     * A source of 16 bit PCM for the tests of the pipeline: a different constant or sine in every channel, delivered in reads of odd sizes,
-     * with a reported length that can be unknown or wrong and with failures at a chosen frame.
+     * A source of float samples for the tests of the pipeline: a different sine in every channel, delivered in reads of odd sizes, with a reported length
+     * that can be unknown or wrong and with a failure of a chosen kind at a chosen frame (the frames before it are delivered first, as the decoders do).
      * <p>
-     * 파이프라인 시험용 16비트 PCM 소스: 채널마다 다른 상수나 사인을 홀수 크기의 읽기로 준다. 알리는 길이는 모르거나 틀릴 수 있고 정한 프레임에서 실패할 수 있다.
+     * 파이프라인 시험용 float 표본 소스: 채널마다 다른 사인을 홀수 크기의 읽기로 준다. 알리는 길이는 모르거나 틀릴 수 있고 정한 프레임에서 정한 종류로 실패할 수 있다
+     * (디코더처럼 실패 앞의 프레임을 먼저 전달한다).
      */
-    private static final class FakeSource implements PcmSource {
+    private static final class FakeSource implements FloatPcmSource {
 
         /** The rate. / 표본율. */
         final int rate;
@@ -680,11 +688,14 @@ public class AudioBufferDecoderTest {
         /** The frame at which a read fails, or -1. / 읽기가 실패하는 프레임. 없으면 -1. */
         long failAt = -1;
 
-        /** The kind of the failure: 0 a MediaException, 1 an ArrayIndexOutOfBoundsException, 2 a cancelled MediaException. / 실패의 종류: 0 은 MediaException, 1 은 ArrayIndexOutOfBoundsException, 2 는 취소된 MediaException. */
+        /** The kind of the failure: 0 a CORRUPT MediaException, 1 an ArrayIndexOutOfBoundsException, 2 a CANCELLED MediaException, 3 an UNSUPPORTED_FORMAT MediaException. / 실패의 종류: 0 은 CORRUPT MediaException, 1 은 ArrayIndexOutOfBoundsException, 2 는 CANCELLED MediaException, 3 은 UNSUPPORTED_FORMAT MediaException. */
         int failKind;
 
         /** True if every read delivers nothing. / 모든 읽기가 아무것도 주지 않으면 true. */
         boolean stalled;
+
+        /** The frame that gets the value NaN in channel 0, or -1. / 채널 0 에서 값이 NaN 인 프레임. 없으면 -1. */
+        long nanAt = -1;
 
         /** The next frame. / 다음 프레임. */
         long next;
@@ -710,29 +721,47 @@ public class AudioBufferDecoderTest {
         }
 
         /**
-         * The sample of a channel at a frame: a sine of the frequency 100 times the channel number plus 100, quarter scale.
+         * The sample of a channel at a frame: a sine of the frequency 100 times the channel number plus 100, quarter scale, as <code>short / 32768</code>.
          * <p>
-         * 채널의 프레임에서의 표본: 주파수가 100 x (채널 번호 + 1) 인 사인. 풀 스케일의 4분의 1.
+         * 채널의 프레임에서의 표본: 주파수가 100 x (채널 번호 + 1) 인 사인. 풀 스케일의 4분의 1. <code>short / 32768</code> 로 준다.
          *
          * @param c the channel / 채널
          * @param f the frame / 프레임
          * @return the sample / 표본
          */
-        short sample(int c, long f) {
-            return (short) Math.round(8192.0 * Math.sin(2 * Math.PI * (100.0 * (c + 1)) * f / rate));
+        float sample(int c, long f) {
+            return ((short) Math.round(8192.0 * Math.sin(2 * Math.PI * (100.0 * (c + 1)) * f / rate))) / 32768f;
         }
 
-        /** @return the rate / 표본율 */
+        /**
+         * Returns the rate.
+         * <p>
+         * 표본율을 반환한다.
+         *
+         * @return the rate / 표본율
+         */
         public int getSampleRate() {
             return rate;
         }
 
-        /** @return the channels / 채널 수 */
+        /**
+         * Returns the channels.
+         * <p>
+         * 채널 수를 반환한다.
+         *
+         * @return the channels / 채널 수
+         */
         public int getChannels() {
             return channels;
         }
 
-        /** @return the reported length / 알리는 길이 */
+        /**
+         * Returns the reported length.
+         * <p>
+         * 알리는 길이를 반환한다.
+         *
+         * @return the length / 길이
+         */
         public long getFrameCount() {
             return reported;
         }
@@ -742,63 +771,44 @@ public class AudioBufferDecoderTest {
          * <p>
          * 다음 프레임을 홀수 프레임 단위로 준다.
          *
-         * @param buffer the buffer / 버퍼
+         * @param planar the arrays / 배열
          * @param offset the offset / 위치
-         * @param length the length / 길이
-         * @return the bytes delivered or -1 / 준 바이트 수 또는 -1
+         * @param count  the number of frames wanted / 원하는 프레임 수
+         * @return the frames delivered or -1 / 준 프레임 수 또는 -1
          * @throws MediaException the failure / 실패
          */
-        public int read(byte[] buffer, int offset, int length) throws MediaException {
+        public int read(float[][] planar, int offset, int count) throws MediaException {
             if (stalled) {
                 return 0;
             }
             if (failAt >= 0 && next >= failAt) {
                 if (failKind == 1) {
-                    return buffer[-1];
+                    return (int) planar[-1][0];
                 }
-                throw new MediaException(failKind == 2 ? MediaException.Kind.CANCELLED : MediaException.Kind.CORRUPT, "the fake source fails");
+                MediaException.Kind kind = failKind == 2 ? MediaException.Kind.CANCELLED : (failKind == 3 ? MediaException.Kind.UNSUPPORTED_FORMAT : MediaException.Kind.CORRUPT);
+                throw new MediaException(kind, "the fake source fails");
             }
             if (next >= frames) {
                 return -1;
             }
-            long n = Math.min(Math.min(frames - next, 1000 + (next % 7)), length / (channels * 2));
+            long n = Math.min(Math.min(frames - next, 1000 + (next % 7)), count);
             if (failAt >= 0) {
                 n = Math.min(n, failAt - next);
             }
-            int o = offset;
-            // 프레임마다 채널의 표본을 리틀 엔디언으로 쓴다.
+            // 프레임마다 채널의 표본을 쓴다.
             for (long f = 0; f < n; f++) {
                 for (int c = 0; c < channels; c++) {
-                    short s = sample(c, next + f);
-                    buffer[o++] = (byte) s;
-                    buffer[o++] = (byte) (s >> 8);
+                    planar[c][offset + (int) f] = sample(c, next + f);
+                }
+                if (nanAt >= 0 && next + f == nanAt) {
+                    planar[0][offset + (int) f] = Float.NaN;
+                    if (channels > 1) {
+                        planar[1][offset + (int) f] = Float.POSITIVE_INFINITY;
+                    }
                 }
             }
             next += n;
-            return (int) n * channels * 2;
-        }
-
-        /**
-         * Tells that the source cannot seek.
-         * <p>
-         * 소스가 탐색할 수 없음을 알려 준다.
-         *
-         * @return false / false
-         */
-        public boolean isSeekable() {
-            return false;
-        }
-
-        /**
-         * Not supported.
-         * <p>
-         * 지원하지 않는다.
-         *
-         * @param frame the frame / 프레임
-         * @throws MediaException always / 항상
-         */
-        public void seekToFrame(long frame) throws MediaException {
-            throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "not seekable");
+            return (int) n;
         }
 
         /**
@@ -814,30 +824,41 @@ public class AudioBufferDecoderTest {
     /**
      * A source whose length is not known in advance (the decoders of the media layer all report it, but the interface allows -1) grows its
      * result as it is read: the same samples as a source of known length, at the rate of the file and converted; a length that the source
-     * reports wrongly changes nothing (the result has the frames that were really delivered); the source is closed.
+     * reports wrongly changes nothing for a longer source (the result has the frames that were really delivered); the source is closed. A source
+     * that reports more frames than it delivers is a cut-off file: the result is truncated.
      * <p>
-     * 길이를 미리 모르는 소스(미디어 계층의 디코더는 모두 길이를 알리지만 인터페이스는 -1 을 허용한다)는 읽는 대로 결과를 키운다. 길이를 아는 소스와 같은 표본이 파일의 표본율과 변환한 표본율에서 나온다. 소스가 틀리게 알린 길이는 아무것도 바꾸지 않는다(결과는 실제로 준 프레임을 가진다). 소스는 닫힌다.
+     * 길이를 미리 모르는 소스(미디어 계층의 디코더는 모두 길이를 알리지만 인터페이스는 -1 을 허용한다)는 읽는 대로 결과를 키운다. 길이를 아는 소스와 같은 표본이 파일의 표본율과
+     * 변환한 표본율에서 나온다. 소스가 틀리게 알린 길이는 더 긴 소스에서는 아무것도 바꾸지 않는다(결과는 실제로 준 프레임을 가진다). 소스는 닫힌다. 알린 것보다 적은 프레임을
+     * 주는 소스는 잘린 파일이며 결과는 잘린 것으로 표시된다.
      */
     public void testSourcesOfUnknownOrWrongLength() {
         FakeSource unknown = new FakeSource(44100, 2, 150000, -1);
-        AudioBuffer same = AudioBufferDecoder.decodeSource(unknown, 44100f, null, WebAudioLimits.MAX_BUFFER_SAMPLES);
+        DecodeResult same = AudioBufferDecoder.decodeSource(unknown, 44100f, null, WebAudioLimits.MAX_BUFFER_SAMPLES);
         Check.isTrue(unknown.closed, "the source is closed");
-        Check.equal(150000, same.getLength(), "unknown length, same rate");
+        Check.equal(150000, same.getBuffer().getLength(), "unknown length, same rate");
+        Check.isFalse(same.isTruncated(), "a source of unknown length is not truncated");
+        Check.isNull(same.getWarning(), "no warning");
         // 모든 프레임이 원본 표본 그대로인지 확인한다.
         for (int c = 0; c < 2; c++) {
             for (int f = 0; f < 150000; f += 7) {
-                if (same.getChannelData(c)[f] != unknown.sample(c, f) / 32768f) {
+                if (same.getBuffer().getChannelData(c)[f] != unknown.sample(c, f)) {
                     Check.fail("channel " + c + " frame " + f);
                 }
             }
         }
         FakeSource unknown2 = new FakeSource(44100, 1, 150000, -1);
-        AudioBuffer up = AudioBufferDecoder.decodeSource(unknown2, 48000f, null, WebAudioLimits.MAX_BUFFER_SAMPLES);
-        Check.equal((150000L * 48000 + 44099) / 44100, up.getLength(), "unknown length, converted");
+        DecodeResult up = AudioBufferDecoder.decodeSource(unknown2, 48000f, null, WebAudioLimits.MAX_BUFFER_SAMPLES);
+        Check.equal((150000L * 48000 + 44099) / 44100, up.getBuffer().getLength(), "unknown length, converted");
         FakeSource tooShort = new FakeSource(44100, 1, 100, 50000);
-        Check.equal(100, AudioBufferDecoder.decodeSource(tooShort, 44100f, null, WebAudioLimits.MAX_BUFFER_SAMPLES).getLength(), "a source that reports more than it delivers");
+        DecodeResult cut = AudioBufferDecoder.decodeSource(tooShort, 44100f, null, WebAudioLimits.MAX_BUFFER_SAMPLES);
+        Check.equal(100, cut.getBuffer().getLength(), "a source that reports more than it delivers");
+        Check.isTrue(cut.isTruncated(), "it is a cut-off file");
+        Check.isTrue(cut.getWarning().indexOf("cut off") >= 0 && cut.getWarning().indexOf("100 of the 50000") >= 0, "the warning tells how much: " + cut.getWarning());
+        Check.isNull(cut.getCause(), "no failure of the decoder");
         FakeSource tooLong = new FakeSource(44100, 1, 5000, 1000);
-        Check.equal(5000, AudioBufferDecoder.decodeSource(tooLong, 44100f, null, WebAudioLimits.MAX_BUFFER_SAMPLES).getLength(), "a source that reports less than it delivers");
+        DecodeResult more = AudioBufferDecoder.decodeSource(tooLong, 44100f, null, WebAudioLimits.MAX_BUFFER_SAMPLES);
+        Check.equal(5000, more.getBuffer().getLength(), "a source that reports less than it delivers");
+        Check.isFalse(more.isTruncated(), "more than announced is not a cut-off file");
         FakeSource endless = new FakeSource(44100, 1, 1000000, -1);
         try {
             AudioBufferDecoder.decodeSource(endless, 44100f, null, 100000);
@@ -850,24 +871,23 @@ public class AudioBufferDecoderTest {
     }
 
     /**
-     * The channels that a source delivers are kept in their order and count, up to 32 (the pipeline applies no mix: a decoder that delivers the
-     * original channels of a 5.1 file would give a six channel buffer); a source of 33 channels or with an impossible format is an
+     * The channels that a source delivers are kept in their order and count, up to 32 (the pipeline applies no mix); a source of 33 channels is an
      * <code>EncodingError</code>.
      * <p>
-     * 소스가 주는 채널은 32 개까지 순서와 개수 그대로 유지된다(파이프라인은 믹스를 하지 않는다. 5.1 파일의 원래 채널을 주는 디코더는 채널 여섯 개의 버퍼를 줄 것이다). 33 채널이나 불가능한 형식의 소스는 <code>EncodingError</code> 이다.
+     * 소스가 주는 채널은 32개까지 순서와 개수 그대로 유지된다(파이프라인은 믹스를 하지 않는다). 33 채널의 소스는 <code>EncodingError</code> 이다.
      */
     public void testChannelsOfASourceAreKept() {
         int[] counts = {1, 2, 3, 4, 6, 8, 32};
         // 채널 수마다 채널의 순서와 값이 그대로인지 확인한다.
         for (int k = 0; k < counts.length; k++) {
             FakeSource s = new FakeSource(22050, counts[k], 5000, 5000);
-            AudioBuffer b = AudioBufferDecoder.decodeSource(s, 22050f, null, WebAudioLimits.MAX_BUFFER_SAMPLES);
+            AudioBuffer b = AudioBufferDecoder.decodeSource(s, 22050f, null, WebAudioLimits.MAX_BUFFER_SAMPLES).getBuffer();
             Check.equal(counts[k], b.getNumberOfChannels(), "channels");
             // 채널마다 값이 그대로인지 확인한다.
             for (int c = 0; c < counts[k]; c++) {
                 // 채널의 프레임을 띄엄띄엄 확인한다.
                 for (int f = 0; f < 5000; f += 13) {
-                    if (b.getChannelData(c)[f] != s.sample(c, f) / 32768f) {
+                    if (b.getChannelData(c)[f] != s.sample(c, f)) {
                         Check.fail(counts[k] + " channels: channel " + c + " frame " + f);
                     }
                 }
@@ -884,35 +904,76 @@ public class AudioBufferDecoderTest {
     }
 
     /**
-     * The failures of a source in the middle of the stream: a <code>MediaException</code>, an unexpected runtime exception such as an array
-     * index (damaged data that a decoder does not check), a decoder that delivers nothing for ever and one that reports a cancellation. The
-     * first three are <code>EncodingError</code>s with the cause, the last one a cancellation, and the source is always closed.
+     * The failures of a source in the middle of the stream, after 30000 of 100000 frames: damaged data (a <code>CORRUPT</code> exception or an
+     * unexpected runtime exception such as an array index) ends the decoding there and the frames before the damage are the result, marked truncated with a
+     * warning (and the converted length is the one of 30000 frames); an unsupported feature (<code>UNSUPPORTED_FORMAT</code>) is an <code>EncodingError</code> with the cause; a
+     * decoder that reports a cancellation gives a cancellation; a decoder that delivers nothing for ever and one that fails before its first frame give an
+     * <code>EncodingError</code>. The source is always closed.
      * <p>
-     * 스트림 중간의 소스 실패: <code>MediaException</code>, 배열 인덱스 같은 예상 밖의 런타임 예외(디코더가 검사하지 않은 손상된 데이터), 영원히 아무것도 주지 않는 디코더, 취소를 보고하는 디코더. 앞의 셋은 원인이 붙은 <code>EncodingError</code>, 마지막은 취소이며 소스는 언제나 닫힌다.
+     * 스트림 중간, 100000 프레임 중 30000 프레임 뒤의 소스 실패: 손상된 데이터(<code>CORRUPT</code> 예외나 배열 인덱스 같은 예상 밖의 런타임 예외)는 거기서 디코딩을 끝내고 손상 앞의 프레임이
+     * 결과이며 잘린 것으로 표시하고 경고를 준다(변환한 길이는 30000 프레임의 길이). 지원하지 않는 기능(<code>UNSUPPORTED_FORMAT</code>)은 원인이 붙은 <code>EncodingError</code> 이다. 취소를 보고하는 디코더는 취소를 낸다.
+     * 영원히 아무것도 주지 않는 디코더와 첫 프레임 전에 실패하는 디코더는 <code>EncodingError</code> 를 낸다. 소스는 언제나 닫힌다.
      */
     public void testFailuresInTheMiddleOfTheStream() {
         // 실패 종류마다 소스를 만들어 결과를 확인한다.
-        for (int kind = 0; kind <= 3; kind++) {
+        for (int kind = 0; kind <= 5; kind++) {
             FakeSource s = new FakeSource(44100, 2, 100000, 100000);
-            if (kind == 3) {
+            if (kind == 4) {
                 s.stalled = true;
+            } else if (kind == 5) {
+                s.failAt = 0;
+                s.failKind = 0;
             } else {
                 s.failAt = 30000;
                 s.failKind = kind;
             }
             try {
-                AudioBufferDecoder.decodeSource(s, 48000f, null, WebAudioLimits.MAX_BUFFER_SAMPLES);
-                Check.fail("failure kind " + kind);
+                DecodeResult r = AudioBufferDecoder.decodeSource(s, 48000f, null, WebAudioLimits.MAX_BUFFER_SAMPLES);
+                Check.isTrue(kind == 0 || kind == 1, "failure kind " + kind + " gave a result");
+                Check.isTrue(r.isTruncated(), "damage ends the decoding and the result is truncated, kind " + kind);
+                Check.equal((30000L * 48000 + 44099) / 44100, r.getBuffer().getLength(), "the length of the part before the damage, kind " + kind);
+                Check.isTrue(r.getWarning().indexOf("damaged after 30000 frames") >= 0, "the warning: " + r.getWarning());
+                Check.notNull(r.getCause(), "the cause of the early end, kind " + kind);
             } catch (CancellationException e) {
                 Check.equal(2, kind, "only the cancelled decoder gives a cancellation");
             } catch (AudioException e) {
-                Check.isTrue(kind != 2, "the cancelled decoder is not an error");
+                Check.isTrue(kind >= 3, "kind " + kind + " is not an error");
                 Check.equal(AudioException.Kind.ENCODING, e.getKind(), "kind " + kind);
-                Check.isTrue(kind == 3 || e.getCause() != null, "the cause is kept for kind " + kind);
+                Check.notNull(e.getCause(), "the cause is kept for kind " + kind);
             }
             Check.isTrue(s.closed, "the source is closed after kind " + kind);
         }
     }
+
+    /**
+     * Samples that are not finite numbers (what a decoder can make of damaged data) are replaced by silence before they reach the filter of the
+     * resampler and the buffer, so one damaged sample cannot poison the audio graph; the warning tells how many were replaced; the neighbouring samples
+     * are untouched (at the rate of the file).
+     * <p>
+     * 유한하지 않은 수의 표본(디코더가 손상된 데이터에서 만들 수 있다)은 리샘플러의 필터와 버퍼에 닿기 전에 무음으로 바뀌므로 손상된 표본 하나가 오디오 그래프를 오염시킬 수 없다. 경고가
+     * 몇 개를 바꾸었는지 알려 준다. 이웃한 표본은 건드리지 않는다(파일의 표본율에서).
+     */
+    public void testNonFiniteSamplesAreReplacedBySilence() {
+        FakeSource s = new FakeSource(22050, 2, 3000, 3000);
+        s.nanAt = 1500;
+        DecodeResult r = AudioBufferDecoder.decodeSource(s, 22050f, null, WebAudioLimits.MAX_BUFFER_SAMPLES);
+        Check.near(0.0, r.getBuffer().getChannelData(0)[1500], 0, "NaN became silence");
+        Check.near(0.0, r.getBuffer().getChannelData(1)[1500], 0, "an infinity became silence");
+        Check.isTrue(r.getBuffer().getChannelData(0)[1499] == s.sample(0, 1499) && r.getBuffer().getChannelData(0)[1501] == s.sample(0, 1501), "the neighbours are untouched");
+        Check.isFalse(r.isTruncated(), "that is not a truncation");
+        Check.isTrue(r.getWarning().indexOf("2 samples that were not finite") >= 0, "the warning: " + r.getWarning());
+        FakeSource s2 = new FakeSource(22050, 2, 3000, 3000);
+        s2.nanAt = 1500;
+        DecodeResult up = AudioBufferDecoder.decodeSource(s2, 44100f, null, WebAudioLimits.MAX_BUFFER_SAMPLES);
+        float[] d = up.getBuffer().getChannelData(0);
+        // 변환한 뒤에도 모든 표본이 유한해야 한다(NaN 이 필터를 타고 퍼지지 않는다).
+        for (int i = 0; i < d.length; i++) {
+            if (d[i] - d[i] != 0f) {
+                Check.fail("sample " + i + " after the conversion is " + d[i]);
+            }
+        }
+    }
+
 
     /**
      * The class has no state: several threads decode the same file at once and all get the same samples.

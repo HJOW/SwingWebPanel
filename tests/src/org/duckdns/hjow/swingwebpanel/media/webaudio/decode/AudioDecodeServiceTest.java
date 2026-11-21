@@ -295,6 +295,74 @@ public class AudioDecodeServiceTest {
     }
 
     /**
+     * A callback that implements {@link DecodeWarningCallback} hears of a result that holds only part of a cut-off file: <code>onWarning</code> comes first,
+     * then <code>onSuccess</code> with the frames that could be decoded, on the same thread; a plain {@link DecodeCallback} gets the same buffer from
+     * <code>onSuccess</code> and nothing else; a complete file gives no warning.
+     * <p>
+     * {@link DecodeWarningCallback} 을 구현한 콜백은 잘린 파일의 일부만 담은 결과를 안다. <code>onWarning</code> 이 먼저 오고, 같은 스레드에서 디코딩할 수 있었던 프레임과 함께
+     * <code>onSuccess</code> 가 온다. 평범한 {@link DecodeCallback} 은 같은 버퍼를 <code>onSuccess</code> 로 받을 뿐 다른 것은 없다. 완전한 파일은 경고를 주지 않는다.
+     *
+     * @throws Exception if the wait fails / 기다림이 실패하면
+     */
+    public void testTheWarningOfACutOffFileComesBeforeSuccess() throws Exception {
+        AudioDecodeService s = service(1);
+        try {
+            byte[] whole = TruncatedDataTest.resource("long_flac_8000_st.flac");
+            final List<String> events = Collections.synchronizedList(new ArrayList<String>());
+            final AtomicReference<Thread> warnThread = new AtomicReference<Thread>();
+            final AtomicReference<Thread> successThread = new AtomicReference<Thread>();
+            final CountDownLatch done = new CountDownLatch(1);
+            s.decode(java.util.Arrays.copyOf(whole, whole.length * 85 / 100), null, 8000f, new DecodeWarningCallback() {
+                public void onWarning(String message) {
+                    warnThread.set(Thread.currentThread());
+                    events.add("warning: " + message);
+                }
+
+                public void onSuccess(AudioBuffer b) {
+                    successThread.set(Thread.currentThread());
+                    events.add("success " + b.getLength());
+                    done.countDown();
+                }
+
+                public void onError(AudioException e) {
+                    events.add("error " + e);
+                    done.countDown();
+                }
+            }, null);
+            Check.isTrue(done.await(30, TimeUnit.SECONDS), "the callback came");
+            Check.equal(2, events.size(), "two calls: " + events);
+            Check.isTrue(events.get(0).startsWith("warning: the audio data is cut off"), "the warning comes first: " + events.get(0));
+            Check.isTrue(events.get(1).startsWith("success "), "then the success: " + events.get(1));
+            Check.same(warnThread.get(), successThread.get(), "on the same thread");
+            Recorder plain = new Recorder();
+            s.decode(java.util.Arrays.copyOf(whole, whole.length * 85 / 100), null, 8000f, plain, null);
+            Check.isTrue(plain.await(), "a plain callback is called");
+            Check.notNull(plain.buffer, "with the same buffer");
+            Check.isNull(plain.error, "and no error");
+            final List<String> complete = Collections.synchronizedList(new ArrayList<String>());
+            final CountDownLatch done2 = new CountDownLatch(1);
+            s.decode(whole, null, 8000f, new DecodeWarningCallback() {
+                public void onWarning(String message) {
+                    complete.add("warning");
+                }
+
+                public void onSuccess(AudioBuffer b) {
+                    complete.add("success");
+                    done2.countDown();
+                }
+
+                public void onError(AudioException e) {
+                    done2.countDown();
+                }
+            }, null);
+            Check.isTrue(done2.await(30, TimeUnit.SECONDS), "the callback came for the whole file");
+            Check.equal("[success]", complete.toString(), "no warning for a complete file");
+        } finally {
+            s.close();
+        }
+    }
+
+    /**
      * A file that cannot be decoded and empty data are reported through the error callback (and not by an exception of the call), as an
      * <code>EncodingError</code> with the cause.
      *

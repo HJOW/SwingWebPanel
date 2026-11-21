@@ -521,10 +521,13 @@ public final class AudioDecodeService {
                 bytes = data;
             }
             AudioBuffer buffer = null;
+            String warning = null;
             AudioException error = null;
             boolean stopped = false;
             try {
-                buffer = AudioBufferDecoder.decode(bytes, mimeHint, sampleRate, this);
+                DecodeResult result = AudioBufferDecoder.decodeResult(bytes, mimeHint, sampleRate, this);
+                buffer = result.getBuffer();
+                warning = result.getWarning();
             } catch (CancellationException e) {
                 stopped = true;
             } catch (AudioException e) {
@@ -556,7 +559,7 @@ public final class AudioDecodeService {
                 service.forget(this);
                 return;
             }
-            schedule(buffer, error);
+            schedule(buffer, error, warning);
         }
 
         /**
@@ -566,11 +569,12 @@ public final class AudioDecodeService {
          *
          * @param buffer the result or null / 결과 또는 null
          * @param error  the error or null / 오류 또는 null
+         * @param warning the warning for a result that holds only part of the data, or null / 데이터의 일부만 담은 결과에 대한 경고. 또는 null
          */
-        private void schedule(final AudioBuffer buffer, final AudioException error) {
+        private void schedule(final AudioBuffer buffer, final AudioException error, final String warning) {
             Runnable call = new Runnable() {
                 public void run() {
-                    deliver(buffer, error);
+                    deliver(buffer, error, warning);
                 }
             };
             if (callbackExecutor == null) {
@@ -596,8 +600,9 @@ public final class AudioDecodeService {
          *
          * @param buffer the result or null / 결과 또는 null
          * @param error  the error or null / 오류 또는 null
+         * @param warning the warning for a result that holds only part of the data, or null / 데이터의 일부만 담은 결과에 대한 경고. 또는 null
          */
-        private void deliver(AudioBuffer buffer, AudioException error) {
+        private void deliver(AudioBuffer buffer, AudioException error, String warning) {
             DecodeCallback target;
             synchronized (this) {
                 // 콜백이 시작되기 전에 취소되었으면 부르지 않는다.
@@ -609,6 +614,9 @@ public final class AudioDecodeService {
             }
             try {
                 if (buffer != null) {
+                    if (warning != null && target instanceof DecodeWarningCallback) {
+                        ((DecodeWarningCallback) target).onWarning(warning);
+                    }
                     target.onSuccess(buffer);
                 } else {
                     target.onError(error);
