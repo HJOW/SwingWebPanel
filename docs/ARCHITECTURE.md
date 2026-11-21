@@ -16,7 +16,7 @@ JavaScript(ES6) 엔진을 모두 자체 개발한다. Java 6 이상, JRE 6 에�
 | 금지 대상 | 비고 |
 | --- | --- |
 | Rhino, Nashorn, GraalJS, 그 밖의 JavaScript 엔진 | JRE 에 내장된 `sun.org.mozilla.javascript.*` 포함 |
-| `javax.script.ScriptEngineManager` 를 통한 JS 엔진 호출 | 내장 Rhino 우회 사용도 금지 |
+| 다른 엔진을 `javax.script.ScriptEngineManager` 로 호출하는 것 | 내장 Rhino/Nashorn 우회 사용 금지. 단 **이 프로젝트의 자체 엔진을 `javax.script` 제공자로 공개하는 것은 허용**한다: `js.script` 패키지(와 그 시험, `examples/**/script` 예제)만 `javax.script` 를 쓸 수 있고(`tools/sourcecheck` 의 `forbidden-engine` 규칙이 강제) 나머지 제품 코드의 `ScriptEngineManager` 사용은 금지다. 엔진은 고유 이름 `swingwebpanel-js` 로만 등록한다(P26-05) |
 | JavaFX WebView, JCEF, 외부/OS 브라우저 실행 | `Desktop.browse`, `Runtime.exec`, `ProcessBuilder` 로 브라우저 호출 금지 |
 | `javax.swing.JEditorPane`/`HTMLEditorKit` 등 Swing 내장 HTML 렌더러 | 실제 HTML/CSS 렌더링 위임 금지 |
 | 네이티브 코드(C/C++), JNI(`native`, `System.loadLibrary`), JNA, `.dll/.so/.dylib` | 도구 포함 |
@@ -41,7 +41,8 @@ Java Sound(`javax.sound.sampled`), JSSE(`HttpsURLConnection`, `SSLContext`), `ja
 ```
 AGENTS.md                                  프로젝트 지침과 개발 계획
 docs/                                      PROGRESS / FEATURE_MATRIX / ARCHITECTURE / API_CONTRACT (+ docs/progress/ 작업자별 기록)
-src/org/duckdns/hjow/swingwebpanel/        제품 소스 (패키지 아래 표)
+engine/                                    JavaScript 엔진 모듈(P26): engine/src, engine/tests(시험 실행기 testing.* 포함), engine/resources(META-INF/services)
+src/org/duckdns/hjow/swingwebpanel/        브라우저 제품 소스 (패키지 아래 표; 엔진 클래스는 engine/ 에 있고 같은 패키지 접두사를 쓴다)
 tests/src/org/duckdns/hjow/swingwebpanel/  테스트 소스(제품 JAR 에 포함하지 않음)
 tests/resources/                           테스트 입력 자료(HTML, 키 저장소 등. 패키지 경로를 쓰는 자료는 org/duckdns/hjow/swingwebpanel/ 아래)
 examples/                                  사용 예제(src, resources 모두 org/duckdns/hjow/swingwebpanel/ 아래)
@@ -63,7 +64,7 @@ User-Agent 기본값 `swingwebpanel/1.0`, JAR 이름 `swingwebpanel.jar`, 스레
 | `org.duckdns.hjow.swingwebpanel.css` | CSS 토큰화/파서, 스타일시트, 선택자 일치기, 계산 스타일, 미디어 질의 |
 | `org.duckdns.hjow.swingwebpanel.layout` | 레이아웃 트리(`LayoutBox`), 블록/인라인/표/플렉스 등 레이아웃 알고리즘, 글꼴 측정 |
 | `org.duckdns.hjow.swingwebpanel.render` | 그림 명령(`DisplayList`), Java2D 렌더러, 좌표 변환, hit testing |
-| `org.duckdns.hjow.swingwebpanel.js` | JavaScript 값/객체/렉서/파서/인터프리터/내장 객체/이벤트 루프, 하위 `js.dom`(DOM 바인딩) |
+| `org.duckdns.hjow.swingwebpanel.js` | JavaScript 값/객체/렉서/파서/인터프리터/내장 객체(**엔진 모듈 `engine/`**: 루트와 `ast parser interp builtins date num regexp text embed script`), 브라우저 모듈의 `js.host`(페이지 호스트·이벤트 루프·웹 API), `js.dom`(DOM 바인딩), `js.worker`(Worker) |
 | `org.duckdns.hjow.swingwebpanel.storage` | `StorageEntry`, 오리진별 `StorageArea`, 프로세스 공용 localStorage 파일 저장소, 컴포넌트별 sessionStorage |
 | `org.duckdns.hjow.swingwebpanel.media` | 이미지/오디오 디코더, 미디어 요소 상태, SVG, 오디오 재생 |
 | `org.duckdns.hjow.swingwebpanel.content` | MIME 별 콘텐츠 처리기(plain/markdown/xhtml), 오류 페이지 생성기 |
@@ -71,6 +72,13 @@ User-Agent 기본값 `swingwebpanel/1.0`, JAR 이름 `swingwebpanel.jar`, 스레
 
 클래스 하나에 여러 엔진을 몰아넣지 않는다. 패키지 의존 방향: `core → (net, content, html, dom, css, layout, render, js, storage, media, download)`,
 `js ↔ dom` 은 `js.dom` 바인딩 계층으로만 연결한다. `dom`/`html`/`css`/`layout`/`net` 은 `js` 에 의존하지 않는다.
+
+### 2.1 모듈 구성 (P26, 2026-11-22)
+
+- **엔진 모듈 `engine/`**: `org.duckdns.hjow.swingwebpanel.js` 아래 루트 클래스와 `ast parser interp builtins date num regexp text embed script`. 브라우저, AWT/Swing, 네트워크, 파일에 의존하지 않는다. 브라우저 없이 `js.embed.JsEngine` 으로 쓰거나 `js.script`(JSR 223, 고유 이름 `swingwebpanel-js`)로 쓴다. 경계는 (1) 빈 클래스패스/소스패스 컴파일, (2) `tools/sourcecheck` 의 `engine-boundary` 규칙, (3) 클래스 상수 풀 시험, (4) AWT 없는 엔진 단계 시험으로 강제한다. 패키지 이름은 바꾸지 않았다(두 모듈의 패키지는 겹치지 않는다).
+- **브라우저 모듈 `src/`**: 나머지 패키지와 `js.host`/`js.dom`/`js.worker`. 컴파일된 엔진 클래스의 공개 API 만 참조한다(`SwingWebPanel` 은 `js.embed`/`js.script` 를 쓰지 않는다).
+- 의존 방향은 브라우저 → 엔진 한 방향이다. 상세와 Maven(P23) 전환 대응표는 `docs/progress/engine.md`.
+- 시험 실행기(`testing.TestRunner/Check/...`)는 엔진 시험 디렉터리에 있고 브라우저 시험도 클래스패스로 사용한다. 도구 목록은 변경 없음(`tools/sourcecheck` 규칙만 확장).
 
 ## 3. 책임 분리와 데이터 흐름 (P02-02)
 
@@ -115,8 +123,8 @@ setPage(url) ─▶ NavigationController(요청 번호 N) ─▶ net.ResourceFet
 
 | 스크립트 | 설명 |
 | --- | --- |
-| `build.sh` / `build.bat` | 제품 소스를 JDK 6 으로 컴파일(`build/classes`)하고 `build/swingwebpanel.jar` 생성 |
-| `test.sh` / `test.bat` | 테스트 소스를 컴파일해 `org.duckdns.hjow.swingwebpanel.testing.TestRunner` 실행, 실패 시 0 이 아닌 종료 코드 |
+| `build.sh` / `build.bat` | 엔진(`engine/build.*`: 빈 클래스패스로 컴파일)→브라우저(컴파일된 엔진 클래스만 참조)→합친 클래스(`build/classes`)를 JDK 6 으로 빌드하고 JAR 세 개 생성: `swingwebpanel.jar`(합친 단일), `swingwebpanel-js.jar`(엔진), `swingwebpanel-browser.jar`(브라우저) |
+| `test.sh` / `test.bat` | 1단계 엔진 시험(`engine/test.*`: 엔진 클래스만, `java.awt.headless=true`), 2단계 브라우저 시험(합친 클래스)을 `org.duckdns.hjow.swingwebpanel.testing.TestRunner` 로 실행하고 `=== TOTAL (engine + browser): ... ===` 를 출력. 실패 시 0 이 아닌 종료 코드 |
 | `tools/<도구>/build.*`, `run.*` | 각 도구의 빌드/실행 |
 
 JDK 6 경로: 환경 변수 `JAVA6_HOME`, 기본 `C:\Program Files\Java\jdk1.6.0_45`. 찾지 못하면 다른 JDK 로 대체하지 않고 종료 코드 1 로 끝난다.

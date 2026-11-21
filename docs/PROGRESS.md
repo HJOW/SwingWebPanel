@@ -26,6 +26,8 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
   (2026-11-20 갱신) AGENTS.md 기준으로 P10-08-h, P11-02, P11-10 은 이미 체크되어 있다. 남은 `[ ]` 는 P18-08, P18-11, P22-07/10/15/16 과 새 P23~P26 이다. 사람이 확인해야 하는 항목을 빼면 AI 가 진행할 수 있는 첫 항목은 P23-01(Maven 도입 방식 조사·결정)이다.
   (2026-11-22 갱신) **사용자 지시로 진행 순서를 바꿨다: P23(Maven 전환)은 최대한 나중으로 미룬다.** 순서는 P24 → P25 → P26 → P23(마지막)이며, 그 전까지 현재 `src`/`tests/src` 구조와 `build.sh`/`test.sh` 를 쓴다. 이 PC 에는 Maven 이 없고 사용자가 직접 설치하겠다고 했다(P23 을 시작할 때 `mvn` 이 PATH 에 있는지 먼저 확인하고 없으면 사용자에게 요청한다). P26 은 Maven 없이 `engine/` 디렉터리 + 기존 스크립트로 분리하고 P23 에서 그 디렉터리를 Maven 모듈로 옮긴다(`docs/progress/briefs/engine.md`).
   (2026-11-22) **P24 완료**(아래 작업 로그). 다음: P25(Web Audio)와 P26(엔진 분리)을 작업자 두 명이 병렬로(`docs/progress/briefs/webaudio.md`, `engine.md`), 조정자는 병합·전체 회귀를 맡는다.
+  (2026-11-22) **P26 완료·main 병합**(커밋 `20261122-200`~`204`, 엔진 작업자). 엔진을 `engine/` 으로 분리하고(`engine/src`, `engine/tests`, `engine/resources`) 독립 API `js.embed`, `javax.script` 제공자 `js.script`, JAR 세 개를 만들었다. **빌드/시험 구조가 바뀌었다**: `build.sh|bat` 는 엔진→브라우저→합친 클래스 순서로 빌드하고 `test.sh|bat` 는 엔진 단계(엔진 클래스만, headless)와 브라우저 단계를 차례로 돌려 `=== TOTAL (engine + browser): ... ===` 를 출력한다. 엔진 소스 경로는 `src/.../js/{*.java,ast,parser,interp,builtins,date,num,regexp,text}` → `engine/src/...` (브라우저는 `js.host/dom/worker` 만 `src` 에 남음). 전체 회귀(조정자가 직접 재실행, JDK 6u45): **3823 통과/0 실패/14 건너뜀**(엔진 648 + 브라우저 3175). 상세 `docs/progress/engine.md`.
+  (2026-11-22) P25 A1(그래프 엔진·AudioParam·1차 노드, `20261122-100`~`109`)은 작업자 완료, 병합 전 회귀 중. 다음은 A2(남은 노드)와 B(AudioBuffer/디코딩)를 병렬로.
 ```
 
 ## 2026-11-20 주 패키지명 변경: `swingwebpanel` → `org.duckdns.hjow.swingwebpanel`
@@ -290,6 +292,15 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-22 · P26 JavaScript 엔진 분리와 Java Scripting API 지원 (완료, 엔진 작업자, 브랜치 `worktree-agent-a8e4159237316313b`)
+- **분리(P26-01)**: 엔진 핵심(`js` 루트, `ast parser interp builtins date num regexp text`, 새 `embed script`)을 `engine/` 으로 옮겼다(파일 275개, git 이 rename 으로 인식). 패키지 이름은 유지. 경계는 네 겹으로 강제한다: 엔진은 빈 클래스패스/소스패스로 컴파일, 브라우저는 컴파일된 엔진 클래스만 참조, `tools/sourcecheck` 새 규칙 `engine-boundary`, 클래스 상수 풀 시험과 headless 엔진 단계 시험. 작업자가 임시로 `java.awt` 를 쓰는 클래스를 넣어 각 장치가 실제로 실패함을 확인했다.
+- **독립 API(P26-02/03)**: `js.embed.JsEngine`(eval/compile/모듈/전역/호출/제한·취소/콘솔 훅/모듈 로더), 살아 있는 핸들, `JsHostFunction`(스크립트가 Java 를 부르는 유일한 통로), `JsScriptError`(위치). Java 객체는 스크립트로 새지 않는다. 독립 모드 전역은 ES2015 내장 + `console`/`print`, 타이머는 켜지 않기로 결정. 엔진 쪽 보강: `JsRealm.parseScript`/`ParsedScript`(한 번 파싱해 여러 번 실행), 던진 위치 기록, 처리되지 않은 promise 거부 보고(속도 영향은 잡음 안).
+- **`javax.script`(P26-04/05)**: 고유 이름(`swingwebpanel-js`)만 등록, 일반 이름은 `-Dswingwebpanel.js.genericNames=true`. ENGINE 범위별 realm, `Compilable`/`Invocable`, 컨텍스트 Writer 콘솔. `tools/sourcecheck` 의 `javax.script` 금지는 제공자·예제 패키지만 예외로 바꿨다. ARCHITECTURE 1.1 에 반영.
+- **JAR(P26-06)**: `swingwebpanel.jar`(합친 단일, 기존 사용 그대로), `swingwebpanel-js.jar`(엔진), `swingwebpanel-browser.jar`(브라우저; 엔진 JAR 필요). 합친 JAR 의 최종 이름은 P23 에서 정한다.
+- **검증(P26-07)**: 작업자 3820/0/14 보고 → 조정자 재실행 **3823 통과/0 실패/14 건너뜀**(엔진 648, 브라우저 3175; 작업자 보고 뒤 시험 3건이 늘었다). JRE 8(Nashorn)에서 `js.script` 20건 통과, 일반 이름이 이 엔진을 돌려주지 않음.
+- **한계/미확인**: JRE 8 로 엔진 시험 전체를 돌리면 `DateTest.testRoundTrips` 1건 실패(1900년 이전 Asia/Seoul 시각의 JRE 6/8 시간대 데이터 차이로 보이며 JRE 6 에서는 통과). `ConsoleExample --smoke` 는 CPU 가 바쁠 때 1초 창 안에 이벤트가 오지 않아 `consoleEvents=0` 이 간헐적으로 나왔다(부하 의존으로 추정, 분리 전과 비교하지 않음). 최상위 let/const/class 는 `JsEngine.get` 으로 읽을 수 없음. 엔진 단독 모드를 JRE 7 이상(8 제외)에서는 돌리지 않음.
+- **P23 때 할 일**: `engine/` → Maven 모듈 대응표는 `docs/progress/engine.md` D 절(`engine/src`→`src/main/java` 등, 시험 실행기를 test-jar 로 내보냄, 합친 JAR 은 shade/assembly).
 
 ### 2026-11-22 · P24 콘솔 출력 이벤트 (완료)
 - **설계/계약**: `docs/API_CONTRACT.md` 5.20(통지 범위 표, 스레드·수명 규칙, 한계), 기능 표 API-27. 공개 타입 `ConsoleListener`/`ConsoleEvent`(루트 패키지)와 `SwingWebPanel.addConsoleListener/removeConsoleListener/getConsoleListeners`. 호출은 항상 EDT, 쓴 순서대로, 리스너 예외는 격리, 리스너가 없으면 이벤트를 만들지 않고 **표준 출력에도 쓰지 않는다**(이전에는 페이지 콘솔이 System.out/err 에 썼다: 동작 변경이며 계약과 README 에 적었다).
