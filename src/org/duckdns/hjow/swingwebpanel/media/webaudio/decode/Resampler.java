@@ -19,7 +19,7 @@ package org.duckdns.hjow.swingwebpanel.media.webaudio.decode;
  * {@link #MAX_EXACT_PHASES} and the table is small enough, every output sample uses one of <code>up</code> exact precomputed phases
  * (no interpolation error at all, e.g. 44100 to 48000 uses 160 phases). Otherwise (large <code>up</code>, non-integer rates) the table has
  * {@link #INTERPOLATED_PHASES} rows (fewer for a very wide kernel) and the two nearest rows are interpolated linearly; the error of that
- * is below -110 dB for the 1024 rows (it shrinks with the square of the ratio of the sample rates for fewer rows).
+ * is about -120 dB for the 1024 rows (measured: at most 8.3e-7 for full scale noise against the exact phases; it shrinks with the square of the ratio of the sample rates, so fewer rows suffice for a wide kernel).
  * <p>
  * <b>Position and length.</b> Output sample <code>n</code> is at the time <code>n / outputRate</code>, i.e. at the input position
  * <code>n * inputRate / outputRate</code>; the filter is symmetric around that position, so there is no delay. The input before the first
@@ -47,7 +47,7 @@ package org.duckdns.hjow.swingwebpanel.media.webaudio.decode;
  * <b>위상.</b> 두 표본율이 모두 정수이면 비율을 <code>up / down</code> 으로 약분하고, <code>up</code> 이 {@link #MAX_EXACT_PHASES} 이하이며 표가 충분히
  * 작으면 출력 표본마다 미리 계산한 <code>up</code> 개의 정확한 위상 중 하나를 쓴다(보간 오차가 전혀 없다. 예: 44100 에서 48000 은 160 위상). 그렇지
  * 않으면(큰 <code>up</code>, 정수가 아닌 표본율) 표는 {@link #INTERPOLATED_PHASES} 행(아주 넓은 커널이면 더 적게)이고 가장 가까운 두 행을 선형 보간한다.
- * 그 오차는 1024 행에서 -110 dB 아래이다(행이 적을 때는 표본율 비율의 제곱에 비례해 줄어든다).
+ * 그 오차는 1024 행에서 약 -120 dB 이다(실측: 정확한 위상과 비교해 풀 스케일 잡음에서 최대 8.3e-7. 표본율 비율의 제곱에 비례해 줄어들기 때문에 넓은 커널에는 더 적은 행으로 충분하다).
  * <p>
  * <b>위치와 길이.</b> 출력 표본 <code>n</code> 은 시간 <code>n / outputRate</code>, 곧 입력 위치 <code>n * inputRate / outputRate</code> 에 있다. 필터는
  * 그 위치에 대칭이므로 지연이 없다. 첫 표본 앞과 마지막 표본 뒤의 입력은 0 으로 본다. 출력은
@@ -251,6 +251,21 @@ public final class Resampler {
      *                                  표본율이 양의 유한한 값이 아니거나 비율이 어느 방향이든 {@link #MAX_RATIO} 를 넘으면
      */
     public Resampler(double inputRate, double outputRate) {
+        this(inputRate, outputRate, false);
+    }
+
+    /**
+     * Creates a converter and optionally forces the interpolated table even if the ratio has exact phases (used by the tests to compare the
+     * two ways of computing the same result).
+     * <p>
+     * 변환기를 만들며, 비율에 정확한 위상이 있어도 보간하는 표를 쓰도록 강제할 수 있다(같은 결과를 계산하는 두 방법을 시험이 비교하려고 쓴다).
+     *
+     * @param inputRate          the input sample rate in Hz / 입력 표본율(Hz)
+     * @param outputRate         the output sample rate in Hz / 출력 표본율(Hz)
+     * @param forceInterpolation true to use the interpolated table in every case / 언제나 보간하는 표를 쓰려면 true
+     * @throws IllegalArgumentException for rates that the public constructor rejects / 공개 생성자가 거부하는 표본율이면
+     */
+    Resampler(double inputRate, double outputRate, boolean forceInterpolation) {
         if (!(inputRate > 0) || !(outputRate > 0) || Double.isInfinite(inputRate) || Double.isInfinite(outputRate)) {
             throw new IllegalArgumentException("the sample rates must be positive and finite: " + inputRate + " -> " + outputRate);
         }
@@ -293,7 +308,7 @@ public final class Resampler {
         this.taps = 2 * half;
         double beta = 0.1102 * (STOPBAND_ATTENUATION_DB - 8.7);
         // 정확한 위상 표가 작으면 위상마다 한 행을 쓰고 아니면 보간하는 표를 쓴다.
-        if (whole && up <= MAX_EXACT_PHASES && up * taps <= MAX_TABLE_FLOATS) {
+        if (whole && !forceInterpolation && up <= MAX_EXACT_PHASES && up * taps <= MAX_TABLE_FLOATS) {
             this.rows = (int) up;
             this.interpolated = false;
         } else {

@@ -490,6 +490,49 @@ public class ResamplerTest {
     }
 
     /**
+     * The interpolated table gives the same result as the exact phases: for ratios that have exact phases the converter is built a second time
+     * with the interpolated table of 1024 rows, and the two outputs for a full scale noise differ by less than 10<sup>-6</sup> (-120 dB), which is
+     * the error of the linear interpolation between the rows (the filter itself is the same).
+     * <p>
+     * 보간하는 표는 정확한 위상과 같은 결과를 준다. 정확한 위상이 있는 비율에서 변환기를 보간하는 1024 행 표로 한 번 더 만들어, 풀 스케일 잡음에 대한 두
+     * 출력이 10<sup>-6</sup>(-120 dB) 미만으로 다르다. 이것이 행 사이의 선형 보간 오차이다(필터 자체는 같다).
+     */
+    public void testInterpolatedTableMatchesExactPhases() {
+        double[][] pairs = {{44100, 48000}, {22050, 48000}, {96000, 44100}, {8000, 48000}, {48000, 44100}, {44100, 22050}, {16000, 44100}};
+        double worst = 0;
+        // 표본율 쌍마다 두 방식의 출력을 같은 잡음에 대해 비교한다.
+        for (int p = 0; p < pairs.length; p++) {
+            double in = pairs[p][0];
+            double out = pairs[p][1];
+            float[] noise = new float[(int) (in * 0.1)];
+            java.util.Random rnd = new java.util.Random(99 + p);
+            // 풀 스케일에 가까운 잡음을 만든다.
+            for (int i = 0; i < noise.length; i++) {
+                noise[i] = (float) (rnd.nextDouble() * 2 - 1);
+            }
+            float[] exact = Resampler.resample(noise, in, out);
+            Resampler forced = new Resampler(in, out, true);
+            Check.isTrue(new Resampler(in, out).isExact() && !forced.isExact(), "the two converters use different tables");
+            float[] got = new float[(int) forced.outputLength(noise.length)];
+            float[] tmp = new float[forced.maxOutputFrames(noise.length)];
+            int n = forced.process(noise, 0, noise.length, tmp, 0);
+            System.arraycopy(tmp, 0, got, 0, n);
+            float[] tail = new float[forced.maxFinishFrames()];
+            int w = forced.finish(tail, 0);
+            System.arraycopy(tail, 0, got, n, w);
+            Check.equal(exact.length, n + w, "the same length");
+            double max = 0;
+            // 모든 출력 표본의 차이 최댓값을 구한다.
+            for (int i = 0; i < exact.length; i++) {
+                max = Math.max(max, Math.abs(exact[i] - got[i]));
+            }
+            worst = Math.max(worst, max);
+            Check.isTrue(max < 1e-6, in + " -> " + out + ": the interpolated table differs by " + max);
+        }
+        System.out.println("largest difference between the interpolated and the exact table: " + worst);
+    }
+
+    /**
      * Invalid rates are refused by the constructor: not a number, zero, negative, infinite and a ratio above 1024 in either direction.
      * <p>
      * 올바르지 않은 표본율은 생성자가 거부한다: 숫자가 아님, 0, 음수, 무한대, 어느 방향이든 1024 를 넘는 비율.

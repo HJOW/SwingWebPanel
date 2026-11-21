@@ -534,6 +534,8 @@ public final class AudioDecodeService {
             } catch (OutOfMemoryError e) {
                 error = AudioBufferDecoder.encodingError("not enough memory to decode the audio data", e);
             }
+            // 콜백이 이 스레드에서 실행되더라도 파일 데이터를 붙잡고 있지 않도록 참조를 놓는다.
+            bytes = null;
             boolean deliver;
             synchronized (this) {
                 runner = null;
