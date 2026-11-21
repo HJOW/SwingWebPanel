@@ -174,7 +174,7 @@ public final class OutputRenderDriver implements RealtimeAudioContext.Driver, Ru
      * <p>
      * 출력의 팩터리.
      */
-    private final OutputFactory outputs;
+    private volatile OutputFactory outputs;
 
     /**
      * The latency that the context was created with, in seconds.
@@ -378,6 +378,46 @@ public final class OutputRenderDriver implements RealtimeAudioContext.Driver, Ru
         RealtimeAudioContext c = new RealtimeAudioContext(sampleRate, latencySeconds, driver);
         driver.attach(c);
         return c;
+    }
+
+    /**
+     * Returns a factory of silent outputs: the segments that it serves play into a {@link NullOutput} on purpose (the time of the context runs at real
+     * speed and nothing is heard, and no problem is reported). The script layer sets it for <code>setSinkId({type: "none"})</code>.
+     * <p>
+     * 무음 출력의 팩터리를 반환한다: 이것이 맡는 구간은 일부러 {@link NullOutput} 으로 재생한다(컨텍스트 시간은 실제 속도로 흐르고 아무것도 들리지 않으며 문제도 보고하지
+     * 않는다). 스크립트 계층이 <code>setSinkId({type: "none"})</code> 에 쓴다.
+     *
+     * @return the factory / 팩터리
+     */
+    public static OutputFactory silentOutputs() {
+        return new OutputFactory() {
+            /**
+             * Opens a silent output.
+             * <p>
+             * 무음 출력을 연다.
+             *
+             * @param sampleRate   the sample rate / 샘플링 주파수
+             * @param channels     the channels / 채널 수
+             * @param bufferFrames the buffer / 버퍼
+             * @return the silent output / 무음 출력
+             */
+            public AudioOutput open(int sampleRate, int channels, int bufferFrames) {
+                return new NullOutput(sampleRate, channels, bufferFrames);
+            }
+        };
+    }
+
+    /**
+     * Sets the factory of the outputs for the next segment (a running segment keeps its output until a pause and a resume); null means the system
+     * output. The device of a context changes with it when the context is suspended and resumed.
+     * <p>
+     * 다음 구간을 위한 출력의 팩터리를 정한다(실행 중인 구간은 일시정지와 재개까지 자기 출력을 유지한다). null 이면 시스템 출력이다. 컨텍스트를 일시정지하고
+     * 재개하면 그 컨텍스트의 장치가 바뀐다.
+     *
+     * @param factory the factory or null / 팩터리 또는 null
+     */
+    public void setOutputFactory(OutputFactory factory) {
+        this.outputs = factory == null ? new SystemOutputFactory() : factory;
     }
 
     /**
@@ -726,8 +766,9 @@ public final class OutputRenderDriver implements RealtimeAudioContext.Driver, Ru
     private AudioOutput openOutput(int rate, int bufferFrames) {
         AudioOutput out = null;
         outputProblem = null;
+        OutputFactory factory = outputs;
         try {
-            out = outputs.open(rate, RealtimeAudioContext.DESTINATION_CHANNELS, bufferFrames);
+            out = factory.open(rate, RealtimeAudioContext.DESTINATION_CHANNELS, bufferFrames);
             // 팩터리가 다른 주파수의 출력을 돌려주면 약속을 어긴 것이므로 쓰지 않는다.
             if (out != null && out.getSampleRate() != rate) {
                 out.close();

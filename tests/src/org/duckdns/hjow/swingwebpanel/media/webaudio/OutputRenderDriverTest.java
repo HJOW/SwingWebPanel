@@ -512,6 +512,51 @@ public class OutputRenderDriverTest {
     }
 
     /**
+     * The factory can be replaced for the next segment: a context that plays to a device is switched to the silent outputs (the sink
+     * <code>none</code>) by a pause and a resume, without a problem being reported (a silent output that was asked for is not a failure), and
+     * back to the device the same way.
+     * <p>
+     * 다음 구간을 위해 팩터리를 바꿀 수 있다: 장치로 재생하던 컨텍스트가 일시정지와 재개로 무음 출력(싱크 <code>none</code>)으로 바뀌고(요청한 무음 출력은 실패가 아니므로
+     * 문제를 보고하지 않는다), 같은 방법으로 장치로 돌아간다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testTheFactoryCanBeReplacedForTheNextSegment() throws Exception {
+        final ManualOutputFactory device = new ManualOutputFactory();
+        RealtimeAudioContext ctx = make(device, 0.01);
+        try {
+            final OutputRenderDriver d = driver(ctx);
+            ctx.resume();
+            Check.isTrue(await(new Condition() {
+                public boolean holds() {
+                    return d.isOutputAudible();
+                }
+            }, 10000), "a device is used first");
+            ctx.suspend();
+            d.setOutputFactory(OutputRenderDriver.silentOutputs());
+            ctx.resume();
+            Check.isTrue(await(new Condition() {
+                public boolean holds() {
+                    return d.getSegmentCount() == 2 && !d.isOutputAudible();
+                }
+            }, 10000), "the second segment is silent");
+            Check.isNull(d.getOutputProblem(), "a silent output that was asked for is not a problem");
+            Check.equal(1L, (long) device.count(), "the device was not opened again");
+            ctx.suspend();
+            d.setOutputFactory(device);
+            ctx.resume();
+            Check.notNull(device.waitFor(2, 10000), "the device is opened again by the third segment");
+            Check.isTrue(await(new Condition() {
+                public boolean holds() {
+                    return d.isOutputAudible();
+                }
+            }, 10000), "audible again");
+        } finally {
+            ctx.close();
+        }
+    }
+
+    /**
      * The chunk is half of the latency in render quanta (from 1 to 16) and the buffer is the larger of 50 ms and four times the latency, as a
      * whole number of chunks: 10 ms gives chunks of 128 frames and a buffer of 2304 (52 ms), 20 ms gives 384 and 3840, and 100 ms gives 2048
      * and 18432 (418 ms) at 44100 Hz. The output is opened with that buffer.
