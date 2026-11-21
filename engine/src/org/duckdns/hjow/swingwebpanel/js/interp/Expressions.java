@@ -78,16 +78,22 @@ final class Expressions {
      * @return the value / 값
      */
     JsValue eval(Node n, Environment env, Ctx ctx) {
-        if (n.hasYield) {
-            GenState gen = ctx.gen;
-            NodeState st = gen.enter(n);
-            try {
-                return evalNode(n, env, ctx, st);
-            } finally {
-                gen.leave(n);
+        try {
+            if (n.hasYield) {
+                GenState gen = ctx.gen;
+                NodeState st = gen.enter(n);
+                try {
+                    return evalNode(n, env, ctx, st);
+                } finally {
+                    gen.leave(n);
+                }
             }
+            return evalNode(n, env, ctx, null);
+        } catch (JsException e) {
+            // 예외가 이 표현식을 빠져나갈 때 위치를 기억한다. 가장 안쪽 표현식이 먼저 기록하므로 오류가 난 곳을 알려 준다(메시지는 바뀌지 않는다).
+            e.recordThrowSite(ctx.sourceName, n.line, n.column);
+            throw e;
         }
-        return evalNode(n, env, ctx, null);
     }
 
     /**

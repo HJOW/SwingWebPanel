@@ -13,6 +13,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsString;
 import org.duckdns.hjow.swingwebpanel.js.ModuleGraph;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.ParsedScript;
 import org.duckdns.hjow.swingwebpanel.js.Property;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
@@ -136,7 +137,49 @@ public final class Interpreter {
      * @return the completion value of the last statement, or undefined / 마지막 문장의 완료 값. 없으면 undefined
      */
     public JsValue evaluateScript(String source, String name) {
-        Node prog = Parser.parseScript(source, name);
+        return run(Parser.parseScript(source, name), name);
+    }
+
+    /**
+     * Parses a script without running it (ScriptEvaluation is split into parsing and running, ECMA-262 6th edition 15.1.7).
+     * <p>
+     * 스크립트를 실행하지 않고 파싱한다(ScriptEvaluation 을 파싱과 실행으로 나눈 것, ECMA-262 6판 15.1.7).
+     *
+     * @param source the source text / 소스 텍스트
+     * @param name   the source name for errors / 오류에 쓰는 소스 이름
+     * @return the parsed script / 파싱된 스크립트
+     */
+    public ParsedScript parseScript(String source, String name) {
+        return new ParsedProgram(Parser.parseScript(source, name), name);
+    }
+
+    /**
+     * Runs a script that was parsed with {@link #parseScript(String, String)} in the global environment.
+     * <p>
+     * {@link #parseScript(String, String)} 로 파싱한 스크립트를 전역 환경에서 실행한다.
+     *
+     * @param script the parsed script / 파싱된 스크립트
+     * @return the completion value of the last statement, or undefined / 마지막 문장의 완료 값. 없으면 undefined
+     * @throws IllegalArgumentException if the script was not created by an interpreter / 인터프리터가 만든 것이 아니면
+     */
+    public JsValue evaluateScript(ParsedScript script) {
+        if (!(script instanceof ParsedProgram)) {
+            throw new IllegalArgumentException("not a script parsed by this engine: " + script);
+        }
+        ParsedProgram p = (ParsedProgram) script;
+        return run(p.program, p.name);
+    }
+
+    /**
+     * Runs a parsed PROGRAM node as one task.
+     * <p>
+     * 파싱된 PROGRAM 노드를 작업 하나로 실행한다.
+     *
+     * @param prog the PROGRAM node / PROGRAM 노드
+     * @param name the source name / 소스 이름
+     * @return the completion value of the last statement, or undefined / 마지막 문장의 완료 값. 없으면 undefined
+     */
+    private JsValue run(Node prog, String name) {
         limits.beginTask();
         try {
             ProgramInfo pi = (ProgramInfo) prog.value;

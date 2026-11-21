@@ -234,8 +234,12 @@ final class Statements {
             return new Completion(Completion.BREAK, null, n.name);
         case NodeType.CONTINUE:
             return new Completion(Completion.CONTINUE, null, n.name);
-        case NodeType.THROW:
-            throw new JsException(in.ex.eval(n.a, env, ctx));
+        case NodeType.THROW: {
+            JsException thrown = new JsException(in.ex.eval(n.a, env, ctx));
+            // throw 문 자체의 위치를 던져진 예외의 위치로 기억한다.
+            thrown.recordThrowSite(ctx.sourceName, n.line, n.column);
+            throw thrown;
+        }
         case NodeType.TRY:
             // try 안의 호출은 catch/finally 가 필요하므로 꼬리 호출이 아니다.
             ctx.noTail++;

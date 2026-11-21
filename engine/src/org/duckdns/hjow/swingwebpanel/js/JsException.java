@@ -65,6 +65,35 @@ public class JsException extends RuntimeException {
     private String sourceName;
 
     /**
+     * Name of the script in which the exception was first seen while it travelled up through the interpreter, or null (see
+     * {@link #recordThrowSite(String, int, int)}).
+     * <p>
+     * 예외가 인터프리터를 거슬러 올라가며 처음 관찰된 스크립트의 이름. 없으면 null({@link #recordThrowSite(String, int, int)} 참조).
+     */
+    private String throwSource;
+
+    /**
+     * 1-based line where the exception was first seen, or 0.
+     * <p>
+     * 예외가 처음 관찰된 곳의 1부터 시작하는 줄. 없으면 0.
+     */
+    private int throwLine;
+
+    /**
+     * 1-based column where the exception was first seen, or 0.
+     * <p>
+     * 예외가 처음 관찰된 곳의 1부터 시작하는 열. 없으면 0.
+     */
+    private int throwColumn;
+
+    /**
+     * The Java exception that a host function threw and that was turned into this script exception, or null.
+     * <p>
+     * 호스트 함수가 던져 이 스크립트 예외로 바뀐 Java 예외. 없으면 null.
+     */
+    private transient Throwable hostCause;
+
+    /**
      * Wraps a thrown JavaScript value.
      * <p>
      * 던져진 JavaScript 값을 감싼다.
@@ -156,7 +185,89 @@ public class JsException extends RuntimeException {
         e.sourceName = sourceName;
         e.line = line;
         e.column = column;
+        e.throwSource = sourceName;
+        e.throwLine = line;
+        e.throwColumn = column;
         return e;
+    }
+
+    /**
+     * Remembers where in a script the exception was first seen. The interpreter calls it for every expression that the exception leaves, so
+     * the first call (from the innermost expression that was being evaluated) wins and later calls do nothing. Unlike {@link #getLine()}
+     * (a position of a syntax error that is part of {@link #getMessage()}) this position never changes the message; it only lets a
+     * host report where a runtime error happened.
+     * <p>
+     * 예외가 스크립트의 어디에서 처음 관찰되었는지 기억한다. 인터프리터가 예외가 빠져나가는 모든 표현식에서 호출하므로 첫 호출(평가 중이던 가장
+     * 안쪽 표현식)이 이기고 이후 호출은 아무것도 하지 않는다. 구문 오류의 위치({@link #getLine()}, {@link #getMessage()} 에 포함됨)와 달리 이 위치는
+     * 메시지를 바꾸지 않으며, 호스트가 런타임 오류가 어디서 났는지 알려 주는 데에만 쓴다.
+     *
+     * @param source the script name / 스크립트 이름
+     * @param atLine the 1-based line / 1부터 시작하는 줄
+     * @param atColumn the 1-based column / 1부터 시작하는 열
+     */
+    public void recordThrowSite(String source, int atLine, int atColumn) {
+        if (throwLine == 0) {
+            this.throwSource = source;
+            this.throwLine = atLine;
+            this.throwColumn = atColumn;
+        }
+    }
+
+    /**
+     * Returns the name of the script where the exception was first seen, or null.
+     * <p>
+     * 예외가 처음 관찰된 스크립트의 이름을 반환한다. 없으면 null.
+     *
+     * @return the script name or null / 스크립트 이름 또는 null
+     */
+    public String getThrowSourceName() {
+        return throwSource;
+    }
+
+    /**
+     * Returns the 1-based line where the exception was first seen, or 0 when no position is known.
+     * <p>
+     * 예외가 처음 관찰된 곳의 1부터 시작하는 줄을 반환한다. 위치를 모르면 0.
+     *
+     * @return the line / 줄
+     */
+    public int getThrowLine() {
+        return throwLine;
+    }
+
+    /**
+     * Returns the 1-based column where the exception was first seen, or 0 when no position is known.
+     * <p>
+     * 예외가 처음 관찰된 곳의 1부터 시작하는 열을 반환한다. 위치를 모르면 0.
+     *
+     * @return the column / 열
+     */
+    public int getThrowColumn() {
+        return throwColumn;
+    }
+
+    /**
+     * Remembers the Java exception that a host function threw and that is being reported to the script as this exception.
+     * <p>
+     * 호스트 함수가 던져 스크립트에 이 예외로 보고되는 Java 예외를 기억한다.
+     *
+     * @param cause the Java exception / Java 예외
+     * @return this exception / 이 예외
+     */
+    public JsException withHostCause(Throwable cause) {
+        this.hostCause = cause;
+        return this;
+    }
+
+    /**
+     * Returns the Java exception that a host function threw, or null if this exception was raised by script code or by the engine.
+     * <p>
+     * 호스트 함수가 던진 Java 예외를 반환한다. 스크립트 코드나 엔진이 일으킨 예외이면 null.
+     *
+     * @return the Java exception or null / Java 예외 또는 null
+     */
+    public Throwable getHostCause() {
+        return hostCause;
     }
 
     /**

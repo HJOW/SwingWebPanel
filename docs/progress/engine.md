@@ -48,6 +48,40 @@
 - 브라우저 시험 소스 484개가 합친 클래스 + 엔진 시험 클래스로 컴파일된다. 대표 스위트(`SwingWebPanelTest`, `ScriptLoadingTest`, `StaticStateAuditTest`, `ThreadCreationAuditTest`, `JarContentTest`) 26건 통과.
 - `sh tools/sourcecheck/run.sh --selftest` → `selftest OK`, `sh tools/sourcecheck/run.sh engine src tests scripts build.sh build.bat test.sh test.bat tools/sourcecheck` → `0 violation(s) in 2673 file(s) checked`.
 
+## 2. P26-02 독립 공개 API (`org.duckdns.hjow.swingwebpanel.js.embed`)
+
+브라우저 없이 엔진을 쓰는 진입점이다. 패키지 이름은 `embed`(내장 API)로 정했다(`js.host` 는 브라우저 패키지라 피함).
+
+### 2.1 클래스
+| 클래스 | 역할 |
+| --- | --- |
+| `JsEngine` | 파사드. realm 하나(표준 내장 객체 전부)를 가진다. `eval(String[, name])`, `compile`+`eval(ParsedScript)`, `evalModule(key, source)`, 전역 `get/put/has/remove/isFunction/globalNames`, `call`, `invokeMethod`, `newObject/newArray`, `toPlain`, `convert`, `getInterface`, `runJobs`, `getLimits/cancel/resetCancel`, `setConsole`, `setModuleLoader`, `getRealm`(고급) |
+| `JsHostFunction` | 스크립트가 Java 코드를 부르는 **유일한 통로**: `Object call(Object thisValue, Object[] args) throws Exception` |
+| `JsHandle`, `JsObjectHandle`(`Map<String,Object>`), `JsArrayHandle`(`List<Object>`), `JsFunctionHandle`(+`JsCallable`) | 스크립트 객체/배열/함수에 대한 **살아 있는**(복사 없는) 보기 |
+| `JsScriptError` | 잡히지 않은 스크립트 오류: 이름, 메시지, 스크립트 이름, 줄, 열, 던진 값, 엔진 예외, 호스트 함수가 던진 Java 예외(원인) |
+| `JavaValues`, `InterfaceProxy` (패키지 비공개) | 값 변환, Java 인터페이스 프록시 |
+
+엔진 쪽 보강(브라우저 동작은 바뀌지 않음): `JsRealm.parseScript(String,String)`/`evaluateScript(ParsedScript)` + 공개 인터페이스 `ParsedScript`(구현 `interp/ParsedProgram`)로 한 번 파싱해 여러 번 실행, `JsException` 에 **던져진 위치**(`getThrowSourceName/Line/Column`, `recordThrowSite`)와 호스트 함수 예외 원인(`withHostCause/getHostCause`) 추가, 인터프리터가 표현식을 빠져나가는 예외와 `throw` 문의 위치를 기록(`Expressions.eval`, `Statements` THROW). 구문 오류의 위치와 `getMessage()` 는 그대로이며 런타임 오류의 위치는 메시지에 넣지 않는다(브라우저의 콘솔 메시지가 바뀌지 않게).
+
+### 2.2 값 변환 규칙 (클래스 Javadoc 에도 표로 있음)
+- Java→스크립트: `null`→null, `JsEngine.UNDEFINED`→undefined, `Boolean`, 모든 `Number`(`doubleValue()`; `long` 이 2^53 을 넘으면 정밀도 손실), `String`/`CharSequence`/`Character`/`Enum`(`name()`)→문자열, `Map`→새 일반 객체(복사), `Collection`/모든 배열(기본형 포함)→새 배열(복사), `JsHostFunction`→함수, `JsHandle`→스크립트 객체 자체, `JsValue`→그대로(고급). **그 밖의 모든 Java 객체(Object, Date, File, 스트림, Class, Thread...)는 `IllegalArgumentException`** — 스크립트로 Java 객체, 클래스, 메서드가 새지 않는다. 순환하는 `Map`/`List` 는 모양을 유지한다.
+- 스크립트→Java: undefined→`JsEngine.UNDEFINED`, null→null, boolean→`Boolean`, **number→항상 `Double`**(NaN/무한대/-0 유지), string→`String`, symbol→`"Symbol(설명)"` 문자열, 배열→`JsArrayHandle`, 함수→`JsFunctionHandle`, 그 밖의 객체(Date, RegExp, Map, promise, 오류 객체 포함)→`JsObjectHandle`. `toPlain` 은 `ArrayList`/`LinkedHashMap` 으로 깊게 복사한다(함수는 핸들).
+- 핸들 `equals` 는 "같은 스크립트 객체"(Map/List 의 항목 기반 equals 는 자기 자신을 포함한 객체에서 끝나지 않으므로 쓰지 않음).
+
+### 2.3 스레드·제한·오류 정책
+- **스레드 모델**: 모든 메서드와 핸들 연산이 엔진(= `JsEngine` 인스턴스의 모니터)을 잠근다. 어느 스레드에서나 쓸 수 있고 연산은 **한 번에 하나씩 직렬화**되며 같은 스레드의 중첩(호스트 함수 안에서 엔진 재호출)은 허용된다. `cancel()` 만 잠그지 않는다. 시험 `testOneEngineFromManyThreads`(스레드 4개 x 300번 증가, 카운터 정확), `testCancelFromAnotherThread`.
+- **제한**: Java 가 시작하는 모든 호출(`call`, 핸들 호출, 인터페이스 프록시)은 `beginTask/endTask` 로 감싸 단계 수와 시간이 0 부터 센다. 한도 초과/취소는 `ScriptAbortedException` 으로 호스트 함수를 통과한다(스크립트가 잡을 수 없음).
+- **마이크로태스크**: 최상위 `eval/call/evalModule/...` 가 끝날 때마다 `runJobs()`(브라우저의 마이크로태스크 체크포인트와 같음).
+- **오류**: 구문 오류/런타임 오류/`throw` → `JsScriptError`(이름, 메시지, 위치). 위치는 구문 오류는 잘못된 토큰, 런타임 오류는 평가 중이던 가장 안쪽 표현식, `throw` 는 그 문장의 줄이다. 호스트 함수가 던진 예외는 스크립트에 `Error` 로 전달되고(스크립트가 잡을 수 있음) 잡히지 않으면 원래 예외를 원인으로 가진 `JsScriptError` 가 된다.
+
+### 2.4 P26-03 독립 모드 전역 범위 (결정)
+- 전역에 있는 것: ECMA-262 6판 표준 내장 객체 전부, `globalThis`, `console`(콘솔 훅으로), `print`(`log` 수준 한 줄; 시험/편의용). 없는 것: `window`, `document`, DOM, `fetch`/`XMLHttpRequest`, Storage, **타이머**(`setTimeout` 등), `TextEncoder`, `URL`, `structuredClone`, `queueMicrotask`(이 엔진에 없음).
+- **타이머 등 호스트 API 를 켜는 선택지는 만들지 않았다.** 근거: 독립 엔진에는 이벤트 루프가 없고, 루프를 누가 돌릴지(호출 스레드를 막는 `sleep`? 별도 스레드? 가상 시계?)는 호스트마다 다르다. 필요한 호스트는 `putFunction("setTimeout", ...)` 로 자기 함수를 등록하고 자기 루프에서 `JsEngine.call(...)`/`runJobs()` 를 부른다(예제 `EngineExample`). 엔진이 보장하는 것은 promise 작업의 실행뿐이다.
+- 시험 `testEvalReturnsCompletionValueAndRunsEs6`(브라우저 전역이 없음을 확인), `testOtherJavaObjectsAreRefused`(전역 이름에 java/jdk/sun 이 없고 `java`/`Packages`/`JavaImporter`/`Java` 가 undefined).
+
+### 2.5 시험 (JDK 6u45, 엔진 단계)
+`js.embed.JsEngineBasicsTest`(12건: ES6 실행, 독립성, 전역, 호출, 컴파일/재실행, 오류 위치, catch, promise 작업, 모듈+로더, 콘솔, 제한, 취소, 다중 스레드)와 `JsEngineValuesTest`(12건: 양방향 변환, 순환, 거부 목록, 객체/배열/함수 핸들, `toPlain`, 호스트 함수와 오류, 중단 통과, 인터페이스 프록시) **24건 통과**. 엔진 단계 전체 **625 통과 / 0 실패 / 0 건너뜀**(601 + 24).
+
 ## 조정자 요청
 (작업이 끝나면 AGENTS.md / PROGRESS.md / FEATURE_MATRIX.md / ARCHITECTURE.md 에 넣을 문장을 여기에 모은다.)
 

@@ -616,6 +616,35 @@ public class JsRealm {
     }
 
     /**
+     * Parses a script without running it. A syntax error is thrown as {@link JsException} (with the position of the error). Run the
+     * result any number of times with {@link #evaluateScript(ParsedScript)}.
+     * <p>
+     * 스크립트를 실행하지 않고 파싱한다. 구문 오류는 오류 위치와 함께 {@link JsException} 으로 던진다. 결과는
+     * {@link #evaluateScript(ParsedScript)} 로 몇 번이든 실행할 수 있다.
+     *
+     * @param source the source text / 소스 텍스트
+     * @param name   the source name (file name or URL) used in errors / 오류에 쓰는 소스 이름(파일 이름이나 URL)
+     * @return the parsed script / 파싱된 스크립트
+     */
+    public ParsedScript parseScript(String source, String name) {
+        return getInterpreter().parseScript(source, name);
+    }
+
+    /**
+     * Runs a script that was parsed with {@link #parseScript(String, String)} in the global scope, with the same error and thread rules as
+     * {@link #evaluateScript(String, String)}.
+     * <p>
+     * {@link #parseScript(String, String)} 로 파싱한 스크립트를 전역 스코프에서 실행한다. 오류와 스레드 규칙은
+     * {@link #evaluateScript(String, String)} 과 같다.
+     *
+     * @param script the parsed script / 파싱된 스크립트
+     * @return the completion value of the last statement, or undefined / 마지막 문장의 완료 값. 없으면 undefined
+     */
+    public JsValue evaluateScript(ParsedScript script) {
+        return getInterpreter().evaluateScript(script);
+    }
+
+    /**
      * Loads, links and evaluates a module (and everything it imports through the {@link ModuleLoader}) and returns its
      * namespace object.
      * <p>
