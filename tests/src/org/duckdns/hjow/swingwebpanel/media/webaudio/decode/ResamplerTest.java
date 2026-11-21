@@ -220,6 +220,7 @@ public class ResamplerTest {
      * 톤은 1 kHz(또는 쌍 중 낮은 쪽), 낮은 쪽 나이퀴스트 주파수의 절반, 그 89 % 의 셋이다.
      */
     public void testSineIsReproducedForEveryPairOfRates() {
+        double worstError = 0;
         // 표본율 쌍마다 세 톤을 변환해 이상적인 사인과 비교한다.
         for (int p = 0; p < PAIRS.length; p++) {
             double in = PAIRS[p][0];
@@ -229,9 +230,11 @@ public class ResamplerTest {
             // 톤마다 변환 오차를 확인한다.
             for (int t = 0; t < tones.length; t++) {
                 double err = sineError(in, out, tones[t], 0.4);
+                worstError = Math.max(worstError, err);
                 Check.isTrue(err < 1e-5, in + " -> " + out + " tone " + tones[t] + " Hz: error " + err + " is not below 1e-5");
             }
         }
+        System.out.println("largest sine error (amplitude 0.5): " + worstError);
     }
 
     /**
@@ -242,6 +245,7 @@ public class ResamplerTest {
      * 0.0001 dB). 최소 제곱 적합으로 잰다.
      */
     public void testPassBandIsFlat() {
+        double worstGain = 0;
         // 표본율 쌍마다 여러 주파수의 이득을 잰다.
         for (int p = 0; p < PAIRS.length; p++) {
             double in = PAIRS[p][0];
@@ -251,13 +255,15 @@ public class ResamplerTest {
             Resampler r = new Resampler(in, out);
             int m = margin(r);
             // 통과 대역 안의 여러 비율에서 이득을 잰다.
-            for (double frac = 0.05; frac < 0.9001; frac += 0.1625) {
+            for (double frac = 0.05; frac < 0.9001; frac += 0.17) {
                 double hz = low * frac;
                 float[] o = Resampler.resample(sine(hz, in, n, 0.5), in, out);
                 double db = 20 * Math.log10(fitAmplitude(o, m, o.length - m, hz, out) / 0.5);
+                worstGain = Math.max(worstGain, Math.abs(db));
                 Check.isTrue(Math.abs(db) < 0.001, in + " -> " + out + " at " + frac + " of the Nyquist frequency: gain " + db + " dB");
             }
         }
+        System.out.println("largest pass band gain error (dB): " + worstGain);
     }
 
     /**
@@ -295,6 +301,7 @@ public class ResamplerTest {
      * 주파수로 앨리어싱될 톤이 여러 주파수에서 최대 -96 dB(출력의 가장 큰 표본을 입력 진폭에 대한 비로) 이하로 남는다.
      */
     public void testStopBandRejectsWhatWouldAlias() {
+        double worstLeak = -1000;
         double[][] cases = {{48000, 44100, 22491}, {48000, 44100, 23500}, {48000, 44100, 24000 - 1}, {96000, 44100, 30000}, {96000, 44100, 47999}, {44100, 22050, 11135},
                 {44100, 22050, 15000}, {44100, 22050, 20000}, {44101, 22050, 12000}, {768000, 3000, 1530}, {768000, 3000, 100000}};
         // 경우마다 톤을 변환하고 가장자리를 뺀 출력의 최댓값을 잰다.
@@ -312,8 +319,10 @@ public class ResamplerTest {
                 peak = Math.max(peak, Math.abs(o[i]));
             }
             double db = 20 * Math.log10(peak / 0.5 + 1e-30);
+            worstLeak = Math.max(worstLeak, db);
             Check.isTrue(db < -96, in + " -> " + out + " tone " + hz + " Hz leaves " + db + " dB");
         }
+        System.out.println("weakest stop band attenuation of the aliasing tones (dB): " + worstLeak);
     }
 
     /**
@@ -325,6 +334,7 @@ public class ResamplerTest {
      * 크지 않다. 출력에서 톤을 최소 제곱 적합으로 빼고 나머지(이미지, 앨리어싱, float 표본의 반올림)를 가장 큰 표본으로 잰다.
      */
     public void testUpConversionRemovesImages() {
+        double worstImage = -1000;
         double[][] cases = {{22050, 48000, 9000}, {22050, 48000, 9800}, {8000, 48000, 3500}, {44100, 96000, 19000}, {44100, 96000, 19800}, {11025, 48000, 4800}};
         // 경우마다 톤을 변환하고 톤을 뺀 나머지의 최댓값을 잰다.
         for (int c = 0; c < cases.length; c++) {
@@ -337,8 +347,10 @@ public class ResamplerTest {
             float[] o = Resampler.resample(sine(hz, in, n, 0.5), in, out);
             double max = remainderPeak(o, m, o.length - m, hz, out);
             double db = 20 * Math.log10(max / 0.5 + 1e-30);
+            worstImage = Math.max(worstImage, db);
             Check.isTrue(db < -96, in + " -> " + out + " tone " + hz + " Hz: the remainder is " + db + " dB");
         }
+        System.out.println("largest remainder after removing the tone, up-conversion (dB): " + worstImage);
     }
 
     /**
