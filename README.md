@@ -27,12 +27,26 @@ Java Swing 에서 쓰는 웹 브라우저 컴포넌트입니다. HTML 파서, CS
 
 | 하는 일 | 명령(sh) | 명령(Windows) |
 | --- | --- | --- |
-| 제품 JAR 만들기(`build/swingwebpanel.jar`) | `./build.sh` | `build.bat` |
-| 전체 시험 | `./test.sh` | `test.bat` |
+| JAR 만들기(`build/swingwebpanel.jar` 외 둘) | `./build.sh` | `build.bat` |
+| 엔진만 만들기(`build/swingwebpanel-js.jar`) | `engine/build.sh` | `engine\build.bat` |
+| 전체 시험(엔진 단계 + 브라우저 단계) | `./test.sh` | `test.bat` |
+| 엔진 시험만(브라우저와 AWT 없이) | `engine/test.sh` | `engine\test.bat` |
 | 예제 실행 | `examples/run.sh BlankPageExample [URL]` | `examples\run.bat BlankPageExample [URL]` |
 
 JDK 6 를 찾지 못하면 다른 JDK 로 조용히 대체하지 않고 오류로 종료합니다(다른 JDK 는 `SWP_ALLOW_NON_JDK6=1` 로 명시했을 때만 쓰며 그 결과는 JRE 6 검증이 아닙니다).
 예제는 [examples/README.md](examples/README.md) 를 보세요.
+
+### JAR 구성
+
+제품은 두 모듈이며 `build.sh` 가 JAR 세 개를 만듭니다. **기존처럼 `swingwebpanel.jar` 하나만 클래스패스에 두면 됩니다.**
+
+| JAR | 내용 | 용도 |
+| --- | --- | --- |
+| `swingwebpanel.jar` | 엔진 + 브라우저 컴포넌트 (위 둘의 합) | 기존 사용 방식(Swing 컴포넌트를 쓰는 응용) |
+| `swingwebpanel-js.jar` | 자체 JavaScript 엔진만(`engine/`): 브라우저, AWT, Swing, 네트워크, 파일에 의존하지 않음 | 브라우저 없이 JavaScript(ES2015)만 쓰는 응용, `javax.script` |
+| `swingwebpanel-browser.jar` | 브라우저 컴포넌트만(`src/`) | 실행하려면 `swingwebpanel-js.jar` 가 함께 필요 |
+
+엔진은 컴파일할 때 클래스패스가 비어 있으므로 브라우저 클래스를 참조하면 빌드가 실패합니다(`tools/sourcecheck` 와 시험도 같은 경계를 검사합니다).
 
 ## 사용법
 
@@ -149,6 +163,47 @@ panel.addConsoleListener(new ConsoleListener() {
 - 잡히지 않은 예외와 처리되지 않은 promise 거부도 `ERROR` 수준으로 알립니다(`console.error` 호출과는 `getKind()` 로 구분). `alert/confirm/prompt` 는 대화 상자를 띄우지 않고 `DIALOG` 종류로 알립니다.
 - 리스너가 느려 1000개 넘게 쌓이면 그 뒤 메시지는 버리고, 큐가 비면 `MESSAGES_DROPPED` 이벤트 하나가 버린 개수를 알립니다. 스크립트 실행은 리스너를 기다리지 않습니다.
 - **리스너가 하나도 없으면 콘솔 출력은 버려집니다**(표준 출력에 쓰지 않습니다). 예제: `examples/run.sh ConsoleExample`. 자세한 규칙은 `docs/API_CONTRACT.md` 5.20 절.
+
+### 독립 JavaScript 엔진과 `javax.script`
+
+브라우저 컴포넌트 없이 자체 ECMAScript 2015 엔진만 쓸 수 있습니다(`swingwebpanel-js.jar` 하나, Java 6 이상, 외부 라이브러리 없음).
+엔진은 **Rhino/Nashorn 등 다른 엔진에 위임하지 않습니다.**
+
+```java
+import org.duckdns.hjow.swingwebpanel.js.embed.*;
+
+JsEngine engine = new JsEngine();
+engine.getLimits().setMaxTimeMillis(2000);           // 믿을 수 없는 코드는 시간 제한을 둔다
+engine.put("name", "world");
+Object r = engine.eval("`hello ${name}`.toUpperCase()");    // "HELLO WORLD"
+engine.eval("function twice(x) { return x * 2; }");
+Object d = engine.call("twice", Integer.valueOf(21));       // Double 42.0
+engine.putFunction("add", new JsHostFunction() {            // 스크립트가 Java 코드에 닿는 유일한 길
+    public Object call(Object thisValue, Object[] args) {
+        return Double.valueOf(((Number) args[0]).doubleValue() + ((Number) args[1]).doubleValue());
+    }
+});
+```
+
+- **값 변환**: Java→스크립트는 `null`, `JsEngine.UNDEFINED`, `Boolean`, 모든 `Number`, 문자열류/`Character`/`Enum`, `Map`(복사), `Collection`/배열(복사), `JsHostFunction`, 핸들만 받고 **그 밖의 Java 객체는 `IllegalArgumentException`** 으로 거부합니다(스크립트에 Java 객체, 클래스, 메서드가 노출되지 않습니다). 스크립트→Java 는 숫자가 **항상 `Double`**, undefined 는 `JsEngine.UNDEFINED`, 배열은 살아 있는 `List`, 객체는 살아 있는 `Map`, 함수는 `JsCallable` 입니다. 복사본은 `toPlain` 으로 얻습니다.
+- **독립 모드 전역**: ES2015 표준 내장 객체, `console`, `print`. `window`/`document`/`fetch` 등 브라우저 객체와 **타이머(`setTimeout`)는 없습니다**(이벤트 루프가 없으므로. 필요하면 `putFunction` 으로 직접 만들고 자기 루프에서 호출). promise 작업은 최상위 호출이 끝날 때마다 실행됩니다.
+- **오류**: 구문/런타임 오류와 `throw` 는 이름, 메시지, 스크립트 이름, 줄, 열을 가진 `JsScriptError` 로 던져지고, 제한/취소로 멈춘 스크립트는 `ScriptAbortedException` 입니다.
+- **스레드**: 엔진과 핸들은 어느 스레드에서나 쓸 수 있고 연산은 한 번에 하나씩 실행되며, `cancel()` 만 잠금 없이 아무 스레드에서나 호출할 수 있습니다.
+- 예제: `SWP_CLASSES=build/engine-classes examples/run.sh EngineExample` (엔진 클래스만으로 컴파일하고 실행합니다).
+
+**Java Scripting API(JSR 223)**: 엔진 JAR 의 `META-INF/services/javax.script.ScriptEngineFactory` 로 등록되어 있습니다.
+
+```java
+ScriptEngine engine = new ScriptEngineManager().getEngineByName("swingwebpanel-js");   // 고유한 이름
+engine.put("x", 20);
+Object r = engine.eval("x + 22");                    // Double 42.0
+Invocable inv = (Invocable) engine;                  // Compilable 도 구현
+```
+
+- **이름 충돌에 주의하세요.** JRE 6~7 은 Rhino, JRE 8~14 는 Nashorn 을 `javascript`/`js`/`ECMAScript` 이름과 확장자 `js`, MIME `application/javascript` 로 이미 등록하고 있습니다. 이 엔진이 그 이름을 가로채면 기존 프로그램이 조용히 다른 엔진을 받게 되므로 **고유한 식별자만 등록합니다**: 이름 `swingwebpanel-js`(와 `swingwebpanel-javascript`), 확장자 `swjs`, MIME `application/x-swingwebpanel-javascript`. 일반 이름이 꼭 필요하면(예: 자체 엔진이 없는 Java 15 이상) JVM 옵션 `-Dswingwebpanel.js.genericNames=true` 로 일반 이름도 등록할 수 있습니다(`ScriptEngineManager` 를 만들기 전에 지정. 그때 `getEngineByName("javascript")` 가 어느 엔진을 돌려주는지는 JRE 의 검색 순서에 따릅니다).
+- `ENGINE_SCOPE` 바인딩은 전역 객체의 살아 있는 보기입니다(`put`/`get`/`var`). `eval(script, bindings)` 로 다른 바인딩을 주면 그 바인딩마다 독립된 전역 스코프를 가집니다. `GLOBAL_SCOPE` 는 읽기 전용 대체 조회입니다. `print` 와 `console` 은 컨텍스트의 `getWriter()`/`getErrorWriter()` 로 갑니다. `ScriptException` 에는 파일 이름(`ScriptEngine.FILENAME`), 줄, 열이 있습니다. `THREADING` 은 `MULTITHREADED` 입니다.
+- 스크립트가 Java 코드를 부르게 하려면 바인딩에 `JsHostFunction` 을 넣습니다(다른 Java 객체는 거부됩니다). 실행 제한과 취소는 `((JsScriptEngine) engine).getJsEngine()` 으로 얻은 `JsEngine` 에서 지정합니다.
+- 예제: `SWP_CLASSES=build/engine-classes examples/run.sh script.ScriptEngineExample`.
 
 ### 저장소, 쿠키, 수명
 

@@ -125,6 +125,26 @@
 - JDK 6u45: `js.script` 17건 통과(`JsScriptEngineTest` 13, `ScriptEngineDiscoveryTest` 4), `EngineIndependenceTest` 4건 통과(새 2건 포함), 엔진 단계 전체 **644 통과 / 0 실패 / 0 건너뜀**.
 - **JDK 8u202(Nashorn 있음)**: 같은 시험 클래스를 JDK 8 의 `java` 로 실행해 `js.script` 17건 통과(`getEngineByName("javascript")` 는 Nashorn 이 답하고 이 엔진이 아님을 확인). 이 실행은 JRE 6 검증이 아니며 이름 충돌 확인용이다.
 
+## 5. P26-06 브라우저 컴포넌트와 엔진의 관계, JAR 배포 형태
+
+### 5.1 브라우저는 엔진의 공개 API 만 쓴다 (컴파일러가 강제)
+브라우저 모듈은 **엔진 소스 없이 컴파일된 엔진 클래스(`build/engine-classes`)만 클래스패스에** 두고 컴파일된다(`build.sh`/`build.bat`). 따라서 엔진의 비공개/패키지 비공개 멤버를 쓰면 컴파일이 실패하며, 지금 컴파일되므로 이미 공개 API 만 쓰고 있다. 브라우저가 쓰는 엔진 클래스: 루트(`Js`, `JsValue`, `JsObject`, `JsRealm`, `JsException`, `Ops`, `NativeFunction`, `WellKnownSymbols`, `ConsoleRecord(Hook)`, `ModuleLoader/Graph` 등 약 30종. `JsValue`/`JsObject` 는 각각 94개 파일, `JsRealm` 은 87개 파일이 import)와, 루트 밖에서는 13개 파일이 쓰는 공개 클래스 몇 개: `builtins.typed.{TypedArrays,TypedArrayObject,ElementType,ArrayBufferObject,DataViewObject}`, `builtins.meta.{PromiseJobs,PromiseRejectionTracker}`, `builtins.datajson.DataAccess`, `regexp.{RegExpCompiler,RegExpProgram,RegExpFlags,RegExpSyntaxException,RegExpLimitException}`. 이들을 더 좁은 공개 API 로 감쌀지는 정하지 않았다(엔진 쪽 위의 클래스들은 이미 `public` 이고 시험으로 검증됨). **브라우저가 `js.embed`/`js.script` 를 쓰지는 않는다**(새 API 는 엔진 독립 사용자를 위한 것이며 `SwingWebPanel` 의 동작·성능·공개 API 는 바뀌지 않았다. 유일한 엔진 쪽 변경은 `Expressions.eval` 의 try/catch(예외 위치 기록)와 `parseScript`/`ParsedScript`, 속도 차이는 5.3).
+
+### 5.2 JAR 배포 형태 (결정)
+`build.sh`/`build.bat` 가 세 JAR 를 만든다. 결정 근거: 기존 사용자가 `swingwebpanel.jar` **하나만** 클래스패스에 두는 방식이 깨지면 안 된다(브리프 우선순위).
+- `swingwebpanel.jar` = 엔진 + 브라우저(합침, 기존 이름과 사용 그대로). 합친 클래스 디렉터리 `build/classes` 에서 만든다(시험, 예제, 도구가 그대로 사용).
+- `swingwebpanel-js.jar` = 엔진만(`META-INF/services/javax.script.ScriptEngineFactory` 포함).
+- `swingwebpanel-browser.jar` = 브라우저만(엔진 클래스를 **포함하지 않음**, 실행에는 엔진 JAR 필요).
+브리프 예시의 이름 `swingwebpanel-all.jar` 는 만들지 않았다. P23(Maven)에서 모듈 산출물 이름을 정할 때 합친 JAR 의 이름(예: Maven 의 `swingwebpanel` 은 브라우저만, 합친 것은 `swingwebpanel-all`)을 다시 정해야 한다 → "조정자 요청".
+
+### 5.3 엔진 쪽 변경이 속도에 주는 영향 (측정)
+`Expressions.eval` 가 `JsException` 을 잡아 위치를 기록하는 try/catch 를 얻었다. JDK 6u45, 같은 PC, 워밍업 뒤 `fib(24)` 와 30만 번 속성 읽기 반복을 변경 전(`65cb181` 의 엔진)과 변경 후로 두 번씩 돌린 결과 변경 전 47~68 ms / 145~161 ms, 변경 후 46~72 ms / 148~168 ms 로 **차이가 잡음 안**이다(공유 PC, 4코어). realm 생성은 평균 1.4 ms 이다(워밍업 뒤 30회) — 다른 바인딩마다 realm 을 두는 설계(3.2절)의 비용이 작다는 근거.
+
+### 5.4 시험
+- 엔진 단계 `js.script.EngineJarTest`(2건): 엔진 JAR 에는 엔진 클래스와 등록 파일만 있고(브라우저 클래스, `testing`, `examples`, 도구 없음, 등록 파일은 팩터리 이름), **부모가 없는 `URLClassLoader` 가 이 JAR 하나만 보고** `JsEngine` 으로 스크립트를 실행하고 `ScriptEngineManager(loader)` 로 엔진을 찾으며 `SwingWebPanel`, `js.host.PageScripts` 는 `ClassNotFoundException`.
+- 브라우저 단계 `testing.selftest.BrowserJarsTest`(3건): 브라우저 JAR 에는 엔진 항목이 하나도 없고 엔진 JAR 에는 브라우저 항목이 하나도 없으며 둘은 겹치지 않음, **단일 JAR = 두 JAR 의 합집합**(항목 단위), 부모 없는 클래스 로더가 **브라우저 JAR + 엔진 JAR** 와 **단일 JAR 하나**로 각각 `SwingWebPanel` 을 만들어 `console.log` 를 실행하는 페이지의 메시지를 `ConsoleListener` 로 받음. `JarContentTest` 는 단일 JAR 에 엔진과 등록 파일이 있는지도 확인.
+- 결과(JDK 6u45): `EngineJarTest` 2/2, `BrowserJarsTest` 3/3(`testPageScriptsRunFromTheJars` 1.5 초), `JarContentTest` 1/1.
+
 ## 조정자 요청
 (작업이 끝나면 AGENTS.md / PROGRESS.md / FEATURE_MATRIX.md / ARCHITECTURE.md 에 넣을 문장을 여기에 모은다.)
 

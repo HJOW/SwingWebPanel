@@ -29,6 +29,8 @@ if exist engine\tests\resources (
 )
 
 set "CP=build\engine-classes;build\engine-test-classes"
+rem SWP_ENGINE_FROM_JAR=1 puts only build\swingwebpanel-js.jar on the class path instead of the class directory.
+if "%SWP_ENGINE_FROM_JAR%"=="1" set "CP=build\swingwebpanel-js.jar;build\engine-test-classes"
 "%JAVA%" -Djava.awt.headless=true -Dswp.engine.jar=build\swingwebpanel-js.jar -cp "%CP%" org.duckdns.hjow.swingwebpanel.testing.TestRunner --scan build\engine-test-classes %*
 set "RC=%ERRORLEVEL%"
 

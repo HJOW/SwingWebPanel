@@ -9,10 +9,12 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
  * Guards the contents of the product JAR (plan item P02-05): it may contain only product classes and resources, never test classes,
- * test resources or classes of the development tools. The JAR path comes from the system property <code>swp.jar</code> (default
- * <code>build/swingwebpanel.jar</code>); when no JAR exists the case is skipped with a reason.
+ * test resources or classes of the development tools. Since P26 the product JAR is the single JAR with the engine and the browser component together
+ * (the layout of the separate engine and browser jars is checked by <code>BrowserJarsTest</code>). The JAR path comes from the system property
+ * <code>swp.jar</code> (default <code>build/swingwebpanel.jar</code>); when no JAR exists the case is skipped with a reason.
  * <p>
  * 제품 JAR 의 내용을 지킨다(계획 P02-05): 제품 클래스와 리소스만 있어야 하고 시험 클래스, 시험 자료, 개발 도구 클래스는 없어야 한다.
+ * P26 부터 제품 JAR 는 엔진과 브라우저 컴포넌트를 함께 가진 단일 JAR 이다(분리된 엔진 JAR 와 브라우저 JAR 의 구성은 <code>BrowserJarsTest</code> 가 확인한다).
  * JAR 경로는 시스템 속성 <code>swp.jar</code>(기본 <code>build/swingwebpanel.jar</code>)에서 얻으며, JAR 가 없으면 이유와 함께 건너뛴다.
  */
 public class JarContentTest {
@@ -56,6 +58,9 @@ public class JarContentTest {
             Check.isTrue(classes > 0, "the product JAR must contain classes");
             Check.isTrue(jf.getEntry("org/duckdns/hjow/swingwebpanel/SwingWebPanel.class") != null || jf.getEntry("org/duckdns/hjow/swingwebpanel/core/Version.class") != null,
                     "the product JAR must contain product classes");
+            // 합친 JAR 는 엔진(P26)과 javax.script 제공자 등록도 함께 가진다.
+            Check.isTrue(jf.getEntry("org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.class") != null, "the single JAR must contain the engine too");
+            Check.isTrue(jf.getEntry("META-INF/services/javax.script.ScriptEngineFactory") != null, "the single JAR must register the Java Scripting API provider");
         } finally {
             jf.close();
         }
