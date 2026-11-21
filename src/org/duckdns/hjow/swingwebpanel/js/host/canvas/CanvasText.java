@@ -18,14 +18,14 @@ import java.util.Map;
  * <code>textBaseline</code>, together with the numbers of <code>TextMetrics</code>. The outline is filled or stroked with the same code as any
  * other shape, so gradients, patterns, transformations, shadows and compositing work for text as they do for paths. Text direction
  * <code>inherit</code> is treated as left to right. <code>letterSpacing</code> and <code>wordSpacing</code> move the glyphs apart (the
- * spacing after the last glyph is part of the width), <code>fontKerning = "normal"</code> lays the text out with the kerning attribute of the
+ * spacing after the last glyph is part of the width), <code>fontKerning = "normal"</code> (not on JRE 6, see {@link #KERNING_SUPPORTED}) lays the text out with the kerning attribute of the
  * font, and Hebrew text never reaches <code>Font.layoutGlyphVector</code> because that crashes the JVM of JRE 6u45 on Windows.
  * <p>
  * 2D 컨텍스트의 텍스트 배치: 텍스트를 준비하고(ASCII 공백은 스페이스가 된다), Java 글꼴을 고르고, 글리프를 <code>GlyphVector</code> 로 배치하여
  * <code>textAlign</code> 과 <code>textBaseline</code> 에 따라 기준점에 상대적으로 놓인 윤곽을 <code>TextMetrics</code> 의 숫자와 함께 돌려준다. 윤곽은 다른
  * 도형과 같은 코드로 채우거나 그리므로 그라디언트, 패턴, 변환, 그림자, 합성이 경로와 똑같이 텍스트에도 동작한다. 텍스트 방향 <code>inherit</code> 는 왼쪽에서
  * 오른쪽으로 본다. <code>letterSpacing</code> 과 <code>wordSpacing</code> 은 글리프를 벌리고(마지막 글리프 뒤의 간격도 너비에 포함된다),
- * <code>fontKerning = "normal"</code> 은 글꼴의 커닝 속성을 켜고 텍스트를 배치하며, 히브리어는 JRE 6u45(Windows)에서 JVM 을 죽이는
+ * <code>fontKerning = "normal"</code> 은(JRE 6 제외, {@link #KERNING_SUPPORTED} 참고) 글꼴의 커닝 속성을 켜고 텍스트를 배치하며, 히브리어는 JRE 6u45(Windows)에서 JVM 을 죽이는
  * <code>Font.layoutGlyphVector</code> 에 절대 주지 않는다.
  */
 final class CanvasText {
@@ -36,6 +36,22 @@ final class CanvasText {
      * 캔버스의 글꼴 렌더 컨텍스트: 안티앨리어싱된 텍스트와 소수 자리 측정.
      */
     static final FontRenderContext FRC = new FontRenderContext(null, true, true);
+
+    /**
+     * Tells whether <code>fontKerning = "normal"</code> is carried out. It is not on JRE 6: the layout engine of JRE 6u45 for Windows
+     * (<code>fontmanager.dll</code>) is not reliable when the kerning attribute is used. Reproduced with a plain Java program (no code of this
+     * project): <code>Font.layoutGlyphVector</code> of the family Tahoma, called after a layout with a logical font such as SansSerif or Dialog,
+     * ends the whole JVM with an access violation in about one run out of twenty, and the widths it returns for Tahoma with kerning on are
+     * sometimes far too wide (about 30% instead of about 8% narrower). A crash of the host's JVM is worse than a text without kerning, so on
+     * JRE 6 the request is ignored (the same width as <code>auto</code>); newer Java versions kern.
+     * <p>
+     * <code>fontKerning = "normal"</code> 을 실제로 수행하는지 알려 준다. JRE 6 에서는 수행하지 않는다: Windows 의 JRE 6u45 배치 엔진
+     * (<code>fontmanager.dll</code>)은 커닝 속성을 쓸 때 믿을 수 없다. 이 프로젝트의 코드가 없는 Java 프로그램으로 재현했다: SansSerif, Dialog 같은
+     * 논리 글꼴로 배치한 뒤 부른 Tahoma 패밀리의 <code>Font.layoutGlyphVector</code> 는 스무 번에 한 번쯤 글꼴 관리자의 접근 위반으로 JVM 전체를 끝내고,
+     * 커닝을 켠 Tahoma 의 너비를 가끔 너무 넓게(약 8% 좁아지는 대신 약 30% 넓게) 돌려준다. 호스트의 JVM 이 죽는 것이 커닝 없는 텍스트보다 나쁘므로
+     * JRE 6 에서는 요청을 무시하고(<code>auto</code> 와 같은 너비), 더 새로운 Java 에서는 커닝한다.
+     */
+    static final boolean KERNING_SUPPORTED = !"1.6".equals(System.getProperty("java.specification.version"));
 
     /**
      * The laid out text.
@@ -153,7 +169,8 @@ final class CanvasText {
         GlyphVector gv = null;
         // 빈 텍스트가 아니면 글리프를 배치한다.
         if (text.length() > 0) {
-            boolean kern = "normal".equals(state.fontKerning);
+            // JRE 6 의 배치 엔진은 커닝에서 믿을 수 없으므로(KERNING_SUPPORTED 참고) 거기서는 커닝 요청을 무시한다.
+            boolean kern = KERNING_SUPPORTED && "normal".equals(state.fontKerning);
             String laid = text;
             // 히브리어는 JRE 6u45(Windows)의 배치 엔진이 JVM 을 종료시키므로 배치 엔진에 주지 않고 글리프를 일대일로 만든다(오른쪽에서 왼쪽이면 시각 순서로 뒤집는다).
             if (hasHebrew(text)) {

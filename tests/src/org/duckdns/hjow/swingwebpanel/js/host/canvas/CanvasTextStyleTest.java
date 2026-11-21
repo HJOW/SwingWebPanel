@@ -176,9 +176,15 @@ public class CanvasTextStyleTest {
                 + " var tahoma = tw('Tahoma', 'none') !== tw('NoSuchFamilyForSure', 'none');");
         // Tahoma 가 설치된 환경(Windows)에서는 커닝 쌍이 있어 실제로 좁아지는지 엄격하게 확인한다.
         if ("true".equals(js(f, "String(tahoma)"))) {
-            Check.equal("true", js(f, "String(tw('Tahoma', 'normal') < tw('Tahoma', 'none') - 5 && tw('Tahoma', 'auto') === tw('Tahoma', 'none'))"),
-                    "with a font that has kerning pairs normal kerning narrows the text and auto does not (Tahoma: none " + js(f, "tw('Tahoma', 'none')") + ", normal "
-                    + js(f, "tw('Tahoma', 'normal')") + ")");
+            if (CanvasText.KERNING_SUPPORTED) {
+                Check.equal("true", js(f, "String(tw('Tahoma', 'normal') < tw('Tahoma', 'none') - 5 && tw('Tahoma', 'auto') === tw('Tahoma', 'none'))"),
+                        "with a font that has kerning pairs normal kerning narrows the text and auto does not (Tahoma: none " + js(f, "tw('Tahoma', 'none')") + ", normal "
+                        + js(f, "tw('Tahoma', 'normal')") + ")");
+            } else {
+                // JRE 6 은 커닝 요청을 무시한다(배치 엔진이 JVM 을 죽이거나 엉뚱한 너비를 돌려주기 때문). 요청해도 너비가 같고 아무 일도 없어야 한다.
+                Check.equal("true", js(f, "String(tw('Tahoma', 'normal') === tw('Tahoma', 'none'))"),
+                        "on JRE 6 the kerning request is ignored: the layout engine of JRE 6u45 is not reliable with it (JVM crash, wrong widths)");
+            }
         }
         Check.equal("true", js(f, "ctx.fontKerning = 'normal'; ctx.font = '20px sans-serif'; String(ctx.measureText('').width === 0 && ctx.measureText('A').width > 0)"), "empty text and a single character");
         Check.equal("true", js(f, "ctx.fontKerning = 'normal'; ctx.letterSpacing = '4px'; var ws = ctx.measureText('AV').width; ctx.letterSpacing = '0px'; var wo = ctx.measureText('AV').width;"
