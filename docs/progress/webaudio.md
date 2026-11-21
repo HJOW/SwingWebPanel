@@ -37,7 +37,7 @@
 
 | 인터페이스 | 단계 | 구현 상태 | 비고 |
 | --- | --- | --- | --- |
-| BaseAudioContext(`destination`, `sampleRate`, `currentTime`, `state`, `createXxx` 팩터리, `renderQuantumSize`) | A1 | 부분 구현(엔진 검증 완료) | `listener` 는 A2, `audioWorklet` 은 D, `decodeAudioData` 는 B, `EventTarget`/`onstatechange` 는 C |
+| BaseAudioContext(`destination`, `sampleRate`, `currentTime`, `state`, `createXxx` 팩터리, `renderQuantumSize`) | A1 | 부분 구현(엔진 검증 완료) | `listener` 는 A2 에서 구현, `audioWorklet` 은 D, `decodeAudioData` 는 B, `EventTarget`/`onstatechange` 는 C |
 | OfflineAudioContext(`startRendering`) | A1 | 부분 구현(엔진 검증 완료) | 동기 렌더링과 `renderNextQuantum` 단계 진행. `suspend/resume`, `oncomplete`, Promise 는 C |
 | AudioContext(실시간), `baseLatency/outputLatency/getOutputTimestamp/resume/suspend/close` | C | 미구현 | Java Sound 출력, 자동 재생 정책은 4.e |
 | AudioBuffer | A1 기본형, B 완성 | 부분 구현 | 노드가 쓸 만큼의 순수 Java 자료형(채널 배열, 길이, 표본율, `copyFromChannel/copyToChannel`) |
@@ -54,12 +54,12 @@
 | IIRFilterNode(`getFrequencyResponse`) | A1 | 엔진 검증 완료 | |
 | StereoPannerNode | A1 | 엔진 검증 완료 | |
 | ChannelSplitterNode / ChannelMergerNode | A1 | 엔진 검증 완료 | |
-| WaveShaperNode(oversample) | A2 | 미구현 | |
-| ConvolverNode(normalize, 분할 FFT) | A2 | 미구현 | |
-| DynamicsCompressorNode | A2 | 미구현 | |
-| AnalyserNode | A2 | 미구현 | `dsp.Fft` 는 A1 에 있다 |
-| PannerNode / AudioListener | A2 | 미구현 | equalpower + HRTF(4.d) |
-| MediaElementAudioSourceNode | A2 | 미구현 | `<audio>` 만(4.b) |
+| WaveShaperNode(oversample) | A2 | 엔진 검증 완료 | 2x/4x 반대역 필터, 항상 활성 훅(곡선이 0 을 0 이 아닌 값으로 옮길 때) |
+| ConvolverNode(normalize, 분할 FFT) | A2 | 엔진 검증 완료 | 지연 없는 불균일 분할, 채널 1/2/4, 진짜 스테레오 |
+| DynamicsCompressorNode | A2 | 엔진 검증 완료 | Blink 설계(BSD 고지 유지), 6 ms 선행 지연, `reduction` |
+| AnalyserNode | A2 | 엔진 검증 완료 | Blackman, 평활, dB/바이트 변환, 스냅샷 읽기 |
+| PannerNode / AudioListener | A2 | 엔진 검증 완료 | equalpower + HRTF(MIT KEMAR, 4.d 결정대로). 기하 `Spatial` |
+| MediaElementAudioSourceNode | A2 | 엔진 검증 완료(공급자 인터페이스만) | `MediaElementPcmSource`. 실제 `<audio>` 어댑터와 바인딩은 C |
 | MediaStreamAudioSourceNode / MediaStreamAudioDestinationNode / MediaStreamTrackAudioSourceNode | C | 명시적 예외 | 4.a |
 | ScriptProcessorNode / AudioProcessingEvent(폐기 예정) | C | 미구현(결정은 4.c) | |
 | AudioWorklet / AudioWorkletGlobalScope / AudioWorkletNode / AudioWorkletProcessor / AudioParamDescriptor | D | 미구현 | `js/worker/**` 재사용 |
@@ -151,7 +151,92 @@
 - **P25-04**: **미완료로 유지**. 1차 노드(목적지, 버퍼 원천, 발진기+주기파, 상수 원천, 게인, 지연, 쌍이차, IIR, 스테레오 패너, 스플리터, 머저)만 끝났다. WaveShaper, Convolver, DynamicsCompressor, Analyser, Panner/Listener(HRTF), MediaElementAudioSource 는 A2.
 - P25-05~P25-08: 시작하지 않음.
 
+## 6. A2 절: 나머지 노드(P25-04의 남은 부분, 2026-11-22)
+
+### 6.1 구현 파일
+
+`src/org/duckdns/hjow/swingwebpanel/media/webaudio/`:
+
+| 파일 | 역할 |
+| --- | --- |
+| `WaveShaperNode`, `OverSampleType` | 변환 곡선(선형 보간), `oversample` none/2x/4x. 곡선이 0 을 0 이 아닌 값으로 옮기면 입력이 없어도 처리(`AudioNode.alwaysActive()` 훅 + 컨텍스트가 붙잡음) |
+| `ConvolverNode` | 임펄스 응답 1/2/4 채널, `normalize`(규격 식), 진짜 스테레오, 꼬리 = 응답 길이 |
+| `DynamicsCompressorNode` | 5개 k-rate 고정 파라미터, `reduction`, 입력과 같은 채널 수의 출력 |
+| `AnalyserNode` | `fftSize` 32~32768, 평활, dB/바이트 변환, `getFloat/ByteFrequencyData`, `getFloat/ByteTimeDomainData`(`synchronized` 스냅샷) |
+| `PannerNode`, `AudioListener`, `PanningModelType`, `DistanceModelType`, `Spatial` | 규격 6.2/6.4/6.5 의 기하(방위각·고도·거리·원뿔), equalpower, HRTF. 청취자의 9개 파라미터는 컨텍스트 파라미터 |
+| `MediaElementAudioSourceNode`, `MediaElementPcmSource` | 공급자 인터페이스와 원천 노드(순수 Java 쪽만. 실제 `<audio>` 어댑터와 바인딩은 C) |
+| `BaseAudioContext`(수정), `AudioNode`(`alwaysActive` 추가), `AudioParam`/`AudioParamTimeline`(`hasValueCurve` 추가) | `createWaveShaper/Convolver/DynamicsCompressor/Analyser/Panner/MediaElementSource`, `getListener()`, `isHrtfAvailable()`(HRTF 자료를 읽는 곳. 패너가 HRTF 를 고를 때 제어 스레드에서 한 번 읽는다) |
+
+`.../media/webaudio/dsp/`: `HalfBand`, `HalfBandInterpolator`, `HalfBandDecimator`, `WaveShaperKernel`(오버샘플링), `ConvolutionKernel`, `PartitionedConvolver`(분할 FFT), `DynamicsCompressorKernel`, `HrtfDatabase`, `HrtfSet`, `HrtfRenderer`, `HrirResampler`(패키지 비공개, 요청한 대로), 자원 `kemar-compact.hrtf`(381,183 바이트).
+`tools/hrtfgen/**`(자원 생성 도구, `AGENTS.md`/`README.md`), `tests/resources/kemar/{compact.zip, README.txt}`(원본 사본, 시험 기준).
+
+시험(`tests/src/.../media/webaudio/`) 새 92건: `WaveShaperNodeTest` 10, `dsp/HalfBandTest` 7, `ConvolverNodeTest` 8, `dsp/PartitionedConvolverTest` 6, `DynamicsCompressorNodeTest` 6, `dsp/DynamicsCompressorKernelTest` 7, `AnalyserNodeTest` 9, `MediaElementAudioSourceNodeTest` 6, `SpatialTest` 6, `PannerNodeTest` 9, `dsp/HrtfDatabaseTest` 4, `dsp/HrtfSetTest` 6, `HrtfPannerNodeTest` 8(+ 도우미 `KemarReference`). 전체 213건(A1 121 + 92).
+
+### 6.2 검증(실제로 실행한 것, JDK 6u45)
+
+- `java -cp "build/pkg-wa/classes;build/pkg-wa/test-classes;src" org.duckdns.hjow.swingwebpanel.testing.TestRunner --scan build/pkg-wa/test-classes --filter org.duckdns.hjow.swingwebpanel.media.webaudio`(먼저 `sh scripts/pkgtest.sh wa "media/webaudio" "media/webaudio" --filter ZZZnomatch` 로 컴파일) → **213 통과 / 0 실패 / 0 건너뜀**(약 10초). 클래스 경로에 `src` 를 더한 것은 HRTF 자원 때문이다.
+- `sh scripts/pkgtest.sh wa "media/webaudio" "media/webaudio" --filter org.duckdns.hjow.swingwebpanel.media.webaudio` 를 그대로 돌리면 **198 통과 / 15 실패**다. 실패는 모두 HRTF 시험이다. `pkgtest.sh` 가 `src/**` 의 비자바 리소스를 `classes` 에 복사하지 않아 `kemar-compact.hrtf` 를 찾지 못하기 때문이다(`build.sh` 는 복사한다). 조정자 요청 6 참고.
+- `sh build.sh` → OK. 제품 JAR 에 `org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/kemar-compact.hrtf` 가 들어 있고, `-cp build/swingwebpanel.jar` 만으로 `HrtfDatabase.load()`(368 방향)와 48 kHz 컨텍스트의 HRTF 패너 렌더링이 동작한다(임시 프로그램으로 확인). `StaticStateAuditTest`, `JarContentTest`(`-Dswp.jar=build/swingwebpanel.jar`) 통과.
+- `sh tools/sourcecheck/run.sh src/org/duckdns/hjow/swingwebpanel/media/webaudio tests/src/org/duckdns/hjow/swingwebpanel/media/webaudio tools/hrtfgen tests/resources/kemar` → **0 위반**(99개 파일).
+- **시험의 성격**: 기대값은 시험이 닫힌 식이나 독립 계산으로 만든다. WaveShaper 는 규격의 곡선 식과 이상적인 오버샘플링 기준(고속으로 표본화한 사인에 식을 적용한 값의 진폭), Convolver 는 직접 합성곱 합(길이 1~12000, 레벨 경계 양쪽), Compressor 는 하드 니 직선(데시벨의 직선)과 메이크업 게인 식, Analyser 는 Blackman 창의 닫힌 식(빈 위의 사인은 `a0 A / 2`, `a1 A / 4`, `a2 A / 4`, 나머지 0)과 평활 식 `(1 - tau^m)`, Panner 는 규격의 의사 코드를 시험에 직접 적은 식, HRTF 는 **원본 KEMAR 응답**(시험 자원의 바뀌지 않은 압축 파일을 시험이 자체 파서로 읽는다)이다.
+- **KEMAR 와의 비교(368 방향 전부, 임시 프로그램)**: 렌더링 커널의 크기 응답은 200 Hz~10 kHz(원본이 피크보다 30 dB 이내인 빈)에서 원본과 **최대 0.098 dB**, 저주파 두 귀 시간차(1200 Hz 로 저역 통과한 두 응답의 상호 상관 시차)는 원본과 **최대 0.93 샘플(21 us), 평균 0.30 샘플**. 시험(`HrtfSetTest`, `HrtfPannerNodeTest`)은 일부 고리에서 0.15 dB, 1 샘플을 요구한다. 변환한 최소 위상 커널 자체는 전체 368 방향·두 귀에서 100 Hz~16 kHz 크기가 원본과 0.01 dB 안(`HrtfDatabaseTest`).
+- **변이 시험**(식 하나를 바꿔 시험이 실패하는지 손으로 확인하고 되돌림): WaveShaper 곡선 보간 가중치 교환(6건 실패), Convolver 진짜 스테레오의 입력 채널 교환(1건), 분할 FFT 의 큰 레벨 구간 끝 위치를 한 quantum 어긋나게(4건), Compressor 메이크업 지수 0.6→0.5(3건), Analyser 평활 가중치 교환(3건), Panner 좌우 이득 cos/sin 교환(4건), HRTF 왼쪽 귀에 오른쪽 귀 지연 적용(4건). 모두 실패를 확인했다.
+- **속도**(임시 측정, JDK 6u45, 공용 PC, 44.1 kHz 스테레오 10초 오프라인 렌더링): HRTF 패너 20개가 움직일 때 1.6배속, 멈춰 있을 때 3.4배속(음원 하나가 코어의 약 1.5%). equalpower 패너 20개가 a-rate 로 움직이면 1.5배속(프레임마다 기하 계산: 음원 하나가 프레임당 약 0.7 us), WaveShaper 4x 20개 3.8배속, Compressor 20개 3.0배속, Analyser 20개 55배속. Convolver(스테레오 입력 20초 렌더링): 1~10 초 임펄스 응답에서 1채널 21~27배속, 2채널 24~30배속, 4채널 13~15배속. 평균 quantum 100~230 us, 가장 큰 quantum 3~18 ms(큰 블록 FFT 가 도는 quantum 과 JIT 예열 포함. 5.3절 참고).
+- **확인하지 못한 것**: 실제 소리 출력(C), 다른 엔진이 만든 참조 PCM 과의 비교, 컴프레서와 컨볼버의 청취 확인, 실시간 스레드에서의 끊김(C), JRE 6 이외, 매우 긴 렌더링의 메모리, 실제 `<audio>` 재생기 연결(C), HRTF 의 청취 평가(방향감).
+
+### 6.3 설계 요약과 규격/참조 구현과의 차이
+
+**WaveShaperNode.** 오버샘플링은 반대역 보간기/데시메이터 쌍(`HalfBand*`, Kaiser 창 beta 8, 합 1/2 로 정규화한 홀수 탭): 2x 는 반 길이 32 한 쌍(지연 63 프레임), 4x 는 두 속도에서 32 와 12(지연 74.5 프레임). 항등 곡선에서 측정한 이득은 샘플링 주파수의 0.46 배까지 0.01 dB 안, 데시메이터 저지 대역 누설 3e-4(-70 dB) 미만, 임펄스 응답은 2x 에서 63 프레임에 0.985 펄스(이웃 0.02 미만), 4x 에서는 반 프레임 지연한 `sinc` 이다(시험이 닫힌 식과 비교). 하드 클리퍼의 앨리어싱은 이상적인 오버샘플링 기준과 15% 안으로 같다(7 kHz 사인을 4배 증폭해 자르면 48 kHz 에서 13 kHz 로 접히는 성분이 오버샘플링 없음 0.102 → 4x 0.0007, 43 dB 감소. 남는 것은 고속의 나이퀴스트 위 고조파가 접힌 것으로 이 배수로는 없앨 수 없다). 꼬리 = `2 * 지연 + 8` 프레임(곡선이 있고 오버샘플링일 때만). NaN 입력은 0 으로 본다.
+**ConvolverNode.** 지연 없는 불균일 분할 합성곱(`ConvolutionKernel`/`PartitionedConvolver`): 레벨 0 은 quantum 블록 4개(현재 블록 포함), 레벨 j 는 `Q 4^j` 블록 3개이며 시작 탭이 블록 크기 이상이라 이전 입력만으로 출력 블록이 나온다. 마지막 레벨은 블록 최대 8192 프레임(FFT 16384)이며 남은 탭 전부. 스펙트럼은 float(프레임당 16 바이트), 한도 `1 << 21` 프레임(약 47초), 한도 초과·2 의 거듭제곱이 아닌 quantum 은 `NotSupportedError`. `setBuffer` 는 제어 스레드에서 스펙트럼을 계산한다(10초 스테레오 약 60 ms, 4채널 약 120 ms). 정확도: 직접 합과 `5e-5`(진폭 1 잡음, float 저장 때문에 길이의 제곱근에 따라 커짐) 이내. 채널은 규격 6가지(진짜 스테레오 `L*h0 + R*h2`, `L*h1 + R*h3`; 모노 입력은 L 과 R 로 쓴다).
+**DynamicsCompressorNode.** 규격은 구조와 곡선 제약만 정하므로 **Blink 의 설계를 가져왔다**(`dynamics_compressor.cc`, 커밋 8d101571406d3ef5bda7446b34568192ad99b3b5, BSD 3조항 고지를 `DynamicsCompressorKernel.java` 머리에 그대로 유지): 지수 무릎(매개변수 k 를 이분법으로 찾아 무릎 뒤 기울기가 1/ratio), 어택/적응형 릴리즈(4차 다항식 구간 상수), `asin`/`sin` 사전 왜곡, 메이크업 `(1/곡선(1))^0.6`, 측정 시간 상수 0.325 s. 이 파일은 구조와 상수를 옮긴 것이므로 AGENTS.md 의 규칙대로 Chromium 라이선스 고지를 보존하고 여기에 기록한다. 차이: (1) 출력 채널 수는 입력과 같다(Blink 는 항상 스테레오), 검출기는 채널을 묶는다; (2) 처음 신호가 들어올 때 검출기(0 에서 시작)가 올라오는 동안 약 50 ms 게인이 짧게 떨어진다(규격의 `[[detector average]]` 초기값 0 과 참조 구현의 동작, 무음 입력은 처리되지 않으므로 `reduction` 은 0). 시험은 이 구간을 지난 뒤(0.3~1.5 초)에 잰다; (3) 어택 시간의 비례(10배 → 8~12배), 릴리즈는 비례가 아니라 단조 증가(2배 → 1.6~2.1배, 측정 1.83, 1.91: 고정 시간 상수의 검출기 때문)를 시험한다; (4) 블록 크기가 달라지면 32프레임 분할 경계가 달라져 결과가 미세하게 다르다(참조 구현과 같다).
+**AnalyserNode.** 규격 식 그대로(Blackman alpha 0.16, `1/N` 비례, 평활 `tau`, `-Infinity` 는 크기 0). 읽기 메서드는 아무 스레드에서나 부를 수 있다(이력을 `synchronized` 로 복사). 같은 render quantum 안의 반복 호출은 같은 데이터를 돌려주고 평활도 한 번만 한다(`currentFrame` 이 전진했을 때만 다시 계산). 바이트는 부호 없는 값을 `byte[]` 에 담는다(`& 0xFF`). **규격의 "노드 설정과 무관한 모노 다운믹스" 는 Blink 처럼 노드의 채널 설정이 먼저 적용된 뒤의 추가 다운믹스로 읽었다**(`explicit` 1채널 `discrete` 이면 분석이 첫 채널만 본다. 시험이 이 해석을 고정한다). 꼬리 = `fftSize`(입력이 끝난 뒤 이력이 무음으로 채워지게 하며 출력을 들리게 하지는 않는다. 규격 표는 꼬리 없음).
+**PannerNode / AudioListener / Spatial.** 방위각·고도는 규격 6.2 의 의사 코드를 옮겼다(닫힌 식 `atan2(x, -z)`, `asin(y/r)` 과 일치, 회전·이동한 청취자, 퇴화한 경우 0). 거리 모델 3개는 규격 식과 특수한 경우(기준 거리 0, 같은 기준·최대 거리, 선형의 롤오프 제한). equalpower 는 규격 6.3.1(방위각을 -90..90 으로 접음, 모노/스테레오 입력). 파라미터가 한 quantum 안에서 바뀔 때만 프레임마다 기하를 계산한다. **원뿔 게인은 의사 코드가 아니라 Blink 처럼 음원에서 청취자로 향하는 벡터로 각을 잰다**(규격의 의사 코드는 그 벡터를 `sourceToListener` 라 부르지만 `sourcePosition.diff(listenerPosition)` 으로 만들어 청취자를 향한 음원이 무음이 된다. 시험이 이 해석을 고정한다). 청취자의 파라미터는 노드보다 먼저 계산하므로 노드의 출력으로 구동할 수 없다(5.3절 4).
+**HRTF.** 자료: MIT KEMAR compact(저자 Bill Gardner, Keith Martin. 이용 조건 "저자를 표기하면 자유롭게". `tools/webfetch` 로 `compact.zip` 231,461 바이트를 2026-11-22 에 내려받음, `Last-Modified` 2000-07-14). 변환(`tools/hrtfgen`, 재현 가능): 측정 368 방향(고도 -40~90, 10도 간격 14개 고리, 방위각 0~180 오른쪽)의 두 귀 응답을 **최소 위상 커널 + 귀별 지연**으로 나눈다. 최소 위상(실수 켑스트럼, 16384점)은 크기 응답을 그대로 가진다(전체 368 방향 크기 오차 0.001 dB). 지연은 지연한 최소 위상 커널이 150~1200 Hz 의 복소 스펙트럼에 가장 잘 맞는 값(최소 제곱)이다. **근거와 선택**: 인접한 측정(5~15도)의 정렬되지 않은 응답을 평균하면 귀 사이의 지연 차이(정면 부근에서 5도에 약 2 샘플) 때문에 빗살 필터링이 생기므로 지연을 따로 보간하는 방식을 택했다. 처음에 쓴 초과 위상 군지연 평균은 저주파 시간차가 원본과 2~7 샘플 어긋나서 버렸고(1200 Hz 저역 통과 상호 상관과 비교), 최소 제곱 맞춤은 전체에서 0.93 샘플 안이다. 런타임(`HrtfSet`): 방향 보간은 쌍선형(두 고도 고리, 각 고리에서 가장 가까운 두 측정 방위각)이고 커널과 지연을 따로 가중 합하며, 음의 방위각은 귀를 바꾼 오른쪽 측정이다. 가장 낮은 고도(-40) 아래는 -40 고리를 쓴다. 지연은 8점(7차) 라그랑주 소수 지연으로 커널에 넣고(0.22 fs 까지 0.15 dB 이내 평탄, 4점은 12 kHz 에서 1 dB 넘게 줄어든다), 소수 지연 보간의 선행 성분이 잘리지 않도록 모든 커널이 4탭(`LEAD`) 늦게 시작한다(두 귀에 같은 고정 지연). 샘플링 주파수가 44100 이 아니면 Hann 창 sinc(영점 교차 10개)로 커널을 변환하고(DC 이득 보존 0.06% 이내, 선행 탭도 같은 고정 지연) 지연은 비율로 환산한다. 렌더링(`HrtfRenderer`): 귀마다 FIR(길이 166 @44.1 kHz)을 직접 합성곱하고, 방향이 바뀌면 이전 커널의 출력을 새 커널의 출력으로 **한 quantum 동안** 크로스페이드하며(Blink 는 약 45 ms) 게인(거리·원뿔)도 quantum 동안 선형으로 바꾼다. 스테레오 입력은 모노 평균으로 공간화한다(Blink 는 채널마다 귀 커널을 쓴다). HRTF 자료를 읽지 못하면(`isHrtfAvailable()` false) equalpower 처리로 대신한다. 모든 파라미터는 quantum 첫 프레임의 값(k-rate).
+**MediaElementAudioSourceNode.** 공급자 `MediaElementPcmSource`: `getChannelCount()`(0 이면 오디오 없음, 노드는 무음 채널 1개), `getSampleRate()`, `isOutputAllowed()`(false 면 규격대로 무음이며 `pull` 도 부르지 않는다), `pull(float[][], frames)`(렌더링 스레드에서 막히지 않게 한 quantum 만큼. 적게 주면 나머지는 무음). 샘플링 주파수가 다르면 노드가 **선형 보간**으로 리샘플링한다(같으면 정확, 다르면 고주파에 이미징/앨리어싱이 남는 값싼 방법. B 단계 리샘플러와 합칠 수 있다). 컨텍스트는 노드를 만들 때부터 `close()` 까지 붙잡는다(페이지가 노드를 참조하는지 엔진이 알 수 없으므로). `<video>` 요소는 호스트의 팩터리가 `NotSupportedError` 로 거부한다(결정 b).
+
+### 6.4 한계(기능 표에 옮길 것)
+
+1. 컨볼버의 큰 블록 레벨(최대 8192 프레임)은 그 블록이 시작하는 quantum 에서 FFT 한 번(최대 2 x 16384점)을 몰아서 한다. 긴 응답에서 quantum 하나의 처리 시간이 평균의 수십 배가 된다(10초 응답에서 3~18 ms). 실시간 출력(C)은 렌더링 스레드가 장치 버퍼보다 앞서가는 구조로 흡수해야 한다. 한도 `1 << 21` 프레임, 2 의 거듭제곱이 아닌 render quantum 은 지원하지 않는다.
+2. WaveShaper 오버샘플링의 필터 지연은 63/74.5 프레임이다(항등 곡선에서 입력이 그만큼 늦는다. 규격이 구현에 맡긴다). 곡선이 없으면 오버샘플링을 하지 않고 지연도 없다.
+3. 컴프레서는 첫 신호에서 약 50 ms 동안 게인이 떨어진다(참조 구현과 같은 동작). 출력은 입력의 채널 수를 따른다.
+4. 분석기의 바이트 배열은 Java 의 부호 있는 `byte` 라서 호출자가 `& 0xFF` 를 써야 한다(C 단계의 `Uint8Array` 바인딩이 그대로 담으면 된다).
+5. HRTF: 고도 -40 아래와 방위각 176~180(고도 50 고리는 176 이 마지막)은 가장 가까운 측정을 쓴다. 두 귀 시간차는 최소 제곱 맞춤이라 측정 전체에서 0.93 샘플 이내의 오차가 있다. 자료가 한 사람의 더미 헤드(KEMAR)라 개인 차이를 반영하지 못한다. 청취 확인은 하지 못했다. 소수 지연 보간 때문에 12 kHz 이상에서는 보간 오차(0.15 dB 이내인 것은 10 kHz 까지)가 있다. 렌더링 지연은 4 샘플(44.1 kHz 에서 0.09 ms, 다른 속도에서는 변환의 선행 탭이 더해진다. 8 kHz 에서 14 샘플).
+6. 패너의 equalpower 는 위치가 a-rate 로 움직일 때 프레임마다 삼각 함수 계산을 한다(패너 하나가 프레임당 약 0.7 us). 청취자 파라미터를 노드 출력으로 구동할 수 없다(5.3절 4).
+7. `MediaElementAudioSourceNode` 의 리샘플링은 선형 보간이다. 공급자는 호스트(C 단계)가 구현해야 하며 지금은 시험용 가짜 공급자만 있다.
+8. HRTF 자료를 읽지 못하면 equalpower 로 조용히 대신한다(`isHrtfAvailable()` 로 확인할 수 있다). 첫 `setPanningModel(HRTF)` 는 제어 스레드에서 자료를 읽는다(36 ms) 그리고 세트를 만든다(22 ms @44.1 kHz).
+
+### 6.5 체크박스 후보(체크는 조정자 몫)
+
+- **P25-04**: 항목에 적힌 노드 목록(WaveShaper, Convolver, DynamicsCompressor, Analyser, Panner/Listener(equalpower와 HRTF), MediaElementAudioSource(`<audio>` 출력 연결), ChannelSplitter/Merger, 1차 노드)이 **엔진 수준에서는 모두 끝났다**. 남은 것은 `MediaElementAudioSourceNode` 를 P18 의 `<audio>` 재생기에 실제로 잇는 어댑터(C 단계)와 `ScriptProcessorNode`(결정 c, C 단계 구현)뿐이다. 항목 문장이 "`<audio>` 출력을 그래프로 연결"을 포함하므로 **C 단계의 어댑터까지 끝난 뒤에 체크하는 것을 권장**한다. 엔진 수준 완료만으로 체크할지는 조정자의 판단이다.
+- P25-02(꼬리/수명, 스레드): 변화 없음(실시간 `AudioContext` 의 스레드가 C 단계). P25-01, P25-03 은 A1 에서 완료 후보였다.
+
+### 6.6 FEATURE_MATRIX WAU-06 갱신 초안
+
+| 기능 ID | 요구사항 | 규격/판본 | 구현 클래스 | 검증 사례 | 지원 상태 | 제약 |
+| --- | --- | --- | --- | --- | --- | --- |
+| WAU-06a | `WaveShaperNode`(곡선 보간, oversample 2x/4x), `ConvolverNode`(분할 FFT, normalize, 채널 1/2/4), `DynamicsCompressorNode`, `AnalyserNode`(Blackman, 평활, dB/바이트) | Web Audio API 1.0 REC 1.31, 1.17, 1.19, 1.8 + 6.2 | `media.webaudio.{WaveShaperNode,ConvolverNode,DynamicsCompressorNode,AnalyserNode}`, `dsp.{HalfBand*,WaveShaperKernel,ConvolutionKernel,PartitionedConvolver,DynamicsCompressorKernel}` | `WaveShaperNodeTest` 10, `HalfBandTest` 7, `ConvolverNodeTest` 8, `PartitionedConvolverTest` 6, `DynamicsCompressorNodeTest` 6, `DynamicsCompressorKernelTest` 7, `AnalyserNodeTest` 9 | 엔진 검증 완료(JS 노출 C) | 6.4절 1~4. 컴프레서는 Blink 설계(BSD 고지) |
+| WAU-06b | `PannerNode`/`AudioListener`(equalpower, HRTF, 거리·원뿔), 규격 6.2/6.4/6.5 의 기하 | 1.27, 1.11, 6 | `media.webaudio.{PannerNode,AudioListener,Spatial,PanningModelType,DistanceModelType}`, `dsp.{HrtfDatabase,HrtfSet,HrtfRenderer,HrirResampler}`, 자원 `kemar-compact.hrtf`, 도구 `tools/hrtfgen` | `SpatialTest` 6, `PannerNodeTest` 9, `HrtfDatabaseTest` 4, `HrtfSetTest` 6, `HrtfPannerNodeTest` 8 | 엔진 검증 완료(JS 노출 C) | 6.4절 5~6, 8. HRTF 자료: MIT KEMAR compact, 저자 표기 조건(Bill Gardner, Keith Martin). 청취 확인 못함 |
+| WAU-06c | `MediaElementAudioSourceNode`(`<audio>` 만, 교차 오리진 무음) | 1.22 | `media.webaudio.{MediaElementAudioSourceNode,MediaElementPcmSource}` | `MediaElementAudioSourceNodeTest` 6 | 부분 구현(순수 Java 쪽만. 어댑터와 바인딩은 C) | 6.4절 7. `<video>` 는 호스트가 `NotSupportedError` |
+
+### 6.7 C 단계용 API 메모
+
+- **바인딩이 쓸 것**: `AnalyserNode.getFloatFrequencyData(float[])` 등은 `Float32Array`/`Uint8Array` 의 뒷받침 배열을 그대로 넘기면 된다(부호 없는 바이트). `WaveShaperNode.setCurve(float[])`(한 번만, 복사본 보관), `getOversample()` 은 `OverSampleType#getScriptName()`. `ConvolverNode.setBuffer(AudioBuffer)` 는 제어 스레드에서 스펙트럼을 계산하므로 JavaScript 스레드에서 시간이 걸릴 수 있다(10초 응답 약 60 ms). `PannerNode.setPanningModel(HRTF)` 는 첫 호출에서 자료를 읽는다(약 60 ms). 열거형 `PanningModelType`, `DistanceModelType`, `OverSampleType` 은 `fromScriptName`/`getScriptName`.
+- **`MediaElementPcmSource` 구현 지침**: `pull` 은 렌더링 스레드에서 불리므로 막으면 안 된다(재생기의 디코딩 버퍼에서 이미 디코딩된 PCM 을 복사만 한다). 일시 정지, 종료, 버퍼링 중에는 0 을 반환한다. `isOutputAllowed()` 는 교차 오리진이고 CORS 허가가 없을 때 false. 요소가 사라지면 `MediaElementAudioSourceNode.close()` 를 부른다. 연결된 요소의 소리는 스피커로 나가지 않아야 하며(규격) 그 전환은 재생기 쪽 일이다.
+- **스레드**: 분석기의 읽기 메서드는 어느 스레드에서나 안전하다. 나머지 제어 메서드는 A1 규칙(검증 후 제어 메시지)을 따른다. `AudioListener` 의 값 설정(`setPosition` 등)은 값 곡선이 걸려 있으면 `NotSupportedError`.
+- **자원**: `kemar-compact.hrtf` 는 `HrtfDatabase.class.getResourceAsStream` 으로 읽으므로 JAR 안에서도 클래스 경로로 읽힌다. 다른 클래스 로더를 쓰는 호스트에서는 `HrtfDatabase.read(InputStream)` 으로 직접 읽을 수 있다.
+
 ## 조정자 요청
+
+**A2 에서 추가된 요청(6~11)**:
+
+6. **`scripts/pkgtest.sh`**: `build.sh` 처럼 `src/**`(와 `engine/src/**`)의 비자바 리소스를 `$B/classes` 로 복사하도록 고쳐 주세요(예: `(cd src && find . -type f ! -name '*.java' -exec cp --parents {} "../$B/classes/" \; ) 2>/dev/null`). 지금은 HRTF 시험 15건이 pkgtest 에서 실패하고(자원이 없어 `the resource kemar-compact.hrtf was not found`), 제가 클래스 경로에 `src` 를 직접 더해 검증했습니다. (`scripts/**` 는 제 소유가 아니라 건드리지 않았습니다.)
+7. **루트 `README.md` 저자 표기**: HRTF 자료의 이용 조건이 저자 표기를 요구합니다. 예: "HRTF data: MIT KEMAR dummy-head measurements (compact data set), Bill Gardner and Keith Martin, MIT Media Lab Machine Listening Group, 1994, https://sound.media.mit.edu/resources/KEMAR.html, Copyright 1994 by the MIT Media Laboratory, provided free with no restrictions on use provided the authors are cited." 와 DynamicsCompressor 의 Blink 유래 고지(`DynamicsCompressorKernel.java` 머리의 BSD 조항 유지) 를 한 줄 적어 주세요.
+8. **AGENTS.md 체크박스**: 6.5절 참고(P25-04 는 C 단계 어댑터까지 끝난 뒤 권장).
+9. **FEATURE_MATRIX**: 6.6절의 WAU-06a/b/c 로 WAU-06 행을 대체해 주세요. 3절 명시적 예외 표는 바뀌지 않았습니다.
+10. **ARCHITECTURE.md**: 도구 목록에 `tools/hrtfgen`(KEMAR 변환, Java 6, 입력은 `tools/webfetch` 로 받은 `compact.zip`), 패키지 표의 `media.webaudio.dsp` 설명에 오버샘플링/분할 합성곱/컴프레서/HRTF 를 추가하고, 제품 JAR 에 **비자바 리소스 `kemar-compact.hrtf`(381 KB)가 처음으로 들어간다**는 점을 적어 주세요(`build.sh` 가 이미 복사하므로 스크립트 변경은 필요 없습니다).
+11. **다운로드 사실**: 브리프의 지시대로 `tools/webfetch`(JRE 25)로 `https://sound.media.mit.edu/resources/KEMAR/compact.zip`(231,461 바이트, 2026-11-22)을 내려받았습니다. 파일은 새 빈 디렉터리 `build/hrtf-src/`(gitignore)에 두고 실행하지 않았으며 변환 도구가 메모리에서만 읽습니다. 같은 파일을 시험의 독립 기준으로 `tests/resources/kemar/compact.zip` 에 넣었습니다(저자 표기 `README.txt` 동봉, 이용 조건상 문제없음).
+
+**A1 에서 올린 요청(1~5)**:
 
 1. **FEATURE_MATRIX 행 초안**(새 절 "Web Audio (P25)" 로, 기존 EXC-07 의 "`<audio>` 외 미디어 캡처/EME/WebRTC 전역 객체 미노출"과 일관됨):
 

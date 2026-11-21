@@ -149,12 +149,12 @@ public class HrtfPannerNodeTest {
     /**
      * Against the original KEMAR responses: at the measured directions of three rings (horizontal, 20 degrees above, 50 degrees above)
      * the impulse response of the node, in the magnitude response from 200 Hz to 10 kHz wherever the original is within 30 dB of its
-     * peak (within 0.5 dB) and in the interaural time difference of the low frequency part (the lag of the cross-correlation of the
+     * peak (within 0.15 dB) and in the interaural time difference of the low frequency part (the lag of the cross-correlation of the
      * responses low-passed at 1200 Hz, within 1 sample), agrees with the original responses that the test reads from the unchanged
      * archive. The responses of the node include the constant latency of the HRTF set, which does not matter for either measure.
      * <p>
      * 원본 KEMAR 응답과 비교한다. 세 고리(수평, 20도 위, 50도 위)의 측정 방향에서 노드의 임펄스 응답이, 시험이 바뀌지 않은 압축 파일에서 읽는 원본 응답과 200 Hz ~ 10 kHz 의
-     * 크기 응답(원본이 피크보다 30 dB 이내인 곳에서 0.5 dB 이내)과 저주파 부분의 두 귀 시간차(1200 Hz 로 저역 통과한 응답의 상호 상관 시차, 1 샘플 이내)가 일치한다.
+     * 크기 응답(원본이 피크보다 30 dB 이내인 곳에서 0.15 dB 이내)과 저주파 부분의 두 귀 시간차(1200 Hz 로 저역 통과한 응답의 상호 상관 시차, 1 샘플 이내)가 일치한다.
      * 노드의 응답에는 HRTF 세트의 고정 지연이 들어 있지만 두 측정 모두에 영향이 없다.
      */
     public void testAgainstTheOriginalKemarResponses() {
@@ -183,7 +183,7 @@ public class HrtfPannerNodeTest {
                         if (o < peak - 30) {
                             continue;
                         }
-                        Check.near(o, KemarReference.magnitudeDb(rendered[ear], f, 44100.0), 0.5, "direction " + el + "/" + az + " ear " + ear + " at " + f + " Hz");
+                        Check.near(o, KemarReference.magnitudeDb(rendered[ear], f, 44100.0), 0.15, "direction " + el + "/" + az + " ear " + ear + " at " + f + " Hz");
                     }
                 }
                 double lagOriginal = KemarReference.lagLeftLater(KemarReference.lowpass(original[0], 1200), KemarReference.lowpass(original[1], 1200));

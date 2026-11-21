@@ -14,12 +14,12 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
  * left side is the right side with the ears swapped; elevations and azimuths beyond the data are clamped; between measured
  * directions the kernels and the delays are the weighted sums; the data at other sample rates has the same magnitude response at the
  * same frequencies; and against the original KEMAR responses of the test resources the rendering kernels have the same magnitude
- * response (within 0.5 dB up to 10 kHz) and the same interaural time difference of the low frequency part (within 1 sample).
+ * response (within 0.15 dB up to 10 kHz) and the same interaural time difference of the low frequency part (within 1 sample).
  * <p>
  * HRTF 세트의 보간과 렌더링 커널 시험(계획 P25-04): 측정한 방향에서 커널은 측정한 최소 위상 커널을 지연만큼, 시험에 적은 8점 라그랑주 보간으로 지연한 것이다. 샘플의
  * 소수 지연은 샘플링 주파수의 0.22 배까지 평탄하다(임펄스를 담은 합성 자료로 측정). 왼쪽은 귀를 바꾼 오른쪽이다. 자료 밖의 고도와 방위각은 제한된다. 측정한 방향
  * 사이에서 커널과 지연은 가중 합이다. 다른 샘플링 주파수의 자료는 같은 주파수에서 크기 응답이 같다. 시험 자원의 원본 KEMAR 응답과 비교해 렌더링 커널은 크기 응답이
- * 같고(10 kHz 까지 0.5 dB 이내) 저주파 부분의 두 귀 시간차도 같다(1 샘플 이내).
+ * 같고(10 kHz 까지 0.15 dB 이내) 저주파 부분의 두 귀 시간차도 같다(1 샘플 이내).
  */
 public class HrtfSetTest {
 
@@ -375,7 +375,7 @@ public class HrtfSetTest {
 
     /**
      * The rendering kernels against the original KEMAR responses at the measured directions of the horizontal and two raised rings:
-     * the magnitude response from 200 Hz to 10 kHz is within 0.5 dB of the original wherever the original is within 30 dB of its
+     * the magnitude response from 200 Hz to 10 kHz is within 0.15 dB of the original wherever the original is within 30 dB of its
      * peak (the kernel is the minimum phase version, and the delay is a flat fractional delay), and the interaural time difference
      * of the low frequency part (the lag of the cross-correlation of the responses low-passed at 1200 Hz) agrees within 1 sample.
      * <p>
@@ -418,7 +418,7 @@ public class HrtfSetTest {
                         }
                         double d = Math.abs(KemarReference.magnitudeDb(rendered[ear], f, 44100.0) - o);
                         worstMagnitude = Math.max(worstMagnitude, d);
-                        Check.isTrue(d < 0.5, "direction " + db.getElevation(e) + "/" + az + " ear " + ear + " at " + f + " Hz differs by " + d + " dB");
+                        Check.isTrue(d < 0.15, "direction " + db.getElevation(e) + "/" + az + " ear " + ear + " at " + f + " Hz differs by " + d + " dB");
                     }
                 }
                 double lagOriginal = KemarReference.lagLeftLater(KemarReference.lowpass(original[0], 1200), KemarReference.lowpass(original[1], 1200));
@@ -427,6 +427,6 @@ public class HrtfSetTest {
                 Check.near(lagOriginal, lagRendered, 1.0, "interaural time difference at " + db.getElevation(e) + "/" + az);
             }
         }
-        Check.isTrue(worstMagnitude < 0.5 && worstLag < 1.0, "worst magnitude " + worstMagnitude + " dB, worst lag " + worstLag + " samples");
+        Check.isTrue(worstMagnitude < 0.15 && worstLag < 1.0, "worst magnitude " + worstMagnitude + " dB, worst lag " + worstLag + " samples");
     }
 }
