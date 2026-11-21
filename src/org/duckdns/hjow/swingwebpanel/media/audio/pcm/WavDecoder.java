@@ -2,7 +2,8 @@ package org.duckdns.hjow.swingwebpanel.media.audio.pcm;
 
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 import org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
@@ -19,7 +20,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
  * 0xFFFFFFFF 이거나 파일보다 큰 <code>data</code> 청크(스트리밍 또는 잘린 파일)는 파일 끝까지로 본다. 불완전한 마지막 프레임은 무시한다. 채널이 둘보다
  * 많으면 스테레오로 다운믹스한다(확장 헤더의 스피커 마스크가 배치를 정한다). 압축 태그(MP3, AAC 등)는 지원하지 않는 형식으로 보고한다.
  */
-public final class WavDecoder implements AudioDecoder {
+public final class WavDecoder implements WideAudioDecoder {
 
     /**
      * Largest supported number of channels.
@@ -151,6 +152,34 @@ public final class WavDecoder implements AudioDecoder {
      * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
      */
     public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
+        return (PcmSource) create(data, false);
+    }
+
+    /**
+     * Opens the data with every channel of the file and the precision of its samples (see {@link WideAudioDecoder}).
+     * <p>
+     * 파일의 모든 채널과 표본의 정밀도로 데이터를 연다({@link WideAudioDecoder} 참조).
+     *
+     * @param data   the whole encoded data / 인코딩된 전체 데이터
+     * @param limits limits to respect / 지켜야 할 제한
+     * @return a float source positioned at the start / 처음에 위치한 float 소스
+     * @throws MediaException the failures of {@link #open} / {@link #open} 의 실패
+     */
+    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
+        return (FloatPcmSource) create(data, true);
+    }
+
+    /**
+     * Parses the headers and creates the source of the form that was asked for (a {@link PcmSource} or a {@link FloatPcmSource}).
+     * <p>
+     * 헤더를 해석하고 요청한 형태의 소스({@link PcmSource} 또는 {@link FloatPcmSource})를 만든다.
+     *
+     * @param data the whole file / 파일 전체
+     * @param wide true for the wide path / 넓은 경로이면 true
+     * @return the source / 소스
+     * @throws MediaException on a damaged or unsupported file / 손상되었거나 지원하지 않는 파일이면
+     */
+    private Object create(byte[] data, boolean wide) throws MediaException {
         int pos = 12;
         Fmt fmt = null;
         int dataStart = -1;
@@ -197,22 +226,22 @@ public final class WavDecoder implements AudioDecoder {
         int end = (int) (dataStart + dataLen);
         switch (fmt.tag) {
         case 1:
-            return new RawPcmSource(data, dataStart, end, integerFormat(fmt), fmt.channels, fmt.rate, mixer);
+            return PcmSources.raw(wide, data, dataStart, end, integerFormat(fmt), fmt.channels, fmt.rate, mixer);
         case 3:
             if (fmt.bits == 32) {
-                return new RawPcmSource(data, dataStart, end, SampleFormat.F32LE, fmt.channels, fmt.rate, mixer);
+                return PcmSources.raw(wide, data, dataStart, end, SampleFormat.F32LE, fmt.channels, fmt.rate, mixer);
             } else if (fmt.bits == 64) {
-                return new RawPcmSource(data, dataStart, end, SampleFormat.F64LE, fmt.channels, fmt.rate, mixer);
+                return PcmSources.raw(wide, data, dataStart, end, SampleFormat.F64LE, fmt.channels, fmt.rate, mixer);
             }
             throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "unsupported WAV float width " + fmt.bits);
         case 6:
-            return new RawPcmSource(data, dataStart, end, SampleFormat.ALAW, fmt.channels, fmt.rate, mixer);
+            return PcmSources.raw(wide, data, dataStart, end, SampleFormat.ALAW, fmt.channels, fmt.rate, mixer);
         case 7:
-            return new RawPcmSource(data, dataStart, end, SampleFormat.ULAW, fmt.channels, fmt.rate, mixer);
+            return PcmSources.raw(wide, data, dataStart, end, SampleFormat.ULAW, fmt.channels, fmt.rate, mixer);
         case 0x11:
-            return openIma(data, dataStart, end, fmt, mixer);
+            return openIma(wide, data, dataStart, end, fmt, mixer);
         case 2:
-            return openMs(data, dataStart, end, fmt, mixer);
+            return openMs(wide, data, dataStart, end, fmt, mixer);
         default:
             throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "unsupported WAV format tag 0x" + Integer.toHexString(fmt.tag));
         }
@@ -286,14 +315,14 @@ public final class WavDecoder implements AudioDecoder {
      * @return source / 소스
      * @throws MediaException if the format values are invalid / 형식 값이 올바르지 않으면
      */
-    private static PcmSource openIma(byte[] d, int start, int end, Fmt f, ChannelMixer mixer) throws MediaException {
+    private static Object openIma(boolean wide, byte[] d, int start, int end, Fmt f, ChannelMixer mixer) throws MediaException {
         if (f.channels > 8 || f.blockAlign < 4 * f.channels + 4 * f.channels) {
             throw new MediaException(MediaException.Kind.CORRUPT, "invalid IMA ADPCM block size");
         }
         int capacity = 1 + (f.blockAlign - 4 * f.channels) / (4 * f.channels) * 8;
         int spb = f.extraLen >= 2 ? Bytes.le16(d, f.extra) : capacity;
         spb = Math.min(spb <= 0 ? capacity : spb, capacity);
-        return new AdpcmSource(d, start, end, AdpcmSource.IMA, f.channels, f.rate, f.blockAlign, spb, null, mixer);
+        return PcmSources.adpcm(wide, d, start, end, AdpcmSource.IMA, f.channels, f.rate, f.blockAlign, spb, null, mixer);
     }
 
     /**
@@ -309,7 +338,7 @@ public final class WavDecoder implements AudioDecoder {
      * @return source / 소스
      * @throws MediaException if the format values are invalid / 형식 값이 올바르지 않으면
      */
-    private static PcmSource openMs(byte[] d, int start, int end, Fmt f, ChannelMixer mixer) throws MediaException {
+    private static Object openMs(boolean wide, byte[] d, int start, int end, Fmt f, ChannelMixer mixer) throws MediaException {
         if (f.channels > 8 || f.blockAlign < 7 * f.channels + 1) {
             throw new MediaException(MediaException.Kind.CORRUPT, "invalid MS ADPCM block size");
         }
@@ -329,6 +358,6 @@ public final class WavDecoder implements AudioDecoder {
             }
             spb = declared <= 1 ? capacity : Math.min(declared, capacity);
         }
-        return new AdpcmSource(d, start, end, AdpcmSource.MS, f.channels, f.rate, f.blockAlign, spb, coefs, mixer);
+        return PcmSources.adpcm(wide, d, start, end, AdpcmSource.MS, f.channels, f.rate, f.blockAlign, spb, coefs, mixer);
     }
 }

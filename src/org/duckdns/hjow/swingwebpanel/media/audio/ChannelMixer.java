@@ -104,6 +104,13 @@ public final class ChannelMixer {
     private final float[] right;
 
     /**
+     * Role of every input channel (values of the role constants), kept for {@link #canonicalOrder()}.
+     * <p>
+     * 입력 채널마다의 역할(역할 상수 값). {@link #canonicalOrder()} 를 위해 보관한다.
+     */
+    private final int[] roles;
+
+    /**
      * Creates a mixer for channel roles.
      * <p>
      * 채널 역할로 믹서를 만든다.
@@ -111,6 +118,7 @@ public final class ChannelMixer {
      * @param roles role of every input channel (values of the role constants) / 입력 채널마다의 역할(역할 상수 값)
      */
     private ChannelMixer(int[] roles) {
+        this.roles = roles;
         left = new float[roles.length];
         right = new float[roles.length];
         float sumL = 0;
@@ -318,6 +326,49 @@ public final class ChannelMixer {
         default:
             return NONE;
         }
+    }
+
+    /**
+     * Returns the order in which the input channels have to be taken to get the canonical order of the wide decoding path (plan item P25-05):
+     * front left, front right, front centre, LFE, back left, back right, back centre, side left, side right (the order of the
+     * <code>WAVEFORMATEXTENSIBLE</code> mask, FFmpeg and the speaker layouts of Web Audio). The role constants are numbered in this order, so the
+     * channels are sorted by role (stable). If a role is unknown or occurs twice the layout is not trusted and the order of the file is kept.
+     * <p>
+     * 입력 채널을 넓은 디코딩 경로의 표준 순서로 얻으려면 어떤 순서로 가져와야 하는지 반환한다(계획 P25-05): 앞 왼쪽, 앞 오른쪽, 앞 중앙, LFE, 뒤 왼쪽, 뒤 오른쪽,
+     * 뒤 중앙, 옆 왼쪽, 옆 오른쪽(<code>WAVEFORMATEXTENSIBLE</code> 마스크, FFmpeg, Web Audio 스피커 배치의 순서). 역할 상수가 이 순서로 번호가 매겨져 있으므로
+     * 채널을 역할로 정렬한다(안정 정렬). 역할을 모르거나 같은 역할이 두 번 나오면 배치를 믿지 않고 파일의 순서를 유지한다.
+     *
+     * @return for every output channel the index of the input channel / 출력 채널마다 입력 채널의 인덱스
+     */
+    public int[] canonicalOrder() {
+        int n = roles.length;
+        int[] order = new int[n];
+        boolean[] seen = new boolean[NONE + 1];
+        boolean trusted = true;
+        // 역할이 모두 알려져 있고 서로 다른지 확인한다.
+        for (int i = 0; i < n; i++) {
+            order[i] = i;
+            if (roles[i] < 0 || roles[i] >= NONE || seen[roles[i]]) {
+                trusted = false;
+            } else {
+                seen[roles[i]] = true;
+            }
+        }
+        if (!trusted) {
+            return order;
+        }
+        // 삽입 정렬로 역할 번호가 작은 채널이 앞에 오게 한다(안정 정렬).
+        for (int i = 1; i < n; i++) {
+            int v = order[i];
+            int j = i - 1;
+            // 조건이 충족될 때까지 되풀이한다.
+            while (j >= 0 && roles[order[j]] > roles[v]) {
+                order[j + 1] = order[j];
+                j--;
+            }
+            order[j + 1] = v;
+        }
+        return order;
     }
 
     /**

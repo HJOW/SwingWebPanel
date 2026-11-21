@@ -228,7 +228,20 @@ public final class RawPcmSource extends BlockPcmSource {
      * @return sample, 1.0 is full scale / 샘플. 1.0 이 풀 스케일
      */
     private float sampleFloat(int p) {
-        byte[] d = data;
+        return toFloat(format, data, p);
+    }
+
+    /**
+     * Converts the sample of a format at an offset to a full scale float (the 16 bit path and the wide path use the same conversion).
+     * <p>
+     * 형식의 샘플을 위치에서 풀 스케일 float 로 바꾼다(16비트 경로와 넓은 경로가 같은 변환을 쓴다).
+     *
+     * @param format the sample format / 샘플 형식
+     * @param d      array / 배열
+     * @param p      offset of the sample / 샘플의 위치
+     * @return sample, 1.0 is full scale / 샘플. 1.0 이 풀 스케일
+     */
+    static float toFloat(SampleFormat format, byte[] d, int p) {
         switch (format) {
         case U8:
             return ((d[p] & 0xFF) - 128) / 128f;

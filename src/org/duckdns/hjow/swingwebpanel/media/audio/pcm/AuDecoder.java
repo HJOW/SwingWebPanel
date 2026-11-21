@@ -2,7 +2,8 @@ package org.duckdns.hjow.swingwebpanel.media.audio.pcm;
 
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
 
@@ -14,7 +15,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
  * Sun/NeXT AU(SND) 파일의 디코더(계획 P18-07, FEATURE_MATRIX AUD-03): mu-law, A-law, 8/16/24/32비트 선형 PCM(빅 엔디언), 32/64비트 IEEE 부동소수점.
  * 데이터 크기가 0xFFFFFFFF(알 수 없음)이거나 파일보다 크면 파일 끝까지로 본다. AU 규격의 ADPCM 과 DSP 인코딩은 지원하지 않는 형식으로 보고한다.
  */
-public final class AuDecoder implements AudioDecoder {
+public final class AuDecoder implements WideAudioDecoder {
 
     /**
      * Creates the decoder.
@@ -69,6 +70,34 @@ public final class AuDecoder implements AudioDecoder {
      * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
      */
     public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
+        return (PcmSource) create(data, false);
+    }
+
+    /**
+     * Opens the data with every channel of the file and the precision of its samples (see {@link WideAudioDecoder}).
+     * <p>
+     * 파일의 모든 채널과 표본의 정밀도로 데이터를 연다({@link WideAudioDecoder} 참조).
+     *
+     * @param data   the whole encoded data / 인코딩된 전체 데이터
+     * @param limits limits to respect / 지켜야 할 제한
+     * @return a float source positioned at the start / 처음에 위치한 float 소스
+     * @throws MediaException the failures of {@link #open} / {@link #open} 의 실패
+     */
+    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
+        return (FloatPcmSource) create(data, true);
+    }
+
+    /**
+     * Parses the header and creates the source of the form that was asked for (a {@link PcmSource} or a {@link FloatPcmSource}).
+     * <p>
+     * 헤더를 해석하고 요청한 형태의 소스({@link PcmSource} 또는 {@link FloatPcmSource})를 만든다.
+     *
+     * @param data the whole file / 파일 전체
+     * @param wide true for the wide path / 넓은 경로이면 true
+     * @return the source / 소스
+     * @throws MediaException on a damaged or unsupported file / 손상되었거나 지원하지 않는 파일이면
+     */
+    private Object create(byte[] data, boolean wide) throws MediaException {
         if (!Bytes.has(data, 0, 24)) {
             throw new MediaException(MediaException.Kind.CORRUPT, "the AU header is incomplete");
         }
@@ -86,7 +115,7 @@ public final class AuDecoder implements AudioDecoder {
         SampleFormat format = chooseFormat((int) encoding);
         long remaining = data.length - offset;
         long length = (size == 0xFFFFFFFFL || size > remaining) ? remaining : size;
-        return new RawPcmSource(data, (int) offset, (int) (offset + length), format, (int) channels, (int) rate, null);
+        return PcmSources.raw(wide, data, (int) offset, (int) (offset + length), format, (int) channels, (int) rate, null);
     }
 
     /**

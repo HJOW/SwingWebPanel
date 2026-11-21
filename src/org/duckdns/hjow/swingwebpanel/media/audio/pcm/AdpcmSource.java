@@ -271,6 +271,58 @@ public final class AdpcmSource extends BlockPcmSource {
     }
 
     /**
+     * Decodes the next block for the wide path ({@link AdpcmFloatSource}): the samples are then in {@link #blockSamples()}. The 16 bit path
+     * does not use this method.
+     * <p>
+     * 넓은 경로({@link AdpcmFloatSource})를 위해 다음 블록을 디코딩한다. 샘플은 그다음 {@link #blockSamples()} 에 있다. 16비트 경로는 이 메서드를 쓰지 않는다.
+     *
+     * @return frames of the block (0 for a block without samples), or -1 at the end / 블록의 프레임 수(샘플이 없는 블록은 0). 끝이면 -1
+     * @throws MediaException if a block is damaged or the thread was interrupted / 블록이 손상되었거나 스레드가 인터럽트되었으면
+     */
+    int decodeNextBlock() throws MediaException {
+        if (nextBlock >= blocks) {
+            return -1;
+        }
+        if (Thread.currentThread().isInterrupted()) {
+            throw new MediaException(MediaException.Kind.CANCELLED, "audio decoding was interrupted");
+        }
+        return decodeBlock(nextBlock++);
+    }
+
+    /**
+     * Returns the samples of the block that {@link #decodeNextBlock()} decoded: interleaved 16 bit values, {@link #sourceChannels()} per frame.
+     * <p>
+     * {@link #decodeNextBlock()} 가 디코딩한 블록의 샘플을 반환한다: 인터리브된 16비트 값. 프레임마다 {@link #sourceChannels()} 개.
+     *
+     * @return the samples / 샘플
+     */
+    short[] blockSamples() {
+        return block;
+    }
+
+    /**
+     * Returns the number of channels of the file (the 16 bit path outputs at most two).
+     * <p>
+     * 파일의 채널 수를 반환한다(16비트 경로는 최대 둘을 출력한다).
+     *
+     * @return channels / 채널 수
+     */
+    int sourceChannels() {
+        return channels;
+    }
+
+    /**
+     * Returns the largest number of frames of a block.
+     * <p>
+     * 블록의 최대 프레임 수를 반환한다.
+     *
+     * @return frames / 프레임 수
+     */
+    int maxBlockFrames() {
+        return samplesPerBlock;
+    }
+
+    /**
      * Decodes block after block and converts them to output PCM.
      * <p>
      * 블록을 차례로 디코딩해 출력 PCM 으로 바꾼다.

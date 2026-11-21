@@ -154,6 +154,52 @@ public final class AudioDecoders {
      */
     public static PcmSource open(byte[] data, String mimeHint, DecodeLimits limits) throws MediaException {
         DecodeLimits lim = limits == null ? DecodeLimits.DEFAULT : limits;
+        return openWith(choose(data, mimeHint, lim), data, lim);
+    }
+
+    /**
+     * Opens encoded audio for decoding with the channels and the precision of the file (plan item P25-05): the decoder is chosen exactly as
+     * {@link #open} chooses it (by the signature of the data, the MIME type is only a hint); a decoder that implements {@link WideAudioDecoder} delivers
+     * 32 bit float samples in every channel of the file, any other decoder is used through its 16 bit path ({@link PcmFloatAdapter}, at most two
+     * channels). The result is read from the start to the end.
+     * <p>
+     * 파일의 채널과 정밀도로 디코딩하려고 인코딩된 오디오를 연다(계획 P25-05). 디코더는 {@link #open} 이 고르는 것과 똑같이 고른다(데이터의 시그니처로.
+     * MIME 타입은 힌트일 뿐이다). {@link WideAudioDecoder} 를 구현한 디코더는 파일의 모든 채널을 32비트 float 표본으로 주고, 다른 디코더는 16비트 경로로
+     * 쓴다({@link PcmFloatAdapter}, 채널은 최대 둘). 결과는 처음부터 끝까지 읽는다.
+     *
+     * @param data     the whole encoded data / 인코딩된 전체 데이터
+     * @param mimeHint MIME type of the response, may be null; only a hint / 응답의 MIME 타입. null 가능하며 힌트일 뿐이다
+     * @param limits   limits, null for the defaults / 제한. null 이면 기본값
+     * @return a float source positioned at the start / 처음에 위치한 float 소스
+     * @throws MediaException the same failures as {@link #open} / {@link #open} 과 같은 실패
+     */
+    public static FloatPcmSource openWide(byte[] data, String mimeHint, DecodeLimits limits) throws MediaException {
+        DecodeLimits lim = limits == null ? DecodeLimits.DEFAULT : limits;
+        AudioDecoder d = choose(data, mimeHint, lim);
+        // 넓은 경로가 있는 디코더는 그것을 쓰고 없으면 16비트 경로를 float 로 감싼다.
+        if (d instanceof WideAudioDecoder) {
+            try {
+                return ((WideAudioDecoder) d).openWide(data, lim);
+            } catch (RuntimeException e) {
+                throw new MediaException(MediaException.Kind.CORRUPT, "damaged " + d.getFormatName() + " data: " + e, e);
+            }
+        }
+        return new PcmFloatAdapter(openWith(d, data, lim));
+    }
+
+    /**
+     * Chooses the decoder of the data: validates the size, asks the decoder of the hinted MIME type first, then every other one, and takes
+     * the first whose signature matches.
+     * <p>
+     * 데이터의 디코더를 고른다. 크기를 검사하고 힌트의 MIME 타입을 선언한 디코더에게 먼저 묻고 그다음 나머지 모두에게 물어 시그니처가 맞는 첫 디코더를 쓴다.
+     *
+     * @param data     the whole encoded data / 인코딩된 전체 데이터
+     * @param mimeHint MIME type hint or null / MIME 타입 힌트 또는 null
+     * @param lim      limits / 제한
+     * @return the decoder / 디코더
+     * @throws MediaException CORRUPT for empty data, TOO_LARGE over the limits, UNSUPPORTED_FORMAT if no decoder recognizes the data / 빈 데이터는 CORRUPT, 제한 초과는 TOO_LARGE, 어떤 디코더도 알아보지 못하면 UNSUPPORTED_FORMAT
+     */
+    private static AudioDecoder choose(byte[] data, String mimeHint, DecodeLimits lim) throws MediaException {
         if (data == null || data.length == 0) {
             throw new MediaException(MediaException.Kind.CORRUPT, "the audio data is empty");
         }
@@ -183,7 +229,7 @@ public final class AudioDecoders {
                 accepted = false;
             }
             if (accepted) {
-                return openWith(d, data, lim);
+                return d;
             }
         }
         throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "unrecognized audio format"
