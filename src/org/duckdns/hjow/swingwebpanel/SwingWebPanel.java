@@ -44,6 +44,7 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.duckdns.hjow.swingwebpanel.core.BrowserSession;
+import org.duckdns.hjow.swingwebpanel.core.ConsoleDispatcher;
 import org.duckdns.hjow.swingwebpanel.core.ClipboardSink;
 import org.duckdns.hjow.swingwebpanel.core.ControlOverlays;
 import org.duckdns.hjow.swingwebpanel.core.FormSubmitSink;
@@ -184,6 +185,13 @@ public class SwingWebPanel extends JPanel implements Scrollable {
     private final transient HyperlinkDispatcher links = new HyperlinkDispatcher();
 
     /**
+     * Console listeners of the host.
+     * <p>
+     * 호스트의 콘솔 리스너.
+     */
+    private final transient ConsoleDispatcher consoles = new ConsoleDispatcher(this);
+
+    /**
      * Size information from the layout engine.
      * <p>
      * 레이아웃 엔진이 알려 주는 크기 정보.
@@ -291,6 +299,7 @@ public class SwingWebPanel extends JPanel implements Scrollable {
         fetcher = createFetcher();
         PageLoader effective = loader == null ? createNetworkLoader() : loader;
         session = new BrowserSession(effective, new Observer(), cookies);
+        session.setConsoleDispatcher(consoles);
         controls = new ControlOverlays(this);
         view = new PageView(session, metrics, new PageView.Host() {
             /** Publishes new scroll dimensions and drawing on the EDT. / EDT에서 새 스크롤 크기와 그림을 게시한다. */
@@ -1078,6 +1087,48 @@ public class SwingWebPanel extends JPanel implements Scrollable {
     }
 
     /**
+     * Registers a console listener. It receives what the scripts of the pages write with <code>console.log</code>,
+     * <code>console.error</code> and the other console methods (of the main document, its frames and its workers) and the problems the
+     * browser reports for the scripts, on the event dispatch thread. Registering the same listener twice notifies it twice. Without a
+     * listener the console output is discarded. See {@link ConsoleListener} and {@link ConsoleEvent}.
+     * <p>
+     * 콘솔 리스너를 등록한다. 페이지 스크립트가 <code>console.log</code>, <code>console.error</code> 등 콘솔 메서드로 쓰는 것(주 문서, 그
+     * 프레임, 그 worker)과 브라우저가 스크립트에 대해 보고하는 문제를 이벤트 디스패치 스레드에서 받는다. 같은 리스너를 두 번 등록하면 두 번
+     * 통지한다. 리스너가 없으면 콘솔 출력은 버려진다. {@link ConsoleListener}, {@link ConsoleEvent} 참조.
+     *
+     * @param listener listener, not null / 리스너(null 불가)
+     * @throws IllegalArgumentException if the listener is null / 리스너가 null 일 때
+     * @throws IllegalStateException    if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void addConsoleListener(ConsoleListener listener) {
+        checkAlive();
+        consoles.add(listener);
+    }
+
+    /**
+     * Removes one registration of a console listener; unknown listeners are ignored.
+     * <p>
+     * 콘솔 리스너 등록 하나를 제거한다. 등록되지 않은 리스너는 무시한다.
+     *
+     * @param listener listener, not null / 리스너(null 불가)
+     * @throws IllegalArgumentException if the listener is null / 리스너가 null 일 때
+     */
+    public void removeConsoleListener(ConsoleListener listener) {
+        consoles.remove(listener);
+    }
+
+    /**
+     * Returns the registered console listeners in registration order (a copy; empty after {@link #dispose()}).
+     * <p>
+     * 등록된 콘솔 리스너를 등록 순서대로 반환한다(복사본. {@link #dispose()} 뒤에는 비어 있다).
+     *
+     * @return the listeners / 리스너
+     */
+    public ConsoleListener[] getConsoleListeners() {
+        return consoles.getListeners();
+    }
+
+    /**
      * Cancels all work, shows the blank page and resets the history to a single "about:blank" entry. Also clears this
      * component's caches and sessionStorage and the process-wide localStorage, which also empties the localStorage seen by
      * other components in the same JVM. User agent, extra headers, cookies, the JavaScript setting and listeners are kept.
@@ -1120,6 +1171,8 @@ public class SwingWebPanel extends JPanel implements Scrollable {
         view.dispose();
         fetcher.getCache().clear();
         links.clear();
+        // 콘솔 리스너와 아직 전달하지 못한 메시지도 버린다. 폐기 뒤에 도착하는 메시지는 무시된다.
+        consoles.close();
         removeAttachedListeners();
         if (SwingUtilities.isEventDispatchThread()) {
             detachViewport();

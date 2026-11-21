@@ -16,7 +16,8 @@ import org.duckdns.hjow.swingwebpanel.dom.Event;
 import org.duckdns.hjow.swingwebpanel.dom.EventTarget;
 import org.duckdns.hjow.swingwebpanel.dom.ListenerErrorHandler;
 import org.duckdns.hjow.swingwebpanel.dom.MessageEvent;
-import org.duckdns.hjow.swingwebpanel.js.ConsoleHook;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleRecord;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleRecordHook;
 import org.duckdns.hjow.swingwebpanel.js.ExecutionLimits;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -452,19 +453,30 @@ final class WorkerScope implements ScriptContext {
         JsRealm r = JsRealm.create();
         realm = r;
         r.getLimits().setMaxTimeMillis(env.getTaskTimeLimitMillis());
-        r.setConsole(new ConsoleHook() {
+        r.setConsole(new ConsoleRecordHook() {
             /**
-             * Sends the output of the worker console to the console of the page.
+             * Sends the record of the worker console to the console of the page.
              * <p>
-             * worker 콘솔의 출력을 페이지의 콘솔로 보낸다.
+             * worker 콘솔의 기록을 페이지의 콘솔로 보낸다.
+             *
+             * @param record the record / 기록
+             */
+            public void record(ConsoleRecord record) {
+                if (!terminated) {
+                    parent.console(record);
+                }
+            }
+
+            /**
+             * Sends a message in the plain form to the console of the page (a record without a position).
+             * <p>
+             * 일반 형태의 메시지를 페이지의 콘솔로 보낸다(위치 없는 기록).
              *
              * @param level the level / 수준
              * @param text  the text / 문자열
              */
             public void message(String level, String text) {
-                if (!terminated) {
-                    parent.console(level, text);
-                }
+                record(ConsoleRecord.call(level, level, text, java.util.Collections.singletonList(text == null ? "" : text), scriptUrl, 0, 0, 0));
             }
         });
         DomBridge b = new DomBridge(r);
@@ -736,7 +748,7 @@ final class WorkerScope implements ScriptContext {
      */
     private void internalError(RuntimeException e) {
         if (!terminated) {
-            parent.console("error", "Internal error of the worker " + scriptUrl + ": " + e);
+            parent.console(ConsoleRecord.report(ConsoleRecord.Kind.HOST_ERROR, "Internal error of the worker " + scriptUrl + ": " + e, scriptUrl, 0, 0));
         }
     }
 
@@ -840,7 +852,7 @@ final class WorkerScope implements ScriptContext {
         }
         String message = "Script aborted: " + e.getMessage();
         realm.getLimits().reset();
-        parent.console("error", message);
+        parent.console(ConsoleRecord.report(ConsoleRecord.Kind.SCRIPT_ABORTED, message, scriptUrl, 0, 0));
         parent.errorFromWorker(message, scriptUrl, 0, 0);
     }
 

@@ -6,6 +6,7 @@ JDK 6u45가 필요합니다. 다른 경로를 사용하면 `JAVA6_HOME`을 지�
 - sh: `examples/run.sh StaticPageExample`
 - 화면 없는 자동 점검: 위 명령 끝에 `--smoke`를 붙입니다. 클래스패스 HTML/상대 CSS 로딩, 원문, 배치 높이와 실제 그리기 픽셀을 확인합니다.
 - 편집과 끌어다 놓기: `examples/run.sh EditingExample`. `contenteditable` 영역, 끌 수 있는 항목, 놓는 곳, 텍스트 필드가 있는 페이지를 엽니다. 실제 키보드와 한글 입력기, 실제 마우스 끌기, 시스템 클립보드(Ctrl+C/X/V)는 자동 시험으로 확인하지 못했으므로 이 예제로 사람이 확인합니다(`--smoke` 는 페이지가 읽히는지만 확인합니다).
+- 콘솔 출력 받기: `examples/run.sh ConsoleExample`. 단추가 `console.log/warn/error`, 잡히지 않은 예외, 처리되지 않은 promise 거부를 만들고 등록한 `ConsoleListener` 가 받은 `ConsoleEvent` 를 아래 텍스트 영역에 나열합니다(`--smoke` 는 이벤트가 도착하는지 확인합니다).
 - 기본 API 창: `examples/run.sh BlankPageExample [시작 URL]`. `JScrollPane`, 상태/진행률 속성, 뒤/앞 이동, 새로고침과 창 종료 시 `dispose()`를 보여 줍니다.
 
 정적 예제의 HTML/CSS는 `examples/resources`에서 예제 클래스패스로 복사합니다. 인터넷 연결이나 외부 라이브러리는 필요 없습니다.

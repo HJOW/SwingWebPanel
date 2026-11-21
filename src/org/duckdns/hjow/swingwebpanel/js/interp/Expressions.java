@@ -996,6 +996,10 @@ final class Expressions {
             ctx.tailArgs = args;
             return Js.UNDEFINED;
         }
+        // 기본 함수(console.log 등)가 자신이 호출된 스크립트 위치를 알 수 있도록 호출 직전에 위치를 기억해 둔다.
+        if (func instanceof NativeFunction) {
+            realm.setCallSite(ctx.sourceName, n.line, n.column);
+        }
         return ((JsObject) func).call(thisOut[0], args);
     }
 

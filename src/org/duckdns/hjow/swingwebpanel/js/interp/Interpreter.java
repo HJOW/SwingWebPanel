@@ -141,6 +141,7 @@ public final class Interpreter {
         try {
             ProgramInfo pi = (ProgramInfo) prog.value;
             Ctx ctx = new Ctx(pi.strict, globalEnv, null);
+            ctx.sourceName = name == null ? "" : name;
             globalDeclarationInstantiation(prog.scope, globalEnv, ctx);
             Completion c = st.execList(prog.list, globalEnv, ctx);
             return c.value == null ? Js.UNDEFINED : c.value;
@@ -499,6 +500,7 @@ public final class Interpreter {
             }
         }
         Ctx ctx = new Ctx(info.strict, fenv, f);
+        ctx.sourceName = info.sourceName == null ? "" : info.sourceName;
         ctx.funcEnv = fenv;
         if (info.generator) {
             ctx.gen = new GenState();
@@ -774,6 +776,8 @@ public final class Interpreter {
             evalCtx = new Ctx(false, varEnv, direct ? ctx.function : null);
         }
         evalCtx.funcEnv = direct ? ctx.funcEnv : null;
+        // eval 코드의 줄 번호는 eval 문자열 안의 위치이므로 호출 위치의 스크립트 이름과 섞지 않는다.
+        evalCtx.sourceName = "eval";
         evalDeclarationInstantiation(prog.scope, callerEnv, varEnv, lexEnv, strict);
         Completion c = st.execList(prog.list, lexEnv, evalCtx);
         return c.value == null ? Js.UNDEFINED : c.value;

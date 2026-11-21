@@ -1,8 +1,11 @@
 package org.duckdns.hjow.swingwebpanel.js.builtins;
 
+import java.util.ArrayList;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 import org.duckdns.hjow.swingwebpanel.js.BuiltinInstaller;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleRecord;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsArray;
 import org.duckdns.hjow.swingwebpanel.js.JsNumber;
@@ -59,12 +62,39 @@ final class GlobalBuiltins implements BuiltinInstaller {
         realm.setIntrinsic("%eval%", eval);
         realm.method(g, "print", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                r.getConsole().message("log", format(args));
+                // print 도 콘솔 호출과 같은 기록으로 보내 호출 위치와 인수 문자열을 함께 전달한다.
+                ConsoleRecord.deliver(r.getConsole(), ConsoleRecord.call("print", "log", format(args), argumentTexts(args),
+                        r.getCallSourceName(), r.getCallLine(), r.getCallColumn(), 0));
                 return Js.UNDEFINED;
             }
         });
         // console 객체는 Console Standard 의 모든 메서드를 가진 ConsoleBuiltins 가 만든다.
         g.defineBuiltin("console", ConsoleBuiltins.create(realm));
+    }
+
+    /**
+     * Returns the text of each argument the way {@link #format(JsValue[])} prints it, as a list (a string as is, another value in a
+     * compact readable form). It never runs script code.
+     * <p>
+     * {@link #format(JsValue[])} 가 출력하는 방식으로 각 인수의 문자열을 목록으로 반환한다(문자열은 그대로, 다른 값은 간결하고 읽기 쉬운
+     * 형태). 스크립트 코드를 실행하지 않는다.
+     *
+     * @param args the arguments / 인수
+     * @return the texts, one per argument / 인수마다 하나씩의 문자열
+     */
+    public static List<String> argumentTexts(JsValue[] args) {
+        List<String> out = new ArrayList<String>(args.length);
+        // 인수를 하나씩 문자열로 바꿔 목록에 담는다.
+        for (int i = 0; i < args.length; i++) {
+            StringBuilder sb = new StringBuilder();
+            if (args[i] instanceof JsString) {
+                sb.append(((JsString) args[i]).getValue());
+            } else {
+                inspect(args[i], 0, sb, new IdentityHashMap<JsObject, Boolean>());
+            }
+            out.add(sb.toString());
+        }
+        return out;
     }
 
     /**

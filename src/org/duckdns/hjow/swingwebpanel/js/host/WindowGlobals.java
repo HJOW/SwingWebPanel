@@ -6,6 +6,7 @@ import org.duckdns.hjow.swingwebpanel.dom.Document;
 import org.duckdns.hjow.swingwebpanel.dom.DomException;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
 import org.duckdns.hjow.swingwebpanel.dom.Event;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleRecord;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
@@ -1162,7 +1163,7 @@ final class WindowGlobals {
              * @return undefined / undefined
              */
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
-                r.getConsole().message("alert", args.length == 0 ? "" : Ops.toString(args[0]));
+                ConsoleRecord.deliver(r.getConsole(), ConsoleRecord.dialog("alert", args.length == 0 ? "" : Ops.toString(args[0]), r.getCallSourceName(), r.getCallLine(), r.getCallColumn()));
                 return Js.UNDEFINED;
             }
         });
@@ -1178,7 +1179,7 @@ final class WindowGlobals {
              * @return false / false
              */
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
-                r.getConsole().message("confirm", args.length == 0 ? "" : Ops.toString(args[0]));
+                ConsoleRecord.deliver(r.getConsole(), ConsoleRecord.dialog("confirm", args.length == 0 ? "" : Ops.toString(args[0]), r.getCallSourceName(), r.getCallLine(), r.getCallColumn()));
                 return Js.FALSE;
             }
         });
@@ -1194,7 +1195,7 @@ final class WindowGlobals {
              * @return null / null
              */
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
-                r.getConsole().message("prompt", args.length == 0 ? "" : Ops.toString(args[0]));
+                ConsoleRecord.deliver(r.getConsole(), ConsoleRecord.dialog("prompt", args.length == 0 ? "" : Ops.toString(args[0]), r.getCallSourceName(), r.getCallLine(), r.getCallColumn()));
                 return Js.NULL;
             }
         });

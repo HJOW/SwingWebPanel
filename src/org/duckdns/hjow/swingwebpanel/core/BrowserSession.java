@@ -71,6 +71,37 @@ public final class BrowserSession implements FormSubmitSink {
     private volatile SessionListener listener;
 
     /**
+     * The dispatcher that receives the console output of the pages of this session, or null when nobody listens (a session without a
+     * component); then the pages keep the default console, which writes to standard output.
+     * <p>
+     * 이 세션의 페이지가 쓰는 콘솔 출력을 받는 통지기. 듣는 쪽이 없으면(컴포넌트 없는 세션) null 이며, 그러면 페이지는 표준 출력에 쓰는
+     * 기본 콘솔을 그대로 둔다.
+     */
+    private volatile ConsoleDispatcher consoles;
+
+    /**
+     * Sets the dispatcher that receives the console output of the pages of this session; pages created later use it.
+     * <p>
+     * 이 세션의 페이지가 쓰는 콘솔 출력을 받는 통지기를 지정한다. 그 뒤에 만들어지는 페이지가 사용한다.
+     *
+     * @param dispatcher the dispatcher or null / 통지기 또는 null
+     */
+    public void setConsoleDispatcher(ConsoleDispatcher dispatcher) {
+        this.consoles = dispatcher;
+    }
+
+    /**
+     * Returns the dispatcher of the console output, or null.
+     * <p>
+     * 콘솔 출력의 통지기를 반환한다. 없으면 null.
+     *
+     * @return the dispatcher or null / 통지기 또는 null
+     */
+    ConsoleDispatcher consoleDispatcher() {
+        return consoles;
+    }
+
+    /**
      * Cookies of this component; they survive <code>clean()</code> and are forgotten by <code>dispose()</code>.
      * <p>
      * 이 컴포넌트의 쿠키. <code>clean()</code> 후에도 유지되고 <code>dispose()</code> 로 잊는다.

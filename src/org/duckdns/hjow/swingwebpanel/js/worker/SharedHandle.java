@@ -3,6 +3,7 @@ package org.duckdns.hjow.swingwebpanel.js.worker;
 import org.duckdns.hjow.swingwebpanel.dom.DomException;
 import org.duckdns.hjow.swingwebpanel.dom.Event;
 import org.duckdns.hjow.swingwebpanel.dom.EventTarget;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleRecord;
 import org.duckdns.hjow.swingwebpanel.js.host.PageScripts;
 
 /**
@@ -115,15 +116,14 @@ public final class SharedHandle extends EventTarget {
      * <p>
      * 페이지가 아직 있으면 공유 worker 의 콘솔 출력을 이 페이지의 콘솔에 기록한다.
      *
-     * @param level the level / 수준
-     * @param text  the text / 문자열
+     * @param record the record of the worker's console / worker 콘솔의 기록
      * @return true if the console of the page took it / 페이지의 콘솔이 받았으면 true
      */
-    boolean console(String level, String text) {
+    boolean console(ConsoleRecord record) {
         if (!context.isActive()) {
             return false;
         }
-        page.getRealm().getConsole().message(level, text);
+        page.workerConsole(record, record.getSourceName(), true);
         return true;
     }
 }

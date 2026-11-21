@@ -503,6 +503,7 @@ final class ModuleRecord {
                 requested.get(i).evaluate();
             }
             Ctx ctx = new Ctx(true, env, null);
+            ctx.sourceName = key;
             ctx.funcEnv = env;
             in.st.execList(program.list, env, ctx);
             status = EVALUATED;

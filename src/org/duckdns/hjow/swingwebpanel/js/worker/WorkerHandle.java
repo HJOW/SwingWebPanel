@@ -6,6 +6,7 @@ import org.duckdns.hjow.swingwebpanel.dom.ErrorEvent;
 import org.duckdns.hjow.swingwebpanel.dom.Event;
 import org.duckdns.hjow.swingwebpanel.dom.EventTarget;
 import org.duckdns.hjow.swingwebpanel.dom.MessageEvent;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleRecord;
 import org.duckdns.hjow.swingwebpanel.js.host.PageScripts;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 
@@ -251,12 +252,11 @@ public final class WorkerHandle extends EventTarget implements WorkerParent {
      * <p>
      * worker 의 콘솔 출력을 페이지의 콘솔에 기록한다.
      *
-     * @param level the level / 수준
-     * @param text  the text / 문자열
+     * @param record the record of the worker's console / worker 콘솔의 기록
      */
-    public void console(String level, String text) {
+    public void console(ConsoleRecord record) {
         if (!cut) {
-            page.getRealm().getConsole().message(level, text);
+            page.workerConsole(record, record.getSourceName(), false);
         }
     }
 }

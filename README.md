@@ -72,6 +72,7 @@ panel.dispose();                          // 창을 닫을 때 반드시 호출�
 | `setJavascriptEnabled(boolean)` / `isJavascriptEnabled()` | 기본 켜짐. 끄면 스크립트, 인라인 핸들러, 타이머가 멈추고 HTML/CSS/링크/폼은 계속 동작한다. 다시 켜도 이미 중단한 페이지의 스크립트를 되살리지 않으며 다음 이동부터 실행한다. |
 | `getStatusText()`, `getProgress()` | 상태바 메시지와 진행률(아래 표). |
 | `addHyperlinkListener`, `removeHyperlinkListener`, `removeHyperlinkEvents()` | `javax.swing.event.HyperlinkListener` 로 링크 진입/이탈/활성화를 받는다. 통지를 모두 제거해도 링크 이동 자체는 계속 동작한다. |
+| `addConsoleListener`, `removeConsoleListener`, `getConsoleListeners()` | 페이지 스크립트의 `console.log`/`console.error` 등 콘솔 출력을 `ConsoleListener` 로 받는다(아래 "콘솔 출력 받기"). `clean()` 은 유지하고 `dispose()` 는 제거한다. |
 | `getLocalStorage()`, `getSessionStorage()` | Web Storage 항목의 읽기 전용 복사본(`StorageEntry`: origin, key, value). |
 | `clean()` | 진행 중인 작업을 취소하고 `about:blank` 로 돌아가며 캐시, sessionStorage, **프로세스 공용 localStorage 전체**를 비운다(다른 컴포넌트도 영향을 받는다). User-Agent, 추가 헤더, 쿠키, JavaScript 설정, 사용자 리스너는 유지한다. |
 | `dispose()` | `clean()` 후 이 컴포넌트에 등록된 모든 사용자 리스너와 내부 자원(타이머, 하위 작업, 미디어, 다운로드)을 해제한다. 반복 호출은 안전하다. 이후 변경 메서드는 `IllegalStateException`, 조회는 빈 상태를 돌려준다. |
@@ -129,6 +130,25 @@ HTTPS 의 연결/TLS 처리 실패일 때만 같은 주소의 HTTP 접근을 한
 `<audio>` 는 PCM/WAV/AIFF/AU/MP3/AAC/FLAC/Ogg Vorbis/Opus(WebM 안의 Vorbis·Opus 포함)를 순수 Java 디코더로 재생하며 Java Sound 로 출력합니다(`protected AudioOutputFactory createAudioOutputFactory()` 를 재정의해
 출력을 바꿀 수 있고, 장치가 없으면 `error` 이벤트가 됩니다). `<video>` 는 **재생하지 않으며** 요소의 자리에 미지원 비디오임을 표시하는 것이 목표입니다(`canPlayType` 은 항상 `""`).
 이미지/오디오 주소에 접근하지 못하면 그 자리에 미지원 URL 과 `alt` 가 표시됩니다.
+
+### 콘솔 출력 받기
+
+페이지 스크립트가 `console.log`, `console.error` 등으로 쓰는 메시지를 호스트가 받으려면 `ConsoleListener` 를 등록합니다. 리스너는 **이벤트 디스패치 스레드**에서, 메시지가 쓰인 순서대로 호출되므로 Swing 컴포넌트를 바로 갱신해도 됩니다.
+
+```java
+panel.addConsoleListener(new ConsoleListener() {
+    public void consoleMessage(ConsoleEvent e) {
+        // 수준(LOG/INFO/WARN/ERROR/DEBUG), 서식을 적용한 메시지, 쓴 주체(문서/프레임/Worker), 위치
+        System.out.println("[" + e.getLevel() + "] " + e.getMessage()
+                + " (" + e.getScriptUrl() + ":" + e.getLineNumber() + ")");
+    }
+});
+```
+
+- `ConsoleEvent` 는 수준, 메시지(`%s %d %o` 같은 서식 문자열을 적용한 것), 서식 적용 전 인수 문자열, 메서드 이름, 종류(`CONSOLE_CALL`, `DIALOG`, `UNCAUGHT_EXCEPTION`, `UNHANDLED_REJECTION`, `SCRIPT_ABORTED`, `HOST_ERROR`, `MESSAGES_DROPPED`), 쓴 주체, 메시지를 쓴 문서 URL, 스크립트 URL과 줄/열을 가집니다. 문서 URL 은 쓴 시점에 고정되므로 이동 뒤에 도착한 메시지도 어느 페이지의 것인지 알 수 있고, 떠난 페이지의 늦은 메시지는 전달되지 않습니다.
+- 잡히지 않은 예외와 처리되지 않은 promise 거부도 `ERROR` 수준으로 알립니다(`console.error` 호출과는 `getKind()` 로 구분). `alert/confirm/prompt` 는 대화 상자를 띄우지 않고 `DIALOG` 종류로 알립니다.
+- 리스너가 느려 1000개 넘게 쌓이면 그 뒤 메시지는 버리고, 큐가 비면 `MESSAGES_DROPPED` 이벤트 하나가 버린 개수를 알립니다. 스크립트 실행은 리스너를 기다리지 않습니다.
+- **리스너가 하나도 없으면 콘솔 출력은 버려집니다**(표준 출력에 쓰지 않습니다). 예제: `examples/run.sh ConsoleExample`. 자세한 규칙은 `docs/API_CONTRACT.md` 5.20 절.
 
 ### 저장소, 쿠키, 수명
 

@@ -145,6 +145,27 @@ public class JsRealm {
     };
 
     /**
+     * The name of the script that made the latest call of a native function (see {@link #setCallSite(String, int, int)}).
+     * <p>
+     * 기본 함수를 마지막으로 호출한 스크립트의 이름({@link #setCallSite(String, int, int)} 참조).
+     */
+    private String callSourceName = "";
+
+    /**
+     * The line of the latest call of a native function, or 0.
+     * <p>
+     * 기본 함수의 마지막 호출의 줄. 없으면 0.
+     */
+    private int callLine;
+
+    /**
+     * The column of the latest call of a native function, or 0.
+     * <p>
+     * 기본 함수의 마지막 호출의 열. 없으면 0.
+     */
+    private int callColumn;
+
+    /**
      * The interpreter (created on first use).
      * <p>
      * 인터프리터(처음 쓸 때 만든다).
@@ -721,6 +742,58 @@ public class JsRealm {
      */
     public void setConsole(ConsoleHook hook) {
         this.console = hook;
+    }
+
+    /**
+     * Remembers where the script code is that calls a native function. The interpreter calls it just before each call of a native
+     * function, so a native function (for example <code>console.log</code>) can tell where it was called from. The values are only valid
+     * while the native function runs, on the thread that runs the script.
+     * <p>
+     * 기본 함수를 호출하는 스크립트 코드의 위치를 기억한다. 인터프리터가 기본 함수를 호출하기 직전마다 부르므로, 기본 함수(예:
+     * <code>console.log</code>)가 자신이 어디서 호출되었는지 알 수 있다. 값은 기본 함수가 실행되는 동안, 스크립트를 실행하는 스레드에서만
+     * 유효하다.
+     *
+     * @param sourceName the script name or null / 스크립트 이름 또는 null
+     * @param line       the 1-based line / 1부터 시작하는 줄
+     * @param column     the 1-based column / 1부터 시작하는 열
+     */
+    public void setCallSite(String sourceName, int line, int column) {
+        this.callSourceName = sourceName == null ? "" : sourceName;
+        this.callLine = line;
+        this.callColumn = column;
+    }
+
+    /**
+     * Returns the name of the script that made the latest call of a native function, or the empty string.
+     * <p>
+     * 기본 함수를 마지막으로 호출한 스크립트의 이름을 반환한다. 없으면 빈 문자열.
+     *
+     * @return the script name / 스크립트 이름
+     */
+    public String getCallSourceName() {
+        return callSourceName;
+    }
+
+    /**
+     * Returns the line of the latest call of a native function, or 0.
+     * <p>
+     * 기본 함수의 마지막 호출의 줄을 반환한다. 없으면 0.
+     *
+     * @return the line / 줄
+     */
+    public int getCallLine() {
+        return callLine;
+    }
+
+    /**
+     * Returns the column of the latest call of a native function, or 0.
+     * <p>
+     * 기본 함수의 마지막 호출의 열을 반환한다. 없으면 0.
+     *
+     * @return the column / 열
+     */
+    public int getCallColumn() {
+        return callColumn;
     }
 
     /**

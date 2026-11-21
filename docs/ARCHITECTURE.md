@@ -160,7 +160,7 @@ bat 는 MS949(현재는 ASCII 만 사용), sh/java/md 는 UTF-8 이다.
 | `core.PageSnapshot`, `PageKind`, `PageDocument` | 확정 페이지(URL/원문/MIME/기준 URL/종류/제목/상태 코드)와 살아 있는 객체(DOM 등)의 해제 연결 |
 | `core.History` | 이력 목록과 위치(분기 삭제, 복사본) |
 | `core.NavigationRequest`, `NavigationType`, `ProgressSink` | 로더 입력(요청 번호, 설정 스냅샷, 취소 토큰, 진행률 보고) |
-| `core.SessionListener`, `HyperlinkDispatcher`, `ViewMetrics` | EDT 통지, 호스트 하이퍼링크 리스너 등록부, 레이아웃이 알려 주는 크기(Scrollable 정책) |
+| `core.SessionListener`, `HyperlinkDispatcher`, `ConsoleDispatcher`, `PageConsole`, `ViewMetrics` | EDT 통지, 호스트 하이퍼링크 리스너 등록부, 호스트 콘솔 리스너 등록부(EDT 전달·대기 1000개 상한)와 페이지별 콘솔 연결(P24), 레이아웃이 알려 주는 크기(Scrollable 정책) |
 
 스레드: 호출 스레드(EDT 포함) → 요청 번호 발급 → 읽기 스레드에서 `PageLoader.load` → **문서 스레드에서 `commit`**(요청 번호가 여전히 현재일 때만 이력/현재 페이지 교체) → 통지는 EDT.
 오래된 완료는 폐기되며 그 `PageSnapshot.dispose()` 가 호출된다. 읽기 스레드와 문서 스레드는 5초 유휴 후 종료하는 데몬 스레드이고 dispose 는 즉시 `shutdownNow` 한다.
@@ -399,7 +399,7 @@ JRE 의 `HttpURLConnection` 은 `Origin`, `Access-Control-Request-*` 같은 제�
 | 컴포넌트 | sessionStorage | `BrowserSession` 의 필드(인스턴스) | 유지 | 비움 | 컴포넌트와 함께 수거 | 전역 맵에 등록하지 않음 |
 | 프로세스 | localStorage 관리자 | `storage.LocalStorageManager`(리스너 약한 참조) | 유지 | **전체 비움**(다른 컴포넌트도 영향) | 비움 | 컴포넌트를 강하게 참조하지 않음 |
 | 컴포넌트 | 다운로드 작업과 팝업 | `download.SwingDownloadHandler`(`cancelAll`, `dispose`) | 유지 | **취소·팝업 닫음**(완료된 파일은 지우지 않음) | 취소·닫음 | - |
-| 컴포넌트 | 사용자 리스너(하이퍼링크·PropertyChange 등), 내부 마우스/키보드/포커스 리스너 | `HyperlinkDispatcher.clear`, `SwingWebPanel.removeAttachedListeners`, `PageInput.dispose`, `PageKeyboard.dispose` | 유지 | 유지(하이퍼링크 통지는 `removeHyperlinkEvents`) | **제거** | - |
+| 컴포넌트 | 사용자 리스너(하이퍼링크·콘솔·PropertyChange 등), 내부 마우스/키보드/포커스 리스너 | `HyperlinkDispatcher.clear`, `ConsoleDispatcher.close`, `SwingWebPanel.removeAttachedListeners`, `PageInput.dispose`, `PageKeyboard.dispose` | 유지 | 유지(하이퍼링크 통지는 `removeHyperlinkEvents`) | **제거** | - |
 | 컴포넌트 | 쿠키 저장소, 추가 헤더, User-Agent, JavaScript 설정 | `BrowserSession` | 유지 | **유지**(계약 5.x) | 잊음(`headers.clear`, `cookies.clear`) | - |
 | 컴포넌트 | 스레드: 읽기 풀·문서 스레드(`NavigationController`), 뷰의 리소스 작업자(`PageView`, 유휴 5초 후 종료) | `NavigationController.shutdown`, `PageView.dispose` | 유휴 시 종료 | 유휴 시 종료 | 즉시 닫음 | 데몬 스레드 |
 | 프로세스 | 정적 스레드: `DocumentScheduler` 시계, `PageCleanup`, `js.host.ThreadScheduler`, 글꼴 캐시 | 공용(컴포넌트·페이지를 강하게 붙잡지 않음, 유휴 종료/상한 있는 LRU) | - | - | - | `ComponentLeakIntegrationTest`, `PageReleaseIntegrationTest` 가 약한 참조로 확인 |

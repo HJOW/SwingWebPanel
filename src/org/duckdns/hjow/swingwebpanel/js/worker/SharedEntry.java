@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.js.worker;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleRecord;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 
 /**
@@ -220,7 +221,8 @@ final class SharedEntry implements WorkerParent {
      * @param column   the column / 열
      */
     public void errorFromWorker(String message, String filename, int line, int column) {
-        console("error", "Uncaught " + message + " (shared worker " + filename + ":" + line + ":" + column + ")");
+        console(ConsoleRecord.report(ConsoleRecord.Kind.UNCAUGHT_EXCEPTION,
+                "Uncaught " + message + " (shared worker " + filename + ":" + line + ":" + column + ")", filename, line, column));
     }
 
     /**
@@ -243,14 +245,13 @@ final class SharedEntry implements WorkerParent {
      * <p>
      * 콘솔 출력은 아직 있는 첫 번째 연결된 페이지의 콘솔로 간다.
      *
-     * @param level the level / 수준
-     * @param text  the text / 문자열
+     * @param record the record of the worker's console / worker 콘솔의 기록
      */
-    public void console(String level, String text) {
+    public void console(ConsoleRecord record) {
         List<SharedHandle> all = snapshot();
         // 콘솔을 쓸 수 있는 첫 연결을 찾는다.
         for (int i = 0; i < all.size(); i++) {
-            if (all.get(i).console(level, text)) {
+            if (all.get(i).console(record)) {
                 return;
             }
         }

@@ -1,5 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.js.worker;
 
+import org.duckdns.hjow.swingwebpanel.js.ConsoleRecord;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 
 /**
@@ -43,12 +44,11 @@ interface WorkerParent {
     void loadFailed(String reason);
 
     /**
-     * Console output of the worker; it goes to the console of the page.
+     * Console output of the worker; it goes to the console of the page, with the origin of the worker.
      * <p>
-     * worker 의 콘솔 출력. 페이지의 콘솔로 간다.
+     * worker 의 콘솔 출력. worker 가 출처임을 표시해 페이지의 콘솔로 간다.
      *
-     * @param level the level (<code>log</code>, <code>warn</code>, <code>error</code> ...) / 수준
-     * @param text  the text / 문자열
+     * @param record the record the worker's console made; its source name is the worker script / worker 콘솔이 만든 기록. 소스 이름은 worker 스크립트
      */
-    void console(String level, String text);
+    void console(ConsoleRecord record);
 }

@@ -38,6 +38,7 @@ public class SwingWebPanel extends javax.swing.JPanel implements javax.swing.Scr
 | `getProgress()` | - | int | - | 0~100, 불확정 -1 |
 | `addHyperlinkListener`/`removeHyperlinkListener` | 리스너 | void | IAE(null) | Swing 규칙 |
 | `removeHyperlinkEvents()` | - | void | - | 모든 하이퍼링크 리스너 제거 |
+| `addConsoleListener`/`removeConsoleListener`/`getConsoleListeners()` | 리스너 | void / 배열 | IAE(null), ISE(폐기, 등록만) | 콘솔 출력 통지(확장, 5.20) |
 | `clean()` | - | void | ISE | 빈 페이지 + 캐시/저장소 삭제 |
 | `dispose()` | - | void | - | 반복 호출 안전 |
 | `addHeaders(Map<String,String>)` | 헤더 | void | IAE | 덮어쓰기 |
@@ -188,7 +189,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 
 - 진행 중 작업(요청, 스크립트, 타이머, 미디어, 다운로드 팝업과 다운로드)을 취소하고 `about:blank` 로 전환, **이력을 `about:blank` 하나로 초기화**한다.
 - 이 컴포넌트의 모든 **캐시**와 **sessionStorage**, 그리고 **프로세스 공용 localStorage 전체**를 비운다.
-- **유지**: User-Agent, 추가 헤더, **쿠키**, JavaScript 설정, 사용자 리스너(하이퍼링크 포함).
+- **유지**: User-Agent, 추가 헤더, **쿠키**, JavaScript 설정, 사용자 리스너(하이퍼링크와 콘솔 포함).
 - 공유 localStorage 삭제는 같은 JVM 의 **다른 컴포넌트에도 영향**을 준다(그 컴포넌트의 이후 조회가 빈 값을 반환하고, 같은 오리진의 문서에는 storage 이벤트가 전달된다). 이 영향은 사용자 문서에 명시한다.
 - 완료된 다운로드 파일은 지우지 않는다. 이미 폐기된 컴포넌트에서의 호출은 `IllegalStateException`.
 
@@ -204,6 +205,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 | 대상 | dispose 시 | 구분 방법 |
 | --- | --- | --- |
 | `addHyperlinkListener` 로 등록한 리스너 | 제거 | 내부 목록 |
+| `addConsoleListener` 로 등록한 리스너와 전달을 기다리던 콘솔 메시지 | 제거(이후 메시지는 무시) | 내부 목록(`ConsoleDispatcher`) |
 | `addPropertyChangeListener` 로 등록한 리스너 | 제거 | `getPropertyChangeListeners()` 중 내부 것 제외 |
 | `addMouseListener`/`MouseMotion`/`MouseWheel`/`Key`/`Focus`/`Component`/`Hierarchy`/`InputMethod` 등 사용자가 등록한 AWT 리스너 | 제거 | `getXListeners()` 중 **내부 위임 리스너 집합에 없는 것** |
 | 컴포넌트 자신이 등록한 내부 리스너(크기 변경 감시 등) | 제거(자체 정리) | 내부 집합(`internalListeners`) |
@@ -242,6 +244,57 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 - `protected Transferable readClipboard() throws Exception`: 사용자가 편집 가능한 곳이나 폼 컨트롤에 붙여넣을 때(Ctrl+V, Shift+Insert, 편집기의 붙여넣기 동작) EDT 에서 호출된다. 기본은 시스템 클립보드를 읽는다. 호스트와 시험이 재정의한다(`copyToClipboard` 와 한 쌍). 예외나 null 은 "붙여넣을 것 없음"이며 예외는 상태 메시지로만 알린다.
 - `public InputMethodRequests getInputMethodRequests()`: 한글 등 입력기가 캐럿 위치(후보 창 자리)를 물을 때 답한다. 컴포넌트는 편집 호스트가 키보드 포커스를 가진 동안만 입력기를 켜고 아니면 끈다. 폼 컨트롤은 자기 Swing 편집기가 입력기를 다룬다.
 - `dispose()` 의 제거 대상 표 추가: 내부 `InputMethodListener`(`PageComposition`)는 dispose 때 제거되고, 끌기 타이머가 멈추며 진행 중인 끌기는 이벤트 없이 끝난다. 사용자가 등록한 입력기 리스너는 기존 표대로 제거된다. 검증 사례: `EditingInputTest`, `EditingClipboardTest`, `DragDropIntegrationTest`.
+
+### 5.20 확장 메서드: 콘솔 리스너 (P24, 확장이며 AGENTS.md 의 공개 메서드 목록은 그대로)
+
+페이지 스크립트의 `console.log`/`console.error` 등 콘솔 출력을 호스트가 받는다. 공개 타입은 `org.duckdns.hjow.swingwebpanel.ConsoleListener`, `ConsoleEvent` 이고 `SwingWebPanel` 에 세 메서드를 더했다.
+
+| 메서드 | 입력 | 반환 | 예외 | 요약 |
+| --- | --- | --- | --- | --- |
+| `addConsoleListener(ConsoleListener)` | 리스너 | void | IAE(null), ISE(폐기) | Swing 규칙(같은 리스너를 두 번 등록하면 두 번 통지) |
+| `removeConsoleListener(ConsoleListener)` | 리스너 | void | IAE(null) | 등록 하나 제거, 없는 리스너는 무시 |
+| `getConsoleListeners()` | - | `ConsoleListener[]` | - | 등록 순서의 복사본, 폐기 뒤에는 빈 배열 |
+
+- **`ConsoleListener`**: `java.util.EventListener` 를 상속하며 메서드는 `consoleMessage(ConsoleEvent)` 하나. **항상 이벤트 디스패치 스레드(EDT)** 에서, 메시지가 쓰인 순서대로 호출한다. 리스너가 던진 예외는 스레드의 처리되지 않은 예외 처리기로 가고 다른 리스너와 페이지에는 영향이 없다.
+- **`ConsoleEvent`**(`java.util.EventObject` 상속, `getSource()` = `SwingWebPanel`): 불변이며 문자열/숫자만 가진다(스크립트 객체 참조 없음).
+
+| 접근자 | 값 |
+| --- | --- |
+| `getSequence()` | 컴포넌트 안의 일련번호(1부터, 번호가 건너뛰면 메시지가 버려진 것) |
+| `getTimestamp()` | 메시지를 쓴 시각(epoch 밀리초) |
+| `getLevel()` | `LOG`, `INFO`, `WARN`, `ERROR`, `DEBUG` |
+| `getKind()` | `CONSOLE_CALL`, `DIALOG`, `UNCAUGHT_EXCEPTION`, `UNHANDLED_REJECTION`, `SCRIPT_ABORTED`, `HOST_ERROR`, `MESSAGES_DROPPED` |
+| `getMethod()` | 쓴 메서드 이름(`log`, `table`, `alert` ...), 브라우저의 보고이면 `""` |
+| `getMessage()` | 서식 문자열(`%s %d %i %f %o %O %c %%`)을 적용하고 열린 `console.group` 만큼 들여 쓴 문자열. 객체는 스크립트 코드를 실행하지 않고 읽기 쉬운 형태로 나타낸다 |
+| `getArguments()` | 서식 적용 전 각 인수의 문자열(읽기 전용 `List<String>`) |
+| `getOrigin()` | `DOCUMENT`(주 문서), `FRAME`, `WORKER`, `SHARED_WORKER` |
+| `getDocumentUrl()` | 메시지를 쓴 문서(worker 이면 그것을 가진 문서)의 URL. **쓴 시점에 고정**되므로 이동 뒤에도 이전 페이지의 메시지는 이전 페이지를 가리킨다 |
+| `getScriptUrl()`, `getLineNumber()`, `getColumnNumber()` | 호출한 스크립트의 URL(인라인은 문서 URL, `eval` 코드는 `eval`)과 스크립트 텍스트 안의 1부터 시작하는 줄/열. 알 수 없으면 `""`/0 |
+| `getDroppedCount()` | `MESSAGES_DROPPED` 일 때 버려진 개수, 아니면 0 |
+
+**통지 범위(P24-02)**
+
+| 출처 | `kind` | `level` |
+| --- | --- | --- |
+| `console.log/info/warn/error/debug`, `dir`, `dirxml`, `table`, `trace`, `group`/`groupCollapsed`(라벨이 있을 때), `count`, `countReset`(없는 카운터는 WARN), `time*`(없거나 중복된 타이머는 WARN) | `CONSOLE_CALL` | 각 메서드의 Console Standard 수준(`log` 계열은 `LOG`) |
+| `console.assert` | `CONSOLE_CALL`(**조건이 거짓일 때만**) | `ERROR` |
+| 시험용 `print()` | `CONSOLE_CALL`(`method`=`print`) | `LOG` |
+| `alert`/`confirm`/`prompt` | `DIALOG` | `INFO`(대화 상자는 뜨지 않으며 `confirm`은 false, `prompt`는 null 로 답한다, WEB-01) |
+| 잡히지 않은 스크립트 예외(타이머·이벤트 핸들러·모듈 포함) | `UNCAUGHT_EXCEPTION` | `ERROR`(`console.error` 호출과 `kind` 로 구별) |
+| 마이크로태스크가 끝날 때까지 처리기가 없던 거부된 promise | `UNHANDLED_REJECTION` | `ERROR`(제때 `catch` 가 붙은 것은 통지하지 않음) |
+| 한도/시간/취소로 중단된 스크립트 | `SCRIPT_ABORTED` | `ERROR` |
+| 가져오지 못한 스크립트, 예약하지 못한 작업 | `HOST_ERROR` | `ERROR` |
+| 리스너가 느려 버린 메시지의 알림 | `MESSAGES_DROPPED` | `WARN` |
+
+**스레드와 수명(P24-04)**
+
+- 스크립트를 실행하는 스레드는 EDT 를 기다리지 않는다. 메시지는 큐에 넣고 EDT 에서 `ConsoleDispatcher.BATCH_SIZE`(100)개씩 전달한다. 큐에 `MAX_PENDING_EVENTS`(1000)개가 이미 있으면 그 뒤 메시지는 **버리고 개수를 세며**, 큐가 비면 `MESSAGES_DROPPED` 알림 하나가 버린 개수를 알린다.
+- **리스너가 하나도 없으면** 이벤트를 만들지 않고 메시지는 버려진다. 이전에는 페이지의 콘솔이 표준 출력/오류에 썼으나 이제는 쓰지 않는다(표준 출력이 필요하면 리스너에서 `System.out.println`).
+- 페이지를 떠나면(이동, `clean()`, `dispose()`) 그 페이지의 콘솔은 닫힌다: 아직 도는 타이머/Worker 의 늦은 메시지는 새 페이지의 것으로 나타나지 않고 **버려진다**.
+- `setJavascriptEnabled(false)` 이면 스크립트가 실행되지 않으므로 이벤트도 없다(브라우저의 `HOST_ERROR` 도 스크립트가 있어야 나온다).
+- `clean()` 은 콘솔 리스너를 **유지**한다. `dispose()` 는 콘솔 리스너와 기다리던 메시지를 **제거**하고 이후 등록은 `IllegalStateException`. `removeHyperlinkEvents()` 는 콘솔 리스너에 영향이 없다.
+- 한계: `unhandledrejection`/`rejectionhandled` 이벤트는 아직 없다(콘솔 보고만). `console.trace` 는 호출 스택이 없다(엔진이 스택을 두지 않는다). 줄/열은 호출식의 첫 토큰 위치이며, 기본 함수를 직접 호출한 곳만 안다.
+- 검증 사례: `ConsoleEventIntegrationTest`, `js.interp.ConsoleRecordTest`.
 
 ## 6. 허용 스킴 정책 (P01-12)
 
@@ -308,5 +361,6 @@ HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도�
 | C-STORAGE-1~6 | 저장소 | 복사본, 오리진 분리, session 분리/local 공유 |
 | C-DOWNLOAD-1~8 | 다운로드 | 7절 전체 |
 | C-SSL-1~3 | SSL | protected 재정의 호출, HTTPS 실패 후 HTTP 재시도, 404 비재시도 |
+| C-CONSOLE-1~8 | 콘솔 리스너(5.20) | log/error 수준·문자열·인수·위치·EDT, 모든 콘솔 메서드의 수준, Swing 등록 규칙, 리스너 예외 격리, 브라우저 보고의 종류, 모든 스크립트 실행 위치, 프레임/Worker 표시, 대량 출력 상한, 이동·clean·dispose·JavaScript 설정 |
 
 사례 ID 는 구현 시 `tests/src` 의 메서드 이름에 포함하고 `FEATURE_MATRIX.md` 의 검증 사례 열과 일치시킨다.

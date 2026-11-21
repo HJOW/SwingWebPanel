@@ -85,6 +85,15 @@ final class Ctx {
     JsValue[] tailArgs;
 
     /**
+     * The name (URL) of the script that the code of this context comes from; it tells a native function such as
+     * <code>console.log</code> where it was called from. The empty string when the source has no name.
+     * <p>
+     * 이 문맥의 코드가 온 스크립트의 이름(URL). <code>console.log</code> 같은 기본 함수가 자신이 어디서 호출되었는지 알게 한다. 소스에
+     * 이름이 없으면 빈 문자열.
+     */
+    String sourceName = "";
+
+    /**
      * Creates a context.
      * <p>
      * 문맥을 만든다.

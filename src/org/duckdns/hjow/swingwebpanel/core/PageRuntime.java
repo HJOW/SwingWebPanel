@@ -67,6 +67,8 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource, C
     private final DocumentScheduler scheduler;
     /** Single script realm and DOM bridge. / 단일 스크립트 영역과 DOM 연결. */
     private final PageScripts scripts;
+    /** The console hook of this page, or null when the component has no console dispatcher. / 이 페이지의 콘솔 연결. 컴포넌트에 콘솔 통지기가 없으면 null. */
+    private final PageConsole console;
     /** Final lifetime flag, also used by racing constructors and setters. / 생성자와 설정 호출 경합에도 쓰는 영구 수명 표시. */
     private final AtomicBoolean closed = new AtomicBoolean();
     /** Parser ownership barrier before final realm cleanup. / 최종 영역 해제 전 파서 소유권 장벽. */
@@ -109,6 +111,14 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource, C
         parent = request.getCancelToken();
         scheduler = new DocumentScheduler(session);
         scripts = new PageScripts(document, this);
+        // 컴포넌트가 콘솔 통지기를 가졌으면 이 페이지의 콘솔 출력(스크립트, 프레임, worker, 호스트의 보고)을 그리로 보낸다.
+        ConsoleDispatcher consoles = session.consoleDispatcher();
+        if (consoles != null) {
+            console = new PageConsole(consoles, pageUrl, frame != null);
+            scripts.getRealm().setConsole(console);
+        } else {
+            console = null;
+        }
         // 렌더러가 캔버스 그림을 스크립트 호스트에서 읽게 한다.
         presentation.setCanvasSource(scripts.canvasSource());
         // 오디오 컨트롤 막대도 같은 방식으로 요소의 상태를 스크립트 호스트에서 읽는다.
@@ -636,6 +646,10 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource, C
     void close() {
         if (!closed.compareAndSet(false, true)) {
             return;
+        }
+        // 페이지를 떠난 뒤 아직 도는 스크립트의 메시지가 리스너에 닿지 않도록 먼저 콘솔을 닫는다.
+        if (console != null) {
+            console.close();
         }
         scripts.requestDisposal();
         scheduler.close();

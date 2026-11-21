@@ -24,6 +24,8 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 미해결 사항: 남은 `[ ]`: P10-08-h(와 상위 P10-08), P11-02/P11-10(한글 IME, 사람), P18-08(소리 청취, 사람), P18-11(P18 마지막 항목이라 P18-08 뒤에), P22-07/10/15/16(마무리). 미병합 브랜치 없음. 보존 WIP 브랜치: `wip/cssi-page-unverified`(지워도 됨), `wip/frames-forms-unverified`.
 다음 작업 번호: P10-08-h(남은 CSS 항목을 구현하거나 근거 있는 예외로 확정) → P22-07/10/15/16 마무리 문서. 사람이 할 일은 "2026-11-19 재개 세션" 3번.
   (2026-11-20 갱신) AGENTS.md 기준으로 P10-08-h, P11-02, P11-10 은 이미 체크되어 있다. 남은 `[ ]` 는 P18-08, P18-11, P22-07/10/15/16 과 새 P23~P26 이다. 사람이 확인해야 하는 항목을 빼면 AI 가 진행할 수 있는 첫 항목은 P23-01(Maven 도입 방식 조사·결정)이다.
+  (2026-11-22 갱신) **사용자 지시로 진행 순서를 바꿨다: P23(Maven 전환)은 최대한 나중으로 미룬다.** 순서는 P24 → P25 → P26 → P23(마지막)이며, 그 전까지 현재 `src`/`tests/src` 구조와 `build.sh`/`test.sh` 를 쓴다. 이 PC 에는 Maven 이 없고 사용자가 직접 설치하겠다고 했다(P23 을 시작할 때 `mvn` 이 PATH 에 있는지 먼저 확인하고 없으면 사용자에게 요청한다). P26 은 Maven 없이 `engine/` 디렉터리 + 기존 스크립트로 분리하고 P23 에서 그 디렉터리를 Maven 모듈로 옮긴다(`docs/progress/briefs/engine.md`).
+  (2026-11-22) **P24 완료**(아래 작업 로그). 다음: P25(Web Audio)와 P26(엔진 분리)을 작업자 두 명이 병렬로(`docs/progress/briefs/webaudio.md`, `engine.md`), 조정자는 병합·전체 회귀를 맡는다.
 ```
 
 ## 2026-11-20 주 패키지명 변경: `swingwebpanel` → `org.duckdns.hjow.swingwebpanel`
@@ -288,6 +290,16 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-22 · P24 콘솔 출력 이벤트 (완료)
+- **설계/계약**: `docs/API_CONTRACT.md` 5.20(통지 범위 표, 스레드·수명 규칙, 한계), 기능 표 API-27. 공개 타입 `ConsoleListener`/`ConsoleEvent`(루트 패키지)와 `SwingWebPanel.addConsoleListener/removeConsoleListener/getConsoleListeners`. 호출은 항상 EDT, 쓴 순서대로, 리스너 예외는 격리, 리스너가 없으면 이벤트를 만들지 않고 **표준 출력에도 쓰지 않는다**(이전에는 페이지 콘솔이 System.out/err 에 썼다: 동작 변경이며 계약과 README 에 적었다).
+- **엔진 쪽 경계(P26 을 위해 브라우저 타입 없음)**: `js.ConsoleRecord`(불변: 메서드, 수준, 서식 적용 문자열, 인수 문자열, 스크립트 이름, 줄/열, 그룹 깊이, 종류), `js.ConsoleRecordHook extends ConsoleHook`. 기존 `ConsoleHook.message(level,text)` 는 그대로이며 기록을 모르는 연결은 이전과 같은 값을 받는다. 호출 위치는 `JsRealm.setCallSite`(인터프리터 `Expressions.callNode` 가 기본 함수 호출 직전에 기록, `Ctx.sourceName` 추가)로 안다.
+- **브라우저 쪽**: `core.ConsoleDispatcher`(대기 1000개 상한, 100개씩 EDT 전달, 초과분은 세어 `MESSAGES_DROPPED` 알림 하나), `core.PageConsole`(페이지별 연결, 문서 URL 고정, 페이지를 떠나면 닫힘), `js.host.HostConsole`(worker 기록 전달), `PageRuntime` 이 realm 의 콘솔을 `PageConsole` 로 바꿈, `dispose()` 가 `ConsoleDispatcher.close()`. 프레임은 `FRAME`, Worker/SharedWorker 는 `WORKER`/`SHARED_WORKER`(`WorkerParent.console(ConsoleRecord)` 로 시그니처 변경).
+- **P24-02 결정**: 모든 console 메서드 통지(`assert` 는 실패할 때만, 수준은 Console Standard), 잡히지 않은 예외(`UNCAUGHT_EXCEPTION`)와 처리되지 않은 promise 거부(`UNHANDLED_REJECTION`, 마이크로태스크 검사점 뒤 보고)는 ERROR 로 알리되 `kind` 로 `console.error` 와 구별, `alert/confirm/prompt` 는 `DIALOG`/INFO. 시험이 드러낸 결함: 파서가 실행한 스크립트 뒤의 검사점이 거부 보고를 빠뜨려 타이머 예외보다 늦게 보고됨 → `PageScripts.execute` 에 `reportUnhandledRejections()` 추가.
+- **변경 파일**: `src/.../ConsoleEvent.java`, `ConsoleListener.java`, `SwingWebPanel.java`, `core/{ConsoleDispatcher,PageConsole,BrowserSession,PageRuntime}.java`, `js/{ConsoleRecord,ConsoleRecordHook,JsRealm}.java`, `js/interp/{Ctx,Interpreter,Expressions,ModuleRecord}.java`, `js/builtins/{ConsoleBuiltins,GlobalBuiltins}.java`, `js/host/{HostConsole,PageScripts,WindowGlobals}.java`, `js/worker/{WorkerParent,WorkerHandle,WorkerScope,SharedEntry,SharedHandle}.java`, 시험 `ConsoleEventIntegrationTest`(11), `js/interp/ConsoleRecordTest`(6), 예제 `examples/.../ConsoleExample.java`, 문서(API_CONTRACT, FEATURE_MATRIX, ARCHITECTURE, README, examples/README, AGENTS P24 체크).
+- **검증(JDK 6u45)**: `ConsoleEventIntegrationTest` 11/11, `ConsoleRecordTest` 6/6, `ConsoleApiTest` 8/8; **전체 회귀(`BUILD_DIR=build-full ./test.sh`) 3771 통과/0 실패/14 건너뜀**(건너뜀은 선택적 Opus 원본 벡터 12건 + Java Sound 믹서가 필요한 시험 2건, 변경 전과 같음); `tools/sourcecheck` 변경 경로 0 위반; `examples/run.sh ConsoleExample --smoke` → `smoke OK consoleEvents=2 listeners=1`.
+- **미확인/한계**: `unhandledrejection`/`rejectionhandled` 이벤트는 구현하지 않음(콘솔 보고만). 줄/열은 기본 함수의 직접 호출 지점(호출식 첫 토큰). 실제 Swing 창의 `ConsoleExample` 을 사람 눈으로 본 확인은 하지 않았다(smoke 는 창을 띄워 이벤트 수만 확인).
+- **병렬 작업 번호 대역**(commit 메시지 `20261122-NNN`): 조정자 001~099, WebAudio 작업자 100~199, 엔진 작업자 200~299.
 
 ### 2026-11-20 · 계획 추가: P23~P26 (문서만)
 - 사용자 요청으로 AGENTS.md "개발 계획" 끝에 추가 목표 네 단계를 넣었다. P23 Maven 전환(JDK 6 대상 빌드·시험, 표준 디렉터리, 부모 POM + 모듈 기본안), P24 콘솔 출력 이벤트(`ConsoleListener`/`ConsoleEvent` 기본안, 엔진 쪽 경계는 기존 `js.ConsoleHook`), P25 Web Audio API(그래프·자동화·노드·디코딩·AudioWorklet·Java Sound 출력), P26 엔진 분리와 `javax.script` 제공자(엔진 핵심 패키지가 브라우저 패키지를 import 하지 않음을 확인해 경계 기본안으로 기록, Rhino/Nashorn 이름 충돌과 `tools/sourcecheck` 의 `javax.script` 금지 예외 처리 포함).

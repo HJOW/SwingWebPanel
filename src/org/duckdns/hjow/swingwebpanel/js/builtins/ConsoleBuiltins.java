@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleRecord;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleRecordHook;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsNumber;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
@@ -97,14 +99,14 @@ final class ConsoleBuiltins {
             final String level = levels[i];
             realm.method(console, level, 0, new NativeFunction.Call() {
                 public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                    state.print(level, state.formatter(args));
+                    state.print(level, level, state.formatter(args), args);
                     return Js.UNDEFINED;
                 }
             });
         }
         realm.method(console, "dirxml", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                state.print("log", state.formatter(args));
+                state.print("dirxml", "log", state.formatter(args), args);
                 return Js.UNDEFINED;
             }
         });
@@ -112,7 +114,7 @@ final class ConsoleBuiltins {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 StringBuilder sb = new StringBuilder();
                 GlobalBuiltins.inspect(Js.arg(args, 0), 0, sb, new java.util.IdentityHashMap<JsObject, Boolean>());
-                state.print("log", sb.toString());
+                state.print("dir", "log", sb.toString(), args);
                 return Js.UNDEFINED;
             }
         });
@@ -126,7 +128,7 @@ final class ConsoleBuiltins {
                 System.arraycopy(args, 1, rest, 0, rest.length);
                 String text = state.formatter(rest);
                 // 추가 데이터가 있으면 "Assertion failed: " 뒤에 붙이고, 없으면 기본 문구만 쓴다.
-                state.print("error", rest.length == 0 ? "Assertion failed" : "Assertion failed: " + text);
+                state.print("assert", "error", rest.length == 0 ? "Assertion failed" : "Assertion failed: " + text, rest);
                 return Js.UNDEFINED;
             }
         });
@@ -143,7 +145,7 @@ final class ConsoleBuiltins {
                 Integer old = state.counts.get(label);
                 int n = old == null ? 1 : old.intValue() + 1;
                 state.counts.put(label, Integer.valueOf(n));
-                state.print("log", label + ": " + n);
+                state.print("count", "log", label + ": " + n, args);
                 return Js.UNDEFINED;
             }
         });
@@ -154,7 +156,7 @@ final class ConsoleBuiltins {
                 if (state.counts.containsKey(label)) {
                     state.counts.put(label, Integer.valueOf(0));
                 } else {
-                    state.print("warn", "Count for '" + label + "' does not exist");
+                    state.print("countReset", "warn", "Count for '" + label + "' does not exist", args);
                 }
                 return Js.UNDEFINED;
             }
@@ -164,7 +166,7 @@ final class ConsoleBuiltins {
         realm.method(console, "trace", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 String text = state.formatter(args);
-                state.print("log", (text.length() == 0 ? "Trace" : "Trace: " + text) + "\n    at <anonymous>");
+                state.print("trace", "log", (text.length() == 0 ? "Trace" : "Trace: " + text) + "\n    at <anonymous>", args);
                 return Js.UNDEFINED;
             }
         });
@@ -173,9 +175,9 @@ final class ConsoleBuiltins {
                 JsValue data = Js.arg(args, 0);
                 // 표로 만들 수 없는 값은 보통 log 와 같이 출력한다.
                 if (!(data instanceof JsObject)) {
-                    state.print("log", state.formatter(args));
+                    state.print("table", "log", state.formatter(args), args);
                 } else {
-                    state.print("log", state.table((JsObject) data, Js.arg(args, 1)));
+                    state.print("table", "log", state.table((JsObject) data, Js.arg(args, 1)), args);
                 }
                 return Js.UNDEFINED;
             }
@@ -196,11 +198,12 @@ final class ConsoleBuiltins {
         String[] names = { "group", "groupCollapsed" };
         // 두 이름은 같은 동작이다(접힌 상태를 표현할 화면이 없다).
         for (int i = 0; i < names.length; i++) {
-            realm.method(console, names[i], 0, new NativeFunction.Call() {
+            final String groupName = names[i];
+            realm.method(console, groupName, 0, new NativeFunction.Call() {
                 public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                     // 라벨이 있으면 먼저 출력하고, 그 다음부터 한 단계 들여 쓴다.
                     if (args.length > 0) {
-                        state.print("log", state.formatter(args));
+                        state.print(groupName, "log", state.formatter(args), args);
                     }
                     state.depth++;
                     return Js.UNDEFINED;
@@ -233,7 +236,7 @@ final class ConsoleBuiltins {
                 String label = state.label(args);
                 // 이미 있는 타이머는 경고하고 그대로 둔다.
                 if (state.timers.containsKey(label)) {
-                    state.print("warn", "Timer '" + label + "' already exists");
+                    state.print("time", "warn", "Timer '" + label + "' already exists", args);
                 } else {
                     state.timers.put(label, Long.valueOf(System.nanoTime()));
                 }
@@ -267,7 +270,7 @@ final class ConsoleBuiltins {
         Long start = timers.get(label);
         // 시작하지 않은 타이머는 경고한다.
         if (start == null) {
-            print("warn", "Timer '" + label + "' does not exist");
+            print(end ? "timeEnd" : "timeLog", "warn", "Timer '" + label + "' does not exist", args);
             return;
         }
         double ms = (System.nanoTime() - start.longValue()) / 1000000.0;
@@ -282,7 +285,7 @@ final class ConsoleBuiltins {
         if (end) {
             timers.remove(label);
         }
-        print("log", sb.toString());
+        print(end ? "timeEnd" : "timeLog", "log", sb.toString(), args);
     }
 
     /**
@@ -300,14 +303,17 @@ final class ConsoleBuiltins {
     }
 
     /**
-     * Writes a message to the console hook, indented by the open groups.
+     * Writes a message to the console hook, indented by the open groups. A hook that understands records also gets the method, the
+     * texts of the arguments and the place of the call.
      * <p>
-     * 열린 그룹만큼 들여 써서 메시지를 콘솔 연결에 쓴다.
+     * 열린 그룹만큼 들여 써서 메시지를 콘솔 연결에 쓴다. 기록을 이해하는 연결은 메서드 이름, 인수 문자열, 호출 위치도 함께 받는다.
      *
-     * @param level the level / 수준
-     * @param text  the text (may have several lines) / 문자열(여러 줄일 수 있음)
+     * @param method the console method that was called / 호출된 콘솔 메서드
+     * @param level  the level / 수준
+     * @param text   the text (may have several lines) / 문자열(여러 줄일 수 있음)
+     * @param args   the arguments of the call / 호출의 인수
      */
-    private void print(String level, String text) {
+    private void print(String method, String level, String text, JsValue[] args) {
         String shown = text;
         // 그룹 안이면 모든 줄 앞에 들여쓰기를 붙인다.
         if (depth > 0) {
@@ -318,7 +324,14 @@ final class ConsoleBuiltins {
             }
             shown = pad + text.replace("\n", "\n" + pad);
         }
-        realm.getConsole().message(level, shown);
+        org.duckdns.hjow.swingwebpanel.js.ConsoleHook hook = realm.getConsole();
+        // 기록을 받는 연결에만 인수 문자열과 위치를 만들어 준다. 일반 연결에는 지금까지와 같은 수준과 문자열만 보낸다.
+        if (hook instanceof ConsoleRecordHook) {
+            ((ConsoleRecordHook) hook).record(ConsoleRecord.call(method, level, shown, GlobalBuiltins.argumentTexts(args),
+                    realm.getCallSourceName(), realm.getCallLine(), realm.getCallColumn(), depth));
+        } else {
+            hook.message(level, shown);
+        }
     }
 
     /**

@@ -3,6 +3,7 @@ package org.duckdns.hjow.swingwebpanel.js.host;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
@@ -23,11 +24,15 @@ import org.duckdns.hjow.swingwebpanel.html.ParserControl;
 import org.duckdns.hjow.swingwebpanel.html.ParserListener;
 import org.duckdns.hjow.swingwebpanel.html.ParserListenerAdapter;
 import org.duckdns.hjow.swingwebpanel.html.ParserNodeData;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleHook;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleRecord;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseJobs;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseRejectionTracker;
 import org.duckdns.hjow.swingwebpanel.js.ModuleGraph;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
@@ -449,6 +454,14 @@ public final class PageScripts {
     private StringBuilder writeBuffer;
 
     /**
+     * Promises that were rejected without a handler and still have none, with their reasons, in rejection order. The microtask checkpoint
+     * reports what is left in it to the console and empties it.
+     * <p>
+     * 처리기 없이 거부되었고 아직 처리기가 없는 promise 와 그 이유(거부된 순서). 마이크로태스크 검사점이 남은 것을 콘솔에 보고하고 비운다.
+     */
+    private final Map<JsObject, JsValue> unhandledRejections = new LinkedHashMap<JsObject, JsValue>();
+
+    /**
      * Creates the scripts of a page and installs the window, the DOM interfaces and the event loop.
      * <p>
      * 페이지의 스크립트 환경을 만들고 window, DOM 인터페이스, 이벤트 루프를 설치한다.
@@ -466,6 +479,33 @@ public final class PageScripts {
         this.bridge = new DomBridge(realm);
         this.window = new Window();
         realm.getLimits().setMaxTimeMillis(env.getTaskTimeLimitMillis());
+        // 처리기 없이 거부된 promise 를 기억해 두었다가 마이크로태스크 검사점이 끝날 때 콘솔에 보고한다.
+        PromiseJobs.setRejectionTracker(realm, new PromiseRejectionTracker() {
+            /**
+             * Remembers a promise that was rejected without a handler.
+             * <p>
+             * 처리기 없이 거부된 promise 를 기억한다.
+             *
+             * @param r       the realm / realm
+             * @param promise the promise / promise
+             * @param reason  the reason / 이유
+             */
+            public void rejectedWithoutHandler(JsRealm r, JsObject promise, JsValue reason) {
+                unhandledRejections.put(promise, reason);
+            }
+
+            /**
+             * Forgets a promise that got a handler after it was rejected.
+             * <p>
+             * 거부된 뒤에 처리기를 얻은 promise 를 잊는다.
+             *
+             * @param r       the realm / realm
+             * @param promise the promise / promise
+             */
+            public void handlerAddedToRejectedPromise(JsRealm r, JsObject promise) {
+                unhandledRejections.remove(promise);
+            }
+        });
         this.start = env.getScheduler() == null ? System.currentTimeMillis() : env.getScheduler().now();
         bridge.setErrorSink(new DomBridge.ErrorSink() {
             /**
@@ -1153,6 +1193,7 @@ public final class PageScripts {
                 break;
             }
         }
+        reportUnhandledRejections();
         // 작업이 끝날 때 알려 받는 쪽(예: 하이라이트의 범위 변경 확인)을 부른다.
         for (int i = 0; i < taskEndHooks.size(); i++) {
             taskEndHooks.get(i).run();
@@ -1358,10 +1399,67 @@ public final class PageScripts {
             }
             window.dispatchEvent(ev);
             if (!ev.isDefaultPrevented()) {
-                realm.getConsole().message("error", "Uncaught " + message);
+                report(ConsoleRecord.Kind.UNCAUGHT_EXCEPTION, "Uncaught " + message, source, line, col);
             }
         } catch (RuntimeException e) {
-            realm.getConsole().message("error", "Uncaught " + message);
+            report(ConsoleRecord.Kind.UNCAUGHT_EXCEPTION, "Uncaught " + message, source, line, col);
+        }
+    }
+
+    /**
+     * Sends a report of the host about the page's scripts to the console, as a record that tells what kind of report it is.
+     * <p>
+     * 페이지 스크립트에 대한 호스트의 보고를, 어떤 종류의 보고인지 알리는 기록으로 콘솔에 보낸다.
+     *
+     * @param kind   what is reported / 보고하는 내용
+     * @param text   the message / 메시지
+     * @param source the script name or null / 스크립트 이름 또는 null
+     * @param line   the line or 0 / 줄 또는 0
+     * @param column the column or 0 / 열 또는 0
+     */
+    void report(ConsoleRecord.Kind kind, String text, String source, int line, int column) {
+        ConsoleRecord.deliver(realm.getConsole(), ConsoleRecord.report(kind, text, source, line, column));
+    }
+
+    /**
+     * Reports the promises that were rejected without a handler and still have none, the way a browser does after the microtask
+     * checkpoint ("Uncaught (in promise)"), and forgets them. Never throws.
+     * <p>
+     * 처리기 없이 거부되었고 아직 처리기가 없는 promise 를 브라우저처럼 마이크로태스크 검사점이 끝난 뒤 보고하고("Uncaught (in promise)") 잊는다.
+     * 예외를 던지지 않는다.
+     */
+    private void reportUnhandledRejections() {
+        if (unhandledRejections.isEmpty()) {
+            return;
+        }
+        List<JsValue> reasons = new ArrayList<JsValue>(unhandledRejections.values());
+        unhandledRejections.clear();
+        // 이유를 거부된 순서대로 한 줄씩 보고한다.
+        for (int i = 0; i < reasons.size(); i++) {
+            try {
+                report(ConsoleRecord.Kind.UNHANDLED_REJECTION, "Uncaught (in promise) " + JsException.describe(reasons.get(i)), "", 0, 0);
+            } catch (RuntimeException e) {
+                report(ConsoleRecord.Kind.UNHANDLED_REJECTION, "Uncaught (in promise)", "", 0, 0);
+            }
+        }
+    }
+
+    /**
+     * Forwards the console record of a worker of this page to the console of the page, which marks it as written by a worker.
+     * <p>
+     * 이 페이지의 worker 가 쓴 콘솔 기록을, worker 가 쓴 것임을 표시하는 페이지의 콘솔로 전달한다.
+     *
+     * @param record    the record / 기록
+     * @param workerUrl the script URL of the worker / worker 의 스크립트 URL
+     * @param shared    true for a shared worker / 공유 worker 이면 true
+     */
+    public void workerConsole(ConsoleRecord record, String workerUrl, boolean shared) {
+        ConsoleHook hook = realm.getConsole();
+        // 출처를 아는 페이지 콘솔이면 worker 의 기록으로, 일반 연결이면 기록을 그대로 보낸다.
+        if (hook instanceof HostConsole) {
+            ((HostConsole) hook).workerRecord(record, workerUrl, shared);
+        } else {
+            ConsoleRecord.deliver(hook, record);
         }
     }
 
@@ -1374,7 +1472,7 @@ public final class PageScripts {
      */
     private void reportAbort(ScriptAbortedException e) {
         if (!disposed) {
-            realm.getConsole().message("error", "Script aborted: " + e.getMessage());
+            report(ConsoleRecord.Kind.SCRIPT_ABORTED, "Script aborted: " + e.getMessage(), "", 0, 0);
             realm.getLimits().reset();
         }
     }
@@ -1606,7 +1704,7 @@ public final class PageScripts {
             if (!scripting()) {
                 return;
             }
-            realm.getConsole().message("error", "Failed to load script " + p.url + ": " + e.getMessage());
+            report(ConsoleRecord.Kind.HOST_ERROR, "Failed to load script " + p.url + ": " + e.getMessage(), p.url, 0, 0);
             fireScriptEvent(p.element, "error");
             return;
         }
@@ -1930,6 +2028,8 @@ public final class PageScripts {
                 } finally {
                     realm.getLimits().endTask();
                 }
+                // 이 검사점이 끝날 때까지 처리기를 얻지 못한 거부된 promise 를 보고한다.
+                reportUnhandledRejections();
             }
         } finally {
             depth--;
@@ -2078,7 +2178,7 @@ public final class PageScripts {
             }, 0);
         } catch (RuntimeException e) {
             // 대기 작업 한도를 넘었거나 큐가 닫혔으면 더 올릴 수 없다. 이 페이지의 대기 스크립트는 실행되지 않는다.
-            realm.getConsole().message("error", "Cannot schedule script: " + e.getMessage());
+            report(ConsoleRecord.Kind.HOST_ERROR, "Cannot schedule script: " + e.getMessage(), "", 0, 0);
         }
     }
 
