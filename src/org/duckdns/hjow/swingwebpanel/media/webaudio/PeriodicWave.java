@@ -101,10 +101,12 @@ public final class PeriodicWave {
     /**
      * The index of the last table that still contains the fundamental (the first partial): <code>3 log2(size / 2)</code>. A frequency
      * below the Nyquist frequency never selects a table beyond it, so a pure sine keeps its amplitude up to the Nyquist frequency; the
-     * reference implementation attenuates the fundamental in the last third of an octave.
+     * table selection of the reference implementation (read from its source, not measured) interpolates towards an empty table in the
+     * last third of an octave and so attenuates the fundamental there.
      * <p>
      * 기본파(첫 부분음)가 아직 들어 있는 마지막 표의 인덱스 <code>3 log2(size / 2)</code>. 나이퀴스트 주파수 아래의 주파수는 그 뒤의 표를 고르지 않으므로
-     * 순수한 사인파는 나이퀴스트 주파수까지 진폭을 유지한다(참조 구현은 마지막 1/3 옥타브에서 기본파를 줄인다).
+     * 순수한 사인파는 나이퀴스트 주파수까지 진폭을 유지한다(참조 구현의 표 선택 코드는 소스를 읽은 것이며 실제로 재지는 않았다. 마지막 1/3 옥타브에서 빈 표
+     * 쪽으로 보간하므로 기본파가 줄어든다).
      */
     private final double fundamentalRange;
 
