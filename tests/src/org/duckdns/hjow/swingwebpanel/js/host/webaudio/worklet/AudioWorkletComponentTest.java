@@ -296,7 +296,7 @@ public class AudioWorkletComponentTest {
         try {
             String live = "<!doctype html><body><script>var rt = new AudioContext(); rt.audioWorklet.addModule('/mods/real.js').then(function () {"
                     + "var src = new ConstantSourceNode(rt, {offset: 0.5}); var n = new AudioWorkletNode(rt, 'gain'); src.connect(n); n.connect(rt.destination); src.start();"
-                    + "setTimeout(function () { sessionStorage.setItem('%KEY%', rt.state + ':' + (rt.currentTime > 0.05)); }, 400); });</script></body>";
+                    + "setTimeout(function () { sessionStorage.setItem('%KEY%', rt.state + ':' + (rt.currentTime > 0)); }, 400); });</script></body>";
             serve(server, live.replace("%KEY%", "one"));
             server.routeFixed("/second", TestHttpServer.Response.html(live.replace("%KEY%", "two")));
             server.routeFixed("/empty", TestHttpServer.Response.html("<!doctype html><body>empty</body>"));

@@ -52,7 +52,7 @@ JavaScript 쪽(`src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/`):
 | `.../AudioWorkletMessagingTest` | 7 | 양방향 메시지, 구조화 복제(Map/Date/객체), 전달한 `ArrayBuffer`, 순서(200건), 오프라인 렌더링 전에 보낸 메시지가 첫 quantum 전에 전달, 닫힌 포트, `start()` 규칙, 옵션 객체 |
 | `.../AudioWorkletFailureTest` | 6 | `process`/생성자의 예외 → `processorerror`(메시지, 파일, 줄)와 영구 무음과 이웃 무영향, `process` 없음/삭제, 무한 반복의 중단, 반환 값과 마이크로태스크 순서, 메시지 핸들러의 예외 |
 | `.../AudioWorkletChannelsTest` | 4 | 입력 둘 출력 둘, 채널 수(입력이 따라가는 것, `explicit`, 연결 없음, `outputChannelCount`), 출력이 매번 0 으로 채워짐, 얼린 배열과 재사용과 전달 뒤 재생성 |
-| `.../AudioWorkletRealtimeTest` | 5 | 실시간: 분석기가 사인을 봄, 프레임 계수가 정확히 128 씩이고 시계를 따라감, 느린 `process` 의 시간 한도, **바쁜 worklet 이 렌더링 스레드를 붙잡지 않음**, 오프라인은 바쁜 worklet 을 기다림, 비용 측정 |
+| `.../AudioWorkletRealtimeTest` | 6 | 실시간: 분석기가 사인을 봄, 프레임 계수가 128 의 양의 배수로 늘고 건너뜀은 드물며(25 % 이하) 시계를 느슨하게 따라감, 느린 `process` 의 시간 한도, **바쁜 worklet 이 렌더링 스레드를 붙잡지 않음**, 오프라인은 바쁜 worklet 을 기다림, 비용 측정(단일 프로세서: 느슨한 하한 0.1 배, 가장 빠른 것 최대 3번), 여러 프로세서의 비용(출력만). 몹시 바쁜 컴퓨터에서는 두 비용 시험이 이유를 밝히고 건너뜀. 벽시계 단언의 완화는 4.2절 |
 | `.../AudioWorkletLifecycleTest` | 6 | 스레드 시작/종료(close, 오프라인 완료, 페이지 폐기), 페이지 20개 반복, 폐기된 페이지에는 아무것도 안 닿음, **모듈을 가져오는 중 페이지 교체**(요청 취소) |
 | `.../AudioWorkletComponentTest` | 3 | 실제 `SwingWebPanel` + 실제 HTTP 서버: User-Agent/추가 헤더/쿠키, 리디렉션 뒤 상대 import, MIME(`text/plain` 거부), CORS, 콘솔이 EDT 로, 페이지 교체/clean/JS 끔/dispose 때 스레드 종료 |
 
@@ -92,7 +92,7 @@ JavaScript 쪽(`src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/`):
 | 명령 | 결과 |
 | --- | --- |
 | `sh scripts/pkgtest.sh wd1 "media" "media/webaudio" --filter org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNodeTest` | 13 통과 / 0 실패 |
-| `sh scripts/pkgtest.sh wd1 "js dom html css net storage core content layout render download media @root" "js/host/webaudio" --filter org.duckdns.hjow.swingwebpanel.js.host.webaudio` | **137 통과 / 0 실패 / 0 건너뜀**(약 59 초; coordinator 의 rebase 로 C2b 시험이 더해진 뒤): C1/C2b 의 90건 + 이번 47건. worklet 시험만(`...js.host.webaudio.worklet`)은 47 통과. 같은 명령을 다른 작업자가 컴퓨터를 쓰는 동안 돌렸을 때 C1 의 시간 민감한 시험 `WebAudioLifecycleTest`(`testResultsAreTasksOfThePage`, `testConsoleAndErrorsFromHandlers`, `testDisposeCancelsAnOfflineRendering`)가 번갈아 한두 건 실패했다가 다시 돌리면 통과했다(worklet 과 무관한 타이밍 시험, 부하 때문으로 보인다. 원인을 파고들지는 않았다) |
+| `sh scripts/pkgtest.sh wd1 "js dom html css net storage core content layout render download media @root" "js/host/webaudio" --filter org.duckdns.hjow.swingwebpanel.js.host.webaudio` | **137 통과 / 0 실패 / 0 건너뜀**(20261122-367 시점, 약 59 초; coordinator 의 rebase 로 C2b 시험이 더해진 뒤): C1/C2b 의 90건 + worklet 47건. 이후(20261122-368, 4.2절) worklet 시험이 48건이 되어 `...js.host.webaudio.worklet` 은 **48 통과 / 0 실패 / 0 건너뜀**(약 32 초). 같은 명령을 다른 작업자가 컴퓨터를 쓰는 동안 돌렸을 때 C1 의 시간 민감한 시험 `WebAudioLifecycleTest`(`testResultsAreTasksOfThePage`, `testConsoleAndErrorsFromHandlers`, `testDisposeCancelsAnOfflineRendering`)가 번갈아 한두 건 실패했다가 다시 돌리면 통과했다(worklet 과 무관한 타이밍 시험, 부하 때문으로 보인다. 원인을 파고들지는 않았다) |
 | `media.webaudio` 전체(엔진 A1/A2/B/C2a + 새 13건, pkgtest 컴파일 뒤 `TestRunner --scan ... --filter org.duckdns.hjow.swingwebpanel.media.webaudio`) | 344 통과 / 0 실패 / 0 건너뜀 |
 | `sh build.sh` | OK(엔진/브라우저 경계 검사 통과) |
 | `StaticStateAuditTest`, `ThreadCreationAuditTest`, `JarContentTest`, `BrowserJarsTest`(빌드한 JAR 위에서) | 각각 통과 |
@@ -114,12 +114,38 @@ JavaScript 쪽(`src/org/duckdns/hjow/swingwebpanel/js/host/webaudio/`):
 | `WorkletScope.evaluate`: 모듈 평가 중 예외를 resolve 하지 않고 reject(`AbortError`) | `AudioWorkletModulesTest.testAnExceptionWhileTheModuleRunsResolves`(20261122-367) |
 | 모듈 import 를 리디렉션 뒤 최종 주소가 아니라 처음 주소로 해석 | `AudioWorkletComponentTest.testAModuleThroughTheRequestLayer` |
 | 실시간에서 `tryLock(2 ms)` 대신 `lock()`(블로킹) | `AudioWorkletRealtimeTest.testABusyWorkletDoesNotHoldTheRenderingThread`("skipped for 1.0 quanta", 150 기대) |
+| 비용 측정의 하한 `MINIMUM_TIMES_REAL_TIME` 0.1 → 50(하한이 살아 있는지) | `AudioWorkletRealtimeTest.testTheCostOfAProcessor`("renders at 0.1 x real time or faster ...: 32.9 x", 20261122-368) |
+| 비용 측정의 게인 0.5 → 0.4(잰 렌더링이 일을 했는지 보는 마지막 표본 검사) | `AudioWorkletRealtimeTest.testTheCostOfAProcessor`("the last sample of the rendering that was measured (expected 0.5 ... was 0.4)", 20261122-368) |
+
+### 4.2 벽시계에 달린 시험 단언의 완화 (20261122-368, 조정자 요청)
+
+**계기**: 조정자의 전체 회귀(50f399c)에서 `AudioWorkletRealtimeTest.testTheCostOfAProcessor` 한 건이 실패했다("one simple processor (gain) renders at least as fast as real time: 0.8 x"). 이 PC 에 다른 작업이 돌아 부하가 큰 때였고, 이 시험은 게인 프로세서의 10 초 렌더링이 실시간의 1배 이상이어야 한다고 벽시계로 단언했다(한가할 때 6~8배).
+
+**선택과 근거** (조정자가 제시한 세 가지 중):
+- **채택: 느슨한 하한 + 가장 빠른 값**. 단언은 실시간의 **0.1 배**(`MINIMUM_TIMES_REAL_TIME`)뿐이고(10 초 분량을 100 초 안에 렌더링), 단일 프로세서는 최대 3번(`MAXIMUM_ATTEMPTS`) 재서 가장 빠른 값을 쓴다(실시간에 이르면 바로 멈추고, 20 초의 예산(`RETRY_BUDGET_MILLIS`)이 다하면 되풀이하지 않는다). 속도는 계속 출력한다. 0.1 배는 멈춤이나 한 자릿수 이상의 퇴보를 잡지만 바쁜 컴퓨터는 잡지 않는다. 한가한 컴퓨터의 측정이 6~12배(빈 프로세서는 90~2000배)이므로 하한은 그 60 분의 1 이다. 하한이 살아 있음은 변이(0.1 → 50)로 확인했다(4.1절).
+- **채택하지 않음: `ThreadMXBean.getCurrentThreadCpuTime()`**. 렌더링은 시험이 소유하지 않은 엔진의 스레드(오프라인 렌더링 스레드)에서 돌아 시험 스레드의 CPU 시간으로는 잴 수 없고, 그 스레드를 찾아 재려면 스레드 이름에 기대야 하며 스레드 CPU 시간의 지원은 JVM 선택 사항이다.
+- **추가로, 잰 렌더링이 일을 했는지** 마지막 표본으로 확인한다(게인은 0.5 × 노드 수, 빈 프로세서는 0). 아무것도 하지 않은 렌더링이 빠르다고 측정되지 않게 한다(변이 0.5 → 0.4 로 확인, 4.1절).
+- **너무 바쁜 컴퓨터에서는 건너뛴다**(이유를 밝힌 `Check.skip`, 실패가 아니다): 시험 실행기의 사례별 제한 시간은 60 초인데 부하가 심하면 렌더링 하나가 그 시간을 넘긴다. 빈 프로세서가 실시간의 5배(`MINIMUM_EMPTY_TIMES_REAL_TIME`; 한가할 때 90배 이상)보다 느리면 `testTheCostOfAProcessor` 는 나머지를 재지 않고 건너뛰며, 새 시험 `testTheCostOfSeveralProcessors`(게인 4개와 8개, 속도는 출력만)는 빈 프로세서가 5배보다, 또는 게인 하나가 2배(`MINIMUM_TIMES_FOR_SEVERAL`)보다 느리면 건너뛴다. 여러 프로세서의 측정을 별도 시험으로 뗀 것은 그 측정이 한가한 컴퓨터에서도 15 초 걸려 단언이 있는 시험의 제한 시간을 먹기 때문이다.
+
+**같은 방식으로 완화한 다른 시험(`AudioWorklet*` 시험을 훑은 결과)**:
+- `AudioWorkletRealtimeTest.testTheAudioOfAProcessorInARealTimeContext`: 프레임 계수가 "정확히 128 씩" 늘어야 한다는 단언은 worklet 스레드가 realm 의 잠금을 쥔 채 스케줄에서 밀리면(렌더링 스레드는 2 ms 만 기다리고 포기한다) 부하에서 깨질 수 있다. 이제 모든 차이가 128 의 양의 배수여야 하고(결정적), 정확히 128 이 아닌 호출은 **25 % 이하**(`MAXIMUM_SKIPPED_SHARE`)여야 한다. 시계 검사의 아래쪽은 0.4 배에서 0.1 배로 낮췄다(대기 시간에는 폴링의 지연도 들어 있다). 위쪽(`2 t + 0.5 s`, 실시간보다 훨씬 빠르게 렌더링하지 않음)은 부하에 흔들리지 않아 그대로이다.
+- `testASlowProcessorIsStopped`: 300 ms 고정 창 뒤에 `currentTime` 이 0.1 초 앞섰는지 보던 것을, 앞서기를 최대 30 초까지 기다리는 방식으로 바꿨다.
+- `testABusyWorkletDoesNotHoldTheRenderingThread`: 건너뛴 quantum 수의 위쪽 한도를 400(약 1 초)에서 2000(약 5 초)으로 올렸다("다시 재생한다"가 요지이고, 멈춘 realm 은 어차피 `waitFor` 에서 걸린다). 아래쪽 한도 40(기대 150의 27 %)은 그대로이다.
+- `AudioWorkletComponentTest.testTheThreadsEndWithThePage`: 400 ms 뒤에 `rt.currentTime > 0.05` 이던 것을 `> 0`(시간이 흘렀다)으로 낮췄다.
+- 그 밖의 `Date.now()`/`currentTimeMillis` 사용은 제한 시간(기다리는 상한)이거나 "시간 안에 끝났다"를 넉넉히 보는 것(`< 30000`, `< 12000`)이거나 출력뿐이다. "닫힌 컨텍스트의 프로세서는 더 이상 불리지 않는다" 같은 부재 확인은 부하가 클수록 통과하기 쉬우므로 그대로 두었다.
+
+**부하에서의 확인** (JDK 6u45, 4코어 PC 에 CPU 를 먹는 perl 8개를 동시에 돌림. 아주 극단적인 부하이다):
+- 중간 단계의 코드(하한 0.1 과 3번 재기만 하고 건너뛰기는 없던 것)는 이 부하에서 비용 시험이 60 초 제한 시간으로 실패했다(`TIMEOUT`). 완화 전의 원래 코드(하한 1.0 배)를 이 부하에서 돌려 보지는 않았다(조정자의 실패가 그 코드의 같은 종류의 실패이다).
+- 완화 후 `AudioWorkletRealtimeTest` 만 돌리면 **4 통과 / 0 실패 / 2 건너뜀**(두 비용 시험이 "너무 바쁜 컴퓨터" 이유로 건너뜀. 빈 프로세서가 0.9~1.8 배였음). 실시간 시험은 모두 통과했고 `testABusyWorkletDoesNotHoldTheRenderingThread` 가 38~55 초 걸렸다(60 초 제한에 가깝다; 한가하면 3 초). worklet 시험 전체를 같은 부하에서 한 번 돌렸을 때(비용 시험을 건너뛰게 고치기 전 코드)는 46 통과 / 1 실패(비용 시험의 제한 시간) / 1 건너뜀이었고, 비용 시험 말고는 전부 통과했다.
+- 한가한 컴퓨터에서는 `AudioWorkletRealtimeTest` 6 통과 / 0 실패 / 0 건너뜀, worklet 시험 전체 48 통과 / 0 실패 / 0 건너뜀.
+
+**관찰(이 작업의 범위 밖, 원인을 파지 않음)**: 이 극단적인 부하에서는 worklet 이 없는 내장 노드(오실레이터 + 게인)만의 오프라인 10 초 렌더링도 4.8~16 초가 걸렸다(한가할 때 28~50 ms, 100~300배 느려짐). 곧 이 느려짐은 worklet 이 아니라 오프라인 렌더링 경로(C1/C2) 또는 시험 도우미(`WorkletPage` 가 페이지 작업을 2 ms 간격으로 폴링해 돌린다)가 코어 수보다 많은 프로세스와 경쟁할 때 스레드가 넘어갈 때마다 스케줄러 한 칸(약 15 ms)을 기다리기 때문으로 보이며, 이 구현의 렌더링 경로에 quantum 마다 스레드를 넘기는 곳이 있는지는 조정자가 볼 만하다. worklet 호출 경로 자체(`WorkletScope.runProcessor`)에는 오프라인에서 quantum 마다 스레드를 넘기는 곳이 없다(렌더링 스레드가 잠금을 쥐고 직접 실행한다).
 
 ## 5. 측정 (JDK 6u45, 공용 4코어 PC, 다른 작업자가 같이 돌 수 있는 상태라 참고용)
 
 **엔진만(브라우저 없이 `JsRealm` 에서 `process` 흉내를 직접 호출, 워밍업 뒤)**: 빈 `process` 5.8 us, 128 프레임 이득 루프 280 us, 사인(`Math.sin`+위상) 248 us, 백색 잡음(`Math.random`) 195 us.
 
-**프로세서 호출 전체(오프라인 10초 @ 48 kHz = 3750 quantum, `AudioWorkletRealtimeTest.testTheCostOfAProcessor`)**:
+**프로세서 호출 전체(오프라인 10초 @ 48 kHz = 3750 quantum, `AudioWorkletRealtimeTest.testTheCostOfAProcessor` 와 게인 4개/8개는 `testTheCostOfSeveralProcessors`; 아래 표는 20261122-368 이전에 잰 값이고 이후 몇 번 다시 잰 값도 같은 범위였다: 게인 6.0~8.2배, 사인 8.6~9.7배, 잡음 9.8~12.3배, 게인 4개 2.0~2.2배, 8개 1.0배)**:
 
 | 프로세서 | 10 초 렌더링 시간 | 실시간 대비 | quantum 당 노드 하나 |
 | --- | --- | --- | --- |
