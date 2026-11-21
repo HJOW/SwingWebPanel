@@ -21,9 +21,9 @@ public enum ChannelCountMode {
      */
     CLAMPED_MAX("clamped-max"),
     /**
-     * Exactly <code>channelCount</code>.
+     * Exactly the number of channels that <code>channelCount</code> gives.
      * <p>
-     * 정확히 <code>channelCount</code>.
+     * 정확히 <code>channelCount</code> 가 정하는 채널 수.
      */
     EXPLICIT("explicit");
 

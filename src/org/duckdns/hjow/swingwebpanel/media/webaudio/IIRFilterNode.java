@@ -59,6 +59,7 @@ public final class IIRFilterNode extends AudioNode {
                 allZero = false;
             }
         }
+        // 피드백 계수도 모두 유한한지 확인한다.
         for (int i = 0; i < feedback.length; i++) {
             if (Double.isNaN(feedback[i]) || Double.isInfinite(feedback[i])) {
                 throw new AudioException(AudioException.Kind.TYPE, "feedback[" + i + "] is not finite");

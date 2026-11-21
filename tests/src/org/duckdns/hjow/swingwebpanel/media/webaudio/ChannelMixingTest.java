@@ -46,6 +46,7 @@ public class ChannelMixingTest {
         AudioBus dst = new AudioBus(outChannels, 1);
         ChannelMixing.mix(src, dst, interpretation, false);
         double[] out = new double[outChannels];
+        // 출력 채널의 값을 읽는다.
         for (int c = 0; c < outChannels; c++) {
             out[c] = dst.channel(c)[0];
         }

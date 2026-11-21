@@ -164,6 +164,7 @@ public final class OscillatorNode extends AudioScheduledSourceNode {
         for (int i = 0; i < first; i++) {
             out[i] = 0f;
         }
+        // 정지 이후의 프레임도 0 으로 채운다.
         for (int i = end; i < frames; i++) {
             out[i] = 0f;
         }

@@ -67,11 +67,13 @@ public class IIRFilterNodeTest {
         double[] y = new double[500];
         for (int n = 0; n < 500; n++) {
             double acc = 0;
+            // 프레임마다 피드포워드 항을 더한다.
             for (int k = 0; k < ff.length; k++) {
                 if (n - k >= 0) {
                     acc += ff[k] * io[0][n - k];
                 }
             }
+            // 피드백 항을 뺀다.
             for (int k = 1; k < fb.length; k++) {
                 if (n - k >= 0) {
                     acc -= fb[k] * y[n - k];
@@ -100,6 +102,7 @@ public class IIRFilterNodeTest {
         // 차분 방정식으로 기대값을 만든다.
         for (int n = 0; n < 300; n++) {
             double acc = 0;
+            // 피드포워드와 피드백 항을 함께 계산한다.
             for (int k = 0; k < 20; k++) {
                 if (n - k >= 0) {
                     acc += ff[k] * io[0][n - k];

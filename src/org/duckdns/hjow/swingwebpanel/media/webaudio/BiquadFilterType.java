@@ -5,7 +5,7 @@ import org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.BiquadCoefficients;
 /**
  * The <code>BiquadFilterType</code> of a {@link BiquadFilterNode} (Web Audio API 1.13).
  * <p>
- * {@link BiquadFilterNode} 의 <code>BiquadFilterType</code>(Web Audio API 1.13).
+ * {@link BiquadFilterNode} 의 필터 종류 <code>BiquadFilterType</code>(Web Audio API 1.13).
  */
 public enum BiquadFilterType {
     /**

@@ -217,6 +217,7 @@ public class BiquadFilterNodeTest {
         double y1 = 0;
         double y2 = 0;
         // a0 y(n) + a1 y(n-1) + a2 y(n-2) = b0 x(n) + b1 x(n-1) + b2 x(n-2)
+        // 프레임마다 차분 방정식을 풀어 비교한다.
         for (int i = 0; i < n; i++) {
             double x = noise.getChannelData(0)[i];
             double y = (b0 * x + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2) / a0;
@@ -314,6 +315,7 @@ public class BiquadFilterNodeTest {
                 f.getGain().setValue(20f);
                 constantThrough(c, f, 1f);
                 float[] o = WebAudioTestKit.render(c);
+                // 출력의 모든 프레임이 유한한 값인지 확인한다.
                 for (int i = 0; i < 256; i++) {
                     Check.isTrue(!Float.isNaN(o[i]) && !Float.isInfinite(o[i]), types[t] + " " + settings[s][0] + "/" + settings[s][1] + " frame " + i);
                 }

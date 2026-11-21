@@ -70,6 +70,7 @@ public final class IirFilter {
         for (int i = 0; i < b.length; i++) {
             b[i] = feedforward[i] / a0;
         }
+        // 피드백 계수도 a[0] 로 나눈다.
         for (int i = 0; i < a.length; i++) {
             a[i] = feedback[i] / a0;
         }
@@ -144,9 +145,11 @@ public final class IirFilter {
             double x = in[i];
             xh[p & mask] = x;
             double acc = 0.0;
+            // 입력 이력에서 피드포워드 항을 더한다.
             for (int m = 0; m < b.length; m++) {
                 acc += b[m] * xh[(p - m) & mask];
             }
+            // 출력 이력에서 피드백 항을 뺀다(a[0] 항은 제외).
             for (int n = 1; n < a.length; n++) {
                 acc -= a[n] * yh[(p - n) & mask];
             }
@@ -183,12 +186,14 @@ public final class IirFilter {
             double omega = 2 * Math.PI * f / sampleRate;
             double numR = 0;
             double numI = 0;
+            // 분자 다항식을 단위원 위의 점에서 계산한다.
             for (int m = 0; m < b.length; m++) {
                 numR += b[m] * Math.cos(omega * m);
                 numI -= b[m] * Math.sin(omega * m);
             }
             double denR = 0;
             double denI = 0;
+            // 분모 다항식을 같은 점에서 계산한다.
             for (int j = 0; j < a.length; j++) {
                 denR += a[j] * Math.cos(omega * j);
                 denI -= a[j] * Math.sin(omega * j);
@@ -223,9 +228,11 @@ public final class IirFilter {
             int p = (int) (i & 0x7fffffff);
             xh[p & mask] = i == 0 ? 1.0 : 0.0;
             double acc = 0.0;
+            // 입력 이력에서 피드포워드 항을 더한다.
             for (int m = 0; m < b.length; m++) {
                 acc += b[m] * xh[(p - m) & mask];
             }
+            // 출력 이력에서 피드백 항을 뺀다.
             for (int n = 1; n < a.length; n++) {
                 acc -= a[n] * yh[(p - n) & mask];
             }

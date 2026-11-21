@@ -533,17 +533,21 @@ public abstract class BaseAudioContext {
         ArrayList<AudioNode> list = new ArrayList<AudioNode>();
         HashSet<AudioNode> seen = new HashSet<AudioNode>();
         add(destination, list, seen);
+        // 붙잡은 노드도 처리 대상에 넣는다.
         for (AudioNode n : pinned) {
             add(n, list, seen);
         }
         // 목적지와 붙잡은 노드에서 연결을 따라 앞으로 도달할 수 있는 노드를 넓이 우선으로 모은다.
         for (int i = 0; i < list.size() && list.size() <= WebAudioLimits.MAX_ACTIVE_NODES; i++) {
             AudioNode n = list.get(i);
+            // 노드의 출력마다 연결된 대상을 살핀다.
             for (int o = 0; o < n.outputs.length; o++) {
                 AudioNodeOutput out = n.outputs[o];
+                // 이 출력을 읽는 입력의 노드를 더한다.
                 for (int k = 0; k < out.inputTargets.size(); k++) {
                     add(out.inputTargets.get(k).node, list, seen);
                 }
+                // 이 출력이 구동하는 파라미터를 가진 노드를 더한다.
                 for (int k = 0; k < out.paramTargets.size(); k++) {
                     AudioNode owner = out.paramTargets.get(k).getOwner();
                     if (owner != null) {

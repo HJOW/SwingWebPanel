@@ -48,6 +48,7 @@ public class FftTest {
         double[] re = new double[n];
         double[] im = new double[n];
         // x[i] = cos(2 pi 3 i / N) + sin(2 pi 5 i / N)
+        // 입력을 코사인과 사인의 합으로 채운다.
         for (int i = 0; i < n; i++) {
             re[i] = Math.cos(2 * Math.PI * 3 * i / n) + Math.sin(2 * Math.PI * 5 * i / n);
         }

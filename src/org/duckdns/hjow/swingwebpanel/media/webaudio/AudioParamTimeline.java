@@ -453,6 +453,7 @@ final class AudioParamTimeline {
         // 프레임마다 그 시간의 값을 계산한다. 이벤트 커서는 앞으로만 나아간다.
         for (int j = 0; j < frames; j++) {
             t = (startFrame + j) / sampleRate;
+            // 이벤트 커서를 이번 프레임 시간까지 앞으로 보낸다.
             while (i + 1 < n && events.get(i + 1).time <= t) {
                 i++;
             }

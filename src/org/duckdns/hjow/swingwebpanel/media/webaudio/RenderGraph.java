@@ -94,14 +94,17 @@ final class RenderGraph {
             }
         }
         ArrayList<Integer>[] adj = new ArrayList[m];
+        // 후보 노드마다 번호를 매기고 상태를 초기화한다.
         for (int i = 0; i < m; i++) {
             adj[i] = new ArrayList<Integer>();
         }
         // 공급하는 노드에서 공급받는 노드로 가는 변을 만든다(입력과 파라미터 모두).
         for (int j = 0; j < m; j++) {
             AudioNode n = candidates.get(j);
+            // 노드의 입력마다 연결된 출력을 살핀다.
             for (int in = 0; in < n.inputs.length; in++) {
                 ArrayList<AudioNodeOutput> srcs = n.inputs[in].sources;
+                // 입력에 연결된 출력의 노드에서 이 노드로 변을 만든다.
                 for (int k = 0; k < srcs.size(); k++) {
                     Integer s = index.get(srcs.get(k).node);
                     if (s != null) {
@@ -110,6 +113,7 @@ final class RenderGraph {
                 }
             }
         }
+        // 노드마다 파라미터의 연결을 변으로 만든다.
         for (int j = 0; j < m; j++) {
             AudioNode n = candidates.get(j);
             addParamEdges(n, j, index, adj, null);
@@ -123,6 +127,7 @@ final class RenderGraph {
             boolean cycle = comp.length > 1 || adj[comp[0]].contains(Integer.valueOf(comp[0]));
             if (cycle) {
                 any = true;
+                // 순환에 속한 노드를 모두 표시한다.
                 for (int k = 0; k < comp.length; k++) {
                     cyclic[comp[k]] = true;
                 }
@@ -158,6 +163,7 @@ final class RenderGraph {
         // 파라미터마다 그것을 구동하는 출력의 노드에서 변을 만든다.
         for (int p = 0; p < params.size(); p++) {
             ArrayList<AudioNodeOutput> srcs = params.get(p).sources;
+            // 파라미터에 연결된 출력의 노드를 하나씩 본다.
             for (int k = 0; k < srcs.size(); k++) {
                 Integer s = index.get(srcs.get(k).node);
                 if (s != null) {
@@ -196,14 +202,17 @@ final class RenderGraph {
             }
         }
         ArrayList<Integer>[] adj = new ArrayList[total];
+        // 정점마다 빈 인접 목록을 만든다.
         for (int i = 0; i < total; i++) {
             adj[i] = new ArrayList<Integer>();
         }
         // 오디오 입력 변: 나뉜 지연 노드의 출력은 읽기 정점에서 나오고, 입력은 쓰기 정점(원래 정점)으로 들어간다.
         for (int j = 0; j < m; j++) {
             AudioNode n = candidates.get(j);
+            // 노드의 입력마다 연결된 출력을 살핀다.
             for (int in = 0; in < n.inputs.length; in++) {
                 ArrayList<AudioNodeOutput> srcs = n.inputs[in].sources;
+                // 읽기 정점으로 나뉜 노드이면 변은 읽기 정점에서 나온다.
                 for (int k = 0; k < srcs.size(); k++) {
                     Integer s = index.get(srcs.get(k).node);
                     if (s != null) {
@@ -228,6 +237,7 @@ final class RenderGraph {
             if (!cycle) {
                 continue;
             }
+            // 순환에 속한 정점의 노드를 무음 처리한다.
             for (int k = 0; k < comp.length; k++) {
                 int node = comp[k] < m ? comp[k] : readerOwners.get(comp[k] - m).intValue();
                 if (!mutedNode[node]) {
@@ -258,6 +268,7 @@ final class RenderGraph {
         }
         AudioNode[] nodeArray = nodes.toArray(new AudioNode[nodes.size()]);
         int[] phaseArray = new int[phases.size()];
+        // 단계 종류 목록을 int 배열로 옮긴다.
         for (int i = 0; i < phaseArray.length; i++) {
             phaseArray[i] = phases.get(i).intValue();
         }
@@ -284,6 +295,7 @@ final class RenderGraph {
         // 정점마다 목록을 배열로 바꾼다.
         for (int v = 0; v < adj.length; v++) {
             out[v] = new int[adj[v].size()];
+            // 인접 목록의 값을 배열로 옮긴다.
             for (int k = 0; k < out[v].length; k++) {
                 out[v][k] = adj[v].get(k).intValue();
             }
@@ -324,6 +336,7 @@ final class RenderGraph {
             stack[top++] = s;
             onStack[s] = true;
             depth = 1;
+            // 호출 스택이 빌 때까지 정점을 처리한다.
             while (depth > 0) {
                 int v = callVertex[depth - 1];
                 if (callNext[depth - 1] < adj[v].length) {
@@ -343,6 +356,7 @@ final class RenderGraph {
                     if (low[v] == number[v]) {
                         int size = 0;
                         int k = top;
+                        // 스택에서 v 까지의 정점 수를 센다.
                         while (stack[--k] != v) {
                             size++;
                         }

@@ -59,10 +59,12 @@ public final class GainNode extends AudioNode {
             float[] src = in.channel(c);
             float[] dst = out.channel(c);
             if (constant) {
+                // 이득이 일정하면 같은 값을 곱한다.
                 for (int i = 0; i < frames; i++) {
                     dst[i] = src[i] * g;
                 }
             } else {
+                // 이득이 프레임마다 다르면 프레임별 값을 곱한다.
                 for (int i = 0; i < frames; i++) {
                     dst[i] = src[i] * gains[i];
                 }

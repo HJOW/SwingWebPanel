@@ -210,6 +210,7 @@ public class DelayNodeTest {
         b.setBuffer(stereo);
         b.connect(d);
         b.start(0);
+        // 렌더링이 끝날 때까지 quantum 을 하나씩 렌더링한다.
         while (!ctx.isComplete()) {
             ctx.renderNextQuantum();
         }

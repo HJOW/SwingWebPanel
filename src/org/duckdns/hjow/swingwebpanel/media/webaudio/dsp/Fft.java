@@ -105,7 +105,9 @@ public final class Fft {
         for (int len = 2; len <= n; len <<= 1) {
             int half = len >> 1;
             int step = n / len;
+            // 구간 안의 나비 연산을 계산한다.
             for (int start = 0; start < n; start += len) {
+                // 나비 연산의 두 점을 회전 인자로 계산한다.
                 for (int k = 0; k < half; k++) {
                     double wr = cos[k * step];
                     double wi = sign * sin[k * step];

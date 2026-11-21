@@ -206,6 +206,7 @@ public final class DelayNode extends AudioNode {
             AudioBus next = new AudioBus(inChannels, lineLength);
             ChannelMixing.mix(old, next, getChannelInterpretation(), false);
             line = new float[inChannels][];
+            // 새 배치의 채널 배열로 바꾼다.
             for (int c = 0; c < inChannels; c++) {
                 line[c] = next.channel(c);
             }
@@ -239,6 +240,7 @@ public final class DelayNode extends AudioNode {
             float[] from = src.channel(c);
             float[] to = line[c];
             int w = writeIndex;
+            // 프레임을 원형 버퍼에 쓴다. 끝에 닿으면 처음으로 돌아간다.
             for (int i = 0; i < frames; i++) {
                 to[w] = from[i];
                 if (++w == lineLength) {
@@ -279,6 +281,7 @@ public final class DelayNode extends AudioNode {
             double frac = pos - floor;
             int i0 = (int) (((long) floor % lineLength + lineLength) % lineLength);
             int i1 = i0 + 1 == lineLength ? 0 : i0 + 1;
+            // 채널마다 보간한 샘플을 출력한다.
             for (int c = 0; c < channels; c++) {
                 float[] l = line[c];
                 out.channel(c)[i] = frac == 0.0 ? l[i0] : (float) (l[i0] + (l[i1] - l[i0]) * frac);
@@ -324,6 +327,7 @@ public final class DelayNode extends AudioNode {
                 // 출력에 무음이 아닌 샘플이 하나라도 있는지 본다.
                 for (int c = 0; c < out.getNumberOfChannels() && !loud; c++) {
                     float[] s = out.channel(c);
+                    // 프레임마다 문턱 이상인 샘플이 있는지 본다.
                     for (int i = 0; i < frames; i++) {
                         if (Math.abs(s[i]) >= threshold) {
                             loud = true;

@@ -223,6 +223,7 @@ public abstract class AudioNode {
         for (int i = 0; i < numberOfInputs; i++) {
             inputs[i] = new AudioNodeInput(this, i, q);
         }
+        // 출력 객체를 미리 만들어 둔다.
         for (int i = 0; i < numberOfOutputs; i++) {
             outputs[i] = new AudioNodeOutput(this, i, q);
         }

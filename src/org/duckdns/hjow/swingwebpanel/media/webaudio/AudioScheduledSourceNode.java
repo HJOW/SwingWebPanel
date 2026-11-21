@@ -110,6 +110,7 @@ public abstract class AudioScheduledSourceNode extends AudioNode {
         while (f > 0 && (f - 1) / sampleRate >= time) {
             f--;
         }
+        // 이 프레임이 시간보다 이르면 한 프레임 뒤로 옮긴다.
         while (f / sampleRate < time) {
             f++;
         }

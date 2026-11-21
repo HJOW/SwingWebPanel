@@ -66,6 +66,7 @@ public class OscillatorNodeTest {
         // 표의 점마다 부분음 1 ~ 1023 을 더한다.
         for (int i = 0; i < n; i++) {
             double x = 0;
+            // 부분음 1 ~ 1023 의 사인 항을 더한다.
             for (int k = 1; k < n / 2; k++) {
                 x += coefficient(type, k) * Math.sin(2 * Math.PI * k * i / n);
             }
@@ -334,6 +335,7 @@ public class OscillatorNodeTest {
             float[] out = render(type, 100f, 800);
             final double norm = 1.0 / seriesMax(type);
             int checked = 0;
+            // 프레임마다 이상적인 값과 허용 오차를 비교한다.
             for (int i = 80; i < 800; i++) {
                 double p = (i % 80) / 80.0;
                 double ideal;
