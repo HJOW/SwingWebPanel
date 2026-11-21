@@ -78,6 +78,28 @@ final class WebAudioPage {
     }
 
     /**
+     * Runs the tasks of the page for a time (to give other threads time to deliver what they produce, or to show that nothing comes).
+     * <p>
+     * 페이지의 작업을 일정 시간 동안 실행한다(다른 스레드가 만든 것을 전달할 시간을 주거나, 아무것도 오지 않음을 보이기 위해).
+     *
+     * @param ms the time in milliseconds / 시간(밀리초)
+     */
+    void pumpFor(long ms) {
+        long end = System.currentTimeMillis() + ms;
+        // 정해진 시간 동안 작업을 실행하며 짧게 쉰다.
+        while (System.currentTimeMillis() < end) {
+            pump();
+            try {
+                Thread.sleep(2);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                Check.fail("interrupted");
+            }
+        }
+        pump();
+    }
+
+    /**
      * Waits until a script expression is true, running the tasks of the page meanwhile.
      * <p>
      * 스크립트 식이 참이 될 때까지 기다린다. 그동안 페이지의 작업을 실행한다.
@@ -91,7 +113,7 @@ final class WebAudioPage {
         // 식이 참이 될 때까지(최대 timeoutMs) 작업을 실행하며 짧게 쉰다.
         for (;;) {
             pump();
-            if ("true".equals(run("String(" + condition + ")"))) {
+            if ("true".equals(run("String(!!(" + condition + "))"))) {
                 return;
             }
             if (System.currentTimeMillis() > end) {
