@@ -222,6 +222,27 @@ public final class AudioBufferSourceNode extends AudioScheduledSourceNode {
     }
 
     /**
+     * Replaces the content that the node plays by an acquired copy (Web Audio API 1.4.3, "acquire the content"). The script layer owns the rule that a
+     * script can set its <code>buffer</code> once and keeps its own array that the script may change; whenever the content is acquired (when
+     * <code>start</code> is called, or when the buffer is set after that) it hands a snapshot of the data to this method, so the node plays the data of
+     * that moment even if the script changes the array later. Unlike {@link #setBuffer} it can be called again and has no once-only rule. The snapshot
+     * must not be changed by the caller afterwards (the rendering thread reads it); share it only with other readers.
+     * <p>
+     * 노드가 재생하는 내용을 가져온(acquire) 복사본으로 바꾼다(Web Audio API 1.4.3, "acquire the content"). 스크립트가 <code>buffer</code> 를 한 번만 정할 수 있다는
+     * 규칙과 스크립트가 바꿀 수 있는 자기 배열은 스크립트 계층이 맡는다. 내용을 가져오는 순간(<code>start</code> 를 부를 때, 또는 그 뒤에 버퍼를 정할 때) 그 순간의
+     * 데이터 스냅샷을 이 메서드에 넘기므로, 스크립트가 나중에 배열을 바꿔도 노드는 그 순간의 데이터를 재생한다. {@link #setBuffer} 와 달리 다시 부를 수 있고 한 번만
+     * 정한다는 규칙이 없다. 호출자는 스냅샷을 나중에 바꾸면 안 된다(렌더링 스레드가 읽는다). 읽기만 하는 다른 쪽과만 공유한다.
+     *
+     * @param snapshot the content to play, or null for none / 재생할 내용. 없으면 null
+     */
+    public synchronized void acquireBuffer(AudioBuffer snapshot) {
+        if (snapshot != null) {
+            bufferSet = true;
+        }
+        buffer = snapshot;
+    }
+
+    /**
      * Tells whether the region is repeated.
      * <p>
      * 구간을 반복하는지 알려 준다.
