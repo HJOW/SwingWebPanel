@@ -326,6 +326,8 @@ final class NodeApi {
      */
     NodeValue wrap(ContextValue c, AudioNode node) {
         final NodeValue v = new NodeValue(c, node);
+        // 컨텍스트가 스크립트에 닿을 수 없게 되었는지 알 수 있도록 노드의 스크립트 객체를 약하게 기억한다(같은 객체를 곧 스크립트가 받는다).
+        c.trackNodeWrapper(bridge.wrap(v));
         if (node instanceof AudioScheduledSourceNode) {
             // 원천이 끝나면 렌더링 스레드가 작업 싱크로 알리고, 페이지의 작업에서 ended 이벤트를 발생시킨다.
             ((AudioScheduledSourceNode) node).setEndedListener(new Runnable() {

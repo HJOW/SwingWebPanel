@@ -502,29 +502,67 @@ public final class WebAudioApi {
     // ---------------------------------------------------------------------------------------------------------------------------------
 
     /**
-     * Enters a new context into the list of the open contexts, checking the limits of the page.
+     * Enters a new context into the list of the open contexts, checking the limits of the page. When a real-time context finds the limit reached, the page first gives up the real-time
+     * contexts that nobody can use any more: those that are suspended and whose script objects (and those of their nodes) were collected (see {@link ContextValue#isAbandoned()}); their
+     * rendering threads and outputs end. A running context is never given up, as it can make sound (a browser keeps it alive until it is closed, too), so a script that creates a context
+     * per sound and never closes it still hits the limit, as in a browser.
      * <p>
-     * 새 컨텍스트를 열린 컨텍스트 목록에 넣으며 페이지의 한도를 검사한다.
+     * 새 컨텍스트를 열린 컨텍스트 목록에 넣으며 페이지의 한도를 검사한다. 실시간 컨텍스트가 한도에 닿은 것을 보면 페이지는 먼저 아무도 더는 쓸 수 없는 실시간 컨텍스트를 포기한다: 멈춰 있고
+     * 스크립트 객체(와 노드의 스크립트 객체)가 수거된 것이다({@link ContextValue#isAbandoned()} 참고). 그 렌더링 스레드와 출력이 끝난다. 실행 중인 컨텍스트는 소리를 낼 수 있으므로 포기하지
+     * 않는다(브라우저도 닫힐 때까지 살려 둔다). 그래서 소리마다 컨텍스트를 만들고 닫지 않는 스크립트는 브라우저에서처럼 여전히 한도에 닿는다.
      *
      * @param c the context / 컨텍스트
      * @throws AudioException <code>NotSupportedError</code> if the page has too many open contexts / 열린 컨텍스트가 너무 많으면 <code>NotSupportedError</code>
      */
     void register(ContextValue c) {
+        List<ContextValue> abandoned = null;
         synchronized (lock) {
-            int same = 0;
-            // 같은 종류의 열린 컨텍스트를 센다.
-            for (int i = 0; i < contexts.size(); i++) {
-                if (contexts.get(i).isOffline() == c.isOffline()) {
-                    same++;
-                }
-            }
+            int same = countOpen(c.isOffline());
             int max = c.isOffline() ? WebAudioHostLimits.MAX_OFFLINE_CONTEXTS : WebAudioHostLimits.MAX_REALTIME_CONTEXTS;
+            // 한도에 닿으면 어떤 스크립트도 더는 닿을 수 없고 멈춰 있는 실시간 컨텍스트를 먼저 놓아 자리를 만든다(실행 중인 컨텍스트는 소리를 낼 수 있으므로 닫을 때까지 붙잡는다).
+            if (same >= max && !c.isOffline()) {
+                abandoned = new ArrayList<ContextValue>();
+                // 목록의 뒤에서부터 포기해도 되는 컨텍스트를 골라 목록에서 뺀다.
+                for (int i = contexts.size() - 1; i >= 0; i--) {
+                    ContextValue open = contexts.get(i);
+                    if (!open.isOffline() && open.isAbandoned()) {
+                        contexts.remove(i);
+                        abandoned.add(open);
+                    }
+                }
+                same = countOpen(false);
+            }
             if (same >= max) {
                 throw new AudioException(AudioException.Kind.NOT_SUPPORTED, "The number of hardware contexts provided (" + max
                         + ") is greater than or equal to the maximum bound (" + max + ").");
             }
             contexts.add(c);
         }
+        // 놓은 컨텍스트의 스레드와 자원은 잠금 밖에서 닫는다.
+        if (abandoned != null) {
+            for (int i = 0; i < abandoned.size(); i++) {
+                abandoned.get(i).closeAbandoned();
+            }
+        }
+    }
+
+    /**
+     * Counts the open contexts of a kind (call it with the lock held).
+     * <p>
+     * 한 종류의 열린 컨텍스트를 센다(잠금을 쥐고 부른다).
+     *
+     * @param offline true to count offline contexts / 오프라인 컨텍스트를 세려면 true
+     * @return the number / 개수
+     */
+    private int countOpen(boolean offline) {
+        int n = 0;
+        // 같은 종류의 열린 컨텍스트를 센다.
+        for (int i = 0; i < contexts.size(); i++) {
+            if (contexts.get(i).isOffline() == offline) {
+                n++;
+            }
+        }
+        return n;
     }
 
     /**

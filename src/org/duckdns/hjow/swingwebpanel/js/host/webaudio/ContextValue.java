@@ -1,12 +1,14 @@
 package org.duckdns.hjow.swingwebpanel.js.host.webaudio;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.duckdns.hjow.swingwebpanel.dom.EventTarget;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.AudioDestinationNode;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.ContextState;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementTap;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.OfflineAudioContext;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.OutputRenderDriver;
@@ -116,6 +118,20 @@ final class ContextValue extends EventTarget {
     private volatile WeakReference<JsObject> wrapper;
 
     /**
+     * The script objects of the nodes of this context, held weakly (guarded by itself).
+     * <p>
+     * 이 컨텍스트의 노드의 스크립트 객체(약한 참조. 자기 자신으로 보호).
+     */
+    private final List<WeakReference<JsObject>> nodeWrappers = new ArrayList<WeakReference<JsObject>>();
+
+    /**
+     * The size of {@link #nodeWrappers} at which the collected references are removed next (guarded by {@link #nodeWrappers}).
+     * <p>
+     * 수거된 참조를 다음에 지우는 {@link #nodeWrappers} 의 크기({@link #nodeWrappers} 로 보호).
+     */
+    private int nextPrune = 1024;
+
+    /**
      * Creates the value of a context.
      * <p>
      * 컨텍스트의 값을 만든다.
@@ -185,15 +201,82 @@ final class ContextValue extends EventTarget {
     }
 
     /**
-     * Tells whether the script object of this context was collected: no script can reach the context any more.
+     * Remembers the script object of a node of this context (weakly): a node object gives a script the way back to its context (<code>node.context</code>), so the context is out of
+     * reach only when the objects of all its nodes are gone as well.
      * <p>
-     * 이 컨텍스트의 스크립트 객체가 수거되었는지 알려 준다: 어떤 스크립트도 더는 컨텍스트에 닿을 수 없다.
+     * 이 컨텍스트의 노드의 스크립트 객체를 기억한다(약하게): 노드 객체는 스크립트에 자기 컨텍스트로 가는 길(<code>node.context</code>)을 주므로, 컨텍스트는 모든 노드의 객체도 사라졌을 때에만
+     * 닿을 수 없다.
      *
-     * @return true if the script object is gone / 스크립트 객체가 사라졌으면 true
+     * @param w the script object of a node / 노드의 스크립트 객체
+     */
+    void trackNodeWrapper(JsObject w) {
+        synchronized (nodeWrappers) {
+            // 많이 쌓이면 이미 수거된 것을 먼저 지워 목록이 노드 수만큼 계속 자라지 않게 한다.
+            if (nodeWrappers.size() >= nextPrune) {
+                for (int i = nodeWrappers.size() - 1; i >= 0; i--) {
+                    if (nodeWrappers.get(i).get() == null) {
+                        nodeWrappers.remove(i);
+                    }
+                }
+                nextPrune = Math.max(1024, nodeWrappers.size() * 2);
+            }
+            nodeWrappers.add(new WeakReference<JsObject>(w));
+        }
+    }
+
+    /**
+     * Tells whether no script can reach this context any more: the script object of the context and the script objects of all its nodes were collected (see
+     * {@link WebAudioApi#register} for what the page does with such a context).
+     * <p>
+     * 어떤 스크립트도 더는 이 컨텍스트에 닿을 수 없는지 알려 준다: 컨텍스트의 스크립트 객체와 모든 노드의 스크립트 객체가 수거되었다(페이지가 그런 컨텍스트로 무엇을 하는지는
+     * {@link WebAudioApi#register} 참고).
+     *
+     * @return true if the context is out of reach of the scripts / 스크립트가 닿을 수 없으면 true
      */
     boolean isUnreachable() {
         WeakReference<JsObject> w = wrapper;
-        return w != null && w.get() == null;
+        if (w == null || w.get() != null) {
+            return false;
+        }
+        synchronized (nodeWrappers) {
+            // 노드의 스크립트 객체가 하나라도 남아 있으면 스크립트가 컨텍스트에 닿을 수 있다.
+            for (int i = 0; i < nodeWrappers.size(); i++) {
+                if (nodeWrappers.get(i).get() != null) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Tells whether the page may give up this context to make room: it is a real-time context that was not closed, that is suspended (it plays nothing and nothing is scheduled on it that
+     * a script could see) and that no script can reach any more (nobody can resume it). A running context is never given up: it can make sound and events, and a browser keeps it alive
+     * until it is closed too.
+     * <p>
+     * 페이지가 자리를 만들려고 이 컨텍스트를 포기해도 되는지 알려 준다: 닫지 않은 실시간 컨텍스트이고, 멈춰 있으며(아무것도 재생하지 않고 스크립트가 볼 수 있는 예약된 것이 없다), 어떤
+     * 스크립트도 더는 닿을 수 없다(아무도 재개할 수 없다). 실행 중인 컨텍스트는 포기하지 않는다. 소리와 이벤트를 만들 수 있고 브라우저도 닫힐 때까지 살려 둔다.
+     *
+     * @return true if the page may give it up / 포기해도 되면 true
+     */
+    boolean isAbandoned() {
+        RealtimeAudioContext r = realtime();
+        return r != null && !closeRequested && r.getState() == ContextState.SUSPENDED && isUnreachable();
+    }
+
+    /**
+     * Closes a context that the page gave up: the engine stops (the thread and the output of its driver end), the decoding service and the taps of media elements are released.
+     * <p>
+     * 페이지가 포기한 컨텍스트를 닫는다: 엔진이 멈추고(드라이버의 스레드와 출력이 끝난다) 디코딩 서비스와 미디어 요소의 탭을 놓는다.
+     */
+    void closeAbandoned() {
+        closeRequested = true;
+        RealtimeAudioContext r = realtime();
+        if (r != null) {
+            r.close();
+        }
+        closeDecoder();
+        releaseTaps();
     }
 
     /**

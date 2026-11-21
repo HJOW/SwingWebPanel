@@ -306,6 +306,46 @@ public class WebAudioOutputScriptTest {
     }
 
     /**
+     * The limit of six open contexts is not held for good by contexts that nobody can reach: a suspended context whose script objects (and those of its nodes) were collected is given up when
+     * a new context needs the place, its thread and its output end; a suspended context that a script can still reach is kept, and so is a running one (it can make sound; a browser keeps it
+     * alive until it is closed). The collection of garbage is not under the control of the test, so it asks for it repeatedly.
+     * <p>
+     * 열린 컨텍스트 여섯 개의 한도는 아무도 닿을 수 없는 컨텍스트가 영구히 쥐고 있지 않는다: 스크립트 객체(와 노드의 스크립트 객체)가 수거된 멈춘 컨텍스트는 새 컨텍스트가 자리를 필요로 할 때
+     * 포기되고 그 스레드와 출력이 끝난다. 스크립트가 아직 닿을 수 있는 멈춘 컨텍스트는 유지되며 실행 중인 컨텍스트도 그렇다(소리를 낼 수 있고 브라우저도 닫힐 때까지 살려 둔다).
+     * 가비지 컬렉션은 시험이 통제할 수 없으므로 여러 번 요청한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testSuspendedContextsThatNobodyCanReachDoNotHoldTheLimit() throws Exception {
+        int base = threads("swingwebpanel-audio-render-");
+        page.run("var held = new AudioContext(); var heldDone = false; held.suspend().then(function () { heldDone = true; }); var done5 = 0;"
+                + " (function () { for (var i = 0; i < 4; i++) { var c = new AudioContext(); var n = c.createGain(); n.connect(c.destination); c.suspend().then(function () { done5++; }); } })();"
+                + " var running = new AudioContext();");
+        page.waitFor("heldDone && done5 === 4", 10000, "the contexts are suspended");
+        Check.equal(base + 6, threads("swingwebpanel-audio-render-"), "six contexts, six rendering threads");
+        Check.equal("NotSupportedError", page.errorOf("new AudioContext()"), "the limit of six open contexts");
+        boolean room = false;
+        // 수거가 일어나 자리가 생길 때까지 가비지 컬렉션을 요청하며 새 컨텍스트를 만들어 본다.
+        for (int i = 0; i < 60 && !room; i++) {
+            System.gc();
+            System.runFinalization();
+            Thread.sleep(25);
+            page.pump();
+            room = "no error".equals(page.errorOf("var fresh = new AudioContext()"));
+        }
+        Check.isTrue(room, "the places of the four contexts that nobody can reach became free");
+        Check.equal("suspended", page.run("held.state"), "a suspended context that a script can reach is kept");
+        Check.equal("running", page.run("running.state"), "and so is a running one");
+        long end = System.currentTimeMillis() + 5000;
+        // 포기한 컨텍스트의 렌더링 스레드가 끝날 때까지 기다린다(여섯 개에서 새 컨텍스트 하나를 더한 수까지 줄어야 한다).
+        while (threads("swingwebpanel-audio-render-") > base + 3 && System.currentTimeMillis() < end) {
+            Thread.sleep(10);
+        }
+        Check.isTrue(threads("swingwebpanel-audio-render-") <= base + 3, "the rendering threads of the contexts that were given up ended: " + threads("swingwebpanel-audio-render-"));
+        Check.equal("no error", page.errorOf("held.resume()"), "the context that was kept still works");
+    }
+
+    /**
      * A machine without a sound device (an output that cannot be opened) still runs the context: no exception reaches the script, the state is <code>running</code> and the time advances at the pace of
      * the wall clock.
      * <p>
