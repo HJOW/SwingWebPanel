@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.js.ConsoleHook;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleRecord;
 import org.duckdns.hjow.swingwebpanel.js.ExecutionLimits;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -15,6 +16,8 @@ import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.ParsedScript;
 import org.duckdns.hjow.swingwebpanel.js.Property;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseJobs;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseRejectionTracker;
 
 /**
  * A self contained ECMAScript 2015 (ES6) engine that any Java program can use, with or without the browser component. It needs nothing
@@ -68,7 +71,8 @@ import org.duckdns.hjow.swingwebpanel.js.Property;
  * script name, line and column, thrown value). A host function that throws an exception gives the script an <code>Error</code>; if the script
  * does not catch it, it reaches the caller as {@link JsScriptError} whose cause is the original exception. A script that the engine stops
  * (step limit, time limit, {@link #cancel()}) throws {@link org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException}, which a script cannot
- * catch.
+ * catch. A promise that is rejected and that nobody handles by the end of the jobs is reported to the console hook as an error
+ * (<code>Uncaught (in promise) ...</code>), so it does not vanish silently.
  * <h3>Threads</h3>
  * Every method (and every handle) locks the engine, which is the monitor of this object: the engine can be used from any thread but runs
  * one script operation at a time, and operations on the same thread may nest (a host function may call the engine again). A caller that
@@ -100,7 +104,8 @@ import org.duckdns.hjow.swingwebpanel.js.Property;
  * <h3>오류</h3>
  * 아무도 잡지 않은 스크립트의 구문 오류, <code>throw</code>, 런타임 오류는 {@link JsScriptError}(이름, 메시지, 스크립트 이름, 줄, 열, 던진 값)로 던져진다. 예외를 던진 호스트
  * 함수는 스크립트에 <code>Error</code> 를 주고, 스크립트가 잡지 않으면 원래 예외를 원인으로 가진 {@link JsScriptError} 로 호출자에게 닿는다. 엔진이 멈춘 스크립트(단계 수
- * 제한, 시간 제한, {@link #cancel()})는 스크립트가 잡을 수 없는 {@link org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException} 을 던진다.
+ * 제한, 시간 제한, {@link #cancel()})는 스크립트가 잡을 수 없는 {@link org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException} 을 던진다. 거부되었고 작업이 끝날 때까지 아무도
+ * 처리하지 않은 promise 는 콘솔 연결에 오류(<code>Uncaught (in promise) ...</code>)로 보고되어 조용히 사라지지 않는다.
  * <h3>스레드</h3>
  * 모든 메서드(와 모든 핸들)는 엔진, 즉 이 객체의 모니터를 잠근다. 엔진은 어느 스레드에서나 쓸 수 있지만 스크립트 연산을 한 번에 하나씩 실행하며, 같은 스레드의 연산은 중첩될 수
  * 있다(호스트 함수가 엔진을 다시 호출해도 된다). 여러 호출을 한 단계로 묶으려면 <code>synchronized (engine)</code> 으로 감싼다. {@link #cancel()} 만 잠그지 않으며, 실행 중인
@@ -168,7 +173,36 @@ public final class JsEngine {
      */
     public JsEngine() {
         this.realm = JsRealm.create();
+        // 처리기 없이 거부된 promise 를 기억해 두었다가 마이크로태스크 검사점이 끝날 때 콘솔에 보고한다.
+        PromiseJobs.setRejectionTracker(realm, new PromiseRejectionTracker() {
+            public void rejectedWithoutHandler(JsRealm r, JsObject promise, JsValue reason) {
+                rejectedPromises.add(promise);
+                rejectedReasons.add(reason);
+            }
+
+            public void handlerAddedToRejectedPromise(JsRealm r, JsObject promise) {
+                int i = rejectedPromises.indexOf(promise);
+                if (i >= 0) {
+                    rejectedPromises.remove(i);
+                    rejectedReasons.remove(i);
+                }
+            }
+        });
     }
+
+    /**
+     * The promises that were rejected without a rejection handler and have not been reported yet.
+     * <p>
+     * 거부 처리기 없이 거부되었고 아직 보고하지 않은 promise.
+     */
+    private final List<JsObject> rejectedPromises = new ArrayList<JsObject>();
+
+    /**
+     * The rejection reasons of {@link #rejectedPromises}, in the same order.
+     * <p>
+     * {@link #rejectedPromises} 의 거부 이유. 같은 순서이다.
+     */
+    private final List<JsValue> rejectedReasons = new ArrayList<JsValue>();
 
     /**
      * Returns the realm of the engine (an advanced hook for code that works with the classes of the engine directly, for example to
@@ -389,8 +423,31 @@ public final class JsEngine {
     public synchronized void runJobs() {
         try {
             realm.runJobs();
+            reportUnhandledRejections();
         } catch (JsException e) {
             throw wrap(e);
+        }
+    }
+
+    /**
+     * Reports the promises that are still rejected without a handler once all jobs are done, as errors of the kind
+     * {@link org.duckdns.hjow.swingwebpanel.js.ConsoleRecord.Kind#UNHANDLED_REJECTION} to the console hook (so that a rejection that nobody handles does not
+     * vanish silently, as in a browser).
+     * <p>
+     * 모든 작업이 끝났는데도 처리기 없이 거부된 promise 를 콘솔 연결에 {@link org.duckdns.hjow.swingwebpanel.js.ConsoleRecord.Kind#UNHANDLED_REJECTION} 종류의
+     * 오류로 보고한다(브라우저처럼 아무도 처리하지 않은 거부가 조용히 사라지지 않게 한다).
+     */
+    private void reportUnhandledRejections() {
+        if (rejectedPromises.isEmpty()) {
+            return;
+        }
+        List<JsValue> reasons = new ArrayList<JsValue>(rejectedReasons);
+        rejectedPromises.clear();
+        rejectedReasons.clear();
+        // 보고하지 않은 거부 이유를 하나씩 콘솔에 오류로 알린다.
+        for (int i = 0; i < reasons.size(); i++) {
+            ConsoleRecord.deliver(realm.getConsole(), ConsoleRecord.report(ConsoleRecord.Kind.UNHANDLED_REJECTION,
+                    "Uncaught (in promise) " + JsException.describe(reasons.get(i)), "", 0, 0));
         }
     }
 

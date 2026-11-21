@@ -34,14 +34,16 @@
 | `test.sh`, `test.bat` | 1단계 엔진 시험(엔진 전용), 2단계 브라우저 시험(합친 클래스). 두 단계의 요약 줄을 합산해 `=== TOTAL (engine + browser): ... ===` 를 출력. 러너 종료 코드 자체 점검 유지 |
 | `scripts/pkgtest.sh` | 패키지 이름을 `src`/`tests/src` 와 `engine/src`/`engine/tests/src` 양쪽에서 찾는다(`js` 는 두 곳의 합). `-sourcepath` 에 두 소스 루트 |
 | `scripts/snaptest.sh` | 변경 없음(`git archive HEAD` 후 `pkgtest.sh` 호출이라 새 경로를 그대로 쓴다) |
-| `examples/run.sh|bat`, `tools/uicheck` 등 | 변경 없음 — `build/classes`(합친 디렉터리)를 계속 쓴다 |
+| `examples/run.sh`, `examples/run.bat` | 요청한 예제와 그것이 쓰는 예제 클래스만 컴파일(`-sourcepath examples/src`), 하위 패키지 예제는 점으로 지정(`script.ScriptEngineExample`). 그래서 `SWP_CLASSES=build/engine-classes` 로 엔진 예제를 엔진 클래스만으로 컴파일·실행할 수 있다. 기존 예제(`BlankPageExample`, `StaticPageExample`, `ConsoleExample` `--smoke`)는 새 스크립트로도 통과 확인 |
+| `tools/uicheck` 등 | 변경 없음 — `build/classes`(합친 디렉터리)를 계속 쓴다(`tools/uicheck/build.sh` 가 새 구조에서 컴파일됨을 확인) |
+| `.gitattributes` | `engine/resources/META-INF/services/*` 를 LF 로 고정 |
+| `engine/test.sh|bat` 환경 변수 | `SWP_ENGINE_FROM_JAR=1` 이면 클래스 디렉터리 대신 `swingwebpanel-js.jar` 하나만 클래스패스에 둔다 |
 | `tools/sourcecheck` | 기본 검사 경로에 `engine` 추가, `engine/tests/resources/` 내용 검사 제외, 새 규칙 `engine-boundary`, `javax.script` 규칙을 "제공자 패키지와 예제 패키지만 허용"으로 변경(아래 P26-05), 자체 시험 샘플 추가 |
 | `.classpath` | 소스 폴더 `engine/src` 추가 |
 | `tests/.../core/ThreadCreationAuditTest` | 스레드 생성 소스 점검 범위에 `engine/src` 추가 |
 | `TestRunner` | `--scan` 을 여러 번 쓸 수 있게 확장 |
 
-### 1.5 검증 (JDK 6u45)
-(결과는 작업을 진행하며 아래에 추가한다.)
+### 1.5 검증 (JDK 6u45, P26-01 시점의 값. 최종 값은 6절)
 - `sh engine/build.sh` → `[OK] build/swingwebpanel-js.jar created (javac 1.6.0_45)`: **엔진이 빈 클래스패스/소스패스로 컴파일된다**(경계 강제 1).
 - `sh build.sh` → 세 JAR 생성. 합친 JAR 3303 항목, 엔진 JAR 636, 브라우저 JAR 2674.
 - 엔진 시험 단계(`engine/test.sh`, headless, 엔진 클래스만): **601 통과 / 0 실패 / 0 건너뜀**(12 초).
@@ -102,6 +104,8 @@
 - `Invocable`: `invokeFunction` 은 기본 컨텍스트 전역 스코프의 함수(없으면 `NoSuchMethodException`), `invokeMethod(thiz, ...)` 의 `thiz` 는 `eval`/`invoke` 가 돌려준 스크립트 객체(`JsHandle`; null/그 밖은 `IllegalArgumentException`), `getInterface` 는 `java.lang.reflect.Proxy`(인터페이스의 **모든** 메서드가 함수로 있어야 하고 아니면 null, 대상이 함수 자신이면 메서드 하나짜리 인터페이스).
 - 오류: `ScriptException(메시지="Name: message", 파일 이름, 줄, 열)` + 원인 `JsScriptError`. 파일 이름은 컨텍스트 속성 `javax.script.filename`(없으면 `<eval>`), 위치를 모르면 -1. 제한/취소로 멈춘 스크립트는 원인이 `ScriptAbortedException` 인 `ScriptException`. `compile` 의 구문 오류도 같은 형식.
 - 스레드: `THREADING`=`MULTITHREADED`. 같은 전역 스코프의 연산은 엔진 잠금으로 직렬화된다(시험 4스레드 x 200번 호출, 카운터 정확).
+- 재진입: 호스트 함수가 같은 스크립트 엔진의 `eval` 을 다시 불러도 안쪽이 끝나면 바깥 스크립트의 `GLOBAL_SCOPE` 조회와 출력 컨텍스트를 되돌린다(`Scope.lookup`). 되돌리지 않는 변형으로 시험이 `ReferenceError: fromManager is not defined (<eval> 1:12)` 로 실패함을 확인했다(`testNestedEvalKeepsTheGlobalScopeLookup`).
+- 처리되지 않은 promise 거부(`JsEngine`): 모든 작업이 끝난 뒤에도 처리기 없는 거부는 콘솔 연결에 `Uncaught (in promise) ...` 오류(`ConsoleRecord.Kind.UNHANDLED_REJECTION`)로 보고한다(브라우저의 `PageScripts` 와 같은 규칙; `testUnhandledRejectionsAreReported`). `javax.script` 에서는 컨텍스트의 에러 라이터로 간다.
 - `JsScriptEngine.getJsEngine()` 으로 기본 스코프의 `JsEngine` 을 얻어 실행 제한/시간 제한/취소/모듈 로더를 지정한다.
 
 ## 4. P26-05 이름 충돌과 금지 규칙 정리
@@ -121,7 +125,7 @@
 - 새 규칙 `engine-boundary`(P26-01): `engine/` 아래 소스는 `java.awt/applet`, `javax.swing/imageio/sound/print/accessibility`, `java.net/rmi/sql/nio`, `javax.net/sql/rmi/naming`, `java.io.File*`, 브라우저 패키지(`core dom css html layout render net storage media content download`, 루트 `SwingWebPanel`/`Console*`, `js.host/dom/worker`)를 쓰면 위반(엔진 시험은 AWT/Swing/브라우저 패키지만 금지하고 `testing`·파일은 허용).
 - 규칙을 바꾼 뒤 확인(JDK 6u45, 실제 실행): 임시 샘플 7개(`src/.../core`, `engine/src/.../js/embed`, `engine/src/.../js/script`, `engine/tests/.../js/script`, `examples/.../examples/script`, `examples/.../examples`, `tests/.../js/script`)에 `javax.script` import 를 넣어 돌리면 **4건 위반**(core, embed, 일반 examples, 브라우저 tests)이고 제공자 소스/시험/예제 script 패키지는 통과. `engine/src` 에 임시로 `java.awt.Color` 를 쓰는 클래스를 넣으면 sourcecheck 종료 코드 1, 클래스 상수 풀 시험 실패(`TempLeak.class references java/awt/`), 브라우저 패키지를 쓰면 엔진 컴파일 실패(`package ...core does not exist`). 임시 파일은 지웠다. `--selftest` 에 불량/양호 샘플 추가(`selftest OK`).
 
-### 4.4 시험 결과 (엔진 단계)
+### 4.4 시험 결과 (엔진 단계, P26-05 시점. 최종 값은 6절)
 - JDK 6u45: `js.script` 17건 통과(`JsScriptEngineTest` 13, `ScriptEngineDiscoveryTest` 4), `EngineIndependenceTest` 4건 통과(새 2건 포함), 엔진 단계 전체 **644 통과 / 0 실패 / 0 건너뜀**.
 - **JDK 8u202(Nashorn 있음)**: 같은 시험 클래스를 JDK 8 의 `java` 로 실행해 `js.script` 17건 통과(`getEngineByName("javascript")` 는 Nashorn 이 답하고 이 엔진이 아님을 확인). 이 실행은 JRE 6 검증이 아니며 이름 충돌 확인용이다.
 
@@ -145,8 +149,96 @@
 - 브라우저 단계 `testing.selftest.BrowserJarsTest`(3건): 브라우저 JAR 에는 엔진 항목이 하나도 없고 엔진 JAR 에는 브라우저 항목이 하나도 없으며 둘은 겹치지 않음, **단일 JAR = 두 JAR 의 합집합**(항목 단위), 부모 없는 클래스 로더가 **브라우저 JAR + 엔진 JAR** 와 **단일 JAR 하나**로 각각 `SwingWebPanel` 을 만들어 `console.log` 를 실행하는 페이지의 메시지를 `ConsoleListener` 로 받음. `JarContentTest` 는 단일 JAR 에 엔진과 등록 파일이 있는지도 확인.
 - 결과(JDK 6u45): `EngineJarTest` 2/2, `BrowserJarsTest` 3/3(`testPageScriptsRunFromTheJars` 1.5 초), `JarContentTest` 1/1.
 
-## 조정자 요청
-(작업이 끝나면 AGENTS.md / PROGRESS.md / FEATURE_MATRIX.md / ARCHITECTURE.md 에 넣을 문장을 여기에 모은다.)
+## 6. P26-07 최종 검증 결과 (JDK 6u45, 이 PC: Windows 10, 4코어, 다른 작업자와 공유)
 
-## 체크박스 후보
-(P26-01~07 이 끝나면 적는다.)
+### 6.1 전체 회귀 (`BUILD_DIR=build/full sh test.sh`, 커밋 `9ec5c8c` 의 트리)
+- 엔진 단계(엔진 클래스만, `java.awt.headless=true`): **646 통과 / 0 실패 / 0 건너뜀**.
+- 브라우저 단계(합친 클래스): **3174 통과 / 0 실패 / 14 건너뜀**(건너뜀 14건은 분리 전과 같은 선택적 Opus 원본 벡터 12건 + Java Sound 믹서가 필요한 2건).
+- 합계 `=== TOTAL (engine + browser): 3820 passed, 0 failed, 14 skipped ===`, 러너 종료 코드 자체 점검 통과, 종료 코드 0.
+- **분리 전 기준(조정자가 준 `main` 마지막 전체 회귀 3771/0/14)과 비교**: 실패 0, 건너뜀 14 로 같고 통과가 +49 이다. 이 가운데 **새 시험이 48건**이다(엔진 단계 45 = `js.embed` 24 + `js.script` 17 + `EngineIndependenceTest` 2 + `EngineJarTest` 2, 브라우저 단계 3 = `BrowserJarsTest`). 나머지 +1 은 원인을 찾지 못했다(소스의 `public void test*()` 메서드 수는 `main` 3788 대비 새 시험 만큼만 늘었고, 기준 수치가 소스와 1건 어긋나 있었을 가능성이 있다). 분리로 사라진 시험은 없다.
+
+### 6.2 전체 회귀 뒤에 바꾼 것과 그 검증 (전체 회귀를 다시 돌리지는 않았다)
+전체 회귀 뒤의 변경은 `js.embed`/`js.script`(브라우저가 쓰지 않는 패키지)와 시험·문서뿐이고 브라우저 클래스는 바뀌지 않았으므로 브라우저 단계 결과는 그대로 유효하다. 바뀐 부분은 아래로 다시 확인했다.
+- 바뀐 것: `JsEngine` 의 처리되지 않은 promise 거부 보고, `JsScriptEngine` 의 재진입 수정, 새 시험 `testUnhandledRejectionsAreReported`, `testNestedEvalKeepsTheGlobalScopeLookup`, 브라우저 시험 `js.host.HostIndependenceTest`(브라우저 모듈에 남은 `js.host/dom/worker` 클래스에서 금지 이름을 찾던 옛 `EngineIndependenceTest` 의 범위를 이어받음), 문서와 README.
+- `HostIndependenceTest` 는 합친 클래스로 1/1 통과(전체 회귀에는 포함되지 않음: 전체 회귀의 시험 컴파일 뒤에 추가함).
+- 새 시험이 실제로 결함을 잡는지: 재진입 수정을 되돌린 변형에서 `testNestedEvalKeepsTheGlobalScopeLookup` 이 실패하고 복원하면 통과함을 확인했다(4절과 3.2절).
+
+### 6.3 최종 트리에서 다시 돌린 것 (모두 JDK 6u45, 별도 표시한 것 제외)
+| 무엇 | 결과 |
+| --- | --- |
+| 엔진 단계, 클래스 디렉터리, headless (`sh engine/test.sh`) | **648 통과 / 0 실패 / 0 건너뜀** (예상: 전체 회귀의 646 + 새 시험 2) |
+| 엔진 단계, **엔진 JAR 하나만 클래스패스**, headless (`SWP_ENGINE_FROM_JAR=1`) | 645 통과 / 0 실패 / 3 건너뜀(상수 풀 검사 3건: JAR 에서는 클래스 디렉터리를 스캔할 수 없다는 이유) |
+| `js.script` 시험 20건을 **JDK 8u202(Nashorn 있음)** 로 실행 | 20 통과 / 0 실패 / 0 건너뜀(이름 충돌 확인용, JRE 6 검증 아님) |
+| 엔진 단계 전체를 JDK 8 로, 엔진 JAR 만 | 644 통과 / **1 실패** / 3 건너뜀. 실패는 `js.date.DateTest.testRoundTrips`(`Asia/Seoul`, 1900년 이전 시각의 왕복: JRE 6 과 8 의 시간대 데이터 차이로 보이며 이 작업이 옮기기만 한 시험이다. 원인을 더 조사하지 않았다). JRE 6 에서는 통과한다 |
+| `examples/run.sh`: `EngineExample --smoke`, `script.ScriptEngineExample --smoke` (`SWP_CLASSES=build/engine-classes`, 엔진 클래스만) | 둘 다 `smoke OK` |
+| `script.ScriptEngineExample --smoke` 를 엔진 JAR 만으로 JRE 6 과 JRE 8 에서 | 둘 다 `smoke OK engine=...js.script.JsScriptEngine` |
+| 기존 브라우저 예제 `BlankPageExample`, `StaticPageExample`, `ConsoleExample` `--smoke` (새 `run.sh`) | 통과. `ConsoleExample` 은 CPU 가 바쁜 동안(전체 회귀 실행 중) 8번 중 3번 `consoleEvents=0`(1초 창 안에 메시지가 오지 않음)이었고, 한가할 때는 5번 모두 `consoleEvents=2` 였다. 부하 때문으로 보이나 분리 전 코드로 같은 부하에서 비교하지는 않았다 |
+| `tools/sourcecheck` 전체(`engine src tests examples scripts tools docs` 등) | 0 위반 (마지막 실행: README/examples/engine/tests/스크립트 1742개 파일, 이후 변경분 306개 파일) |
+| Windows cmd: `.\build.bat`, `engine\test.bat --filter ...`, `.\test.bat --filter BrowserJarsTest` | 모두 `[OK]`/통과(`test.bat` 는 두 단계와 러너 종료 코드 점검까지 실행됨) |
+| 속도: 변경 전/후 엔진(`fib(24)`, 반복 30만 번) | 차이는 잡음 안(5.3절) |
+
+## 7. 남은 한계와 확인하지 못한 것 (정직한 기록)
+
+### 7.1 구현 한계
+- 최상위 `let`/`const`/`class` 선언은 전역 객체의 프로퍼티가 아니므로 `JsEngine.get`/`JsGlobalBindings`/`engine.get` 으로 읽을 수 없다(스크립트와 같은 스코프의 이후 `eval` 은 본다). 읽으려면 `eval("name")`.
+- 전역 `var`/함수 선언은 JavaScript 규칙상 삭제할 수 없어 `Bindings.remove` 는 값을 undefined 로 만들 뿐 키는 남는다(`containsKey` 는 true).
+- 다른 `ENGINE_SCOPE` 바인딩은 realm 을 따로 가진다: 바인딩 항목은 실행 전후에 값으로 복사되므로(함수/객체는 핸들로 양쪽에서 같은 객체를 가리킴) 바인딩 값이 `Integer` 였다가 스크립트가 바꾸면 `Double` 로 돌아온다. 한 realm 의 객체를 다른 바인딩의 스크립트에 넘기면 두 realm 의 내장 객체가 섞인다(안전하지만 `instanceof Array` 같은 비교는 realm 마다 다름).
+- `java.util.Date`/`Calendar`/`File`/스트림 등은 어느 방향으로도 자동 변환하지 않는다(`IllegalArgumentException`). JS `Date` 는 `JsObjectHandle`(`callMember("getTime")`).
+- 런타임 오류의 줄/열은 **평가 중이던 가장 안쪽 표현식의 시작 위치**와 `throw` 문의 위치이며, 호스트 함수 안에서 난 오류는 그 호스트 함수를 부른 표현식의 위치를 가진다. 함수 호출 스택(역추적)은 제공하지 않는다.
+- 독립 모드에는 타이머, `queueMicrotask`, `fetch`, `URL`, `TextEncoder`, Storage 가 없다(2.4절).
+- `JsScriptEngineFactory` 는 일반 이름을 기본으로 등록하지 않는다(4.1절). `getEngineByName("javascript")` 를 이 엔진으로 받으려면 JVM 속성이 필요하고 그래도 JRE 의 검색 순서에 따른다.
+- 엔진 JAR 만 클래스패스에 두고 엔진 시험을 돌리면 클래스 파일 상수 풀을 훑는 시험 3건은 "클래스 디렉터리가 아니라 JAR 에서 실행 중"이라는 이유로 건너뛴다(디렉터리 실행 때는 통과). 엔진 JAR 가 부모 없는 클래스 로더에서 동작하는 것은 `EngineJarTest` 가 따로 확인한다.
+
+### 7.2 확인하지 못한 것
+- **P23(Maven)은 하지 않았다**(지시). `engine/` 을 모듈로 옮기는 방법은 "조정자 요청"에 적었다.
+- 엔진 단독 모드를 **JRE 6 이외의 최신 JRE(8 이외)** 에서는 돌리지 않았다. JRE 8(`jdk1.8.0_202`)에서 `js.script` 시험 20건과 `javax.script` 예제만 통과를 확인했고 엔진 시험 전체는 `DateTest.testRoundTrips` 1건이 실패한다(6.3). JRE 7 에서는 확인하지 않았다.
+- `javax.script` 제공자를 Rhino 가 있는 JRE 6 에서 `ScriptEngineManager` 의 **여러 팩터리가 같은 이름을 다투는 경우**는 일반 이름 옵션을 켜고 확인하지 않았다(`testCommonNamesAreOptIn` 은 팩터리 메서드의 목록만 확인).
+- `tools/uicheck`(실제 Swing 창)와 실제 오디오 장치는 이번 작업과 무관해 다시 확인하지 않았다(코드 이동만 했고 시험은 합친 클래스로 돌렸다).
+- `build.bat`/`test.bat`/`engine\build.bat`/`engine\test.bat` 는 이 Windows PC 에서 cmd 로 실행해 `[OK]` 를 확인했다(`test.bat` 전체 실행은 시간 때문에 `--filter` 를 주어 확인).
+
+## 조정자 요청
+
+### A. `docs/ARCHITECTURE.md` 1.1절 (표의 `javax.script` 행 교체 + 모듈 구성 문단 추가)
+표의 행을 다음으로 바꾼다.
+
+```text
+| 다른 엔진을 `javax.script.ScriptEngineManager` 로 호출하는 것 | 내장 Rhino/Nashorn 우회 사용 금지. 단 **이 프로젝트의 자체 엔진을 `javax.script` 제공자로 공개하는 것은 허용**한다: `js.script` 패키지(와 그 시험, `examples/**/script` 예제)만 `javax.script` 를 쓸 수 있고(`tools/sourcecheck` 의 `forbidden-engine` 규칙이 강제) 나머지 제품 코드의 `ScriptEngineManager` 사용은 금지다. 엔진은 고유 이름 `swingwebpanel-js` 로만 등록한다(P26-05). |
+```
+
+그리고 구조 절에 "모듈 구성(P26)" 문단: 엔진 모듈 `engine/`(`org.duckdns.hjow.swingwebpanel.js` 아래 `ast parser interp builtins date num regexp text embed script` 와 루트 클래스; 브라우저, AWT/Swing, 네트워크, 파일에 의존하지 않음. 빈 클래스패스로 컴파일, `tools/sourcecheck` `engine-boundary`, 클래스 상수 풀 시험, headless 엔진 단계 시험으로 강제), 브라우저 모듈 `src/`(`js.host`, `js.dom`, `js.worker` 포함; 엔진 클래스만 참조). 산출물 JAR 세 개(5.2절). 도구 목록은 변경 없음(`tools/sourcecheck` 규칙만 확장).
+
+### B. `docs/FEATURE_MATRIX.md` 새 행 (API-28, API-29 와 MOD-01)
+```text
+| API-28 | 독립 JavaScript 엔진 API `js.embed.JsEngine` + 핸들(`JsObjectHandle`/`JsArrayHandle`/`JsFunctionHandle`), `JsHostFunction`, `JsScriptError` (P26-02/03, 확장 API) | ECMA-262 6판(엔진), 값 변환 규칙은 `docs/progress/engine.md` 2.2 | `js.embed.*`, `js.JsRealm.parseScript`, `js.ParsedScript`, `js.JsException`(던진 위치) | `js.embed.JsEngineBasicsTest`(13건), `js.embed.JsEngineValuesTest`(12건) | 검증 완료 | 독립 모드 전역(ES2015 내장 + console + print, 타이머/브라우저 객체 없음), 값 양방향 변환(숫자 항상 Double, Java 객체 거부), 오류 위치, 제한/취소, 직렬화된 다중 스레드 사용. 한계: 최상위 let/const/class 는 `get` 으로 못 읽음, Date/File 등 자동 변환 없음 |
+| API-29 | Java Scripting API(JSR 223) 제공자 `js.script.*`, 서비스 파일 `META-INF/services/javax.script.ScriptEngineFactory` (P26-04/05, 확장 API) | JSR 223 (Java 6 `javax.script`) | `js.script.JsScriptEngineFactory`/`JsScriptEngine`/`JsCompiledScript`/`JsGlobalBindings`/`ContextConsole` | `js.script.ScriptEngineDiscoveryTest`(4건), `js.script.JsScriptEngineTest`(13건), `js.script.EngineJarTest`(2건), `js.EngineIndependenceTest`(4건) | 검증 완료 | `eval`(문자열/Reader/바인딩/컨텍스트), `Compilable`, `Invocable`(`getInterface`), ENGINE/GLOBAL 범위, 컨텍스트 라이터, 위치가 있는 `ScriptException`, 고유 이름만 등록(일반 이름은 `-Dswingwebpanel.js.genericNames=true`). JRE 6 과 JRE 8(Nashorn 있음)에서 확인. 한계는 engine.md 3.2, 7.1 |
+| MOD-01 | 엔진/브라우저 모듈 분리(`engine/`, `src/`), JAR 세 개 (P26-01/06) | - | `engine/**`, `build.sh`/`engine/build.sh`, `tools/sourcecheck`(`engine-boundary`) | `js.EngineIndependenceTest`(경계 2건), `js.script.EngineJarTest`, `testing.selftest.BrowserJarsTest`, `testing.selftest.JarContentTest`, 엔진 단계 시험(엔진 클래스만, headless) | 검증 완료 | 엔진은 빈 클래스패스로 컴파일됨. 합친 JAR 는 두 JAR 의 합집합 |
+```
+
+### C. `docs/PROGRESS.md` 작업 로그 항목(초안)
+"2026-11-22 · P26 JavaScript 엔진 분리와 `javax.script` 제공자(ENGINE 작업자, 브랜치 `worktree-agent-a8e4159237316313b`)": 한 일 = 6장 요약(엔진 `engine/` 분리 275개 파일 이동, `js.embed` 독립 API, `js.script` 제공자, 이름 정책, JAR 세 개, 경계 강제 4중), 변경 파일 = 이 문서 1.3~1.4, 2.1, 3.1, 4.3, 5, 검증 결과 = 6절, 미해결 = 7절, 다음 = P23(Maven; 아래 D).
+
+### D. P23(Maven 전환) 때 `engine/` 을 모듈로 옮기는 방법
+| 지금 | Maven 모듈 `swingwebpanel-js` |
+| --- | --- |
+| `engine/src` | `engine/src/main/java` |
+| `engine/resources`(`META-INF/services`) | `engine/src/main/resources` |
+| `engine/tests/src`(엔진 시험 + **시험 실행기 `testing.TestRunner/Check/...`**) | `engine/src/test/java`. 실행기는 브라우저 시험도 쓰므로 `test-jar` 로 내보내 브라우저 모듈이 `test` 범위로 의존한다 |
+| `engine/tests/resources` | `engine/src/test/resources` |
+| `src`, `tests/src`, `tests/resources` | 브라우저 모듈(`swingwebpanel`): `src/main/java`, `src/test/java`, `src/test/resources`. 엔진 모듈에 의존 |
+- `engine/build.sh|bat`, `engine/test.sh|bat`, 루트 `build.sh|bat`/`test.sh|bat`, `scripts/pkgtest.sh` 의 `engine/` 분기, `examples/run.sh|bat` 의 `SWP_CLASSES=build/engine-classes` 는 Maven 으로 대체한다. 엔진을 컴파일 클래스패스 없이 빌드하는 규칙은 Maven 에서는 엔진 모듈의 `dependencies` 를 비워 두는 것(의존성이 생기면 빌드가 깨짐)으로 유지한다. 합친 단일 JAR(`swingwebpanel.jar`, 5.2절)은 `maven-shade-plugin`/`assembly` 로 만든다.
+- 시험 실행은 자체 실행기 `TestRunner` 를 JDK 6 `java` 로(P23-04). 두 단계(엔진 단계는 엔진 클래스만 + `java.awt.headless=true`, 브라우저 단계)는 두 모듈의 `test` 단계로 그대로 대응한다. `swp.jar`/`swp.engine.jar`/`swp.browser.jar` 시스템 속성은 `package` 단계 뒤의 JAR 경로를 가리키게 한다.
+- `.gitattributes` 에 `engine/resources/META-INF/services/* text eol=lf` 를 추가했다(서비스 파일의 줄 끝 고정).
+
+### E. `AGENTS.md`
+- P26-01~07 의 체크 후보는 아래 "체크박스 후보". P26-01 의 "엔진 패키지 이름의 유지/변경과 그 영향" 은 2절/1.2 표(유지, 근거: 브라우저 코드 수백 개와 시험 전체 영향), "Worker 의 범용 부분과 `ModuleLoader`" 는 `ModuleLoader/ModuleGraph` 가 엔진 루트에 있어 엔진으로 갔고 `js.worker` 는 DOM/브라우저 의존이라 브라우저에 남았다.
+- 계획 문서의 P26-02 문구 "JavaScript 함수 호출, Java 값과 JavaScript 값의 변환 규칙" 은 2.2절. P26-03 의 "타이머 등을 선택적으로 켤 수 있게 할지" 는 **켜지 않는 것으로 결정**(2.4절).
+
+## 체크박스 후보 (조정자가 판단)
+- **P26-01** 완료 후보: 경계 확인(grep 0건), 결정 기록(1.2), `engine/` 분리, 빈 클래스패스 컴파일, `engine-boundary` 규칙, 헤드리스 엔진 단계 시험, 클래스 상수 풀 시험. 근거 1절, 4.3, 5절, 6절.
+- **P26-02** 완료 후보: `js.embed` 공개 API 와 값 변환/예외/제한/큐/콘솔/모듈/스레드 규칙(2절), 시험 25건.
+- **P26-03** 완료 후보: 독립 모드 전역 범위와 "타이머 등은 켜지 않음" 결정(2.4절), `testEvalReturnsCompletionValueAndRunsEs6` 등.
+- **P26-04** 완료 후보: `javax.script` 제공자 전체(3절), 시험 `js.script.*`.
+- **P26-05** 완료 후보: 고유 이름만 등록 + 옵트인 일반 이름, `ScriptEngineDiscoveryTest`, sourcecheck 규칙 변경과 실패 사례 확인(4절). 문서 문구는 "조정자 요청 A"를 적용해야 완결(ARCHITECTURE 1.1).
+- **P26-06** 완료 후보: 브라우저는 컴파일된 엔진 클래스의 공개 API 만 사용(5.1), JAR 세 개와 시험(5.2~5.4), 문서(README).
+- **P26-07** 완료 후보: (1) 엔진 JAR 하나/클래스 디렉터리 + headless 엔진 단계 시험 JRE 6 통과, (2) `ScriptEngineManager` 로 고유 이름 조회 검증을 JRE 6 과 JRE 8 에서 확인, (3) 브라우저 전체 회귀 결과(6절), (4) 자동 경계 검사 3종, README/예제 완료. 상위 **P26** 은 P26-01~07 이 모두 체크된 뒤.
+- 체크하지 말아야 할 것: P23(Maven), P22 의 남은 항목. 이 작업은 P23 을 하지 않았다.

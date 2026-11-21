@@ -202,6 +202,27 @@ public class JsScriptEngineTest {
     }
 
     /**
+     * A host function may run another script through the same script engine; the outer script keeps seeing the <code>GLOBAL_SCOPE</code> names afterwards.
+     * <p>
+     * 호스트 함수가 같은 스크립트 엔진으로 다른 스크립트를 실행해도 바깥 스크립트는 그 뒤에도 <code>GLOBAL_SCOPE</code> 이름을 본다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testNestedEvalKeepsTheGlobalScopeLookup() throws Exception {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        manager.put("fromManager", "gs");
+        final ScriptEngine e = manager.getEngineByName("swingwebpanel-js");
+        Check.isTrue(e instanceof JsScriptEngine, "ours");
+        e.put("reenter", new JsHostFunction() {
+            public Object call(Object thisValue, Object[] args) throws Exception {
+                return e.eval("1 + 1");
+            }
+        });
+        Check.equal("2", e.eval("String(reenter())"), "the nested eval ran");
+        Check.equal("gs", e.eval("reenter(); fromManager"), "the global scope is still searched after a nested eval");
+    }
+
+    /**
      * <code>print</code> and <code>console</code> write lines to the writers of the context that runs the script.
      * <p>
      * <code>print</code> 와 <code>console</code> 은 스크립트를 실행하는 컨텍스트의 라이터에 줄을 쓴다.

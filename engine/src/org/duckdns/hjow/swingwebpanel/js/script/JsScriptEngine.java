@@ -129,6 +129,15 @@ public final class JsScriptEngine extends AbstractScriptEngine implements Compil
         final boolean live;
 
         /**
+         * The lookup of the global bindings of the context that runs a script in this scope now, or null; kept so that a script that runs another script
+         * (a host function that calls <code>eval</code>) gets the lookup of the outer script back when the inner one ends. Guarded by the lock of the engine.
+         * <p>
+         * 지금 이 스코프에서 스크립트를 실행하는 컨텍스트의 전역 바인딩 조회. 없으면 null. 스크립트가 다른 스크립트를 실행하는 경우(<code>eval</code> 을 부르는
+         * 호스트 함수) 안쪽이 끝나면 바깥 스크립트의 조회를 되돌려 주려고 기억한다. 엔진의 잠금으로 보호한다.
+         */
+        JsRealm.NamedGlobals lookup;
+
+        /**
          * Creates a scope.
          * <p>
          * 스코프를 만든다.
@@ -471,7 +480,9 @@ public final class JsScriptEngine extends AbstractScriptEngine implements Compil
         JsEngine eng = scope.engine;
         synchronized (eng) {
             ScriptContext before = scope.console.enter(ctx);
-            eng.getRealm().setNamedGlobals(new GlobalScopeLookup(eng, ctx));
+            JsRealm.NamedGlobals outerLookup = scope.lookup;
+            scope.lookup = new GlobalScopeLookup(eng, ctx);
+            eng.getRealm().setNamedGlobals(scope.lookup);
             Map<String, JsValue> snapshot = null;
             try {
                 if (!scope.live) {
@@ -488,7 +499,8 @@ public final class JsScriptEngine extends AbstractScriptEngine implements Compil
                 se.initCause(e);
                 throw se;
             } finally {
-                eng.getRealm().setNamedGlobals(null);
+                scope.lookup = outerLookup;
+                eng.getRealm().setNamedGlobals(outerLookup);
                 if (!scope.live && snapshot != null) {
                     copyOut(eng, engineScope, snapshot);
                 }

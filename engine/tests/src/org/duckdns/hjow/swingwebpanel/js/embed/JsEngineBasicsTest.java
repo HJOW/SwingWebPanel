@@ -260,6 +260,30 @@ public class JsEngineBasicsTest {
     }
 
     /**
+     * A promise that is rejected and that nobody handles is reported to the console hook after the jobs ran; a rejection that gets a handler in time
+     * is not reported.
+     * <p>
+     * 거부되었고 아무도 처리하지 않은 promise 는 작업이 끝난 뒤 콘솔 연결에 보고된다. 제때 처리기를 얻은 거부는 보고하지 않는다.
+     */
+    public void testUnhandledRejectionsAreReported() {
+        JsEngine e = new JsEngine();
+        final List<String> lines = new ArrayList<String>();
+        e.setConsole(new ConsoleHook() {
+            public void message(String level, String text) {
+                lines.add(level + ":" + text);
+            }
+        });
+        e.eval("Promise.reject(new Error('nobody handles this'));");
+        Check.equal("error:Uncaught (in promise) Error: nobody handles this", join(lines), "an unhandled rejection is reported as an error");
+        lines.clear();
+        e.eval("Promise.reject(1).catch(function () { });");
+        e.eval("var late = Promise.reject(2); Promise.resolve().then(function () { late.catch(function () { }); });");
+        Check.equal("", join(lines), "rejections that are handled (also during the same jobs) are not reported");
+        e.eval("Promise.reject('plain text');");
+        Check.equal("error:Uncaught (in promise) plain text", join(lines), "a rejection with a non-error reason");
+    }
+
+    /**
      * Modules: an exported value, an import through the loader, and the error for an import when no loader is set.
      * <p>
      * 모듈: export 한 값, 로더를 통한 import, 로더가 없을 때 import 의 오류.
