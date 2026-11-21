@@ -259,6 +259,28 @@ public class AudioBufferDecoderTest {
     }
 
     /**
+     * A sample rate of the context that is not a whole number (the specification allows any float in the range) uses the interpolated
+     * table: the length follows <code>ceil(frames * rate / fileRate)</code> and the sine is reproduced as for the whole rates.
+     * <p>
+     * 컨텍스트의 표본율이 정수가 아니어도(규격은 범위 안의 어떤 float 도 허용한다) 보간하는 표를 써서 처리한다. 길이는
+     * <code>ceil(프레임 수 * 표본율 / 파일 표본율)</code> 을 따르고 사인파는 정수 표본율에서와 같이 재현된다.
+     */
+    public void testAFractionalSampleRateOfTheContext() {
+        double hz = 1000;
+        int frames = 20000;
+        AudioBuffer b = AudioBufferDecoder.decode(AudioFiles.sineWav(44100, frames, new double[] {hz}, 0.5), null, 44100.5f, null);
+        Check.equal((long) Math.ceil(frames * 44100.5 / 44100.0), b.getLength(), "length");
+        Check.near(44100.5, b.getSampleRate(), 0, "the rate of the buffer");
+        float[] d = b.getChannelData(0);
+        double max = 0;
+        // 양 끝 400 표본을 뺀 모든 표본을 사인과 비교한다.
+        for (int i = 400; i < d.length - 400; i++) {
+            max = Math.max(max, Math.abs(d[i] - 0.5 * Math.sin(2 * Math.PI * hz * i / 44100.5)));
+        }
+        Check.isTrue(max < 6e-5, "error " + max);
+    }
+
+    /**
      * The frame counts around the block size of the pipeline (1, 4095, 4096, 4097, 8192) at the rate of the file and converted: the length is
      * exact, and at the same rate every sample is the file's sample.
      * <p>
