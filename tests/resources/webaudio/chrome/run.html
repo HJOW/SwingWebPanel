@@ -1,0 +1,24 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Web Audio reference run</title></head>
+<body><pre id="o">ready</pre>
+<script src="scenarios.js"></script>
+<script>
+// Chromium 에서 모든 시나리오를 오프라인 렌더링하고 결과를 /save?name=... 로 보낸다(generation 설명은 README.md 참고).
+function b64(f32) { var b = new Uint8Array(f32.buffer, f32.byteOffset, f32.byteLength), s = ''; for (var i = 0; i < b.length; i++) { s += String.fromCharCode(b[i]); } return btoa(s); }
+async function runAll() {
+    var log = [];
+    for (var k = 0; k < SCENARIOS.length; k++) {
+        var sc = SCENARIOS[k], ctx = new OfflineAudioContext(sc.ch, sc.frames, sc.rate);
+        try {
+            sc.build(ctx);
+            var buf = await ctx.startRendering(), data = [];
+            for (var c = 0; c < sc.ch; c++) { data.push(b64(buf.getChannelData(c))); }
+            await fetch('/save?name=' + sc.name, { method: 'POST', body: JSON.stringify({ name: sc.name, ch: sc.ch, frames: sc.frames, rate: sc.rate, data: data }) });
+            log.push(sc.name + ' ok');
+        } catch (e) { log.push(sc.name + ' ERROR ' + e); }
+    }
+    await fetch('/save?name=_meta', { method: 'POST', body: JSON.stringify({ userAgent: navigator.userAgent, date: new Date().toISOString(), count: SCENARIOS.length }) });
+    document.getElementById('o').textContent = log.join('\n');
+    return log;
+}
+</script></body></html>
