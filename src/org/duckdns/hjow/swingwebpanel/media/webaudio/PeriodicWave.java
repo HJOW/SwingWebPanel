@@ -99,6 +99,16 @@ public final class PeriodicWave {
     private final double lowestFundamental;
 
     /**
+     * The index of the last table that still contains the fundamental (the first partial): <code>3 log2(size / 2)</code>. A frequency
+     * below the Nyquist frequency never selects a table beyond it, so a pure sine keeps its amplitude up to the Nyquist frequency; the
+     * reference implementation attenuates the fundamental in the last third of an octave.
+     * <p>
+     * 기본파(첫 부분음)가 아직 들어 있는 마지막 표의 인덱스 <code>3 log2(size / 2)</code>. 나이퀴스트 주파수 아래의 주파수는 그 뒤의 표를 고르지 않으므로
+     * 순수한 사인파는 나이퀴스트 주파수까지 진폭을 유지한다(참조 구현은 마지막 1/3 옥타브에서 기본파를 줄인다).
+     */
+    private final double fundamentalRange;
+
+    /**
      * The factor that turns a frequency in Hz into a table index increment per frame, <code>size / sampleRate</code>.
      * <p>
      * Hz 단위 주파수를 프레임당 표 인덱스 증가량으로 바꾸는 계수 <code>size / sampleRate</code>.
@@ -144,6 +154,7 @@ public final class PeriodicWave {
         this.tables = new float[ranges][];
         this.lowestFundamental = sampleRate / (double) size;
         this.rateScale = size / (double) sampleRate;
+        this.fundamentalRange = Math.min(ranges - 1, BANDS_PER_OCTAVE * (Math.log(size / 2.0) / Math.log(2)));
         build(real, imag, disableNormalization);
     }
 
@@ -282,7 +293,8 @@ public final class PeriodicWave {
         double ratio = absFrequency > 0 ? absFrequency / lowestFundamental : 0.5;
         double cents = Math.log(ratio) / Math.log(2.0) * CENTS_PER_OCTAVE;
         double range = 1 + cents / (CENTS_PER_OCTAVE / BANDS_PER_OCTAVE);
-        range = Math.max(0.0, Math.min(range, tables.length - 1));
+        // 마지막 표들은 부분음이 하나도 없으므로, 기본파가 나이퀴스트 주파수 아래에 있는 동안은 기본파가 남아 있는 마지막 표까지만 쓴다.
+        range = Math.max(0.0, Math.min(range, fundamentalRange));
         int i1 = (int) range;
         int i2 = i1 < tables.length - 1 ? i1 + 1 : i1;
         s.higher = tables[i1];
