@@ -752,6 +752,17 @@ public abstract class BaseAudioContext {
     }
 
     /**
+     * Creates a convolver (<code>createConvolver</code>).
+     * <p>
+     * 컨볼버를 만든다(<code>createConvolver</code>).
+     *
+     * @return the node / 노드
+     */
+    public final ConvolverNode createConvolver() {
+        return new ConvolverNode(this);
+    }
+
+    /**
      * Creates a silent buffer.
      * <p>
      * 무음 버퍼를 만든다.
