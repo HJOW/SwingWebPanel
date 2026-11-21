@@ -210,7 +210,12 @@ public class BrowserJarsTest {
                 Thread.sleep(25L);
             }
         } finally {
-            panelClass.getMethod("dispose").invoke(panel);
+            try {
+                panelClass.getMethod("dispose").invoke(panel);
+            } catch (java.lang.reflect.InvocationTargetException e) {
+                // 원인 예외가 보이도록 풀어서 던진다(리플렉션 호출은 원인을 가린다).
+                throw new RuntimeException("dispose failed: " + e.getCause(), e.getCause());
+            }
         }
         synchronized (messages) {
             return messages.isEmpty() ? null : messages.get(0);

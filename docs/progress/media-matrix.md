@@ -403,3 +403,13 @@ P18-11 이 요구하는 "형식별 입력 자료, 기대 픽셀 또는 PCM, 상�
 - 제품(`src/org/duckdns/hjow/swingwebpanel/media/audio/`): `ChannelMixer`, `aac/{AacBands, AacConfig, AacDecoder, AacFrameDecoder, AacSource}`, `mp3/{Mp3FrameDecoder, Mp3Source}`, `opus/OpusSource`, `vorbis/VorbisSource`, `webm/VorbisInOgg`, `pcm/{AdpcmSource, AiffDecoder, WavDecoder}`.
 - 시험: `tests/src/org/duckdns/hjow/swingwebpanel/media/audio/reference/{ReferenceDecodeTest, ReferenceFixture, ReferenceCompare}`(새), 고친 시험 `opus/OpusDecoderTest`, `pcm/AiffAuDecoderTest`, `vorbis/VorbisDecoderTest`, 시험 자료 `tests/resources/media/audio/**`.
 - 문서: 이 절, 3절 표, `docs/FEATURE_MATRIX.md` AUD-01~09, `docs/progress/{media-aud-a, media-aud-b, media-opus}.md` 의 갱신 표시.
+
+## 12. 넓은 디코딩 경로 `openWide` (P25-05 B2, 2026-11-22)
+
+Web Audio 의 `decodeAudioData` 를 위해 아홉 디코더(WAV, AIFF, AU, FLAC, MP3, AAC, Vorbis, Opus, WebM)가 모두 `WideAudioDecoder.openWide` 를 구현한다. 이 경로는 **파일의 모든 채널을 표준 순서로, float 정밀도로** 내보내는 `FloatPcmSource` 를 돌려준다(클리핑 없음, 1 을 넘을 수 있음). `AudioDecoders.openWide` 는 넓은 경로가 없는 디코더를 16비트 `PcmFloatAdapter` 로 감싼다.
+- **재생용 16비트 `PcmSource` 경로는 바뀌지 않았다.** 위 3절의 "3채널 이상은 `ChannelMixer` 로 스테레오로 다운믹스, 24비트 이상과 float 는 16비트로 반올림"은 **이 재생 경로에 한정된 서술**이다. 두 경로는 같은 디코딩 코어를 공유하며 2채널 이하에서는 넓은 경로를 16비트로 줄인 결과가 재생 경로와 비트 단위로 같다(시험 자료의 2채널 이하 파일 전부, 손실 코덱 포함).
+- **채널 순서**: WAVEFORMATEXTENSIBLE/FFmpeg/Web Audio 4.2절 순서(FL FR FC LFE BL BR BC SL SR). Vorbis, Opus 매핑 군 1, AAC 는 이 순서로 바꾸고 WAV/FLAC/AIFF/AU 는 파일 순서를 그대로 둔다(표와 근거: `docs/progress/webaudio-b.md` 10.4).
+- **정밀도(ffmpeg float 참조 대비 rms 개선)**: MP3 20~42배, AAC 260~420배, Vorbis 137배, Opus 1.03~1.08배(이 구현의 Opus 디코더가 libopus 와 약 0.3 LSB 다르고 원인은 규명하지 않음). 정수 표본은 `표본/2^(비트-1)` 과 비트 단위로 같다(FLAC 4~32비트).
+- **다채널 검증**: 다채널 시험 자료 14개를 ffmpeg 의 채널별 참조와 비교해 정확한 형식은 최대 차이 0, 손실 코덱은 최대 0~1 LSB(rms 0.18 LSB 이하).
+- **손상 정책**: 첫 프레임 뒤의 손상/잘림은 디코딩한 만큼 성공으로 돌려주고(`DecodeResult.isTruncated()`, 경고) 프레임이 하나도 없거나 헤더 손상, 지원하지 않는 변형, 한도 초과, 채널 32개 초과는 `EncodingError`. 표시 없이 짧게 디코딩되는 잘림이 있다(MP3, ADTS AAC, Ogg Vorbis/Opus, Ogg FLAC; `truncated` 표시를 시험한 것은 FLAC 네이티브뿐).
+- 시험 `media.audio.wide.*`(5개 클래스, 13건)와 `media.webaudio.decode.*`, 시험 자료 `tests/resources/media/audio/{wide,trunc,generation}`(352,232 바이트, `generation/*.sh` 로 재생성, ffmpeg `N-125875-g5d4d3bdc61-20260731`). 상세와 한계는 `docs/progress/webaudio-b.md` 10절.
