@@ -640,6 +640,26 @@ public final class PageScripts {
     }
 
     /**
+     * Connects an <code>audio</code> element of this page to an audio graph (the <code>createMediaElementSource</code> of Web Audio, plan item P25-04): the sound of the element no longer
+     * goes to the speakers but to the returned {@linkplain org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementTap tap}, which the node of the graph pulls from, and the element
+     * keeps working as before with the graph as its clock. An element can be connected once, for good. Call it as a task of the page.
+     * <p>
+     * 이 페이지의 <code>audio</code> 요소를 오디오 그래프에 연결한다(Web Audio 의 <code>createMediaElementSource</code>, 계획 P25-04): 요소의 소리는 더는 스피커로 가지 않고 반환하는
+     * {@linkplain org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementTap 탭}으로 가며 그래프의 노드가 거기서 가져간다. 요소는 그래프를 시계로 삼아 전처럼 동작한다. 요소는
+     * 한 번만, 영구히 연결할 수 있다. 페이지의 작업으로 부른다.
+     *
+     * @param element           the element / 요소
+     * @param contextSampleRate the sample rate of the context in Hz / 컨텍스트의 샘플링 주파수(Hz)
+     * @return the tap / 탭
+     * @throws IllegalArgumentException if the element is no <code>audio</code> element of this page (<code>video</code> is not supported) / 요소가 이 페이지의
+     *                                  <code>audio</code> 요소가 아니면(<code>video</code> 는 지원하지 않는다)
+     * @throws IllegalStateException    if the element was connected before / 요소를 전에 연결했으면
+     */
+    public org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementTap connectMediaElement(Element element, float contextSampleRate) {
+        return media.connectToGraph(element, contextSampleRate);
+    }
+
+    /**
      * Tells whether the parser still works on the document (the media elements that the parser made wait for its end before their text tracks are
      * selected automatically).
      * <p>

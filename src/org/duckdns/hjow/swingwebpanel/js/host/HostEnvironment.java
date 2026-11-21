@@ -6,6 +6,7 @@ import org.duckdns.hjow.swingwebpanel.css.media.MediaQueryList;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.storage.LocalStorageManager;
 import org.duckdns.hjow.swingwebpanel.storage.SessionStorage;
@@ -164,6 +165,22 @@ public abstract class HostEnvironment {
      * @return the factory or null / 팩터리 또는 null
      */
     public AudioOutputFactory getAudioOutputFactory() {
+        return null;
+    }
+
+    /**
+     * Returns the factory that opens the outputs of the real-time <code>AudioContext</code> objects of the page (Web Audio, plan item P25-07), or null for the system output
+     * (Java Sound, with a silent output that keeps the time running when there is no device or it cannot be opened). It is the Web Audio counterpart of
+     * {@link #getAudioOutputFactory()}: the two are chosen independently, because the outputs differ in kind (a Web Audio output takes floating point audio and blocks until the device has
+     * room, the output of a media element takes 16 bit PCM and never blocks).
+     * <p>
+     * 페이지의 실시간 <code>AudioContext</code> 의 출력을 여는 팩터리를 반환한다(Web Audio, 계획 P25-07). 없으면 null 이며 시스템 출력(Java Sound. 장치가 없거나 열 수 없으면 시간을 계속
+     * 흐르게 하는 무음 출력)을 쓴다. {@link #getAudioOutputFactory()} 의 Web Audio 짝이다: 둘은 따로 고른다. 출력의 성격이 다르기 때문이다(Web Audio 출력은 부동 소수점 오디오를 받고
+     * 장치에 빈 곳이 생길 때까지 기다리며, 미디어 요소의 출력은 16비트 PCM 을 받고 기다리지 않는다).
+     *
+     * @return the factory or null for the system output / 팩터리. 시스템 출력이면 null
+     */
+    public OutputFactory getWebAudioOutputFactory() {
         return null;
     }
 

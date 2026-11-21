@@ -22,6 +22,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.ScriptText;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.js.host.WebRequestSource;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
@@ -879,6 +880,18 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource, C
      */
     public AudioOutputFactory getAudioOutputFactory() {
         return view.getAudioOutputFactory();
+    }
+
+    /**
+     * Returns the factory of the outputs that the component chose for the real-time Web Audio contexts of its pages (null for the system output).
+     * <p>
+     * 컴포넌트가 페이지의 실시간 Web Audio 컨텍스트를 위해 고른 출력의 팩터리를 반환한다(시스템 출력이면 null).
+     *
+     * @return the factory or null / 팩터리 또는 null
+     */
+    @Override
+    public OutputFactory getWebAudioOutputFactory() {
+        return view.getWebAudioOutputFactory();
     }
 
     /** Returns the document scheduler. / 문서 스케줄러를 반환한다.

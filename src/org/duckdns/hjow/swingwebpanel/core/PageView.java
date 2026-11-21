@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.dom.Document;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.FetchLimits;
 import org.duckdns.hjow.swingwebpanel.net.ResourceFetcher;
@@ -68,6 +69,9 @@ public final class PageView {
 
     /** The factory of the sound outputs of the media elements, or null. / 미디어 요소의 소리 출력 팩터리. 없으면 null. */
     private volatile AudioOutputFactory audioOutputs;
+
+    /** The factory of the outputs of the real-time Web Audio contexts, or null for the system output. / 실시간 Web Audio 컨텍스트의 출력 팩터리. 시스템 출력이면 null. */
+    private volatile OutputFactory webAudioOutputs;
 
     /** The Swing overlays of the form controls (editors, bubbles, file chooser), or null. 폼 컨트롤의 Swing 오버레이(편집기, 말풍선, 파일 선택기). 없으면 null. */
     private volatile ControlOverlays controlOverlays;
@@ -136,6 +140,18 @@ public final class PageView {
      */
     public void setAudioOutputFactory(AudioOutputFactory factory) {
         this.audioOutputs = factory;
+    }
+
+    /**
+     * Sets the factory that opens the outputs of the real-time <code>AudioContext</code> objects of the pages that this view shows (null for the system output, Java Sound).
+     * The component sets it once, when it is created.
+     * <p>
+     * 이 뷰가 보여 주는 페이지의 실시간 <code>AudioContext</code> 의 출력을 여는 팩터리를 정한다(null 이면 시스템 출력, Java Sound). 컴포넌트가 만들어질 때 한 번 정한다.
+     *
+     * @param factory the factory or null / 팩터리 또는 null
+     */
+    public void setWebAudioOutputFactory(OutputFactory factory) {
+        this.webAudioOutputs = factory;
     }
 
     /**
@@ -214,6 +230,17 @@ public final class PageView {
      */
     public AudioOutputFactory getAudioOutputFactory() {
         return audioOutputs;
+    }
+
+    /**
+     * Returns the factory of the outputs of the real-time Web Audio contexts, or null for the system output.
+     * <p>
+     * 실시간 Web Audio 컨텍스트의 출력 팩터리를 반환한다. 시스템 출력이면 null.
+     *
+     * @return the factory or null / 팩터리 또는 null
+     */
+    public OutputFactory getWebAudioOutputFactory() {
+        return webAudioOutputs;
     }
 
     /**

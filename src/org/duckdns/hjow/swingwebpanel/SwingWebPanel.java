@@ -72,6 +72,8 @@ import org.duckdns.hjow.swingwebpanel.media.MediaException;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutput;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
 import org.duckdns.hjow.swingwebpanel.media.playback.JavaSoundOutputFactory;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.output.SystemOutputFactory;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.DefaultSslConfigurer;
 import org.duckdns.hjow.swingwebpanel.net.FetchLimits;
@@ -333,6 +335,35 @@ public class SwingWebPanel extends JPanel implements Scrollable {
                     throw new MediaException(MediaException.Kind.ACCESS_FAILED, "this component has no audio output");
                 }
                 return factory.open(sampleRate, channels);
+            }
+        });
+        view.setWebAudioOutputFactory(new OutputFactory() {
+            /** The factory that the overridable method chose, asked at the first use. / 재정의할 수 있는 메서드가 고른 팩터리. 처음 쓸 때 묻는다. */
+            private OutputFactory chosen;
+
+            /** True once the overridable method was asked. / 재정의할 수 있는 메서드에 물었으면 true. */
+            private boolean asked;
+
+            /** Opens an output with the factory of this component. / 이 컴포넌트의 팩터리로 출력을 연다.
+             * @param sampleRate frames per second / 초당 프레임 수
+             * @param channels the number of channels / 채널 수
+             * @param bufferFrames the buffer in frames / 버퍼(프레임)
+             * @return the output / 출력
+             * @throws IOException if there is no factory or the output cannot be opened / 팩터리가 없거나 출력을 열 수 없으면 */
+            public org.duckdns.hjow.swingwebpanel.media.webaudio.output.AudioOutput open(int sampleRate, int channels, int bufferFrames) throws IOException {
+                OutputFactory factory;
+                synchronized (this) {
+                    if (!asked) {
+                        chosen = SwingWebPanel.this.createWebAudioOutputFactory();
+                        asked = true;
+                    }
+                    factory = chosen;
+                }
+                // 팩터리가 없으면(null) 소리 출력이 없는 것이므로 열 수 없다고 알린다. 렌더링 드라이버가 소리 없이 시간만 흐르는 출력으로 대신한다.
+                if (factory == null) {
+                    throw new IOException("this component has no Web Audio output");
+                }
+                return factory.open(sampleRate, channels, bufferFrames);
             }
         });
         if (effective instanceof ParsingPageLoader) {
@@ -612,6 +643,26 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      */
     protected AudioOutputFactory createAudioOutputFactory() {
         return new JavaSoundOutputFactory();
+    }
+
+    /**
+     * Creates the factory that opens the outputs of the real-time <code>AudioContext</code> objects of the pages (Web Audio, plan item P25-07). The default is the default mixer of
+     * Java Sound ({@link SystemOutputFactory}); a context whose output cannot be opened (no sound device, or the device is busy) still runs, silently, and keeps the time of the context
+     * going at real speed. A host overrides it to send the sound elsewhere (or to switch Web Audio off by returning null, which makes every context play silently), a test to record the audio
+     * that would be played. It is independent of {@link #createAudioOutputFactory()}, which serves the <code>audio</code> elements: a host that wants to redirect all sound overrides both.
+     * The factory is asked once, when the first real-time context starts to run; each segment of a context (the time between a <code>resume()</code> and the next <code>suspend()</code>)
+     * opens its own output, on the rendering thread of the context.
+     * <p>
+     * 페이지의 실시간 <code>AudioContext</code> 의 출력을 여는 팩터리를 만든다(Web Audio, 계획 P25-07). 기본은 Java Sound 의 기본 믹서({@link SystemOutputFactory})이다. 출력을 열 수 없는
+     * 컨텍스트(소리 장치가 없거나 장치가 사용 중)도 소리 없이 돌며 컨텍스트의 시간을 실제 속도로 흐르게 한다. 호스트는 소리를 다른 곳으로 보내려고(또는 null 을 반환해 Web Audio 를 꺼서 모든
+     * 컨텍스트가 소리 없이 돌게 하려고), 시험은 재생되었을 오디오를 기록하려고 재정의한다. <code>audio</code> 요소를 위한 {@link #createAudioOutputFactory()} 와 독립이다: 모든 소리를
+     * 돌리려는 호스트는 둘 다 재정의한다. 팩터리는 첫 실시간 컨텍스트가 돌기 시작할 때 한 번 묻는다. 컨텍스트의 구간(<code>resume()</code> 에서 다음 <code>suspend()</code> 까지의 시간)마다
+     * 컨텍스트의 렌더링 스레드에서 자기 출력을 연다.
+     *
+     * @return the factory, or null for no Web Audio output / 팩터리. Web Audio 출력이 없으면 null
+     */
+    protected OutputFactory createWebAudioOutputFactory() {
+        return new SystemOutputFactory();
     }
 
     /**

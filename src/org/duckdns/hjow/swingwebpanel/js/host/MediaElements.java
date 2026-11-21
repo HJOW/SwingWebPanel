@@ -24,10 +24,14 @@ import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomExceptionObjects;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
 import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoders;
+import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutput;
+import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
 import org.duckdns.hjow.swingwebpanel.media.playback.MediaInfo;
 import org.duckdns.hjow.swingwebpanel.media.playback.MediaPlayer;
 import org.duckdns.hjow.swingwebpanel.media.playback.MediaRanges;
 import org.duckdns.hjow.swingwebpanel.media.playback.PlaybackListener;
+import org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementTap;
+import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 import org.duckdns.hjow.swingwebpanel.render.MediaControlSource;
 import org.duckdns.hjow.swingwebpanel.render.MediaControlState;
@@ -636,6 +640,14 @@ final class MediaElements implements MediaControlSource {
          * 재생기의 보고를 받는 쪽(강하게 잡고, 재생기는 약하게 잡는다).
          */
         PlayerLink link;
+
+        /**
+         * The tap of the audio graph that the element is connected to (<code>createMediaElementSource</code>), or null; once set it stays for good. The playback thread reads it when
+         * it opens an output.
+         * <p>
+         * 요소가 연결된 오디오 그래프의 탭(<code>createMediaElementSource</code>). 없으면 null. 한 번 정해지면 영구히 남는다. 재생 스레드가 출력을 열 때 읽는다.
+         */
+        volatile MediaElementTap tap;
 
         /**
          * The running fetch, or null.
@@ -1921,9 +1933,14 @@ final class MediaElements implements MediaControlSource {
             return;
         }
         PlayerLink link = new PlayerLink(m, m.epoch);
-        MediaPlayer p = new MediaPlayer(page.getEnvironment().getAudioOutputFactory(), link);
+        MediaPlayer p = new MediaPlayer(new ElementOutputs(m, page.getEnvironment().getAudioOutputFactory()), link);
         m.link = link;
         m.player = p;
+        // 그래프에 연결된 요소는 새 리소스가 페이지에 읽혀도 되는 것인지(같은 오리진인지) 다시 정한다.
+        MediaElementTap connected = m.tap;
+        if (connected != null) {
+            connected.setOutputAllowed(mayReadAudio(m));
+        }
         pruneLive();
         live.add(p);
         Element e = m.element();
@@ -1934,6 +1951,126 @@ final class MediaElements implements MediaControlSource {
         p.setLoop(e != null && e.hasAttribute("loop"));
         p.load(t.data, t.mime);
         t.data = null;
+    }
+
+    /**
+     * Opens the outputs of the player of one element: the pipe of the audio graph that the element is connected to (see {@link #connectToGraph}) if it is, the sound output of the
+     * component otherwise. The choice is made each time the player opens an output, so a script that connects the element later redirects the sound (the player is asked to reopen
+     * its output then).
+     * <p>
+     * 요소 하나의 재생기의 출력을 연다: 요소가 연결된 오디오 그래프의 파이프({@link #connectToGraph} 참고)가 있으면 그것을, 없으면 컴포넌트의 소리 출력을 연다. 재생기가 출력을
+     * 열 때마다 고르므로 스크립트가 나중에 요소를 연결하면 소리가 돌려진다(그때 재생기에 출력을 다시 열도록 요청한다).
+     */
+    private static final class ElementOutputs implements AudioOutputFactory {
+
+        /**
+         * The element state.
+         * <p>
+         * 요소 상태.
+         */
+        private final Media media;
+
+        /**
+         * The sound output of the component, or null for none.
+         * <p>
+         * 컴포넌트의 소리 출력. 없으면 null.
+         */
+        private final AudioOutputFactory direct;
+
+        /**
+         * Creates the factory of an element.
+         * <p>
+         * 요소의 팩터리를 만든다.
+         *
+         * @param media  the element state / 요소 상태
+         * @param direct the sound output of the component, or null / 컴포넌트의 소리 출력. 없으면 null
+         */
+        ElementOutputs(Media media, AudioOutputFactory direct) {
+            this.media = media;
+            this.direct = direct;
+        }
+
+        /**
+         * Opens an output on the playback thread.
+         * <p>
+         * 재생 스레드에서 출력을 연다.
+         *
+         * @param sampleRate the sample rate of the media / 미디어의 샘플링 주파수
+         * @param channels   the number of channels / 채널 수
+         * @return the output / 출력
+         * @throws MediaException <code>ACCESS_FAILED</code> without a sound output / 소리 출력이 없으면 <code>ACCESS_FAILED</code>
+         */
+        public AudioOutput open(int sampleRate, int channels) throws MediaException {
+            MediaElementTap tap = media.tap;
+            // 오디오 그래프에 연결된 요소는 소리가 스피커가 아니라 그래프로 간다.
+            if (tap != null) {
+                return tap.open(sampleRate, channels);
+            }
+            if (direct == null) {
+                throw new MediaException(MediaException.Kind.ACCESS_FAILED, "this component has no audio output");
+            }
+            return direct.open(sampleRate, channels);
+        }
+    }
+
+    /**
+     * Connects an <code>audio</code> element to an audio graph (Web Audio <code>createMediaElementSource</code>, plan item P25-04): from now on the sound of the element is not
+     * played to the speakers but offered to the returned {@linkplain MediaElementTap tap}, which the graph pulls from; the element keeps playing, pausing, seeking, looping and
+     * reporting its events as before, with the audio graph as its clock (see {@link MediaElementTap}). A player that has an output open for the speakers is asked to reopen it as a
+     * pipe of the graph at the position that is heard now. An element can be connected once, to one node of one context, for good. Call it on the thread that owns the page.
+     * <p>
+     * <code>audio</code> 요소를 오디오 그래프에 연결한다(Web Audio <code>createMediaElementSource</code>, 계획 P25-04): 이제부터 요소의 소리는 스피커로 재생되지 않고 반환하는
+     * {@linkplain MediaElementTap 탭}에 제공되며 그래프가 거기서 가져간다. 요소는 전처럼 재생, 일시정지, 탐색, 반복하고 이벤트를 알리며 오디오 그래프가 시계가 된다({@link MediaElementTap}
+     * 참고). 스피커용 출력을 열어 둔 재생기는 지금 들리는 위치에서 그것을 그래프의 파이프로 다시 열도록 요청받는다. 요소는 한 번만, 한 컨텍스트의 한 노드에, 영구히 연결할 수 있다.
+     * 페이지를 소유한 스레드에서 부른다.
+     *
+     * @param e                 the element / 요소
+     * @param contextSampleRate the sample rate of the context in Hz / 컨텍스트의 샘플링 주파수(Hz)
+     * @return the tap / 탭
+     * @throws IllegalArgumentException if the element is no <code>audio</code> element of this page (a <code>video</code> element is not supported) / 요소가 이 페이지의
+     *                                  <code>audio</code> 요소가 아니면(<code>video</code> 요소는 지원하지 않는다)
+     * @throws IllegalStateException    if the element was connected before / 요소를 전에 연결했으면
+     */
+    MediaElementTap connectToGraph(Element e, float contextSampleRate) {
+        if (!isMedia(e) || "video".equals(e.getLocalName())) {
+            throw new IllegalArgumentException("not an audio element");
+        }
+        if (e.getOwnerDocument() != page.getDocument()) {
+            throw new IllegalArgumentException("the element belongs to another document");
+        }
+        Media m = state(e);
+        if (m.tap != null) {
+            throw new IllegalStateException("the element is connected to an audio node already");
+        }
+        MediaElementTap tap = new MediaElementTap(contextSampleRate);
+        m.tap = tap;
+        tap.setOutputAllowed(mayReadAudio(m));
+        MediaPlayer p = m.player;
+        // 스피커용 출력을 이미 열어 둔 재생기는 그래프의 파이프로 다시 열도록 요청한다.
+        if (p != null) {
+            p.reopenOutput();
+        }
+        return tap;
+    }
+
+    /**
+     * Tells whether the page may read the audio of the resource that the element plays: the resource comes from the origin of the document of the element (the fetch of media
+     * does not use the CORS mode yet, so the response of another origin never carries the permission of a server; the web audio specification makes such media silent in the
+     * graph). An element without a resource is allowed (nothing is heard).
+     * <p>
+     * 페이지가 요소가 재생하는 리소스의 오디오를 읽어도 되는지 알려 준다: 리소스가 요소의 문서와 같은 오리진에서 온 것이어야 한다(미디어 가져오기는 아직 CORS 모드를 쓰지 않으므로 다른
+     * 오리진의 응답에는 서버의 허가가 실려 있지 않다. Web Audio 규격은 그런 미디어를 그래프에서 무음으로 만든다). 리소스가 없는 요소는 허용한다(들리는 것이 없다).
+     *
+     * @param m the element state / 요소 상태
+     * @return true if the audio may reach the page / 오디오가 페이지에 닿아도 되면 true
+     */
+    private boolean mayReadAudio(Media m) {
+        Element e = m.element();
+        if (e == null || m.currentSrc.length() == 0) {
+            return true;
+        }
+        Origin document = Origin.of(e.getOwnerDocument().getOriginUrl());
+        return document.isSameOrigin(Origin.of(m.currentSrc));
     }
 
     /**
