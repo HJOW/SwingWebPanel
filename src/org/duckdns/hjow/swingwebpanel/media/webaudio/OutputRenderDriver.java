@@ -473,6 +473,29 @@ public final class OutputRenderDriver implements RealtimeAudioContext.Driver, Ru
     }
 
     /**
+     * Ends the segment that runs now and starts the next one at once, so that a new factory (see {@link #setOutputFactory}) is used from now on: the output of the old segment
+     * is released (the audio that was queued in it is discarded, at most one buffer of it, 50 to 80 ms) and the next segment opens a new output. The time of the context goes on
+     * from the rendered frames, as at a pause and a resume, but the state of the context is not touched. It has no effect while the driver is paused, not started or closed
+     * (the next start uses the new factory anyway). The script layer calls it for <code>setSinkId</code> of a running context.
+     * <p>
+     * 지금 돌고 있는 구간을 끝내고 곧바로 다음 구간을 시작해 새 팩터리({@link #setOutputFactory} 참고)를 이제부터 쓰게 한다: 이전 구간의 출력은 해제되고(그 안에 큐에 있던
+     * 오디오는, 많아야 버퍼 하나 분량인 50 ~ 80 ms, 버려진다) 다음 구간이 새 출력을 연다. 컨텍스트의 시간은 일시정지와 재개 때처럼 렌더링한 프레임에서 이어지지만 컨텍스트의
+     * 상태는 건드리지 않는다. 드라이버가 일시정지, 시작 전, 닫힘이면 효과가 없다(다음 시작이 어차피 새 팩터리를 쓴다). 스크립트 계층이 실행 중인 컨텍스트의
+     * <code>setSinkId</code> 에 쓴다.
+     */
+    public void restart() {
+        synchronized (lock) {
+            // 돌고 있는 구간이 없으면 할 일이 없다. 다음 시작이 새 팩터리를 쓴다.
+            if (!running || closed) {
+                return;
+            }
+            epoch++;
+            lock.notifyAll();
+        }
+        wakeWriter();
+    }
+
+    /**
      * Stops the rendering for good: the thread ends and the output is released.
      * <p>
      * 렌더링을 완전히 멈춘다: 스레드가 끝나고 출력이 해제된다.

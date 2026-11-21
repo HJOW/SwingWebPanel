@@ -195,6 +195,13 @@ public final class MediaPlayer {
     private volatile long seekRequest = -1;
 
     /**
+     * True while the playback thread is asked to reopen the output (see {@link #reopenOutput()}); written under {@link #lock}.
+     * <p>
+     * 재생 스레드가 출력을 다시 열도록 요청받은 동안 true({@link #reopenOutput()} 참고). {@link #lock} 아래에서 쓴다.
+     */
+    private boolean reopenRequested;
+
+    /**
      * True once the start of the sound was reported for the current play request; guarded by {@link #lock}.
      * <p>
      * 현재의 재생 요청에 대해 소리의 시작을 이미 알렸으면 true. {@link #lock} 으로 보호한다.
@@ -500,6 +507,28 @@ public final class MediaPlayer {
     }
 
     /**
+     * Asks the player to give up the output that is open and to open a new one through its factory at the next write, continuing at the position that is heard now (the sound that
+     * was queued in the old output is dropped and decoded again for the new one, so nothing is skipped and nothing is repeated). It is for a factory that decided to serve another
+     * destination since the output was opened: the host of the Web Audio API routes the sound of an element into the graph of an audio context when a script connects the
+     * element, and a paused element still holds the output that it opened for the speakers. Nothing is reported to the listener (this is not a seek). It has no effect if no output is
+     * open (the next one is opened through the factory anyway); it is done by the playback thread, and the call returns at once.
+     * <p>
+     * 열려 있는 출력을 놓고 다음 쓰기 때 팩터리를 통해 새 출력을 열도록 요청한다. 지금 들리는 위치에서 이어 간다(이전 출력에 큐에 있던 소리는 버리고 새 출력을 위해 다시 디코딩하므로
+     * 건너뛰는 것도 반복되는 것도 없다). 출력을 연 뒤 팩터리가 다른 곳을 맡기로 한 경우를 위한 것이다: Web Audio API 의 호스트는 스크립트가 요소를 연결하면 요소의 소리를 오디오 컨텍스트의
+     * 그래프로 돌리는데, 일시정지된 요소도 스피커용으로 열어 둔 출력을 아직 쥐고 있다. 리스너에는 아무것도 알리지 않는다(탐색이 아니다). 열린 출력이 없으면 효과가 없다(다음 출력은
+     * 어차피 팩터리를 통해 연다). 재생 스레드가 하며 호출은 곧바로 돌아온다.
+     */
+    public void reopenOutput() {
+        synchronized (lock) {
+            if (closed) {
+                return;
+            }
+            reopenRequested = true;
+            lock.notifyAll();
+        }
+    }
+
+    /**
      * Sets the loop flag: at the end the playback starts again from the beginning without a gap.
      * <p>
      * 반복 플래그를 정한다: 끝에서 틈 없이 처음부터 다시 재생한다.
@@ -799,15 +828,25 @@ public final class MediaPlayer {
         while (true) {
             long seek;
             boolean play;
+            boolean reopen;
             synchronized (lock) {
                 if (closed) {
                     return;
                 }
                 seek = seekRequest;
                 play = wantPlay;
+                // 대기 중인 탐색이 없을 때만 출력 다시 열기를 처리한다(탐색이 먼저 끝나야 위치가 정해진다).
+                reopen = reopenRequested && seek < 0;
+                if (reopen) {
+                    reopenRequested = false;
+                }
             }
             if (seek >= 0) {
                 performSeek(seek);
+                continue;
+            }
+            if (reopen) {
+                performReopen();
                 continue;
             }
             if (!play) {
@@ -1109,6 +1148,57 @@ public final class MediaPlayer {
         }
         if (!superseded) {
             report(N_SEEKED, null, 0);
+        }
+    }
+
+    /**
+     * Gives up the open output and moves the decoder back to the position that is heard now, so that the next write opens a new output through the factory and continues
+     * there (see {@link #reopenOutput()}). The sound that was queued in the old output is decoded again; the played ranges and the position do not change.
+     * <p>
+     * 열린 출력을 놓고 디코더를 지금 들리는 위치로 되돌려, 다음 쓰기가 팩터리를 통해 새 출력을 열고 거기서 이어 가게 한다({@link #reopenOutput()} 참고). 이전 출력에 큐에 있던 소리는
+     * 다시 디코딩한다. 재생한 범위와 위치는 바뀌지 않는다.
+     *
+     * @throws InterruptedException if the player is being closed / 재생기를 닫는 중이면
+     */
+    private void performReopen() throws InterruptedException {
+        AudioOutput old;
+        synchronized (positionLock) {
+            old = output;
+        }
+        MediaInfo i = info;
+        // 열린 출력이 없으면 다음에 열 때 팩터리가 새로 정하므로 할 일이 없다. 로드 전이어도 마찬가지이다.
+        if (old == null || source == null || i == null) {
+            return;
+        }
+        // 지금 들리는 프레임(쓴 프레임에서 큐에 남은 프레임을 뺀 값)에서 이어 간다.
+        long frame = Math.round(currentFrame(i));
+        endRun();
+        closeOutput();
+        try {
+            // 탐색할 수 있는 소스는 바로 옮기고, 아닌 소스는 처음부터 다시 열어 읽으며 버린다.
+            if (source.isSeekable()) {
+                source.seekToFrame(frame);
+            } else {
+                rewindSource();
+                skipFrames(frame);
+            }
+        } catch (MediaException e) {
+            if (e.getKind() == MediaException.Kind.CANCELLED) {
+                throw new InterruptedException("decoding was cancelled");
+            }
+            failPlayback(e);
+            return;
+        } catch (RuntimeException e) {
+            failPlayback(new MediaException(MediaException.Kind.CORRUPT, "the decoder failed: " + e, e));
+            return;
+        }
+        blockLength = 0;
+        blockOffset = 0;
+        eof = false;
+        resetConverter();
+        synchronized (positionLock) {
+            acceptedFrames = frame;
+            lastFrame = frame;
         }
     }
 
