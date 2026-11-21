@@ -187,6 +187,14 @@ public abstract class BaseAudioContext {
     private volatile int mutedNodes;
 
     /**
+     * The parameters that belong to the context and not to a node (the position and the orientation of the listener); the rendering
+     * computes them before the nodes in every quantum.
+     * <p>
+     * 노드가 아니라 컨텍스트가 가진 파라미터(리스너의 위치와 방향). 렌더링은 quantum 마다 노드보다 먼저 이것을 계산한다.
+     */
+    private final ArrayList<AudioParam> contextParams = new ArrayList<AudioParam>();
+
+    /**
      * The shared basic waves (created when an oscillator needs one).
      * <p>
      * 공유하는 기본 파형(발진기가 필요로 할 때 만든다).
@@ -471,6 +479,19 @@ public abstract class BaseAudioContext {
     }
 
     /**
+     * Registers a parameter that belongs to the context (called while the context is built, before the first render).
+     * <p>
+     * 컨텍스트가 가진 파라미터를 등록한다(컨텍스트를 만드는 동안, 첫 렌더링 전에 부른다).
+     *
+     * @param p the parameter / 파라미터
+     * @return the same parameter / 같은 파라미터
+     */
+    final AudioParam registerContextParam(AudioParam p) {
+        contextParams.add(p);
+        return p;
+    }
+
+    /**
      * Returns the shared periodic wave of a basic oscillator type.
      * <p>
      * 기본 발진기 종류의 공유 주기파를 반환한다.
@@ -514,6 +535,10 @@ public abstract class BaseAudioContext {
             }
             serial++;
             long frame0 = currentFrame;
+            // 컨텍스트가 가진 파라미터(리스너의 위치와 방향 등)를 노드보다 먼저 계산한다.
+            for (int i = 0; i < contextParams.size(); i++) {
+                contextParams.get(i).computeValues(frame0, renderQuantumSize);
+            }
             // 렌더링 순서대로 노드를 렌더링한다.
             for (int s = 0; s < steps.length; s++) {
                 steps[s].renderStep(frame0, renderQuantumSize, serial, phases[s]);

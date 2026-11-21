@@ -89,18 +89,23 @@ public final class StereoPannerNode extends AudioNode {
         float[] inL = in.channel(0);
         boolean mono = in.getNumberOfChannels() == 1;
         float[] inR = mono ? inL : in.channel(1);
-        // 프레임마다 pan 값으로 좌우 이득을 구해 규격의 식대로 출력한다.
+        double gl = 0.0;
+        double gr = 0.0;
+        double lastPan = Double.NaN;
+        // 프레임마다 pan 값으로 좌우 이득을 구해 규격의 식대로 출력한다. pan 이 바뀌지 않는 동안은 이득을 다시 계산하지 않는다.
         for (int i = 0; i < frames; i++) {
             double p = Math.max(-1.0, Math.min(1.0, pan.valueAt(i)));
+            if (p != lastPan) {
+                lastPan = p;
+                double x = mono ? (p + 1.0) / 2.0 : (p <= 0 ? p + 1.0 : p);
+                gl = Math.cos(x * Math.PI / 2.0);
+                gr = Math.sin(x * Math.PI / 2.0);
+            }
             if (mono) {
-                double x = (p + 1.0) / 2.0;
                 float s = inL[i];
-                left[i] = (float) (s * Math.cos(x * Math.PI / 2.0));
-                right[i] = (float) (s * Math.sin(x * Math.PI / 2.0));
+                left[i] = (float) (s * gl);
+                right[i] = (float) (s * gr);
             } else {
-                double x = p <= 0 ? p + 1.0 : p;
-                double gl = Math.cos(x * Math.PI / 2.0);
-                double gr = Math.sin(x * Math.PI / 2.0);
                 float l = inL[i];
                 float r = inR[i];
                 if (p <= 0) {

@@ -222,6 +222,7 @@ public class EngineStateTest {
         Thread renderer = new Thread(new Runnable() {
             public void run() {
                 try {
+                    // 렌더링 스레드는 전체 길이를 채울 때까지 quantum 을 하나씩 렌더링한다.
                     while (!ctx.isComplete()) {
                         ctx.renderNextQuantum();
                     }

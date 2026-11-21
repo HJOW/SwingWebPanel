@@ -106,6 +106,34 @@ public final class BiquadCoefficients {
     public double a2;
 
     /**
+     * The gain in dB of the last call, for which {@link #cachedA} was computed (NaN before the first call).
+     * <p>
+     * 마지막 호출의 이득(dB). {@link #cachedA} 를 이 값으로 계산했다(첫 호출 전에는 NaN).
+     */
+    private double cachedGainDb = Double.NaN;
+
+    /**
+     * The amplitude factor <code>10^(gain / 40)</code> of {@link #cachedGainDb}.
+     * <p>
+     * {@link #cachedGainDb} 의 진폭 계수 <code>10^(gain / 40)</code>.
+     */
+    private double cachedA = 1.0;
+
+    /**
+     * The Q value of the last call, for which {@link #cachedQLin} was computed (NaN before the first call).
+     * <p>
+     * 마지막 호출의 Q 값. {@link #cachedQLin} 을 이 값으로 계산했다(첫 호출 전에는 NaN).
+     */
+    private double cachedQDb = Double.NaN;
+
+    /**
+     * The linear value <code>10^(Q / 20)</code> of {@link #cachedQDb}, used by the low-pass and the high-pass.
+     * <p>
+     * {@link #cachedQDb} 의 선형 값 <code>10^(Q / 20)</code>. 저역/고역 통과가 쓴다.
+     */
+    private double cachedQLin = 1.0;
+
+    /**
      * Creates the coefficients of a filter that passes the signal unchanged.
      * <p>
      * 신호를 그대로 통과시키는 필터의 계수를 만든다.
@@ -169,7 +197,16 @@ public final class BiquadCoefficients {
         } else {
             f = Math.max(0.0, f);
         }
-        double a = Math.pow(10.0, gainDb / 40.0);
+        // 지수 계산은 값이 바뀔 때만 다시 한다(주파수만 자동화되는 흔한 경우에 프레임마다 거듭제곱을 부르지 않게 한다).
+        if (gainDb != cachedGainDb) {
+            cachedGainDb = gainDb;
+            cachedA = Math.pow(10.0, gainDb / 40.0);
+        }
+        if (q != cachedQDb) {
+            cachedQDb = q;
+            cachedQLin = Math.pow(10.0, q / 20.0);
+        }
+        double a = cachedA;
         double w0 = Math.PI * f;
         double cosw = Math.cos(w0);
         double sinw = Math.sin(w0);
@@ -178,7 +215,7 @@ public final class BiquadCoefficients {
             if (f == 1.0) {
                 set(1, 0, 0, 1, 0, 0);
             } else if (f > 0.0) {
-                double alpha = sinw / (2.0 * Math.pow(10.0, q / 20.0));
+                double alpha = sinw / (2.0 * cachedQLin);
                 set((1 - cosw) / 2, 1 - cosw, (1 - cosw) / 2, 1 + alpha, -2 * cosw, 1 - alpha);
             } else {
                 set(0, 0, 0, 1, 0, 0);
@@ -189,7 +226,7 @@ public final class BiquadCoefficients {
             if (f == 1.0) {
                 set(0, 0, 0, 1, 0, 0);
             } else if (f > 0.0) {
-                double alpha = sinw / (2.0 * Math.pow(10.0, q / 20.0));
+                double alpha = sinw / (2.0 * cachedQLin);
                 set((1 + cosw) / 2, -(1 + cosw), (1 + cosw) / 2, 1 + alpha, -2 * cosw, 1 - alpha);
             } else {
                 set(1, 0, 0, 1, 0, 0);

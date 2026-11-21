@@ -290,9 +290,11 @@ public final class BiquadFilterNode extends AudioNode {
             double lastF = Double.NaN;
             double lastQ = Double.NaN;
             double lastG = Double.NaN;
-            // 프레임마다 파라미터가 바뀐 경우에만 계수를 다시 계산한다.
+            boolean detuneConstant = detune.isConstantBlock();
+            double detuneFactor = detuneConstant ? Math.pow(2.0, detune.valueAt(0) / 1200.0) : 1.0;
+            // 프레임마다 파라미터가 바뀐 경우에만 계수를 다시 계산한다. 디튠이 일정하면 거듭제곱은 한 번만 계산한다.
             for (int i = 0; i < frames; i++) {
-                double f = frequency.valueAt(i) * Math.pow(2.0, detune.valueAt(i) / 1200.0);
+                double f = frequency.valueAt(i) * (detuneConstant ? detuneFactor : Math.pow(2.0, detune.valueAt(i) / 1200.0));
                 double qq = q.valueAt(i);
                 double g = gain.valueAt(i);
                 if (f != lastF || qq != lastQ || g != lastG) {
