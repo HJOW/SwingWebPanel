@@ -1228,14 +1228,28 @@ public final class WorkletScope {
             if (message == null) {
                 message = String.valueOf(je.getMessage());
             }
-            source = je.getSourceName() == null ? "" : je.getSourceName();
-            line = je.getLine();
-            col = je.getColumn();
+            // 던진 위치(런타임 오류)가 있으면 그것을, 없으면 구문 오류의 위치를 쓴다.
+            source = sourceOf(je);
+            line = je.getThrowLine() > 0 ? je.getThrowLine() : je.getLine();
+            col = je.getThrowLine() > 0 ? je.getThrowColumn() : je.getColumn();
         } else if (e instanceof ScriptAbortedException) {
             message = "Script aborted: " + e.getMessage();
         }
         reportException(e);
         return new WorkletProcessorException(message, source, line, col);
+    }
+
+    /**
+     * Returns the name of the script of an exception: where it was thrown if that is known, otherwise the script of its syntax error.
+     * <p>
+     * 예외의 스크립트 이름을 반환한다: 던진 곳을 알면 그곳, 아니면 구문 오류의 스크립트.
+     *
+     * @param e the exception / 예외
+     * @return the name, an empty string for none / 이름. 없으면 빈 문자열
+     */
+    private static String sourceOf(JsException e) {
+        String s = e.getThrowLine() > 0 && e.getThrowSourceName() != null ? e.getThrowSourceName() : e.getSourceName();
+        return s == null ? "" : s;
     }
 
     /**
@@ -1259,8 +1273,8 @@ public final class WorkletScope {
             } catch (RuntimeException ignored) {
                 message = null;
             }
-            report(ConsoleRecord.Kind.UNCAUGHT_EXCEPTION, "Uncaught " + (message == null ? String.valueOf(je.getMessage()) : message), je.getSourceName() == null ? "" : je.getSourceName(),
-                    je.getLine(), je.getColumn());
+            report(ConsoleRecord.Kind.UNCAUGHT_EXCEPTION, "Uncaught " + (message == null ? String.valueOf(je.getMessage()) : message), sourceOf(je),
+                    je.getThrowLine() > 0 ? je.getThrowLine() : je.getLine(), je.getThrowLine() > 0 ? je.getThrowColumn() : je.getColumn());
         } else {
             report(ConsoleRecord.Kind.HOST_ERROR, "Internal error of the audio worklet: " + e, "", 0, 0);
         }

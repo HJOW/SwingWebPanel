@@ -18,7 +18,7 @@ public final class WorkletLimits {
      * <code>process()</code> 호출 하나의 단계 수 한도(엔진은 문장, 반복 한 번, 호출을 센다). 넘으면 예외를 던진 것처럼 실패한다(<code>processorerror</code> 이벤트, 영구 무음). 128 프레임을 몇 문장으로 도는
      * 프로세서는 수천 단계가 든다.
      */
-    public static final long PROCESS_STEP_LIMIT = 4000000L;
+    public static final long PROCESS_STEP_LIMIT = 2000000L;
 
     /**
      * The time limit of one call of <code>process()</code> in a real-time context, in milliseconds: a call that takes longer fails like one that throws. It is about

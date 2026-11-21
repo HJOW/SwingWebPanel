@@ -38,7 +38,7 @@ public class AudioWorkletRenderTest {
         p.run("var out = null; var err = null; " + setup + " ctx.audioWorklet.addModule('" + module + "').then(function () { " + steps + " }).then(function (b) { out = b; }, "
                 + "function (e) { err = e.name + ': ' + e.message; });");
         p.waitFor("out !== null || err !== null", 30000, "the rendering");
-        Check.equal("null", p.run("String(err)"), "no error " + p.fixture.console);
+        Check.equal("null", p.run("String(err)"), "no error " + p.console());
     }
 
     /**

@@ -1,5 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.duckdns.hjow.swingwebpanel.js.ConsoleHook;
 import org.duckdns.hjow.swingwebpanel.js.host.PageFixture;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
@@ -29,12 +33,45 @@ final class WorkletPage {
     final PageFixture fixture = new PageFixture();
 
     /**
+     * What the consoles of the page and of the worklet received, as <code>level: text</code>; a list that the worklet thread, the rendering threads and the test thread may use at once.
+     * <p>
+     * 페이지와 worklet 의 콘솔이 받은 것(<code>수준: 문자열</code>). worklet 스레드, 렌더링 스레드, 시험 스레드가 동시에 쓸 수 있는 목록.
+     */
+    private final List<String> lines = Collections.synchronizedList(new ArrayList<String>());
+
+    /**
      * Loads an empty page.
      * <p>
      * 빈 페이지를 로드한다.
      */
     WorkletPage() {
         fixture.load(DIR + "page.html", "<!doctype html><body><p>worklet</p></body>");
+        fixture.scripts.getRealm().setConsole(new ConsoleHook() {
+            /**
+             * Keeps the message.
+             * <p>
+             * 메시지를 보관한다.
+             *
+             * @param level the level / 수준
+             * @param text  the text / 문자열
+             */
+            public void message(String level, String text) {
+                lines.add(level + ": " + text);
+            }
+        });
+    }
+
+    /**
+     * Returns a copy of what the consoles received so far.
+     * <p>
+     * 지금까지 콘솔이 받은 것의 복사본을 반환한다.
+     *
+     * @return the lines / 줄
+     */
+    List<String> console() {
+        synchronized (lines) {
+            return new ArrayList<String>(lines);
+        }
     }
 
     /**
@@ -59,7 +96,7 @@ final class WorkletPage {
      */
     String run(String source) {
         String result = fixture.scripts.evaluate(source, "test");
-        Check.notNull(result, "the script threw: " + source + " " + fixture.console);
+        Check.notNull(result, "the script threw: " + source + " " + console());
         return result;
     }
 
@@ -131,7 +168,7 @@ final class WorkletPage {
                 return;
             }
             if (System.currentTimeMillis() > end) {
-                Check.fail("timed out: " + message + " " + condition + " " + fixture.console);
+                Check.fail("timed out: " + message + " " + condition + " " + console());
             }
             sleep(2);
         }
