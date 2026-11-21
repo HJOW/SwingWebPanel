@@ -775,6 +775,51 @@ public final class JsEngine {
     }
 
     /**
+     * Converts a Java value to a script value by the rules in the class description (an advanced hook for code, such as the
+     * <code>javax.script</code> provider, that works with {@link JsValue}s directly).
+     * <p>
+     * Java 값을 클래스 설명의 규칙대로 스크립트 값으로 바꾼다({@link JsValue} 를 직접 다루는 코드, 예: <code>javax.script</code> 제공자를 위한 고급 연결 지점).
+     *
+     * @param value the Java value / Java 값
+     * @return the script value / 스크립트 값
+     * @throws IllegalArgumentException if the value cannot cross to a script / 값이 스크립트로 넘어갈 수 없으면
+     */
+    public synchronized JsValue toScriptValue(Object value) {
+        return JavaValues.toJs(this, value);
+    }
+
+    /**
+     * Converts a script value to a Java value by the rules in the class description (see {@link #toScriptValue(Object)}).
+     * <p>
+     * 스크립트 값을 클래스 설명의 규칙대로 Java 값으로 바꾼다({@link #toScriptValue(Object)} 참조).
+     *
+     * @param value the script value / 스크립트 값
+     * @return the Java value / Java 값
+     */
+    public synchronized Object toJavaValue(JsValue value) {
+        return JavaValues.toJava(this, value);
+    }
+
+    /**
+     * Tells whether a property of a script object (or a global variable) is a function that can be called.
+     * <p>
+     * 스크립트 객체의 프로퍼티(또는 전역 변수)가 호출할 수 있는 함수인지 알려 준다.
+     *
+     * @param target the {@link JsHandle} of the object, or null for the global object / 객체의 {@link JsHandle}. 전역 객체이면 null
+     * @param name   the property name / 프로퍼티 이름
+     * @return true if the property is a function / 프로퍼티가 함수이면 true
+     * @throws IllegalArgumentException if the target is not a handle / target 이 핸들이 아니면
+     */
+    public synchronized boolean isMethod(Object target, String name) {
+        JsObject t = target == null ? realm.getGlobalObject() : handleObject(target);
+        try {
+            return t.hasProperty(name) && t.get(name).isCallable();
+        } catch (JsException e) {
+            throw wrap(e);
+        }
+    }
+
+    /**
      * Implements a Java interface with the functions of a script object (or with the global functions): a call of an interface method calls
      * the function of the same name. A script function that is itself the target implements an interface with a single method.
      * <p>

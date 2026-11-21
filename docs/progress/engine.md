@@ -82,6 +82,49 @@
 ### 2.5 시험 (JDK 6u45, 엔진 단계)
 `js.embed.JsEngineBasicsTest`(12건: ES6 실행, 독립성, 전역, 호출, 컴파일/재실행, 오류 위치, catch, promise 작업, 모듈+로더, 콘솔, 제한, 취소, 다중 스레드)와 `JsEngineValuesTest`(12건: 양방향 변환, 순환, 거부 목록, 객체/배열/함수 핸들, `toPlain`, 호스트 함수와 오류, 중단 통과, 인터페이스 프록시) **24건 통과**. 엔진 단계 전체 **625 통과 / 0 실패 / 0 건너뜀**(601 + 24).
 
+## 3. P26-04 `javax.script`(JSR 223) 제공자 (`org.duckdns.hjow.swingwebpanel.js.script`)
+
+### 3.1 클래스와 등록
+| 클래스 | 역할 |
+| --- | --- |
+| `JsScriptEngineFactory` | `ScriptEngineFactory`. 이름/확장자/MIME, `getParameter`(`THREADING`=`MULTITHREADED`), `getMethodCallSyntax/getOutputStatement/getProgram` |
+| `JsScriptEngine` | `AbstractScriptEngine` + `Compilable` + `Invocable`. 팩터리마다 새 엔진(= 새 `JsEngine`/realm)이라 엔진 인스턴스끼리 독립 |
+| `JsCompiledScript` | `CompiledScript`: `JsRealm.parseScript` 로 한 번 파싱한 AST 를 몇 번이든 실행(다른 realm 에서도) |
+| `JsGlobalBindings` | 기본 컨텍스트의 `ENGINE_SCOPE` = 엔진 전역 객체의 **살아 있는** `Bindings`(`engine.put("x",1)` = `globalThis.x=1`) |
+| `ContextConsole` | `print`/`console.*` → 실행 중인 `ScriptContext` 의 `getWriter()`(log/info/debug/print) 와 `getErrorWriter()`(warn/error), 한 메시지 한 줄 |
+| 등록 | `engine/resources/META-INF/services/javax.script.ScriptEngineFactory`(엔진 JAR 루트, `.gitattributes` 로 LF 고정) |
+
+### 3.2 `ScriptContext` 의 ENGINE/GLOBAL 범위와 JavaScript 전역의 연결 규칙
+- 기본 `ENGINE_SCOPE`: 엔진의 전역 객체를 그대로 보여 주는 `JsGlobalBindings`. 변환은 `JsEngine` 규칙을 따르되 **undefined 는 null**(Rhino 와 같음). 키 규약은 `Bindings`(null→NPE, String 아님→ClassCastException, 빈 문자열→IAE). 전역 `var` 는 JavaScript 에서 삭제할 수 없으므로 `remove` 는 undefined 로 만든다.
+- **다른 `ENGINE_SCOPE` 바인딩**(`eval(script, bindings)` 또는 다른 바인딩을 준 컨텍스트): 엔진은 **`Bindings` 객체(동일성)마다 완전한 realm 하나**를 둔다(약한 참조 목록, 수거되면 정리). 실행 전 바인딩 항목을 그 realm 의 전역으로 복사하고, 실행 뒤 **새로 생겼거나 값이 바뀐 열거 가능 전역**만 바인딩으로 복사하며 스크립트가 지운 전역은 바인딩에서 지운다(그래서 바뀌지 않은 `Integer` 는 `Integer` 로 남음). 같은 바인딩 객체는 `eval` 사이에 변수를 유지하고 서로 다른 바인딩은 변수도 내장 객체 변경도 공유하지 않는다. 새 realm 은 기본 엔진의 실행 제한과 모듈 로더를 복사한다. 한계: `let/const/class` 최상위 선언은 realm 의 선언적 스코프에 남고 바인딩 항목이 아니다(같은 스코프의 이후 스크립트는 보지만 같은 이름을 다시 선언하면 브라우저처럼 SyntaxError).
+- `GLOBAL_SCOPE`(`ScriptEngineManager` 의 `put`): 엔진 스코프에 없는 이름을 읽을 때만 찾는다(`JsRealm.NamedGlobals`). 읽기 전용이며 대입은 엔진 스코프로 간다. 같은 매니저의 다른 엔진이 공유한다.
+- 변환할 수 없는 Java 객체(`new Object()` 등)를 바인딩에 넣으면 live 바인딩의 `put` 은 `IllegalArgumentException`, `eval(script, bindings)` 의 항목은 `ScriptException` 이다. **Rhino/Nashorn 처럼 Java 객체를 스크립트에 노출하지 않는다.** 스크립트가 Java 를 부르려면 `JsHostFunction` 값을 바인딩에 넣는다.
+- `Invocable`: `invokeFunction` 은 기본 컨텍스트 전역 스코프의 함수(없으면 `NoSuchMethodException`), `invokeMethod(thiz, ...)` 의 `thiz` 는 `eval`/`invoke` 가 돌려준 스크립트 객체(`JsHandle`; null/그 밖은 `IllegalArgumentException`), `getInterface` 는 `java.lang.reflect.Proxy`(인터페이스의 **모든** 메서드가 함수로 있어야 하고 아니면 null, 대상이 함수 자신이면 메서드 하나짜리 인터페이스).
+- 오류: `ScriptException(메시지="Name: message", 파일 이름, 줄, 열)` + 원인 `JsScriptError`. 파일 이름은 컨텍스트 속성 `javax.script.filename`(없으면 `<eval>`), 위치를 모르면 -1. 제한/취소로 멈춘 스크립트는 원인이 `ScriptAbortedException` 인 `ScriptException`. `compile` 의 구문 오류도 같은 형식.
+- 스레드: `THREADING`=`MULTITHREADED`. 같은 전역 스코프의 연산은 엔진 잠금으로 직렬화된다(시험 4스레드 x 200번 호출, 카운터 정확).
+- `JsScriptEngine.getJsEngine()` 으로 기본 스코프의 `JsEngine` 을 얻어 실행 제한/시간 제한/취소/모듈 로더를 지정한다.
+
+## 4. P26-05 이름 충돌과 금지 규칙 정리
+
+### 4.1 이름 정책 (결정과 근거)
+- JRE 6~7 의 Rhino 와 JRE 8~14 의 Nashorn 이 `js`/`JavaScript`/`javascript`/`ECMAScript`/`ecmascript`, 확장자 `js`, MIME `application/javascript` 등으로 등록돼 있어 `getEngineByName("javascript")` 가 어느 팩터리를 돌려주는지는 클래스패스 검색 순서에 달려 있고(실제로는 JRE 쪽이 먼저), 이 엔진이 일반 이름을 가로채면 **기존 프로그램이 조용히 다른 엔진(ES6, Java 객체 노출 없음)을 받게 된다.** 그래서 팩터리는 **고유한 식별자만** 등록한다: 이름 `swingwebpanel-js`(첫째), `swingwebpanel-javascript`, 확장자 `swjs`, MIME `application/x-swingwebpanel-javascript`.
+- 일반 이름이 필요한 프로그램(예: 자체 엔진이 없는 Java 15+)은 JVM 옵션 `-Dswingwebpanel.js.genericNames=true`(팩터리 메서드가 호출 시점에 읽음; `ScriptEngineManager` 를 만들기 전에 지정)로 일반 이름/확장자 `js`/일반 MIME 도 등록할 수 있다. 그때도 어느 엔진이 답하는지는 JRE 의 검색 순서에 달려 있다.
+- 이 엔진은 Rhino/Nashorn 등 다른 엔진에 위임하지 않는다(`EngineIndependenceTest` 가 엔진 클래스의 상수 풀에서 `javax/script`(제공자 패키지 제외), `org/mozilla`, `jdk/nashorn`, `sun/org/mozilla` 등을 찾는다).
+
+### 4.2 시험이 증명하는 것 (`ScriptEngineDiscoveryTest`)
+- `getEngineByName("swingwebpanel-js")` 가 `instanceof JsScriptEngine`/`getFactory() instanceof JsScriptEngineFactory` (Rhino/Nashorn 으로 평가된 결과를 합격으로 인정하지 않음), 두 번째 이름/확장자/MIME 도 같음.
+- 매니저의 팩터리 중 이 프로젝트의 것은 정확히 하나, ES2015 문법(화살표 함수, 템플릿 문자열; Rhino 와 JRE 8 Nashorn 은 파싱하지 못함)과 숫자 타입(`Double`)으로 평가 주체를 확인.
+- 기본 설정에서 `getEngineByName("javascript")`, `getEngineByExtension("js")`, `getEngineByMimeType("application/javascript")` 가 **이 엔진을 돌려주지 않음**, 속성을 주면 일반 이름이 추가되고 고유 이름이 첫째로 유지됨.
+
+### 4.3 `tools/sourcecheck` 규칙 변경
+- 옛 규칙(모든 `javax.script` 사용 금지)을 `checkScriptingApi` 로 교체: `javax.script` 는 **엔진 제공자 패키지**(`engine/**/swingwebpanel/js/script/`, 소스와 시험)와 **예제 패키지**(`examples/src/**/examples/script/`)에서만 허용하고 나머지는 모두 `forbidden-engine` 위반이다(제품 코드의 `ScriptEngineManager` 사용 금지 유지, 브라우저 시험도 불허).
+- 새 규칙 `engine-boundary`(P26-01): `engine/` 아래 소스는 `java.awt/applet`, `javax.swing/imageio/sound/print/accessibility`, `java.net/rmi/sql/nio`, `javax.net/sql/rmi/naming`, `java.io.File*`, 브라우저 패키지(`core dom css html layout render net storage media content download`, 루트 `SwingWebPanel`/`Console*`, `js.host/dom/worker`)를 쓰면 위반(엔진 시험은 AWT/Swing/브라우저 패키지만 금지하고 `testing`·파일은 허용).
+- 규칙을 바꾼 뒤 확인(JDK 6u45, 실제 실행): 임시 샘플 7개(`src/.../core`, `engine/src/.../js/embed`, `engine/src/.../js/script`, `engine/tests/.../js/script`, `examples/.../examples/script`, `examples/.../examples`, `tests/.../js/script`)에 `javax.script` import 를 넣어 돌리면 **4건 위반**(core, embed, 일반 examples, 브라우저 tests)이고 제공자 소스/시험/예제 script 패키지는 통과. `engine/src` 에 임시로 `java.awt.Color` 를 쓰는 클래스를 넣으면 sourcecheck 종료 코드 1, 클래스 상수 풀 시험 실패(`TempLeak.class references java/awt/`), 브라우저 패키지를 쓰면 엔진 컴파일 실패(`package ...core does not exist`). 임시 파일은 지웠다. `--selftest` 에 불량/양호 샘플 추가(`selftest OK`).
+
+### 4.4 시험 결과 (엔진 단계)
+- JDK 6u45: `js.script` 17건 통과(`JsScriptEngineTest` 13, `ScriptEngineDiscoveryTest` 4), `EngineIndependenceTest` 4건 통과(새 2건 포함), 엔진 단계 전체 **644 통과 / 0 실패 / 0 건너뜀**.
+- **JDK 8u202(Nashorn 있음)**: 같은 시험 클래스를 JDK 8 의 `java` 로 실행해 `js.script` 17건 통과(`getEngineByName("javascript")` 는 Nashorn 이 답하고 이 엔진이 아님을 확인). 이 실행은 JRE 6 검증이 아니며 이름 충돌 확인용이다.
+
 ## 조정자 요청
 (작업이 끝나면 AGENTS.md / PROGRESS.md / FEATURE_MATRIX.md / ARCHITECTURE.md 에 넣을 문장을 여기에 모은다.)
 

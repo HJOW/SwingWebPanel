@@ -77,9 +77,10 @@ public class EngineIndependenceTest {
     }
 
     /**
-     * Collects forbidden references in all class files below a directory.
+     * Collects forbidden references in all class files below a directory. The package <code>js/script</code> is the Java Scripting API provider of the engine itself and
+     * is the only one that may name <code>javax/script</code>.
      * <p>
-     * 디렉터리 아래 모든 클래스 파일에서 금지된 참조를 모은다.
+     * 디렉터리 아래 모든 클래스 파일에서 금지된 참조를 모은다. 패키지 <code>js/script</code> 는 엔진 자체의 Java Scripting API 제공자이며 <code>javax/script</code> 를 쓸 수 있는 유일한 곳이다.
      *
      * @param dir    the directory / 디렉터리
      * @param report receives the findings / 발견 내용을 받는다
@@ -87,6 +88,21 @@ public class EngineIndependenceTest {
      * @throws IOException on read failure / 읽기 실패 시
      */
     private void scan(File dir, StringBuilder report, int[] count) throws IOException {
+        scan(dir, report, count, false);
+    }
+
+    /**
+     * Collects forbidden references below a directory; inside the scripting provider package the name <code>javax/script</code> is allowed.
+     * <p>
+     * 디렉터리 아래의 금지된 참조를 모은다. 스크립팅 제공자 패키지 안에서는 <code>javax/script</code> 가 허용된다.
+     *
+     * @param dir       the directory / 디렉터리
+     * @param report    receives the findings / 발견 내용을 받는다
+     * @param count     counts the scanned files in element 0 / 0번 원소에 검사한 파일 수를 센다
+     * @param scripting true inside the scripting provider package / 스크립팅 제공자 패키지 안이면 true
+     * @throws IOException on read failure / 읽기 실패 시
+     */
+    private void scan(File dir, StringBuilder report, int[] count, boolean scripting) throws IOException {
         File[] files = dir.listFiles();
         if (files == null) {
             return;
@@ -98,12 +114,15 @@ public class EngineIndependenceTest {
                 String n = f.getName();
                 boolean libs = n.equals("regexp") || n.equals("num") || n.equals("date") || n.equals("text");
                 if (!libs) {
-                    scan(f, report, count);
+                    scan(f, report, count, scripting || (n.equals("script") && dir.getName().equals("js")));
                 }
             } else if (f.getName().endsWith(".class")) {
                 String text = new String(read(f), "ISO-8859-1");
                 count[0]++;
                 for (int k = 0; k < FORBIDDEN.length; k++) { // 금지 이름을 하나씩 찾아 본다.
+                    if (scripting && FORBIDDEN[k].equals("javax/script")) {
+                        continue;
+                    }
                     if (text.indexOf(FORBIDDEN[k]) >= 0) {
                         report.append("\n  ").append(f.getName()).append(" references ").append(FORBIDDEN[k]);
                     }
@@ -113,9 +132,137 @@ public class EngineIndependenceTest {
     }
 
     /**
+     * Name fragments in the constant pool that tie a class to the display, the network, the files or the browser module: no class of the engine module may
+     * contain one (plan item P26-01). The sub-packages of <code>js</code> that belong to the browser module (<code>host</code>, <code>dom</code>, <code>worker</code>) are not part of
+     * the engine and are not scanned.
+     * <p>
+     * 클래스를 화면, 네트워크, 파일, 브라우저 모듈에 묶는 상수 풀의 이름 조각. 엔진 모듈의 어떤 클래스도 이것을 가질 수 없다(계획 항목 P26-01). 브라우저 모듈에 속하는
+     * <code>js</code> 의 하위 패키지(<code>host</code>, <code>dom</code>, <code>worker</code>)는 엔진이 아니므로 검사하지 않는다.
+     */
+    private static final String[] BOUNDARY = { "java/awt/", "javax/swing/", "java/applet/", "javax/imageio/", "javax/sound/", "java/net/", "javax/net/",
+        "java/io/File", "java/nio/", "java/sql/", "java/rmi/", "org/duckdns/hjow/swingwebpanel/core/", "org/duckdns/hjow/swingwebpanel/dom/",
+        "org/duckdns/hjow/swingwebpanel/css/", "org/duckdns/hjow/swingwebpanel/html/", "org/duckdns/hjow/swingwebpanel/layout/",
+        "org/duckdns/hjow/swingwebpanel/render/", "org/duckdns/hjow/swingwebpanel/net/", "org/duckdns/hjow/swingwebpanel/storage/",
+        "org/duckdns/hjow/swingwebpanel/media/", "org/duckdns/hjow/swingwebpanel/content/", "org/duckdns/hjow/swingwebpanel/download/",
+        "org/duckdns/hjow/swingwebpanel/js/host/", "org/duckdns/hjow/swingwebpanel/js/dom/", "org/duckdns/hjow/swingwebpanel/js/worker/",
+        "org/duckdns/hjow/swingwebpanel/SwingWebPanel", "org/duckdns/hjow/swingwebpanel/Console", "org/duckdns/hjow/swingwebpanel/testing/" };
+
+    /**
+     * The sub-packages of <code>js</code> that make up the engine module (the classes directly in <code>js</code> belong to it too).
+     * <p>
+     * 엔진 모듈을 이루는 <code>js</code> 의 하위 패키지(<code>js</code> 바로 아래의 클래스도 엔진에 속한다).
+     */
+    private static final String[] ENGINE_DIRS = { "ast", "parser", "interp", "builtins", "date", "num", "regexp", "text", "embed", "script" };
+
+    /**
+     * Collects the references to the display, the network, the files and the browser module in the class files of the engine module.
+     * <p>
+     * 엔진 모듈의 클래스 파일에서 화면, 네트워크, 파일, 브라우저 모듈에 대한 참조를 모은다.
+     *
+     * @param dir    the directory / 디렉터리
+     * @param report receives the findings / 발견 내용을 받는다
+     * @param count  counts the scanned files in element 0 / 0번 원소에 검사한 파일 수를 센다
+     * @throws IOException on read failure / 읽기 실패 시
+     */
+    private void scanBoundary(File dir, StringBuilder report, int[] count) throws IOException {
+        File[] files = dir.listFiles();
+        if (files == null) {
+            return;
+        }
+        // 하위 디렉터리는 재귀로, 클래스 파일은 상수 풀 바이트를 검색한다.
+        for (int i = 0; i < files.length; i++) {
+            File f = files[i];
+            if (f.isDirectory()) {
+                scanBoundary(f, report, count);
+            } else if (f.getName().endsWith(".class")) {
+                String text = new String(read(f), "ISO-8859-1");
+                count[0]++;
+                for (int k = 0; k < BOUNDARY.length; k++) { // 경계 이름을 하나씩 찾아 본다.
+                    if (text.indexOf(BOUNDARY[k]) >= 0) {
+                        report.append("\n  ").append(f.getName()).append(" references ").append(BOUNDARY[k]);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * The engine module does not depend on the display, the network, files or the browser module: no class refers to AWT or Swing, to a network or a file
+     * class, or to a class of the browser module. (The engine is also compiled with an empty class path by the build, and these tests run without the browser
+     * classes and with <code>java.awt.headless=true</code>.)
+     * <p>
+     * 엔진 모듈은 화면, 네트워크, 파일, 브라우저 모듈에 의존하지 않는다. 어떤 클래스도 AWT, Swing, 네트워크나 파일 클래스, 브라우저 모듈의 클래스를 참조하지 않는다.
+     * (빌드도 엔진을 빈 클래스패스로 컴파일하며, 이 시험은 브라우저 클래스 없이 <code>java.awt.headless=true</code> 로 실행된다.)
+     *
+     * @throws IOException on read failure / 읽기 실패 시
+     */
+    public void testEngineModuleDoesNotTouchDisplayNetworkFilesOrBrowser() throws IOException {
+        File root = classRoot();
+        if (root == null) {
+            Check.skip("the engine classes are not in a directory (running from a jar), nothing to scan");
+        }
+        File js = new File(root, "org/duckdns/hjow/swingwebpanel/js");
+        StringBuilder report = new StringBuilder();
+        int[] count = new int[1];
+        File[] direct = js.listFiles();
+        // js 바로 아래의 클래스 파일은 엔진에 속하므로 검사한다.
+        for (int i = 0; direct != null && i < direct.length; i++) {
+            if (direct[i].isFile() && direct[i].getName().endsWith(".class")) {
+                String text = new String(read(direct[i]), "ISO-8859-1");
+                count[0]++;
+                for (int k = 0; k < BOUNDARY.length; k++) { // 경계 이름을 하나씩 찾아 본다.
+                    if (text.indexOf(BOUNDARY[k]) >= 0) {
+                        report.append("\n  ").append(direct[i].getName()).append(" references ").append(BOUNDARY[k]);
+                    }
+                }
+            }
+        }
+        // 엔진 하위 패키지 디렉터리를 재귀로 검사한다.
+        for (int i = 0; i < ENGINE_DIRS.length; i++) {
+            scanBoundary(new File(js, ENGINE_DIRS[i]), report, count);
+        }
+        Check.isTrue(count[0] > 150, "scanned a plausible number of class files (" + count[0] + ")");
+        Check.equal("", report.toString(), "references to the display, the network, files or the browser in the engine classes");
+    }
+
+    /**
+     * The scripting provider package really names <code>javax/script</code> (so that the scan of the other packages is meaningful), and no package of the engine
+     * outside it does.
+     * <p>
+     * 스크립팅 제공자 패키지는 실제로 <code>javax/script</code> 를 쓰며(그래서 다른 패키지의 검사가 의미가 있다) 그 밖의 엔진 패키지는 쓰지 않는다.
+     *
+     * @throws IOException on read failure / 읽기 실패 시
+     */
+    public void testOnlyTheProviderPackageUsesTheScriptingApi() throws IOException {
+        File root = classRoot();
+        if (root == null) {
+            Check.skip("the engine classes are not in a directory (running from a jar), nothing to scan");
+        }
+        File script = new File(root, "org/duckdns/hjow/swingwebpanel/js/script");
+        File[] provider = script.listFiles();
+        Check.notNull(provider, "the provider package exists in the class files");
+        int naming = 0;
+        // 제공자 패키지의 클래스 중 javax/script 를 쓰는 것을 센다.
+        for (int i = 0; i < provider.length; i++) {
+            if (provider[i].getName().endsWith(".class") && new String(read(provider[i]), "ISO-8859-1").indexOf("javax/script") >= 0) {
+                naming++;
+            }
+        }
+        Check.isTrue(naming >= 3, "the provider classes name javax/script (" + naming + ")");
+        StringBuilder report = new StringBuilder();
+        int[] count = new int[1];
+        scan(new File(root, "org/duckdns/hjow/swingwebpanel/js/embed"), report, count);
+        scan(new File(root, "org/duckdns/hjow/swingwebpanel/js/interp"), report, count);
+        scan(new File(root, "org/duckdns/hjow/swingwebpanel/js/builtins"), report, count);
+        Check.equal("", report.toString(), "javax/script outside the provider package");
+    }
+
+    /**
      * No engine class refers to a forbidden facility.
      * <p>
      * 어떤 엔진 클래스도 금지된 기능을 참조하지 않는다.
+     *
+     * @throws IOException on read failure / 읽기 실패 시
      */
     public void testNoForbiddenReferences() throws IOException {
         File root = classRoot();
