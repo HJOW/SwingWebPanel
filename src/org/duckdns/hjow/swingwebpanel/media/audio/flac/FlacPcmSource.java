@@ -66,6 +66,33 @@ abstract class FlacPcmSource extends BlockPcmSource {
     }
 
     /**
+     * Decodes the next audio frame of the stream into {@link #decoder} (its <code>samples</code> hold the decoded channels), or returns null at the
+     * end. Both the 16 bit path ({@link #fill(byte[])} converts what this returns) and the wide path ({@link FlacFloatSource}) read frames through
+     * this method.
+     * <p>
+     * 스트림의 다음 오디오 프레임을 {@link #decoder} 로 디코딩하고(<code>samples</code> 에 디코딩된 채널이 있다) 끝이면 null 을 반환한다. 16비트 경로
+     * ({@link #fill(byte[])} 가 이 메서드가 반환한 것을 변환한다)와 넓은 경로({@link FlacFloatSource})가 모두 이 메서드로 프레임을 읽는다.
+     *
+     * @return the header of the decoded frame, or null at the end of the stream / 디코딩한 프레임의 헤더. 스트림 끝이면 null
+     * @throws MediaException if the data is damaged / 데이터가 손상되었으면
+     */
+    abstract FlacFrameDecoder.Header nextFrame() throws MediaException;
+
+    /**
+     * Decodes the next frame and writes it as 16 bit PCM.
+     * <p>
+     * 다음 프레임을 디코딩해 16비트 PCM 으로 쓴다.
+     *
+     * @param out output buffer / 출력 버퍼
+     * @return bytes written or -1 at the end / 쓴 바이트 수. 끝이면 -1
+     * @throws MediaException if the data is damaged / 데이터가 손상되었으면
+     */
+    protected final int fill(byte[] out) throws MediaException {
+        FlacFrameDecoder.Header h = nextFrame();
+        return h == null ? -1 : emit(h, out);
+    }
+
+    /**
      * Converts the frame that was just decoded to output PCM.
      * <p>
      * 방금 디코딩한 프레임을 출력 PCM 으로 바꾼다.

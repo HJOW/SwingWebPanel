@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPacket;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPacketStream;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggReader;
@@ -22,7 +23,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream;
  * 배정, 4~32비트 샘플 크기(16비트로 반올림), 고정/가변 블록 크기, 프레임 CRC-8/CRC-16 확인, 탐색(SEEKTABLE 또는 프레임 색인)을 지원한다. 손상된
  * 데이터를 다루는 정책은 {@link NativeFlacSource} 에 있다.
  */
-public final class FlacDecoder implements AudioDecoder {
+public final class FlacDecoder implements WideAudioDecoder {
 
     /**
      * Creates the decoder.
@@ -98,6 +99,35 @@ public final class FlacDecoder implements AudioDecoder {
      * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
      */
     public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
+        return create(data);
+    }
+
+    /**
+     * Opens the data with every channel of the file and the full bit depth of its samples (see {@link WideAudioDecoder}): a sample of a file of N bits is
+     * exactly <code>sample / 2^(N-1)</code>. The channels keep the order of the file, which is the order of the speaker mask.
+     * <p>
+     * 파일의 모든 채널과 표본의 전체 비트 깊이로 데이터를 연다({@link WideAudioDecoder} 참조). N비트 파일의 표본은 정확히 <code>표본 / 2^(N-1)</code> 이다. 채널은 파일의
+     * 순서를 유지하며 이는 스피커 마스크의 순서이다.
+     *
+     * @param data   the data / 데이터
+     * @param limits limits / 제한
+     * @return float source / float 소스
+     * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
+     */
+    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
+        return new FlacFloatSource(create(data));
+    }
+
+    /**
+     * Parses the headers of a native or an Ogg FLAC file and creates the block decoder that both paths use.
+     * <p>
+     * 네이티브나 Ogg FLAC 파일의 헤더를 해석하고 두 경로가 쓰는 블록 디코더를 만든다.
+     *
+     * @param data the data / 데이터
+     * @return the source that decodes frame after frame / 프레임을 차례로 디코딩하는 소스
+     * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
+     */
+    private static FlacPcmSource create(byte[] data) throws MediaException {
         int start = nativeStart(data);
         if (Bytes.matches(data, start, "fLaC")) {
             return openNative(data, start + 4);
@@ -115,7 +145,7 @@ public final class FlacDecoder implements AudioDecoder {
      * @return the source / 소스
      * @throws MediaException on damaged data / 손상된 데이터일 때
      */
-    private static PcmSource openNative(byte[] d, int pos) throws MediaException {
+    private static FlacPcmSource openNative(byte[] d, int pos) throws MediaException {
         FlacStreamInfo info = null;
         List<long[]> points = new ArrayList<long[]>();
         boolean last = false;
@@ -168,7 +198,7 @@ public final class FlacDecoder implements AudioDecoder {
      * @return the source / 소스
      * @throws MediaException on damaged data / 손상된 데이터일 때
      */
-    private static PcmSource openOgg(byte[] d) throws MediaException {
+    private static FlacPcmSource openOgg(byte[] d) throws MediaException {
         OggReader reader = OggReader.scan(d);
         OggStream stream = reader.findFirst("flac");
         if (stream == null) {

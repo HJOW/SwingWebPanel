@@ -113,13 +113,12 @@ final class NativeFlacSource extends FlacPcmSource {
      * <p>
      * 다음 프레임을 디코딩한다.
      *
-     * @param out output buffer / 출력 버퍼
-     * @return bytes written or -1 at the end / 쓴 바이트 수. 끝이면 -1
+     * @return the header of the decoded frame or null at the end / 디코딩한 프레임의 헤더. 끝이면 null
      * @throws MediaException CORRUPT for a lost sync, a bad CRC or an invalid frame / 동기를 잃었거나 CRC 가 틀리거나 프레임이 올바르지 않으면 CORRUPT
      */
-    protected int fill(byte[] out) throws MediaException {
+    FlacFrameDecoder.Header nextFrame() throws MediaException {
         if (pos >= end) {
-            return -1;
+            return null;
         }
         try {
             FlacFrameDecoder.Header h = decoder.parseHeader(data, pos, end);
@@ -129,16 +128,16 @@ final class NativeFlacSource extends FlacPcmSource {
                     throw new MediaException(MediaException.Kind.CORRUPT, "FLAC stream lost sync at offset " + pos);
                 }
                 pos = end;
-                return -1;
+                return null;
             }
             int len = decoder.decodeFrame(data, pos, end, h);
             record(cursor, pos);
             pos += len;
             cursor += h.blockSize;
-            return emit(h, out);
+            return h;
         } catch (FlacFrameDecoder.Truncated t) {
             pos = end;
-            return -1;
+            return null;
         }
     }
 

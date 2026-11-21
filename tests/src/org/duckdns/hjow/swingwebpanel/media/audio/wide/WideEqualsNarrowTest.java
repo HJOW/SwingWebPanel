@@ -31,7 +31,7 @@ public class WideEqualsNarrowTest {
      * <p>
      * 자기 넓은 경로를 가진 디코더의 계열(나머지는 최대 채널 둘을 주는 16비트 경로로 쓴다).
      */
-    private static final Set<String> WIDE_GROUPS = new HashSet<String>(Arrays.asList("wav", "aiff", "au"));
+    private static final Set<String> WIDE_GROUPS = WideKit.WIDE_GROUPS;
 
     /**
      * Creates the test class.

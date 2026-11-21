@@ -86,16 +86,15 @@ final class OggFlacSource extends FlacPcmSource {
      * <p>
      * 다음 오디오 패킷을 디코딩한다.
      *
-     * @param out output buffer / 출력 버퍼
-     * @return bytes written or -1 at the end / 쓴 바이트 수. 끝이면 -1
+     * @return the header of the decoded frame or null at the end / 디코딩한 프레임의 헤더. 끝이면 null
      * @throws MediaException CORRUPT for an invalid frame / 프레임이 올바르지 않으면 CORRUPT
      */
-    protected int fill(byte[] out) throws MediaException {
+    FlacFrameDecoder.Header nextFrame() throws MediaException {
         // 오디오 프레임이 아닌 패킷(뒤늦은 메타데이터)은 건너뛰며 다음 패킷을 찾는다.
         for (;;) {
             OggPacket p = nextPacket();
             if (p == null) {
-                return -1;
+                return null;
             }
             byte[] d = p.getData();
             if (d.length < 2 || !FlacFrameDecoder.isSync(d[0], d[1])) {
@@ -107,7 +106,7 @@ final class OggFlacSource extends FlacPcmSource {
                     throw new MediaException(MediaException.Kind.CORRUPT, "invalid FLAC frame header in an Ogg packet");
                 }
                 decoder.decodeFrame(d, 0, d.length, h);
-                return emit(h, out);
+                return h;
             } catch (FlacFrameDecoder.Truncated t) {
                 throw new MediaException(MediaException.Kind.CORRUPT, "an Ogg packet holds an incomplete FLAC frame");
             }

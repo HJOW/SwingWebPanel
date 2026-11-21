@@ -23,6 +23,14 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
 final class WideKit {
 
     /**
+     * The families (the <code>group</code> column of the fixture index) whose decoders have a wide path of their own; the others are used through
+     * the 16 bit path, which gives at most two channels.
+     * <p>
+     * 자기 넓은 경로를 가진 디코더의 계열(시험 자료 색인의 <code>group</code> 열). 나머지는 최대 채널 둘을 주는 16비트 경로로 쓴다.
+     */
+    static final java.util.Set<String> WIDE_GROUPS = new java.util.HashSet<String>(Arrays.asList("wav", "aiff", "au", "flac"));
+
+    /**
      * Private constructor: static helpers only.
      * <p>
      * 비공개 생성자: 정적 도우미만 있다.
