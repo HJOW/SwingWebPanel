@@ -296,6 +296,16 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 - 한계: `unhandledrejection`/`rejectionhandled` 이벤트는 아직 없다(콘솔 보고만). `console.trace` 는 호출 스택이 없다(엔진이 스택을 두지 않는다). 줄/열은 호출식의 첫 토큰 위치이며, 기본 함수를 직접 호출한 곳만 안다.
 - 검증 사례: `ConsoleEventIntegrationTest`, `js.interp.ConsoleRecordTest`.
 
+### 5.21 확장 메서드: Web Audio 출력 팩터리 (P25-07, 확장이며 AGENTS.md 의 공개 메서드 목록에는 없다)
+
+`protected org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory createWebAudioOutputFactory()` (`SwingWebPanel`)
+
+- 실시간 `AudioContext` 의 출력을 여는 팩터리를 만든다. 기본은 `new SystemOutputFactory()`(Java Sound 기본 믹서)이다. 장치가 없거나 열 수 없으면 컨텍스트는 **소리 없이 실제 속도로** 돌고 스크립트에는 예외가 없다. `null` 을 반환하면 모든 컨텍스트가 소리 없이 돈다.
+- 첫 실시간 컨텍스트가 돌기 시작할 때 **한 번** 호출한다(그 컨텍스트의 렌더링 스레드에서). 팩터리의 `open(sampleRate, channels, bufferFrames)` 는 컨텍스트의 **구간**(`resume()` 에서 다음 `suspend()` 까지)마다 그 컨텍스트의 렌더링 스레드에서 불리며 `IOException`/`RuntimeException` 은 "장치 없음"으로 처리된다. 반환한 `AudioOutput.write` 는 장치에 자리가 생길 때까지 막혀도 되지만 `stop()` 이 불리면 곧바로 돌아와야 한다.
+- `<audio>` 요소의 `createAudioOutputFactory()` 와는 **독립**이다(두 출력의 성격이 다르다: float·블록 쓰기 대 16비트·비블록 쓰기). 모든 소리를 다른 곳으로 돌리려면 둘 다 재정의한다.
+- 공개 면의 변화: `js.host.HostEnvironment.getWebAudioOutputFactory()`(공개 추상 클래스의 새 메서드, 기본 null), `js.host.PageScripts.connectMediaElement(Element, float)`, `media.playback.MediaPlayer.reopenOutput()`, `media.webaudio.MediaElementTap`, `media.webaudio.OutputRenderDriver.restart()`.
+- 검증 사례: `WebAudioOutputScriptTest`, `WebAudioOutputComponentTest`(실제 컴포넌트), `OutputRenderDriverTest`, `OutputRenderDriverSwitchTest`, `MediaElementTapTest`, `MediaElementSourceScriptTest`.
+
 ## 6. 허용 스킴 정책 (P01-12)
 
 | 스킴 | 정책 |
