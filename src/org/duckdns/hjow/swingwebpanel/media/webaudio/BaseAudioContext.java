@@ -774,6 +774,17 @@ public abstract class BaseAudioContext {
     }
 
     /**
+     * Creates an analyser (<code>createAnalyser</code>).
+     * <p>
+     * 분석기를 만든다(<code>createAnalyser</code>).
+     *
+     * @return the node / 노드
+     */
+    public final AnalyserNode createAnalyser() {
+        return new AnalyserNode(this);
+    }
+
+    /**
      * Creates a silent buffer.
      * <p>
      * 무음 버퍼를 만든다.
