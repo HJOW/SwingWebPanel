@@ -24,7 +24,8 @@ find tests/src -name '*.java' | sort > "$B/test-sources.txt"
 (cd tests/resources && find . -type f -exec cp --parents {} "../../$B/test-classes/" \; ) 2>/dev/null
 
 CP="$B/classes${PATHSEP}$B/engine-test-classes${PATHSEP}$B/test-classes"
-{ "$JAVA" -Dswp.jar="$B/swingwebpanel.jar" -Dswp.engine.jar="$B/swingwebpanel-js.jar" -Dswp.browser.jar="$B/swingwebpanel-browser.jar" -cp "$CP" org.duckdns.hjow.swingwebpanel.testing.TestRunner --scan "$B/test-classes" "$@"; echo $? > "$B/browser-stage.rc"; } | tee "$B/browser-stage.log"
+# JRE 6 은 PermGen(클래스 메타데이터 영역) 기본 한도가 작아서 제품 JAR 을 별도 클래스 로더로 다시 읽는 시험(BrowserJarsTest)이 OutOfMemoryError: PermGen space 로 실패했다. 시험 JVM 에만 한도를 늘린다.
+{ "$JAVA" -XX:MaxPermSize=256m -Dswp.jar="$B/swingwebpanel.jar" -Dswp.engine.jar="$B/swingwebpanel-js.jar" -Dswp.browser.jar="$B/swingwebpanel-browser.jar" -cp "$CP" org.duckdns.hjow.swingwebpanel.testing.TestRunner --scan "$B/test-classes" "$@"; echo $? > "$B/browser-stage.rc"; } | tee "$B/browser-stage.log"
 BRC=$(cat "$B/browser-stage.rc")
 
 # 두 단계의 요약 줄("=== N passed, M failed, K skipped (..) ===")을 합산한다.

@@ -34,7 +34,7 @@ if errorlevel 8 (
 )
 
 set "CP=build\classes;build\engine-test-classes;build\test-classes"
-"%JAVA%" -Dswp.jar=build\swingwebpanel.jar -Dswp.engine.jar=build\swingwebpanel-js.jar -Dswp.browser.jar=build\swingwebpanel-browser.jar -cp "%CP%" org.duckdns.hjow.swingwebpanel.testing.TestRunner --scan build\test-classes %*
+"%JAVA%" -XX:MaxPermSize=256m -Dswp.jar=build\swingwebpanel.jar -Dswp.engine.jar=build\swingwebpanel-js.jar -Dswp.browser.jar=build\swingwebpanel-browser.jar -cp "%CP%" org.duckdns.hjow.swingwebpanel.testing.TestRunner --scan build\test-classes %*
 set "BRC=%ERRORLEVEL%"
 
 rem The runner must exit with code 1 for a failing suite.

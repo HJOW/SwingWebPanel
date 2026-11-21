@@ -104,6 +104,26 @@ public class TextTrackIntegrationTest {
     }
 
     /**
+     * Counts how many times a part occurs in a text.
+     * <p>
+     * 텍스트에 어떤 부분이 몇 번 나오는지 센다.
+     *
+     * @param text the text / 텍스트
+     * @param part the part / 부분
+     * @return the number of occurrences / 나온 횟수
+     */
+    private static int countOf(String text, String part) {
+        int n = 0;
+        int at = text.indexOf(part);
+        // 부분이 더 나오지 않을 때까지 위치를 옮기며 센다.
+        while (at >= 0) {
+            n++;
+            at = text.indexOf(part, at + part.length());
+        }
+        return n;
+    }
+
+    /**
      * Waits until the stored order contains a part.
      * <p>
      * 저장된 순서에 어떤 부분이 들어갈 때까지 기다린다.
@@ -164,7 +184,8 @@ public class TextTrackIntegrationTest {
      */
     public void testDefaultTrackIsFetchedAndItsCuesFire() throws Exception {
         final TestHttpServer server = new TestHttpServer();
-        FakeOutputs outs = new FakeOutputs();
+        // 가짜 출력을 수동 모드(용량 1000 프레임)로 둔다: 재생 위치를 시험이 정하므로 재생 속도와 스레드 일정에 결과가 달라지지 않는다.
+        FakeOutputs outs = new FakeOutputs(1000);
         SwingWebPanel panel = newPanel(outs);
         try {
             panel.setUserAgent("track-test/1.0");
@@ -178,6 +199,7 @@ public class TextTrackIntegrationTest {
                     + "t.addEventListener('load', function () { mark('load:' + t.track.cues.length + ':' + t.readyState + ':' + t.track.cues[1].line + ':' + t.track.cues[1].align);"
                     + "for (var i = 0; i < t.track.cues.length; i++) { (function (c) { c.onenter = function () { mark('enter:' + c.id); }; c.onexit = function () { mark('exit:' + c.id); }; })(t.track.cues[i]); }"
                     + "a.play(); });"
+                    + "a.addEventListener('timeupdate', function () { mark('tu'); });"
                     + "t.addEventListener('error', function () { mark('error'); });</script></body></html>";
             server.routeFixed("/page", TestHttpServer.Response.html(html).header("Set-Cookie", "sid=xyz; Path=/"));
             server.routeFixed("/clip.wav", new TestHttpServer.Response(200).bytes("audio/wav", wav(6000)));
@@ -185,6 +207,19 @@ public class TextTrackIntegrationTest {
             server.start();
             panel.setPage(server.url("/page"));
             awaitPage(panel, server.url("/page"));
+            // 소리를 조금씩(0.05초씩) 재생시키며 cue 가 모두 지나갈 때까지 진행한다. 위치가 바뀔 때마다 페이지가 처리하기를 기다린다.
+            FakeOutputs.Out out = outs.await(0);
+            long end = System.currentTimeMillis() + 30000;
+            // 마지막 cue 가 끝날 때까지 한 걸음씩 진행한다.
+            while (order(panel).indexOf("exit:2,") < 0 && System.currentTimeMillis() < end) {
+                int before = countOf(order(panel), "tu,");
+                out.consume(400);
+                long until = System.currentTimeMillis() + 500;
+                // 위치 변화가 timeupdate 로 페이지에 닿을 때까지 짧게 쉬며 확인한다(최대 0.5초).
+                while (countOf(order(panel), "tu,") == before && System.currentTimeMillis() < until) {
+                    Thread.sleep(5);
+                }
+            }
             awaitOrder(panel, "exit:2,", "the cues played");
             String order = order(panel);
             Check.isTrue(order.startsWith("mode:disabled:1,") || order.startsWith("mode:showing:1,"), "the page saw one track at the start: " + order);

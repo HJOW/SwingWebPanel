@@ -55,4 +55,4 @@ done
 (cd engine/resources 2>/dev/null && find . -type f -exec cp --parents {} "../../$B/classes/" \; ) 2>/dev/null
 (cd engine/tests/resources 2>/dev/null && find . -type f -exec cp --parents {} "../../../$B/test-classes/" \; ) 2>/dev/null
 (cd tests/resources && find . -type f -exec cp --parents {} "../../$B/test-classes/" \; ) 2>/dev/null
-"$JAVA" -cp "$B/classes${PATHSEP}$B/test-classes" org.duckdns.hjow.swingwebpanel.testing.TestRunner --scan "$B/test-classes" "$@"
+"$JAVA" -XX:MaxPermSize=256m -cp "$B/classes${PATHSEP}$B/test-classes" org.duckdns.hjow.swingwebpanel.testing.TestRunner --scan "$B/test-classes" "$@"
