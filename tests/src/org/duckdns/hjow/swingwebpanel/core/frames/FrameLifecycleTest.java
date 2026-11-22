@@ -110,9 +110,9 @@ public class FrameLifecycleTest {
     private static int settledCount(TestHttpServer server, String path) throws Exception {
         long end = System.currentTimeMillis() + 30000;
         int last = server.count(path);
-        // 400 밀리초 동안 수가 그대로이면 멈춘 것으로 본다(타이머 주기는 30 밀리초이다).
+        // 1000 밀리초 동안 수가 그대로이면 멈춘 것으로 본다(타이머 주기는 30 밀리초이다). 바쁜 컴퓨터에서 서버가 이미 도착한 요청을 늦게 처리해도 멈춘 것으로 잘못 보지 않도록 창을 넉넉히 둔다.
         while (System.currentTimeMillis() < end) {
-            Thread.sleep(400);
+            Thread.sleep(1000);
             int now = server.count(path);
             if (now == last) {
                 return now;
@@ -158,7 +158,7 @@ public class FrameLifecycleTest {
             p.setPage(server.url("/other"));
             awaitLoaded(p, server.url("/other"));
             int stable = settledCount(server, "/tick");
-            Thread.sleep(500);
+            Thread.sleep(1000);
             Check.equal(stable, server.count("/tick"), "no frame of the replaced page ticks any more");
         } finally {
             p.dispose();
@@ -182,7 +182,7 @@ public class FrameLifecycleTest {
             p.clean();
             Check.equal("about:blank", p.getPage(), "clean() shows the empty page");
             int stable = settledCount(server, "/tick");
-            Thread.sleep(500);
+            Thread.sleep(1000);
             Check.equal(stable, server.count("/tick"), "no frame ticks after clean()");
             p.setPage(server.url("/page"));
             awaitLoaded(p, server.url("/page"));
@@ -191,7 +191,7 @@ public class FrameLifecycleTest {
             Check.isTrue(server.count("/tick") > before, "the new page ticks");
             p.dispose();
             int afterDispose = settledCount(server, "/tick");
-            Thread.sleep(500);
+            Thread.sleep(1000);
             Check.equal(afterDispose, server.count("/tick"), "no frame ticks after dispose()");
         } finally {
             p.dispose();
@@ -223,7 +223,7 @@ public class FrameLifecycleTest {
             FrameTestSupport.awaitStored(p, "removing", "yes");
             Check.isTrue(server.count("/gone-tick") > 0, "the frame ticked while it was part of the page");
             int stable = settledCount(server, "/gone-tick");
-            Thread.sleep(500);
+            Thread.sleep(1000);
             Check.equal(stable, server.count("/gone-tick"), "the removed frame no longer ticks");
             long end = System.currentTimeMillis() + 20000;
             // 페이지의 나머지 스크립트는 계속 일한다.
