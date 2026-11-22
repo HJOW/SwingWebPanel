@@ -11,6 +11,16 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== 최신 요약 (2026-11-22 밤, 이 블록의 맨 위가 현재 상태이고 아래는 날짜순 기록이다) ===
+현재 작업 번호: P25(Web Audio)·P24(콘솔 이벤트)·P26(엔진 분리) 완료, P23-01(Maven 도입 방식 결정) 완료. 다음 작업은 P23-02(Maven 표준 구조 전환)인데 이 PC 에 `mvn` 이 없어 막혀 있다.
+이 날(2026-11-22)에 끝낸 것: P24 전부, P26 전부(`engine/` 분리, `js.embed`, `javax.script` 제공자, JAR 셋), P25-01~06, P25-08(Web Audio: 그래프 엔진, 노드 전부, 디코딩, JavaScript 바인딩, 실시간 출력, `<audio>` 연결, `ScriptProcessorNode`, AudioWorklet, 실제 Chromium 156 과의 비교 시험), P23-01. 마지막 전체 회귀(JDK 6u45, `BUILD_DIR=build sh test.sh`): 4331 통과/1 실패/14 건너뜀(실패 `XhrTest.testTimeout` 은 시험을 고쳐 8회 연속 통과한 뒤 병합; 건너뜀 14건은 선택적 Opus 원본 벡터 12건과 Java Sound 믹서가 필요한 2건).
+미해결 사항(AGENTS.md 의 `[ ]`):
+  - 사람이 해야 하는 것: P25-07, P18-08, P22-10, P22-07(소리가 나는 장치가 있는 PC 에서 실제 소리 청취와 JRE 6 실제 실행 확인; `docs/progress/media-play.md` 미확인 표에 항목이 있다), P18-11(P18-08 뒤).
+  - Maven 설치가 필요한 것: P23-02~07(Maven 3.9 이상을 JDK 8 로 실행, `~/.m2/toolchains.xml` 에 JDK 6u45 정의; 절차는 `docs/progress/maven.md` 5절).
+  - 마지막에 할 것: P22-15(이 인수인계), P22-16(요구사항 최종 대조; 위 항목들이 끝나야 체크).
+빌드/시험: `build.sh`/`test.sh`(엔진 단계 + 브라우저 단계, 시험 JVM 은 `-XX:MaxPermSize=256m`), 소규모는 `scripts/pkgtest.sh`(JavaScript/컴포넌트 시험은 소스 패키지에 `js dom html css net storage core content layout render download media @root`). 소스 규칙 검사 `sh tools/sourcecheck/run.sh <경로>`. 회귀가 전체에서만 가끔 실패하는 시험은 단독으로 3~6회 돌려 확인하고 시간 의존 구조면 고친다(이 PC 는 다른 프로그램이 함께 돌아 시간 시험이 흔들린다).
+저장소 상태: `main`(HEAD `20261122-018`), 미병합 브랜치 없음(작업자 worktree 브랜치 `worktree-agent-*` 는 모두 `main` 에 병합되었고 지워도 된다), push 는 하지 않았다.
+-----------------------------------------------------------------------------------------------
 현재 작업 번호: 2026-11-20 사용자 요청으로 AGENTS.md 개발 계획에 P23~P26 을 추가했다(구현은 시작하지 않음). 그 전 상태는 아래 "2026-11-19 재개 세션" 절.
 완료한 내용:
   - 2026-11-20 계획 추가(문서만): P23 Maven 프로젝트 전환, P24 콘솔 출력 이벤트(console.log/console.error 리스너 통지), P25 Web Audio API, P26 JavaScript 엔진 분리와 Java Scripting API(javax.script) 지원. 진행 순서는 P23 → P26. P22-16 에 "P23~P26 도 끝나야 전체 개발 완료" 메모, "중간 실행 목표" 표에 행 추가. 상단 세 단락(프로젝트 목표/목표 - 지원 기능/주의사항)은 고치지 않았다.
