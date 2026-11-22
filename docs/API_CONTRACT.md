@@ -39,6 +39,7 @@ public class SwingWebPanel extends javax.swing.JPanel implements javax.swing.Scr
 | `addHyperlinkListener`/`removeHyperlinkListener` | 리스너 | void | IAE(null) | Swing 규칙 |
 | `removeHyperlinkEvents()` | - | void | - | 모든 하이퍼링크 리스너 제거 |
 | `addConsoleListener`/`removeConsoleListener`/`getConsoleListeners()` | 리스너 | void / 배열 | IAE(null), ISE(폐기, 등록만) | 콘솔 출력 통지(확장, 5.20) |
+| `postMessage(Object[,String])`, `addWebMessageListener`/`removeWebMessageListener`/`getWebMessageListeners()` | 메시지와 대상 오리진, 리스너 | void / 배열 | IAE, ISE | **계획(P27, 미구현)**: Java 호스트와 페이지 스크립트 간 `message` 통신(확장, 5.22 초안) |
 | `clean()` | - | void | ISE | 빈 페이지 + 캐시/저장소 삭제 |
 | `dispose()` | - | void | - | 반복 호출 안전 |
 | `addHeaders(Map<String,String>)` | 헤더 | void | IAE | 덮어쓰기 |
@@ -306,6 +307,50 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 - 공개 면의 변화: `js.host.HostEnvironment.getWebAudioOutputFactory()`(공개 추상 클래스의 새 메서드, 기본 null), `js.host.PageScripts.connectMediaElement(Element, float)`, `media.playback.MediaPlayer.reopenOutput()`, `media.webaudio.MediaElementTap`, `media.webaudio.OutputRenderDriver.restart()`.
 - 검증 사례: `WebAudioOutputScriptTest`, `WebAudioOutputComponentTest`(실제 컴포넌트), `OutputRenderDriverTest`, `OutputRenderDriverSwitchTest`, `MediaElementTapTest`, `MediaElementSourceScriptTest`.
 
+### 5.22 확장 메서드: Java 호스트와 페이지 스크립트 간 메시지 (P27, **초안·미구현**, 확장이며 AGENTS.md 의 공개 메서드 목록에는 없다)
+
+2026-11-22 사용자 요청으로 추가한 목표다(우선순위는 P23 Maven 전환보다 높다). 아래는 `AGENTS.md` P27 의 **기본안**을 요약한 초안이며 P27-01 에서 이 절을 확정한다. 확정 전까지 이 절의 메서드와 타입은 존재하지 않는다.
+참고: MDN `Window.postMessage()` 한국어 문서(https://developer.mozilla.org/ko/docs/Web/API/Window/postMessage, 2026-04-15 수정본, 2026-11-22 조회), HTML Standard "Web messaging" 절(판본은 P27-01 에서 `tools/webfetch` 로 고정).
+
+**모델**: Java 호스트를 페이지를 연 다른 창처럼 다룬다. 페이지 안에서는 "호스트 창" 객체 하나가 Java 를 나타내며, 최상위 문서의 `window.opener` 와 호스트가 보낸 `message` 이벤트의 `event.source` 가 그 객체다. 그래서 팝업 통신 관용구를 그대로 쓴다.
+
+```javascript
+// 페이지 스크립트: Java 에서 받고 답하기
+window.addEventListener('message', function (e) {
+  if (e.origin !== 'swingwebpanel://host') return;      // HOST_ORIGIN (기본안 값)
+  e.source.postMessage({ echo: e.data }, e.origin);     // e.source === window.opener
+});
+// 페이지가 먼저 Java 에 알리기
+window.opener.postMessage({ type: 'ready' }, '*');
+```
+
+```java
+// Java 호스트
+panel.addWebMessageListener(new WebMessageListener() {
+    public void messageReceived(WebMessageEvent e) {          // EDT
+        if (!"https://app.example".equals(e.getOrigin())) return;
+        e.reply(Collections.singletonMap("ok", Boolean.TRUE)); // 보낸 창으로 답하기
+    }
+});
+panel.postMessage("hello", "https://app.example");             // 대상 오리진을 정확히 지정
+```
+
+| 메서드/타입 (기본안) | 요약 |
+| --- | --- |
+| `postMessage(Object message, String targetOrigin)` | 최상위 문서의 `window` 에 `message` 이벤트를 작업으로 보낸다. `targetOrigin` 은 `"*"` 또는 절대 URL(그 밖은 IAE), 문서 오리진과 다르면 조용히 버림. 폐기 뒤 ISE |
+| `postMessage(Object message)` | 대상 오리진 `"*"` |
+| `addWebMessageListener`/`removeWebMessageListener`/`getWebMessageListeners()` | Swing 등록 규칙(5.20 과 같음), EDT 에서 보낸 순서대로 통지 |
+| `WebMessageListener.messageReceived(WebMessageEvent)` | 페이지가 호스트 창에 보낸 메시지 |
+| `WebMessageEvent` | `getData()`(변환한 Java 복사본), `getOrigin()`, `getDocumentUrl()`(보낸 시점에 고정), `getSourceKind()`(`DOCUMENT`/`FRAME`), `getSequence()`, `getTimestamp()`, `reply(Object)` |
+| `SwingWebPanel.HOST_ORIGIN` | 호스트 메시지의 `event.origin`(기본안 `"swingwebpanel://host"`) |
+
+- 페이지에서 받는 이벤트: `MessageEvent`, `data` = 변환한 값, `origin` = `HOST_ORIGIN`, `source` = 호스트 창, `ports` = `[]`, `lastEventId` = `""`, `isTrusted` = true. 보내는 중에 동기 실행하지 않고 그 문서의 작업 큐로 전달한다. 묶인 문서가 교체되면 버린다.
+- 호스트 창: `postMessage`(위치 인수와 옵션 객체 형식), `closed`, 아무 일도 하지 않는 `close()/focus()/blur()` 만 있고 나머지는 `SecurityError`(다른 오리진 창과 같은 면). 대상 오리진이 `"*"`/`HOST_ORIGIN` 이면 전달, `"/"` 와 다른 URL 은 버림, URL 이 아니면 `SyntaxError`. 하위 프레임은 `top.opener` 로 보낸다. Worker 에는 없다.
+- 값 변환(P27-02): Java→페이지는 호출 스레드에서 깊은 복사(null, Boolean, Number, 문자열, 문자열 키 `Map`, `List`/`Collection`/배열, `byte[]`→`ArrayBuffer`, `Date`), 페이지→Java 는 구조화 복제 뒤 수정할 수 없는 복사본(number 는 항상 `Double`, 배열은 `List`, 객체는 `Map`, `ArrayBuffer` 류는 `byte[]`). 그 밖의 Java 객체·함수·순환·크기 초과는 거부(Java 는 IAE, 페이지는 `DataCloneError`). Java 객체는 스크립트에 노출하지 않는다(P15-02).
+- 수명(P27-05): 대기 상한(기본안 1000), 리스너가 없으면 버림, 이동/`clean()` 은 대기 메시지를 버리고 리스너는 유지, `dispose()` 는 리스너와 대기 메시지 제거, `removeHyperlinkEvents()` 와 무관, JavaScript 비활성이면 메시지 없음.
+- 보안: 어떤 페이지와 그 안의 다른 오리진 프레임도 호스트에 보낼 수 있으므로 Java 쪽은 `getOrigin()` 과 데이터 형식을 먼저 검사한다. Java 가 보낼 때는 `"*"` 대신 정확한 대상 오리진을 쓴다.
+- 기본안에서 제외한 방식: 자기 `window` 로 보낸 메시지를 Java 가 엿듣기(페이지 자신의 리스너와 라이브러리의 자기 메시지가 섞임), `window.swingwebpanel` 같은 비표준 전역 객체(표준 관용구를 쓸 수 없음).
+
 ## 6. 허용 스킴 정책 (P01-12)
 
 | 스킴 | 정책 |
@@ -372,5 +417,6 @@ HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도�
 | C-DOWNLOAD-1~8 | 다운로드 | 7절 전체 |
 | C-SSL-1~3 | SSL | protected 재정의 호출, HTTPS 실패 후 HTTP 재시도, 404 비재시도 |
 | C-CONSOLE-1~8 | 콘솔 리스너(5.20) | log/error 수준·문자열·인수·위치·EDT, 모든 콘솔 메서드의 수준, Swing 등록 규칙, 리스너 예외 격리, 브라우저 보고의 종류, 모든 스크립트 실행 위치, 프레임/Worker 표시, 대량 출력 상한, 이동·clean·dispose·JavaScript 설정 |
+| C-MESSAGE-1~ (계획) | 호스트 메시지(5.22 초안, P27) | P27-06 의 검증 목록: 왕복과 `reply`, 대상 오리진 양방향, 값 변환과 거부, 전달 순서, 프레임/Worker, 이동 경쟁, JavaScript 비활성, clean/dispose, EDT, 예외 격리, 대량 전송 상한, 누수 |
 
 사례 ID 는 구현 시 `tests/src` 의 메서드 이름에 포함하고 `FEATURE_MATRIX.md` 의 검증 사례 열과 일치시킨다.

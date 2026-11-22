@@ -12,14 +12,15 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 
 ```text
 === 최신 요약 (2026-11-22 밤, 이 블록의 맨 위가 현재 상태이고 아래는 날짜순 기록이다) ===
-현재 작업 번호: P25(Web Audio)·P24(콘솔 이벤트)·P26(엔진 분리) 완료, P23-01(Maven 도입 방식 결정) 완료. 다음 작업은 P23-02(Maven 표준 구조 전환)인데 이 PC 에 `mvn` 이 없어 막혀 있다.
+현재 작업 번호: P25(Web Audio)·P24(콘솔 이벤트)·P26(엔진 분리) 완료, P23-01(Maven 도입 방식 결정) 완료. **2026-11-22 사용자 요청으로 P27(Java 호스트와 페이지 스크립트 간 메시지 통신, `postMessage`/`message` 이벤트)을 계획에 추가했고 P23(Maven 전환)보다 먼저 한다.** 다음 작업은 P27-01(계약 확정; 기본안은 AGENTS.md P27, 계약 초안은 `docs/API_CONTRACT.md` 5.22)이다. P23-02(Maven 표준 구조 전환)는 P27 뒤에 하며 이 PC 에 `mvn` 이 없어 막혀 있다.
 이 날(2026-11-22)에 끝낸 것: P24 전부, P26 전부(`engine/` 분리, `js.embed`, `javax.script` 제공자, JAR 셋), P25-01~06, P25-08(Web Audio: 그래프 엔진, 노드 전부, 디코딩, JavaScript 바인딩, 실시간 출력, `<audio>` 연결, `ScriptProcessorNode`, AudioWorklet, 실제 Chromium 156 과의 비교 시험), P23-01. 마지막 전체 회귀(JDK 6u45, `BUILD_DIR=build sh test.sh`): 4331 통과/1 실패/14 건너뜀(실패 `XhrTest.testTimeout` 은 시험을 고쳐 8회 연속 통과한 뒤 병합; 건너뜀 14건은 선택적 Opus 원본 벡터 12건과 Java Sound 믹서가 필요한 2건).
 미해결 사항(AGENTS.md 의 `[ ]`):
+  - AI 가 다음에 할 것: P27-01~06(Java 호스트 메시지. 계획과 계약 초안만 있고 코드는 없다; 기능 표 API-30 은 `미구현`).
   - 사람이 해야 하는 것: P25-07, P18-08, P22-10, P22-07(소리가 나는 장치가 있는 PC 에서 실제 소리 청취와 JRE 6 실제 실행 확인; `docs/progress/media-play.md` 미확인 표에 항목이 있다), P18-11(P18-08 뒤).
   - Maven 설치가 필요한 것: P23-02~07(Maven 3.9 이상을 JDK 8 로 실행, `~/.m2/toolchains.xml` 에 JDK 6u45 정의; 절차는 `docs/progress/maven.md` 5절).
   - 마지막에 할 것: P22-15(이 인수인계), P22-16(요구사항 최종 대조; 위 항목들이 끝나야 체크).
 빌드/시험: `build.sh`/`test.sh`(엔진 단계 + 브라우저 단계, 시험 JVM 은 `-XX:MaxPermSize=256m`), 소규모는 `scripts/pkgtest.sh`(JavaScript/컴포넌트 시험은 소스 패키지에 `js dom html css net storage core content layout render download media @root`). 소스 규칙 검사 `sh tools/sourcecheck/run.sh <경로>`. 회귀가 전체에서만 가끔 실패하는 시험은 단독으로 3~6회 돌려 확인하고 시간 의존 구조면 고친다(이 PC 는 다른 프로그램이 함께 돌아 시간 시험이 흔들린다).
-저장소 상태: `main`(HEAD `20261122-018`), 미병합 브랜치 없음(작업자 worktree 브랜치 `worktree-agent-*` 는 모두 `main` 에 병합되었고 지워도 된다), push 는 하지 않았다.
+저장소 상태: `main`(HEAD `20261122-020`, P27 계획 추가), 미병합 브랜치 없음(작업자 worktree 브랜치 `worktree-agent-*` 는 모두 `main` 에 병합되었고 지워도 된다), push 는 하지 않았다.
 -----------------------------------------------------------------------------------------------
 현재 작업 번호: 2026-11-20 사용자 요청으로 AGENTS.md 개발 계획에 P23~P26 을 추가했다(구현은 시작하지 않음). 그 전 상태는 아래 "2026-11-19 재개 세션" 절.
 완료한 내용:
@@ -308,6 +309,13 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-22 · P27 계획 추가 · Java 호스트와 페이지 스크립트 간 메시지(postMessage) (문서만, 커밋 `20261122-020`)
+- **요청**: 사용자가 웹 브라우저 컴포넌트에 `message` 이벤트 지원을 추가해, 본래 팝업 창 사이의 통신용인 `window.postMessage`(MDN https://developer.mozilla.org/ko/docs/Web/API/Window/postMessage, 2026-04-15 수정본, 2026-11-22 조회)를 Java 코드와 페이지 스크립트 간 통신에 쓰고자 했다. **우선순위는 Maven 도입(P23)보다 높다.**
+- **변경 문서**: `AGENTS.md`(개발 계획에 P27 단계와 P27-01~06 추가, "P23~P27 추가 목표의 공통 사항"에 진행 순서 P24 → P25 → P26 → P27 → P23 과 "P24~P27 의 선행 작업에 적힌 P23 은 적용하지 않는다"를 기록, P22-16 메모와 중간 실행 목표 표 갱신; 상단 세 단락은 고치지 않음), `docs/API_CONTRACT.md`(2절 표에 계획 행, 5.22절 계약 초안, 10절 C-MESSAGE 계획 행), `docs/FEATURE_MATRIX.md`(API-30 `미구현`, 13절 개수표 제외 메모), 이 문서.
+- **기본안 요약**(확정은 P27-01): Java 호스트를 페이지를 연 다른 창처럼 다룬다. Java → 페이지는 `SwingWebPanel.postMessage(Object[, String targetOrigin])` 가 최상위 문서의 `window` 에 `message` 이벤트(`origin` = `SwingWebPanel.HOST_ORIGIN`, 기본안 `"swingwebpanel://host"`, `source` = 호스트 창)를 작업으로 보낸다. 페이지 → Java 는 호스트 창(최상위 문서의 `window.opener` 이자 호스트 메시지의 `event.source`, 다른 오리진 창과 같은 제한된 면)의 `postMessage` 이며 `WebMessageListener`(EDT)가 `WebMessageEvent`(`getData/getOrigin/getDocumentUrl/getSourceKind/reply`)로 받는다. 값은 양방향 복사 변환(Java 객체 비노출, 순환·크기 초과 거부), 대상 오리진 검사, 대기 상한 1000, 이동/clean/dispose 수명 규칙. 제외한 방식(자기 window 메시지 엿듣기, 비표준 전역 객체)과 이유는 P27-01 에 적었다.
+- **검증**: 문서만 바꿨으므로 빌드/시험은 실행하지 않았다. 코드는 아직 없다.
+- **다음 작업**: P27-01(계약 확정, HTML Standard "Web messaging" 판본을 `tools/webfetch` 로 고정) → P27-02~06. 그 뒤 P23(Maven; `mvn` 설치 필요).
 
 ### 2026-11-22 · P25 D1 AudioWorklet 병합과 P25-08 최종 검증 (WEBAUDIO-D1 작업자, 커밋 `20261122-360`~`369`; 조정자 `-014`~`-016`)
 - **D1 구현**: 엔진 `media.webaudio.{AudioWorkletNode, WorkletProcessorException}`, 바인딩 `js.host.webaudio.WorkletApi`와 하위 패키지 `js.host.webaudio.worklet`(`WorkletScope`, `WorkletGlobals`, `ProcessorRunner`, `ModuleGraphFetcher` 등), 새 공개 클래스 `js.worker.ChannelPorts`. worklet realm 은 컨텍스트마다 공정 잠금으로 직렬화하고 `process()` 는 렌더링 스레드가 부른다(실시간은 `tryLock` 2 ms 로 못 쥐면 그 quantum 무음 + 콘솔 경고, 오프라인은 기다리며 결정적, 한 호출 200만 단계 한도, 실패는 `processorerror` + 영구 무음). `inputs`/`outputs`/`parameters` 는 얼린 배열을 재사용. 상세 `docs/progress/webaudio-d1.md`. **`addModule` 실패 의미는 Chromium 156 에서 직접 확인해 맞췄다**: 구문 오류는 그 오류로 reject, 평가 중 예외(와 모듈 안의 `registerProcessor` 오류)는 resolve 하고 콘솔 보고, 404·스킴·오리진·MIME 실패만 `AbortError`.
