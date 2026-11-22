@@ -188,21 +188,22 @@ public class XhrTest {
      */
     public void testTimeout() {
         WebFixture f = new WebFixture();
-        f.js(RECORD + "x.timeout = 100; x.open('GET', 'slow'); x.send(); ev.length = 0;");
-        f.advance(99);
+        // 제한 시간은 실제 시계로 시작 시각을 재서(제품 Xhr.scheduleTimeout) 남은 시간을 수동 시계에 예약한다. 느린 컴퓨터나 막 시작한 JVM 에서 실제 경과 시간이 숫자를 넘지 않도록 제한 시간을 넉넉히 둔다.
+        f.js(RECORD + "x.timeout = 1000; x.open('GET', 'slow'); x.send(); ev.length = 0;");
+        f.advance(500);
         Check.equal("", f.js("ev.join()"), "not yet");
-        f.advance(2);
+        f.advance(600);
         Check.equal("rsc4,timeout:4:n0,loadend:4:n0", f.js("ev.join()"), "timeout events");
         Check.isTrue(f.env.started.get(0).cancelled, "cancelled");
         f.answer(0, WebFixture.response(200, "text/plain", "late"));
         Check.equal("rsc4,timeout:4:n0,loadend:4:n0", f.js("ev.join()"), "a late answer is ignored");
-        f.js("var y = new XMLHttpRequest(); y.timeout = 100; y.open('GET', 'ok'); y.send(); var done = []; y.onload = function () { done.push(1); };");
+        f.js("var y = new XMLHttpRequest(); y.timeout = 1000; y.open('GET', 'ok'); y.send(); var done = []; y.onload = function () { done.push(1); };");
         f.advance(50);
         f.answer(1, WebFixture.response(200, "text/plain", "in time"));
-        f.advance(500);
+        f.advance(1500);
         Check.equal("1", f.js("done.join()"), "the timer of a finished request does nothing");
-        f.js("var z = new XMLHttpRequest(); z.open('GET', 'late-timeout'); z.send(); z.timeout = 30; var zt = []; z.ontimeout = function () { zt.push(1); };");
-        f.advance(31);
+        f.js("var z = new XMLHttpRequest(); z.open('GET', 'late-timeout'); z.send(); z.timeout = 300; var zt = []; z.ontimeout = function () { zt.push(1); };");
+        f.advance(301);
         Check.equal("1", f.js("zt.join()"), "a timeout set while the request runs is measured from its start");
     }
 
