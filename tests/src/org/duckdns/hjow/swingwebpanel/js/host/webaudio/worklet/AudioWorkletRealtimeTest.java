@@ -7,7 +7,7 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
  * to a sine processor sees the sine, every call of <code>process()</code> sees the next 128 frames and the processor keeps up with the clock), a processor that needs longer than the limit of a call
  * fails like one that throws and the context goes on, a worklet that is busy with something else (a long message handler) does not hold the rendering thread: the processor is skipped for the quanta in
  * which the script realm is busy, silence in them, and plays again afterwards without an error, while an offline context waits for the script and renders the same audio as always. The cost of a
- * processor is measured with an offline rendering of 10 seconds (the speed in times real time and the time of one quantum are printed).
+ * processor is measured with an offline rendering of 2 seconds (the speed in times real time and the time of one quantum are printed).
  * <p>
  * The tests do not assert the speed of the machine: what depends on the wall clock is printed, and the checks are loose lower bounds that catch a stuck or an order of magnitude slower realm but not a
  * busy computer (see the constants <code>MINIMUM_TIMES_REAL_TIME</code>, <code>MAXIMUM_SKIPPED_SHARE</code> and the notes in <code>docs/progress/webaudio-d1.md</code>).
@@ -15,7 +15,7 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
  * 실시간 컨텍스트의 오디오 worklet. 스크립트는 렌더링 스레드에서 시계를 상대로 실행된다(계획 P25-06): 프로세서의 오디오가 그래프에 닿고(사인 프로세서를 듣는 분석기가 사인을 보고, 모든
  * <code>process()</code> 호출이 다음 128 프레임을 보고, 프로세서가 시계를 따라간다), 호출의 한도보다 오래 걸리는 프로세서는 던지는 프로세서처럼 실패하고 컨텍스트는 계속되며, 다른 일(긴 메시지 핸들러)로
  * 바쁜 worklet 이 렌더링 스레드를 붙잡지 않는다: 스크립트 realm 이 바쁜 quantum 에서는 프로세서를 건너뛰어 무음이고, 그 뒤에는 오류 없이 다시 재생한다. 오프라인 컨텍스트는 스크립트를 기다려 언제나 같은
- * 오디오를 렌더링한다. 프로세서의 비용은 10 초의 오프라인 렌더링으로 측정한다(실시간의 몇 배 속도인지와 quantum 하나의 시간을 출력한다).
+ * 오디오를 렌더링한다. 프로세서의 비용은 2 초의 오프라인 렌더링으로 측정한다(실시간의 몇 배 속도인지와 quantum 하나의 시간을 출력한다).
  * <p>
  * 시험은 컴퓨터의 속도를 단언하지 않는다: 벽시계에 달린 값은 출력만 하고, 검사는 멈췄거나 한 자릿수 이상 느린 realm 은 잡되 바쁜 컴퓨터는 잡지 않는 느슨한 하한이다(상수
  * <code>MINIMUM_TIMES_REAL_TIME</code>, <code>MAXIMUM_SKIPPED_SHARE</code> 와 <code>docs/progress/webaudio-d1.md</code> 의 설명 참조).
@@ -252,9 +252,9 @@ public class AudioWorkletRealtimeTest {
     private static final String COST_NOISE = "class P extends AudioWorkletProcessor { process(inputs, outputs) { const o = outputs[0][0]; for (let k = 0; k < o.length; k++) o[k] = Math.random() * 2 - 1; return true; } }";
 
     /**
-     * Renders 10 seconds at 48 kHz (3750 quanta) with a number of nodes of one processor kind and returns the time in milliseconds.
+     * Renders 2 seconds at 48 kHz (750 quanta) with a number of nodes of one processor kind and returns the time in milliseconds.
      * <p>
-     * 한 종류의 프로세서 노드 여럿으로 48 kHz 10 초(3750 quanta)를 렌더링하고 시간(밀리초)을 반환한다.
+     * 한 종류의 프로세서 노드 여럿으로 48 kHz 2 초(750 quanta)를 렌더링하고 시간(밀리초)을 반환한다.
      *
      * @param body         the text of the class of the processor (registered as <code>p</code>) / 프로세서 클래스의 텍스트(<code>p</code> 로 등록)
      * @param inputs       1 if the nodes read a constant of 1, 0 for a generator / 노드가 상수 1 을 읽으면 1, 생성기이면 0
@@ -266,22 +266,22 @@ public class AudioWorkletRealtimeTest {
     private static double render10Seconds(String body, int inputs, int nodes, double expectedLast) {
         WorkletPage p = new WorkletPage();
         p.module("p.js", body + "\nregisterProcessor('p', P);\n");
-        p.run("var ctx = new OfflineAudioContext(1, 480000, 48000); var out = null; ctx.audioWorklet.addModule('p.js').then(function () {"
+        p.run("var ctx = new OfflineAudioContext(1, 96000, 48000); var out = null; ctx.audioWorklet.addModule('p.js').then(function () {"
                 + (inputs == 1 ? "var s = new ConstantSourceNode(ctx, {offset: 1}); s.start();" : "") + "for (var i = 0; i < " + nodes + "; i++) { var n = new AudioWorkletNode(ctx, 'p', {numberOfInputs: " + inputs
                 + "}); " + (inputs == 1 ? "s.connect(n); " : "") + "n.connect(ctx.destination); } start = Date.now(); return ctx.startRendering(); }).then(function (b) { out = b; took = Date.now() - start; });");
-        p.waitFor("out !== null", 180000, "the rendering of 10 seconds with " + nodes + " processors");
+        p.waitFor("out !== null", 180000, "the rendering of 2 seconds with " + nodes + " processors");
         if (!Double.isNaN(expectedLast)) {
-            Check.near(expectedLast, p.number("out.getChannelData(0)[479999]"), 1e-6, "the last sample of the rendering that was measured");
+            Check.near(expectedLast, p.number("out.getChannelData(0)[95999]"), 1e-6, "the last sample of the rendering that was measured");
         }
         return p.number("took");
     }
 
     /**
-     * Measures the rendering of 10 seconds with a number of nodes of one processor kind and prints the speed (times real time) and the time of one quantum per node. With <code>attempts</code> above
+     * Measures the rendering of 2 seconds with a number of nodes of one processor kind and prints the speed (times real time) and the time of one quantum per node. With <code>attempts</code> above
      * one it renders again while the speed is below real time, the time budget is left and the attempts are not used up, and the fastest rendering counts (the wall clock depends on the load of
      * the computer, and a rendering that was slowed down by another program says nothing about the processor).
      * <p>
-     * 한 종류의 프로세서 노드 여럿으로 10 초의 렌더링을 재고 속도(실시간의 배수)와 노드마다 quantum 하나의 시간을 출력한다. <code>attempts</code> 가 1 보다 크면 속도가 실시간에 못 미치고 시간 예산이
+     * 한 종류의 프로세서 노드 여럿으로 2 초의 렌더링을 재고 속도(실시간의 배수)와 노드마다 quantum 하나의 시간을 출력한다. <code>attempts</code> 가 1 보다 크면 속도가 실시간에 못 미치고 시간 예산이
      * 남고 시도 횟수가 남은 동안 다시 렌더링하며 가장 빠른 렌더링을 쓴다(벽시계는 컴퓨터의 부하에 달려 있고, 다른 프로그램에 느려진 렌더링은 프로세서에 대해 아무것도 말해 주지 않는다).
      *
      * @param name         the label of the kind / 종류의 이름
@@ -300,18 +300,18 @@ public class AudioWorkletRealtimeTest {
         while (tried < attempts) {
             ms = Math.min(ms, render10Seconds(body, inputs, nodes, expectedLast));
             tried++;
-            if (10000.0 / ms >= 1.0 || System.currentTimeMillis() > budgetEnd) {
+            if (2000.0 / ms >= 1.0 || System.currentTimeMillis() > budgetEnd) {
                 break;
             }
         }
-        double times = 10000.0 / ms;
-        System.out.println("[worklet cost] " + nodes + " x " + name + ", 10 s at 48 kHz: " + (long) ms + " ms = " + Math.round(times * 10) / 10.0 + " x real time, "
-                + Math.round(ms * 1000.0 / 3750 / nodes) + " us per quantum per node" + (tried > 1 ? " (the fastest of " + tried + " renderings)" : ""));
+        double times = 2000.0 / ms;
+        System.out.println("[worklet cost] " + nodes + " x " + name + ", 2 s at 48 kHz: " + (long) ms + " ms = " + Math.round(times * 10) / 10.0 + " x real time, "
+                + Math.round(ms * 1000.0 / 750 / nodes) + " us per quantum per node" + (tried > 1 ? " (the fastest of " + tried + " renderings)" : ""));
         return times;
     }
 
     /**
-     * The cost of simple processors, measured (JDK 6, offline rendering of 10 seconds at 48 kHz = 3750 quanta, shared machine): an empty processor (the fixed cost of one call: the arrays, the conversion,
+     * The cost of simple processors, measured (JDK 6, offline rendering of 2 seconds at 48 kHz = 750 quanta (the first measurements used 10 seconds; the test was shortened so that a busy computer does not run into the limit of a test case), shared machine): an empty processor (the fixed cost of one call: the arrays, the conversion,
      * the call), a gain, a sine generator with a phase and a white noise generator, one node each. The speed in times real time and the time of one quantum per node are printed (a quantum lasts
      * 2667 us at 48 kHz, so a processor must stay well below that to play in real time). The speed depends on the wall clock and so on the load of the computer: a processor is rendered up to
      * <code>MAXIMUM_ATTEMPTS</code> times (it stops as soon as one rendering reaches real time or the time budget is used up) and the fastest counts, and only a very loose lower bound is checked
@@ -320,7 +320,7 @@ public class AudioWorkletRealtimeTest {
      * failed the regression of the coordinator; the thread CPU time of <code>ThreadMXBean</code> was not used because the rendering runs on threads of the engine that the test does not own and the support
      * of the CPU time of threads is optional.)
      * <p>
-     * 단순한 프로세서의 비용 측정(JDK 6, 48 kHz 10 초 = 3750 quantum 의 오프라인 렌더링, 여럿이 쓰는 컴퓨터): 빈 프로세서(호출 하나의 고정 비용: 배열, 변환, 호출), 게인, 위상이 있는 사인 생성기, 백색
+     * 단순한 프로세서의 비용 측정(JDK 6, 48 kHz 2 초 = 750 quantum(처음 측정은 10 초였고, 바쁜 컴퓨터가 시험 사례의 제한에 걸리지 않도록 줄였다) 의 오프라인 렌더링, 여럿이 쓰는 컴퓨터): 빈 프로세서(호출 하나의 고정 비용: 배열, 변환, 호출), 게인, 위상이 있는 사인 생성기, 백색
      * 잡음 생성기를 각각 노드 하나로. 실시간의 몇 배 속도인지와 노드마다 quantum 하나의 시간을 출력한다(48 kHz 에서 quantum 하나는 2667 us 이므로 실시간으로 재생하려면 그보다 한참 작아야 한다). 속도는
      * 벽시계에 달려 있어 컴퓨터의 부하에 따라 흔들린다: 프로세서를 최대 <code>MAXIMUM_ATTEMPTS</code> 번 렌더링해(한 번이라도 실시간에 이르거나 시간 예산이 다하면 멈춘다) 가장 빠른 것을 쓰고, 아주
      * 느슨한 하한(<code>MINIMUM_TIMES_REAL_TIME</code>, 실시간의 0.1 배)만 확인한다. 멈춤이나 한 자릿수의 느려짐은 이 하한을 깨지만 바쁜 컴퓨터는 깨지 않는다. 빈 프로세서가 <code>MINIMUM_EMPTY_TIMES_REAL_TIME</code> 배보다 느릴
@@ -334,7 +334,7 @@ public class AudioWorkletRealtimeTest {
         int[] inputs = {0, 1, 0, 0};
         double[] last = {0, 0.5, Double.NaN, Double.NaN};
         long budgetEnd = System.currentTimeMillis() + RETRY_BUDGET_MILLIS;
-        // 종류마다 10 초 분량을 렌더링해 속도를 잰다.
+        // 종류마다 2 초 분량을 렌더링해 속도를 잰다.
         for (int k = 0; k < names.length; k++) {
             double times = measure(names[k], bodies[k], inputs[k], 1, last[k], MAXIMUM_ATTEMPTS, budgetEnd);
             // 단언은 부하에 둔감한 느슨한 하한뿐이다: 한 자릿수 이상의 퇴보나 멈춤만 잡는다.
