@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== Maven Central 배포 설정 보완 (2026-11-24) ===
+현재 작업 번호: P23 후속 배포 확인.
+완료한 내용: release 프로필을 적용하는 Central 배포 명령과 업로드 없이 서명된 번들을 만드는 옵션을 문서화했다. Central 플러그인은 0.12.0을 사용한다.
+변경 파일: pom.xml, README.md, docs/progress/maven.md, 이 문서.
+검증 결과: 기본 배포 플러그인의 저장소 누락 오류를 재현했다. release 프로필의 로컬 번들 생성, 세 모듈의 GPG 서명 10개, JAR 시험 7건을 확인했다.
+미해결 사항: 실제 Portal 토큰과 게시 계정으로 수행하는 Central 게시.
+다음 작업 번호: P27-01.
+-----------------------------------------------------------------------------------------------
 === Maven 전환 완료 (2026-11-24) ===
 현재 작업 번호: P23-02~07 완료.
 완료한 내용: Maven 부모 POM과 엔진·브라우저·예제 모듈을 연결했다. JDK 6 빌드와 자체 시험, 기존 제품 JAR 세 개, 배포 프로필을 연결했다.
@@ -323,6 +331,13 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-24 · P23 Maven Central 배포 오류 확인
+
+- 비활성 상태의 `release` 프로필에서는 `maven-deploy-plugin:3.1.2:deploy`가 실행되고 일반 Maven 저장소 주소를 요구한다. 원본 복사본의 `mvn -N -Dmaven.install.skip=true deploy`에서 사용자가 보고한 오류를 재현했다.
+- `release` 프로필에 Central 0.12.0과 `central.skipUpload` 옵션을 지정했다. 실제 게시 명령은 `mvn -Prelease clean deploy`이며 Central의 게시 완료 상태까지 기다린다. 참고한 Sonatype Maven 문서는 2026-11-06 수정본을 2026-11-24에 `tools/webfetch`로 조회했다. [Sonatype Maven 배포 문서](https://central.sonatype.org/publish/publish-portal-maven/)
+- 임시 복사본에서 Maven 3.8.8과 JDK 8u202로 `mvn -Prelease -Dcentral.skipUpload=true -Dtest.filter=Jar deploy`를 실행했다. 검증에는 임시 GPG 키, 토큰 없는 Maven 설정과 로컬 테스트 URL을 사용했다. 엔진 2건과 브라우저 5건이 통과했고 업로드 없이 `target/central-publishing/central-bundle.zip`이 생성됐다.
+- 번들 안의 부모 POM, 엔진, 브라우저의 POM·바이너리·소스·Javadoc과 엔진 시험 JAR를 확인했다. 서명 10개를 `gpg --verify`로 검사했고 필수 체크섬이 있으며 예제 산출물과 로컬 Maven 메타데이터가 제외됐다. 일반 `mvn -o -Dtest.filter=Jar test`도 7건이 통과했다.
 
 ### 2026-11-24 · P23 Maven 전환과 JDK 6 검증
 

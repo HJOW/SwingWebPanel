@@ -57,7 +57,17 @@ Maven 없이 실행하는 애플리케이션은 **`browser/target/swingwebpanel.
 | `engine/target/swingwebpanel-js.jar` | 독립 JavaScript 엔진과 `javax.script` 제공자 |
 
 예제는 `examples/target/`에 별도로 빌드됩니다. Maven 플러그인은 빌드에만 쓰이며 제품에 외부 런타임 라이브러리가 추가되지 않습니다.
-소스와 Javadoc JAR, GPG 서명과 Central 게시 설정은 `release` 프로필에서 활성화됩니다. [빌드 상세](docs/progress/maven.md)
+
+### Maven Central 배포
+
+저장소 루트에서 다음 명령을 실행하면 `release` 프로필로 소스·Javadoc JAR를 만들고 GPG 서명 후 Central에 게시합니다.
+
+```sh
+mvn -Prelease clean deploy
+```
+
+업로드 없이 서명된 배포 번들만 만들려면 `mvn -Prelease "-Dcentral.skipUpload=true" clean deploy`를 실행합니다.
+Central Portal 토큰과 서명 키 설정은 [배포 상세](docs/progress/maven.md#maven-central-배포)를 확인하세요.
 
 ## 사용법
 

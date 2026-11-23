@@ -27,12 +27,41 @@
 - Maven 브라우저 좌표 `org.duckdns.hjow:swingwebpanel:0.1.0`은 브라우저 JAR와 엔진 의존성을 제공한다. 버전 없는 합본 `browser/target/swingwebpanel.jar`는 자체 배포용 파일이다. 예제와 도구는 제품 JAR 바깥에 둔다.
 - `release` 프로필은 소스와 Javadoc JAR, 서명과 Central 설정을 켠다. 평소 로컬 검증은 `mvn verify`로 실행한다.
 
+### Maven Central 배포
+
+저장소 루트에서 `mvn -Prelease clean deploy`를 실행한다. `release` 프로필이 Central Publishing Maven Plugin을 확장으로 로드한다. 이 프로필이 빠진 `mvn deploy`는 Maven 기본 배포 플러그인을 실행한다. 프로젝트에 일반 Maven 저장소 배포 주소가 없으므로 `repository element was not specified` 오류가 발생한다. [Sonatype Maven 배포 문서](https://central.sonatype.org/publish/publish-portal-maven/)
+
+실제 게시에는 `org.duckdns.hjow` 네임스페이스 게시 권한과 Central Portal 사용자 토큰을 사용한다. Maven 사용자 설정(`~/.m2/settings.xml`)의 `servers`에 아래 항목을 두거나 기존 `id=central` 항목을 사용한다. 토큰은 로컬 설정에 보관한다. [Portal 토큰 설정](https://central.sonatype.org/publish/generate-portal-token/)
+
+```xml
+<server>
+  <id>central</id>
+  <username>PORTAL_TOKEN_USERNAME</username>
+  <password>PORTAL_TOKEN_PASSWORD</password>
+</server>
+```
+
+GnuPG에서 서명에 사용할 개인 키를 선택하고 공개키를 Central이 조회할 수 있는 키 서버에 등록한다. 빌드는 제품 POM, JAR, 소스와 Javadoc JAR를 서명한다. [Sonatype GPG 안내](https://central.sonatype.org/publish/requirements/gpg/)
+
+이미 게시한 버전을 업데이트하려면 부모와 모듈 버전을 함께 올린다. [Central 게시 요건](https://central.sonatype.org/publish/requirements/)
+
+로컬에서 서명과 번들 구성을 확인할 때는 다음 명령을 사용한다. Central 플러그인은 `deploy` 단계에서 번들을 만들며 Maven 오프라인 모드(`-o`)에서는 이 단계를 건너뛴다. [Sonatype의 번들 전용 설정](https://central.sonatype.org/publish/publish-portal-maven/#skipupload)
+
+```sh
+mvn -Prelease "-Dcentral.skipUpload=true" clean deploy
+```
+
+번들은 `target/central-publishing/central-bundle.zip`에 생성된다. 배포 대상은 부모 POM, 엔진, 브라우저다. 실제 게시에서는 Central의 게시 완료 상태까지 기다린다.
+
+### 빌드 플러그인
+
 | 빌드 구성 | 실제 고정 판본 |
 | --- | --- |
 | Maven과 실행 JDK | Maven 3.8.8, JDK 8u202로 검증 |
 | 컴파일, 리소스, JAR | compiler 3.11.0, resources 3.3.1, jar 3.4.2 |
 | JDK 6 확인과 시험, 합본 | antrun 3.1.0, assembly 3.6.0 |
 | 정리, 설치, 배포 | clean 3.4.0, install 및 deploy 3.1.2 |
+| Central 배포 및 서명 | central-publishing 0.12.0, gpg 1.6 |
 
 Maven 실행 JDK와 제품 JDK를 분리하는 P23-01의 계약을 지키면서, 이 환경에서 검증한 플러그인 판본과 `JAVA6_HOME`을 바로 쓸 수 있는 fork 방식으로 구현했다.
 
