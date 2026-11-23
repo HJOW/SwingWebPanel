@@ -11,7 +11,13 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
-=== 최신 요약 (2026-11-22 밤, 이 블록의 맨 위가 현재 상태이고 아래는 날짜순 기록이다) ===
+=== Maven 1단계 점검 (2026-11-24) ===
+현재 작업 번호: P23 Maven 설정 1단계(`ceef525`) 점검. P23-01 완료, P23-02~07 미완료.
+환경: Maven 3.8.8이 JDK 8u202로 실행된다. JDK 6u45도 설치되어 있고 사용자 toolchains.xml은 없다.
+검증 결과: 커밋의 깨끗한 복사본에서 Maven validate는 성공했고 test와 package는 엔진 클래스 누락으로 컴파일에서 실패했다. 기존 JDK 6 스크립트의 JAR 관련 시험 7건은 통과했다.
+다음 작업 번호: 기존 순서대로 P27-01. Maven 전환 재개 시 P23-02부터 진행한다.
+-----------------------------------------------------------------------------------------------
+=== 이전 요약 (2026-11-22 밤) ===
 현재 작업 번호: P25(Web Audio)·P24(콘솔 이벤트)·P26(엔진 분리) 완료, P23-01(Maven 도입 방식 결정) 완료. **2026-11-22 사용자 요청으로 P27(Java 호스트와 페이지 스크립트 간 메시지 통신, `postMessage`/`message` 이벤트)을 계획에 추가했고 P23(Maven 전환)보다 먼저 한다.** 다음 작업은 P27-01(계약 확정; 기본안은 AGENTS.md P27, 계약 초안은 `docs/API_CONTRACT.md` 5.22)이다. P23-02(Maven 표준 구조 전환)는 P27 뒤에 하며 이 PC 에 `mvn` 이 없어 막혀 있다.
 이 날(2026-11-22)에 끝낸 것: P24 전부, P26 전부(`engine/` 분리, `js.embed`, `javax.script` 제공자, JAR 셋), P25-01~06, P25-08(Web Audio: 그래프 엔진, 노드 전부, 디코딩, JavaScript 바인딩, 실시간 출력, `<audio>` 연결, `ScriptProcessorNode`, AudioWorklet, 실제 Chromium 156 과의 비교 시험), P23-01. 마지막 전체 회귀(JDK 6u45, `BUILD_DIR=build sh test.sh`): 4331 통과/1 실패/14 건너뜀(실패 `XhrTest.testTimeout` 은 시험을 고쳐 8회 연속 통과한 뒤 병합; 건너뜀 14건은 선택적 Opus 원본 벡터 12건과 Java Sound 믹서가 필요한 2건).
 미해결 사항(AGENTS.md 의 `[ ]`):
@@ -309,6 +315,14 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-24 · P23 Maven 설정 1단계 점검
+
+- 변경 파일은 `docs/PROGRESS.md`이다. `ceef525`의 POM과 Eclipse 설정을 검토했다. POM은 `src`만 컴파일하는 단일 JAR 프로젝트이며, Eclipse의 `.classpath`에는 `engine/src`와 `engine/resources`가 등록되어 있다.
+- `mvn -o -B -ntp validate`는 통과했다. `git archive`로 만든 깨끗한 복사본에서 `mvn -o -B -ntp test`와 `mvn -o -B -ntp package`는 각각 종료 코드 1이었다. 두 명령 모두 `compile`에서 `JsException`, `JsRealm` 등 `engine/src`에 있는 클래스를 찾지 못했다. `mvn -o -B -ntp -X compile`로 JDK 8u202의 컴파일러가 Java 6의 소스·대상 옵션을 받아 실행되는 것을 확인했다(`fork = false`).
+- `mvn -o -B -ntp resources:testResources surefire:test`는 기본 `src/test/resources`를 건너뛰고 `No tests to run`을 출력했다. POM에 `tests/src`, `engine/tests`와 자체 `TestRunner`가 연결되어 있지 않다. 제품 리소스 단계도 기본 `src/main/resources`를 건너뛴다. HRTF 자료와 `javax.script` 제공자 등록 파일을 각각 브라우저와 엔진 모듈의 리소스로 연결해야 한다.
+- 같은 복사본에서 JDK 6u45의 `build.bat`로 JAR 3개를 만들고 `test.bat --filter Jar`로 엔진 2건과 브라우저 5건을 통과했다. 두 단계 모두 실행기의 실패 종료 코드 점검을 통과했다. 기존 합본 JAR의 HRTF 자료와 `javax.script` 서비스 등록 파일을 확인했고, `javap -verbose`로 기존 `SwingWebPanel`과 `JsRealm`의 class 파일 major 버전 50을 확인했다.
+- 남은 사항은 Maven 모듈·리소스·시험 연결, JDK 6 toolchain 지정, `0.1.0` 및 기존 JAR·MANIFEST 계약 반영, 문서·스크립트 갱신과 전체 검증이다. 기본 `verify`에 GPG 서명이 연결되어 있고 Central 자동 게시가 설정되어 있다. 배포 설정을 별도 프로필로 분리하는 방안을 P23에서 검토한다. Maven JAR과 전체 회귀 검증은 컴파일이 해결된 뒤 진행한다.
 
 ### 2026-11-22 · P27 계획 추가 · Java 호스트와 페이지 스크립트 간 메시지(postMessage) (문서만, 커밋 `20261122-020`)
 - **요청**: 사용자가 웹 브라우저 컴포넌트에 `message` 이벤트 지원을 추가해, 본래 팝업 창 사이의 통신용인 `window.postMessage`(MDN https://developer.mozilla.org/ko/docs/Web/API/Window/postMessage, 2026-04-15 수정본, 2026-11-22 조회)를 Java 코드와 페이지 스크립트 간 통신에 쓰고자 했다. **우선순위는 Maven 도입(P23)보다 높다.**
