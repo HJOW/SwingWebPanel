@@ -1,11 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.duckdns.hjow</groupId>
-  <artifactId>swingwebpanel</artifactId>
-  <version>0.0.1</version>
-  <name>SwingWebPanel</name>
+  <artifactId>swingwebpanel-parent</artifactId>
+  <version>0.1.0</version>
+  <packaging>pom</packaging>
+  <name>SwingWebPanel Parent</name>
   <description>Swing Web-Browser Component</description>
-  <packaging>jar</packaging>
   <url>https://github.com/HJOW/SwingWebPanel</url>
   <licenses>
       <license>
@@ -22,86 +25,256 @@
       </developer>
   </developers>
   <scm>
-    <connection>scm:git:git://github.com/HJOW/SwingWebPanel.git</connection>                   
-    <developerConnection>scm:git:ssh://github.com/HJOW/SwingWebPanel.git</developerConnection> 
-    <url>https://github.com/HJOW/SwingWebPanel/</url>                                          
+    <connection>scm:git:git://github.com/HJOW/SwingWebPanel.git</connection>
+    <developerConnection>scm:git:ssh://github.com/HJOW/SwingWebPanel.git</developerConnection>
+    <url>https://github.com/HJOW/SwingWebPanel/</url>
   </scm>
+  <modules>
+    <module>engine</module>
+    <module>browser</module>
+    <module>examples</module>
+  </modules>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
+    <swp.jdk6.home>/usr/lib/jvm/java-6-openjdk</swp.jdk6.home>
+    <swp.exe></swp.exe>
+    <swp.javac>${swp.jdk6.home}/bin/javac${swp.exe}</swp.javac>
+    <swp.java>${swp.jdk6.home}/bin/java${swp.exe}</swp.java>
+    <swp.jdk6.checkPhase>validate</swp.jdk6.checkPhase>
+    <swp.test.jvmArgs>-XX:MaxPermSize=256m</swp.test.jvmArgs>
+    <swp.test.jar>${project.build.directory}/swingwebpanel.jar</swp.test.jar>
+    <swp.test.browserJar>${project.build.directory}/swingwebpanel-browser.jar</swp.test.browserJar>
+    <swp.test.engineJar>${project.build.directory}/swingwebpanel-js.jar</swp.test.engineJar>
+    <test.filter></test.filter>
+    <skipTests>false</skipTests>
+    <swp.implementationTitle>${project.name}</swp.implementationTitle>
+    <swp.createdBy>build.sh (JDK 6)</swp.createdBy>
+  </properties>
   <build>
-    <sourceDirectory>src</sourceDirectory>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.4.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.3.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.11.0</version>
+          <configuration>
+            <fork>true</fork>
+            <executable>${swp.javac}</executable>
+            <debuglevel>lines,vars,source</debuglevel>
+            <createMissingPackageInfoClass>false</createMissingPackageInfoClass>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.3.0</version>
+          <executions>
+            <execution>
+              <id>default-test</id>
+              <phase>none</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.4.2</version>
+          <configuration>
+            <archive>
+              <addMavenDescriptor>false</addMavenDescriptor>
+              <manifest>
+                <addDefaultEntries>false</addDefaultEntries>
+              </manifest>
+              <manifestEntries>
+                <Implementation-Title>${swp.implementationTitle}</Implementation-Title>
+                <Implementation-Version>${project.version}</Implementation-Version>
+                <Created-By>${swp.createdBy}</Created-By>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.1.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>3.1.0</version>
+          <executions>
+            <execution>
+              <id>run-regression</id>
+              <phase>none</phase>
+              <goals><goal>run</goal></goals>
+              <configuration>
+                <skip>${skipTests}</skip>
+                <target>
+                  <java classname="org.duckdns.hjow.swingwebpanel.testing.TestRunner"
+                        jvm="${swp.java}" fork="true" failonerror="true" dir="${project.basedir}">
+                    <jvmarg line="${swp.test.jvmArgs}"/>
+                    <sysproperty key="swp.jar" value="${swp.test.jar}"/>
+                    <sysproperty key="swp.browser.jar" value="${swp.test.browserJar}"/>
+                    <sysproperty key="swp.engine.jar" value="${swp.test.engineJar}"/>
+                    <sysproperty key="swp.test.filter" value="${test.filter}"/>
+                    <classpath refid="maven.test.classpath"/>
+                    <arg value="--scan"/>
+                    <arg file="${project.build.testOutputDirectory}"/>
+                  </java>
+                  <java classname="org.duckdns.hjow.swingwebpanel.testing.TestRunner"
+                        jvm="${swp.java}" fork="true" resultproperty="swp.runner.exit">
+                    <classpath refid="maven.test.classpath"/>
+                    <arg value="org.duckdns.hjow.swingwebpanel.testing.selftest.failing.FailingSuite"/>
+                    <redirector output="${project.build.directory}/failing-selftest.log"
+                                error="${project.build.directory}/failing-selftest.err"/>
+                  </java>
+                  <fail message="The TestRunner self-check must exit with code 1. See target/failing-selftest.log.">
+                    <condition>
+                      <not><equals arg1="${swp.runner.exit}" arg2="1"/></not>
+                    </condition>
+                  </fail>
+                  <echo level="info">TestRunner self-check passed (failure exit code 1).</echo>
+                </target>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.1</version>
-          <configuration>
-              <source>1.6</source>
-              <target>1.6</target>
-              <encoding>UTF-8</encoding>
-          </configuration>
-      </plugin>
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.0</version>
-      </plugin>
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>3.2.1</version>
-          <configuration>
-              <encoding>UTF-8</encoding>
-          </configuration>
-          <executions>
-              <execution>
-                  <id>attach-sources</id>
-                  <goals>
-                      <goal>jar-no-fork</goal>
-                  </goals>
-              </execution>
-          </executions>
-      </plugin>
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.3.0</version>
-          <configuration>
-              <locale>ko_kr</locale>
-              <encoding>UTF-8</encoding>
-              <additionalOptions>-Xdoclint:none</additionalOptions>
-          </configuration>
-          <executions>
-              <execution>
-                  <id>attach-javadocs</id>
-                  <goals>
-                      <goal>jar</goal>
-                  </goals>
-              </execution>
-          </executions>
-      </plugin>
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.6</version>
-          <executions>
-              <execution>
-                  <id>sign-artifacts</id>
-                  <phase>verify</phase>
-                  <goals>
-                      <goal>sign</goal>
-                  </goals>
-              </execution>
-          </executions>
-      </plugin>
-      <plugin>
-          <groupId>org.sonatype.central</groupId>
-          <artifactId>central-publishing-maven-plugin</artifactId>
-          <version>0.7.0</version>
-          <extensions>true</extensions>
-          <configuration>
-              <publishingServerId>central</publishingServerId>
-              <autoPublish>true</autoPublish>
-              <waitUntil>uploaded</waitUntil>
-          </configuration>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>check-jdk6</id>
+            <phase>${swp.jdk6.checkPhase}</phase>
+            <goals><goal>run</goal></goals>
+            <configuration>
+              <target>
+                <fail message="JDK 6 not found at ${swp.jdk6.home}. Set JAVA6_HOME to a JDK 6 directory.">
+                  <condition>
+                    <not>
+                      <and>
+                        <available file="${swp.javac}" type="file"/>
+                        <available file="${swp.java}" type="file"/>
+                      </and>
+                    </not>
+                  </condition>
+                </fail>
+                <exec executable="${swp.javac}" failonerror="true"
+                      outputproperty="swp.javac.version" errorproperty="swp.javac.version.err">
+                  <arg value="-version"/>
+                </exec>
+                <exec executable="${swp.java}" failonerror="true"
+                      outputproperty="swp.java.version" errorproperty="swp.java.version.err">
+                  <arg value="-version"/>
+                </exec>
+                <fail message="JDK 6 required at ${swp.jdk6.home}. Found ${swp.javac.version} ${swp.javac.version.err} ${swp.java.version.err}">
+                  <condition>
+                    <not>
+                      <and>
+                        <matches string="${swp.javac.version}${swp.javac.version.err}" pattern="^javac 1\.6(\.|$)"/>
+                        <matches string="${swp.java.version}${swp.java.version.err}" pattern="^java version &quot;1\.6(\.|&quot;)"/>
+                      </and>
+                    </not>
+                  </condition>
+                </fail>
+                <echo level="info">JDK 6: ${swp.jdk6.home}</echo>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>jdk6-windows</id>
+      <activation><os><family>Windows</family></os></activation>
+      <properties>
+        <swp.jdk6.home>C:/Program Files/Java/jdk1.6.0_45</swp.jdk6.home>
+        <swp.exe>.exe</swp.exe>
+      </properties>
+    </profile>
+    <profile>
+      <id>jdk6-environment</id>
+      <activation><property><name>env.JAVA6_HOME</name></property></activation>
+      <properties>
+        <swp.jdk6.home>${env.JAVA6_HOME}</swp.jdk6.home>
+      </properties>
+    </profile>
+    <profile>
+      <id>skip-test-compilation</id>
+      <activation><property><name>maven.test.skip</name><value>true</value></property></activation>
+      <properties>
+        <skipTests>true</skipTests>
+      </properties>
+    </profile>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.2.1</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals><goal>jar-no-fork</goal></goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.3.0</version>
+            <configuration>
+              <locale>ko_KR</locale>
+              <doclint>none</doclint>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals><goal>jar</goal></goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals><goal>sign</goal></goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.7.0</version>
+            <extensions>true</extensions>
+            <configuration>
+              <publishingServerId>central</publishingServerId>
+              <autoPublish>true</autoPublish>
+              <waitUntil>uploaded</waitUntil>
+              <excludeArtifacts>
+                <excludeArtifact>swingwebpanel-examples</excludeArtifact>
+              </excludeArtifacts>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

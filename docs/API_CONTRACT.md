@@ -1,7 +1,7 @@
 # SwingWebPanel 공개 API 계약
 
 작성: 2026-11-16 (P01-01 ~ P01-19). 구현은 이 계약을 따르며, 계약을 바꿀 때는 이 문서와 `FEATURE_MATRIX.md` 를 함께 갱신한다.
-검증 사례 ID(`C-xxx`)는 `tests/src` 의 사례 이름과 1:1 로 연결한다.
+검증 사례 ID(`C-xxx`)는 `browser/src/test/java`의 사례 이름과 1:1로 연결한다.
 
 ## 1. 클래스와 스레드 계약 (P01-01, P01-03, P01-04)
 
@@ -419,4 +419,4 @@ HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도�
 | C-CONSOLE-1~8 | 콘솔 리스너(5.20) | log/error 수준·문자열·인수·위치·EDT, 모든 콘솔 메서드의 수준, Swing 등록 규칙, 리스너 예외 격리, 브라우저 보고의 종류, 모든 스크립트 실행 위치, 프레임/Worker 표시, 대량 출력 상한, 이동·clean·dispose·JavaScript 설정 |
 | C-MESSAGE-1~ (계획) | 호스트 메시지(5.22 초안, P27) | P27-06 의 검증 목록: 왕복과 `reply`, 대상 오리진 양방향, 값 변환과 거부, 전달 순서, 프레임/Worker, 이동 경쟁, JavaScript 비활성, clean/dispose, EDT, 예외 격리, 대량 전송 상한, 누수 |
 
-사례 ID 는 구현 시 `tests/src` 의 메서드 이름에 포함하고 `FEATURE_MATRIX.md` 의 검증 사례 열과 일치시킨다.
+사례 ID는 구현 시 `browser/src/test/java`의 메서드 이름에 포함하고 `FEATURE_MATRIX.md`의 검증 사례 열과 일치시킨다.

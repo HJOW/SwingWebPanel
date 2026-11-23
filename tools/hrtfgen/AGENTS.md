@@ -4,8 +4,8 @@
 
 MIT KEMAR 더미 헤드의 HRTF 측정(Bill Gardner, Keith Martin, MIT Media Lab, 1994)의 **compact 자료**(`compact.zip`)를 Web Audio 엔진의
 `PannerNode`(`panningModel = "HRTF"`)가 읽는 이진 자원 파일 하나로 바꾸는 개발 보조 도구이다. 제품 기능이 아니며 제품 JAR/테스트는 이 도구의 클래스에
-의존하지 않는다. 제품 쪽 읽기 코드는 `src/org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.java` 이고, 생성한 자원은
-`src/org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/kemar-compact.hrtf`(`build.sh` 가 비자바 리소스를 JAR 에 복사한다)이다.
+의존하지 않는다. 제품 쪽 읽기 코드는 `browser/src/main/java/org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.java` 이고, 생성한 자원은
+`browser/src/main/resources/org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/kemar-compact.hrtf`(Maven이 브라우저 JAR에 복사한다)이다.
 계획 항목: P25-04(PannerNode, HRTF 데이터).
 
 ## 원본 자료와 이용 조건
@@ -24,7 +24,7 @@ MIT KEMAR 더미 헤드의 HRTF 측정(Bill Gardner, Keith Martin, MIT Media Lab
 - 소스: `tools/hrtfgen/src/hrtfgen/HrtfGen.java` (Java 6 문법, 외부 라이브러리 없음).
 - 빌드: `tools/hrtfgen/build.sh` 또는 `tools\hrtfgen\build.bat` (JDK 6 필요. `JAVA6_HOME` 으로 경로 변경, 기본 `C:\Program Files\Java\jdk1.6.0_45`. 못 찾으면 종료 코드 1)
 - 실행: `tools/hrtfgen/run.sh <compact.zip> <출력.hrtf> [--retrieved YYYY-MM-DD]` 또는 `tools\hrtfgen\run.bat ...`. 네트워크를 쓰지 않으므로 JRE 6 으로 실행한다.
-  - 예: `sh tools/hrtfgen/run.sh build/hrtf-src/compact.zip src/org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/kemar-compact.hrtf --retrieved 2026-11-22`
+  - 예: `sh tools/hrtfgen/run.sh build/hrtf-src/compact.zip browser/src/main/resources/org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/kemar-compact.hrtf --retrieved 2026-11-22`
   - 같은 입력이면 출력 바이트가 항상 같다(재현 가능). JDK 6u45 에서 약 40초.
 - 종료 코드: 0 성공 / 1 사용법 오류 / 2 압축 파일을 읽지 못함·형식이 기대와 다름·출력 파일을 쓰지 못함.
 - 출력(stderr): 측정 수, 제거한 공통 지연, 남은 최대 지연, 자른 최소 위상 커널의 크기 응답 최대 오차(dB), 자르기로 잘려 나간 최대 에너지 비율.
@@ -61,4 +61,4 @@ MIT KEMAR 더미 헤드의 HRTF 측정(Bill Gardner, Keith Martin, MIT Media Lab
 
 - Java 6 문법/API 만 사용. 실제로 실행해 본 JRE: JDK 6u45 `1.6.0_45`(sh).
 - 도구의 FFT 는 도구 안에 자체 구현이다(제품 `dsp.Fft` 에 의존하지 않는다).
-- 원본 압축 파일은 저장소에 넣지 않는다(시험용 사본은 `tests/resources/kemar/compact.zip`, 시험이 원본 HRIR 과 비교하는 데 쓴다. 같은 이용 조건과 저자 표기).
+- 원본 압축 파일은 저장소에 넣지 않는다(시험용 사본은 `browser/src/test/resources/kemar/compact.zip`, 시험이 원본 HRIR 과 비교하는 데 쓴다. 같은 이용 조건과 저자 표기).

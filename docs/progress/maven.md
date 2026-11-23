@@ -1,6 +1,44 @@
 # Maven 전환 기록 (P23)
 
+## Maven 빌드 (2026-11-24)
+
+저장소 루트에서 Maven 3.8.8 이상을 JDK 8 이상으로 실행한다. 제품과 시험은 실제 JDK 6의 `javac`로 컴파일하고 시험은 같은 JDK 6의 `java`로 실행한다. JDK 6의 경로는 `JAVA6_HOME`으로 지정한다. Windows 기본 경로는 `C:\Program Files\Java\jdk1.6.0_45`, Linux 기본 경로는 `/usr/lib/jvm/java-6-openjdk`이다. 부모 및 독립 엔진 빌드의 `validate`에서 실행 파일과 버전을 검사한다.
+
+### 모듈과 이전 경로
+
+| 이전 경로 | Maven 경로 |
+| --- | --- |
+| `src/org` | `browser/src/main/java/org` |
+| `src`에 있던 HRTF 자료 | `browser/src/main/resources/org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/kemar-compact.hrtf` |
+| `tests/src`, `tests/resources` | `browser/src/test/java`, `browser/src/test/resources` |
+| `engine/src`, `engine/resources` | `engine/src/main/java`, `engine/src/main/resources` |
+| `engine/tests/src`, `engine/tests/resources` | `engine/src/test/java`, `engine/src/test/resources` |
+| `examples/src`, `examples/resources` | `examples/src/main/java`, `examples/src/main/resources` |
+| `build/swingwebpanel.jar`, `build/swingwebpanel-browser.jar` | `browser/target/swingwebpanel.jar`, `browser/target/swingwebpanel-browser.jar` |
+| `build/swingwebpanel-js.jar` | `engine/target/swingwebpanel-js.jar` |
+
+`docs/progress/`의 전환 전 시험 기록과 당시 명령은 실행 시점의 경로를 그대로 쓴다. 소스와 시험 자료를 현재 트리에서 찾을 때는 위 표를 적용한다. `scripts/pkgtest.sh`나 `scripts/snaptest.sh` 대신 `mvn "-Dtest.filter=<시험 이름>" test`를 사용한다. 엔진만 시험하려면 `-pl engine`을 붙인다. 별도 스냅샷이 필요한 경우 그 스냅샷의 저장소 루트에서 Maven을 실행한다.
+
+### 빌드와 패키징
+
+- `mvn verify`는 부모, 엔진, 브라우저, 예제를 빌드한다. 엔진의 자체 실행기는 headless로 동작한다. 브라우저 시험은 엔진의 `testing.*`를 test JAR로 사용한다.
+- JAR 계약을 검사하는 회귀 시험을 위해 제품 JAR와 합본은 `test` 전에 만든다. 모든 시험은 각 모듈의 `target/test-classes`를 검색한다. 예상 실패 묶음은 별도 JRE에서 실행해 종료 코드 1을 검사하므로 Maven 로그에 `Java Result: 1`과 자체 점검 통과 메시지가 함께 나타난다.
+- `mvn -Dmaven.test.skip=true package`는 시험 컴파일과 실행을 생략한다. `-DskipTests`는 실행만 생략한다. 제품을 빌드하는 sh/bat와 예제 실행 스크립트는 Maven 래퍼다. `scripts/jdk6.*`는 독립 도구와 예제 실행에서 JDK 6을 찾는 데 쓴다.
+- Maven 브라우저 좌표 `org.duckdns.hjow:swingwebpanel:0.1.0`은 브라우저 JAR와 엔진 의존성을 제공한다. 버전 없는 합본 `browser/target/swingwebpanel.jar`는 자체 배포용 파일이다. 예제와 도구는 제품 JAR 바깥에 둔다.
+- `release` 프로필은 소스와 Javadoc JAR, 서명과 Central 설정을 켠다. 평소 로컬 검증은 `mvn verify`로 실행한다.
+
+| 빌드 구성 | 실제 고정 판본 |
+| --- | --- |
+| Maven과 실행 JDK | Maven 3.8.8, JDK 8u202로 검증 |
+| 컴파일, 리소스, JAR | compiler 3.11.0, resources 3.3.1, jar 3.4.2 |
+| JDK 6 확인과 시험, 합본 | antrun 3.1.0, assembly 3.6.0 |
+| 정리, 설치, 배포 | clean 3.4.0, install 및 deploy 3.1.2 |
+
+Maven 실행 JDK와 제품 JDK를 분리하는 P23-01의 계약을 지키면서, 이 환경에서 검증한 플러그인 판본과 `JAVA6_HOME`을 바로 쓸 수 있는 fork 방식으로 구현했다.
+
 ## P23-01 도입 방식 조사와 결정 (2026-11-22)
+
+아래는 구현 전 조사 및 계획 기록이다.
 
 ### 1. 확인한 사실 (이 PC, `tools/webfetch` 로 실제 접속)
 

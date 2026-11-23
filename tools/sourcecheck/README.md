@@ -19,7 +19,7 @@ JDK 6 이 필요합니다(`C:\Program Files\Java\jdk1.6.0_45`, 다르면 `JAVA6_
 ```
 tools\sourcecheck\build.bat
 tools\sourcecheck\run.bat                   (기본 경로 전체 검사)
-tools\sourcecheck\run.bat --only javadoc src/org/duckdns/hjow/swingwebpanel/net
+tools\sourcecheck\run.bat --only javadoc browser/src/main/java/org/duckdns/hjow/swingwebpanel/net
 tools\sourcecheck\run.bat --selftest        (검사기 자체 시험)
 ```
 

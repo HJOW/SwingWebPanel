@@ -3,7 +3,7 @@ rem Compile the uicheck tool with JDK 6. Build the product first (build.bat). (A
 setlocal
 set "DIR=%~dp0"
 call "%DIR%..\..\scripts\jdk6.bat" || exit /b 1
-if "%SWP_CLASSES%"=="" set "SWP_CLASSES=%DIR%..\..\build\classes"
+if "%SWP_CLASSES%"=="" set "SWP_CLASSES=%DIR%..\..\browser\target\swingwebpanel.jar"
 if not exist "%SWP_CLASSES%" (
   echo [ERROR] Build the product first: build.bat 1>&2
   exit /b 2

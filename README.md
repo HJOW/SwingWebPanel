@@ -25,28 +25,39 @@ Java Swing 에서 쓰는 웹 브라우저 컴포넌트입니다. HTML 파서, CS
 
 ## 빌드와 시험
 
-| 하는 일 | 명령(sh) | 명령(Windows) |
-| --- | --- | --- |
-| JAR 만들기(`build/swingwebpanel.jar` 외 둘) | `./build.sh` | `build.bat` |
-| 엔진만 만들기(`build/swingwebpanel-js.jar`) | `engine/build.sh` | `engine\build.bat` |
-| 전체 시험(엔진 단계 + 브라우저 단계) | `./test.sh` | `test.bat` |
-| 엔진 시험만(브라우저와 AWT 없이) | `engine/test.sh` | `engine\test.bat` |
-| 예제 실행 | `examples/run.sh BlankPageExample [URL]` | `examples\run.bat BlankPageExample [URL]` |
+저장소 루트에서 Maven 3.8.8 이상을 JDK 8 이상으로 실행합니다(`JAVA_HOME`). 컴파일과 회귀 시험에는 별도로 설치한 JDK 6을 사용합니다.
+기본 경로는 Windows의 `C:\Program Files\Java\jdk1.6.0_45`와 Linux의 `/usr/lib/jvm/java-6-openjdk`입니다.
+설치 경로가 다르면 `JAVA6_HOME`을 지정합니다. 빌드는 JDK 6의 `javac`와 `java`를 확인하고 잘못된 경로 또는 버전에서 실패합니다.
 
-JDK 6 를 찾지 못하면 다른 JDK 로 조용히 대체하지 않고 오류로 종료합니다(다른 JDK 는 `SWP_ALLOW_NON_JDK6=1` 로 명시했을 때만 쓰며 그 결과는 JRE 6 검증이 아닙니다).
-예제는 [examples/README.md](examples/README.md) 를 보세요.
+| 하는 일 | 명령 |
+| --- | --- |
+| 전체 시험과 패키징 | `mvn verify` |
+| JAR만 만들기 | `mvn -Dmaven.test.skip=true package` |
+| 엔진 시험만 | `mvn -pl engine test` |
+| 이름에 `BrowserJarsTest`가 들어간 시험 실행 | `mvn "-Dtest.filter=BrowserJarsTest" test` |
+| 오프라인 검증 | 플러그인을 한 번 받은 뒤 `mvn -o verify` |
+| 로컬 Maven 저장소에 설치 | `mvn install` |
+
+`build.sh`/`build.bat`, `test.sh`/`test.bat`, `engine/build.*`와 `engine/test.*`도 Maven을 호출합니다. 시험 스크립트는 기존 `--filter 문자열`을 받습니다.
+예제 실행은 `examples/run.sh BlankPageExample` 또는 `examples\run.bat BlankPageExample`을 사용합니다. [예제 목록](examples/README.md)
+
+Eclipse에서는 저장소 루트를 **Existing Maven Projects**로 가져오면 부모 POM과 세 모듈을 선택할 수 있습니다.
 
 ### JAR 구성
 
-제품은 두 모듈이며 `build.sh` 가 JAR 세 개를 만듭니다. **기존처럼 `swingwebpanel.jar` 하나만 클래스패스에 두면 됩니다.**
+Maven을 쓰는 애플리케이션은 `org.duckdns.hjow:swingwebpanel:0.1.0`에 의존하면 브라우저와 엔진을 함께 받습니다.
+엔진만 쓰는 좌표는 `org.duckdns.hjow:swingwebpanel-js:0.1.0`입니다. 저장소에서 직접 빌드한 버전은 `mvn install` 후 사용할 수 있습니다.
 
-| JAR | 내용 | 용도 |
-| --- | --- | --- |
-| `swingwebpanel.jar` | 엔진 + 브라우저 컴포넌트 (위 둘의 합) | 기존 사용 방식(Swing 컴포넌트를 쓰는 응용) |
-| `swingwebpanel-js.jar` | 자체 JavaScript 엔진만(`engine/`): 브라우저, AWT, Swing, 네트워크, 파일에 의존하지 않음 | 브라우저 없이 JavaScript(ES2015)만 쓰는 응용, `javax.script` |
-| `swingwebpanel-browser.jar` | 브라우저 컴포넌트만(`src/`) | 실행하려면 `swingwebpanel-js.jar` 가 함께 필요 |
+Maven 없이 실행하는 애플리케이션은 **`browser/target/swingwebpanel.jar` 하나를 클래스패스에** 두면 됩니다.
 
-엔진은 컴파일할 때 클래스패스가 비어 있으므로 브라우저 클래스를 참조하면 빌드가 실패합니다(`tools/sourcecheck` 와 시험도 같은 경계를 검사합니다).
+| 파일 | 내용 |
+| --- | --- |
+| `browser/target/swingwebpanel.jar` | 브라우저와 JavaScript 엔진의 합본 |
+| `browser/target/swingwebpanel-browser.jar` | 브라우저. 실행 시 엔진 JAR 필요 |
+| `engine/target/swingwebpanel-js.jar` | 독립 JavaScript 엔진과 `javax.script` 제공자 |
+
+예제는 `examples/target/`에 별도로 빌드됩니다. Maven 플러그인은 빌드에만 쓰이며 제품에 외부 런타임 라이브러리가 추가되지 않습니다.
+소스와 Javadoc JAR, GPG 서명과 Central 게시 설정은 `release` 프로필에서 활성화됩니다. [빌드 상세](docs/progress/maven.md)
 
 ## 사용법
 
@@ -137,7 +148,7 @@ HTTPS 의 연결/TLS 처리 실패일 때만 같은 주소의 HTTP 접근을 한
 링크가 `Content-Disposition: attachment` 응답이나 보여 줄 수 없는 형식(zip 등)을 가리키거나 같은 오리진의 `<a download>` 이면 페이지를 바꾸지 않고 **Swing 다운로드 팝업**(`JDialog` 와 `JFileChooser`)이
 열립니다. 파일 이름/출처/저장 위치/진행률(크기를 모르면 불확정)/취소/결과를 보여 주며, 전송은 백그라운드 스레드에서 하고 컴포넌트와 같은 요청 계층(User-Agent, 헤더, 쿠키, SSL 확장 지점)을 씁니다.
 헤드리스 환경에서는 다운로드를 취소하고 상태 메시지로 알립니다. 호스트가 직접 UI 를 만들려면 `protected DownloadHandle createDownloadPopup(DownloadRequest, DownloadControl)` 을,
-저장 위치를 정하려면 `protected File getDownloadDirectory()` 를 재정의합니다(예: [DownloadPopupExample](examples/src/org/duckdns/hjow/swingwebpanel/examples/DownloadPopupExample.java)).
+저장 위치를 정하려면 `protected File getDownloadDirectory()` 를 재정의합니다(예: [DownloadPopupExample](examples/src/main/java/org/duckdns/hjow/swingwebpanel/examples/DownloadPopupExample.java)).
 
 ### 오디오와 비디오
 
@@ -191,7 +202,7 @@ engine.putFunction("add", new JsHostFunction() {            // 스크립트가 J
 - **독립 모드 전역**: ES2015 표준 내장 객체, `console`, `print`. `window`/`document`/`fetch` 등 브라우저 객체와 **타이머(`setTimeout`)는 없습니다**(이벤트 루프가 없으므로. 필요하면 `putFunction` 으로 직접 만들고 자기 루프에서 호출). promise 작업은 최상위 호출이 끝날 때마다 실행됩니다.
 - **오류**: 구문/런타임 오류와 `throw` 는 이름, 메시지, 스크립트 이름, 줄, 열을 가진 `JsScriptError` 로 던져지고, 제한/취소로 멈춘 스크립트는 `ScriptAbortedException` 입니다.
 - **스레드**: 엔진과 핸들은 어느 스레드에서나 쓸 수 있고 연산은 한 번에 하나씩 실행되며, `cancel()` 만 잠금 없이 아무 스레드에서나 호출할 수 있습니다.
-- 예제: `SWP_CLASSES=build/engine-classes examples/run.sh EngineExample` (엔진 클래스만으로 컴파일하고 실행합니다).
+- 예제는 `examples/run.sh EngineExample`로 실행합니다. 실행 클래스패스에는 예제 클래스와 엔진 JAR를 둡니다.
 
 **Java Scripting API(JSR 223)**: 엔진 JAR 의 `META-INF/services/javax.script.ScriptEngineFactory` 로 등록되어 있습니다.
 
@@ -205,7 +216,7 @@ Invocable inv = (Invocable) engine;                  // Compilable 도 구현
 - **이름 충돌에 주의하세요.** JRE 6~7 은 Rhino, JRE 8~14 는 Nashorn 을 `javascript`/`js`/`ECMAScript` 이름과 확장자 `js`, MIME `application/javascript` 로 이미 등록하고 있습니다. 이 엔진이 그 이름을 가로채면 기존 프로그램이 조용히 다른 엔진을 받게 되므로 **고유한 식별자만 등록합니다**: 이름 `swingwebpanel-js`(와 `swingwebpanel-javascript`), 확장자 `swjs`, MIME `application/x-swingwebpanel-javascript`. 일반 이름이 꼭 필요하면(예: 자체 엔진이 없는 Java 15 이상) JVM 옵션 `-Dswingwebpanel.js.genericNames=true` 로 일반 이름도 등록할 수 있습니다(`ScriptEngineManager` 를 만들기 전에 지정. 그때 `getEngineByName("javascript")` 가 어느 엔진을 돌려주는지는 JRE 의 검색 순서에 따릅니다).
 - `ENGINE_SCOPE` 바인딩은 전역 객체의 살아 있는 보기입니다(`put`/`get`/`var`). `eval(script, bindings)` 로 다른 바인딩을 주면 그 바인딩마다 독립된 전역 스코프를 가집니다. `GLOBAL_SCOPE` 는 읽기 전용 대체 조회입니다. `print` 와 `console` 은 컨텍스트의 `getWriter()`/`getErrorWriter()` 로 갑니다. `ScriptException` 에는 파일 이름(`ScriptEngine.FILENAME`), 줄, 열이 있습니다. `THREADING` 은 `MULTITHREADED` 입니다.
 - 스크립트가 Java 코드를 부르게 하려면 바인딩에 `JsHostFunction` 을 넣습니다(다른 Java 객체는 거부됩니다). 실행 제한과 취소는 `((JsScriptEngine) engine).getJsEngine()` 으로 얻은 `JsEngine` 에서 지정합니다.
-- 예제: `SWP_CLASSES=build/engine-classes examples/run.sh script.ScriptEngineExample`.
+- 예제는 `examples/run.sh script.ScriptEngineExample`로 실행합니다.
 
 ### 저장소, 쿠키, 수명
 
@@ -230,7 +241,7 @@ Invocable inv = (Invocable) engine;                  // Compilable 도 구현
 
 ## 제3자 자료와 고지
 
-- **HRTF 자료(Web Audio `PannerNode` 의 HRTF 모드)**: MIT KEMAR 더미 헤드 측정 자료(compact 세트), Bill Gardner 와 Keith Martin, MIT Media Lab Machine Listening Group, 1994, <https://sound.media.mit.edu/resources/KEMAR.html>. Copyright 1994 by the MIT Media Laboratory. 자료를 쓸 때 저자를 표기하면 사용 제한 없이 무료로 쓸 수 있다는 조건으로 제공된 자료이며, 이 프로젝트는 그것을 `tools/hrtfgen` 으로 변환한 자원 `media/webaudio/dsp/kemar-compact.hrtf` 를 제품 JAR 에 넣습니다(원본 compact.zip 은 시험의 독립 기준으로 `tests/resources/kemar/` 에만 있습니다).
+- **HRTF 자료(Web Audio `PannerNode` 의 HRTF 모드)**: MIT KEMAR 더미 헤드 측정 자료(compact 세트), Bill Gardner 와 Keith Martin, MIT Media Lab Machine Listening Group, 1994, <https://sound.media.mit.edu/resources/KEMAR.html>. Copyright 1994 by the MIT Media Laboratory. 자료를 쓸 때 저자를 표기하면 사용 제한 없이 무료로 쓸 수 있다는 조건으로 제공된 자료이며, 이 프로젝트는 그것을 `tools/hrtfgen` 으로 변환한 자원 `media/webaudio/dsp/kemar-compact.hrtf` 를 제품 JAR 에 넣습니다(원본 compact.zip 은 시험의 독립 기준으로 `browser/src/test/resources/kemar/` 에만 있습니다).
 - **DynamicsCompressorNode**: Chromium(Blink)의 압축기 설계를 Java 로 옮겼으므로 해당 클래스(`DynamicsCompressorKernel.java`)에 Chromium 의 BSD 3-clause 고지를 그대로 유지합니다.
 
 ## License

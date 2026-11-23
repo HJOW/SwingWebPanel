@@ -18,7 +18,7 @@ Windows 에서는 `tools\entitygen\build.bat` 을 사용합니다.
 3. 실행합니다. 마지막 인수는 생성 파일을 쓸 디렉터리입니다.
 
 ```bash
-tools/entitygen/run.sh build/specs/html/entities.json build/specs/html/encodings.json src/org/duckdns/hjow/swingwebpanel/html
+tools/entitygen/run.sh build/specs/html/entities.json build/specs/html/encodings.json browser/src/main/java/org/duckdns/hjow/swingwebpanel/html
 ```
 
 생성된 파일 머리의 Javadoc 에 입력의 URL, 조회 날짜, 판본(Last-Modified, ETag)이 기록됩니다. 규격이 바뀌면 입력을 다시 받아 같은 명령을 다시 실행하세요.

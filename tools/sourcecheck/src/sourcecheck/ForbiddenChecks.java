@@ -191,9 +191,9 @@ final class ForbiddenChecks {
 
     /**
      * Normalizes a display path to forward slashes with a leading slash, so that a directory can be recognized by text such as
-     * <code>/engine/src/</code> both in the repository and in the self test samples.
+     * <code>/engine/src/main/java/</code> both in the repository and in the self test samples.
      * <p>
-     * 표시 경로를 슬래시 구분에 맨 앞 슬래시가 있는 형태로 바꿔, 저장소에서나 자체 시험 샘플에서나 <code>/engine/src/</code> 같은 글자로 디렉터리를 알아볼 수 있게 한다.
+     * 표시 경로를 슬래시 구분에 맨 앞 슬래시가 있는 형태로 바꿔 저장소와 자체 시험에서 <code>/engine/src/main/java/</code> 같은 경로를 알아볼 수 있게 한다.
      *
      * @param path display path / 표시 경로
      * @return the normalized path / 정규화된 경로
@@ -204,12 +204,12 @@ final class ForbiddenChecks {
 
     /**
      * Tells whether a source may use the Java Scripting API (<code>javax.script</code>). Only the provider package of the own engine
-     * (<code>js/script</code> below <code>engine/src</code> and <code>engine/tests/src</code>) and the examples package that shows its use
+     * (<code>js/script</code> in the engine's Java source and test trees) and the examples package that shows its use
      * may. Product code (the browser component, the rest of the engine) must never reach a JavaScript engine through
      * <code>ScriptEngineManager</code>, because that could silently run the Rhino or Nashorn engine of the JRE (plan items P00-09, P26-05).
      * <p>
-     * 소스가 Java Scripting API(<code>javax.script</code>)를 써도 되는지 알려 준다. 자체 엔진의 제공자 패키지(<code>engine/src</code>와
-     * <code>engine/tests/src</code> 아래 <code>js/script</code>)와 그 사용법을 보여 주는 예제 패키지만 쓸 수 있다. 제품 코드(브라우저 컴포넌트와
+     * 소스가 Java Scripting API(<code>javax.script</code>)를 써도 되는지 알려 준다. 엔진 모듈의 Java 소스와 시험의 <code>js/script</code> 패키지와
+     * 그 사용법을 보여 주는 예제 패키지만 쓸 수 있다. 제품 코드(브라우저 컴포넌트와
      * 엔진의 나머지)는 <code>ScriptEngineManager</code> 로 JavaScript 엔진에 닿으면 안 된다. JRE 의 Rhino 나 Nashorn 이 몰래 실행될 수 있기 때문이다
      * (계획 P00-09, P26-05).
      *
@@ -218,8 +218,9 @@ final class ForbiddenChecks {
      */
     static boolean mayUseScriptingApi(String path) {
         String p = normalized(path);
-        boolean providerPackage = p.indexOf("/engine/") >= 0 && p.indexOf("/swingwebpanel/js/script/") >= 0;
-        boolean examplePackage = p.indexOf("/examples/src/") >= 0 && p.indexOf("/swingwebpanel/examples/script/") >= 0;
+        boolean providerPackage = (p.indexOf("/engine/src/main/java/") >= 0 || p.indexOf("/engine/src/test/java/") >= 0)
+                && p.indexOf("/swingwebpanel/js/script/") >= 0;
+        boolean examplePackage = p.indexOf("/examples/src/main/java/") >= 0 && p.indexOf("/swingwebpanel/examples/script/") >= 0;
         return providerPackage || examplePackage;
     }
 
@@ -263,8 +264,8 @@ final class ForbiddenChecks {
      */
     private static void checkEngineBoundary(JavaScanner sc, String path, List<Violation> out) {
         String p = normalized(path);
-        boolean engineSource = p.indexOf("/engine/src/") >= 0;
-        boolean engineTest = p.indexOf("/engine/tests/src/") >= 0;
+        boolean engineSource = p.indexOf("/engine/src/main/java/") >= 0;
+        boolean engineTest = p.indexOf("/engine/src/test/java/") >= 0;
         if (!engineSource && !engineTest) {
             return;
         }

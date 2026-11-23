@@ -22,7 +22,7 @@ RFC 7932(Brotli 압축 데이터 형식)의 텍스트에서 Brotli 디코더가 
 
 - 소스: `tools/brotlidict/src/brotlidict/BrotliDict.java` (Java 6 문법, 외부 라이브러리 없음)
 - 빌드: `tools/brotlidict/build.sh` 또는 `tools\brotlidict\build.bat` (JDK 6 필요. `JAVA6_HOME`, 기본 `C:\Program Files\Java\jdk1.6.0_45`. 못 찾으면 종료 코드 1)
-- 실행: `tools/brotlidict/run.sh build/rfc7932.txt src/org/duckdns/hjow/swingwebpanel/media/font` 또는 `tools\brotlidict\run.bat ...`
+- 실행: `tools/brotlidict/run.sh build/rfc7932.txt browser/src/main/java/org/duckdns/hjow/swingwebpanel/media/font` 또는 `tools\brotlidict\run.bat ...`
 - 종료 코드: 0 성공 / 1 사용법 오류 / 2 출력 디렉터리 오류 / 그 밖의 0 이 아닌 값은 입력 검증 실패(예외 스택).
 
 ## 제약

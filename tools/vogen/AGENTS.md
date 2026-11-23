@@ -17,13 +17,13 @@
 - 출력(`출력디렉터리`): `VerticalOrientationData.java` — `org.duckdns.hjow.swingwebpanel.layout` 패키지의 패키지 비공개 클래스. `CHUNKS` 문자열 배열이며
   항목은 공백으로 구분한 16 진수 `시작-끝` 쌍이다. 똑바로 서는 값(`U`, `Tu`, `Tr`)의 코드 포인트만 연속 구간으로 합쳐 낸다(나머지는 `R`: 눕힘).
   CSS Writing Modes Level 3 5.1.2 절이 `U`, `Tu`, `Tr` 을 똑바로, `R` 을 눕혀서 쓰라고 한다. 한 상수의 길이는 6000 글자 이하로 나눈다.
-  제품 빌드(`scripts/pkgtest.sh`)는 자바가 아닌 자원을 복사하지 않으므로 표를 자원이 아니라 자바 소스로 만든다.
+  레이아웃 코드에서 표를 바로 사용할 수 있도록 Java 소스로 만든다.
 
 ## 빌드와 실행
 
 - 소스: `tools/vogen/src/vogen/VoGen.java` (Java 6 문법, 외부 라이브러리 없음)
 - 빌드: `tools/vogen/build.sh` 또는 `tools\vogen\build.bat` (JDK 6 필요. `JAVA6_HOME`, 기본 `C:\Program Files\Java\jdk1.6.0_45`. 못 찾으면 종료 코드 1)
-- 실행: `tools/vogen/run.sh VerticalOrientation.txt src/org/duckdns/hjow/swingwebpanel/layout` 또는 `tools\vogen\run.bat ...`. 실행 JRE 는 `JAVA6_HOME`(없으면 기본 JDK 6 경로).
+- 실행: `tools/vogen/run.sh VerticalOrientation.txt browser/src/main/java/org/duckdns/hjow/swingwebpanel/layout` 또는 `tools\vogen\run.bat ...`. 실행 JRE 는 `JAVA6_HOME`(없으면 기본 JDK 6 경로).
 - 종료 코드: 0 성공 / 1 사용법 오류 / 2 출력 디렉터리 오류. 입력 파일이 잘못되면 예외와 함께 0 이 아닌 코드로 끝난다.
 - 입력 내려받기: `WEBFETCH_JAVA_HOME=<새 JRE> tools/webfetch/run.sh --out build/vo.txt <URL> 2> build/vo.txt.meta` (JDK 6u45 는 HTTPS 를 읽지 못하므로 새 JRE 를 쓴다).
 

@@ -21,7 +21,7 @@ tools/brotlidict/build.sh
 3. 실행합니다. 마지막 인수는 생성 파일을 쓸 디렉터리입니다.
 
 ```bash
-tools/brotlidict/run.sh build/rfc7932.txt src/org/duckdns/hjow/swingwebpanel/media/font
+tools/brotlidict/run.sh build/rfc7932.txt browser/src/main/java/org/duckdns/hjow/swingwebpanel/media/font
 ```
 
 도구는 RFC 가 적어 둔 길이와 CRC-32(사전 `0x5136cb04`, 변환 `0x3d965f81`, 조회표 세 개)와 읽은 표를 비교하고, 하나라도 다르면 파일을 만들지 않고 오류로 끝납니다.

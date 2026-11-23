@@ -2,7 +2,7 @@
 
 MIT KEMAR 더미 헤드의 HRTF(머리전달함수) 측정 자료를 SwingWebPanel 의 Web Audio `PannerNode`(HRTF 패닝)가 읽는 자원 파일로 바꾸는 개발 보조 도구입니다.
 제품(SwingWebPanel)에 포함되지 않으며, 자원 파일을 다시 만들어야 할 때만 사용합니다. 생성한 자원 파일은 이미 저장소에 들어 있습니다
-(`src/org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/kemar-compact.hrtf`).
+(`browser/src/main/resources/org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/kemar-compact.hrtf`).
 
 ## 원본 자료와 저자 표기
 

@@ -9,10 +9,10 @@ P09-08-b-2 같은 항목의 근거를 만든다. 제품 코드가 아니며 제�
 
 ## 빌드와 실행
 
-- 먼저 제품을 빌드한다: `./build.sh`(기본 `build/classes`) 또는 `BUILD_DIR=build/ui sh build.sh`(그러면 `SWP_CLASSES=build/ui/classes` 로 지정).
-  `SWP_CLASSES` 는 **저장소 루트 기준 상대 경로**이다(MSYS 절대 경로 `/h/...` 는 Windows `java.exe` 가 클래스패스로 읽지 못한다).
+- 먼저 제품을 `./build.sh` 또는 `build.bat`로 빌드한다. 기본 제품 클래스패스는 `browser/target/swingwebpanel.jar`이다.
+  `SWP_CLASSES`에 저장소 루트 기준의 다른 JAR 또는 클래스 디렉터리를 지정할 수 있다.
 - 빌드: `tools/uicheck/build.sh` 또는 `tools\uicheck\build.bat` (JDK 6, `JAVA6_HOME`, 못 찾으면 종료 코드 1, 제품 클래스가 없으면 2)
-- 실행: `tools/uicheck/run.sh [옵션] [단계...]` 또는 `tools\uicheck\run.bat ...` — 저장소 루트를 기준으로 실행한다. 클래스패스에 제품 클래스와 `examples/resources` 를 둔다
+- 실행: `tools/uicheck/run.sh [옵션] [단계...]` 또는 `tools\uicheck\run.bat ...` — 저장소 루트를 기준으로 실행한다. 클래스패스에 제품 JAR, `examples/target/classes`와 `examples/src/main/resources`를 둔다
   (그래서 `classpath://org/duckdns/hjow/swingwebpanel/examples/pages/index.html` 같은 예제 페이지를 열 수 있다).
 
 ## 인수
@@ -29,7 +29,7 @@ P09-08-b-2 같은 항목의 근거를 만든다. 제품 코드가 아니며 제�
 | `--back`, `--forward`, `--refresh` | 같은 이름의 `SwingWebPanel` 메서드를 부르고 기다린다 |
 | `--wait MS` | 쉰다 |
 | `--expect-title TEXT` | 수신 원문에 `<title>` 과 `TEXT` 가 있는지 확인한다(없으면 실패 계수 증가) |
-| `--example NAME` | `org.duckdns.hjow.swingwebpanel.examples.NAME` 의 `main` 을 실행해 그 창(JFrame 안의 SwingWebPanel)을 쓴다(예제 클래스는 `build/examples` 에 컴파일되어 있어야 한다: `examples/run.sh StaticPageExample --smoke` 가 만든다). 이 단계가 있으면 이 도구의 창은 만들지 않는다 |
+| `--example NAME` | `org.duckdns.hjow.swingwebpanel.examples.NAME` 의 `main`을 실행해 그 창을 쓴다. 예제 클래스는 Maven이 `examples/target/classes`에 컴파일한다. |
 | `--press TEXT` | 열려 있는 모든 창(팝업 대화상자 포함)에서 단추(글이 `TEXT` 인 `AbstractButton`)를 `doClick()` 으로 누르고 기다린다(예: `--press "<"`) |
 | `--window NAME` | `--example` 와 같지만 브라우저 패널이 없는 예제(예: `DownloadPopupExample`)의 첫 보이는 JFrame 을 창으로 쓴다 |
 | `--dialogshot NAME` | 보이는 첫 JDialog(예: 다운로드 팝업)의 내용 영역을 `DIR/NAME.png` 로 저장한다(최대 10 초 기다림) |

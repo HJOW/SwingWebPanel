@@ -39,16 +39,19 @@ Java Sound(`javax.sound.sampled`), JSSE(`HttpsURLConnection`, `SSLContext`), `ja
 ## 2. 디렉터리와 패키지 (P02-01)
 
 ```
-AGENTS.md                                  프로젝트 지침과 개발 계획
-docs/                                      PROGRESS / FEATURE_MATRIX / ARCHITECTURE / API_CONTRACT (+ docs/progress/ 작업자별 기록)
-engine/                                    JavaScript 엔진 모듈(P26): engine/src, engine/tests(시험 실행기 testing.* 포함), engine/resources(META-INF/services)
-src/org/duckdns/hjow/swingwebpanel/        브라우저 제품 소스 (패키지 아래 표; 엔진 클래스는 engine/ 에 있고 같은 패키지 접두사를 쓴다)
-tests/src/org/duckdns/hjow/swingwebpanel/  테스트 소스(제품 JAR 에 포함하지 않음)
-tests/resources/                           테스트 입력 자료(HTML, 키 저장소 등. 패키지 경로를 쓰는 자료는 org/duckdns/hjow/swingwebpanel/ 아래)
-examples/                                  사용 예제(src, resources 모두 org/duckdns/hjow/swingwebpanel/ 아래)
-tools/<도구>/                              개발 보조 도구(제품과 분리, Java 6)
-build/                                     생성물 (.gitignore 대상)
-bin/                                       IDE 출력 (.gitignore 대상)
+AGENTS.md                    프로젝트 지침과 개발 계획
+pom.xml                      부모 POM과 Maven 모듈 목록
+docs/                        진행 기록, 기능 표, 구조, API 계약
+engine/src/main/java/         JavaScript 엔진 소스
+engine/src/main/resources/    javax.script 제공자 등록 파일
+engine/src/test/              엔진 시험 java/와 resources/. 공용 시험 실행기는 java/ 아래 testing.* 패키지
+browser/src/main/java/        Swing 브라우저 소스
+browser/src/main/resources/   브라우저 제품 리소스
+browser/src/test/             브라우저 시험 java/와 resources/
+examples/src/main/            예제 java/와 resources/
+tools/<도구>/                 개발 보조 도구(제품 reactor와 분리, Java 6)
+<모듈>/target/                Maven 생성물
+build/                        도구 작업 자료
 ```
 
 주 패키지는 `org.duckdns.hjow.swingwebpanel` 이다(2026-11-19 에 `swingwebpanel` 에서 변경). 아래 표의 패키지는 모두 이 이름을 접두사로 한다.
@@ -76,9 +79,9 @@ User-Agent 기본값 `swingwebpanel/1.0`, JAR 이름 `swingwebpanel.jar`, 스레
 ### 2.1 모듈 구성 (P26, 2026-11-22)
 
 - **엔진 모듈 `engine/`**: `org.duckdns.hjow.swingwebpanel.js` 아래 루트 클래스와 `ast parser interp builtins date num regexp text embed script`. 브라우저, AWT/Swing, 네트워크, 파일에 의존하지 않는다. 브라우저 없이 `js.embed.JsEngine` 으로 쓰거나 `js.script`(JSR 223, 고유 이름 `swingwebpanel-js`)로 쓴다. 경계는 (1) 빈 클래스패스/소스패스 컴파일, (2) `tools/sourcecheck` 의 `engine-boundary` 규칙, (3) 클래스 상수 풀 시험, (4) AWT 없는 엔진 단계 시험으로 강제한다. 패키지 이름은 바꾸지 않았다(두 모듈의 패키지는 겹치지 않는다).
-- **브라우저 모듈 `src/`**: 나머지 패키지와 `js.host`/`js.dom`/`js.worker`. 컴파일된 엔진 클래스의 공개 API 만 참조한다(`SwingWebPanel` 은 `js.embed`/`js.script` 를 쓰지 않는다).
-- 의존 방향은 브라우저 → 엔진 한 방향이다. 상세와 Maven(P23) 전환 대응표는 `docs/progress/engine.md`.
-- 시험 실행기(`testing.TestRunner/Check/...`)는 엔진 시험 디렉터리에 있고 브라우저 시험도 클래스패스로 사용한다. 도구 목록은 변경 없음(`tools/sourcecheck` 규칙만 확장).
+- **브라우저 모듈 `browser/`**에는 나머지 패키지와 `js.host`/`js.dom`/`js.worker`가 있다. 컴파일된 엔진 클래스의 공개 API를 사용한다.
+- 의존 방향은 예제 → 브라우저 → 엔진이다. Maven 전환 전후 경로는 [Maven 전환 기록](progress/maven.md)에 있다.
+- 시험 실행기(`testing.TestRunner/Check/...`)는 엔진 시험 소스에 있고 브라우저가 `test` 범위의 test JAR로 사용한다.
 
 ## 3. 책임 분리와 데이터 흐름 (P02-02)
 
@@ -123,12 +126,14 @@ setPage(url) ─▶ NavigationController(요청 번호 N) ─▶ net.ResourceFet
 
 | 스크립트 | 설명 |
 | --- | --- |
-| `build.sh` / `build.bat` | 엔진(`engine/build.*`: 빈 클래스패스로 컴파일)→브라우저(컴파일된 엔진 클래스만 참조)→합친 클래스(`build/classes`)를 JDK 6 으로 빌드하고 JAR 세 개 생성: `swingwebpanel.jar`(합친 단일), `swingwebpanel-js.jar`(엔진), `swingwebpanel-browser.jar`(브라우저) |
-| `test.sh` / `test.bat` | 1단계 엔진 시험(`engine/test.*`: 엔진 클래스만, `java.awt.headless=true`), 2단계 브라우저 시험(합친 클래스)을 `org.duckdns.hjow.swingwebpanel.testing.TestRunner` 로 실행하고 `=== TOTAL (engine + browser): ... ===` 를 출력. 실패 시 0 이 아닌 종료 코드 |
+| `mvn package` / `build.sh` / `build.bat` | 제품 JAR 세 개와 예제 모듈을 빌드한다. 두 스크립트는 시험 컴파일과 실행을 생략하는 Maven 래퍼다. |
+| `mvn test` / `mvn verify` / `test.sh` / `test.bat` | JDK 6의 `java`로 엔진(Headless)과 브라우저의 `TestRunner`를 실행한다. 각 모듈이 통과·실패·건너뜀 수를 출력하며 시험 실패는 Maven 실패로 전파된다. |
+| `mvn -pl engine test` | 엔진 제품과 엔진 시험만 클래스패스에 두고 실행한다. |
 | `tools/<도구>/build.*`, `run.*` | 각 도구의 빌드/실행 |
 
-JDK 6 경로: 환경 변수 `JAVA6_HOME`, 기본 `C:\Program Files\Java\jdk1.6.0_45`. 찾지 못하면 다른 JDK 로 대체하지 않고 종료 코드 1 로 끝난다.
-다른 JDK 는 명시적으로 지정했을 때만 사용하며, 그 결과는 JRE 6 검증으로 기록하지 않는다.
+Maven 실행 JDK는 8 이상이다. Maven이 컴파일과 시험에 쓰는 JDK 6은 `JAVA6_HOME`으로 지정한다.
+기본 경로는 Windows의 `C:\Program Files\Java\jdk1.6.0_45`와 Linux의 `/usr/lib/jvm/java-6-openjdk`다.
+JAR 내용을 읽는 회귀 시험을 위해 제품 JAR는 `test` 전에 만든다. 합본에는 엔진·브라우저 JAR의 제품 항목을 담는다.
 bat 는 MS949(현재는 ASCII 만 사용), sh/java/md 는 UTF-8 이다.
 
 ## 6. 도구 목록 (`tools/`)
@@ -472,8 +477,8 @@ P20-01 에서 더한 것의 소유 영역: `js/host/LegacyWebApi`(`window.event`
 - **텍스트 트랙/WebVTT(WEBAPI-C, `docs/progress/webapi2.md` 10절)**: 패키지 `media.vtt`(WebVTT 파일 파서와 cue 텍스트 파서; DOM 과 무관한 순수 Java), `js.host.{TextTracks,TextTrackBindings,MediaTracks,TextTrackValue,TextTrackListValue,TextTrackCueValue,TextTrackCueListValue,VttRegionValue}`와 `dom.TrackEvent`. `js.host.MediaElements` 가 `TextTracks` 를 소유하고 재생 위치 변화와 `track` 변경을 알리면 규격의 time marches on 에 따라 `enter`/`exit`/`cuechange` 를 미디어 요소의 작업으로 올린다(마지막 실행 위치가 cue 시작과 같을 때 활성 cue 를 "놓친 cue" 에서 빼서 `enter` 가 두 번 나가지 않게 했다). 자막은 그리지 않는다(`showing` 은 `hidden` 과 같다).
 - **이미지 방향·색 관리·필름 그레인(MEDIA-B, `docs/progress/media-matrix.md` 9절)**: `media.image.ExifOrientation`(JPEG/PNG `eXIf`/WebP `EXIF` 공통 EXIF 방향; `DecodedImage` 가 적용한 방향과 되돌린 이미지 `unoriented()` 를 가진다), CSS `image-orientation: from-image|none`(`Prop.IMAGE_ORIENTATION`, `layout.OrientedContent`가 `none` 일 때 저장된 크기를 쓰고 렌더러가 저장된 그대로 그린다), 패키지 `media.image.color`(ICC 행렬/TRC·회색조 프로필, PNG `gAMA`/`cHRM`/`cICP`/`iCCP`, JPEG APP2·WebP `ICCP`·BMP V4/V5·AVIF `colr` 를 디코딩 직후 한 번 sRGB 로 변환; sRGB 이면 건너뜀; LUT·CMYK 프로필은 sRGB 로 봄; PQ/HLG 는 기준 백색 203 cd/m² 로 맞추고 초과는 자름), `media.image.avif.Av1FilmGrain`(AV1 필름 그레인 합성, 규격 5.9.30/7.18.3)과 AVIF 중첩 오버레이(세 단계, 순환 거부).
 - **CSS-K(`docs/progress/cssg.md` 31절)**: `layout.StickyConstraint`(`position: sticky` 의 제약 상자)와 `render.StickyGroup`(스크롤 위치에 따라 밀어 그리는 그룹), `render.TextClipBackground`(`background-clip: text`: 페이지 글자와 같은 텍스트 명령을 마스크로 합성), `BoxCommands.FixedLayer`(`background-attachment: fixed`), `layout.CjkLineBreak`(`line-break` 단계별 금칙), `layout.AnchorPositioning.Area`(`position-area`), `AnimationEngine.animatePseudo`(의사 요소 전환). `PagePainter.paint(..., viewX, viewY)` 가 뷰포트 위치를 따로 받아 fixed/sticky 가 스크롤해도 제자리에 있게 하고, `DisplayList.isScrollDependent()` 인 페이지는 스크롤할 때 전체를 다시 그린다(`SwingWebPanel.updateViewport`). 교차 오리진 웹 글꼴은 CORS 모드로 요청해 응답이 오리진을 허용할 때만 쓴다.
-- **AV1 인터 프레임·초해상도·계층·애니메이션 AVIF(MEDIA-C, `docs/progress/media-matrix.md` 10절)**: `media.image.avif` 의 `Av1Decoder`(인스턴스 하나가 시퀀스를 디코딩: 참조 슬롯 8개 `Av1RefFrame`, 순서 힌트, `show_existing_frame`, CDF 저장/적재, 시간 단위 API `decodeTemporalUnit`, 동작 지점/공간 계층 선택), `Av1MvStack`(움직임 벡터 예측 7.10), `Av1InterPred`(이동 보상·복합·OBMC·인트라 블록 복사), `Av1Warp`(국소/전역 워프), `Av1WedgeMasks`, `Av1MotionField`(시간 움직임 벡터), `Av1Upscale`(초해상도 7.16), `Av1ToolStats`(시험이 쓰인 도구를 증명하는 카운터), `AvifInterTables`/`AvifInterCdfTables`(규격 표; 생성 스크립트 `tests/resources/media/avif/generation/`), `AvifContainer.Track`(moov/trak 샘플 표)와 `AvifDecoder.decodeSequence`(애니메이션 AVIF). 지원하지 않는 기능은 틀린 그림이 아니라 `UNSUPPORTED_FORMAT`/`CORRUPT` 로 실패한다.
-- **CSS-L(`docs/progress/cssg.md` 32절)**: `layout.Resizing`/`core.PageResize`/`render.DisplayCommands.Resizer`(`resize` 핸들: 판정, 그리기, 끌어서 인라인 `width`/`height` 변경), `layout.ShapeImage`/`ShapeImageSource`(`shape-outside` 이미지의 알파 마스크 공급 계약; `render.ImageReplacedResolver` 가 CORS `anonymous` 로 가져온 첫 프레임으로 구현, `layout.FloatShapes` 가 `Area` 로 바꿈), `media.image.svg.SvgReference`/`render.SvgReferences`(CSS `filter`/`clip-path`/`mask-image` 의 `url(#id)`: 같은 문서의 SVG 정의를 SVG 이미지와 같은 `SvgFilters`/`SvgMasks` 로 상자에 적용), `render.VerticalTextCommands.EmphasisColumn`(세로쓰기 `text-emphasis`), `layout.MulticolLayouter` 의 clone 장식 계산(다단 조각의 `box-decoration-break: clone`), `css.values.CalcNode.Anchor`/`CssCalc.withAnchors`/`mapAnchors`(`calc()` 안 `anchor()`), `layout.AnchorPositioning.Lookup.defaultRect`/`inScope`/`hidden`(암묵 앵커, `anchor-scope`, `position-visibility`), `layout.WebFontSet.TimedLoader`/`core.PageResources.fontTimes`(`font-display` 기간: 요청 계층이 잰 시작·도착 시각), `WebFontSet.blockedUntil`/`takeBlockDeadline`, `LayoutBox.isFontBlocked`, `PagePresentation.scheduleBlockEnd`(P10-08-g: block 기간의 텍스트는 대체 글꼴 자리만 차지하고 그리지 않으며 기간 끝에 다시 렌더링), `media.font.{Brotli,BrotliData,BrotliException,Woff2}`(WOFF2: RFC 7932 Brotli 디코더와 WOFF2 컨테이너·변환된 `glyf`/`loca`/`hmtx` 복원 뒤 sfnt 재조립, `layout.WebFontSet` 이 `format('woff2')` 와 서명으로 사용), `css.cssom.PositionTryRule`, `layout.PositionTry`/`PositionTrySource`, `layout.AbsoluteLayouter` 의 시도 배치(`trial`/`fallback`/`applyVisibility`)(`@position-try`, `position-try-fallbacks`/`-order`, `position-try`, `anchor-center`). 새 CSS 속성 id 312~315(`position-try-fallbacks`, `position-try-order`, `position-visibility`, `anchor-scope`), 규칙 종류 `CssRule.POSITION_TRY_RULE`. WOFF2 시험 자료는 스크립트가 만든 합성 글꼴, Node.js 참조 Brotli 인코더의 스트림과 독립 인코더 fontTools 의 WOFF2 이며, JRE 의 Lucida 글꼴(Java 와 함께만 쓰도록 허락됨)로 만든 파일은 저장소에 두지 않는다(시험 때 변환: `tests/src/org/duckdns/hjow/swingwebpanel/media/font/Woff2Fonts.java`).
+- **AV1 인터 프레임·초해상도·계층·애니메이션 AVIF(MEDIA-C, `docs/progress/media-matrix.md` 10절)**: `media.image.avif` 의 `Av1Decoder`(인스턴스 하나가 시퀀스를 디코딩: 참조 슬롯 8개 `Av1RefFrame`, 순서 힌트, `show_existing_frame`, CDF 저장/적재, 시간 단위 API `decodeTemporalUnit`, 동작 지점/공간 계층 선택), `Av1MvStack`(움직임 벡터 예측 7.10), `Av1InterPred`(이동 보상·복합·OBMC·인트라 블록 복사), `Av1Warp`(국소/전역 워프), `Av1WedgeMasks`, `Av1MotionField`(시간 움직임 벡터), `Av1Upscale`(초해상도 7.16), `Av1ToolStats`(시험이 쓰인 도구를 증명하는 카운터), `AvifInterTables`/`AvifInterCdfTables`(규격 표; 생성 스크립트 `browser/src/test/resources/media/avif/generation/`), `AvifContainer.Track`(moov/trak 샘플 표)와 `AvifDecoder.decodeSequence`(애니메이션 AVIF). 지원하지 않는 기능은 틀린 그림이 아니라 `UNSUPPORTED_FORMAT`/`CORRUPT` 로 실패한다.
+- **CSS-L(`docs/progress/cssg.md` 32절)**: `layout.Resizing`/`core.PageResize`/`render.DisplayCommands.Resizer`(`resize` 핸들: 판정, 그리기, 끌어서 인라인 `width`/`height` 변경), `layout.ShapeImage`/`ShapeImageSource`(`shape-outside` 이미지의 알파 마스크 공급 계약; `render.ImageReplacedResolver` 가 CORS `anonymous` 로 가져온 첫 프레임으로 구현, `layout.FloatShapes` 가 `Area` 로 바꿈), `media.image.svg.SvgReference`/`render.SvgReferences`(CSS `filter`/`clip-path`/`mask-image` 의 `url(#id)`: 같은 문서의 SVG 정의를 SVG 이미지와 같은 `SvgFilters`/`SvgMasks` 로 상자에 적용), `render.VerticalTextCommands.EmphasisColumn`(세로쓰기 `text-emphasis`), `layout.MulticolLayouter` 의 clone 장식 계산(다단 조각의 `box-decoration-break: clone`), `css.values.CalcNode.Anchor`/`CssCalc.withAnchors`/`mapAnchors`(`calc()` 안 `anchor()`), `layout.AnchorPositioning.Lookup.defaultRect`/`inScope`/`hidden`(암묵 앵커, `anchor-scope`, `position-visibility`), `layout.WebFontSet.TimedLoader`/`core.PageResources.fontTimes`(`font-display` 기간: 요청 계층이 잰 시작·도착 시각), `WebFontSet.blockedUntil`/`takeBlockDeadline`, `LayoutBox.isFontBlocked`, `PagePresentation.scheduleBlockEnd`(P10-08-g: block 기간의 텍스트는 대체 글꼴 자리만 차지하고 그리지 않으며 기간 끝에 다시 렌더링), `media.font.{Brotli,BrotliData,BrotliException,Woff2}`(WOFF2: RFC 7932 Brotli 디코더와 WOFF2 컨테이너·변환된 `glyf`/`loca`/`hmtx` 복원 뒤 sfnt 재조립, `layout.WebFontSet` 이 `format('woff2')` 와 서명으로 사용), `css.cssom.PositionTryRule`, `layout.PositionTry`/`PositionTrySource`, `layout.AbsoluteLayouter` 의 시도 배치(`trial`/`fallback`/`applyVisibility`)(`@position-try`, `position-try-fallbacks`/`-order`, `position-try`, `anchor-center`). 새 CSS 속성 id 312~315(`position-try-fallbacks`, `position-try-order`, `position-visibility`, `anchor-scope`), 규칙 종류 `CssRule.POSITION_TRY_RULE`. WOFF2 시험 자료는 스크립트가 만든 합성 글꼴, Node.js 참조 Brotli 인코더의 스트림과 독립 인코더 fontTools 의 WOFF2 이며, JRE 의 Lucida 글꼴(Java 와 함께만 쓰도록 허락됨)로 만든 파일은 저장소에 두지 않는다(시험 때 변환: `browser/src/test/java/org/duckdns/hjow/swingwebpanel/media/font/Woff2Fonts.java`).
 
 ## Web Audio 엔진 (P25 A1, 2026-11-22)
 
@@ -483,7 +488,7 @@ P20-01 에서 더한 것의 소유 영역: `js/host/LegacyWebApi`(`window.event`
 - **채널 믹스**: 기존 `media.audio.ChannelMixer`(디코딩 결과를 스테레오로 줄이는 용도)는 재사용하지 않고 규격 4.4/4.5절 행렬을 `ChannelMixing` 에 구현했다.
 - 도구 목록은 변경 없음(`tools/webfetch` 로 규격 조회). A2 에서 `tools/hrtfgen`(HRTF 자료 변환)이 추가될 예정이다. 상세 `docs/progress/webaudio.md`.
 - **디코딩(P25-05, `media.webaudio.decode`)**: `AudioBufferDecoder`(바이트 → P18 디코더(`AudioDecoders.open`, 시그니처 판별) → float → 채널별 `Resampler`(Kaiser 창 sinc 다상, 정지 대역 100 dB) → `AudioBuffer`)와 `AudioDecodeService`(인스턴스마다 데몬 스레드 풀 `swingwebpanel-audio-decode-N`, 유휴 5초 뒤 종료, 정적 상태 없음, 콜백은 호출자가 준 `Executor`(문서 큐용), 취소/닫기/한도). 스레드가 하나이면 요청 순서, 둘 이상이면 순서 비보장(규격이 정하지 않음).
-- **A2 노드와 JAR 리소스(P25-04)**: `media.webaudio` 에 `WaveShaperNode`(2x/4x 과표본화, Kaiser 반대역 필터), `ConvolverNode`(지연 없는 분할 FFT 합성곱), `DynamicsCompressorNode`(Chromium 설계를 옮김, BSD 고지 유지), `AnalyserNode`, `PannerNode`/`AudioListener`(equalpower, HRTF), `MediaElementAudioSourceNode`(순수 Java 쪽, `<audio>` 어댑터는 C 단계)가 추가됐다. 제품 JAR 에 **비자바 리소스 `media/webaudio/dsp/kemar-compact.hrtf`(약 381 KB)가 처음으로 들어간다**(`build.sh` 가 복사; `scripts/pkgtest.sh` 도 같이 복사하도록 고쳤다). HRTF 자료를 못 읽으면 패너는 equalpower 로 되돌아간다.
+- **A2 노드와 JAR 리소스(P25-04)**: `media.webaudio` 에 `WaveShaperNode`(2x/4x 과표본화, Kaiser 반대역 필터), `ConvolverNode`(지연 없는 분할 FFT 합성곱), `DynamicsCompressorNode`(Chromium 설계를 옮김, BSD 고지 유지), `AnalyserNode`, `PannerNode`/`AudioListener`(equalpower, HRTF), `MediaElementAudioSourceNode`(순수 Java 쪽, `<audio>` 어댑터는 C 단계)가 추가됐다. 제품 JAR 에 **비자바 리소스 `media/webaudio/dsp/kemar-compact.hrtf`(약 381 KB)가 처음으로 들어간다**(Maven이 `browser/src/main/resources/`에서 복사). HRTF 자료를 못 읽으면 패너는 equalpower 로 되돌아간다.
 - **Web Audio 의 JavaScript 바인딩(P25 C1)**: 패키지 `js.host.webaudio`(`WebAudioApi` 설치·정리, `ContextApi`/`NodeApi`/`ValueApi`/`BufferApi` 가 인터페이스 정의, `OfflineRender` 가 오프라인 렌더링). 실시간 컨텍스트는 `media.webaudio.RealtimeAudioContext` + 교체 가능한 `Driver`(기본 `ClockRenderDriver`: 벽시계 속도로 렌더링하고 출력은 버리므로 소리가 나지 않고 시계만 흐른다. 장치 드라이버는 C2). 엔진 스레드가 스크립트에 알리는 것은 `WebAudioApi.postTask` 를 통한 페이지 작업뿐이다. `AudioBuffer.getChannelData` 는 채널마다 기준 저장소 하나(건드리기 전 `float[]`, 건드린 뒤 `byte[]` 로 `Float32Array` 가 뒷받침)이고 노드는 acquire 스냅샷으로 가져간다.
 - **실시간 출력과 `ScriptProcessorNode`(P25 C2a)**: `media.webaudio.output`(`AudioOutput`, `JavaSoundOutput`(16비트 반올림·클립, 장치가 요청 표본율/채널을 지원하지 않으면 `Resampler` 변환), `NullOutput`(장치 없음: 소리는 버리되 벽시계 속도), `OutputFactory`/`SystemOutputFactory`)와 `media.webaudio.OutputRenderDriver`(`RealtimeAudioContext.Driver` 구현: 스레드 `swingwebpanel-audio-render-N` 이 첫 `start` 에서 생겨 `close` 까지 유지, 컨텍스트가 도는 구간마다 출력을 열고 일시정지·닫기에서 해제하므로 일시정지 중에는 장치를 붙잡지 않음, 장치를 못 열면 그 구간은 `NullOutput`, `latencyHint` 별 청크/버퍼 크기와 끊김 횟수, 렌더링 스레드는 JavaScript 를 부르지 않음). `ScriptProcessorNode` 의 순수 Java 엔진 노드는 `2*bufferSize` 지연(Chromium 방식)이며 실시간은 응답이 늦으면 무음, 오프라인은 렌더링이 리스너를 기다린다(기본 최대 10초). 자원 소유 표의 `WebAudioApi` 행에는 "오디오 출력 라인(구간마다 열고 닫음, `ctx.close()` 로 끝남)"이 포함된다.
 - **`<audio>` 요소 연결과 호스트 출력(P25 C2b)**: `media.webaudio.MediaElementTap` 이 P18 재생기(`media.playback.MediaPlayer`)의 출력 자리에 "그래프가 비우는 링 파이프"를 꽂는다(`MediaPlayer.reopenOutput()`; 기존 16비트 재생 경로는 그대로). 그 요소의 시계는 그래프가 되고(컨텍스트가 suspended 이면 요소가 멈춘다), 표본율이 다르면 `Resampler` 로 변환하며, 음량·음소거는 재생기가 곱한다. 의존 방향은 `media.webaudio` → `media.playback` 하나이다. **새 스레드는 없다**(재생 스레드 `swingwebpanel-audio` 와 렌더링 스레드 `swingwebpanel-audio-render-N` 이 파이프를 통해 만나며 링은 짧은 잠금으로 보호). 호스트는 `SwingWebPanel.createWebAudioOutputFactory()`(기본 Java Sound, null 이면 무음)로 Web Audio 출력을 바꾼다(`<audio>` 용 `createAudioOutputFactory()` 와는 독립, `docs/API_CONTRACT.md` 5.21). 자원 소유 표: `WebAudioApi` 행에 요소 탭(`ContextValue.releaseTaps`)과 "한도에서 포기되는 컨텍스트(suspended 이고 컨텍스트와 노드의 스크립트 객체가 모두 수거됨)"가 더해지고, `MediaElements` 의 요소별 출력 팩터리는 탭이 있으면 그래프의 파이프, 없으면 컴포넌트의 출력이다.

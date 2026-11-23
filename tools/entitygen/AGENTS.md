@@ -17,14 +17,14 @@
   - `NamedCharacterData.java` — `org.duckdns.hjow.swingwebpanel.html` 패키지의 패키지 비공개 클래스. `CHUNKS` 문자열 배열. 항목은 공백으로 구분한
     `이름:코드포인트,코드포인트` (이름은 `&` 를 뺀 것, 세미콜론 유무 그대로 — 2231 항목).
   - `EncodingLabelData.java` — `CHUNKS` 문자열 배열. 항목은 `|` 로 구분한 `표준이름=라벨,라벨,...` (40 인코딩).
-  - 한 상수의 길이는 6000 글자 이하로 나눈다(클래스 파일 상수 한계 65535 바이트). 제품 빌드(`scripts/pkgtest.sh`)는 자바가 아닌 자원을 복사하지 않으므로
+  - 한 상수의 길이는 6000 글자 이하로 나눈다(클래스 파일 상수 한계 65535 바이트). 엔티티 표를 클래스 초기화에서 바로 사용할 수 있도록
     표를 자원이 아니라 자바 소스로 만든다.
 
 ## 빌드와 실행
 
 - 소스: `tools/entitygen/src/entitygen/` (`EntityGen.java`, `MiniJson.java`; Java 6 문법, 외부 라이브러리 없음)
 - 빌드: `tools/entitygen/build.sh` 또는 `tools\entitygen\build.bat` (JDK 6 필요. `JAVA6_HOME`, 기본 `C:\Program Files\Java\jdk1.6.0_45`. 못 찾으면 종료 코드 1)
-- 실행: `tools/entitygen/run.sh entities.json encodings.json src/org/duckdns/hjow/swingwebpanel/html`
+- 실행: `tools/entitygen/run.sh entities.json encodings.json browser/src/main/java/org/duckdns/hjow/swingwebpanel/html`
   또는 `tools\entitygen\run.bat ...`. 실행 JRE 는 `JAVA6_HOME` (없으면 기본 JDK 6 경로).
 - 종료 코드: 0 성공 / 1 사용법 오류 / 2 출력 디렉터리 오류. 입력 파일이 잘못되면 예외 스택과 함께 0 이 아닌 코드로 끝난다.
 

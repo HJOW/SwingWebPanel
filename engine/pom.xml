@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.duckdns.hjow</groupId>
+    <artifactId>swingwebpanel-parent</artifactId>
+    <version>0.1.0</version>
+  </parent>
+  <artifactId>swingwebpanel-js</artifactId>
+  <name>SwingWebPanel JavaScript engine</name>
+  <properties>
+    <swp.test.jvmArgs>-XX:MaxPermSize=256m -Djava.awt.headless=true</swp.test.jvmArgs>
+    <swp.createdBy>engine/build.sh (JDK 6)</swp.createdBy>
+  </properties>
+  <build>
+    <finalName>swingwebpanel-js</finalName>
+    <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <!-- JAR 내용을 검사하는 기존 회귀 시험이 test 단계에서도 실제 제품을 읽는다. -->
+          <execution>
+            <id>default-jar</id>
+            <phase>process-classes</phase>
+          </execution>
+          <execution>
+            <id>test-support</id>
+            <phase>process-test-classes</phase>
+            <goals><goal>test-jar</goal></goals>
+            <configuration>
+              <includes>
+                <include>org/duckdns/hjow/swingwebpanel/testing/**</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>run-regression</id>
+            <phase>test</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

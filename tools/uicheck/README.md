@@ -5,7 +5,7 @@
 
 ## 사용 방법
 
-1. 제품을 빌드합니다. (`./build.sh`, 또는 `BUILD_DIR=build/ui sh build.sh` 후 `SWP_CLASSES=build/ui/classes` 지정)
+1. 제품을 `./build.sh` 또는 `build.bat`로 빌드합니다. 기본 제품 JAR는 `browser/target/swingwebpanel.jar`입니다.
 2. 도구를 빌드합니다: `tools/uicheck/build.sh` (Windows: `tools\uicheck\build.bat`)
 3. 실행합니다: `tools/uicheck/run.sh --out build/uicheck --url classpath://org/duckdns/hjow/swingwebpanel/examples/pages/index.html --shot first --scroll 400 --shot scrolled --dispose`
    (Windows: `tools\uicheck\run.bat ...`)
