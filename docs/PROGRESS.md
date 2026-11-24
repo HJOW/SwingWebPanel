@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== NetstormJava 게임 구동 점검과 P28 계획 추가 (2026-11-24) ===
+현재 작업 번호: P28 계획 추가(문서만). 구현은 시작하지 않았다.
+완료한 내용: 사용자 프로젝트 NetstormJava(`H:\Workspace\eclipse photon\NetstormJava`, `setPage("classpath://www/index.html")`)의 구동 오류를 JDK 7u80과 JDK 6u45에서 재현했다. 오류는 `classpath://www/dist/netstorm.bundle.js:1:782 Uncaught Invalid or unexpected token`이고, 원인은 ES2022 private 메서드 `#e`이다. 번들(webpack, 변환 없음)이 쓰는 ES2016~ES2022 문법을 집계했고, 엔진 단독과 실제 페이지에서 기능별로 판정했다(엔진 언어 판정 49개 중 14개 통과). 웹 API는 대부분 동작했고, 없는 것은 `addEventListener`의 `signal`, `ReadableStream`, `navigator.clipboard`, `Blob`/`FileReader`/`createObjectURL` 중 일부였다. 계획 P28(P28-01~09)을 AGENTS.md에 추가했고, 기능 표 7.5절에 `ESX-*` 행을 만들었다. ES-EXPR 행의 `**` 검증 완료 표기는 실제와 달라 바로잡았다.
+변경 파일: AGENTS.md(P22-16 메모, 공통 사항 제목, P28, 중간 실행 목표 표), docs/FEATURE_MATRIX.md(ES-EXPR, 7.5절), docs/progress/netstorm.md(새 문서), 이 문서.
+검증 결과: 문서만 변경했다. 판정에 쓴 임시 프로그램(헤드리스 페이지 실행기, 엔진 기능 판정기, acorn 집계 스크립트)은 저장소 밖의 세션 임시 디렉터리에서 실행했다. 재현 조건과 결과는 netstorm.md 1~4절에 있다.
+미해결 사항: 사용자 지시로 첫 오류 뒤의 실행(그리기·소리·입력·성능)과 `debug.html` 경로는 확인하지 않았다(P28-08). `blob:` 주소 정책은 사용자 결정이 필요하다(P28-06).
+다음 작업 번호: P27-01(기존 순서). P28은 P27에 의존하지 않으므로 사용자가 지시하면 P28-01부터 먼저 진행한다.
+-----------------------------------------------------------------------------------------------
 === Maven Central 배포 설정 보완 (2026-11-24) ===
 현재 작업 번호: P23 후속 배포 확인.
 완료한 내용: release 프로필을 적용하는 Central 배포 명령과 업로드 없이 서명된 번들을 만드는 옵션을 문서화했다. Central 플러그인은 0.12.0을 사용한다.

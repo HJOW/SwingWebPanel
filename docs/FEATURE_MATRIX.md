@@ -324,7 +324,7 @@
 | 기능 ID | 장 | 요구사항 | 구현 클래스 | 검증 사례 | 상태 |
 | --- | --- | --- | --- | --- | --- |
 | ES-LEX | 10~11 | 소스 텍스트, 유니코드 식별자(`ID_Start/ID_Continue`), 주석, 줄 끝, 리터럴(숫자 `0b 0o`, 문자열 `\u{}`, 템플릿, 정규식), 예약어, 자동 세미콜론 삽입 | `js.parser.Lexer` | `js.parser.LexerTest` | 검증 완료 |
-| ES-EXPR | 12 | 표현식 문법 전체: 우선순위, 연산자, `**`(ES2016 확장), 분해, spread, 템플릿/태그 템플릿, 화살표 함수, `new.target`, `super`, `yield` | `js.parser.Parser`, `js.ast.*` | `js.parser.ParserExpressionTest` | 검증 완료 |
+| ES-EXPR | 12 | 표현식 문법 전체: 우선순위, 연산자, 분해, spread(ES2015 범위), `**` 는 ES2016 기능이라 7.5절 ESX-EXP 로 옮김(2026-11-24 판정에서 구문 오류였는데 이 행에 검증 완료로 적혀 있었음), 템플릿/태그 템플릿, 화살표 함수, `new.target`, `super`, `yield` | `js.parser.Parser`, `js.ast.*` | `js.parser.ParserExpressionTest` | 검증 완료 |
 | ES-STMT | 13 | 문장/선언: `let const var`, 블록, `if for for-in for-of while do switch label break continue return with throw try debugger` | `js.parser.Parser` | `js.parser.ParserStatementTest` | 검증 완료 |
 | ES-FUNC | 14 | 함수 정의, 화살표 함수, 메서드 정의, 제너레이터 정의, 클래스(`extends super static get set`), 꼬리 호출(strict) | `js.parser.Parser` | `js.interp.FunctionTest`, `js.interp.ClassTest`, `js.interp.TailCallTest` | 검증 완료 |
 | ES-SCRIPT | 15 | Script/Module 파싱 목표, `import/export` 선언, strict mode, early error | `js.parser.Parser` | `js.parser.EarlyErrorTest` | 검증 완료 |
@@ -381,8 +381,33 @@
 | ES-HOST-NAV | `location`(assign/replace/href/hash/reload), `history.go/back/forward`, 링크 기본 이동의 공통 이동 정책과 같은 문서 안의 프래그먼트 이동(URL/이력/`hashchange`/앵커 스크롤). HTML5 2014-10-28 browsers 장, WHATWG HTML history 장 | `core.NavigationPolicy`, `core.BrowserSession`, `core.PageRuntime`, `core.PageInput` | `ScriptNavigationTest`, `PageInputTest` | 검증 완료: 위 항목과 `pushState/replaceState/popstate`(P20-07, `HistoryStateIntegrationTest`), 폼 이동과 `<a download>`(P15-08-c-2, `FormNavigationIntegrationTest`, `LinkDownloadIntegrationTest`), 프래그먼트를 따르는 `:target`(`ScriptNavigationTest.testTargetPseudoClassFollowsTheFragment`, 2026-11-19 추가), 실제 OS 마우스·키보드의 링크 이동(`docs/progress/uicheck.md` 2026-11-19) |
 ### 7.5 ES2015 이후 확장 (별도 추적, ES6 완료 판정과 무관)
 
-`**`(ES2016), `Array.prototype.includes`(ES2016), `async/await`·`Object.entries/values`·`padStart`(ES2017), spread 프로퍼티·`finally`(ES2018), `Array.prototype.flat`(ES2019), optional chaining·`??`·BigInt(ES2020) 등.
-브라우저 페이지가 흔히 사용하므로 P14 이후 필요에 따라 확장 항목(`ESX-*`)으로 추가한다. 현재 행 없음.
+브라우저 페이지가 흔히 사용하므로 확장 항목(`ESX-*`)으로 추적한다. 2026-11-24 NetstormJava 게임 번들(ES2022 문법을 변환 없이 사용)이 첫 줄에서 구문 오류로 멈춘 것을 계기로 계획 P28(AGENTS.md)에 행을 추가했다.
+상태는 2026-11-24 판정 결과이다. `js.embed.JsEngine`에서 기능별 코드를 평가하고, 실제 `SwingWebPanel` 페이지에서도 확인했다(근거: `docs/progress/netstorm.md` 3~4절).
+기준 판본(ECMA-262 제13판, ES2022 예정)의 URL과 조회 날짜는 P28-01에서 고정한다. "게임"은 NetstormJava 번들의 사용 수이다.
+
+| 기능 ID | 판본 | 요구사항 | 구현 클래스 | 검증 사례 | 상태 | 게임 |
+| --- | --- | --- | --- | --- | --- | --- |
+| ESX-EXP | ES2016 | `**`, `**=` | (P28-02/03) | - | 미구현(구문 오류) | 199 |
+| ESX-ASYNC | ES2017/2018 | async 함수·화살표·메서드, `await`, async 제너레이터, `for await` | (P28-02/03) | - | 미구현(구문 오류) | async 26, await 34 |
+| ESX-OBJREST | ES2018 | 객체 spread `{...x}`, 객체 rest | (P28-02/03) | - | 미구현(구문 오류) | spread 513 |
+| ESX-CATCH | ES2019 | optional catch binding | (P28-02) | - | 미구현(구문 오류) | 8 |
+| ESX-CHAIN | ES2020 | optional chaining `?.`, nullish `??` | (P28-02/03) | - | 미구현(구문 오류) | `?.` 1,985, `??` 714 |
+| ESX-BIGINT | ES2020 | BigInt 원시값·리터럴·연산, `BigInt`, `asIntN/asUintN`, `BigInt64Array/BigUint64Array`, `DataView` BigInt 접근 | (P28-04) | - | 미구현 | 리터럴 129, `BigInt` 307 |
+| ESX-IMPORT | ES2020 | 동적 `import()`, `import.meta` | (P28-02/03) | - | 미구현(구문 오류) | 없음 |
+| ESX-LOGASSIGN | ES2021 | `\|\|=`, `&&=`, `??=` | (P28-02/03) | - | 미구현(구문 오류) | 102 |
+| ESX-NUMSEP | ES2021 | 숫자 구분자 `1_000` | (P28-02) | - | 미구현(구문 오류) | 원본 소스만 2 |
+| ESX-CLASS | ES2022 | public/private/static 클래스 필드, private 메서드·접근자, static 블록, `#x in obj` | (P28-02/03) | - | 미구현(구문 오류, 게임의 첫 오류 위치) | 필드 5,852, private 메서드 1,570 |
+| ESX-B-OBJ | ES2017~2022 | `Object.entries/values/getOwnPropertyDescriptors/fromEntries/hasOwn` | (P28-05) | - | 미구현 | 사용 |
+| ESX-B-ARR | ES2016~2022 | `Array.prototype.includes`(있음), `flat/flatMap/at`, `%TypedArray%.prototype.at` | `js.builtins.stringarray.ArrayMethods`(includes) | - | 부분 구현 | 사용 |
+| ESX-B-STR | ES2017~2022 | `padStart/padEnd`, `trimStart/trimEnd`(있음), `at/replaceAll/matchAll` | `js.builtins.stringarray.StringBuiltins`(있는 것) | - | 부분 구현 | 사용 |
+| ESX-B-PROM | ES2018~2021 | `Promise.prototype.finally`, `Promise.allSettled/any`, `AggregateError` | (P28-05) | - | 미구현 | 번들에 없음 |
+| ESX-B-SYM | ES2018/2019 | `Symbol.asyncIterator`, `Symbol.prototype.description` | (P28-05) | - | 미구현 | `description` 사용 |
+| ESX-B-WEAK | ES2021 | `WeakRef`, `FinalizationRegistry` | (P28-05) | - | 미구현 | `WeakRef` 사용 |
+| ESX-B-ERR | ES2022 | Error `cause` 옵션 | (P28-05) | - | 미구현 | 원본 소스 1곳 |
+| ESX-B-GLOBAL | ES2020 | `globalThis` | (기존) | 2026-11-24 판정 통과(전용 시험은 대조하지 않음) | 부분 구현 | 사용 |
+| ESX-RE | ES2018/2022 | `s` 플래그(있음), 이름 있는 그룹 결과 `groups`·`$<name>`(파서만 받음), 후방 탐색, `\p{}`, `d` 플래그 | `js.regexp.*` | - | 부분 구현 | `groups` 사용 |
+
+게임이 쓰는데 빠진 웹 API(`addEventListener`의 `signal`, `ReadableStream`/`response.body.getReader`, `navigator.clipboard`, `Blob`/`FileReader`/`URL.createObjectURL` 중 일부)는 P28-06에서 5.4절에 행으로 추가한다.
 
 ## 8. 미디어: 이미지·오디오·비디오 (MED) (P00-07)
 
