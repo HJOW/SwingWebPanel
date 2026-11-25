@@ -139,27 +139,62 @@ public final class CodePoints {
     }
 
     /**
-     * Tests that the string has no lone surrogate (an extension used by encodeURI style checks).
+     * Tests whether the string has only complete surrogate pairs.
      * <p>
-     * 문자열에 짝 없는 서로게이트가 없는지 검사한다(encodeURI 류 검사에 쓰는 확장).
+     * 서로게이트가 모두 완전한 쌍을 이루는지 검사한다.
      *
      * @param s string / 문자열
      * @return true if well formed UTF-16 / 올바른 UTF-16 이면 true
      */
     public static boolean isWellFormed(String s) {
+        return unpairedFrom(s, 0) < 0;
+    }
+
+    /**
+     * Replaces unpaired surrogates by U+FFFD while preserving complete pairs and other code units.
+     * <p>
+     * 짝 없는 서로게이트를 U+FFFD로 바꾸고 완전한 쌍과 그 밖의 코드 단위는 유지한다.
+     *
+     * @param s the source string / 원본 문자열
+     * @return the well-formed string / 정합한 문자열
+     */
+    public static String toWellFormed(String s) {
+        int index = unpairedFrom(s, 0);
+        if (index < 0) {
+            return s;
+        }
+        char[] units = s.toCharArray();
+        // 처음 발견한 위치부터 짝 없는 코드 단위만 하나씩 바꾼다.
+        do {
+            units[index] = (char) 0xFFFD;
+            index = unpairedFrom(s, index + 1);
+        } while (index >= 0);
+        return new String(units);
+    }
+
+    /**
+     * Finds the first unpaired surrogate at or after a code-unit boundary.
+     * <p>
+     * 주어진 코드 단위 경계부터 처음 나타난 짝 없는 서로게이트 위치를 찾는다.
+     *
+     * @param s the source string / 원본 문자열
+     * @param start offset after the preceding pair or unpaired unit / 이전 쌍 또는 짝 없는 단위 다음 위치
+     * @return the unpaired unit offset or -1 / 짝 없는 단위 위치 또는 -1
+     */
+    private static int unpairedFrom(String s, int start) {
         int n = s.length();
         // 앞에서부터 서로게이트 쌍을 확인한다.
-        for (int i = 0; i < n; i++) {
+        for (int i = start; i < n; i++) {
             char c = s.charAt(i);
             if (Character.isHighSurrogate(c)) {
                 if (i + 1 >= n || !Character.isLowSurrogate(s.charAt(i + 1))) {
-                    return false;
+                    return i;
                 }
                 i++;
             } else if (Character.isLowSurrogate(c)) {
-                return false;
+                return i;
             }
         }
-        return true;
+        return -1;
     }
 }

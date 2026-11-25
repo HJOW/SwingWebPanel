@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-07-a String UTF-16 정합성 (2026-11-26) ===
+현재 작업 번호: P29-07-a 완료.
+완료한 내용: String.prototype.isWellFormed와 toWellFormed를 설치했다. 완전한 UTF-16 쌍은 유지하고 짝 없는 코드 유닛만 U+FFFD로 바꾼다. 브라우저의 USVString 변환도 같은 코드 경로를 사용한다.
+변경 파일: CodePoints.java, StringBuiltins.java, Web Natives.java, Es2026WellFormedStringTest.java, PropertyTableTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 802건, mvn -B -o -pl browser -am test -Dtest.filter=WebTypesTest에서 JDK 6u45 브라우저 12건 통과. sourcecheck 0 위반.
+미해결 사항: v 플래그와 집합·문자열 표현, 정규식 중복 이름·인라인 수정자·이스케이프(P29-07-b~e).
+다음 작업 번호: P29-07-b1.
+-----------------------------------------------------------------------------------------------
 === P29-06-e4 flatMap·concat 및 컬렉션과 Iterator 완료 (2026-11-26) ===
 현재 작업 번호: P29-06 완료.
 완료한 내용: flatMap은 바깥 값을 매핑해 내부 이터레이터를 순차 진행한다. Iterator.concat은 입력의 이터레이션 메서드를 즉시 읽고 각 이터레이터를 필요한 시점에 연다. 내부·외부 이터레이터의 조기 닫기와 오류 우선순위를 검증했다.
@@ -818,6 +826,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-07-a 짝 없는 서로게이트 치환
+
+문자열 양쪽 끝과 연속한 짝 없는 단위, 완전한 상하위 쌍, 일반 수신자와 Symbol의 문자열 변환 오류, 기술자를 검증했다. Web IDL USVString을 같은 스캔으로 연결한 뒤 브라우저 인코딩·웹 타입 시험을 재실행했다.
 
 ### 2026-11-26 · P29-06-e4 여러 원본을 잇는 Iterator
 

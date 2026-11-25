@@ -14,6 +14,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.text.CodePoints;
 import org.duckdns.hjow.swingwebpanel.js.text.TextRangeException;
 import org.duckdns.hjow.swingwebpanel.js.text.TextTransform;
 
@@ -792,6 +793,16 @@ final class StringBuiltins {
      * @param proto String.prototype / String.prototype
      */
     static void installExtensions(JsRealm realm, JsObject proto) {
+        Support.def(realm, proto, "isWellFormed", 0, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return Js.bool(CodePoints.isWellFormed(thisString(thisValue, "isWellFormed")));
+            }
+        });
+        Support.def(realm, proto, "toWellFormed", 0, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return Js.str(CodePoints.toWellFormed(thisString(thisValue, "toWellFormed")));
+            }
+        });
         NativeFunction trimStart = Support.def(realm, proto, "trimStart", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 return Js.str(Support.trim(thisString(thisValue, "trimStart"), true, false));

@@ -12,6 +12,7 @@ import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.ArrayBufferObject;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrays;
+import org.duckdns.hjow.swingwebpanel.js.text.CodePoints;
 
 /**
  * Small helpers that all web API installers share: defining interfaces (constructor, prototype, <code>Symbol.toStringTag</code>), binding
@@ -314,32 +315,7 @@ final class Natives {
      * @return the scalar value string / 스칼라 값 문자열
      */
     static String usv(String s) {
-        StringBuilder out = null;
-        // 문자를 하나씩 보며 짝이 맞지 않는 서로게이트가 처음 나올 때 복사본을 만든다.
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            boolean bad = false;
-            if (Character.isHighSurrogate(c)) {
-                if (i + 1 < s.length() && Character.isLowSurrogate(s.charAt(i + 1))) {
-                    if (out != null) {
-                        out.append(c).append(s.charAt(i + 1));
-                    }
-                    i++;
-                    continue;
-                }
-                bad = true;
-            } else if (Character.isLowSurrogate(c)) {
-                bad = true;
-            }
-            if (bad && out == null) {
-                out = new StringBuilder(s.length());
-                out.append(s, 0, i);
-            }
-            if (out != null) {
-                out.append(bad ? (char) 0xFFFD : c);
-            }
-        }
-        return out == null ? s : out.toString();
+        return CodePoints.toWellFormed(s);
     }
 
     /**

@@ -57,7 +57,7 @@ public class PropertyTableTest {
      * 문서화한 ES2015 이후 String.prototype 확장.
      */
     static final String[][] STRING_EXTENSIONS = { { "trimStart", "0" }, { "trimEnd", "0" }, { "padStart", "1" }, { "padEnd", "1" },
-        { "at", "1" }, { "replaceAll", "2" }, { "matchAll", "1" } };
+        { "at", "1" }, { "replaceAll", "2" }, { "matchAll", "1" }, { "isWellFormed", "0" }, { "toWellFormed", "0" } };
 
     /**
      * ES2015 Array.prototype methods: name, length.
