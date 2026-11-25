@@ -20,7 +20,7 @@ import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
- * The ES2015 conformance walk (task P14-10): it checks every entry of {@link ConformanceTable} against a realm that was created
+ * The built-in conformance walk (tasks P14-10 and P29-10): it checks every entry of {@link ConformanceTable} against a realm that was created
  * by {@link JsRealm#create()}, that is, against the complete standard library as the other workers installed it. For each entry the
  * existence, kind (data, accessor, function, constructor), function <code>name</code> and <code>length</code>, the property
  * attributes, the identity links between aliases and the prototype chains are verified.
@@ -30,7 +30,7 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
  * cannot silently differ from the specification. The list shrinks as the workers finish; entries that match nothing any more are
  * reported as stale.
  * <p>
- * ES2015 적합성 순회(작업 P14-10): {@link ConformanceTable} 의 모든 항목을 {@link JsRealm#create()} 로 만든 realm, 즉 다른 작업자들이
+ * 내장 객체 적합성 순회(작업 P14-10과 P29-10): {@link ConformanceTable} 의 모든 항목을 {@link JsRealm#create()} 로 만든 realm, 즉 다른 작업자들이
  * 설치한 완전한 표준 라이브러리에 대해 점검한다. 항목마다 존재 여부, 종류(데이터/접근자/함수/생성자), 함수의 <code>name</code>,
  * <code>length</code>, 프로퍼티 속성, 별칭 사이의 동일성, 프로토타입 체인을 확인한다.
  * <p>
@@ -218,7 +218,7 @@ public class MetaConformanceTest {
      * 표 자체의 형식이 올바르다: 알려진 종류, 항목 존재, id 유일, 허용 목록 행이 완전함.
      */
     public void testTableIsWellFormed() {
-        String known = " ctor ctor0 fn getter const tag val obj rfn lfn accessor robj link chain ";
+        String known = " ctor ctor0 fn getter const tag val obj rfn lfn accessor robj link chain poison ";
         Set<String> ids = new HashSet<String>();
         List<String> lines = ConformanceTable.lines();
         // 표의 모든 줄을 읽어 종류와 항목의 형식, id 중복을 검사한다.
@@ -262,6 +262,27 @@ public class MetaConformanceTest {
     }
 
     /**
+     * Verifies the Function prototype and the immutable metadata of its restricted accessors.
+     * <p>
+     * Function 프로토타입과 제한 접근자 함수의 변경 불가 메타데이터를 확인한다.
+     */
+    public void testFunctionPrototypeAndThrowerMetadata() {
+        JsObject proto = realm.getFunctionPrototype();
+        expectFunction(proto, "Function.prototype", false);
+        expectNameLength(proto, "Function.prototype", "", "0");
+        Check.isNull(proto.getOwnProperty("prototype"), "Function.prototype has no prototype property");
+        Check.equal(Js.UNDEFINED, proto.call(Js.UNDEFINED, Js.NO_ARGS), "the prototype function returns undefined");
+        JsObject thrower = expectFunction(realm.getIntrinsic("%ThrowTypeError%"), "%ThrowTypeError%", false);
+        PropertyDescriptor name = thrower.getOwnProperty("name");
+        PropertyDescriptor length = thrower.getOwnProperty("length");
+        expectData(name, "%ThrowTypeError%.name", false, false, false);
+        expectData(length, "%ThrowTypeError%.length", false, false, false);
+        Check.isTrue(Ops.sameValue(Js.str(""), name.value), "the thrower is anonymous");
+        Check.isTrue(Ops.sameValue(Js.num(0), length.value), "the thrower has length zero");
+        Check.isFalse(thrower.isExtensible(), "the thrower is non-extensible");
+    }
+
+    /**
      * Walks the whole table over the standard realm. Deviations that are not listed in {@link #PENDING} fail the case; the listed ones
      * and the totals are printed.
      * <p>
@@ -291,7 +312,7 @@ public class MetaConformanceTest {
                 unexpected.add(f);
             }
         }
-        System.out.println("ES2015 conformance table: " + checked + " entries checked, " + (checked - findings.size()) + " pass, "
+        System.out.println("ECMA-262 conformance table: " + checked + " entries checked, " + (checked - findings.size()) + " pass, "
                 + missing + " missing, " + (findings.size() - missing) + " wrong; " + pending + " pending (allow-listed), "
                 + unexpected.size() + " unexpected");
         // 허용 목록의 행마다 해당 항목 수와 이유를 출력하고 낡은 행을 표시한다.
@@ -304,7 +325,7 @@ public class MetaConformanceTest {
         }
         if (!unexpected.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            sb.append(unexpected.size()).append(" deviation(s) from the ES2015 table that are not on the allow-list:");
+            sb.append(unexpected.size()).append(" unexpected deviation(s) from the ECMA-262 table:");
             // 앞쪽 일부만 실패 메시지에 싣는다.
             for (int i = 0; i < unexpected.size() && i < 60; i++) {
                 sb.append("\n  ").append(unexpected.get(i));
@@ -737,6 +758,12 @@ public class MetaConformanceTest {
         } else if ("accessor".equals(kind)) {
             expectAccessor(d, name, "get ".concat(fname), "get");
             expectAccessor(d, name, "set ".concat(fname), "set");
+        } else if ("poison".equals(kind)) {
+            JsValue thrower = realm.getIntrinsic("%ThrowTypeError%");
+            if (!d.isAccessor() || d.isEnumerableTrue() || !d.isConfigurableTrue()
+                    || thrower == null || d.get != thrower || d.set != thrower) {
+                throw Problem.wrong(name + " must be a configurable, unenumerable %ThrowTypeError% accessor");
+            }
         } else if ("const".equals(kind)) {
             expectData(d, name, false, false, false);
         } else if ("val".equals(kind)) {

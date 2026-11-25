@@ -15,14 +15,14 @@ import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 
 /**
- * Installs the BigInt function and BigInt.prototype (ECMA-262 2022).
+ * Installs BigInt and its prototype (ECMA-262, 17th edition, section 21.2).
  * <p>
- * BigInt 함수와 BigInt.prototype 을 설치한다(ECMA-262 2022).
+ * BigInt와 그 프로토타입을 설치한다(ECMA-262 제17판 §21.2).
  */
 final class BigIntLib {
 
-    /** The maximum width accepted by the two truncation helpers on Java's 32 bit shift API. / 두 잘라 내기 도우미가 Java 32비트 shift API 에서 받는 최대 폭. */
-    private static final long MAX_WIDTH = Integer.MAX_VALUE;
+    /** The largest width accepted by ToIndex. / ToIndex가 허용하는 최대 폭. */
+    private static final long MAX_WIDTH = 9007199254740991L;
 
     /** Prevents construction. / 생성을 막는다. */
     private BigIntLib() {
@@ -39,31 +39,46 @@ final class BigIntLib {
         final JsObject proto = realm.getBigIntPrototype();
         NativeFunction ctor = LibSupport.defineConstructor(realm, "BigInt", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                return args.length == 0 ? JsBigInt.ZERO : JsBigInt.of(Ops.bigIntFunctionValue(args[0]));
+                return JsBigInt.of(Ops.bigIntFunctionValue(Js.arg(args, 0)));
             }
-        }, null, proto, null);
+        }, new NativeFunction.Construct() {
+            /**
+             * Throws whenever BigInt is invoked with a NewTarget.
+             * <p>
+             * NewTarget을 지정해 BigInt를 호출하면 예외를 던진다.
+             *
+             * @param r the realm / realm
+             * @param args the arguments / 인수
+             * @param newTarget the new target / NewTarget
+             * @return never / 반환하지 않음
+             */
+            public JsObject construct(JsRealm r, JsValue[] args, JsObject newTarget) {
+                throw JsException.typeError("BigInt is not a constructor");
+            }
+        }, proto, null);
         realm.setIntrinsic("%BigInt.prototype%", proto);
 
         realm.method(ctor, "asIntN", 2, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                int bits = width(Js.arg(args, 0));
+                long bits = width(Js.arg(args, 0));
                 return JsBigInt.of(asSigned(bits, Ops.toBigInt(Js.arg(args, 1))));
             }
         });
         realm.method(ctor, "asUintN", 2, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                int bits = width(Js.arg(args, 0));
+                long bits = width(Js.arg(args, 0));
                 return JsBigInt.of(asUnsigned(bits, Ops.toBigInt(Js.arg(args, 1))));
             }
         });
         realm.method(proto, "toString", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                BigInteger value = thisBigIntValue(thisValue);
                 JsValue radixValue = Js.arg(args, 0);
                 int radix = radixValue.isUndefined() ? 10 : (int) Ops.toInteger(radixValue);
                 if (radix < 2 || radix > 36) {
                     throw JsException.rangeError("toString() radix argument must be between 2 and 36");
                 }
-                return Js.str(thisBigIntValue(thisValue).toString(radix));
+                return Js.str(value.toString(radix));
             }
         });
         realm.method(proto, "toLocaleString", 0, new NativeFunction.Call() {
@@ -80,16 +95,16 @@ final class BigIntLib {
     }
 
     /**
-     * Converts a width argument to an integer supported by the Java BigInteger shifts.
+     * Converts the width argument using ToIndex.
      * <p>
-     * 폭 인수를 Java BigInteger 이동이 지원하는 정수로 바꾼다.
+     * 폭 인수에 ToIndex를 적용한다.
      */
-    private static int width(JsValue value) {
+    private static long width(JsValue value) {
         double n = Ops.toInteger(value);
-        if (n < 0 || n > MAX_WIDTH || n != Math.floor(n)) {
+        if (n < 0 || n > MAX_WIDTH) {
             throw JsException.rangeError("Invalid BigInt width");
         }
-        return (int) n;
+        return (long) n;
     }
 
     /**
@@ -97,11 +112,18 @@ final class BigIntLib {
      * <p>
      * 폭이 0 인 경우를 포함해 2^width 로 부호 없는 나머지를 구한다.
      */
-    private static BigInteger asUnsigned(int bits, BigInteger value) {
+    private static BigInteger asUnsigned(long bits, BigInteger value) {
         if (bits == 0) {
             return BigInteger.ZERO;
         }
-        return value.mod(BigInteger.ONE.shiftLeft(bits));
+        // 이미 범위에 맞는 값은 폭이 커도 그대로 반환한다.
+        if (value.signum() >= 0 && value.bitLength() <= bits) {
+            return value;
+        }
+        if (bits >= Integer.MAX_VALUE) {
+            throw JsException.rangeError("BigInt result exceeds the supported bit length");
+        }
+        return value.mod(BigInteger.ONE.shiftLeft((int) bits));
     }
 
     /**
@@ -109,14 +131,18 @@ final class BigIntLib {
      * <p>
      * 2^width 기준의 부호 있는 나머지를 구한다.
      */
-    private static BigInteger asSigned(int bits, BigInteger value) {
+    private static BigInteger asSigned(long bits, BigInteger value) {
         if (bits == 0) {
             return BigInteger.ZERO;
         }
-        BigInteger modulo = BigInteger.ONE.shiftLeft(bits);
+        // 부호 비트를 포함해 이미 범위에 맞으면 마스크를 만들지 않는다.
+        if (value.bitLength() < bits) {
+            return value;
+        }
+        int width = (int) bits;
+        BigInteger modulo = BigInteger.ONE.shiftLeft(width);
         BigInteger unsigned = value.mod(modulo);
-        BigInteger sign = BigInteger.ONE.shiftLeft(bits - 1);
-        return unsigned.compareTo(sign) >= 0 ? unsigned.subtract(modulo) : unsigned;
+        return unsigned.testBit(width - 1) ? unsigned.subtract(modulo) : unsigned;
     }
 
     /**

@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The expected shape of the whole ES2015 built-in library (ECMA-262 6th edition clauses 18 to 26 and Annex B): which properties exist,
- * of what kind, with which function length. {@link MetaConformanceTest} walks this table over a realm. The values come from the
- * knowledge of the 6th edition (the specification text could not be fetched); they are the contract that the built-in workers are
- * checked against, so a wrong entry here is a bug of this table, not of the library.
+ * The expected ECMAScript built-in property shapes from ECMA-262, 17th edition, chapters 19 to 28 and Annex B.2.
+ * {@link MetaConformanceTest} checks property attributes, callable names and lengths, alias identity, and prototype chains.
  * <p>
  * Line format: <code>path: kind item item ...</code> where an item is <code>name</code>, <code>name=length</code> or (for tags)
  * <code>name=value</code>. Paths are dotted; <code>@@iterator</code> names a well-known symbol; the root <code>global</code> is the global object,
@@ -17,11 +15,10 @@ import java.util.List;
  * (read-only data), <code>tag</code> (@@toStringTag string), <code>val</code> (writable data), <code>obj</code> (object valued data),
  * <code>rfn</code> (function, read-only but configurable), <code>lfn</code> (function with all attributes false), <code>accessor</code> (getter and setter),
  * <code>robj</code> (object valued, read-only, configurable), <code>link</code> (<code>a=b</code>: the property a is the same value as the path b), <code>chain</code> (<code>a=b</code>:
- * the prototype of a is b).
+ * the prototype of a is b), <code>poison</code> (a restricted accessor whose two functions are %ThrowTypeError%).
  * <p>
- * ES2015 내장 라이브러리 전체(ECMA-262 6판 18~26장과 부속서 B)의 기대 모양: 어떤 프로퍼티가 어떤 종류로, 함수 length 가 얼마로 있어야
- * 하는지. {@link MetaConformanceTest} 가 이 표를 realm 에 대해 훑는다. 값은 6판에 대한 지식에서 왔으며(규격 본문은 가져오지 못함) 내장 객체
- * 작업자들이 점검받는 기준이다. 따라서 여기 항목이 틀렸다면 라이브러리가 아니라 이 표의 오류이다.
+ * ECMA-262 제17판 19~28장과 부속서 B.2에 따른 ECMAScript 내장 프로퍼티 표.
+ * {@link MetaConformanceTest}가 프로퍼티의 기술자, 함수 이름과 길이, 별칭과 프로토타입 사슬을 확인한다.
  */
 final class ConformanceTable {
 
@@ -39,31 +36,33 @@ final class ConformanceTable {
      * 표의 줄.
      */
     static final String[] LINES = {
-        // ---- 18 The Global Object (and Annex B.2.1)
+        // ---- 19 The Global Object (and Annex B.2.1)
         "global: const NaN Infinity undefined",
+        "global: link globalThis=global",
         "global: fn eval=1 isFinite=1 isNaN=1 parseFloat=1 parseInt=2 decodeURI=1 decodeURIComponent=1 encodeURI=1 encodeURIComponent=1 escape=1 unescape=1",
         "global: ctor Object=1 Function=1 Boolean=1 Symbol=0 Error=1 EvalError=1 RangeError=1 ReferenceError=1 SyntaxError=1 TypeError=1 URIError=1"
-                + " AggregateError=2 Number=1 String=1 RegExp=2 Date=7 Array=1 Map=0 Set=0 WeakMap=0 WeakSet=0 ArrayBuffer=1 DataView=3 Promise=1"
+                + " AggregateError=2 Number=1 BigInt=1 String=1 RegExp=2 Date=7 Array=1 Map=0 Set=0 WeakMap=0 WeakSet=0 ArrayBuffer=1 DataView=3 Promise=1"
                 + " WeakRef=1 FinalizationRegistry=1"
                 + " Int8Array=3 Uint8Array=3 Uint8ClampedArray=3 Int16Array=3 Uint16Array=3 Int32Array=3 Uint32Array=3 Float32Array=3 Float64Array=3",
         "global: ctor0 Proxy=2",
         "global: obj Math JSON Reflect",
 
-        // ---- 19.1 Object (+ B.2.2)
+        // ---- 20.1 Object (+ B.2.2)
         "Object: fn assign=2 create=2 defineProperties=2 defineProperty=3 freeze=1 getOwnPropertyDescriptor=2 getOwnPropertyNames=1"
                 + " entries=1 fromEntries=1 getOwnPropertyDescriptors=1 getOwnPropertySymbols=1 getPrototypeOf=1 hasOwn=2 is=2 isExtensible=1"
-                + " isFrozen=1 isSealed=1 keys=1 preventExtensions=1 seal=1 setPrototypeOf=2 values=1",
+                + " isFrozen=1 isSealed=1 keys=1 preventExtensions=1 seal=1 setPrototypeOf=2 values=1 groupBy=2",
         "Object.prototype: fn hasOwnProperty=1 isPrototypeOf=1 propertyIsEnumerable=1 toLocaleString=0 toString=0 valueOf=0"
                 + " __defineGetter__=2 __defineSetter__=2 __lookupGetter__=1 __lookupSetter__=1",
         "Object.prototype: accessor __proto__",
         "Object.prototype: val constructor",
 
-        // ---- 19.2 Function
+        // ---- 20.2 Function
         "Function.prototype: fn apply=2 bind=1 call=1 toString=0",
         "Function.prototype: lfn @@hasInstance=1",
+        "Function.prototype: poison caller arguments",
         "Function.prototype: val constructor",
 
-        // ---- 19.3 Boolean, 19.4 Symbol, 19.5 Error
+        // ---- 20.3 Boolean, 20.4 Symbol, 20.5 Error
         "Boolean.prototype: fn toString=0 valueOf=0",
         "Symbol: fn for=1 keyFor=1",
         "Symbol: const hasInstance isConcatSpreadable iterator asyncIterator match matchAll replace search species split toPrimitive toStringTag unscopables",
@@ -71,6 +70,7 @@ final class ConformanceTable {
         "Symbol.prototype: getter description",
         "Symbol.prototype: rfn @@toPrimitive=1",
         "Symbol.prototype: tag @@toStringTag=Symbol",
+        "Error: fn isError=1",
         "Error.prototype: fn toString=0",
         "Error.prototype: val name message",
         "EvalError.prototype: val name message",
@@ -81,14 +81,18 @@ final class ConformanceTable {
         "URIError.prototype: val name message",
         "AggregateError.prototype: val name message",
 
-        // ---- 20 Numbers and Dates
+        // ---- 21 Numbers and Dates
         "Number: const EPSILON MAX_SAFE_INTEGER MAX_VALUE MIN_SAFE_INTEGER MIN_VALUE NaN NEGATIVE_INFINITY POSITIVE_INFINITY",
         "Number: fn isFinite=1 isInteger=1 isNaN=1 isSafeInteger=1",
         "Number: link parseFloat=global.parseFloat parseInt=global.parseInt",
         "Number.prototype: fn toExponential=1 toFixed=1 toLocaleString=0 toPrecision=1 toString=1 valueOf=0",
+        "BigInt: fn asIntN=2 asUintN=2",
+        "BigInt.prototype: fn toLocaleString=0 toString=0 valueOf=0",
+        "BigInt.prototype: tag @@toStringTag=BigInt",
         "Math: const E LN10 LN2 LOG10E LOG2E PI SQRT1_2 SQRT2",
         "Math: fn abs=1 acos=1 acosh=1 asin=1 asinh=1 atan=1 atanh=1 atan2=2 cbrt=1 ceil=1 clz32=1 cos=1 cosh=1 exp=1 expm1=1 floor=1 fround=1"
-                + " hypot=2 imul=2 log=1 log1p=1 log10=1 log2=1 max=2 min=2 pow=2 random=0 round=1 sign=1 sin=1 sinh=1 sqrt=1 tan=1 tanh=1 trunc=1",
+                + " hypot=2 imul=2 log=1 log1p=1 log10=1 log2=1 max=2 min=2 pow=2 random=0 round=1 sign=1 sin=1 sinh=1 sqrt=1 tan=1 tanh=1 trunc=1"
+                + " f16round=1 sumPrecise=1",
         "Math: tag @@toStringTag=Math",
         "Date: fn now=0 parse=1 UTC=7",
         "Date.prototype: fn getDate=0 getDay=0 getFullYear=0 getHours=0 getMilliseconds=0 getMinutes=0 getMonth=0 getSeconds=0 getTime=0"
@@ -100,15 +104,19 @@ final class ConformanceTable {
         "Date.prototype: rfn @@toPrimitive=1",
         "Date.prototype: link toGMTString=Date.prototype.toUTCString",
 
-        // ---- 21 Text Processing
+        // ---- 22 Text Processing
         "String: fn fromCharCode=1 fromCodePoint=1 raw=1",
+        "String.prototype: const length",
         "String.prototype: fn charAt=1 charCodeAt=1 codePointAt=1 concat=1 endsWith=1 includes=1 indexOf=1 lastIndexOf=1 localeCompare=1 match=1"
                 + " normalize=0 repeat=1 replace=2 search=1 slice=2 split=2 startsWith=1 substring=2 toLocaleLowerCase=0 toLocaleUpperCase=0"
                 + " toLowerCase=0 toString=0 toUpperCase=0 trim=0 valueOf=0 at=1 matchAll=1 replaceAll=2 @@iterator=0"
+                + " isWellFormed=0 toWellFormed=0 padEnd=1 padStart=1 trimEnd=0 trimStart=0"
                 + " anchor=1 big=0 blink=0 bold=0 fixed=0 fontcolor=1 fontsize=1 italics=0 link=1 small=0 strike=0 sub=0 substr=2 sup=0",
+        "String.prototype: link trimLeft=String.prototype.trimStart trimRight=String.prototype.trimEnd",
         "RegExp: getter @@species",
+        "RegExp: fn escape=1",
         "RegExp.prototype: fn exec=1 test=1 toString=0 compile=2 @@match=1 @@matchAll=1 @@replace=2 @@search=1 @@split=2",
-        "RegExp.prototype: getter flags global hasIndices ignoreCase multiline source sticky unicode",
+        "RegExp.prototype: getter dotAll flags global hasIndices ignoreCase multiline source sticky unicode unicodeSets",
 
         // ---- 22 Indexed Collections
         "Array: fn from=1 isArray=1 of=0",
@@ -188,13 +196,18 @@ final class ConformanceTable {
         // ---- prototype chains (6.1.7.4 and the clauses of each built-in)
         "Object.prototype: chain Object.prototype=null",
         "global: chain Function.prototype=Object.prototype Array.prototype=Object.prototype String.prototype=Object.prototype"
-                + " Number.prototype=Object.prototype Boolean.prototype=Object.prototype Symbol.prototype=Object.prototype Date.prototype=Object.prototype"
+                + " Number.prototype=Object.prototype BigInt.prototype=Object.prototype Boolean.prototype=Object.prototype"
+                + " Symbol.prototype=Object.prototype Date.prototype=Object.prototype"
                 + " RegExp.prototype=Object.prototype Error.prototype=Object.prototype Map.prototype=Object.prototype Set.prototype=Object.prototype"
                 + " Promise.prototype=Object.prototype ArrayBuffer.prototype=Object.prototype DataView.prototype=Object.prototype",
         "global: chain EvalError.prototype=Error.prototype RangeError.prototype=Error.prototype ReferenceError.prototype=Error.prototype"
-                + " SyntaxError.prototype=Error.prototype TypeError.prototype=Error.prototype URIError.prototype=Error.prototype",
+                + " SyntaxError.prototype=Error.prototype TypeError.prototype=Error.prototype URIError.prototype=Error.prototype"
+                + " AggregateError.prototype=Error.prototype",
         "global: chain EvalError=Error RangeError=Error ReferenceError=Error SyntaxError=Error TypeError=Error URIError=Error"
-                + " Object=Function.prototype Function=Function.prototype Array=Function.prototype Promise=Function.prototype Proxy=Function.prototype",
+                + " AggregateError=Error Object=Function.prototype Function=Function.prototype Array=Function.prototype"
+                + " Boolean=Function.prototype Symbol=Function.prototype Error=Function.prototype Number=Function.prototype BigInt=Function.prototype"
+                + " Date=Function.prototype String=Function.prototype RegExp=Function.prototype"
+                + " Promise=Function.prototype Proxy=Function.prototype",
         "global: chain Int8Array=%TypedArray% Uint8Array=%TypedArray% Uint8ClampedArray=%TypedArray% Int16Array=%TypedArray% Uint16Array=%TypedArray%"
                 + " Int32Array=%TypedArray% Uint32Array=%TypedArray% Float32Array=%TypedArray% Float64Array=%TypedArray%"
                 + " Int8Array.prototype=%TypedArray%.prototype Float64Array.prototype=%TypedArray%.prototype",

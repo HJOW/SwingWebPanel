@@ -235,7 +235,7 @@ public class JsRealm {
         arrayPrototype = new JsArray(objectPrototype);
         stringPrototype = new JsStringObject(objectPrototype, "");
         numberPrototype = new JsPrimitiveObject(objectPrototype, JsNumber.ZERO, "Number");
-        bigIntPrototype = new JsPrimitiveObject(objectPrototype, JsBigInt.ZERO, "BigInt");
+        bigIntPrototype = new JsObject(objectPrototype);
         booleanPrototype = new JsPrimitiveObject(objectPrototype, JsBoolean.FALSE, "Boolean");
         symbolPrototype = new JsObject(objectPrototype);
         JsObject errorProto = new JsObject(objectPrototype);

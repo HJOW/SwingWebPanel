@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-a1 제17판 내장 객체 표 19~22장 (2026-11-26) ===
+현재 작업 번호: P29-10-a1 완료.
+완료한 내용: 전역, 기본 객체, 숫자·날짜, 텍스트 및 B.2의 메타데이터를 대조했다. BigInt 호출·구성·프로토타입과 큰 폭 절단, Function 제한 접근자의 고정 기술자를 수정했다.
+변경 파일: JsRealm.java, FunctionBuiltins.java, BigIntLib.java, PropertyAttributesTest.java, BigIntCoreTest.java, ConformanceTable.java, MetaConformanceTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 871건 통과. 현재 표 576개 항목 통과. sourcecheck 0 위반.
+미해결 사항: 제17판 23~28장 표(P29-10-a2~a3), 호스트 경계와 최종 회귀.
+다음 작업 번호: P29-10-a2.
+-----------------------------------------------------------------------------------------------
 === P29-09-e 구판과 제17판 통합 호환 (2026-11-26) ===
 현재 작업 번호: P29-09-e 및 P29-09 완료.
 완료한 내용: 구판 호이스팅·eval/Function·매핑된 arguments·with·생성자 프로토타입 및 ES5 내장을 현재 문법과 함께 검증했다. HTML 주석, 레거시 문자열 escape, 라벨·switch·if 함수 선언, catch var 경계를 확인했다.
@@ -1026,6 +1034,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-a1 내장 객체 표 19~22장, B.2
+
+- `ConformanceTable`에 globalThis, Object.groupBy, Error.isError, BigInt, Math.f16round/sumPrecise, String well-formed·pad·trim 별칭, RegExp.escape·플래그 getter와 상속 사슬을 추가했다. 함수 프로토타입의 caller·arguments는 같은 %ThrowTypeError% 접근자를 공유하며 함수 메타데이터는 변경할 수 없다.
+- 제17판 §21.2에 맞춰 인수 없는 BigInt 호출은 TypeError, newTarget 검사에서는 생성자로 인식되지만 직접 구성은 TypeError로 처리한다. BigInt.prototype은 일반 객체이며 toString은 radix 변환 전에 수신자를 검증한다. 이미 범위 안에 드는 큰 ToIndex 폭은 그대로 처리하고 Java 6에서 표현 불가능한 결과는 RangeError로 보고한다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 871건, 현재 표 576개 항목 통과.
 
 ### 2026-11-26 · P29-09-e 구판 통합 회귀
 

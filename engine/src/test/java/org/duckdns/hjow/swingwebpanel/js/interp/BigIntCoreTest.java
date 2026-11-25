@@ -24,7 +24,7 @@ public class BigIntCoreTest {
         Scripts.checkInline(
                 "t('typeof', typeof 4n, 'bigint');"
                 + "t('boolean', Boolean(0n)+':'+Boolean(2n), 'false:true');"
-                + "t('function empty', BigInt(), 0n);"
+                + "terr('function empty', function(){ BigInt(); }, 'TypeError');"
                 + "t('decimal', BigInt('  -12  '), -12n);"
                 + "t('hex', BigInt('0xff'), 255n);"
                 + "t('unicode space', BigInt('\\uFEFF12\\u2028'), 12n);"
@@ -39,6 +39,23 @@ public class BigIntCoreTest {
                 + "terr('suffix text', function(){ BigInt('1n'); }, 'SyntaxError');"
                 + "terr('unary plus', function(){ return +1n; }, 'TypeError');",
                 16);
+    }
+
+    /**
+     * Verifies BigInt metadata, the ordinary prototype and receiver validation order.
+     * <p>
+     * BigInt의 메타데이터와 일반 프로토타입, 수신자 검증 순서를 확인한다.
+     */
+    public void testConstructorAndPrototypeConformance() {
+        Scripts.checkInline(
+                "var o=Reflect.construct(function(){},[],BigInt);"
+                + "t('new target', Object.getPrototypeOf(o), BigInt.prototype);"
+                + "terr('prototype receiver', function(){BigInt.prototype.valueOf();}, 'TypeError');"
+                + "terr('subclass super call', function(){class Sub extends BigInt{} new Sub();}, 'TypeError');"
+                + "var coerced=0; var radix={valueOf:function(){++coerced;return 10;}};"
+                + "terr('receiver first', function(){BigInt.prototype.toString.call({},radix);}, 'TypeError');"
+                + "t('radix untouched',coerced,0);",
+                5);
     }
 
     /**
@@ -93,6 +110,22 @@ public class BigIntCoreTest {
                 + "t('zero width', BigInt.asUintN(0, 99n), 0n);"
                 + "terr('negative width', function(){ BigInt.asIntN(-1, 1n); }, 'RangeError');",
                 7);
+    }
+
+    /**
+     * Verifies wide indexes when the requested result already fits.
+     * <p>
+     * 결과가 이미 범위에 들어가는 경우 큰 인덱스를 확인한다.
+     */
+    public void testWideTruncation() {
+        Scripts.checkInline(
+                "var max=Number.MAX_SAFE_INTEGER;"
+                + "t('unsigned', BigInt.asUintN(max,1n),1n);"
+                + "t('signed positive', BigInt.asIntN(max,3n),3n);"
+                + "t('signed negative', BigInt.asIntN(max,-9n),-9n);"
+                + "terr('over max', function(){BigInt.asUintN(max+1,1n);},'RangeError');"
+                + "terr('unrepresentable result', function(){BigInt.asUintN(max,-1n);},'RangeError');",
+                5);
     }
 
     /**

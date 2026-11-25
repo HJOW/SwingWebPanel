@@ -125,6 +125,9 @@ final class FunctionBuiltins implements BuiltinInstaller {
                 throw JsException.typeError("'caller', 'callee', and 'arguments' properties may not be accessed on strict mode functions or the arguments objects for calls to them");
             }
         });
+        // 제17판 §10.2.4.1의 제한 접근자 함수는 name과 length를 바꿀 수 없다.
+        thrower.defineData("name", Js.str(""), false, false, false);
+        thrower.defineData("length", Js.num(0), false, false, false);
         thrower.preventExtensions();
         realm.setIntrinsic("%ThrowTypeError%", thrower);
         // AddRestrictedFunctionProperties(ECMA-262 6판 9.2.7): Function.prototype 의 caller 와 arguments 는 %ThrowTypeError% 접근자이다.

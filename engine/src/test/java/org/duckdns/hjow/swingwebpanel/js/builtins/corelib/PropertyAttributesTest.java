@@ -61,7 +61,7 @@ public class PropertyAttributesTest {
      * 생성자와 "length".
      */
     private static final String[] CONSTRUCTORS = { "Object:1", "Boolean:1", "Symbol:0", "Error:1", "EvalError:1", "RangeError:1",
-        "ReferenceError:1", "SyntaxError:1", "TypeError:1", "URIError:1", "AggregateError:2", "Number:1" };
+        "ReferenceError:1", "SyntaxError:1", "TypeError:1", "URIError:1", "AggregateError:2", "Number:1", "BigInt:1" };
 
     /**
      * The global functions with their "length" (besides the constructors).
@@ -69,7 +69,7 @@ public class PropertyAttributesTest {
      * (생성자를 뺀) 전역 함수와 "length".
      */
     private static final String[] GLOBAL_FUNCTIONS = { "parseFloat:1", "parseInt:2", "isNaN:1", "isFinite:1", "decodeURI:1",
-        "decodeURIComponent:1", "encodeURI:1", "encodeURIComponent:1", "BigInt:1" };
+        "decodeURIComponent:1", "encodeURI:1", "encodeURIComponent:1" };
 
     /**
      * Property names that are not functions and that the global object must have, besides functions and constructors.
@@ -176,7 +176,7 @@ public class PropertyAttributesTest {
         PropertyDescriptor nd = f.getOwnProperty("name");
         Check.isTrue(!ld.isWritableTrue() && !ld.isEnumerableTrue() && ld.isConfigurableTrue(), where + " length attributes");
         Check.isTrue(!nd.isWritableTrue() && !nd.isEnumerableTrue() && nd.isConfigurableTrue(), where + " name attributes");
-        Check.equal("BigInt".equals(key), f.hasOwnProperty("prototype"), where + " prototype property");
+        Check.isFalse(f.hasOwnProperty("prototype"), where + " prototype property");
         Check.isFalse(f.isConstructor(), where + " must not be a constructor");
     }
 
