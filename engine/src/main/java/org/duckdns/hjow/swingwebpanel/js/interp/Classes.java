@@ -249,6 +249,7 @@ final class Classes {
         Environment env = staticEnvironment(constructor, classEnv);
         in.declareLexicals(block.scope, env);
         in.instantiateBlockFunctions(block.scope, env);
+        // static 블록의 var 이름을 초기화한 뒤 문장 실행에 사용한다.
         for (int i = 0; i < block.scope.varNames.length; i++) {
             if (env.own(block.scope.varNames[i]) == null) {
                 env.declare(block.scope.varNames[i], true, true, Js.UNDEFINED);

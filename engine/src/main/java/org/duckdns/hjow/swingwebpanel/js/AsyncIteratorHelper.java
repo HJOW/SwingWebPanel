@@ -92,6 +92,19 @@ public final class AsyncIteratorHelper {
                 return wrapResult(r, (JsObject) result);
             }
         }));
+        wrapper.createDataProperty("throw", new NativeFunction(realm, "throw", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsValue method = Ops.getMethod(sync, "throw");
+                if (method.isUndefined()) {
+                    throw JsException.typeError("The iterator does not provide a 'throw' method");
+                }
+                JsValue result = Ops.call(method, sync, args);
+                if (!(result instanceof JsObject)) {
+                    throw JsException.typeError("Iterator throw() result is not an object");
+                }
+                return wrapResult(r, (JsObject) result);
+            }
+        }));
         wrapper.createDataProperty(WellKnownSymbols.ASYNC_ITERATOR, new NativeFunction(realm, "[Symbol.asyncIterator]", 0,
                 new NativeFunction.Call() {
                     public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {

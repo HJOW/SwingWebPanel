@@ -37,7 +37,7 @@ public final class AsyncGeneratorObject extends JsObject {
     private static final int RUNNING = 2;
     /** Awaiting a value Promise. / 값 Promise 대기. */
     private static final int AWAITING = 3;
-    /** Completed. / 완료. */
+    /** Completed state. / 완료된 상태. */
     private static final int DONE = 4;
 
     /**
@@ -50,7 +50,7 @@ public final class AsyncGeneratorObject extends JsObject {
         final int mode;
         /** Request value. / 요청 값. */
         final JsValue value;
-        /** Promise capability. / Promise capability. */
+        /** Promise capability. / Promise capability 기록. */
         final PromiseCapability capability;
 
         /**
@@ -65,7 +65,7 @@ public final class AsyncGeneratorObject extends JsObject {
         }
     }
 
-    /** Interpreter. / 인터프리터. */
+    /** Interpreter owner. / 소유 인터프리터. */
     private final Interpreter in;
     /** Async generator function. / async generator 함수. */
     private final ScriptFunction function;

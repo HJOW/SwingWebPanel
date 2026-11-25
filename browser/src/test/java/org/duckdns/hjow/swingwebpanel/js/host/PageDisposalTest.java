@@ -124,4 +124,34 @@ public class PageDisposalTest {
             fixture.scripts.dispose();
         }
     }
+
+    /**
+     * A Promise continuation suspended at await never mutates the old document after a disposal request.
+     * <p>
+     * await 에서 중단된 Promise 이어짐은 폐기 요청 뒤 오래된 문서를 바꾸지 않는다.
+     */
+    public void testAwaitContinuationStopsAtDisposal() {
+        final PageFixture fixture = new PageFixture().load("<body></body>");
+        fixture.scripts.runTask(new Runnable() {
+            /**
+             * Starts an async continuation and cancels the page before its microtask checkpoint.
+             * <p>
+             * async 이어짐을 시작하고 마이크로태스크 검사점 전에 페이지를 중단한다.
+             */
+            public void run() {
+                fixture.scripts.getRealm().evaluateScript(
+                        "globalThis.late='clean'; (async function(){ await 0; document.body.setAttribute('late','ran'); late='ran'; })();",
+                        "await-disposal.js");
+                fixture.scripts.requestDisposal();
+            }
+        });
+        try {
+            Check.isFalse(fixture.document.getElementsByTagName("body").item(0).hasAttribute("late"),
+                    "await did not mutate the disposed page");
+            Check.equal("clean", fixture.scripts.getRealm().getGlobalObject().get("late").toString(),
+                    "await continuation did not update the old global");
+        } finally {
+            fixture.scripts.dispose();
+        }
+    }
 }

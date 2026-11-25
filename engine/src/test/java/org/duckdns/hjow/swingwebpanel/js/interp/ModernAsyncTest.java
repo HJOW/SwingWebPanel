@@ -1,5 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.js.interp;
 
+import org.duckdns.hjow.swingwebpanel.js.JsRealm;
+import org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException;
+import org.duckdns.hjow.swingwebpanel.testing.Check;
+
 /**
  * Execution tests for async functions and await (plan item P28-03-c).
  * <p>
@@ -93,6 +97,23 @@ public class ModernAsyncTest {
                 + "catch(e){ return await Promise.resolve(e + '!'); } }"
                 + "nested().then(function(v){ t('nested', v, 'x!'); });",
                 2);
+    }
+
+    /**
+     * Checks that cancellation and step limits apply again after await resumes.
+     * <p>
+     * await 재개 뒤에도 취소와 단계 제한이 다시 적용되는지 검사한다.
+     */
+    public void testLimitsAfterAwait() {
+        JsRealm realm = Scripts.realm(new Scripts.Capture());
+        realm.getLimits().setMaxSteps(100);
+        realm.evaluateScript("async function f(){ await 0; for (;;) {} } f();", "limit.js");
+        try {
+            realm.runJobs();
+            Check.fail("resumed async function did not hit the step limit");
+        } catch (ScriptAbortedException e) {
+            Check.equal(ScriptAbortedException.Reason.STEP_LIMIT, e.getReason(), "await continuation step limit");
+        }
     }
 }
 

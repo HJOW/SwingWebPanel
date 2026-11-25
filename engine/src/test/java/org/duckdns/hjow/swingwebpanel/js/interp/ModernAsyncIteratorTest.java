@@ -67,6 +67,43 @@ public class ModernAsyncIteratorTest {
     }
 
     /**
+     * Checks yield* delegation to asynchronous and synchronous iterables.
+     * <p>
+     * 비동기·동기 반복 가능 객체로의 yield* 위임을 검사한다.
+     */
+    public void testAsyncYieldStar() {
+        Scripts.checkInline(
+                "var source = {}; source[Symbol.asyncIterator] = function(){ var i=0; return {"
+                + " next:function(v){ i++; return Promise.resolve({value:i,done:i>2}); } }; };"
+                + "async function* g(){ yield* source; yield* [3,4]; }"
+                + "async function run(){ var out=[]; for await (var v of g()) out.push(v); return out.join(','); }"
+                + "run().then(function(v){ t('delegate values', v, '1,2,3,4'); });",
+                1);
+    }
+
+    /**
+     * Checks throw forwarding to sync iterators and cleanup when an async iterator has no throw method.
+     * <p>
+     * 동기 반복자의 throw 전달과 async 반복자에 throw 메서드가 없을 때의 정리를 검사한다.
+     */
+    public void testAsyncYieldStarThrow() {
+        Scripts.checkInline(
+                "var sync = {}; sync[Symbol.iterator] = function(){ return {"
+                + " next:function(){ return {value:'open',done:false}; },"
+                + " throw:function(e){ return {value:'caught:'+e,done:true}; } }; };"
+                + "async function* sg(){ return yield* sync; } var si=sg();"
+                + "si.next().then(function(){ return si.throw('x'); }).then(function(r){"
+                + " t('sync throw', r.value + ':' + r.done, 'caught:x:true'); });"
+                + "var closed=0, asyncSource={}; asyncSource[Symbol.asyncIterator]=function(){ var n=0; return {"
+                + " next:function(){ n++; return Promise.resolve({value:n,done:false}); },"
+                + " return:function(){ closed++; return Promise.resolve({done:true}); } }; };"
+                + "async function* ag(){ yield* asyncSource; } var ai=ag();"
+                + "ai.next().then(function(){ return ai.throw('bad'); }).then(function(){ t('missing throw rejected', false, true); },"
+                + " function(e){ t('missing throw type', e instanceof TypeError, true); t('missing throw close', closed, 1); });",
+                3);
+    }
+
+    /**
      * Checks async iterator close on break and body rejection.
      * <p>
      * break 와 본문 거부에서 비동기 이터레이터 close 를 검사한다.

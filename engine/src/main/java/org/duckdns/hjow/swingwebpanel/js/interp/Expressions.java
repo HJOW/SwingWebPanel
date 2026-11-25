@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.js.interp;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.duckdns.hjow.swingwebpanel.js.AsyncIteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsArray;
@@ -1525,6 +1526,9 @@ final class Expressions {
      */
     private JsValue evalYieldStar(Node n, Environment env, Ctx ctx, NodeState st) {
         GenState gen = ctx.gen;
+        if (ctx.function != null && ctx.function.info.async && ctx.function.info.generator) {
+            return evalAsyncYieldStar(n, env, ctx, st);
+        }
         JsObject iterator;
         int mode;
         JsValue received;
@@ -1564,6 +1568,7 @@ final class Expressions {
                     throw new GeneratorReturn(IteratorHelper.value((JsObject) innerResult));
                 }
             }
+
             if (!(innerResult instanceof JsObject)) {
                 throw JsException.typeError("Iterator result " + JsException.describe(innerResult) + " is not an object");
             }
@@ -1577,6 +1582,97 @@ final class Expressions {
             gen.yieldedRaw = true;
             throw YieldSignal.INSTANCE;
         }
+    }
+
+    /**
+     * Evaluates yield* in an async generator by asynchronously forwarding each next, throw and return request.
+     * <p>
+     * 각 next, throw, return 요청을 비동기로 전달하여 async generator 의 yield* 를 평가한다.
+     *
+     * @param n yield node / yield 노드
+     * @param env environment / 환경
+     * @param ctx context / 문맥
+     * @param st saved state / 저장 상태
+     * @return delegated completion value / 위임 완료 값
+     */
+    private JsValue evalAsyncYieldStar(Node n, Environment env, Ctx ctx, NodeState st) {
+        GenState gen = ctx.gen;
+        JsObject iterator = (JsObject) st.o1;
+        if (iterator == null) {
+            iterator = AsyncIteratorHelper.getAsyncIterator(realm, memo(st, n.a, env, ctx));
+            st.o1 = iterator;
+            st.phase = 0;
+        }
+        int mode;
+        JsValue received;
+        JsValue result;
+        if (st.phase == 1) {
+            result = resumeValue(gen);
+            mode = ((Integer) st.o2).intValue();
+            received = gen.resumeValue;
+            st.o2 = null;
+            // throw 메서드가 없는 안쪽 이터레이터는 return 결과를 확인한 뒤 원래 throw 를 TypeError 로 대체한다.
+            if (Boolean.TRUE.equals(st.o3)) {
+                st.o3 = null;
+                if (!(result instanceof JsObject)) {
+                    throw JsException.typeError("Async iterator return result is not an object");
+                }
+                throw JsException.typeError("The async iterator does not provide a 'throw' method");
+            }
+        } else {
+            if (st.phase == 0) {
+                mode = GenState.NEXT;
+                received = Js.UNDEFINED;
+            } else {
+                mode = gen.resumeMode;
+                received = gen.resumeValue;
+                st.phase = 0;
+            }
+            JsValue method;
+            if (mode == GenState.THROW) {
+                method = Ops.getMethod(iterator, "throw");
+                if (method.isUndefined()) {
+                    JsValue close = AsyncIteratorHelper.close(iterator);
+                    if (close != null) {
+                        st.o2 = Integer.valueOf(GenState.THROW);
+                        st.o3 = Boolean.TRUE;
+                        st.phase = 1;
+                        gen.suspending = true;
+                        gen.awaited = close;
+                        throw AwaitSignal.INSTANCE;
+                    }
+                    throw JsException.typeError("The async iterator does not provide a 'throw' method");
+                }
+            } else if (mode == GenState.RETURN) {
+                method = Ops.getMethod(iterator, "return");
+                if (method.isUndefined()) {
+                    throw new GeneratorReturn(received);
+                }
+            } else {
+                method = iterator.get("next");
+            }
+            result = Ops.call(method, iterator, new JsValue[] { received });
+            st.o2 = Integer.valueOf(mode);
+            st.phase = 1;
+            gen.suspending = true;
+            gen.awaited = result;
+            throw AwaitSignal.INSTANCE;
+        }
+        if (!(result instanceof JsObject)) {
+            throw JsException.typeError("Async iterator result " + JsException.describe(result) + " is not an object");
+        }
+        JsObject record = (JsObject) result;
+        if (IteratorHelper.isDone(record)) {
+            if (mode == GenState.RETURN) {
+                throw new GeneratorReturn(IteratorHelper.value(record));
+            }
+            return IteratorHelper.value(record);
+        }
+        st.phase = 2;
+        gen.suspending = true;
+        gen.yielded = IteratorHelper.value(record);
+        gen.yieldedRaw = false;
+        throw YieldSignal.INSTANCE;
     }
 
     /**

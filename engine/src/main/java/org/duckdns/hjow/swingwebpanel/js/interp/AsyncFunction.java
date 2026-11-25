@@ -24,10 +24,10 @@ final class AsyncFunction {
     private static final int RUNNING = 1;
     /** Suspended at await. / await 에서 중단. */
     private static final int SUSPENDED = 2;
-    /** Settled. / 확정됨. */
+    /** Settled state. / 확정된 상태. */
     private static final int DONE = 3;
 
-    /** Interpreter. / 인터프리터. */
+    /** Interpreter owner. / 소유 인터프리터. */
     private final Interpreter in;
     /** Async function. / async 함수. */
     private final ScriptFunction function;

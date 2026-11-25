@@ -40,6 +40,7 @@ public class ModernDynamicImportTest {
             String path = base + specifier;
             java.util.List<String> parts = new java.util.ArrayList<String>();
             String[] split = path.split("/");
+            // 상대 경로 요소를 정규화하면서 ".." 는 직전 요소를 제거한다.
             for (int i = 0; i < split.length; i++) {
                 if (split[i].equals(".") || split[i].length() == 0) {
                     continue;
@@ -53,6 +54,7 @@ public class ModernDynamicImportTest {
                 }
             }
             StringBuilder out = new StringBuilder();
+            // 정규화한 경로 요소를 슬래시로 다시 이어 붙인다.
             for (int i = 0; i < parts.size(); i++) {
                 if (out.length() > 0) {
                     out.append('/');
