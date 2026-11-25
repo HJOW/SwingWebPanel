@@ -112,6 +112,7 @@ final class IteratorConstructor {
             }
         });
         IteratorEagerMethods.install(realm, prototype);
+        IteratorLazyMethods.install(realm, prototype);
     }
 
     /**

@@ -71,6 +71,23 @@ public final class IteratorRecord {
      * @return next ECMAScript value or Java null / 다음 ECMAScript 값 또는 Java null
      */
     public JsValue stepValue() {
+        try {
+            JsObject result = step();
+            return result == null ? null : IteratorHelper.value(result);
+        } catch (JsException e) {
+            done = true;
+            throw e;
+        }
+    }
+
+    /**
+     * Advances the iterator without accessing the value property of its result.
+     * <p>
+     * 이터레이터를 진행하되 결과의 value 프로퍼티는 읽지 않는다.
+     *
+     * @return next result object or Java null on completion / 다음 결과 객체. 끝났으면 Java null
+     */
+    public JsObject step() {
         if (done) {
             return null;
         }
@@ -80,7 +97,7 @@ public final class IteratorRecord {
                 done = true;
                 return null;
             }
-            return IteratorHelper.value(result);
+            return result;
         } catch (JsException e) {
             // 이터레이터 자체의 오류는 값을 소비하던 코드의 오류와 달리 이 자리에서 반복을 끝낸다.
             done = true;

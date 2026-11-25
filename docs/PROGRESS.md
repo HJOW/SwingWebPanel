@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-06-e3 Iterator 단일 원본 지연 헬퍼 (2026-11-26) ===
+현재 작업 번호: P29-06-e3 완료.
+완료한 내용: 공통 Iterator Helper 프로토타입에서 map, filter, take, drop을 지연 실행한다. 시작 전·중단 후 return을 처리하고 실행 중 재진입을 거부한다. drop은 건너뛰는 요소의 value를 읽지 않는다.
+변경 파일: IteratorHelperObject.java, IteratorLazyMethods.java, IteratorConstructor.java, IteratorRecord.java, Es2026IteratorTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행) 796건 통과. sourcecheck 0 위반.
+미해결 사항: flatMap과 Iterator.concat의 안쪽 이터레이터·다중 원본 처리(P29-06-e4).
+다음 작업 번호: P29-06-e4.
+-----------------------------------------------------------------------------------------------
 === P29-06-e2 Iterator 즉시 소비 헬퍼 (2026-11-26) ===
 현재 작업 번호: P29-06-e2 완료.
 완료한 내용: toArray, forEach, reduce, some, every, find가 동기 이터레이터를 소비한다. 콜백이 잘못됐거나 실행 중 오류가 나면 원래 완료를 보존한 채 닫고, 조건이 결정되면 정상 닫기 결과를 따른다.
@@ -802,6 +810,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-06-e3 이터레이터 헬퍼 중단 상태
+
+map의 결과와 filter의 입력 인덱스, take(0)의 원본 닫기, drop에서 건너뛴 value 접근자의 미실행을 확인했다. Infinity·음의 소수·NaN 한계, 시작 전 return과 재진입 오류 이후 완료 상태를 검증했다.
 
 ### 2026-11-26 · P29-06-e2 조건 단락과 누산
 

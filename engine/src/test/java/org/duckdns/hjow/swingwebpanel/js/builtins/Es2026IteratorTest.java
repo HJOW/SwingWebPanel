@@ -141,6 +141,75 @@ public class Es2026IteratorTest {
     }
 
     /**
+     * Mapping and filtering yield on demand and count skipped predicate inputs.
+     * <p>
+     * map과 filter가 요청에 따라 값을 반환하고 필터에서 제외한 입력도 인덱스에 포함하는지 검증한다.
+     */
+    public void testLazyMapAndFilterState() {
+        String script = "const trace=[];"
+                + "const h=Iterator.from([2,3,4]).map((v,i)=>{trace.push('m'+i);return v*2;})"
+                + ".filter((v,i)=>{trace.push('f'+i);return v>=6;});"
+                + "const before=trace.join(), first=h.next(100).value, after=trace.join();"
+                + "const rest=h.toArray().join();const p=Object.getPrototypeOf(h);"
+                + "[before,first,after,rest,trace.join(),h.next().done,h.return(7).value===undefined,"
+                + "h instanceof Iterator,Iterator.from(h)===h,p.next.length,p.return.length,"
+                + "Object.prototype.toString.call(h)].join('|')";
+        Check.equal("|6|m0,f0,m1,f1|8|m0,f0,m1,f1,m2,f2|true|true|true|true|0|0|[object Iterator Helper]",
+                evaluate(JsRealm.create(), script), "the helper is lazy, branded and consumes its source once");
+    }
+
+    /**
+     * Dropping does not access discarded values, and taking zero closes before reading next.
+     * <p>
+     * drop은 버리는 값을 읽지 않고 take(0)은 다음 값을 진행하기 전에 원본을 닫는다.
+     */
+    public void testTakeDropLimitsAndSkippedValues() {
+        String script = "const p=Iterator.prototype;let trace='';"
+                + "function source(){let i=0;return {next(){const n=++i;trace+='n'+n;"
+                + "return {done:false,get value(){trace+='v'+n;return n;}};},return(){trace+='r';return {};}};}"
+                + "const h=p.drop.call(source(),1).take(1);const before=trace; const value=h.next().value, ended=h.next().done;"
+                + "const zero=p.take.call(source(),-0.5).next().done;"
+                + "const all=Iterator.from([3,5]).drop(-0.5).take(Infinity).toArray().join();"
+                + "const empty=Iterator.from([3,5]).drop(Infinity).toArray().length;"
+                + "[before,value,ended,zero,trace,all,empty].join('|')";
+        Check.equal("|2|true|true|n1n2v2rr|3,5|0", evaluate(JsRealm.create(), script),
+                "iterator drop uses IteratorStep for discarded values and take closes exactly at its limit");
+    }
+
+    /**
+     * Invalid counts and callbacks close the source before reading next, retaining the original failure.
+     * <p>
+     * 잘못된 개수와 콜백은 next를 읽기 전에 원본을 닫고 원래 오류를 유지한다.
+     */
+    public void testLazyValidationAndCloseOrder() {
+        String script = "let log='';function fail(f){try{f();return 'missing';}catch(e){return e.name||e;}}"
+                + "const src={get next(){log+='n';return ()=>({done:true});},return(){log+='r';throw 'close';}};"
+                + "const p=Iterator.prototype, count={valueOf(){log+='v';throw 'limit';}};"
+                + "[fail(()=>p.take.call(src,count)),fail(()=>p.drop.call(src,NaN)),"
+                + "fail(()=>p.take.call(src,-Infinity)),fail(()=>p.map.call(src,0)),log].join('|')";
+        Check.equal("limit|RangeError|RangeError|TypeError|vrrrr", evaluate(JsRealm.create(), script),
+                "validation failure closes without looking up next and preserves the original exception");
+    }
+
+    /**
+     * A helper can close before starting and refuses reentry while a mapper is running.
+     * <p>
+     * 헬퍼는 시작 전에 닫을 수 있고 매핑 중에는 next 재진입을 거부한다.
+     */
+    public void testLazyReturnBeforeStartAndReentry() {
+        String script = "let log='';function fail(f){try{f();return 'missing';}catch(e){return e.name;}}"
+                + "let first, second;const p=Iterator.prototype;"
+                + "first=p.map.call({next(){log+='unexpected';return {done:true};},"
+                + "return(){log+=first.next().done?'closed':'open';return {};}},()=>0);"
+                + "const before=first.return(3);"
+                + "second=p.map.call({next(){return {value:2,done:false};},return(){log+='r';return {};}},()=>second.next());"
+                + "const nested=fail(()=>second.next());"
+                + "[before.done,before.value===undefined,first.next().done,nested,second.next().done,log].join('|')";
+        Check.equal("true|true|true|TypeError|true|closedr", evaluate(JsRealm.create(), script),
+                "closing a never-started helper and rejecting reentry preserve terminal state");
+    }
+
+    /**
      * Runs a script in the given realm and converts the result for assertions.
      * <p>
      * 주어진 realm에서 스크립트를 실행하고 검증에 쓸 문자열로 바꾼다.
