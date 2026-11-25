@@ -22,6 +22,12 @@ public final class UnicodeProperties {
     /** Unicode Space_Separator ranges. / 유니코드 Space_Separator 범위. */
     private static final int[] SPACE_SEPARATOR = PROPERTIES.get("Zs");
 
+    /** Unicode Cased ranges. / 유니코드 Cased 범위. */
+    private static final int[] CASED = PROPERTIES.get("Cased");
+
+    /** Unicode Case_Ignorable ranges. / 유니코드 Case_Ignorable 범위. */
+    private static final int[] CASE_IGNORABLE = PROPERTIES.get("Case_Ignorable");
+
     /** Static helper class. / 정적 도우미 클래스. */
     private UnicodeProperties() {
     }
@@ -73,6 +79,30 @@ public final class UnicodeProperties {
      */
     static boolean isSpaceSeparator(int cp) {
         return contains(SPACE_SEPARATOR, cp);
+    }
+
+    /**
+     * Tests the Unicode Cased property.
+     * <p>
+     * 유니코드 Cased 속성을 검사한다.
+     *
+     * @param cp Unicode code point / 유니코드 코드 포인트
+     * @return true when included / 포함하면 true
+     */
+    static boolean isCased(int cp) {
+        return contains(CASED, cp);
+    }
+
+    /**
+     * Tests the Unicode Case_Ignorable property.
+     * <p>
+     * 유니코드 Case_Ignorable 속성을 검사한다.
+     *
+     * @param cp Unicode code point / 유니코드 코드 포인트
+     * @return true when included / 포함하면 true
+     */
+    static boolean isCaseIgnorable(int cp) {
+        return contains(CASE_IGNORABLE, cp);
     }
 
     /**

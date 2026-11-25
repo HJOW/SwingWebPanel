@@ -55,6 +55,15 @@ public final class UnicodeGen {
     /** Code points with explicitly supplied Script_Extensions. / Script_Extensions가 명시된 코드 포인트. */
     private final BitSet extensionOverrides = new BitSet();
 
+    /** Full default uppercase mappings. / 기본 전체 대문자 매핑. */
+    private final Map<Integer, String> upperCase = new TreeMap<Integer, String>();
+
+    /** Full default lowercase mappings without contextual rules. / 문맥 규칙을 제외한 기본 전체 소문자 매핑. */
+    private final Map<Integer, String> lowerCase = new TreeMap<Integer, String>();
+
+    /** Simple case folding entries. / 단순 대소문자 접기 매핑. */
+    private final Map<Integer, String> simpleFold = new TreeMap<Integer, String>();
+
     /** Creates one generator. / 생성기 하나를 만든다. */
     private UnicodeGen() {
     }
@@ -98,6 +107,8 @@ public final class UnicodeGen {
         checkVersion(new File(input, "ReadMe.txt"));
         readValueAliases(new File(input, "PropertyValueAliases.txt"));
         readUnicodeData(new File(input, "UnicodeData.txt"));
+        readSpecialCasing(new File(input, "SpecialCasing.txt"));
+        readCaseFolding(new File(input, "CaseFolding.txt"));
         readRanges(new File(input, "Scripts.txt"), "sc=");
         readRanges(new File(input, "ScriptExtensions.txt"), "scx=");
         finishScripts();
@@ -205,7 +216,7 @@ public final class UnicodeGen {
             // First/Last 행 한 쌍은 사이의 모든 코드 포인트를 나타낸다.
             while ((line = in.readLine()) != null) {
                 String[] fields = line.split(";", -1);
-                if (fields.length < 3) {
+                if (fields.length != 15) {
                     throw new IOException("Invalid UnicodeData row: " + line);
                 }
                 int cp = Integer.parseInt(fields[0], 16);
@@ -230,6 +241,8 @@ public final class UnicodeGen {
                 if ("Lu".equals(category) || "Ll".equals(category) || "Lt".equals(category)) {
                     bits("gc=LC").set(first, cp + 1);
                 }
+                addMapping(upperCase, cp, fields[12]);
+                addMapping(lowerCase, cp, fields[13]);
                 first = -1;
             }
             if (first >= 0) {
@@ -242,6 +255,75 @@ public final class UnicodeGen {
         unassigned.set(0, LIMIT);
         unassigned.andNot(assigned);
         bits("gc=C").or(unassigned);
+    }
+
+    /**
+     * Overrides simple UnicodeData mappings with unconditional full mappings.
+     * <p>
+     * UnicodeData의 단순 매핑을 무조건 적용하는 전체 매핑으로 덮어쓴다.
+     *
+     * @param file SpecialCasing.txt / SpecialCasing.txt 파일
+     * @throws IOException on failed read / 읽기 실패 시
+     */
+    private void readSpecialCasing(File file) throws IOException {
+        BufferedReader in = reader(file);
+        try {
+            String line;
+            // 네 필드인 무조건 매핑만 저장한다. 로케일 독립 문맥 규칙은 엔진에서 적용한다.
+            while ((line = in.readLine()) != null) {
+                String[] fields = fields(line);
+                if (fields.length == 4) {
+                    int codePoint = Integer.parseInt(fields[0], 16);
+                    addMapping(lowerCase, codePoint, fields[1]);
+                    addMapping(upperCase, codePoint, fields[3]);
+                }
+            }
+        } finally {
+            in.close();
+        }
+    }
+
+    /**
+     * Reads simple Unicode case folding using status C or S.
+     * <p>
+     * 유니코드 단순 대소문자 접기에 쓰는 C와 S 상태를 읽는다.
+     *
+     * @param file CaseFolding.txt / CaseFolding.txt 파일
+     * @throws IOException on failed read / 읽기 실패 시
+     */
+    private void readCaseFolding(File file) throws IOException {
+        BufferedReader in = reader(file);
+        try {
+            String line;
+            // 전체 접기(F)와 터키어용 접기(T)는 단순 접기 표에서 제외한다.
+            while ((line = in.readLine()) != null) {
+                String[] fields = fields(line);
+                if (fields.length == 3 && ("C".equals(fields[1]) || "S".equals(fields[1]))) {
+                    addMapping(simpleFold, Integer.parseInt(fields[0], 16), fields[2]);
+                }
+            }
+        } finally {
+            in.close();
+        }
+    }
+
+    /**
+     * Stores a nonidentity code point mapping from a data column.
+     * <p>
+     * 데이터 열에서 원래 코드 포인트를 바꾸는 매핑을 저장한다.
+     *
+     * @param map source-to-target map / 원본과 대상 매핑
+     * @param cp source code point / 원본 코드 포인트
+     * @param target hexadecimal point sequence / 16진수 코드 포인트 열
+     */
+    private static void addMapping(Map<Integer, String> map, int cp, String target) {
+        if (target.length() != 0) {
+            if (target.indexOf(' ') < 0 && Integer.parseInt(target, 16) == cp) {
+                map.remove(Integer.valueOf(cp));
+            } else {
+                map.put(Integer.valueOf(cp), target.replace(' ', ','));
+            }
+        }
     }
 
     /**
@@ -418,13 +500,38 @@ public final class UnicodeGen {
             rows.add(alias.getKey().replace('=', '~') + "=" + alias.getValue().replace('=', '~'));
         }
         appendChunks(source, rows);
-        source.append("    };\n\n    /** Static data holder. / 정적 자료 보관 클래스. */\n    private UnicodePropertyData() { }\n}\n");
+        source.append("    };\n");
+        appendMappings(source, "UPPER_CASE", upperCase);
+        appendMappings(source, "LOWER_CASE", lowerCase);
+        appendMappings(source, "SIMPLE_FOLD", simpleFold);
+        source.append("\n    /** Static data holder. / 정적 자료 보관 클래스. */\n    private UnicodePropertyData() { }\n}\n");
         OutputStream out = new FileOutputStream(output);
         try {
             out.write(source.toString().getBytes("UTF-8"));
         } finally {
             out.close();
         }
+    }
+
+    /**
+     * Emits a sorted array of hexadecimal case mapping rows.
+     * <p>
+     * 16진수 대소문자 매핑 행을 정렬한 배열을 출력한다.
+     *
+     * @param source Java source builder / Java 소스 작성기
+     * @param name generated field name / 생성 필드 이름
+     * @param mappings Unicode mapping table / 유니코드 매핑 표
+     */
+    private static void appendMappings(StringBuilder source, String name, Map<Integer, String> mappings) {
+        source.append("\n    /** Unicode case mappings. / 유니코드 대소문자 매핑. */\n");
+        source.append("    static final String[] ").append(name).append(" = {\n");
+        List<String> rows = new ArrayList<String>();
+        // 코드 포인트 하나에 대응하는 코드 포인트 열을 쓴다.
+        for (Map.Entry<Integer, String> entry : mappings.entrySet()) {
+            rows.add(Integer.toHexString(entry.getKey().intValue()) + "=" + entry.getValue());
+        }
+        appendChunks(source, rows);
+        source.append("    };\n");
     }
 
     /**

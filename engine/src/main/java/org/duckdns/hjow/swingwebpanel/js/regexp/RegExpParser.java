@@ -506,13 +506,21 @@ final class RegExpParser {
         StringBuilder sb = new StringBuilder();
         // 식별자 문자를 '>' 까지 읽는다.
         while (pos < n && src.charAt(pos) != '>') {
-            int cp = src.codePointAt(pos);
+            int start = pos;
+            int cp;
+            if (src.startsWith("\\u", pos)) {
+                // 그룹 이름의 유니코드 이스케이프는 패턴 플래그와 관계없이 UnicodeMode로 읽는다.
+                pos++;
+                cp = parseUnicodeEscape(true);
+            } else {
+                cp = src.codePointAt(pos);
+                pos += Character.charCount(cp);
+            }
             boolean ok = sb.length() == 0 ? CharClass.isIdentifierStart(cp) : CharClass.isIdentifierPart(cp);
             if (!ok) {
-                throw error("Invalid capture group name", pos);
+                throw error("Invalid capture group name", start);
             }
             sb.appendCodePoint(cp);
-            pos += Character.charCount(cp);
         }
         if (pos >= n || sb.length() == 0) {
             throw error("Invalid capture group name", pos);
@@ -731,7 +739,7 @@ final class RegExpParser {
             return 'x';
         }
         case 'u':
-            return parseUnicodeEscape();
+            return parseUnicodeEscape(unicode);
         case '0':
             pos++;
             return 0;
@@ -785,12 +793,13 @@ final class RegExpParser {
      * <p>
      * 유니코드 escape 를 해석한다. 현재 문자는 글자 u 이다.
      *
+     * @param fullUnicode whether to use UnicodeMode for this escape / 이스케이프의 UnicodeMode 적용 여부
      * @return code point or code unit / 코드 포인트 또는 코드 단위
      * @throws RegExpSyntaxException on error / 오류 시
      */
-    private int parseUnicodeEscape() throws RegExpSyntaxException {
+    private int parseUnicodeEscape(boolean fullUnicode) throws RegExpSyntaxException {
         int at = pos;
-        if (unicode && pos + 1 < n && src.charAt(pos + 1) == '{') {
+        if (fullUnicode && pos + 1 < n && src.charAt(pos + 1) == '{') {
             int i = pos + 2;
             long v = 0;
             int count = 0;
@@ -815,15 +824,15 @@ final class RegExpParser {
         }
         int v = hex4(pos + 1);
         if (v < 0) {
-            if (unicode) {
+            if (fullUnicode) {
                 throw error("Invalid Unicode escape", at);
             }
             pos++;
             return 'u';
         }
         pos += 5;
-        // u 플래그에서 앞쪽 서로게이트 뒤에 뒤쪽 서로게이트 escape 가 오면 하나의 코드 포인트로 합친다.
-        if (unicode && v >= 0xD800 && v <= 0xDBFF && src.startsWith("\\u", pos)) {
+        // UnicodeMode에서는 이어지는 두 서로게이트 이스케이프를 코드 포인트 하나로 합친다.
+        if (fullUnicode && v >= 0xD800 && v <= 0xDBFF && src.startsWith("\\u", pos)) {
             int low = hex4(pos + 2);
             if (low >= 0xDC00 && low <= 0xDFFF) {
                 pos += 6;

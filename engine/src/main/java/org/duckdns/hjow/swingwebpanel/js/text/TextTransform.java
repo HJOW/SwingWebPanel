@@ -5,14 +5,11 @@ import java.util.Locale;
 
 /**
  * String transformations used by <code>String.prototype</code>: normalize, toUpperCase/toLowerCase (and the locale
- * variants), trim, repeat. Case conversion uses the full Unicode mappings with <code>Locale.ROOT</code>
- * (so "ß" becomes "SS", a final sigma is lower-cased to the final form, and U+0130 lower-cases to "i" plus a combining dot).
- * Unicode data comes from the running JRE: JRE 6 has Unicode 4.0 data for case mapping and normalization, so newer scripts
- * are not converted. All methods are static and thread-safe.
+ * variants), trim, repeat. Default case conversion uses the generated full Unicode mappings.
+ * Explicit Java locales and normalization use the running JRE. All methods are static and thread-safe.
  * <p>
  * <code>String.prototype</code> 이 쓰는 문자열 변환: normalize, toUpperCase/toLowerCase(와 로캘 변형), trim, repeat.
- * 대소문자 변환은 <code>Locale.ROOT</code> 와 전체 유니코드 매핑을 쓴다("ß" 는 "SS", 어말 시그마는 어말형 소문자, U+0130 은 "i" 와 결합 점).
- * 유니코드 정보는 실행 중인 JRE 에서 오며 JRE 6 의 대소문자/정규화 정보는 유니코드 4.0 이므로 더 새로운 문자는 변환되지 않는다.
+ * 기본 대소문자 변환은 생성한 전체 유니코드 매핑을 쓴다. 명시적 Java 로케일과 정규화는 실행 중인 JRE에 따른다.
  * 모든 메서드는 정적이며 스레드 안전하다.
  */
 public final class TextTransform {
@@ -67,7 +64,7 @@ public final class TextTransform {
      * @return upper case string / 대문자 문자열
      */
     public static String toUpperCase(String s) {
-        return s.toUpperCase(Locale.ROOT);
+        return UnicodeCase.convert(s, true);
     }
 
     /**
@@ -79,11 +76,7 @@ public final class TextTransform {
      * @return lower case string / 소문자 문자열
      */
     public static String toLowerCase(String s) {
-        // JRE 6 은 U+0130 을 "i" 로만 바꾸므로 규격(SpecialCasing 의 무조건 매핑)대로 "i" 와 결합 점(U+0307)으로 먼저 바꾼다.
-        if (s.indexOf((char) 0x130) >= 0) {
-            s = s.replace(String.valueOf((char) 0x130), "i" + (char) 0x307);
-        }
-        return s.toLowerCase(Locale.ROOT);
+        return UnicodeCase.convert(s, false);
     }
 
     /**

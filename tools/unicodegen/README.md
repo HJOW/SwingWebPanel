@@ -1,6 +1,6 @@
 # unicodegen
 
-ECMAScript 식별자와 정규식 `\p{...}`, `\P{...}`가 공유하는 Unicode 18.0.0 범위 표를 Java 소스로 생성합니다.
+ECMAScript 식별자, 문자열 대소문자 변환, 정규식이 공유하는 Unicode 18.0.0 범위와 매핑을 Java 소스로 생성합니다.
 
 ## 빌드
 

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-02-g2 Unicode 18.0.0 대소문자와 정규식 그룹 이름 (2026-11-26) ===
+현재 작업 번호: P29-02-g 완료.
+완료한 내용: 문자열의 기본 전체 대소문자 변환과 정규식의 단순 접기·레거시 정규형을 Unicode 18.0.0으로 갱신했다. 어말 시그마와 다중 코드 포인트 매핑을 검증했다. 정규식 그룹 이름의 Unicode 이스케이프를 플래그와 관계없이 처리한다.
+변경 파일: UnicodeCase.java, UnicodeProperties.java, UnicodePropertyData.java, TextTransform.java, CaseFold.java, RegExpParser.java, Es2022RegExpTest.java, tools/unicodegen, AGENTS.md, docs/FEATURE_MATRIX.md, docs/ARCHITECTURE.md, docs/progress/es2026.md, 이 문서.
+검증 결과: mvn -B -o verify의 JDK 6u45 엔진 단계 715건 통과, 실패 0건, 건너뜀 0건. 재생성 SHA-256 일치. 독립 엔진 JAR 1,102,421바이트. sourcecheck 0 위반.
+미해결 사항: JRE에 위임한 String#normalize 판본 차이는 P29-10 대조에 남겼다. P29-02-h의 WindowProxy와 P29-03~10은 미완료이다.
+다음 작업 번호: P29-02-h1.
+-----------------------------------------------------------------------------------------------
 === P29-02-g1 Unicode 18.0.0 공통 분류와 정규식 속성 (2026-11-26) ===
 현재 작업 번호: P29-02-g1 완료.
 완료한 내용: UCD 18.0.0에서 생성한 표를 렉서와 정규식에 연결했다. 정확한 이름과 별칭, Unassigned/Unknown, Script_Extensions 기본값과 대체 범위, 이모지 속성 거부를 검증했다. 동일한 속성의 별칭에 범위 데이터를 공유하도록 생성했다.
@@ -490,6 +498,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-02-g2 대소문자 매핑과 그룹 이름
+
+유니코드 단순 접기·레거시 대문자 규칙과 문자열 전체 매핑을 생성 데이터에 연결했다. 새 코드 포인트를 사용한 정규식 그룹 이름의 이스케이프도 검증했다.
 
 ### 2026-11-26 · P29-02-g1 Unicode 18.0.0
 

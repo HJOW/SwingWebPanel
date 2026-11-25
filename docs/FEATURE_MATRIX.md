@@ -359,8 +359,8 @@
 | ES-B-NUM | 20.1 / 21.1 | `Number`(`EPSILON isInteger isSafeInteger parseFloat toFixed toPrecision toExponential`) | `js.builtins.corelib.NumberGlobalTest` | 검증 완료 |
 | ES-B-MATH | 20.2 / 21.3 | `Math`(`trunc sign cbrt log1p expm1 hypot clz32 imul fround sinh/cosh/tanh asinh/acosh/atanh log2 log10`) | `js.builtins.corelib.MathLibTest` | 검증 완료 |
 | ES-B-DATE | 20.3 / 21.4 | `Date`(파싱/UTC/로컬/`toISOString/toJSON`, 시간값 범위) | `js.builtins.datajson.DateTest`, `js.date.DateTest` | 검증 완료 |
-| ES-B-STR | 21.1 / 22.1 | `String`(`codePointAt fromCodePoint normalize repeat startsWith endsWith includes raw`, 이터레이터) | `js.builtins.stringarray.StringBuiltinsTest` | 검증 완료 |
-| ES-B-RE | 21.2 / 22.2 | `RegExp`(`y u` 플래그, `lastIndex`, `@@match @@replace @@search @@split`, 자체 엔진) | `js.regexp.RegExpTest`, `js.builtins.datajson.RegExpTest` | 검증 완료 |
+| ES-B-STR | 21.1 / 22.1 | `String`(`codePointAt fromCodePoint normalize repeat startsWith endsWith includes raw`, 이터레이터) | `StringBuiltinsTest`, `Es2022RegExpTest.testUnicode18StringCasing` | 부분 구현: 기본 대소문자는 Unicode 18.0.0으로 검증했다. normalize의 JRE 판본 차이는 P29-10 대조 대상 |
+| ES-B-RE | 21.2 / 22.2 | `RegExp`(`y u` 플래그, `lastIndex`, `@@match @@replace @@search @@split`, 자체 엔진) | `js.regexp.RegExpTest`, `js.builtins.datajson.RegExpTest`, `Es2022RegExpTest.testUnicode18RegExpCaseFolding` | 검증 완료(Unicode 18.0.0 접기 및 레거시 정규형) |
 | ES-B-ARR | 22.1 / 23.1 | `Array`(`from of copyWithin fill find findIndex keys values entries`, 이터레이터, Species) | `js.builtins.stringarray.ArrayBuiltinsTest`, `js.builtins.stringarray.ArrayMethodsTest` | 검증 완료 |
 | ES-B-TYPED | 22.2 / 23.2 | `%TypedArray%`와 `Int8Array … Float64Array` | `js.builtins.typed.TypedArrayMethodsTest` | 검증 완료 |
 | ES-B-MAP | 23 / 24 | `Map Set WeakMap WeakSet` | `js.builtins.datajson.CollectionTest` | 검증 완료 |

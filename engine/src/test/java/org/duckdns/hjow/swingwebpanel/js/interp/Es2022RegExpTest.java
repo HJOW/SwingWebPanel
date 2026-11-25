@@ -106,6 +106,40 @@ public final class Es2022RegExpTest {
     }
 
     /**
+     * Checks simple Unicode folding, legacy canonicalization and Unicode group names.
+     * <p>
+     * 유니코드 단순 접기, 레거시 정규형, 유니코드 그룹 이름을 확인한다.
+     */
+    public void testUnicode18RegExpCaseFolding() {
+        Check.equal("true,true,true,true,false,false", Scripts.eval("var low='\\u0277', adlam='\\u{1E922}';"
+                + " [/^\\uA7DD$/iu.test(low),/^[\\uA7DD]$/iu.test(low),/^\\uA7DD$/i.test(low),"
+                + " /^[\\u{1E900}]$/iu.test(adlam),/^\\u{1E900}$/iu.test('A'),/^\\u{1E900}$/i.test(adlam)].join()"),
+                "full scalar folding and the legacy code unit boundary");
+        Check.equal("true,false,true,false,false", Scripts.eval(
+                "[/^[a-z]+$/iu.test('\\u017F\\u212A'),/^[a-z]+$/i.test('\\u017F\\u212A'),"
+                + " /^\\u00DF$/iu.test('\\u1E9E'),/^\\u00DF$/iu.test('SS'),/^\\u0130$/iu.test('i')].join()"),
+                "simple folds exclude full and Turkic expansions and legacy non-ASCII to ASCII folds");
+        Check.equal("x:xx", Scripts.eval("var m=/(?<\\u{18E00}>x)\\k<\\u{18E00}>/u.exec('xx');"
+                + "m.groups['\\u{18E00}']+':'+m[0]"), "newly assigned supplementary group name and back reference");
+        Check.equal("true", Scripts.eval("/(?<\\uD823\\uDE00>x)\\k<\\u{18E00}>/.test('xx')"),
+                "group name escapes use UnicodeMode even without a pattern flag");
+    }
+
+    /**
+     * Checks full case mappings and contextual final sigma with updated Unicode properties.
+     * <p>
+     * 갱신한 유니코드 속성의 전체 대소문자 매핑과 문맥에 따른 어말 시그마를 확인한다.
+     */
+    public void testUnicode18StringCasing() {
+        Check.equal("true,true,true,true,true,true", Scripts.eval(
+                "['\\u0277\\u00DF'.toUpperCase()==='\\uA7DDSS','\\uA7DD\\u0130'.toLowerCase()==='\\u0277i\\u0307',"
+                + " '\\uA7DD\\u03A3'.toLowerCase()==='\\u0277\\u03C2',"
+                + " 'A\\u03A3\\u05C8\\uA7DD'.toLowerCase()==='a\\u03C3\\u05C8\\u0277',"
+                + " '\\u{1E900}'.toLocaleLowerCase()==='\\u{1E922}','\\uD800'.toUpperCase()==='\\uD800'].join()"),
+                "multi-code-point mapping, sigma context, supplementary casing, and unpaired surrogates");
+    }
+
+    /**
      * Checks String.matchAll and RegExp[Symbol.matchAll] iteration and empty matches.
      * <p>
      * String.matchAll 과 RegExp[Symbol.matchAll] 반복과 빈 일치를 검사한다.
