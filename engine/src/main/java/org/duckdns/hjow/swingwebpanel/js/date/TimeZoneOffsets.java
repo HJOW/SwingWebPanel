@@ -15,6 +15,9 @@ public final class TimeZoneOffsets {
     /** Sentinel outside the valid offset range. / 오프셋 범위 밖의 오류 표지. */
     private static final long INVALID = Long.MIN_VALUE;
 
+    /** Sentinel for an invalid Date Time String Format offset. / 잘못된 Date 시간 문자열 오프셋의 표지. */
+    static final int INVALID_DATE_MINUTES = Integer.MIN_VALUE;
+
     /** Static parsing operations. / 정적 파싱 연산. */
     private TimeZoneOffsets() {
     }
@@ -46,6 +49,23 @@ public final class TimeZoneOffsets {
             throw new IllegalArgumentException("Invalid UTC offset");
         }
         return result;
+    }
+
+    /**
+     * Reads the minute-precision numeric offset of a Date string, including the compact compatibility form.
+     * <p>
+     * Date 문자열의 분 단위 숫자 오프셋을 읽는다. 호환용 압축 형식도 허용한다.
+     *
+     * @param text complete signed offset / 부호를 포함한 전체 오프셋
+     * @return minutes east of UTC or the invalid sentinel / UTC 동쪽 오프셋 분 또는 오류 표지
+     */
+    static int dateMinutes(String text) {
+        int length = text.length();
+        if (length != 5 && (length != 6 || text.charAt(3) != ':')) {
+            return INVALID_DATE_MINUTES;
+        }
+        long offset = read(text);
+        return offset == INVALID ? INVALID_DATE_MINUTES : (int) (offset / (60L * NANOS_PER_SECOND));
     }
 
     /**

@@ -203,6 +203,7 @@ public final class DateParser {
         int min = 0;
         int sec = 0;
         int ms = 0;
+        boolean nonzeroFraction = false;
         boolean hasOffset = false;
         int offsetMinutes = 0;
         if (i < n && (s.charAt(i) == 'T' || s.charAt(i) == 't')) {
@@ -227,7 +228,9 @@ public final class DateParser {
                     int scale = 100;
                     // 소수 초는 처음 세 자리까지만 밀리초로 쓴다.
                     while (j < n && s.charAt(j) >= '0' && s.charAt(j) <= '9') {
-                        ms += scale * (s.charAt(j) - '0');
+                        int digit = s.charAt(j) - '0';
+                        ms += scale * digit;
+                        nonzeroFraction |= digit != 0;
                         scale /= 10;
                         j++;
                     }
@@ -241,17 +244,13 @@ public final class DateParser {
                 hasOffset = true;
                 i++;
             } else if (i < n && (s.charAt(i) == '+' || s.charAt(i) == '-')) {
-                int hh = digits(s, i + 1, 2);
-                int mm = digits(s, i + 4, 2);
-                if (hh < 0 || mm < 0 || i + 3 >= n || s.charAt(i + 3) != ':') {
-                    return 0;
-                }
-                hasOffset = true;
-                if (hh > 23 || mm > 59) {
+                // Date 시간 문자열은 분 단위 숫자 오프셋만 허용한다.
+                offsetMinutes = TimeZoneOffsets.dateMinutes(s.substring(i));
+                if (offsetMinutes == TimeZoneOffsets.INVALID_DATE_MINUTES) {
                     return 2;
                 }
-                offsetMinutes = (hh * 60 + mm) * (s.charAt(i) == '-' ? -1 : 1);
-                i += 6;
+                hasOffset = true;
+                i = n;
             }
         }
         if (i != n) {
@@ -259,7 +258,7 @@ public final class DateParser {
         }
         boolean legal = month >= 1 && month <= 12 && day >= 1 && day <= daysInMonth(year, Math.max(1, Math.min(12, month)))
                 && hour <= 24 && min <= 59 && sec <= 59;
-        if (legal && hour == 24 && (min != 0 || sec != 0 || ms != 0)) {
+        if (legal && hour == 24 && (min != 0 || sec != 0 || nonzeroFraction)) {
             legal = false;
         }
         if (!legal) {

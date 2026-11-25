@@ -267,7 +267,6 @@ public final class DateBuiltins {
      * @return the time value / 시간값
      */
     private static double constructValue(JsRealm r, JsValue[] args) {
-        TimeZone tz = getTimeZone(r);
         if (args.length == 0) {
             return now();
         }
@@ -278,13 +277,13 @@ public final class DateBuiltins {
             }
             JsValue prim = Ops.toPrimitive(v, Ops.HINT_DEFAULT);
             if (prim instanceof JsString) {
-                return DateMath.timeClip(DateParser.parse(((JsString) prim).getValue(), tz));
+                return DateMath.timeClip(DateParser.parse(((JsString) prim).getValue(), getTimeZone(r)));
             }
             return DateMath.timeClip(Ops.toNumber(prim));
         }
         double[] f = components(args);
         double finalDate = DateMath.makeDate(DateMath.makeDay(f[0], f[1], f[2]), DateMath.makeTime(f[3], f[4], f[5], f[6]));
-        return DateMath.timeClip(DateMath.utc(finalDate, tz));
+        return DateMath.timeClip(DateMath.utc(finalDate, getTimeZone(r)));
     }
 
     /**

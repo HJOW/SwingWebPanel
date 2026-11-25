@@ -1,5 +1,13 @@
 package org.duckdns.hjow.swingwebpanel.js.date;
 
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
+import org.duckdns.hjow.swingwebpanel.js.Js;
+import org.duckdns.hjow.swingwebpanel.js.JsRealm;
+import org.duckdns.hjow.swingwebpanel.js.JsValue;
+import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
+import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.builtins.datajson.DateBuiltins;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
@@ -48,6 +56,69 @@ public class Es2026DateOffsetTest {
                 Check.equal("Invalid UTC offset", expected.getMessage(), "parse failure for " + text);
             }
         }
+    }
+
+    /**
+     * Checks Date-only UTC defaults, local date and time, and minute-precision explicit offsets.
+     * <p>
+     * 날짜 전용 UTC 기본값, 지역 날짜·시간과 분 단위 명시 오프셋을 확인한다.
+     */
+    public void testDateTimeStringOffsets() {
+        JsRealm realm = JsRealm.create();
+        DateBuiltins.setTimeZone(realm, new SimpleTimeZone(345 * 60000, "UTC+05:45"));
+        String script = "const parse=Date.parse,utc=Date.UTC,base=utc(2024,1,29,1,15);"
+                + "[parse('2024')===utc(2024,0),parse('2024-02')===utc(2024,1),parse('2024-02-29')===utc(2024,1,29),"
+                + "parse('2024T05:45')===utc(2024,0),parse('2024-02T05:45')===utc(2024,1),"
+                + "parse('2024-02-29T07:00')===base,parse('2024-02-29T07:00+05:45')===base,"
+                + "parse('2024-02-29T07:00+0545')===base,parse('2024-02-29T07:00-00:00')===utc(2024,1,29,7),"
+                + "parse('Thu, 29 Feb 2024 07:00:00 +0545')===base,"
+                + "new Date('2024-02-29T07:00+0545').getTime()===base,"
+                + "['+05','+05:45:30','+05:45:30.1','+054530','+24:00','-00:60'].every(s=>Number.isNaN(parse('2024-02-29T07:00'+s)))].join()";
+        Check.equal("true,true,true,true,true,true,true,true,true,true,true,true",
+                Ops.toString(realm.evaluateScript(script, "date-time-offsets.js")), "Date strings and compatibility offsets");
+    }
+
+    /**
+     * Checks extended years and the last millisecond at each TimeClip boundary.
+     * <p>
+     * 확장 연도와 양쪽 TimeClip 경계의 밀리초를 검증한다.
+     */
+    public void testDateTimeStringBoundaries() {
+        JsRealm realm = JsRealm.create();
+        DateBuiltins.setTimeZone(realm, TimeZone.getTimeZone("UTC"));
+        String script = "const p=Date.parse;"
+                + "[p('+275760-09-13T00:01:00+00:01')===8640000000000000,"
+                + "p('-271821-04-19T23:59:00-00:01')===-8640000000000000,"
+                + "p('2024-02-29T24:00:00.0000Z')===p('2024-03-01T00:00:00Z'),"
+                + "p('2024-02-29T00:00:00.1239Z')===p('2024-02-29T00:00:00.123Z'),"
+                + "['-000000-01-01','+275760-09-13T00:00:00.001Z','-271821-04-19T23:59:59.999Z',"
+                + "'2024-02-29T24:00:00.0001Z','2024-02-29T24:01Z','2024-02-30'].every(s=>Number.isNaN(p(s)))].join()";
+        Check.equal("true,true,true,true,true", Ops.toString(realm.evaluateScript(script, "date-time-boundaries.js")),
+                "numeric offsets apply before TimeClip and midnight rejects nonzero fractions");
+    }
+
+    /**
+     * Confirms that Date samples the realm's current zone after coercing script arguments.
+     * <p>
+     * 스크립트 인수를 강제 변환한 후 Date가 realm의 현재 시간대를 사용하는지 확인한다.
+     */
+    public void testHostZoneAfterCoercion() {
+        JsRealm realm = JsRealm.create();
+        realm.method(realm.getGlobalObject(), "setTestZone", 1, new NativeFunction.Call() {
+            /** Changes only this test realm's fixed offset. / 시험 realm의 고정 오프셋만 바꾼다. */
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                int minutes = (int) Ops.toNumber(Js.arg(args, 0));
+                DateBuiltins.setTimeZone(r, new SimpleTimeZone(minutes * 60000, "test"));
+                return Js.UNDEFINED;
+            }
+        });
+        String script = "const time='1970-01-01T00:00';setTestZone(0);"
+                + "const fromText=new Date({[Symbol.toPrimitive](){setTestZone(60);return time;}}).getTime();"
+                + "const fromParts=new Date({valueOf(){setTestZone(120);return 1970;}},0).getTime();"
+                + "const fromParse=Date.parse({toString(){setTestZone(-30);return time;}});"
+                + "[fromText,fromParts,fromParse,new Date(time).getTimezoneOffset()].join()";
+        Check.equal("-3600000,-7200000,1800000,30", Ops.toString(realm.evaluateScript(script, "date-realm-zone.js")),
+                "Date uses the time zone in effect after each conversion");
     }
 
     /**

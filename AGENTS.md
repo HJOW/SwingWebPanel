@@ -857,7 +857,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - [x] P29-07-c. 서로 배타적인 대안의 중복 캡처 이름을 허용한다. 동일 분기 조기 오류, 이름 역참조와 치환, 결과의 groups와 indices를 검증한다.
   - [x] P29-07-d. i·m·s 인라인 패턴 수정자를 구현한다. 플래그 조기 오류, 중첩 변경·복원, 범위와 백트래킹을 검증한다.
   - [x] P29-07-e. RegExp.escape를 구현한다. 타입, 첫 문자, 구문 및 예약 구두점, 제어·공백·서로게이트와 리터럴 왕복을 검증한다.
-- [ ] P29-08. ES2024~ES2026 Promise·Error·Math·JSON·Date 확장을 구현한다.
+- [x] P29-08. ES2024~ES2026 Promise·Error·Math·JSON·Date 확장을 구현한다.
   - Promise 확장: `Promise.withResolvers()`(ES2024, 서브클래스 `NewPromiseCapability(this)` 지원), `Promise.try(callback, ...args)`(ES2025, 동기 반환·동기 throw·thenable 반환 모두 Promise로 귀결, 서브클래스 지원).
   - Error 확장(ES2026, `20.5.2.1`): `Error.isError(arg)` — 프로토타입 체인이 아닌 내부 오류 브랜드(`[[ErrorData]]`) 존재 여부를 판정하여 교차 realm `Error`는 `true`, `Object.create(Error.prototype)` 및 일반 객체·원시값·Proxy는 `false`를 반환한다(브라우저 `DOMException`에 대한 명세 요구도 함께 검증).
   - Math 확장(ES2026, `21.3.2.34`): `Math.sumPrecise(items)` — 이터러블에서 숫자를 읽어(비숫자는 즉시 `TypeError` + 이터레이터 닫기) 중간 반올림 손실 없이 무한 정밀도 합을 구한 뒤 IEEE 754 배정밀도로 한 번만 반올림한다(빈 입력 `-0`, 모두 `-0`이면 `-0`, `+Infinity`와 `-Infinity` 공존 시 `NaN`, `NaN` 포함 시 `NaN`, 실행 제한 단계 수 반영).
@@ -870,9 +870,9 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - [x] P29-08-d. `JsonBuiltins`와 JSON 텍스트 파서에서 원문 JSON 및 reviver 문맥을 구현한다.
     - [x] P29-08-d1. rawJSON, isRawJSON, stringify에 내부 브랜드와 토큰 원문 출력을 연결한다. 단일 원시 토큰과 구문 오류, 프로토타입·동결 상태, replacer·toJSON 호출 순서를 검증한다.
     - [x] P29-08-d2. JSON.parse에서 원문 위치가 있는 reviver context를 전달한다. 복합 값, 중복 키, 정밀 수치, 형제 속성의 교체·삭제, 빈 context와 기술자를 검증한다.
-  - [ ] P29-08-e. `js.date`에서 제17판의 시간대 오프셋과 Date 파싱을 대조한다.
+  - [x] P29-08-e. `js.date`에서 제17판의 시간대 오프셋과 Date 파싱을 대조한다.
     - [x] P29-08-e1. `TimeZoneOffsets`에서 A.7 문자열 판정과 나노초 오프셋을 구현한다. 콜론, 초·소수, 부호 및 초과 범위를 검증한다.
-    - [ ] P29-08-e2. `DateParser`와 `DateBuiltins`에 Date Time String Format과 호스트 시간대 적용을 연결한다. 날짜 전용, 현지 시간, 명시 오프셋, 경계와 기존 표준·비표준 형식을 검증한다.
+    - [x] P29-08-e2. `DateParser`와 `DateBuiltins`에 Date Time String Format과 호스트 시간대 적용을 연결한다. 날짜 전용, 현지 시간, 명시 오프셋, 경계와 기존 표준·비표준 형식을 검증한다.
 - [ ] P29-09. 이전 버전 ECMAScript(ES1~ES5.1, ES2015~ES2025) 하위 호환성 및 웹 호환(Annex B)을 전수 검증한다.
   - 상단 요구사항 `이전 버전의 ES 호환 필요`를 충족하기 위해 ES3/ES5 비엄격(sloppy) 코드(`var`/함수 선언 호이스팅, 매핑된 `arguments`와 `arguments.callee`, `with` 문과 `@@unscopables`, 생성자 프로토타입 체인, `eval`의 호출 환경 바인딩, ES3/ES5 표준 내장 메서드 전체)와 ES2015~ES2025 기능들이 ES2026 엔진 위에서 회귀 없이 함께 동작하는지 검증한다.
   - ECMA-262 제17판 2.2절 `Legacy` 조항 및 웹 브라우저 호환 부속서 B(`B.1` HTML 주석·느슨한 정규식 패턴, `B.2` `escape`/`unescape`·`String#substr`/HTML 메서드·`Date#getYear/setYear/toGMTString`·`RegExp#compile`·`__proto__`·`__defineGetter__` 계열, `B.3.1`~`B.3.5` 라벨/블록/if 함수 선언·catch `var`·`for-in` 초기화식, `B.3.6` `[[IsHTMLDDA]]` 정책, `B.3.7`~`B.3.9` 호스트 콜백·함수 호출 좌변 런타임 `ReferenceError`)를 본문과 대조하고 미비점을 보완한다.
