@@ -309,7 +309,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 
 ### 5.22 확장 메서드: Java 호스트와 페이지 스크립트 간 메시지 (P27, **초안·미구현**, 확장이며 AGENTS.md 의 공개 메서드 목록에는 없다)
 
-2026-11-22 사용자 요청으로 추가한 목표다(우선순위는 P23 Maven 전환보다 높다). 아래는 `AGENTS.md` P27 의 **기본안**을 요약한 초안이며 P27-01 에서 이 절을 확정한다. 확정 전까지 이 절의 메서드와 타입은 존재하지 않는다.
+2026-11-22 사용자 요청으로 추가한 목표이며, 2026-11-25 진행 순서 재조정에 따라 ES2026 값 모델과 구조화 복제 규칙이 완성되는 P29 및 P28 잔여 작업 다음에 수행한다. 아래는 `AGENTS.md` P27 의 **기본안**을 요약한 초안이며 P27-01 에서 이 절을 확정한다. 확정 전까지 이 절의 메서드와 타입은 존재하지 않는다.
 참고: MDN `Window.postMessage()` 한국어 문서(https://developer.mozilla.org/ko/docs/Web/API/Window/postMessage, 2026-04-15 수정본, 2026-11-22 조회), HTML Standard "Web messaging" 절(판본은 P27-01 에서 `tools/webfetch` 로 고정).
 
 **모델**: Java 호스트를 페이지를 연 다른 창처럼 다룬다. 페이지 안에서는 "호스트 창" 객체 하나가 Java 를 나타내며, 최상위 문서의 `window.opener` 와 호스트가 보낸 `message` 이벤트의 `event.source` 가 그 객체다. 그래서 팝업 통신 관용구를 그대로 쓴다.
@@ -346,7 +346,7 @@ panel.postMessage("hello", "https://app.example");             // 대상 오리�
 
 - 페이지에서 받는 이벤트: `MessageEvent`, `data` = 변환한 값, `origin` = `HOST_ORIGIN`, `source` = 호스트 창, `ports` = `[]`, `lastEventId` = `""`, `isTrusted` = true. 보내는 중에 동기 실행하지 않고 그 문서의 작업 큐로 전달한다. 묶인 문서가 교체되면 버린다.
 - 호스트 창: `postMessage`(위치 인수와 옵션 객체 형식), `closed`, 아무 일도 하지 않는 `close()/focus()/blur()` 만 있고 나머지는 `SecurityError`(다른 오리진 창과 같은 면). 대상 오리진이 `"*"`/`HOST_ORIGIN` 이면 전달, `"/"` 와 다른 URL 은 버림, URL 이 아니면 `SyntaxError`. 하위 프레임은 `top.opener` 로 보낸다. Worker 에는 없다.
-- 값 변환(P27-02): Java→페이지는 호출 스레드에서 깊은 복사(null, Boolean, Number, 문자열, 문자열 키 `Map`, `List`/`Collection`/배열, `byte[]`→`ArrayBuffer`, `Date`), 페이지→Java 는 구조화 복제 뒤 수정할 수 없는 복사본(number 는 항상 `Double`, 배열은 `List`, 객체는 `Map`, `ArrayBuffer` 류는 `byte[]`). 그 밖의 Java 객체·함수·순환·크기 초과는 거부(Java 는 IAE, 페이지는 `DataCloneError`). Java 객체는 스크립트에 노출하지 않는다(P15-02).
+- 값 변환(P27-02): Java→페이지는 호출 스레드에서 깊은 복사(null, Boolean, `BigInteger`→BigInt, 그 밖의 Number→double, 문자열, 문자열 키 `Map`, `List`/`Collection`/배열, `byte[]`→`ArrayBuffer`, `Date`), 페이지→Java 는 구조화 복제 뒤 수정할 수 없는 복사본(number 는 항상 `Double`, bigint 는 `BigInteger`, 배열은 `List`, 객체는 `Map`, `ArrayBuffer` 및 `BigInt64Array`/`Float16Array` 등 모든 `TypedArray`/`DataView` 는 현재 유효 바이트의 `byte[]`). 그 밖의 Java 객체·함수·순환·크기 초과는 거부(Java 는 IAE, 페이지는 `DataCloneError`). Java 객체는 스크립트에 노출하지 않는다(P15-02).
 - 수명(P27-05): 대기 상한(기본안 1000), 리스너가 없으면 버림, 이동/`clean()` 은 대기 메시지를 버리고 리스너는 유지, `dispose()` 는 리스너와 대기 메시지 제거, `removeHyperlinkEvents()` 와 무관, JavaScript 비활성이면 메시지 없음.
 - 보안: 어떤 페이지와 그 안의 다른 오리진 프레임도 호스트에 보낼 수 있으므로 Java 쪽은 `getOrigin()` 과 데이터 형식을 먼저 검사한다. Java 가 보낼 때는 `"*"` 대신 정확한 대상 오리진을 쓴다.
 - 기본안에서 제외한 방식: 자기 `window` 로 보낸 메시지를 Java 가 엿듣기(페이지 자신의 리스너와 라이브러리의 자기 메시지가 섞임), `window.swingwebpanel` 같은 비표준 전역 객체(표준 관용구를 쓸 수 없음).

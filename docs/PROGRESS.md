@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== JavaScript 규격 목표 ES2026 상향과 작업 계획·순서 개편 (2026-11-25) ===
+현재 작업 번호: ES2026 목표 상향에 따른 계획·순서 및 문서 개편 완료.
+완료한 내용: 상단 "목표 - 지원 기능"이 ES2026 및 이전 버전 ES 호환으로 변경됨에 따라 AGENTS.md 개발 계획 전반과 진행 순서를 개편하고 P29(P29-01~10: ES2016~ES2022 잔여 항목, ES2023~ES2026 문법·내장 객체·이진 데이터·컬렉션·정규식·JSON 모듈, ES1~ES5.1 및 제17판 Annex B 하위 호환, 호스트·독립 엔진 경계와 적합성 표 확장)를 신설했다. 진행 순서는 P29(ES2026 완성) → P28-06~09(웹 API·완성된 실행기 기준 성능 최적화·NetstormJava 구동) → P27(postMessage) → P22 마무리로 재조정했다. docs/es2026(ECMA-262 제17판)과 docs/es2022를 전수 비교하여 docs/FEATURE_MATRIX.md(0절 판본, 7.5절 필수 승격, 7.6절 ES26-* 23행, 7.7절 ES-COMPAT-* 3행, 10·11·13절)와 ARCHITECTURE/API_CONTRACT/progress 문서를 갱신했다.
+변경 파일: AGENTS.md, docs/PROGRESS.md, docs/FEATURE_MATRIX.md, docs/ARCHITECTURE.md, docs/API_CONTRACT.md, docs/progress/netstorm.md, docs/progress/es2015-conformance.md, docs/progress/README.md.
+검증 결과: 문서만 변경했다. 상단 보호 단락("프로젝트 목표", "목표 - 지원 기능", "주의사항") 무변경 git diff 확인 및 tools/sourcecheck UTF-8·규칙 검사 통과.
+미해결 사항: 상단 "목표 - 지원 기능" 안내 줄에 적힌 docs/es2022 표기는 보호 단락 규칙에 따라 수정하지 않고, 실제 제17판 오프라인 사본 경로인 docs/es2026/과 함께 개발 계획·기능 표에 안내했다. P29 구현 전이므로 ES26-* 행과 일부 ESX-* 잔여 행은 미구현/부분 구현 상태이다.
+다음 작업 번호: P29-01.
+-----------------------------------------------------------------------------------------------
 === P28-05 ES2022 현대 내장 객체 완료 (2026-11-25) ===
 현재 작업 번호: P28-05 완료(P28-05-a~c).
 완료한 내용: Object/Array/String/TypedArray/Symbol/Promise/Error 확장, Error cause/AggregateError, named group·lookbehind·/d·matchAll, Unicode 13 일반 범주·Script/Script_Extensions·이진 속성, WeakRef/FinalizationRegistry와 ES2019 안정 sort를 구현했다. Unicode 표는 tools/unicodegen(Java 6)이 생성하며 사용자 지시로 Emoji 13 속성은 EXC-15로 제외했다. Netstorm 원본 경로는 H:\Workspace\git\NetstormReborn\webpj\www로 정정했다.

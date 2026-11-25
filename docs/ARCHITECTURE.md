@@ -7,7 +7,7 @@
 
 Java Swing 에서 쓰는 웹 브라우저 컴포넌트 `org.duckdns.hjow.swingwebpanel.SwingWebPanel` (`JPanel` 상속, `Scrollable` 구현)을
 외부 라이브러리 없이 순수 Java 로 구현한다. HTML 파서, DOM, CSS 처리기, 레이아웃/렌더링 엔진,
-JavaScript(ES6) 엔진을 모두 자체 개발한다. Java 6 이상, JRE 6 에서 동작해야 한다.
+JavaScript(ES2026 및 이전 버전 ES 호환; 2026-11-25 ES6에서 목표 상향) 엔진을 모두 자체 개발한다. Java 6 이상, JRE 6 에서 동작해야 한다.
 
 ### 1.1 사용하지 않는 것 (P00-09)
 
@@ -34,14 +34,14 @@ Java Sound(`javax.sound.sampled`), JSSE(`HttpsURLConnection`, `SSLContext`), `ja
 
 람다, 다이아몬드(`<>`), try-with-resources, `switch` 문자열, 멀티 catch, NIO.2(`java.nio.file`),
 `java.nio.charset.StandardCharsets`, `java.util.Objects`, Java 7+ API 를 쓰지 않는다. 컴파일은
-`javac -encoding UTF-8 -source 1.6 -target 1.6` (JDK 6). JavaScript 엔진의 ES6 처리를 Java 8 문법으로 대신 구현하지 않는다.
+`javac -encoding UTF-8 -source 1.6 -target 1.6` (JDK 6). JavaScript 엔진의 ES6~ES2026 처리를 Java 8 이후 문법으로 대신 구현하지 않는다.
 
 ## 2. 디렉터리와 패키지 (P02-01)
 
 ```
 AGENTS.md                    프로젝트 지침과 개발 계획
 pom.xml                      부모 POM과 Maven 모듈 목록
-docs/                        진행 기록, 기능 표, 구조, API 계약
+docs/                        진행 기록, 기능 표, 구조, API 계약, 오프라인 규격서(es2026/, es2022/, ES2025 PDF)
 engine/src/main/java/         JavaScript 엔진 소스
 engine/src/main/resources/    javax.script 제공자 등록 파일
 engine/src/test/              엔진 시험 java/와 resources/. 공용 시험 실행기는 java/ 아래 testing.* 패키지
