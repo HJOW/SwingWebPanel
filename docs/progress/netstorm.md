@@ -54,7 +54,7 @@ WebAssembly, Worker, WebSocket, IndexedDB 는 원본 소스에서 찾지 못했�
 | 결과 | 기능 |
 | --- | --- |
 | 구문 오류 | `**`/`**=`(ES2016), async 함수·화살표·메서드(ES2017), 객체 spread/rest, async 제너레이터/`for await`(ES2018), optional catch binding(ES2019), BigInt 리터럴, `?.`, `??`, 동적 `import()`, `import.meta`(ES2020), 논리 대입, 숫자 구분자(ES2021), 클래스 public/static 필드, private 필드·메서드·접근자, `#x in obj`, static 블록(ES2022), 정규식 후방 탐색 `(?<=`, `\p{L}`, `d` 플래그 |
-| 없음(TypeError/ReferenceError 또는 `typeof` 가 `"undefined"`) | `Object.entries/values/fromEntries/hasOwn`, `Array.prototype.flat/flatMap/at/findLast/toSorted`, `String.prototype.replaceAll/matchAll`, `Promise.prototype.finally`, `Promise.allSettled/any`, `BigInt`, `BigInt64Array`, `WeakRef`, `FinalizationRegistry`, Error `cause`, `Symbol.prototype.description` |
+| 없음(TypeError/ReferenceError 또는 `typeof` 가 `"undefined"`) | `Object.entries/values/fromEntries/hasOwn`, `Array.prototype.flat/flatMap/at/findLast/toSorted`, `String.prototype.replaceAll/matchAll`, `Promise.prototype.finally`, `Promise.allSettled/any`, `WeakRef`, `FinalizationRegistry`, Error `cause`, `Symbol.prototype.description` |
 | 결과가 규격과 다름 | 정규식 이름 있는 그룹: `/(?<y>\d+)/` 는 받지만 `exec()` 결과에 `groups` 가 없다(`RegExpBuiltins` 의 주석대로 `$<name>` 치환도 펼치지 않는다) |
 | 통과 | `Array.prototype.includes`, `padStart/padEnd`, `trimStart/trimEnd`, 정규식 `s` 플래그, `globalThis` |
 
@@ -72,7 +72,7 @@ ES5 문법만 쓴 판정 페이지를 클래스패스에 두고 열어 콘솔 �
 ## 5. 판단: 구현해야 할 사항 (계획 P28)
 
 1. **언어 문법과 실행 의미(필수)**: 2.의 ES2016~ES2022 문법이 없으면 번들이 파싱되지 않으므로 게임은 시작조차 못 한다. 빠진 문법 중 하나라도 남으면 같은 증상이 반복된다(P28-02, P28-03).
-2. **BigInt(필수)**: 리터럴·`BigInt()`·`asIntN/asUintN`·`DataView` 의 BigInt 접근이 게임 코드 곳곳에 있다(P28-04). 아래 7.처럼 게임 쪽에서 트랜스파일해도 BigInt 는 없앨 수 없다.
+2. **BigInt(필수, P28-04 완료)**: 리터럴·`BigInt()`·`asIntN/asUintN`, BigInt64/BigUint64 형식화 배열과 DataView 접근, JSON 오류, 구조화 복제, Java `BigInteger` 변환을 구현했다. 원래 판정은 이 기능들이 없었지만 현재 기능 표 `ESX-BIGINT`는 검증 완료이다. 게임 쪽에서 하위 판본으로 트랜스파일해도 BigInt 는 없앨 수 없다.
 3. **내장 객체(필수)**: `at`, `hasOwn`, `fromEntries`, `replaceAll`, `flatMap`, `WeakRef`, Symbol `description`, 정규식 `groups` 등(P28-05).
 4. **웹 API(일부 필수)**: `addEventListener` 의 `signal` 은 정리 동작에 필요하다. `ReadableStream`, `navigator.clipboard`, `URL.createObjectURL` 은 게임에 대체 경로가 있어 구동을 막지는 않는다. `blob:` 주소는 상단 요구사항의 허용 스키마와 충돌하므로 사용자 결정이 필요하다(P28-06).
 5. **성능과 실행 제한(위험)**: 327만 자 번들을 AST 인터프리터로 파싱·실행하고 `requestAnimationFrame` 으로 매 프레임 그리므로, 문법을 지원한 뒤 파싱 시간·메모리·프레임 시간과 `ExecutionLimits` 의 한도를 측정해야 한다(P28-07).
@@ -153,4 +153,12 @@ P28-01에서 확인해 정정한 사실은 다음과 같다.
   P28-02에서는 플래그 문법만 받아들이고 `hasIndices`/`indices` 결과는 P28-05에서 구현한다고 구분했다.
 
 파서 회귀는 `engine\test.bat --filter js.parser`로 JDK 6u45에서 40 passed, 0 failed, 0 skipped이다.
+
+## 10. P28-04 BigInt 실행 검증 (2026-11-25)
+
+P28-04는 BigInt 원시값과 `BigInt` 내장 객체, 정밀한 산술·비트·시프트·비교, 래퍼와
+`asIntN/asUintN`, BigInt64Array/BigUint64Array, DataView의 `get/setBigInt64`·`get/setBigUint64`,
+JSON의 TypeError/replacer, 구조화 복제, `java.math.BigInteger`/`javax.script` 왕복을 구현했다.
+게임 번들이 쓰는 BigInt 리터럴 수·`asIntN/asUintN`·`get/setBigUint64`의 사용수는 2절과 기능 표의
+`ESX-BIGINT` 행에 남겼다. 실제 게임 실행과 P28-08의 화면·입력·소리 검증은 아직 하지 않았다.
 이 결과는 구문 파싱만의 근거이며 실행 의미·DOM·렌더링·오디오 게임 구동이 완료됐다는 뜻은 아니다.

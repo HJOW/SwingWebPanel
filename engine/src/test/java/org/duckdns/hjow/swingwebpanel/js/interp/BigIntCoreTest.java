@@ -27,6 +27,7 @@ public class BigIntCoreTest {
                 + "t('function empty', BigInt(), 0n);"
                 + "t('decimal', BigInt('  -12  '), -12n);"
                 + "t('hex', BigInt('0xff'), 255n);"
+                + "t('unicode space', BigInt('\\uFEFF12\\u2028'), 12n);"
                 + "t('integer number', BigInt(5), 5n);"
                 + "t('wrapper', Object(7n).valueOf(), 7n);"
                 + "t('radix', (255n).toString(16), 'ff');"
@@ -34,8 +35,10 @@ public class BigIntCoreTest {
                 + "terr('new', function(){ new BigInt(1); }, 'TypeError');"
                 + "terr('fraction', function(){ BigInt(1.5); }, 'RangeError');"
                 + "terr('invalid', function(){ BigInt('1.0'); }, 'SyntaxError');"
+                + "terr('signed hex', function(){ BigInt('-0x1'); }, 'SyntaxError');"
+                + "terr('suffix text', function(){ BigInt('1n'); }, 'SyntaxError');"
                 + "terr('unary plus', function(){ return +1n; }, 'TypeError');",
-                13);
+                16);
     }
 
     /**

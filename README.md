@@ -211,7 +211,7 @@ panel.addConsoleListener(new ConsoleListener() {
 
 ### 독립 JavaScript 엔진과 `javax.script`
 
-브라우저 컴포넌트 없이 자체 ECMAScript 2015 엔진만 쓸 수 있습니다(`swingwebpanel-js.jar` 하나, Java 6 이상, 외부 라이브러리 없음).
+브라우저 컴포넌트 없이 자체 ECMAScript 2015 엔진과 기능 표에 검증 완료로 기록한 ES2016~2022 확장을 쓸 수 있습니다(`swingwebpanel-js.jar` 하나, Java 6 이상, 외부 라이브러리 없음). 현재 검증 완료 확장에는 BigInt 원시값·연산·형식화 배열이 포함됩니다.
 엔진은 **Rhino/Nashorn 등 다른 엔진에 위임하지 않습니다.**
 
 ```java
@@ -230,7 +230,7 @@ engine.putFunction("add", new JsHostFunction() {            // 스크립트가 J
 });
 ```
 
-- **값 변환**: Java→스크립트는 `null`, `JsEngine.UNDEFINED`, `Boolean`, 모든 `Number`, 문자열류/`Character`/`Enum`, `Map`(복사), `Collection`/배열(복사), `JsHostFunction`, 핸들만 받고 **그 밖의 Java 객체는 `IllegalArgumentException`** 으로 거부합니다(스크립트에 Java 객체, 클래스, 메서드가 노출되지 않습니다). 스크립트→Java 는 숫자가 **항상 `Double`**, undefined 는 `JsEngine.UNDEFINED`, 배열은 살아 있는 `List`, 객체는 살아 있는 `Map`, 함수는 `JsCallable` 입니다. 복사본은 `toPlain` 으로 얻습니다.
+- **값 변환**: Java→스크립트는 `null`, `JsEngine.UNDEFINED`, `Boolean`, 모든 `Number`(기본적으로 Number, `BigInteger`는 정밀도를 유지하는 BigInt), 문자열류/`Character`/`Enum`, `Map`(복사), `Collection`/배열(복사), `JsHostFunction`, 핸들만 받고 **그 밖의 Java 객체는 `IllegalArgumentException`** 으로 거부합니다(스크립트에 Java 객체, 클래스, 메서드가 노출되지 않습니다). 스크립트→Java 는 Number가 **항상 `Double`**, BigInt가 `java.math.BigInteger`, undefined 는 `JsEngine.UNDEFINED`, 배열은 살아 있는 `List`, 객체는 살아 있는 `Map`, 함수는 `JsCallable` 입니다. 복사본은 `toPlain` 으로 얻습니다.
 - **독립 모드 전역**: ES2015 표준 내장 객체, `console`, `print`. `window`/`document`/`fetch` 등 브라우저 객체와 **타이머(`setTimeout`)는 없습니다**(이벤트 루프가 없으므로. 필요하면 `putFunction` 으로 직접 만들고 자기 루프에서 호출). promise 작업은 최상위 호출이 끝날 때마다 실행됩니다.
 - **오류**: 구문/런타임 오류와 `throw` 는 이름, 메시지, 스크립트 이름, 줄, 열을 가진 `JsScriptError` 로 던져지고, 제한/취소로 멈춘 스크립트는 `ScriptAbortedException` 입니다.
 - **스레드**: 엔진과 핸들은 어느 스레드에서나 쓸 수 있고 연산은 한 번에 하나씩 실행되며, `cancel()` 만 잠금 없이 아무 스레드에서나 호출할 수 있습니다.

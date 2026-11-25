@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-04 BigInt 완료 (2026-11-25) ===
+현재 작업 번호: P28-04 완료(P28-04-a~d).
+완료한 내용: BigInt 원시값·연산·래퍼/BigInt 내장 객체, BigInt64Array/BigUint64Array/DataView BigInt 접근, JSON TypeError, 구조화 복제, java.math.BigInteger/JSR 223 왕복과 문서를 구현했다.
+변경 파일: engine js core/interp/typed/datajson/embed/script와 시험, browser StructuredClone와 시험, AGENTS.md, README.md, docs/FEATURE_MATRIX.md, docs/progress/netstorm.md, 이 문서.
+검증 결과: BigIntCore 5, BigIntTypedArray 4, JsEngineValues 11, JsScriptEngine 14, StructuredClone 16건 통과. 전체 엔진 684/0. 전체 브라우저 실행 3,687 passed/1 failed/12 skipped였고 실패는 실행마다 다른 기존 시간 의존 시험(MetaRefresh, Web Audio thread close) 한 건이었으며 둘 다 단독 재실행 통과. sourcecheck 0 violation/1,964 files. netstormparse 번들 3,283,377자·module 1,059·import 2,486·syntax/missing 0.
+미해결 사항: 실제 Netstorm 번들 실행은 P28-05~08에서 계속한다.
+다음 작업 번호: P28-05.
+-----------------------------------------------------------------------------------------------
 === P28-04-c BigInt JSON·구조화 복제·Java 변환 (2026-11-25) ===
 현재 작업 번호: P28-04-c 완료.
 완료한 내용: JSON BigInt TypeError와 replacer 변환, StructuredClone의 BigInt 원시/래퍼/BigInt 형식화 배열 복제, java.math.BigInteger ↔ script BigInt와 javax.script 경계 변환을 구현했다.

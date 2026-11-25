@@ -246,7 +246,17 @@ public final class Ops {
      * @return the integer / 정수
      */
     private static BigInteger parseBigInt(String text) {
-        String s = text.trim();
+        int from = 0;
+        int to = text.length();
+        // StringIntegerLiteral 의 앞뒤 StrWhiteSpace/줄 끝을 JRE 버전과 무관한 표로 제거한다.
+        while (from < to && JsChars.isSpace(text.charAt(from))) {
+            from++;
+        }
+        // 뒤쪽 경계도 같은 공백 표로 줄여 BigInt 문자열 본문만 남긴다.
+        while (to > from && JsChars.isSpace(text.charAt(to - 1))) {
+            to--;
+        }
+        String s = text.substring(from, to);
         if (s.length() == 0) {
             return BigInteger.ZERO;
         }
@@ -265,12 +275,21 @@ public final class Ops {
         if (s.length() - start >= 2 && s.charAt(start) == '0') {
             char p = s.charAt(start + 1);
             if (p == 'x' || p == 'X') {
+                if (start != 0) {
+                    throw JsException.syntaxError("Cannot convert " + text + " to a BigInt");
+                }
                 radix = 16;
                 digits += 2;
             } else if (p == 'o' || p == 'O') {
+                if (start != 0) {
+                    throw JsException.syntaxError("Cannot convert " + text + " to a BigInt");
+                }
                 radix = 8;
                 digits += 2;
             } else if (p == 'b' || p == 'B') {
+                if (start != 0) {
+                    throw JsException.syntaxError("Cannot convert " + text + " to a BigInt");
+                }
                 radix = 2;
                 digits += 2;
             }
