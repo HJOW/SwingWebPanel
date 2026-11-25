@@ -1,6 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.host;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -9,6 +10,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.Property;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
+import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
 
 /**
  * Script-visible identity of a browsing context. Each operation resolves the current document and its access policy.
@@ -69,6 +71,31 @@ final class WindowProxy extends JsObject {
     }
 
     /**
+     * Looks up the live window of an indexed child without inserting a property into the Window global.
+     * <p>
+     * Window 전역에 속성을 저장하지 않고 현재 인덱스의 하위 창을 찾는다.
+     *
+     * @param index the canonical property index / 표준 속성 인덱스
+     * @return the child window, or Java null if missing / 하위 창. 없으면 Java null
+     */
+    private WindowProxy childWindow(long index) {
+        List<BrowsingContext> children = context.getChildren();
+        return index < children.size() ? forContext(children.get((int) index)) : null;
+    }
+
+    /**
+     * Interprets a string property key as an array index for the WindowProxy exotic methods.
+     * <p>
+     * WindowProxy의 특수 연산에서 문자열 속성 키를 배열 인덱스로 해석한다.
+     *
+     * @param key the property key / 속성 키
+     * @return the canonical array index, or -1 / 표준 배열 인덱스 또는 -1
+     */
+    static long index(Object key) {
+        return key instanceof String ? PropertyKeys.arrayIndex((String) key) : -1L;
+    }
+
+    /**
      * Rejects a private element addition on the navigation-stable identity.
      * <p>
      * 이동 후에도 유지되는 창 객체에 private 요소 추가를 거부한다.
@@ -87,55 +114,91 @@ final class WindowProxy extends JsObject {
     /** Reads through the current target with the original receiver. / 원래의 수신자로 현재 대상의 속성을 읽는다. */
     @Override
     public JsValue get(Object key, JsValue receiver) {
-        return target().get(key, receiver);
+        JsObject visible = target();
+        long i = index(key);
+        if (i >= 0 && !(visible instanceof CrossOriginWindow)) {
+            WindowProxy child = childWindow(i);
+            if (child != null) {
+                return child;
+            }
+        }
+        return visible.get(key, receiver);
     }
 
     /** Writes through the current target with the original receiver. / 원래의 수신자로 현재 대상의 속성을 쓴다. */
     @Override
     public boolean set(Object key, JsValue value, JsValue receiver) {
-        return target().set(key, value, receiver);
+        JsObject visible = target();
+        return (index(key) < 0 || visible instanceof CrossOriginWindow) && visible.set(key, value, receiver);
     }
 
     /** Tests whether the current target exposes a property. / 현재 대상이 속성을 노출하는지 검사한다. */
     @Override
     public boolean hasProperty(Object key) {
-        return target().hasProperty(key);
+        JsObject visible = target();
+        long i = index(key);
+        return (i >= 0 && !(visible instanceof CrossOriginWindow) && childWindow(i) != null) || visible.hasProperty(key);
     }
 
     /** Tests whether the current target exposes an own property. / 현재 대상이 자체 속성을 노출하는지 검사한다. */
     @Override
     public boolean hasOwnProperty(Object key) {
-        return target().hasOwnProperty(key);
+        return getOwnPropertySlot(key) != null;
     }
 
     /** Reads an own property slot through the current access policy. / 현재 접근 정책을 거쳐 자체 속성 슬롯을 읽는다. */
     @Override
     public Property getOwnPropertySlot(Object key) {
-        return target().getOwnPropertySlot(key);
+        JsObject visible = target();
+        long i = index(key);
+        // 인덱스 속성의 기술자는 하위 창 목록에서 바로 만든다.
+        if (i >= 0 && !(visible instanceof CrossOriginWindow)) {
+            WindowProxy child = childWindow(i);
+            return child == null ? null : Property.data(child, false, true, true);
+        }
+        return visible.getOwnPropertySlot(key);
     }
 
     /** Reads a descriptor through the current access policy. / 현재 접근 정책을 거쳐 속성 기술자를 읽는다. */
     @Override
     public PropertyDescriptor getOwnProperty(Object key) {
-        return target().getOwnProperty(key);
+        Property slot = getOwnPropertySlot(key);
+        return slot == null ? null : slot.toDescriptor();
     }
 
     /** Defines a property through the current access policy. / 현재 접근 정책을 거쳐 속성을 정의한다. */
     @Override
     public boolean defineOwnProperty(Object key, PropertyDescriptor desc) {
-        return target().defineOwnProperty(key, desc);
+        JsObject visible = target();
+        return (index(key) < 0 || visible instanceof CrossOriginWindow) && visible.defineOwnProperty(key, desc);
     }
 
     /** Deletes a property through the current access policy. / 현재 접근 정책을 거쳐 속성을 삭제한다. */
     @Override
     public boolean delete(Object key) {
-        return target().delete(key);
+        JsObject visible = target();
+        long i = index(key);
+        if (i >= 0 && !(visible instanceof CrossOriginWindow)) {
+            return childWindow(i) == null;
+        }
+        return visible.delete(key);
     }
 
     /** Lists the own keys visible on the current target. / 현재 대상에서 볼 수 있는 자체 키를 나열한다. */
     @Override
     public List<Object> ownKeys() {
-        return target().ownKeys();
+        JsObject visible = target();
+        if (visible instanceof CrossOriginWindow) {
+            return visible.ownKeys();
+        }
+        List<Object> keys = new ArrayList<Object>();
+        int count = context.getChildren().size();
+        // 자체 키 목록에서 하위 창 인덱스가 일반 전역 속성보다 앞선다.
+        for (int i = 0; i < count; i++) {
+            keys.add(String.valueOf(i));
+        }
+        keys.addAll(visible.ownKeys());
+        return keys;
     }
 
     /** Returns the prototype visible from the caller's origin. / 호출자의 오리진에서 볼 수 있는 프로토타입을 반환한다. */

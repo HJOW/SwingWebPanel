@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-c2a WindowProxy 프레임 속성과 반사 (2026-11-26) ===
+현재 작업 번호: P29-10-c2a 완료.
+완료한 내용: 프레임 인덱스를 WindowProxy의 자체 데이터 속성으로 노출한다. 교차 오리진 허용 속성의 접근자·메서드·폴백 기술자와 열거 순서를 규격에 맞췄다.
+변경 파일: WindowProxy.java, FrameApi.java, CrossOriginWindow.java, FrameWindowTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl browser -am test -Dtest.filter=FrameWindowTest에서 JDK 6u45 13건 통과. sourcecheck 0 위반.
+미해결 사항: 최상위 문서 이동의 WindowProxy 정체성(P29-10-c2b), COOP/COEP와 공유 메모리 조건(P29-10-c3), Unicode·최종 회귀.
+다음 작업 번호: P29-10-c2b.
+-----------------------------------------------------------------------------------------------
 === P29-10-c1 활성 레코드 소유 렐름과 모듈 로더 (2026-11-26) ===
 현재 작업 번호: P29-10-c1 완료.
 완료한 내용: 활성 원문 레코드에 소유 렐름을 등록했다. 타 렐름 eval·Promise 및 중첩 이벤트 속성이 스택의 원문 소유 로더와 모듈 맵을 사용한다. 같은 컴포넌트 창의 프라미스 작업과 queueMicrotask는 현재 문서 작업에서 등록 순서로 진행한다.
@@ -1106,6 +1114,11 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-c2a 동일·교차 오리진 창의 반사 연산
+
+- [WHATWG HTML Living Standard §7.2](https://html.spec.whatwg.org/multipage/nav-history-apis.html#the-windowproxy-exotic-object) 2026-11-25 11:33:24 GMT 판을 2026-11-26에 `tools/webfetch`로 조회했다.
+- 서로 다른 서버의 프레임에서 숫자·이름 조회, 프로토타입의 불변성, 자체 키와 기술자, 허용 목록 외 속성의 SecurityError를 실제 HTTP로 확인했다. 교차 오리진의 `close`는 기존 단일 컴포넌트 창 동작과 같은 빈 메서드이다.
 
 ### 2026-11-26 · P29-10-c1 타 렐름 eval과 중첩 이벤트 속성의 활성 레코드
 

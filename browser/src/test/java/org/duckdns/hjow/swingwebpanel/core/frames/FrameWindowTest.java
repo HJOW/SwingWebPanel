@@ -182,6 +182,51 @@ public class FrameWindowTest {
     }
 
     /**
+     * Reflects indexed frames and allowlisted cross-origin members through live WindowProxy objects.
+     * <p>
+     * 현재 WindowProxy에서 인덱스로 접근하는 프레임과 교차 오리진 허용 속성을 반사한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testWindowProxyReflection() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        TestHttpServer remote = new TestHttpServer();
+        SwingWebPanel panel = FrameTestSupport.newPanel(400, 300);
+        try {
+            remote.routeFixed("/remote", TestHttpServer.Response.html("<iframe name=inside src='/child'></iframe>"));
+            remote.routeFixed("/child", TestHttpServer.Response.html("<p>Child of the remote document</p>"));
+            remote.start();
+            serve(panel, server, "<!doctype html><iframe id=f src='" + remote.url("/remote") + "'></iframe>"
+                    + "<iframe srcdoc='<p>Local</p>'></iframe><script>window.onload=()=>{"
+                    + "const other=document.getElementById('f').contentWindow;"
+                    + "const own=(w,k)=>Object.getOwnPropertyDescriptor(w,k);"
+                    + "const a=own(window,'0'),b=own(other,'0'),c=own(other,'location'),n=own(other,'inside');"
+                    + "const keys=Reflect.ownKeys(other),p=Object.getPrototypeOf(window);"
+                    + "function denied(fn){try{fn()}catch(e){return e.name==='SecurityError'}return false}"
+                    + "const checks=[a.value===other&&!a.writable&&a.enumerable&&a.configurable,"
+                    + "Reflect.ownKeys(window)[0]==='0'&&window[0]===other&&'0' in window,"
+                    + "!Reflect.set(window,'0',5)&&!Reflect.defineProperty(window,'999',{value:1}),"
+                    + "!Reflect.deleteProperty(window,'0')&&Reflect.deleteProperty(window,'999')&&own(window,'999')===undefined,"
+                    + "p!==null&&Reflect.setPrototypeOf(window,p)&&!Reflect.setPrototypeOf(window,null),"
+                    + "Object.getPrototypeOf(other)===null&&Reflect.setPrototypeOf(other,null)&&!Reflect.setPrototypeOf(other,p),"
+                    + "Reflect.isExtensible(other)&&!Reflect.preventExtensions(other),"
+                    + "b.value===other[0]&&!b.writable&&b.enumerable&&b.configurable&&keys[0]==='0',"
+                    + "n.value===b.value&&!n.enumerable&&!keys.includes('inside'),"
+                    + "typeof c.get==='function'&&typeof c.set==='function'&&c.get===own(other,'location').get&&c.configurable&&!c.enumerable,"
+                    + "own(other,'then').value===undefined&&keys.includes('then')&&keys.includes(Symbol.toStringTag),"
+                    + "own(other,'postMessage').value===other.postMessage&&other.focus!==other.blur&&typeof other.close==='function',"
+                    + "denied(()=>own(other,'document'))&&denied(()=>own(other,'00'))&&denied(()=>own(other,Symbol('x'))),"
+                    + "denied(()=>Reflect.defineProperty(other,'0',{value:1}))&&denied(()=>Reflect.deleteProperty(other,'0'))];"
+                    + "sessionStorage.setItem('reflect-window',checks.join());};</script>");
+            FrameTestSupport.awaitStored(panel, "reflect-window", "true,true,true,true,true,true,true,true,true,true,true,true,true,true");
+        } finally {
+            panel.dispose();
+            remote.stop();
+            server.stop();
+        }
+    }
+
+    /**
      * Checks the same frame reference before and after matching and nonmatching origin navigations.
      * <p>
      * 같은 프레임 참조를 유지한 채 같은 오리진과 다른 오리진으로 이동했을 때를 확인한다.

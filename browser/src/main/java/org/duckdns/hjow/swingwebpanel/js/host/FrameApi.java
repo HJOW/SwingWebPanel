@@ -342,11 +342,9 @@ final class FrameApi {
     }
 
     /**
-     * Puts the frames of the document on the global object as the standard names them: <code>window[0]</code>, <code>window[1]</code> ... and
-     * <code>window[name]</code> for a frame with a name that no other property of the window uses. Call it again whenever frames come or go.
+     * Exposes frame names that do not conflict with global properties. The WindowProxy handles numeric indices.
      * <p>
-     * 문서의 프레임을 표준이 정한 대로 전역 객체에 둔다: <code>window[0]</code>, <code>window[1]</code> ..., 그리고 window 의 다른 프로퍼티가 쓰지 않는
-     * 이름을 가진 프레임의 <code>window[name]</code>. 프레임이 생기거나 없어질 때마다 다시 부른다.
+     * 전역 속성과 충돌하지 않는 프레임 이름을 노출한다. 숫자 인덱스는 WindowProxy에서 처리한다.
      */
     void refresh() {
         JsObject g = page.getRealm().getGlobalObject();
@@ -357,12 +355,11 @@ final class FrameApi {
         childKeys.clear();
         BrowsingContext c = context();
         List<BrowsingContext> kids = c == null ? new ArrayList<BrowsingContext>() : c.getChildren();
-        // 프레임마다 인덱스 이름과(다른 프로퍼티와 겹치지 않으면) 프레임 이름으로 접근자를 정의한다.
+        // 프레임 이름이 예약 인덱스나 다른 전역 속성과 충돌하지 않으면 접근자를 정의한다.
         for (int i = 0; i < kids.size(); i++) {
-            define(g, String.valueOf(i), kids.get(i), true);
             String n = kids.get(i).getName();
-            if (n != null && n.length() > 0 && !g.hasOwnProperty(n)) {
-                define(g, n, kids.get(i), false);
+            if (n != null && n.length() > 0 && WindowProxy.index(n) < 0 && !g.hasOwnProperty(n)) {
+                define(g, n, kids.get(i));
             }
         }
     }
@@ -375,9 +372,8 @@ final class FrameApi {
      * @param g         the global object / 전역 객체
      * @param key       the property name / 프로퍼티 이름
      * @param child     the context / 문맥
-     * @param enumerate true if the property shows up in enumerations / 열거에 나타나면 true
      */
-    private void define(JsObject g, String key, final BrowsingContext child, boolean enumerate) {
+    private void define(JsObject g, String key, final BrowsingContext child) {
         g.defineAccessor(key, page.getRealm().newFunction("get " + key, 0, new NativeFunction.Call() {
             /**
              * Returns the window of the frame.
@@ -392,7 +388,7 @@ final class FrameApi {
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
                 return windowOf(child);
             }
-        }), null, enumerate, true);
+        }), null, false, true);
         childKeys.add(key);
     }
 

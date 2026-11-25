@@ -1,7 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.js.host;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.duckdns.hjow.swingwebpanel.dom.DomException;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -10,7 +12,10 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.Property;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
+import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.net.Origin;
 
 /**
  * The window of a browsing context that a script reaches from a document of another origin (<code>window.parent</code>, <code>top</code>,
@@ -29,8 +34,12 @@ import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 final class CrossOriginWindow extends JsObject {
 
     /** The names that may be read; the others throw. / 읽을 수 있는 이름. 나머지는 예외를 던진다. */
-    private static final String[] READABLE = { "window", "self", "parent", "top", "frames", "length", "opener", "closed", "location",
-        "postMessage", "focus", "blur" };
+    private static final String[] READABLE = { "window", "self", "location", "close", "closed", "focus", "blur", "frames",
+        "length", "top", "opener", "parent", "postMessage" };
+
+    /** The property keys that resolve to undefined for cross-origin probes. / 교차 오리진에서 undefined를 반환하는 키. */
+    private static final Object[] FALLBACK = { "then", WellKnownSymbols.TO_STRING_TAG, WellKnownSymbols.HAS_INSTANCE,
+        WellKnownSymbols.IS_CONCAT_SPREADABLE };
 
     /** The script host of the document that uses the window. / window 를 쓰는 문서의 스크립트 호스트. */
     private final PageScripts caller;
@@ -41,12 +50,8 @@ final class CrossOriginWindow extends JsObject {
     /** The browsing context that the window stands for. / window 가 대신하는 브라우징 문맥. */
     private final BrowsingContext target;
 
-    /** The cached methods and the location object. / 캐시한 메서드와 location 객체. */
-    private JsValue postMessage;
-    /** The cached focus function. / 캐시한 focus 함수. */
-    private JsValue focus;
-    /** The cached blur function. / 캐시한 blur 함수. */
-    private JsValue blur;
+    /** Stable cross-origin functions and accessors for this caller. / 호출자에게 보이는 고정 교차 오리진 함수와 접근자. */
+    private final Map<String, Property> properties = new HashMap<String, Property>();
     /** The cached location object. / 캐시한 location 객체. */
     private JsObject location;
 
@@ -78,46 +83,40 @@ final class CrossOriginWindow extends JsObject {
     }
 
     /**
-     * Tells whether a name may be read.
+     * Finds the first matching live named child of the target when it shares the target's origin.
      * <p>
-     * 이름을 읽을 수 있는지 알려 준다.
+     * 대상과 같은 오리진에서 현재 이름이 일치하는 첫 하위 창을 찾는다.
      *
-     * @param key the key / 키
-     * @return true if allowed / 허용이면 true
+     * @param key the proposed child name / 하위 창의 이름
+     * @return the child context or null / 하위 문맥 또는 null
      */
-    private boolean allowed(Object key) {
-        // 허용 목록에서 이름을 찾는다.
-        for (int i = 0; key instanceof String && i < READABLE.length; i++) {
-            if (READABLE[i].equals(key)) {
-                return true;
+    private BrowsingContext namedChild(String key) {
+        if (key.length() == 0) {
+            return null;
+        }
+        List<BrowsingContext> children = target.getChildren();
+        // 같은 이름이 여러 개면 첫 하위 창에 대해서만 오리진을 검사한다.
+        for (int i = 0; i < children.size(); i++) {
+            BrowsingContext child = children.get(i);
+            if (key.equals(child.getName())) {
+                return Origin.of(target.getOriginUrl()).isSameOrigin(Origin.of(child.getOriginUrl())) ? child : null;
             }
         }
-        return index(key) >= 0 && index(key) < target.getChildren().size();
+        return null;
     }
 
     /**
-     * Returns the number that an integer key stands for, or -1.
+     * Reads a regular cross-origin member through its own property slot.
      * <p>
-     * 정수 키가 뜻하는 숫자를 반환한다. 아니면 -1.
+     * 교차 오리진 속성을 자체 속성 슬롯을 통해 읽는다.
      *
-     * @param key the key / 키
-     * @return the index or -1 / 인덱스 또는 -1
+     * @param key the property key / 속성 키
+     * @param receiver the receiver / 수신자
+     * @return the exposed value / 노출되는 값
      */
-    private static int index(Object key) {
-        if (!(key instanceof String)) {
-            return -1;
-        }
-        String s = (String) key;
-        if (s.length() == 0 || s.length() > 9) {
-            return -1;
-        }
-        // 숫자로만 이루어진 키만 인덱스이다.
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) < '0' || s.charAt(i) > '9') {
-                return -1;
-            }
-        }
-        return Integer.parseInt(s);
+    public JsValue get(Object key, JsValue receiver) {
+        Property slot = getOwnPropertySlot(key);
+        return slot.accessor ? Ops.call(slot.getter, receiver, new JsValue[0]) : slot.value;
     }
 
     /**
@@ -135,20 +134,14 @@ final class CrossOriginWindow extends JsObject {
     }
 
     /**
-     * Reads a member: the allowed ones, or throws.
+     * Reads the current value of a member in the cross-origin allowlist.
      * <p>
-     * 멤버를 읽는다: 허용된 것이거나 예외를 던진다.
+     * 교차 오리진 허용 목록에 있는 속성의 현재 값을 읽는다.
      *
-     * @param key      the key / 키
-     * @param receiver the receiver / 수신자
+     * @param k the allowlisted name / 허용된 속성 이름
      * @return the value / 값
      */
-    public JsValue get(Object key, JsValue receiver) {
-        // 심볼과 then 은 undefined 로 응답한다(프라미스 해결과 도구가 던지지 않고 확인할 수 있게 한다).
-        if (!(key instanceof String) || "then".equals(key)) {
-            return Js.UNDEFINED;
-        }
-        String k = (String) key;
+    private JsValue readMember(String k) {
         JsRealm realm = caller.getRealm();
         if ("window".equals(k) || "self".equals(k) || "frames".equals(k)) {
             return api.windowOf(target);
@@ -173,9 +166,8 @@ final class CrossOriginWindow extends JsObject {
             return location(realm);
         }
         if ("postMessage".equals(k)) {
-            if (postMessage == null) {
-                postMessage = realm.newFunction("postMessage", 2, new NativeFunction.Call() {
-                    /**
+            return realm.newFunction("postMessage", 2, new NativeFunction.Call() {
+                /**
                      * Posts a message to the window of the other origin.
                      * <p>
                      * 다른 오리진의 window 로 메시지를 보낸다.
@@ -185,22 +177,19 @@ final class CrossOriginWindow extends JsObject {
                      * @param args message, target origin and optional transfer list / 메시지, 대상 오리진, 선택적 전달 목록
                      * @return undefined / undefined
                      */
-                    public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
+                public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
                         if (args.length < 2) {
                             throw JsException.typeError("Failed to execute 'postMessage' on 'Window': 2 arguments required, but only " + args.length
                                     + " present.");
                         }
                         api.postMessageTo(target, args[0], Ops.toString(args[1]), Js.arg(args, 2));
                         return Js.UNDEFINED;
-                    }
-                });
-            }
-            return postMessage;
+                }
+            });
         }
-        if ("focus".equals(k) || "blur".equals(k)) {
-            if (focus == null) {
-                focus = realm.newFunction("focus", 0, new NativeFunction.Call() {
-                    /**
+        if ("focus".equals(k) || "blur".equals(k) || "close".equals(k)) {
+            return realm.newFunction(k, 0, new NativeFunction.Call() {
+                /**
                      * Does nothing (a component has no window focus to move between frames).
                      * <p>
                      * 아무것도 하지 않는다(컴포넌트에는 프레임 사이에서 옮길 창 포커스가 없다).
@@ -210,18 +199,10 @@ final class CrossOriginWindow extends JsObject {
                      * @param args arguments / 인수
                      * @return undefined / undefined
                      */
-                    public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
+                public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
                         return Js.UNDEFINED;
-                    }
-                });
-                blur = focus;
-            }
-            return focus;
-        }
-        int i = index(k);
-        List<BrowsingContext> kids = target.getChildren();
-        if (i >= 0 && i < kids.size()) {
-            return api.windowOf(kids.get(i));
+                }
+            });
         }
         throw denied(k);
     }
@@ -315,14 +296,71 @@ final class CrossOriginWindow extends JsObject {
      * @param key the key / 키
      * @return the descriptor / 설명자
      */
-    public PropertyDescriptor getOwnProperty(Object key) {
-        if (!allowed(key)) {
-            if (key instanceof String) {
-                throw denied(key);
+    public Property getOwnPropertySlot(Object key) {
+        long index = WindowProxy.index(key);
+        if (index >= 0) {
+            List<BrowsingContext> children = target.getChildren();
+            if (index < children.size()) {
+                return Property.data(api.windowOf(children.get((int) index)), false, true, true);
             }
-            return null;
+            throw denied(key);
         }
-        return PropertyDescriptor.data(get(key, this), false, false, true);
+        // 표에 있는 속성은 호출자별 메서드 또는 접근자 정체성을 보존한다.
+        for (int i = 0; i < READABLE.length; i++) {
+            if (READABLE[i].equals(key)) {
+                return memberSlot(READABLE[i]);
+            }
+        }
+        if (key instanceof String) {
+            BrowsingContext child = namedChild((String) key);
+            if (child != null) {
+                return Property.data(api.windowOf(child), false, false, true);
+            }
+        }
+        // then과 세 well-known symbol만 값이 undefined인 속성으로 보인다.
+        for (int i = 0; i < FALLBACK.length; i++) {
+            if (FALLBACK[i].equals(key)) {
+                return Property.data(Js.UNDEFINED, false, false, true);
+            }
+        }
+        throw denied(key);
+    }
+
+    /**
+     * Creates a caller-realm slot once, according to the allowlist's accessor and operation types.
+     * <p>
+     * 허용 목록의 접근자와 연산 유형에 맞춰 호출자 렐름에서 슬롯을 한 번 만든다.
+     *
+     * @param key allowlisted member name / 허용된 속성 이름
+     * @return the slot / 속성 슬롯
+     */
+    private Property memberSlot(final String key) {
+        Property slot = properties.get(key);
+        if (slot != null) {
+            return slot;
+        }
+        // 네 연산은 변경 불가 데이터 속성이고 나머지는 현재 창 상태를 읽는 접근자이다.
+        if ("postMessage".equals(key) || "focus".equals(key) || "blur".equals(key) || "close".equals(key)) {
+            slot = Property.data(readMember(key), false, false, true);
+        } else {
+            JsRealm realm = caller.getRealm();
+            JsObject getter = realm.newFunction("get " + key, 0, new NativeFunction.Call() {
+                /** Returns the current window state. / 현재 창 상태를 반환한다. */
+                public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
+                    return readMember(key);
+                }
+            });
+            JsObject setter = "location".equals(key) ? realm.newFunction("set location", 1, new NativeFunction.Call() {
+                /** Navigates the target window. / 대상 창을 이동시킨다. */
+                public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
+                    set(key, Js.arg(args, 0), self);
+                    return Js.UNDEFINED;
+                }
+            }) : null;
+            slot = Property.accessor(getter, setter, false, true);
+        }
+        properties.put(key, slot);
+        return slot;
     }
 
     /**
@@ -334,13 +372,7 @@ final class CrossOriginWindow extends JsObject {
      * @return true for an allowed member / 허용된 멤버이면 true
      */
     public boolean hasProperty(Object key) {
-        if (!allowed(key)) {
-            if (key instanceof String) {
-                throw denied(key);
-            }
-            return false;
-        }
-        return true;
+        return getOwnPropertySlot(key) != null;
     }
 
     /**
@@ -397,6 +429,10 @@ final class CrossOriginWindow extends JsObject {
         // 이어서 읽을 수 있는 이름을 나열한다.
         for (int i = 0; i < READABLE.length; i++) {
             keys.add(READABLE[i]);
+        }
+        // 스크립트가 관례적으로 조회하는 폴백 속성까지 열거한다.
+        for (int i = 0; i < FALLBACK.length; i++) {
+            keys.add(FALLBACK[i]);
         }
         return keys;
     }
