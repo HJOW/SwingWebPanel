@@ -76,6 +76,8 @@ public class ParserStatementTest {
                 p("try { a } catch (e) { b } finally { c }"), "try catch finally");
         Check.equal("(program (try (block) (objpat (pp message message)) (block) _))", p("try {} catch ({message}) {}"), "catch pattern");
         Check.equal("(program (try (block) _ _ (block)))", p("try {} finally {}"), "try finally");
+        Check.equal("(program (try (block) _ (block (let (d x 1))) _))", p("try {} catch { let x = 1 }"),
+                "optional catch binding keeps a block scope");
     }
 
     /**
@@ -138,6 +140,12 @@ public class ParserStatementTest {
                 "top-level for-await in a module");
         Check.isTrue(AstDump.dump(Parser.parseModule("export default async function f() {}", "m.js")).contains("async-function"),
                 "exported async function");
+        Check.isTrue(AstDump.dump(Parser.parseModule("import.meta", "m.js")).contains("import.meta"), "import.meta in a module");
+        Node nsExport = Parser.parseModule("export * as ns from 'm'", "m.js");
+        Check.equal("ns", ((ProgramInfo) nsExport.value).indirectExports.get(0).exportName, "namespace export table");
+        Node objectRest = Parser.parseScript("const {a, ...rest} = value", "t.js");
+        Check.equal(NodeType.REST, objectRest.list[0].list[0].a.type == NodeType.OBJECT_PATTERN
+                ? objectRest.list[0].list[0].a.list[1].type : -1, "object binding rest");
         Node asyncProgram = Parser.parseScript("async function f() {}", "t.js");
         Check.isTrue(asyncProgram.list[0].b.fn.async, "FunctionInfo preserves async");
     }

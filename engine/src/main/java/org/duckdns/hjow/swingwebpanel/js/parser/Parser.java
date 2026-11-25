@@ -345,7 +345,7 @@ public final class Parser extends ExpressionParser {
             if (v.equals("let") && isLetDeclaration()) {
                 return parseVarStatement(Op.LET);
             }
-            if (v.equals("import") && moduleGoal) {
+            if (v.equals("import") && moduleGoal && !peek().isPunct("(") && !peek().isPunct(".")) {
                 return parseImport();
             }
             if (v.equals("export") && moduleGoal) {
@@ -440,7 +440,7 @@ public final class Parser extends ExpressionParser {
             if (v.equals("let") && peek().isPunct("[")) {
                 throw error("Lexical declaration cannot appear in a single-statement context");
             }
-            if (v.equals("import") || v.equals("export")) {
+            if ((v.equals("import") && !peek().isPunct("(") && !peek().isPunct(".")) || v.equals("export")) {
                 throw error(moduleGoal ? "Unexpected import/export position (only at the top level of a module)"
                         : "Cannot use import/export statement outside a module");
             }
@@ -896,13 +896,15 @@ public final class Parser extends ExpressionParser {
         n.a = parseBlock();
         if (isN("catch")) {
             next();
-            expectP("(");
             Scope cs = pushScope(SCOPE_BLOCK);
-            n.b = parseBindingTarget(BIND_CATCH);
-            if (n.b.type == NodeType.IDENT) {
-                cs.catchSimple = n.b.name;
+            if (isP("(")) {
+                next();
+                n.b = parseBindingTarget(BIND_CATCH);
+                if (n.b.type == NodeType.IDENT) {
+                    cs.catchSimple = n.b.name;
+                }
+                expectP(")");
             }
-            expectP(")");
             Token open = tok;
             expectP("{");
             List<Node> stmts = new ArrayList<Node>();
@@ -1270,6 +1272,25 @@ public final class Parser extends ExpressionParser {
         Node n = mk(NodeType.EXPORT, t);
         if (isP("*")) {
             next();
+            if (isN("as")) {
+                next();
+                if (tok.type != TokenType.NAME) {
+                    throw unexpected(tok);
+                }
+                Token exported = tok;
+                next();
+                if (!isN("from")) {
+                    throw unexpected(tok);
+                }
+                next();
+                String spec = parseModuleSpecifier();
+                addExportName(exported.value, exported);
+                pinfo.indirectExports.add(new ProgramInfo.ExportEntry(exported.value, spec, "*", null));
+                n.name = spec;
+                n.op = 3;
+                consumeSemicolon();
+                return done(n);
+            }
             if (!isN("from")) {
                 throw unexpected(tok);
             }

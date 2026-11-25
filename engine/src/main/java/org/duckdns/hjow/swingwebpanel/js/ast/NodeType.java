@@ -75,6 +75,10 @@ public final class NodeType {
     public static final int OPTIONAL_CHAIN = 27;
     /** Await expression; a = UnaryExpression operand. / await 식. a 는 단항 피연산자. */
     public static final int AWAIT = 28;
+    /** import.meta meta property. / import.meta 메타 프로퍼티. */
+    public static final int IMPORT_META = 29;
+    /** Dynamic import call; a = specifier expression. / 동적 import 호출. a 는 지정자 식. */
+    public static final int IMPORT_CALL = 35;
 
     // ---------------------------------------------------------------- patterns
 

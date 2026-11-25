@@ -62,8 +62,8 @@ public class EarlyErrorTest {
         // 예약어
         "var if", "var class = 1", "var enum", "var null", "var true", "var \\u0069f", "\\u0069f (a) b", "({ if })", "({ if = 1 } = x)",
         // ES2015 에 없는 문법: 무시하지 않고 오류로 보고한다
-        "class A { x = 1 }", "class A { #x }", "({...a})",
-        "import('x')", "f(a, ...)", "class A { static { } }",
+        "class A { x = 1 }", "class A { #x }",
+        "f(a, ...)", "class A { static { } }",
     };
 
     /**
@@ -76,7 +76,7 @@ public class EarlyErrorTest {
         "export default 1; export default 2;", "var await;", "with (a) {}", "function f() { with (a) {} }",
         "{ import a from 'm'; }", "function f() { export var a; }", "export default function f() {} export default function g() {}",
         "<!-- x", "010", "import a from 'm'; let a;", "export {a as b, c as b}; var a, c;", "import {if} from 'm';",
-        "import from 'm';", "export * as ns from 'm';", "export default;", "let a; export {a as default}; export default 1;",
+        "import from 'm';", "export default;", "let a; export {a as default}; export default 1;",
     };
 
     /**

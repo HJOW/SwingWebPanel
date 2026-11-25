@@ -142,6 +142,13 @@ public class ParserExpressionTest {
         bad("a?.b++");
         bad("a?.b`x`");
         bad("new a?.b()");
+        Check.equal("(object (... a) (init b 1) (... c))", e("({...a, b: 1, ...c})"), "object spread");
+        Check.equal("(= (objpat (pp a a) (rest b)) c)", e("({a, ...b} = c)"), "object assignment rest");
+        Check.equal("(import-call (+ \"a\" x))", e("import('a' + x)"), "dynamic import expression");
+        bad("({...a, ...b, c} = d)");
+        bad("import(x, y)");
+        bad("import(x,)");
+        bad("import.meta");
     }
 
     /**

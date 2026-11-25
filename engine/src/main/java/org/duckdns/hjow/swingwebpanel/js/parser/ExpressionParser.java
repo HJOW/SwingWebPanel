@@ -965,6 +965,24 @@ abstract class ExpressionParser extends ParserBase {
     private Node parsePrimaryName(Token t) {
         if (!t.escaped) {
             String v = t.value;
+            if (v.equals("import")) {
+                Token next = peek();
+                if (next.isPunct("(")) {
+                    return parseImportCall();
+                }
+                if (next.isPunct(".")) {
+                    if (!moduleGoal) {
+                        throw error("import.meta is only valid in a module", t);
+                    }
+                    next();
+                    expectP(".");
+                    if (!isN("meta")) {
+                        throw unexpected(tok);
+                    }
+                    next();
+                    return done(mk(NodeType.IMPORT_META, t));
+                }
+            }
             if (v.equals("this")) {
                 next();
                 return done(mk(NodeType.THIS, t));
@@ -995,6 +1013,27 @@ abstract class ExpressionParser extends ParserBase {
         next();
         Node n = mk(NodeType.IDENT, t);
         n.name = t.value;
+        return done(n);
+    }
+
+    /**
+     * Parses a dynamic import call.
+     * <p>
+     * 동적 import 호출을 파싱한다.
+     *
+     * @return the IMPORT_CALL node / IMPORT_CALL 노드
+     */
+    private Node parseImportCall() {
+        Token start = tok;
+        next();
+        expectP("(");
+        Node specifier = parseAssignment(false);
+        if (isP(",")) {
+            throw error("A dynamic import accepts one specifier in ECMAScript 2022", tok);
+        }
+        expectP(")");
+        Node n = mk(NodeType.IMPORT_CALL, start);
+        n.a = specifier;
         return done(n);
     }
 
@@ -1166,7 +1205,8 @@ abstract class ExpressionParser extends ParserBase {
         // 닫는 중괄호까지 프로퍼티를 읽는다.
         while (!isP("}")) {
             Node p = parseObjectProperty();
-            if (p.op == Op.PROP_INIT && !p.flag && p.a.type == NodeType.LITERAL && "__proto__".equals(p.a.name)) {
+            if (p.type == NodeType.PROPERTY && p.op == Op.PROP_INIT && !p.flag && p.a.type == NodeType.LITERAL
+                    && "__proto__".equals(p.a.name)) {
                 if (sawProto && coverError == null) {
                     coverError = tok;
                     coverMessage = "Duplicate __proto__ fields are not allowed in object literals";
@@ -1205,6 +1245,12 @@ abstract class ExpressionParser extends ParserBase {
      */
     private Node parseObjectProperty() {
         Token start = tok;
+        if (isP("...")) {
+            next();
+            Node spread = mk(NodeType.SPREAD, start);
+            spread.a = parseAssignment(false);
+            return done(spread);
+        }
         Node prop = mk(NodeType.PROPERTY, start);
         boolean async = false;
         if (isN("async") && !peek().newlineBefore && (peek().isPunct("*") || startsPropertyName(peek()))) {
@@ -1335,6 +1381,17 @@ abstract class ExpressionParser extends ParserBase {
             // 객체 리터럴의 프로퍼티를 패턴 프로퍼티로 바꾼다.
             for (int i = 0; i < n.list.length; i++) {
                 Node q = n.list[i];
+                if (q.type == NodeType.SPREAD) {
+                    if (i != n.list.length - 1) {
+                        throw error("Rest element must be last element", q);
+                    }
+                    Node rest = new Node(NodeType.REST, q.line, q.column);
+                    rest.start = q.start;
+                    rest.end = q.end;
+                    rest.a = toAssignmentTarget(q.a);
+                    p.list[i] = rest;
+                    continue;
+                }
                 Node pp = new Node(NodeType.PATTERN_PROP, q.line, q.column);
                 pp.a = q.a;
                 pp.flag = q.flag;
@@ -1523,6 +1580,20 @@ abstract class ExpressionParser extends ParserBase {
         List<Node> props = new ArrayList<Node>();
         // 닫는 중괄호까지 프로퍼티를 읽는다.
         while (!isP("}")) {
+            if (isP("...")) {
+                Token restToken = tok;
+                next();
+                Node rest = mk(NodeType.REST, restToken);
+                if (tok.type != TokenType.NAME) {
+                    throw unexpected(tok);
+                }
+                rest.a = parseBindingTarget(kind);
+                props.add(done(rest));
+                if (!isP("}")) {
+                    throw error("Rest property must be last in an object pattern", restToken);
+                }
+                break;
+            }
             Token pt = tok;
             Node pp = mk(NodeType.PATTERN_PROP, pt);
             Token keyTok = tok;

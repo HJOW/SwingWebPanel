@@ -344,6 +344,14 @@ public final class AstDump {
             child(n.a, sb);
             sb.append(')');
             return;
+        case NodeType.IMPORT_META:
+            sb.append("import.meta");
+            return;
+        case NodeType.IMPORT_CALL:
+            sb.append("(import-call");
+            child(n.a, sb);
+            sb.append(')');
+            return;
         case NodeType.ARRAY_PATTERN:
             sb.append("(arrpat");
             writeList(n.list, sb);
