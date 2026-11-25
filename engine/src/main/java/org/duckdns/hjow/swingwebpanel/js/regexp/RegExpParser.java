@@ -907,7 +907,7 @@ final class RegExpParser {
      */
     private RegExpNode parseClass() throws RegExpSyntaxException {
         if (unicodeSets) {
-            return setNode(parseUnicodeSetClass());
+            return parseUnicodeSetClass().toNode();
         }
         int open = pos;
         pos++;
@@ -961,22 +961,22 @@ final class RegExpParser {
      * @return normalized class set / 정규화한 클래스 집합
      * @throws RegExpSyntaxException on invalid class grammar / 클래스 문법 오류 시
      */
-    private RegExpCharSet parseUnicodeSetClass() throws RegExpSyntaxException {
+    private RegExpClassSet parseUnicodeSetClass() throws RegExpSyntaxException {
         int open = pos++;
         boolean complement = pos < n && src.charAt(pos) == '^';
         if (complement) {
             pos++;
         }
-        RegExpCharSet set = new RegExpCharSet();
+        RegExpClassSet set = new RegExpClassSet();
         if (pos < n && src.charAt(pos) != ']') {
-            ClassAtom first = parseUnicodeSetOperand();
+            UnicodeSetOperand first = parseUnicodeSetOperand();
             if (src.startsWith("&&", pos) || src.startsWith("--", pos)) {
                 String operator = src.substring(pos, pos + 2);
                 set = unicodeSetOf(first);
                 // 같은 연산자로 연결된 피연산자만 왼쪽부터 결합한다.
                 while (src.startsWith(operator, pos)) {
                     pos += 2;
-                    RegExpCharSet next = unicodeSetOf(parseUnicodeSetOperand());
+                    RegExpClassSet next = unicodeSetOf(parseUnicodeSetOperand());
                     set = operator.equals("&&") ? set.intersect(next) : set.subtract(next);
                 }
             } else {
@@ -985,17 +985,58 @@ final class RegExpParser {
                 while (pos < n && src.charAt(pos) != ']') {
                     addUnicodeUnionPart(set, parseUnicodeSetOperand());
                 }
-                set.normalize();
-                if (ignoreCase) {
-                    set = CaseFold.closeUnicodeSet(set);
-                }
+                set.finishCharacters(ignoreCase);
             }
         }
         if (pos >= n || src.charAt(pos) != ']') {
             throw error("Invalid Unicode set class", open);
         }
         pos++;
-        return complement ? set.complement(maxChar()) : set;
+        if (complement) {
+            // 실제 연산으로 문자열 요소가 모두 사라져도 정적 문법 검사를 적용한다.
+            if (set.mayContainStrings) {
+                throw error("A negated class must not contain strings", open);
+            }
+            return new RegExpClassSet(set.characters.complement(maxChar()));
+        }
+        return set;
+    }
+
+    /**
+     * A raw range endpoint or a complete class set used as an operand.
+     * <p>
+     * 피연산자로 사용하는 정규화 전 범위 끝점 또는 완성한 클래스 집합.
+     */
+    private static final class UnicodeSetOperand {
+        /** Original character before folding, or -1 for a set. / 접기 전의 원본 문자. 집합이면 -1. */
+        final int ch;
+
+        /** Class set, or null for an individual character. / 클래스 집합. 개별 문자이면 null. */
+        final RegExpClassSet set;
+
+        /**
+         * Starts an operand that can be a range endpoint.
+         * <p>
+         * 범위 끝점으로 사용할 수 있는 피연산자를 만든다.
+         *
+         * @param ch original code point / 원본 코드 포인트
+         */
+        UnicodeSetOperand(int ch) {
+            this.ch = ch;
+            this.set = null;
+        }
+
+        /**
+         * Starts a set operand.
+         * <p>
+         * 집합 피연산자를 만든다.
+         *
+         * @param set normalized class set / 정규화한 클래스 집합
+         */
+        UnicodeSetOperand(RegExpClassSet set) {
+            this.ch = -1;
+            this.set = set;
+        }
     }
 
     /**
@@ -1006,7 +1047,7 @@ final class RegExpParser {
      * @param atom operand / 피연산자
      * @return normalized operand set / 정규화한 피연산자 집합
      */
-    private RegExpCharSet unicodeSetOf(ClassAtom atom) {
+    private RegExpClassSet unicodeSetOf(UnicodeSetOperand atom) {
         if (atom.set != null) {
             return atom.set;
         }
@@ -1019,7 +1060,7 @@ final class RegExpParser {
             }
             result.normalize();
         }
-        return result;
+        return new RegExpClassSet(result);
     }
 
     /**
@@ -1031,16 +1072,18 @@ final class RegExpParser {
      * @param first first operand or range endpoint / 피연산자 또는 범위 시작점
      * @throws RegExpSyntaxException on an invalid range / 올바르지 않은 범위이면
      */
-    private void addUnicodeUnionPart(RegExpCharSet set, ClassAtom first) throws RegExpSyntaxException {
-        if (first.set == null && pos < n && src.charAt(pos) == '-' && !src.startsWith("--", pos)) {
+    private void addUnicodeUnionPart(RegExpClassSet set, UnicodeSetOperand first) throws RegExpSyntaxException {
+        if (first.set != null) {
+            set.addAll(first.set);
+        } else if (pos < n && src.charAt(pos) == '-' && !src.startsWith("--", pos)) {
             int dash = pos++;
             int end = parseUnicodeSetCharacter();
             if (end < first.ch) {
                 throw error("Range out of order in character class", dash);
             }
-            set.addRange(first.ch, end);
+            set.characters.addRange(first.ch, end);
         } else {
-            addAtom(set, first);
+            set.characters.addChar(first.ch);
         }
     }
 
@@ -1052,22 +1095,53 @@ final class RegExpParser {
      * @return operand / 피연산자
      * @throws RegExpSyntaxException on an invalid operand / 올바르지 않은 피연산자이면
      */
-    private ClassAtom parseUnicodeSetOperand() throws RegExpSyntaxException {
-        ClassAtom atom = new ClassAtom();
+    private UnicodeSetOperand parseUnicodeSetOperand() throws RegExpSyntaxException {
         if (pos < n && src.charAt(pos) == '[') {
-            atom.set = parseUnicodeSetClass();
-            return atom;
+            return new UnicodeSetOperand(parseUnicodeSetClass());
+        }
+        if (src.startsWith("\\q{", pos)) {
+            pos += 3;
+            return new UnicodeSetOperand(parseClassStrings());
         }
         if (pos + 1 < n && src.charAt(pos) == '\\') {
             pos++;
-            atom.set = parseClassEscape();
-            if (atom.set != null) {
-                return atom;
+            RegExpCharSet predefined = parseClassEscape();
+            if (predefined != null) {
+                return new UnicodeSetOperand(new RegExpClassSet(predefined));
             }
             pos--;
         }
-        atom.ch = parseUnicodeSetCharacter();
-        return atom;
+        return new UnicodeSetOperand(parseUnicodeSetCharacter());
+    }
+
+    /**
+     * Parses the alternatives after the opening brace of a ClassStringDisjunction.
+     * <p>
+     * ClassStringDisjunction의 여는 중괄호 다음에 오는 대안들을 해석한다.
+     *
+     * @return set of canonicalized sequences and characters / 정규형 코드 포인트 열과 문자 집합
+     * @throws RegExpSyntaxException on invalid or unterminated alternatives / 대안 문법 오류 또는 닫는 중괄호 누락 시
+     */
+    private RegExpClassSet parseClassStrings() throws RegExpSyntaxException {
+        RegExpClassSet set = new RegExpClassSet();
+        List<Integer> sequence = new ArrayList<Integer>();
+        // 이스케이프하지 않은 | 와 } 만 대안의 끝으로 처리한다.
+        while (pos < n) {
+            char next = src.charAt(pos);
+            if (next == '|' || next == '}') {
+                pos++;
+                set.addSequence(sequence);
+                if (next == '}') {
+                    set.finishCharacters(ignoreCase);
+                    return set;
+                }
+                sequence = new ArrayList<Integer>();
+            } else {
+                int ch = parseUnicodeSetCharacter();
+                sequence.add(Integer.valueOf(ignoreCase ? CaseFold.canonicalize(ch, true) : ch));
+            }
+        }
+        throw error("Unterminated Unicode set string", pos);
     }
 
     /**

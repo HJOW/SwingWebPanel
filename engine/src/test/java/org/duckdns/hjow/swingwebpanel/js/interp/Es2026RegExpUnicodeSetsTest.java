@@ -135,6 +135,62 @@ public class Es2026RegExpUnicodeSetsTest {
     }
 
     /**
+     * Checks that longer alternatives come first and shorter and empty ones remain available for backtracking.
+     * <p>
+     * 긴 대안을 먼저 선택하고 역추적 시 짧은 대안과 빈 대안도 시도하는지 확인한다.
+     */
+    public void testStringClassMatchOrder() {
+        String script = "const longer=/[\\q{a|ab|abc}]/dv.exec('abc');"
+                + "const short=/^([\\q{a|ab|abc}])bc$/v.exec('abc');"
+                + "const empty=/^([\\q{|ab|a}])ab$/v.exec('ab');"
+                + "const behind=/(?<=([\\q{x|ax}]))b/v.exec('axb');"
+                + "const escaping=/[\\q{a\\|b|a\\}b|a\\[b}]/gv;"
+                + "[longer[0],longer.indices[0].join(),short[1],empty[1]==='',behind[1],"
+                + "'a|b a}b a[b'.match(escaping).join(),/^[\\q{}]$/v.test('')].join('!')";
+        Check.equal("abc!0,3!a!true!ax!a|b,a}b,a[b!true", evaluate(script),
+                "longest string match, backtracking, escapes, and reversed execution");
+    }
+
+    /**
+     * Checks string and character membership in the same set and precise treatment of surrogate code points.
+     * <p>
+     * 같은 집합의 문자열·문자 원소와 서로게이트 코드 포인트의 정확한 처리를 확인한다.
+     */
+    public void testStringClassSetOperations() {
+        String script = "const both=/[[\\q{ab|a|abc}]&&[\\q{AB|a|xx}]]/giv;"
+                + "const difference=/[[\\q{ab|a|abc}]--[\\q{AB|a}]]/giv;"
+                + "const c=String.fromCodePoint(0x10400);"
+                + "['A Ab aBC'.match(both).join(), 'Ab aBC'.match(difference).join(),"
+                + "/[\\q{a}&&a]/v.test('a'),/[[a-z]--\\q{a|ba}]/v.test('a'),"
+                + "/[^\\q{A|b}]/iv.test('a'),/[^\\q{A|b}]/iv.test('c'),"
+                + "/[^\\q{aa|a}&&[a]]/iv.test('A'),/[^\\q{aa|a}&&[a]]/iv.test('c'),"
+                + "/^[\\q{\\uD801\\uDC00}]$/v.test(c),/^[\\q{\\u{D801}\\u{DC00}}]$/v.test(c),"
+                + "/[\\q{\\u{10400}}&&\\u{10428}]/iv.test(c)].join('!')";
+        Check.equal("A,Ab,aB!aBC!true!false!false!true!false!true!true!false!true", evaluate(script),
+                "set operations compare character and string elements with Unicode folding");
+    }
+
+    /**
+     * Checks early errors from q grammar, static complement restrictions, and excluded emoji properties.
+     * <p>
+     * q 문법, 여집합의 정적 제한과 제외한 이모지 속성의 조기 오류를 확인한다.
+     */
+    public void testStringClassEarlyErrorsAndEmojiPolicy() {
+        String script = "function invalid(p,flags){try{new RegExp(p,flags);return false;}catch(e){return e.name==='SyntaxError';}}"
+                + "const bad=['\\\\q{ab}','[\\\\q{ab]','[\\\\q{a-b}]','[\\\\q{\\\\w}]','[\\\\q{a!!}]',"
+                + "'[\\\\q{a}-b]','[a-\\\\q{b}]','[^\\\\q{ab}]','[^\\\\q{}]',"
+                + "'[^\\\\q{ab}--\\\\q{ab}]','[^\\\\q{ab}&&\\\\q{cd}]'];"
+                + "const emoji=['Basic_Emoji','Emoji_Keycap_Sequence','RGI_Emoji_Modifier_Sequence',"
+                + "'RGI_Emoji_Flag_Sequence','RGI_Emoji_Tag_Sequence','RGI_Emoji_ZWJ_Sequence','RGI_Emoji',"
+                + "'Emoji','Emoji_Presentation','Emoji_Modifier','Emoji_Modifier_Base','Emoji_Component','Extended_Pictographic'];"
+                + "[bad.every(p=>invalid(p,'v')),invalid('[\\\\q{a}]','u'),"
+                + "emoji.every(n=>invalid('\\\\p{'+n+'}','v')&&invalid('[\\\\p{'+n+'}]','v')&&invalid('\\\\P{'+n+'}','v')),"
+                + "(function(){try{Function('return /\\\\p{Basic_Emoji}/v');return false;}"
+                + "catch(e){return e.name==='SyntaxError';}})()].join('!')";
+        Check.equal("true!true!true!true", evaluate(script), "q syntax and EXC-15 are enforced before matching");
+    }
+
+    /**
      * Evaluates a regular expression test script in an independent realm.
      * <p>
      * 독립 realm에서 정규식 시험 스크립트를 실행한다.

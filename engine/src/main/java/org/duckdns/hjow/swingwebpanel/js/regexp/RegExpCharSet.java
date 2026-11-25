@@ -159,6 +159,17 @@ final class RegExpCharSet {
     }
 
     /**
+     * Checks whether there are any stored character ranges.
+     * <p>
+     * 저장한 문자 구간이 하나라도 있는지 검사한다.
+     *
+     * @return true when the range list is empty / 구간 목록이 비었으면 true
+     */
+    boolean isEmpty() {
+        return used == 0;
+    }
+
+    /**
      * Intersects two normalized sets without modifying them.
      * <p>
      * 두 정규화 집합을 변경하지 않고 교집합을 계산한다.
