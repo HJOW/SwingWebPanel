@@ -30,11 +30,13 @@ public enum RequestPurpose {
     SCRIPT,
     /**
      * A module script or a module that a module imports: the fetch uses CORS mode across origins (the response must grant access) and
-     * the response must carry a JavaScript MIME type.
+     * the response must carry the MIME type for the module being requested.
      * <p>
-     * 모듈 스크립트 또는 모듈이 import 하는 모듈. 교차 오리진 가져오기는 CORS 모드이며(응답이 접근을 허용해야 한다) 응답은 JavaScript MIME 타입이어야 한다.
+     * 모듈 스크립트 또는 모듈이 import 하는 모듈. 교차 오리진 가져오기는 CORS 모드이며 응답은 요청한 모듈의 MIME 타입이어야 한다.
      */
     MODULE,
+    /** Same-origin entry module of a worker. / 동일 오리진에서 가져오는 worker 진입 모듈. */
+    WORKER_MODULE,
     /**
      * A style sheet.
      * <p>

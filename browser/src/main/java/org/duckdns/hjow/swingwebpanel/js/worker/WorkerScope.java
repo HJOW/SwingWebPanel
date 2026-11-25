@@ -2,8 +2,10 @@ package org.duckdns.hjow.swingwebpanel.js.worker;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -24,14 +26,21 @@ import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
+import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
+import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseInterop;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomBridge;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomInterfaces;
 import org.duckdns.hjow.swingwebpanel.js.host.HostEnvironment;
 import org.duckdns.hjow.swingwebpanel.js.host.MessagingApi;
+import org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials;
+import org.duckdns.hjow.swingwebpanel.js.host.ModuleSources;
 import org.duckdns.hjow.swingwebpanel.js.host.Scheduler;
 import org.duckdns.hjow.swingwebpanel.js.host.ScriptSource;
+import org.duckdns.hjow.swingwebpanel.js.host.ScriptText;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.js.host.web.WebApis;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
@@ -114,7 +123,16 @@ final class WorkerScope implements ScriptContext {
      * <p>
      * worker 스크립트의 절대 URL(worker 의 <code>location</code>).
      */
-    private final String scriptUrl;
+    private volatile String scriptUrl;
+
+    /** Whether the entry script is a module. / 진입 스크립트가 모듈인지 여부. */
+    private final boolean module;
+
+    /** Credentials for module requests. / 모듈을 요청할 때의 자격 증명 모드. */
+    private final Credentials credentials;
+
+    /** Final URLs for module referrers, on the worker thread. / worker 스레드에서 관리하는 참조 모듈의 최종 주소. */
+    private final Map<String, String> moduleBases = new HashMap<String, String>();
 
     /**
      * The name of the worker (<code>self.name</code>).
@@ -318,14 +336,19 @@ final class WorkerScope implements ScriptContext {
      * @param scriptUrl the absolute URL of the worker script / worker 스크립트의 절대 URL
      * @param name      the name of the worker / worker 의 이름
      * @param shared    true for a shared worker / 공유 worker 이면 true
+     * @param module true to use a module entry / 모듈을 진입점으로 사용하면 true
+     * @param credentials the requested credentials mode / 요청한 자격 증명 모드
      */
-    WorkerScope(HostEnvironment env, WorkerParent parent, BroadcastHub hub, String scriptUrl, String name, boolean shared) {
+    WorkerScope(HostEnvironment env, WorkerParent parent, BroadcastHub hub, String scriptUrl, String name, boolean shared, boolean module,
+            Credentials credentials) {
         this.env = env;
         this.parent = parent;
         this.hub = hub;
         this.scriptUrl = scriptUrl;
         this.name = name;
         this.shared = shared;
+        this.module = module;
+        this.credentials = credentials;
         this.executor = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
             /**
              * Creates the daemon thread of the worker.
@@ -369,7 +392,16 @@ final class WorkerScope implements ScriptContext {
     private void boot() {
         String source;
         try {
-            source = fetchScript(scriptUrl);
+            if (module) {
+                ScriptText entry = ModuleSources.fetch(env.getScriptSource(), new ModuleRequest(scriptUrl), credentials, true);
+                if (!Origin.of(scriptUrl).isSameOrigin(Origin.of(entry.getUrl()))) {
+                    throw new IOException("worker module entry must be same-origin");
+                }
+                scriptUrl = entry.getUrl();
+                source = entry.getText();
+            } else {
+                source = fetchScript(scriptUrl);
+            }
         } catch (IOException e) {
             failLoad("Failed to load the worker script " + scriptUrl + ": " + e.getMessage());
             return;
@@ -386,12 +418,16 @@ final class WorkerScope implements ScriptContext {
         final String text = source;
         runTask(new Runnable() {
             /**
-             * Runs the worker script as a classic script.
+             * Runs the worker's script or starts module evaluation.
              * <p>
-             * worker 스크립트를 일반 스크립트로 실행한다.
+             * worker 스크립트를 실행하거나 모듈 평가를 시작한다.
              */
             public void run() {
-                realm.evaluateScript(text, scriptUrl);
+                if (module) {
+                    runModule(text);
+                } else {
+                    realm.evaluateScript(text, scriptUrl);
+                }
             }
         });
         // 스크립트가 실행되면 기다리던 메시지를 도착한 순서대로 전달하기 시작한다.
@@ -408,6 +444,29 @@ final class WorkerScope implements ScriptContext {
             while (!earlyConnects.isEmpty()) {
                 postConnect(earlyConnects.removeFirst());
             }
+        }
+    }
+
+    /**
+     * Links the worker's module graph and reports an asynchronous evaluation failure to the worker.
+     * <p>
+     * worker의 모듈 그래프를 링크하고 비동기 평가 오류를 worker에 보고한다.
+     *
+     * @param text the entry source text / 진입점 소스 텍스트
+     */
+    private void runModule(String text) {
+        try {
+            JsObject evaluation = realm.loadModule(scriptUrl, text).evaluateAsync();
+            NativeFunction rejected = new NativeFunction(realm, "", 1, new NativeFunction.Call() {
+                public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
+                    reportError(new JsException(Js.arg(args, 0)));
+                    return Js.UNDEFINED;
+                }
+            });
+            PromiseInterop.await(realm, evaluation, Js.UNDEFINED, rejected);
+        } catch (JsException e) {
+            // 가져오기·파싱·링크 실패 시 메시지 처리를 시작하지 않는다.
+            failLoad(e.getMessage());
         }
     }
 
@@ -453,6 +512,7 @@ final class WorkerScope implements ScriptContext {
         JsRealm r = JsRealm.create();
         realm = r;
         r.getLimits().setMaxTimeMillis(env.getTaskTimeLimitMillis());
+        installModuleLoader(r);
         r.setConsole(new ConsoleRecordHook() {
             /**
              * Sends the record of the worker console to the console of the page.
@@ -503,6 +563,39 @@ final class WorkerScope implements ScriptContext {
         BroadcastApi.install(this, hub);
     }
 
+    /**
+     * Installs typed static and dynamic module loading for this worker's realm.
+     * <p>
+     * worker의 realm에 타입별 정적·동적 모듈 가져오기를 연결한다.
+     *
+     * @param r the worker realm / worker realm
+     */
+    private void installModuleLoader(JsRealm r) {
+        r.setModuleLoader(new ModuleLoader.WithAttributes() {
+            public String resolve(String specifier, String referrer) {
+                String known = moduleBases.get(referrer);
+                return ModuleSources.resolve(known != null ? known : referrer == null ? scriptUrl : referrer, specifier);
+            }
+
+            public String fetch(String key) {
+                return fetch(new ModuleRequest(key));
+            }
+
+            public String fetch(ModuleRequest request) {
+                Credentials mode = module ? credentials : Credentials.SAME_ORIGIN;
+                try {
+                    ScriptText text = ModuleSources.fetch(env.getScriptSource(), request, mode, false);
+                    if (!request.isJson()) {
+                        moduleBases.put(request.getSpecifier(), text.getUrl());
+                    }
+                    return text.getText();
+                } catch (IOException e) {
+                    throw JsException.typeError("Failed to fetch module " + request + ": " + e.getMessage());
+                }
+            }
+        });
+    }
+
     // ------------------------------------------------------------------ messages
 
     /**
@@ -541,6 +634,16 @@ final class WorkerScope implements ScriptContext {
      */
     boolean isShared() {
         return shared;
+    }
+
+    /** Checks the entry script type. / 진입 스크립트가 모듈인지 반환한다. */
+    boolean isModule() {
+        return module;
+    }
+
+    /** Returns the credentials option. / 자격 증명 옵션을 반환한다. */
+    Credentials getCredentials() {
+        return credentials;
     }
 
     /**

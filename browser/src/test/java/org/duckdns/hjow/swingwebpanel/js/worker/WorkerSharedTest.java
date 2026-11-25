@@ -12,7 +12,7 @@ import org.duckdns.hjow.swingwebpanel.testing.TestHttpServer;
  * <code>connect</code> event with the inside port, no <code>postMessage</code>), the sharing of one worker by the same origin, script URL and
  * name (and not by another name or another component), state that survives between the connections, ports that are transferred to the
  * worker, the request layer of the component, the life cycle (the worker ends with its last owner and with its own <code>close()</code>), and
- * the errors of the constructor (a missing script, another origin, wrong options, a module worker, too many shared workers).
+ * classic and module entry scripts, and constructor errors (a missing script, another origin, wrong options, too many shared workers).
  * <p>
  * 실제 컴포넌트와 실제 HTTP 서버로 확인하는 <code>SharedWorker</code>(계획 P20-09-b. HTML 표준 "Shared workers and the SharedWorker interface"): 공유
  * worker 의 전역 범위(<code>SharedWorkerGlobalScope</code>, <code>onconnect</code>, 안쪽 포트를 가진 <code>connect</code> 이벤트, <code>postMessage</code> 없음),
@@ -21,6 +21,37 @@ import org.duckdns.hjow.swingwebpanel.testing.TestHttpServer;
  * worker, 너무 많은 공유 worker).
  */
 public class WorkerSharedTest {
+
+    /**
+     * Starts a shared module worker with a JSON dependency once for both connections.
+     * <p>
+     * JSON 의존성이 있는 공유 모듈 worker를 두 연결에 한 번만 실행한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testSharedModuleWorker() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        SwingWebPanel panel = WorkerTestSupport.newPanel();
+        try {
+            server.routeFixed("/shared.js", WorkerTestSupport.js("import data from './settings' with {type:'json'};"
+                    + "let count=0;onconnect=e=>e.ports[0].postMessage(data.name+ ++count);"));
+            server.routeFixed("/settings", TestHttpServer.Response.ok("application/json", "{\"name\":\"shared\"}"));
+            server.routeFixed("/page", TestHttpServer.Response.html(WorkerTestSupport.page(
+                    "var opts={name:'one',type:'module'};"
+                    + "var a=new SharedWorker('/shared.js',opts),b=new SharedWorker('/shared.js',opts);"
+                    + "a.port.onmessage=e=>put('a',e.data);b.port.onmessage=e=>put('b',e.data);"
+                    + "var c=new SharedWorker('/shared.js','one');c.onerror=e=>put('type',e.type);")));
+            server.start();
+            panel.setPage(server.url("/page"));
+            Check.equal("shared1", WorkerTestSupport.await(panel, "a"), "first connection");
+            Check.equal("shared2", WorkerTestSupport.await(panel, "b"), "second connection");
+            Check.equal("error", WorkerTestSupport.await(panel, "type"), "same key with a different worker type");
+            Check.equal(1, server.count("/settings"), "one module instance fetched its JSON dependency");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
 
     /**
      * The script of the shared worker of most cases: it counts the connections, answers <code>who</code> with the counters, broadcasts to all
@@ -237,11 +268,11 @@ public class WorkerSharedTest {
 
     /**
      * The errors of the constructor: no argument, no <code>new</code>, a wrong <code>type</code>, a script of another origin
-     * (<code>SecurityError</code>), a script that cannot be fetched and a module worker (an <code>error</code> event at the object), options
+     * (<code>SecurityError</code>), a script that cannot be fetched (an <code>error</code> event at the object), options
      * that do not fit the shared worker that exists (an <code>error</code> event), and too many shared workers (<code>QuotaExceededError</code>).
      * <p>
-     * 생성자의 오류: 인수 없음, <code>new</code> 없음, 잘못된 <code>type</code>, 다른 오리진의 스크립트(<code>SecurityError</code>), 가져올 수 없는 스크립트와 모듈
-     * worker(객체에 <code>error</code> 이벤트), 이미 있는 공유 worker 와 맞지 않는 옵션(<code>error</code> 이벤트), 너무 많은 공유 worker
+     * 생성자의 오류: 인수 없음, <code>new</code> 없음, 잘못된 <code>type</code>, 다른 오리진의 스크립트(<code>SecurityError</code>),
+     * 가져올 수 없는 스크립트(객체에 <code>error</code> 이벤트), 이미 있는 공유 worker와 맞지 않는 옵션(<code>error</code> 이벤트), 너무 많은 공유 worker
      * (<code>QuotaExceededError</code>).
      *
      * @throws Exception on failure / 실패 시
@@ -261,7 +292,6 @@ public class WorkerSharedTest {
                     + " err(function () { new SharedWorker('/s.js', { type: 'bogus' }); }), err(function () { new SharedWorker('" + other.url("/s.js") + "'); }),"
                     + " err(function () { new SharedWorker('data:text/javascript,1'); }), err(function () { new SharedWorker('http://[bad/x.js'); })].join('|'));"
                     + "var missing = new SharedWorker('/missing.js'); missing.onerror = function (e) { put('missing', e.type + ':' + (e instanceof ErrorEvent)); };"
-                    + "var mod = new SharedWorker('/s.js', { name: 'mod', type: 'module' }); mod.onerror = function (e) { put('module', e.type); };"
                     + "var base = new SharedWorker('/s.js', 'mm'); var misfit = new SharedWorker('/s.js', { name: 'mm', credentials: 'include' });"
                     + "misfit.onerror = function (e) { put('misfit', e.type); };"
                     + "var made = 0, quota = ''; var keep = [];"
@@ -272,7 +302,6 @@ public class WorkerSharedTest {
             Check.equal("TypeError:undefined|TypeError:undefined|TypeError:undefined|SecurityError:18|SecurityError:18|SyntaxError:12", WorkerTestSupport.await(panel, "errors"),
                     "constructor errors");
             Check.equal("error:false", WorkerTestSupport.await(panel, "missing"), "a script that cannot be fetched is a plain error event at the object");
-            Check.equal("error", WorkerTestSupport.await(panel, "module"), "a module shared worker is refused with an error event");
             Check.equal("error", WorkerTestSupport.await(panel, "misfit"), "options that do not fit the existing shared worker are an error event");
             Check.equal(0, other.totalRequests(), "the script of another origin was never requested");
             String quota = WorkerTestSupport.await(panel, "quota");

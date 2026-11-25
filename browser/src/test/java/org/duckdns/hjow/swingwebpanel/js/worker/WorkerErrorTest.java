@@ -188,16 +188,16 @@ public class WorkerErrorTest {
 
     /**
      * The errors of the constructor: no argument, no <code>new</code>, a wrong <code>type</code>, a script of another origin (another port, a
-     * <code>data:</code> URL, <code>javascript:</code>, <code>file:</code>) is a <code>SecurityError</code>; a module worker fires an
-     * <code>error</code> event (not supported); <code>SharedWorker</code> exists (tested in WorkerSharedTest).
+     * <code>data:</code> URL, <code>javascript:</code>, <code>file:</code>) is a <code>SecurityError</code>; an invalid module response
+     * fires an <code>error</code> event. <code>SharedWorker</code> is tested in WorkerSharedTest.
      * <p>
      * 생성자의 오류: 인수 없음, <code>new</code> 없음, 잘못된 <code>type</code>, 다른 오리진(다른 포트, <code>data:</code> URL, <code>javascript:</code>,
-     * <code>file:</code>)의 스크립트는 <code>SecurityError</code>. 모듈 worker 는 <code>error</code> 이벤트가 발생한다(지원하지 않음).
+     * <code>file:</code>)의 스크립트는 <code>SecurityError</code>. 잘못된 모듈 응답은 <code>error</code> 이벤트를 발생시킨다.
      * <code>SharedWorker</code> 는 WorkerSharedTest 에서 시험한다.
      *
      * @throws Exception on failure / 실패 시
      */
-    public void testConstructorErrorsAndUnsupportedWorkers() throws Exception {
+    public void testConstructorErrorsAndModuleMime() throws Exception {
         TestHttpServer server = new TestHttpServer();
         TestHttpServer other = new TestHttpServer();
         SwingWebPanel panel = WorkerTestSupport.newPanel();
@@ -206,6 +206,7 @@ public class WorkerErrorTest {
             other.routeFixed("/w.js", WorkerTestSupport.js("postMessage('from other origin');"));
             other.start();
             server.routeFixed("/w.js", WorkerTestSupport.js("postMessage('ok');"));
+            server.routeFixed("/bad-module.js", TestHttpServer.Response.ok("application/json", "\"not JavaScript\""));
             server.routeFixed("/page", TestHttpServer.Response.html(WorkerTestSupport.page(
                     "function err(f) { try { f(); return 'no error'; } catch (e) { return e.name + ':' + e.code; } }"
                     + "put('errors', [err(function () { new Worker(); }), err(function () { Worker('/w.js'); }),"
@@ -213,13 +214,13 @@ public class WorkerErrorTest {
                     + " err(function () { new Worker('" + other.url("/w.js") + "'); }), err(function () { new Worker('data:text/javascript,1'); }),"
                     + " err(function () { new Worker('javascript:1'); }), err(function () { new Worker('file:///x.js'); }),"
                     + " err(function () { new Worker('//127.0.0.1:1/x.js'); }), typeof SharedWorker].join('|'));"
-                    + "var m = new Worker('/w.js', { type: 'module' });"
+                    + "var m = new Worker('/bad-module.js', { type: 'module' });"
                     + "m.onerror = function (e) { put('module', [(e instanceof ErrorEvent), e.type].join('|')); };")));
             server.start();
             panel.setPage(server.url("/page"));
             Check.equal("TypeError:undefined|TypeError:undefined|TypeError:undefined|SecurityError:18|SecurityError:18|SecurityError:18|SecurityError:18|SecurityError:18|function",
-                    WorkerTestSupport.await(panel, "errors"), "constructor errors; SharedWorker is not available");
-            Check.equal("false|error", WorkerTestSupport.await(panel, "module"), "a module worker is refused with an error event");
+                    WorkerTestSupport.await(panel, "errors"), "constructor errors and presence of SharedWorker");
+            Check.equal("false|error", WorkerTestSupport.await(panel, "module"), "a worker module with a non-JavaScript entry MIME is refused");
             Check.equal(0, other.totalRequests(), "the script of another origin was never requested");
             Check.isTrue(WorkerTestSupport.awaitThreads("swingwebpanel-worker-", before, 10000) <= before, "no worker thread is left");
         } finally {

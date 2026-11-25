@@ -438,6 +438,12 @@ public class HttpFetcher {
         if (token.isCancelled()) {
             return fail(st, FailureKind.CANCELLED, "request cancelled");
         }
+        // worker 진입 모듈은 다른 오리진으로 이동한 구간에 연결하지 않는다.
+        Origin initiator = st.req.getInitiator();
+        if (st.req.getPurpose() == RequestPurpose.WORKER_MODULE
+                && (initiator == null || !initiator.isSameOrigin(Origin.of(st.current)))) {
+            return fail(st, FailureKind.CORS, "worker module entry must be same-origin");
+        }
         if (!st.visited.add(st.method + " " + st.current)) {
             return fail(st, FailureKind.REDIRECT_LOOP, "redirect loop at " + st.current);
         }
@@ -839,6 +845,7 @@ public class HttpFetcher {
         case AUDIO:
             return "audio/*,*/*;q=0.5";
         case MODULE:
+        case WORKER_MODULE:
         case SCRIPT:
             return "*/*";
         default:

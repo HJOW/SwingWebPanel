@@ -18,6 +18,20 @@ import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 public interface ModuleScriptSource extends ScriptSource {
 
     /**
+     * Fetch credentials mode for a module graph.
+     * <p>
+     * 모듈 그래프를 가져올 때의 자격 증명 모드.
+     */
+    enum Credentials {
+        /** Omits all credentials. / 자격 증명을 모두 생략한다. */
+        OMIT,
+        /** Sends credentials only to the initiator's origin. / 시작 오리진에만 자격 증명을 보낸다. */
+        SAME_ORIGIN,
+        /** Includes credentials across origins. / 다른 오리진에도 자격 증명을 보낸다. */
+        INCLUDE
+    }
+
+    /**
      * Provides typed module responses with the host's MIME and origin checks.
      * <p>
      * 호스트의 MIME 및 오리진 검사를 적용한 모듈 타입별 응답을 제공한다.
@@ -30,11 +44,12 @@ public interface ModuleScriptSource extends ScriptSource {
          * 해석된 요청이 선택한 타입의 모듈을 가져온다.
          *
          * @param request resolved module request / 해석된 모듈 요청
-         * @param useCredentials true to send credentials to other origins / 다른 오리진에도 자격 증명을 보내려면 true
+         * @param credentials credentials mode / 자격 증명 모드
+         * @param workerEntry true to limit the entry request to the same origin / worker 진입 요청을 같은 오리진으로 제한하면 true
          * @return source text and final URL / 소스 텍스트와 최종 URL
          * @throws IOException if the request or its MIME or origin checks fail / 요청이나 MIME·오리진 검사가 실패하면
          */
-        ScriptText fetchModule(ModuleRequest request, boolean useCredentials) throws IOException;
+        ScriptText fetchModule(ModuleRequest request, Credentials credentials, boolean workerEntry) throws IOException;
     }
 
     /**

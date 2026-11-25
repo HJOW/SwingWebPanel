@@ -3,6 +3,7 @@ package org.duckdns.hjow.swingwebpanel.js.host;
 import java.io.IOException;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
+import org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 
 /**
@@ -45,19 +46,35 @@ public final class ModuleSources {
      * @throws IOException if the source cannot supply the requested module / 공급원이 요청한 모듈을 제공할 수 없으면
      */
     public static ScriptText fetch(ScriptSource source, ModuleRequest request, boolean credentials) throws IOException {
+        return fetch(source, request, credentials ? Credentials.INCLUDE : Credentials.SAME_ORIGIN, false);
+    }
+
+    /**
+     * Fetches a module with explicit credentials and worker entry rules.
+     * <p>
+     * 지정한 자격 증명과 worker 진입 모듈 규칙을 적용해 가져온다.
+     *
+     * @param source the script source / 스크립트 공급원
+     * @param request the resolved module request / 해석된 모듈 요청
+     * @param credentials credentials mode / 자격 증명 모드
+     * @param workerEntry true for a worker entry module / worker 진입 모듈이면 true
+     * @return source text and final URL / 소스 텍스트와 최종 URL
+     * @throws IOException if the source cannot supply the requested module / 공급원이 요청한 모듈을 제공할 수 없으면
+     */
+    public static ScriptText fetch(ScriptSource source, ModuleRequest request, Credentials credentials, boolean workerEntry) throws IOException {
         String key = request.getSpecifier();
         if (source == null) {
             throw new IOException("scripts cannot be fetched");
         }
         if (source instanceof ModuleScriptSource.WithAttributes) {
-            return ((ModuleScriptSource.WithAttributes) source).fetchModule(request, credentials);
+            return ((ModuleScriptSource.WithAttributes) source).fetchModule(request, credentials, workerEntry);
         }
         // 타입을 검사할 수 없는 공급원은 기존 JavaScript 경로에만 사용한다.
         if (request.isJson()) {
             throw new IOException("the script source cannot fetch JSON modules");
         }
         if (source instanceof ModuleScriptSource) {
-            return ((ModuleScriptSource) source).fetchModule(key, credentials);
+            return ((ModuleScriptSource) source).fetchModule(key, credentials == Credentials.INCLUDE);
         }
         return new ScriptText(source.fetch(key), key);
     }

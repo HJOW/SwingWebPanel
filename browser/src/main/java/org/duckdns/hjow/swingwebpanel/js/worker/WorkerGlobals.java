@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import org.duckdns.hjow.swingwebpanel.dom.DomException;
 import org.duckdns.hjow.swingwebpanel.js.Js;
+import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
@@ -145,6 +146,9 @@ final class WorkerGlobals {
              * @return undefined / undefined
              */
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
+                if (scope.isModule()) {
+                    throw JsException.typeError("importScripts() is unavailable in a module worker");
+                }
                 String[] urls = new String[args.length];
                 // 가져오기 전에 모든 URL을 먼저 해석한다. 하나라도 잘못되었으면 아무것도 가져오지 않고 SyntaxError 이다.
                 for (int i = 0; i < args.length; i++) {

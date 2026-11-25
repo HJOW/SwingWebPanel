@@ -995,7 +995,7 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
      * @throws IOException on cancellation, policy failure, CORS refusal, wrong MIME type or response error / 취소, 정책 실패, CORS 거부, 잘못된 MIME 타입, 응답 오류 시
      */
     public ScriptText fetchModule(String url, boolean useCredentials) throws IOException {
-        return fetchModule(new ModuleRequest(url), useCredentials);
+        return fetchModule(new ModuleRequest(url), useCredentials ? Credentials.INCLUDE : Credentials.SAME_ORIGIN, false);
     }
 
     /**
@@ -1004,18 +1004,20 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
      * CORS와 모듈 타입에 해당하는 MIME 타입 및 디코딩 규칙을 적용해 모듈을 가져온다.
      *
      * @param module the resolved module request / 해석된 모듈 요청
-     * @param useCredentials true to send credentials across origins / 교차 오리진으로 자격 증명을 보내려면 true
+     * @param credentials credentials mode / 자격 증명 모드
+     * @param workerEntry true for a same-origin worker entry / 같은 오리진의 worker 진입 모듈이면 true
      * @return UTF-8 text and final URL / UTF-8 텍스트와 최종 URL
      * @throws IOException if the module cannot be loaded / 모듈을 불러올 수 없으면
      */
-    public ScriptText fetchModule(ModuleRequest module, boolean useCredentials) throws IOException {
+    public ScriptText fetchModule(ModuleRequest module, Credentials credentials, boolean workerEntry) throws IOException {
         resources.throwIfCancelled();
         String url = module.getSpecifier();
         Origin initiator = Origin.of(pageUrl);
         // 자격 증명 모드를 리디렉션마다 적용하도록 요청에 넘긴다.
         ResourceRequest request = new ResourceRequest(url).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                 .setCookies(cookies).setCancelToken(resources).setReferrer(pageUrl).setInitiator(initiator)
-                .setPurpose(RequestPurpose.MODULE).setSendCredentials(true).setSameOriginCredentialsOnly(!useCredentials)
+                .setPurpose(workerEntry ? RequestPurpose.WORKER_MODULE : RequestPurpose.MODULE)
+                .setSendCredentials(credentials != Credentials.OMIT).setSameOriginCredentialsOnly(credentials == Credentials.SAME_ORIGIN)
                 .setCacheMode(context.force ? ResourceRequest.CacheMode.FORCE_RELOAD : ResourceRequest.CacheMode.DEFAULT);
         ResourceResponse response = fetcher.fetch(request);
         resources.throwIfCancelled();
@@ -1024,7 +1026,11 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         }
         String finalUrl = response.getFinalUrl() == null ? url : response.getFinalUrl();
         // 다른 오리진의 모듈은 서버가 CORS 로 허용해야 하고, 쿠키를 보냈다면 자격 증명까지 허용해야 한다.
-        if (!OriginPolicy.mayUse(initiator, Origin.of(finalUrl), RequestPurpose.MODULE, response, useCredentials)) {
+        Origin target = Origin.of(finalUrl);
+        if (workerEntry && !initiator.isSameOrigin(target)) {
+            throw new IOException("worker module entry must be same-origin: " + finalUrl);
+        }
+        if (!OriginPolicy.mayUse(initiator, target, RequestPurpose.MODULE, response, credentials == Credentials.INCLUDE)) {
             throw new IOException("blocked by CORS policy: " + finalUrl);
         }
         String mime = response.getMimeType();

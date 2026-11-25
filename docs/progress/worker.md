@@ -67,4 +67,4 @@ sh scripts/pkgtest.sh worker "js dom html css net storage core content layout re
 - [x] 소스 규칙 점검 0 위반(`tools/sourcecheck`, 35 파일)
 - [x] AGENTS.md P20-09-b, P20-09 체크, FEATURE_MATRIX WEB-08 갱신(조정자)
 
-알려진 한계: 이 구현은 worker 마다 데몬 스레드 하나(최대 `WorkerLimits.MAX_WORKERS_PER_PAGE`=16)를 쓴다. 모듈 worker(`type: 'module'`)는 지원하지 않고 `error` 이벤트로 거부한다(`WorkerApi` 설명). worker 안의 `WebSocket`, `IndexedDB`, `Cache`, `Atomics`/`SharedArrayBuffer` 공유 메모리는 `js/worker` 에 구현이 없다(소스 검색으로 확인했고 시험 근거도 없으므로 미구현으로 본다). Chromium 소스와의 비교는 하지 않았다.
+알려진 한계: 이 구현은 worker 마다 데몬 스레드 하나(최대 `WorkerLimits.MAX_WORKERS_PER_PAGE`=16)를 쓴다. 2026-11-26 P29-03-e2에서 전용·공유 모듈 Worker와 일반 Worker의 동적 import를 구현했다. Worker 안의 `WebSocket`, `IndexedDB`, `Cache`, `Atomics`/`SharedArrayBuffer` 공유 메모리는 미구현이다. Chromium 소스와의 비교는 하지 않았다.

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-03-e2 Worker의 JSON 모듈 (2026-11-26) ===
+현재 작업 번호: P29-03-e2 완료.
+완료한 내용: 일반 Worker에서 동적 import를, 모듈 Worker와 SharedWorker에서 정적·동적 의존성 로드를 연결했다. 모듈 Worker의 자격 증명 모드와 진입 요청의 동일 오리진 제한을 적용했다.
+변경 파일: WorkerApi.java, WorkerScope.java, WorkerGlobals.java, PageRuntime.java, ModuleScriptSource.java, ModuleSources.java, HttpFetcher.java, RequestPurpose.java, WorkerErrorTest.java, WorkerMessagingTest.java, WorkerSharedTest.java, AGENTS.md, docs/progress/worker.md, 이 문서.
+검증 결과: mvn -B -o -pl browser -am test -Dtest.filter=Worker (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 브라우저 52건 통과. sourcecheck 0 위반.
+미해결 사항: AudioWorklet의 타입별 모듈 선취득(P29-03-e3).
+다음 작업 번호: P29-03-e3.
+-----------------------------------------------------------------------------------------------
 === P29-03-e1 브라우저 문서의 JSON 모듈 (2026-11-26) ===
 현재 작업 번호: P29-03-e1 완료.
 완료한 내용: 문서 스크립트 로더가 모듈 타입별로 MIME을 검사하고 UTF-8로 읽는다. 캐시는 URL과 속성으로 구분하고, 같은 오리진 자격 증명 모드를 리디렉션의 각 구간에 적용한다.
@@ -562,6 +570,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-03-e2 Worker 모듈 로더
+
+일반 Worker의 동적 JSON, 전용·공유 모듈 Worker의 정적 JSON, top-level await, 모듈 Worker의 importScripts 거부, MIME, CORS 및 리디렉션을 검증했다. 다른 오리진으로 향한 Worker 진입 리디렉션에는 실제 요청을 보내지 않았다. 참고: WHATWG HTML Living Standard의 [Web workers](https://html.spec.whatwg.org/multipage/workers.html)(webfetch, JRE 25, 2026-11-26 조회, 리비전 ETag `6b06c784-4a8bc`, Last-Modified 2026-11-25 11:33:24 UTC).
 
 ### 2026-11-26 · P29-03-e1 문서 모듈 HTTP 검증
 

@@ -19,6 +19,51 @@ import org.duckdns.hjow.swingwebpanel.testing.TestHttpServer;
 public class WorkerMessagingTest {
 
     /**
+     * Loads JSON from classic and module workers under their own credentials and origin rules.
+     * <p>
+     * 일반 worker와 모듈 worker가 각자의 자격 증명과 오리진 규칙에 따라 JSON을 가져오는지 확인한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testJsonImportsInWorkers() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        TestHttpServer other = new TestHttpServer();
+        SwingWebPanel panel = WorkerTestSupport.newPanel();
+        try {
+            other.routeFixed("/closed", TestHttpServer.Response.ok("application/json", "0"));
+            other.start();
+            server.routeFixed("/classic.js", WorkerTestSupport.js("import('./data',{with:{type:'json'}})"
+                    + ".then(m=>postMessage(m.default.value),e=>postMessage(e.name));"));
+            server.routeFixed("/data", TestHttpServer.Response.ok("application/json", "{\"value\":\"classic\"}"));
+            server.routeFixed("/module.js", TestHttpServer.Response.redirect(302, "/m/main.js"));
+            server.routeFixed("/m/main.js", WorkerTestSupport.js("import data from './data' with {type:'json'};"
+                    + "let reason;try {importScripts();}catch(e){reason=e.name;}"
+                    + "try {await import('" + other.url("/closed") + "',{with:{type:'json'}});}catch(e)"
+                    + "{postMessage([data.value,reason,e.name,location.pathname].join(':'));}"));
+            server.routeFixed("/m/data", TestHttpServer.Response.ok("application/json", "{\"value\":\"module\"}"));
+            server.routeFixed("/foreign.js", TestHttpServer.Response.redirect(302, other.url("/closed")));
+            server.routeFixed("/page", TestHttpServer.Response.html(WorkerTestSupport.page(
+                    "var c=new Worker('/classic.js');c.onmessage=e=>put('classic',e.data);"
+                    + "var m=new Worker('/module.js',{type:'module',credentials:'omit'});m.onmessage=e=>put('module',e.data);"
+                    + "var f=new Worker('/foreign.js',{type:'module',credentials:'include'});f.onerror=e=>put('entry',e.type);"))
+                    .header("Set-Cookie", "worker=42; Path=/"));
+            server.start();
+            panel.setPage(server.url("/page"));
+            Check.equal("classic", WorkerTestSupport.await(panel, "classic"), "classic dynamic JSON module");
+            Check.equal("module:TypeError:TypeError:/m/main.js", WorkerTestSupport.await(panel, "module"), "static JSON, importScripts and CORS");
+            Check.equal("error", WorkerTestSupport.await(panel, "entry"), "cross-origin redirect of a worker entry");
+            Check.equal("worker=42", server.last("/data").header("Cookie"), "classic import uses same-origin credentials");
+            Check.isNull(server.last("/module.js").header("Cookie"), "module worker entry omits credentials");
+            Check.isNull(server.last("/m/data").header("Cookie"), "module worker dependency omits credentials");
+            Check.equal(1, other.count("/closed"), "only the module dependency connects to the other origin");
+        } finally {
+            panel.dispose();
+            server.stop();
+            other.stop();
+        }
+    }
+
+    /**
      * Creates the suite (required by the runner).
      * <p>
      * 스위트를 만든다(실행기가 필요로 함).
