@@ -810,6 +810,13 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - 대기·통지(`Atomics.wait`, `Atomics.notify`, ES2024 `Atomics.waitAsync`): 에이전트 차단 허용 규칙(`AgentCanSuspend`: 브라우저 주 문서/EDT 연결 스레드에서는 `Atomics.wait`가 즉시 `TypeError`, Worker 스레드에서는 대기 허용하되 Worker 종료·페이지 폐기·실행 제한 취소 시 즉시 깨어나 정리)과 `waitAsync`의 `{ async, value }` 반환 및 타임아웃/해결 작업 큐 연동을 구현한다.
   - 브라우저 `postMessage`/Worker 사이의 `SharedArrayBuffer` 공유 복제 정책(동일 에이전트 클러스터 공유, 교차 오리진/호스트 경계 거부 규칙)을 확정하고 문서화한다.
   구현: `js.builtins.typed.*`, `js.host.structured.*`, `js.worker.*`. 완료 조건: 다중 스레드/Worker 원자성·경합·`wait`/`notify`/`waitAsync`·성장 버퍼·폐기 시 대기 해제 시험이 JDK 6에서 통과한다.
+  - [x] P29-05-a. 공유 바이트 저장소를 Java 6 원자 배열로 구현한다. 같은 워드의 서로 다른 크기 접근과 확장 중 기존 바이트 보존을 다중 스레드 시험으로 검증한다.
+  - [ ] P29-05-b. `SharedArrayBuffer`의 생성·조회·grow·slice와 TypedArray/DataView 연결을 구현한다. 고정/성장 길이, 공유 범위 복사, 엔디언과 뷰 경계를 검증한다.
+    - [ ] P29-05-b1. `ElementType`, `ArrayBufferObject`와 공유 버퍼에서 공통 요소·바이트 접근을 구현한다. 일반 버퍼와 공유 뷰의 엔디언, 복사, 겹침을 검증한다.
+    - [ ] P29-05-b2. `SharedArrayBufferLib`를 설치하고 크기와 병행 성장, slice·species 및 일반 ArrayBuffer 메서드의 거부를 스크립트에서 검증한다.
+  - [ ] P29-05-c. `Atomics`의 읽기·쓰기·읽기-수정-쓰기와 isLockFree를 구현한다. 정수·BigInt, 범위와 인수 변환, 스레드 경합을 검증한다.
+  - [ ] P29-05-d. `wait`, `notify`, `waitAsync`와 호스트의 차단 허용·취소 처리를 구현한다. 대기열 순서, 무한·유한 대기, 타임아웃과 폐기를 검증한다.
+  - [ ] P29-05-e. 브라우저의 동일 에이전트 클러스터 구조화 복제를 연결한다. Worker와 원본 뷰가 공유 바이트를 관찰하는 사례, 다른 오리진/클러스터의 거부와 전송 목록 검사, 종료 시 대기 해제를 통합 검증한다.
 - [ ] P29-06. ES2023~ES2026 컬렉션·약한 참조·이터레이터 헬퍼(`Iterator`, `Set`, `Map`/`WeakMap`, Weak Symbol 키)를 구현한다.
   - 약한 참조의 Symbol 키 허용(ES2023, `9.13 CanBeHeldWeakly`): `Symbol.for`로 등록되지 않은 모든 Symbol(`KeyForSymbol(sym) === undefined`, well-known symbol 포함)을 `WeakMap`, `WeakSet`, `WeakRef`, `FinalizationRegistry`(대상 및 unregisterToken)에서 허용하고 등록 심볼은 `TypeError`로 거부한다.
   - 데이터 그룹화(ES2024): `Object.groupBy(items, callback)`(null 프로토타입 객체, 프로퍼티 키 강제 변환)과 `Map.groupBy(items, callback)`(`CanonicalizeKeyedCollectionKey` 적용)을 구현한다.
