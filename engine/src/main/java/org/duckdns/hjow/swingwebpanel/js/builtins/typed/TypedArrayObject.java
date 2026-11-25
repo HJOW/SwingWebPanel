@@ -64,7 +64,7 @@ public class TypedArrayObject extends JsObject {
      * @param type       element type / 요소 형식
      * @param buffer     the buffer / 버퍼
      * @param byteOffset offset of the first element in bytes / 첫 요소의 바이트 위치
-     * @param length     number of elements / 요소 수
+     * @param length     number of elements or -1 to track a resizable buffer / 요소 수. 가변 버퍼를 추적하면 -1
      */
     public TypedArrayObject(JsObject prototype, ElementType type, ArrayBufferObject buffer, int byteOffset, int length) {
         super(prototype);
@@ -108,31 +108,71 @@ public class TypedArrayObject extends JsObject {
     }
 
     /**
-     * Returns the offset of the first element in bytes (0 if the buffer is detached).
+     * Returns the visible byte offset, or zero if the view is out of bounds.
      * <p>
-     * 첫 요소의 바이트 위치를 반환한다(버퍼가 분리되었으면 0).
+     * 접근 가능한 뷰의 바이트 위치를 반환한다. 경계를 벗어나면 0이다.
      *
      * @return the offset / 위치
      */
     public int getByteOffset() {
-        return buffer.isDetached() ? 0 : byteOffset;
+        return isOutOfBounds() ? 0 : byteOffset;
     }
 
     /**
-     * Returns the number of elements (0 if the buffer is detached).
+     * Returns the original offset for operations such as subarray.
      * <p>
-     * 요소 수를 반환한다(버퍼가 분리되었으면 0).
+     * subarray 같은 연산에 필요한 원래 위치를 반환한다.
+     *
+     * @return the original byte offset / 원래 바이트 위치
+     */
+    int getRawByteOffset() {
+        return byteOffset;
+    }
+
+    /**
+     * Tells whether the array length is derived from its current buffer size.
+     * <p>
+     * 배열 길이를 버퍼의 현재 크기로 계산하는지 알려 준다.
+     *
+     * @return true for a length-tracking view / 길이를 자동 추적하는 뷰이면 true
+     */
+    public boolean isLengthTracking() {
+        return length < 0;
+    }
+
+    /**
+     * Checks the array's range against the current byte length.
+     * <p>
+     * 버퍼의 현재 바이트 길이와 배열이 차지하는 범위를 대조한다.
+     *
+     * @return true for a detached buffer or a view beyond its bounds / 버퍼가 분리되었거나 뷰가 범위를 벗어났으면 true
+     */
+    public boolean isOutOfBounds() {
+        if (buffer.isDetached()) {
+            return true;
+        }
+        int remaining = buffer.getByteLength() - byteOffset;
+        return remaining < 0 || (!isLengthTracking() && length > remaining / type.getSize());
+    }
+
+    /**
+     * Returns the visible number of elements, or zero if the view is out of bounds.
+     * <p>
+     * 접근 가능한 뷰의 요소 수를 반환한다. 경계를 벗어나면 0이다.
      *
      * @return the length / 길이
      */
     public int getLength() {
-        return buffer.isDetached() ? 0 : length;
+        if (isOutOfBounds()) {
+            return 0;
+        }
+        return isLengthTracking() ? (buffer.getByteLength() - byteOffset) / type.getSize() : length;
     }
 
     /**
-     * Returns the length in bytes (0 if the buffer is detached).
+     * Returns the visible byte length, or zero if the view is out of bounds.
      * <p>
-     * 바이트 길이를 반환한다(버퍼가 분리되었으면 0).
+     * 접근 가능한 바이트 길이를 반환한다. 경계를 벗어나면 0이다.
      *
      * @return the length in bytes / 바이트 길이
      */
@@ -177,15 +217,15 @@ public class TypedArrayObject extends JsObject {
     }
 
     /**
-     * Converts and writes a Number or BigInt according to this array's element type.
+     * Converts a value and writes it if the index is still in range.
      * <p>
-     * 이 배열의 요소 형식에 따라 Number 또는 BigInt 를 변환해 쓴다.
+     * 값을 변환한 뒤 인덱스가 여전히 범위 안이면 쓴다.
      *
      * @param index index / 인덱스
      * @param value value / 값
      */
     public void setElementValue(int index, JsValue value) {
-        type.writeValue(buffer.getData(), byteOffset + index * type.getSize(), value, true);
+        setIndexed(index, value);
     }
 
     /**
@@ -278,7 +318,7 @@ public class TypedArrayObject extends JsObject {
         if (!isValidIndex(index)) {
             return false;
         }
-        setElementValue((int) index, converted);
+        type.writeValue(buffer.getData(), byteOffset + (int) index * type.getSize(), converted, true);
         return true;
     }
 

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-04-e2 TypedArray 길이 추적과 경계 (2026-11-26) ===
+현재 작업 번호: P29-04-e2 완료.
+완료한 내용: 가변 버퍼 위의 자동 길이와 고정 길이 뷰를 구분한다. 뷰와 이터레이터의 범위를 검사하고 축소 후 재확대에서 접근을 복구한다. 콜백 또는 인수 변환에 따라 길이가 바뀔 때 캡처한 길이와 실제 경계를 구분한다. TypedArray 복사 생성자는 최신 규격대로 내장 ArrayBuffer를 만든다.
+변경 파일: TypedArrayObject.java, TypedArrayFactory.java, TypedArrayMethods.java, TypedArrayIterator.java, TypedSupport.java, TypedArrays.java, Es2026ResizableBufferTest.java, TypedArrayConstructorTest.java, AGENTS.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 744건 통과. sourcecheck 0 위반.
+미해결 사항: DataView의 자동 길이와 전송·크기 변경의 스크립트 메서드(P29-04-e3~e4). TypedArray 요소 프로퍼티 기술자의 판본 차이는 P29-09 대조에 포함한다.
+다음 작업 번호: P29-04-e3.
+-----------------------------------------------------------------------------------------------
 === P29-04-e1 가변 ArrayBuffer 저장소 (2026-11-26) ===
 현재 작업 번호: P29-04-e1 완료.
 완료한 내용: 최대 길이 옵션과 resizable, maxByteLength, detached 접근자, 바이트를 보존하고 새 구간을 0으로 채우는 재할당을 추가했다.
@@ -626,6 +634,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-04-e2 TypedArray 가변 경계
+
+홀수 바이트의 추적 뷰, 고정 뷰의 범위 이탈과 복원, subarray에서 길이 추적 유지, 이터레이터 오류, at·with·set·fill·findLastIndex 도중의 크기 변경을 시험했다. 형식화 배열 복사 생성자에서 원본 버퍼의 species 조회 여부도 ECMA-262 제17판 §23.2.5.1.2와 대조했다.
 
 ### 2026-11-26 · P29-04-e1 ArrayBuffer 최대 길이와 바이트 저장소
 

@@ -81,9 +81,9 @@ final class TypedSupport {
     }
 
     /**
-     * Validates that a value is a typed array whose buffer is not detached (ValidateTypedArray).
+     * Validates a typed array and its current buffer bounds (ValidateTypedArray).
      * <p>
-     * 값이 버퍼가 분리되지 않은 형식화 배열인지 검증한다(ValidateTypedArray).
+     * 형식화 배열과 버퍼의 현재 경계를 검증한다(ValidateTypedArray).
      *
      * @param v the value, usually the this value / 값. 보통 this 값
      * @return the typed array / 형식화 배열
@@ -93,8 +93,8 @@ final class TypedSupport {
             throw JsException.typeError("this is not a typed array");
         }
         TypedArrayObject t = (TypedArrayObject) v;
-        if (t.getBuffer().isDetached()) {
-            throw JsException.typeError("typed array buffer is detached");
+        if (t.isOutOfBounds()) {
+            throw JsException.typeError("TypedArray view is out of bounds");
         }
         return t;
     }
@@ -171,7 +171,11 @@ final class TypedSupport {
      */
     static TypedArrayObject speciesCreate(JsRealm realm, TypedArrayObject exemplar, JsValue[] args) {
         JsObject def = realm.getIntrinsic("%" + exemplar.getType().getConstructorName() + "%");
-        return create(speciesConstructor(exemplar, def), args);
+        TypedArrayObject result = create(speciesConstructor(exemplar, def), args);
+        if (result.getType().isBigInt() != exemplar.getType().isBigInt()) {
+            throw JsException.typeError("The species constructor changed the TypedArray content type");
+        }
+        return result;
     }
 
     /**
@@ -208,32 +212,6 @@ final class TypedSupport {
             throw new IllegalStateException("TypedLibInstaller has not been installed in this realm");
         }
         return new ArrayBufferObject(proto, data);
-    }
-
-    /**
-     * AllocateArrayBuffer (24.1.1.5) with a constructor: uses the intrinsic directly or constructs through a species constructor and checks
-     * the result.
-     * <p>
-     * 생성자를 받는 AllocateArrayBuffer (24.1.1.5): 내장 생성자이면 직접 만들고, species 생성자이면 생성자를 거쳐 만든 뒤 결과를 검사한다.
-     *
-     * @param realm      the realm / realm
-     * @param ctor       the constructor to use / 쓸 생성자
-     * @param byteLength the number of bytes / 바이트 수
-     * @return the buffer / 버퍼
-     */
-    static ArrayBufferObject allocateBuffer(JsRealm realm, JsObject ctor, double byteLength) {
-        if (ctor == realm.getIntrinsic("%ArrayBuffer%")) {
-            return newBuffer(realm, allocate(byteLength));
-        }
-        JsObject o = Ops.construct(ctor, new JsValue[] { Js.num(byteLength) });
-        if (!(o instanceof ArrayBufferObject)) {
-            throw JsException.typeError("the ArrayBuffer species constructor did not return an ArrayBuffer");
-        }
-        ArrayBufferObject b = (ArrayBufferObject) o;
-        if (b.isDetached() || b.getByteLength() < byteLength) {
-            throw JsException.typeError("the ArrayBuffer species constructor returned a buffer that is too small");
-        }
-        return b;
     }
 
     /**

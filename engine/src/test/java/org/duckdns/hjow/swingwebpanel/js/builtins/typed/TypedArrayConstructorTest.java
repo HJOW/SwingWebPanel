@@ -13,10 +13,10 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
  * Tests of the typed array constructors (ECMA-262 6th edition, 22.2.4; plan item P14-06) and of the value conversion of every element type:
- * all constructor forms, alignment and range errors, species of the copied buffer, new.target prototypes, wrap-around and rounding conversions
+ * all constructor forms, alignment and range errors, copying buffers, new.target prototypes, wrap-around and rounding conversions
  * and the little endian byte layout.
  * <p>
- * 형식화 배열 생성자 시험(ECMA-262 6판, 22.2.4, 계획 P14-06)과 모든 요소 형식의 값 변환 시험: 모든 생성자 형태, 정렬/범위 오류, 복사된 버퍼의 species,
+ * 형식화 배열 생성자 시험(ECMA-262 6판, 22.2.4, 계획 P14-06)과 모든 요소 형식의 값 변환 시험: 모든 생성자 형태, 정렬/범위 오류, 버퍼 복사,
  * new.target 프로토타입, 감김과 반올림 변환, 리틀 엔디언 바이트 배치.
  */
 public class TypedArrayConstructorTest {
@@ -351,11 +351,11 @@ public class TypedArrayConstructorTest {
     }
 
     /**
-     * The buffer of a typed array copy is created through the species constructor of the source buffer.
+     * Copying a typed array creates an intrinsic ArrayBuffer in the current realm.
      * <p>
-     * 형식화 배열 복사본의 버퍼는 원본 버퍼의 species 생성자로 만들어진다.
+     * 형식화 배열을 복사하면 현재 realm의 내장 ArrayBuffer를 만든다.
      */
-    public void testBufferSpeciesOfCopy() {
+    public void testIntrinsicBufferOfCopy() {
         final TypedArrayObject src = TypedTestSupport.ta(realm, "Uint8Array", 1, 2, 3);
         final int[] calls = new int[1];
         final JsObject abCtor = TypedTestSupport.ctor(realm, "ArrayBuffer");
@@ -373,7 +373,8 @@ public class TypedArrayConstructorTest {
         c.defineData(WellKnownSymbols.SPECIES, species, true, false, true);
         src.getBuffer().defineData("constructor", c, true, false, true);
         TypedArrayObject copy = (TypedArrayObject) TypedTestSupport.make(realm, "Uint8Array", src);
-        Check.equal(1, calls[0], "the species constructor of the source buffer was used");
+        Check.equal(0, calls[0], "copying bypasses the source buffer's species constructor");
+        Check.same(realm.getIntrinsic("%ArrayBufferPrototype%"), copy.getBuffer().getPrototypeOf(), "intrinsic buffer prototype");
         TypedTestSupport.checkElements(new double[] { 1, 2, 3 }, copy, "copy");
     }
 

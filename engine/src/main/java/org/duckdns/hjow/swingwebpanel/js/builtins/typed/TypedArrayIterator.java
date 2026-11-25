@@ -130,9 +130,7 @@ final class TypedArrayIterator extends JsObject {
         if (a == null) {
             return IteratorHelper.createResult(realm, Js.UNDEFINED, true);
         }
-        if (a.getBuffer().isDetached()) {
-            throw JsException.typeError("typed array buffer is detached");
-        }
+        TypedSupport.validate(a);
         int i = index;
         if (i >= a.getLength()) {
             target = null;

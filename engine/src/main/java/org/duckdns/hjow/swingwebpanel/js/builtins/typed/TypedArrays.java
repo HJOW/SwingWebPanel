@@ -240,7 +240,7 @@ public final class TypedArrays {
         }
         if (v instanceof TypedArrayObject) {
             TypedArrayObject t = (TypedArrayObject) v;
-            return t.getBuffer().isDetached() ? null : new ByteView(t.getBuffer().getData(), t.getByteOffset(), t.getByteLength());
+            return t.isOutOfBounds() ? null : new ByteView(t.getBuffer().getData(), t.getByteOffset(), t.getByteLength());
         }
         if (v instanceof DataViewObject) {
             DataViewObject d = (DataViewObject) v;

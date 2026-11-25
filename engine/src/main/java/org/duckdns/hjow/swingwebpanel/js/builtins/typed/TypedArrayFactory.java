@@ -100,19 +100,14 @@ final class TypedArrayFactory {
      * @return the new typed array / 새 형식화 배열
      */
     private static JsObject fromTypedArray(JsRealm realm, ElementType type, JsObject proto, TypedArrayObject source) {
-        if (source.getBuffer().isDetached()) {
-            throw JsException.typeError("the source typed array buffer is detached");
-        }
+        TypedSupport.validate(source);
         int length = source.getLength();
-        double byteLength = (double) length * type.getSize();
-        JsObject bufferCtor = TypedSupport.speciesConstructor(source.getBuffer(), realm.getIntrinsic("%ArrayBuffer%"));
-        ArrayBufferObject buffer = TypedSupport.allocateBuffer(realm, bufferCtor, byteLength);
-        TypedArrayObject result = new TypedArrayObject(proto, type, buffer, 0, length);
-        if (source.getBuffer().isDetached()) {
-            throw JsException.typeError("the source typed array buffer is detached");
+        TypedArrayObject result = allocate(realm, type, proto, length);
+        if (source.getType().isBigInt() != type.isBigInt()) {
+            throw JsException.typeError("Cannot mix BigInt and Number typed arrays");
         }
         if (source.getType() == type) {
-            System.arraycopy(source.getBuffer().getData(), source.getByteOffset(), buffer.getData(), 0, (int) byteLength);
+            System.arraycopy(source.getBuffer().getData(), source.getByteOffset(), result.getBuffer().getData(), 0, result.getByteLength());
         } else {
             // 요소 형식이 다르면 요소마다 Number/BigInt 로 읽어 새 형식으로 바꿔 쓴다.
             for (int i = 0; i < length; i++) {
@@ -150,6 +145,13 @@ final class TypedArrayFactory {
             throw JsException.typeError("the buffer is detached");
         }
         double bufferLength = buffer.getByteLength();
+        // 가변 버퍼에서 length를 생략하면 끝의 불완전한 요소를 버리고 현재 길이를 추적한다.
+        if (newLength < 0 && buffer.isResizable()) {
+            if (offset > bufferLength) {
+                throw JsException.rangeError("Start offset " + (long) offset + " is outside the bounds of the buffer");
+            }
+            return new TypedArrayObject(proto, type, buffer, (int) offset, -1);
+        }
         double newByteLength;
         if (newLength < 0) {
             if (bufferLength % size != 0) {

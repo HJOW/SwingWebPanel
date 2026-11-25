@@ -189,12 +189,13 @@ final class TypedArrayMethods {
         realm.method(proto, "at", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 TypedArrayObject array = TypedSupport.validate(thisValue);
+                int length = array.getLength();
                 double relative = Ops.toInteger(Js.arg(args, 0));
-                double index = relative < 0 ? array.getLength() + relative : relative;
-                if (index < 0 || index >= array.getLength()) {
+                double index = relative < 0 ? length + relative : relative;
+                if (index < 0 || index >= length) {
                     return Js.UNDEFINED;
                 }
-                return array.getElementValue((int) index);
+                return elem(array, (int) index);
             }
         });
         realm.method(proto, "entries", 0, new NativeFunction.Call() {
@@ -481,6 +482,8 @@ final class TypedArrayMethods {
                 JsValue value = o.convertElement(Js.arg(args, 0));
                 int k = TypedSupport.relative(Js.arg(args, 1), len, 0);
                 int fin = TypedSupport.relative(Js.arg(args, 2), len, len);
+                // 인수 변환 중 줄어들거나 분리된 뷰의 현재 경계를 검사한다.
+                TypedSupport.validate(o);
                 int end = Math.min(fin, o.getLength());
                 // 구간의 모든 요소를 같은 값으로 채운다.
                 for (; k < end; k++) {
@@ -523,9 +526,7 @@ final class TypedArrayMethods {
                 if (offset < 0) {
                     throw JsException.rangeError("offset is out of bounds");
                 }
-                if (target.getBuffer().isDetached()) {
-                    throw JsException.typeError("typed array buffer is detached");
-                }
+                TypedSupport.validate(target);
                 JsValue source = Js.arg(args, 0);
                 if (source instanceof TypedArrayObject) {
                     setFromTypedArray(target, offset, (TypedArrayObject) source);
@@ -642,9 +643,14 @@ final class TypedArrayMethods {
                 TypedArrayObject o = thisArray(thisValue);
                 int srcLength = o.getLength();
                 int begin = TypedSupport.relative(Js.arg(args, 0), srcLength, 0);
-                int end = TypedSupport.relative(Js.arg(args, 1), srcLength, srcLength);
+                double beginByteOffset = (double) o.getRawByteOffset() + (double) begin * o.getType().getSize();
+                JsValue endArg = Js.arg(args, 1);
+                // 원본이 길이를 추적하고 끝 위치가 없으면 결과도 길이를 추적한다.
+                if (o.isLengthTracking() && endArg.isUndefined()) {
+                    return TypedSupport.speciesCreate(r, o, new JsValue[] { o.getBuffer(), Js.num(beginByteOffset) });
+                }
+                int end = TypedSupport.relative(endArg, srcLength, srcLength);
                 int newLength = Math.max(end - begin, 0);
-                double beginByteOffset = (double) o.getByteOffset() + (double) begin * o.getType().getSize();
                 return TypedSupport.speciesCreate(r, o, new JsValue[] { o.getBuffer(), Js.num(beginByteOffset), Js.num(newLength) });
             }
         });
@@ -660,12 +666,13 @@ final class TypedArrayMethods {
      * @param source the source array / 원본 배열
      */
     private static void setFromTypedArray(TypedArrayObject target, double offset, TypedArrayObject source) {
-        if (source.getBuffer().isDetached()) {
-            throw JsException.typeError("the source typed array buffer is detached");
-        }
+        TypedSupport.validate(source);
         int srcLength = source.getLength();
         if (srcLength + offset > target.getLength()) {
             throw JsException.rangeError("offset is out of bounds");
+        }
+        if (source.getType().isBigInt() != target.getType().isBigInt()) {
+            throw JsException.typeError("Cannot mix BigInt and Number typed arrays");
         }
         int at = (int) offset;
         if (source.getType() == target.getType()) {
@@ -696,9 +703,10 @@ final class TypedArrayMethods {
      * @param source the source value / 원본 값
      */
     private static void setFromArrayLike(JsRealm realm, TypedArrayObject target, double offset, JsValue source) {
+        int targetLength = target.getLength();
         JsObject src = Ops.toObject(realm, source);
         double srcLength = Ops.lengthOf(src);
-        if (srcLength + offset > target.getLength()) {
+        if (srcLength + offset > targetLength) {
             throw JsException.rangeError("offset is out of bounds");
         }
         int at = (int) offset;
