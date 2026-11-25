@@ -9,6 +9,7 @@ import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.num.Float16;
 
 /**
  * Installs the <code>Math</code> object (ECMA-262 6th edition 20.2): the eight constants, all thirty-five functions including the ES2015
@@ -224,6 +225,9 @@ final class MathLib {
      */
     private static final int TRUNC = 27;
 
+    /** Operation code: f16round. / 연산 코드: f16round. */
+    private static final int F16ROUND = 28;
+
     /**
      * Names of the one-argument functions in the order of the operation codes.
      * <p>
@@ -231,7 +235,7 @@ final class MathLib {
      */
     private static final String[] UNARY_NAMES = { "abs", "acos", "acosh", "asin", "asinh", "atan", "atanh", "cbrt", "ceil", "clz32", "cos",
         "cosh", "exp", "expm1", "floor", "fround", "log", "log1p", "log10", "log2", "round", "sign", "sin", "sinh", "sqrt", "tan", "tanh",
-        "trunc" };
+        "trunc", "f16round" };
 
     /**
      * Natural logarithm of 2.
@@ -434,6 +438,8 @@ final class MathLib {
             return Math.floor(x);
         case FROUND:
             return (double) (float) x;
+        case F16ROUND:
+            return Float16.decode(Float16.encode(x));
         case LOG:
             return Math.log(x);
         case LOG1P:

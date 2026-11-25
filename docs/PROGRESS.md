@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-04-d IEEE 754 반정밀도 (2026-11-26) ===
+현재 작업 번호: P29-04-d 완료.
+완료한 내용: binary64에서 binary16으로 한 번만 반올림하는 순수 Java 변환을 추가했다. Math.f16round, Float16Array, DataView 접근이 이를 공유한다.
+변경 파일: Float16.java, MathLib.java, ElementType.java, DataViewLib.java, TypedLibInstaller.java, Es2026Float16Test.java, BuiltinPropertiesTest.java, PropertyAttributesTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 740건 통과. sourcecheck 0 위반.
+미해결 사항: 가변 ArrayBuffer와 Uint8Array 인코딩(P29-04-e~f). Float16 호스트 경계는 P29-10에서 대조한다.
+다음 작업 번호: P29-04-e.
+-----------------------------------------------------------------------------------------------
 === P29-04-c2 Array.fromAsync 순차 소비 (2026-11-26) ===
 현재 작업 번호: P29-04-c 완료.
 완료한 내용: 비동기·동기 이터레이터와 유사 배열을 입력으로 받는다. 규격에 따라 필요한 값과 매퍼를 기다리고 결과를 쓴 뒤 다음 요소를 요청한다. 생성자 this와 오류 발생 시 iterator.return의 대기 및 원래 거부 이유를 검증했다.
@@ -610,6 +618,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-04-d 반정밀도 이진 데이터
+
+16비트 패턴 65,536개를 검사했다. 유한 값, 무한대와 quiet NaN은 왕복하며 signaling NaN은 NaN으로 읽힌다. JRE의 signaling NaN 형변환 제약을 고려했다. 비정규수·경계 반올림, 부호 있는 0, DataView 양 엔디언 및 NaN 페이로드를 함께 대조했다.
 
 ### 2026-11-26 · P29-04-c2 비동기 배열 생성
 

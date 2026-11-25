@@ -69,7 +69,7 @@ final class DataViewLib {
             }
         });
         ElementType[] types = { ElementType.INT8, ElementType.UINT8, ElementType.INT16, ElementType.UINT16, ElementType.INT32, ElementType.UINT32,
-            ElementType.FLOAT32, ElementType.FLOAT64, ElementType.BIGINT64, ElementType.BIGUINT64 };
+            ElementType.FLOAT16, ElementType.FLOAT32, ElementType.FLOAT64, ElementType.BIGINT64, ElementType.BIGUINT64 };
         // 형식마다 getXxx / setXxx 메서드를 정의한다.
         for (int i = 0; i < types.length; i++) {
             final ElementType type = types[i];

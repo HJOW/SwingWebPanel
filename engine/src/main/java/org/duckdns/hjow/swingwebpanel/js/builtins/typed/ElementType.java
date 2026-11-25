@@ -5,18 +5,17 @@ import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.num.Float16;
 
 /**
  * The element types of typed arrays and the accessors of DataView: how many bytes an element takes, how a JavaScript number is converted
  * into the stored bytes and how stored bytes are turned back into a number. Typed arrays always store little endian (ECMAScript leaves
  * the platform endianness implementation-defined; this library chooses little endian); DataView passes the endianness of every call.
- * Float values are written with canonical NaN bit patterns (0x7fc00000 for Float32, 0x7ff8000000000000 for Float64), so a NaN payload is
- * not preserved (allowed by ECMAScript 2015).
+ * Float32 and Float64 write canonical NaN bit patterns. Float16 carries the sign and available payload bits.
  * <p>
  * 형식화 배열의 요소 형식과 DataView 접근자: 요소가 몇 바이트인지, JavaScript 숫자를 저장 바이트로 바꾸는 방법, 저장 바이트를 다시 숫자로
  * 바꾸는 방법. 형식화 배열은 항상 리틀 엔디언으로 저장한다(ECMAScript 는 플랫폼 엔디언을 구현 정의로 남겨 두며 이 라이브러리는 리틀 엔디언을 고른다).
- * DataView 는 호출마다 엔디언을 받는다. 부동소수점 값은 표준 NaN 비트 패턴(Float32 는 0x7fc00000, Float64 는 0x7ff8000000000000)으로 쓰므로
- * NaN 페이로드는 보존하지 않는다(ECMAScript 2015 가 허용함).
+ * DataView는 호출마다 엔디언을 받는다. Float32와 Float64는 표준 NaN 비트 패턴을 쓰며 Float16은 부호와 표현 가능한 페이로드 비트를 보존한다.
  */
 public enum ElementType {
 
@@ -68,6 +67,9 @@ public enum ElementType {
      * Uint32Array: 부호 없는 32비트 정수.
      */
     UINT32("Uint32Array", 4),
+
+    /** Float16Array: IEEE 754 half precision numbers. / Float16Array: IEEE 754 반정밀도 숫자. */
+    FLOAT16("Float16Array", 2),
 
     /**
      * Float32Array: IEEE 754 single precision numbers.
@@ -230,6 +232,8 @@ public enum ElementType {
             return (int) readBits(data, offset, 4, littleEndian);
         case UINT32:
             return readBits(data, offset, 4, littleEndian) & 0xFFFFFFFFL;
+        case FLOAT16:
+            return Float16.decode((int) readBits(data, offset, 2, littleEndian));
         case FLOAT32:
             return Float.intBitsToFloat((int) readBits(data, offset, 4, littleEndian));
         case FLOAT64:
@@ -265,6 +269,9 @@ public enum ElementType {
         case INT32:
         case UINT32:
             writeBits(data, offset, 4, Ops.toInt32(value), littleEndian);
+            return;
+        case FLOAT16:
+            writeBits(data, offset, 2, Float16.encode(value), littleEndian);
             return;
         case FLOAT32:
             writeBits(data, offset, 4, Float.floatToIntBits((float) value), littleEndian);
