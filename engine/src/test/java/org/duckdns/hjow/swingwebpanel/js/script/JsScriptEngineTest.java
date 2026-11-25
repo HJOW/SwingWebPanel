@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.js.script;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 import javax.script.Bindings;
@@ -70,6 +71,7 @@ public class JsScriptEngineTest {
         Check.isNull(e.eval("undefined"), "undefined gives null");
         Check.isNull(e.eval("null"), "null gives null");
         Check.equal(Boolean.TRUE, e.eval("[1, 2, 3].indexOf(2) === 1"), "a boolean");
+        Check.equal(new BigInteger("12345678901234567890"), e.eval("12345678901234567890n"), "a BigInt");
         Check.isTrue(e.eval("({a: 1})") instanceof Map, "an object is a Map");
         Check.isTrue(e.eval("[1, 2]") instanceof List, "an array is a List");
         Check.isTrue(e.eval("(function () {})") instanceof JsCallable, "a function is a JsCallable");
@@ -95,9 +97,12 @@ public class JsScriptEngineTest {
     public void testEngineScopeIsLive() throws Exception {
         final ScriptEngine e = newEngine();
         e.put("n", Integer.valueOf(4));
+        e.put("big", new BigInteger("12345678901234567890"));
         e.put("s", "str");
         e.put("nothing", null);
         Check.equal(Double.valueOf(5), e.eval("n + 1"), "a put value is a global");
+        Check.equal(new BigInteger("12345678901234567891"), e.eval("big + 1n"), "a BigInteger is a BigInt");
+        Check.equal(new BigInteger("12345678901234567890"), e.get("big"), "BigInt reads back as BigInteger");
         Check.equal("str!", e.eval("s + '!'"), "string");
         Check.equal(Double.valueOf(4), e.get("n"), "get returns the script's Double");
         e.eval("var made = [1, 2]; function f(x) { return x + 1; } var undef;");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsArray;
+import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsNumber;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
@@ -422,6 +423,9 @@ public final class JsonBuiltins {
                 double d = ((JsNumber) value).getValue();
                 return Double.isNaN(d) || Double.isInfinite(d) ? "null" : Ops.toString(value);
             }
+            if (value instanceof JsBigInt) {
+                throw JsException.typeError("Do not know how to serialize a BigInt");
+            }
             if (value instanceof JsObject && !value.isCallable()) {
                 return Ops.isArray(value) ? array((JsObject) value) : object((JsObject) value);
             }
@@ -441,6 +445,9 @@ public final class JsonBuiltins {
                 return Js.str(Ops.toString(o));
             }
             if (o instanceof JsPrimitiveObject) {
+                if (((JsPrimitiveObject) o).getPrimitive() instanceof JsBigInt) {
+                    return ((JsPrimitiveObject) o).getPrimitive();
+                }
                 String tag = o.className();
                 if ("Number".equals(tag)) {
                     return Js.num(Ops.toNumber(o));

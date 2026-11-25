@@ -13,10 +13,10 @@ package org.duckdns.hjow.swingwebpanel.js.host.structured;
 public final class ClonedValue {
 
     /**
-     * The root: <code>StructuredClone.UNDEFINED</code>, <code>StructuredClone.NULL</code>, a Boolean, a Double, a String, or an Integer
+     * The root: <code>StructuredClone.UNDEFINED</code>, <code>StructuredClone.NULL</code>, a Boolean, a Double, a BigInteger, a String, or an Integer
      * (the number of a cell).
      * <p>
-     * 루트: <code>StructuredClone.UNDEFINED</code>, <code>StructuredClone.NULL</code>, Boolean, Double, String, 또는 Integer(칸 번호).
+     * 루트: <code>StructuredClone.UNDEFINED</code>, <code>StructuredClone.NULL</code>, Boolean, Double, BigInteger, String, 또는 Integer(칸 번호).
      */
     final Object root;
 

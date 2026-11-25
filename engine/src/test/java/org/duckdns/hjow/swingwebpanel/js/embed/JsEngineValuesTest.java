@@ -49,7 +49,8 @@ public class JsEngineValuesTest {
         e.put("nan", Double.valueOf(Double.NaN));
         e.put("neg0", Double.valueOf(-0.0));
         Check.equal("7,9,1.5,0.5,123,2.25,-3", e.eval("[i, l, d, f, bi, bd, by].join()"), "numbers");
-        Check.equal(Boolean.TRUE, e.eval("[i, l, d, f, bi, bd, by].every(function (v) { return typeof v === 'number'; })"), "all numbers");
+        Check.equal("number,number,number,number,bigint,number,number",
+                e.eval("[i, l, d, f, bi, bd, by].map(function (v) { return typeof v; }).join()"), "BigInteger is a BigInt and other Numbers are numbers");
         Check.equal("x|string", e.eval("c + '|' + typeof c"), "Character is a string");
         Check.equal("sb|string", e.eval("sb + '|' + typeof sb"), "CharSequence is a string");
         Check.equal("RUNNABLE", e.eval("en"), "Enum is its name");
@@ -133,6 +134,8 @@ public class JsEngineValuesTest {
     public void testScriptToJava() {
         JsEngine e = new JsEngine();
         Check.equal(Double.valueOf(3), e.eval("3"), "an integral number is a Double");
+        Check.equal(new BigInteger("123456789012345678901234567890"),
+                e.eval("123456789012345678901234567890n"), "a BigInt is a BigInteger without precision loss");
         Check.equal(Double.valueOf(0.5), e.eval("0.5"), "fraction");
         Check.isTrue(e.eval("NaN") instanceof Double && ((Double) e.eval("NaN")).isNaN(), "NaN");
         Check.equal(Double.valueOf(Double.POSITIVE_INFINITY), e.eval("1/0"), "infinity");

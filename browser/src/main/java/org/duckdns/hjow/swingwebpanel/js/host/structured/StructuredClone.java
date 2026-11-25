@@ -1,10 +1,12 @@
 package org.duckdns.hjow.swingwebpanel.js.host.structured;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsArray;
+import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
 import org.duckdns.hjow.swingwebpanel.js.JsBoolean;
 import org.duckdns.hjow.swingwebpanel.js.JsErrorObject;
 import org.duckdns.hjow.swingwebpanel.js.JsNumber;
@@ -182,6 +184,13 @@ public final class StructuredClone {
      * 칸 종류: 전달 처리기가 옮긴 객체(MessagePort). 칸이 불투명한 내용물을 가진다.
      */
     static final int TRANSFERRED = 14;
+
+    /**
+     * Cell kind: BigInt wrapper object.
+     * <p>
+     * 칸 종류: BigInt 래퍼 객체.
+     */
+    static final int BIGINT_OBJECT = 15;
 
     /**
      * The hook through which objects other than ArrayBuffers (for example a <code>MessagePort</code>) are put in a transfer list. The
@@ -660,6 +669,11 @@ public final class StructuredClone {
                 charge(8);
                 return Double.valueOf(((JsNumber) v).getValue());
             }
+            if (v instanceof JsBigInt) {
+                BigInteger n = ((JsBigInt) v).getValue();
+                charge(16L + (n.bitLength() + 7) / 8);
+                return n;
+            }
             if (v instanceof JsString) {
                 String s = ((JsString) v).getValue();
                 charge(2L * s.length() + 16);
@@ -749,6 +763,12 @@ public final class StructuredClone {
                 if (p instanceof JsNumber) {
                     Cell c = new Cell(NUMBER_OBJECT);
                     c.number = ((JsNumber) p).getValue();
+                    return c;
+                }
+                if (p instanceof JsBigInt) {
+                    Cell c = new Cell(BIGINT_OBJECT);
+                    c.text = ((JsBigInt) p).getValue().toString();
+                    charge(2L * c.text.length());
                     return c;
                 }
                 throw cannotClone("A Symbol object");
@@ -1225,6 +1245,9 @@ public final class StructuredClone {
             if (r instanceof Double) {
                 return Js.num(((Double) r).doubleValue());
             }
+            if (r instanceof BigInteger) {
+                return JsBigInt.of((BigInteger) r);
+            }
             if (r instanceof String) {
                 return Js.str((String) r);
             }
@@ -1245,6 +1268,8 @@ public final class StructuredClone {
                 return new JsPrimitiveObject(realm.getBooleanPrototype(), JsBoolean.of(c.flag), "Boolean");
             case NUMBER_OBJECT:
                 return new JsPrimitiveObject(realm.getNumberPrototype(), Js.num(c.number), "Number");
+            case BIGINT_OBJECT:
+                return new JsPrimitiveObject(realm.getBigIntPrototype(), JsBigInt.of(new BigInteger(c.text)), "BigInt");
             case STRING_OBJECT:
                 return new JsStringObject(realm.getStringPrototype(), c.text);
             case DATE:

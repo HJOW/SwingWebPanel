@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-04-c BigInt JSON·구조화 복제·Java 변환 (2026-11-25) ===
+현재 작업 번호: P28-04-c 완료.
+완료한 내용: JSON BigInt TypeError와 replacer 변환, StructuredClone의 BigInt 원시/래퍼/BigInt 형식화 배열 복제, java.math.BigInteger ↔ script BigInt와 javax.script 경계 변환을 구현했다.
+변경 파일: engine JsonBuiltins/JavaValues/JsEngine와 embed/script 시험, browser StructuredClone/ClonedValue/StructuredCloneTest, BigIntCoreTest, AGENTS.md/이 문서.
+검증 결과: BigIntCoreTest 5, JsEngineValuesTest 11, JsScriptEngineTest 14, StructuredCloneTest 16건 JRE 6u45 통과. sourcecheck 0 위반.
+미해결 사항: P28-04-d 전체 엔진/브라우저 회귀·외부 번들 구문 검사·기능 표/문서 최종 갱신.
+다음 작업 번호: P28-04-d.
+-----------------------------------------------------------------------------------------------
 === P28-04-b BigInt 형식화 배열과 DataView (2026-11-25) ===
 현재 작업 번호: P28-04-b 완료.
 완료한 내용: BigInt64Array/BigUint64Array, 64비트 감싸기·엔디언·형식 변환, DataView get/setBigInt64/get/setBigUint64와 모든 typed-array 메서드의 BigInt 보존을 구현했다.

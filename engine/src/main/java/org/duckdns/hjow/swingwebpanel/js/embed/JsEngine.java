@@ -45,7 +45,8 @@ import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseRejectionTracker;
  * <tr><td><code>null</code></td><td>null</td></tr>
  * <tr><td>{@link #UNDEFINED}</td><td>undefined</td></tr>
  * <tr><td><code>Boolean</code></td><td>boolean</td></tr>
- * <tr><td><code>Byte Short Integer Long Float Double BigInteger BigDecimal</code> and every other <code>Number</code></td><td>number (through
+ * <tr><td><code>BigInteger</code></td><td>BigInt (exact value)</td></tr>
+ * <tr><td><code>Byte Short Integer Long Float Double BigDecimal</code> and every other <code>Number</code></td><td>number (through
  * <code>doubleValue()</code>; a <code>long</code> above 2<sup>53</sup> loses precision)</td></tr>
  * <tr><td><code>String</code>, any <code>CharSequence</code>, <code>Character</code>, <code>Enum</code> (its <code>name()</code>)</td><td>string</td></tr>
  * <tr><td><code>Map</code></td><td>a new plain object (keys through <code>String.valueOf</code>, values converted recursively; a copy)</td></tr>
@@ -59,6 +60,7 @@ import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseRejectionTracker;
  * <tr><td>null</td><td><code>null</code></td></tr>
  * <tr><td>boolean</td><td><code>Boolean</code></td></tr>
  * <tr><td>number</td><td>always <code>Double</code> (never <code>Integer</code> or <code>Long</code>; <code>NaN</code>, infinities and -0 are kept)</td></tr>
+ * <tr><td>BigInt</td><td><code>BigInteger</code> (exact value)</td></tr>
  * <tr><td>string</td><td><code>String</code> (UTF-16 code units, as in the script)</td></tr>
  * <tr><td>symbol</td><td>its description as a <code>String</code> such as <code>Symbol(x)</code> (a symbol cannot be handed over)</td></tr>
  * <tr><td>array</td><td>{@link JsArrayHandle} (a live <code>List</code>)</td></tr>

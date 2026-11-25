@@ -113,6 +113,8 @@ public class StructuredCloneTest {
         expect("String(v !== v)", "true");
         clone("12345.678");
         expect("v", "12345.678");
+        clone("123456789012345678901234567890n");
+        expect("typeof v + ':' + v", "bigint:123456789012345678901234567890");
         clone("'\\ud83d \\ud83d\\ude00 \\u0000 한글'");
         expect("v.length + ':' + v.charCodeAt(0) + ':' + v.charCodeAt(2) + ':' + v.charCodeAt(5)", "9:55357:55357:0");
         expect("v.slice(-2)", "한글");
@@ -128,6 +130,9 @@ public class StructuredCloneTest {
         expect("typeof v + ':' + (v instanceof Boolean) + ':' + v.valueOf()", "object:true:false");
         clone("new Number(-0)");
         expect("(v instanceof Number) + ':' + (1 / v.valueOf())", "true:-Infinity");
+        clone("Object(12345678901234567890n)");
+        expect("(typeof v) + ':' + (v instanceof BigInt) + ':' + v.valueOf()",
+                "object:true:12345678901234567890");
         clone("new String('ab')");
         expect("(v instanceof String) + ':' + v.length + ':' + v.valueOf() + ':' + v[1]", "true:2:ab:b");
     }

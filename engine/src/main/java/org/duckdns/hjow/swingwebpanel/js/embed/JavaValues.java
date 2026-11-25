@@ -1,5 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.js.embed;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.IdentityHashMap;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import org.duckdns.hjow.swingwebpanel.js.ErrorKind;
 import org.duckdns.hjow.swingwebpanel.js.Js;
+import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
 import org.duckdns.hjow.swingwebpanel.js.JsBoolean;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsNumber;
@@ -97,6 +99,9 @@ final class JavaValues {
         if (v instanceof Character || v instanceof CharSequence || v instanceof Enum) {
             return Js.str(v instanceof Enum ? ((Enum<?>) v).name() : v.toString());
         }
+        if (v instanceof BigInteger) {
+            return JsBigInt.of((BigInteger) v);
+        }
         if (v instanceof Number) {
             return Js.num(((Number) v).doubleValue());
         }
@@ -131,7 +136,7 @@ final class JavaValues {
             return arrayOf(engine, items, seen, v);
         }
         throw new IllegalArgumentException("a Java object of type " + v.getClass().getName()
-                + " cannot be given to a script (only null, JsEngine.UNDEFINED, Boolean, Number, CharSequence, Character, Enum, Map, Collection, arrays,"
+                + " cannot be given to a script (only null, JsEngine.UNDEFINED, Boolean, Number (BigInteger is BigInt), CharSequence, Character, Enum, Map, Collection, arrays,"
                 + " JsHostFunction, JsHandle and JsValue can cross to a script)");
     }
 
@@ -217,6 +222,8 @@ final class JavaValues {
             return Boolean.valueOf(((JsBoolean) v).getValue());
         case NUMBER:
             return Double.valueOf(((JsNumber) v).getValue());
+        case BIGINT:
+            return ((JsBigInt) v).getValue();
         case STRING:
             return ((JsString) v).getValue();
         case SYMBOL:
@@ -315,6 +322,9 @@ final class JavaValues {
         }
         if (type == double.class || type == Double.class || type == Number.class) {
             return Double.valueOf(Ops.toNumber(v));
+        }
+        if (type == BigInteger.class) {
+            return Ops.toBigInt(v);
         }
         if (type == float.class || type == Float.class) {
             return Float.valueOf((float) Ops.toNumber(v));

@@ -91,4 +91,19 @@ public class BigIntCoreTest {
                 + "terr('negative width', function(){ BigInt.asIntN(-1, 1n); }, 'RangeError');",
                 7);
     }
+
+    /**
+     * Checks the JSON rule while allowing an explicit replacer conversion.
+     * <p>
+     * 명시적 replacer 변환은 허용하면서 JSON 규칙을 검사한다.
+     */
+    public void testJsonSerialization() {
+        Scripts.checkInline(
+                "terr('primitive', function(){ JSON.stringify(1n); }, 'TypeError');"
+                + "terr('wrapper', function(){ JSON.stringify(Object(2n)); }, 'TypeError');"
+                + "terr('array', function(){ JSON.stringify([1n]); }, 'TypeError');"
+                + "t('replacer', JSON.stringify({x:1n}, function(k,v){ return typeof v==='bigint' ? v.toString() : v; }), '{\"x\":\"1\"}');"
+                + "t('toJSON', JSON.stringify({toJSON:function(){return 3n;}}, function(k,v){ return typeof v==='bigint' ? '3' : v; }), '\"3\"');",
+                5);
+    }
 }
