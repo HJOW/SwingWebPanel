@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-04-f1 Uint8Array Hex 변환 (2026-11-26) ===
+현재 작업 번호: P29-04-f1 완료.
+완료한 내용: fromHex, toHex, setFromHex를 Uint8Array에 설치했다. 두 문자씩 검증하며 있는 바이트만 소비한다. 오류 전에 완성한 접두부, read/written, 뷰 오프셋 및 가변·분리 버퍼를 확인했다.
+변경 파일: Uint8ArrayConversions.java, TypedArrayLib.java, Es2026Uint8Base64HexTest.java, BuiltinPropertiesTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 750건 통과. sourcecheck 0 위반.
+미해결 사항: 타입별 Base64 변환과 부분 입력(P29-04-f2).
+다음 작업 번호: P29-04-f2.
+-----------------------------------------------------------------------------------------------
 === P29-04-e4 공개 ArrayBuffer 크기 변경과 전송 (2026-11-26) ===
 현재 작업 번호: P29-04-e 완료.
 완료한 내용: resize, transfer와 transferToFixedLength를 설치했다. 길이 변환 후의 실제 바이트를 복사하고 성공한 전송만 원본을 분리한다. 가변성 보존과 고정 길이 전송, 기존 TypedArray 및 DataView의 분리를 검증했다.
@@ -650,6 +658,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-04-f1 16진 문자열 변환
+
+대소문자 입력, 소문자 출력, 원시 문자열 요구, 홀수 길이, 유효 접두부 뒤 오류, 남은 용량과 가변 버퍼의 경계 복구를 검증했다.
 
 ### 2026-11-26 · P29-04-e4 ArrayBuffer resize와 transfer
 

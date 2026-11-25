@@ -255,9 +255,9 @@ public class BuiltinPropertiesTest {
     }
 
     /**
-     * The nine concrete constructors and their prototypes.
+     * The concrete typed array constructors and their prototypes.
      * <p>
-     * 아홉 개의 구체 생성자와 프로토타입.
+     * 구체 형식화 배열 생성자와 프로토타입.
      */
     public void testConcreteConstructors() {
         ElementType[] types = ElementType.values();
@@ -268,10 +268,18 @@ public class BuiltinPropertiesTest {
             JsObject proto = (JsObject) ctor.get("prototype");
             data("global " + name, realm.getGlobalObject(), name, "wc");
             function(name, ctor, name, 3, true);
-            keys(name, ctor, new String[] { "length", "name", "prototype", "BYTES_PER_ELEMENT" }, 0);
             data(name + ".prototype", ctor, "prototype", "");
             data(name + ".BYTES_PER_ELEMENT", ctor, "BYTES_PER_ELEMENT", "");
-            keys(name + ".prototype", proto, new String[] { "constructor", "BYTES_PER_ELEMENT" }, 0);
+            if (types[i] == ElementType.UINT8) {
+                keys(name, ctor, new String[] { "length", "name", "prototype", "BYTES_PER_ELEMENT", "fromHex" }, 0);
+                keys(name + ".prototype", proto, new String[] { "constructor", "BYTES_PER_ELEMENT", "toHex", "setFromHex" }, 0);
+                method("Uint8Array.fromHex", ctor, "fromHex", "fromHex", 1);
+                method("Uint8Array.prototype.toHex", proto, "toHex", "toHex", 0);
+                method("Uint8Array.prototype.setFromHex", proto, "setFromHex", "setFromHex", 1);
+            } else {
+                keys(name, ctor, new String[] { "length", "name", "prototype", "BYTES_PER_ELEMENT" }, 0);
+                keys(name + ".prototype", proto, new String[] { "constructor", "BYTES_PER_ELEMENT" }, 0);
+            }
             data(name + ".prototype.constructor", proto, "constructor", "wc");
             data(name + ".prototype.BYTES_PER_ELEMENT", proto, "BYTES_PER_ELEMENT", "");
             Check.same(realm.getIntrinsic("%" + name + "%"), ctor, "intrinsic %" + name + "%");

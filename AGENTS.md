@@ -802,7 +802,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-04-e3. `DataViewObject`, 생성자 및 접근자에서 버퍼의 현재 경계를 사용한다. 자동·고정 길이, 엔디언, 값 변환 중 축소·분리와 결과 오류를 검증한다.
     - [x] P29-04-e4. `ArrayBuffer.prototype`의 resize와 transfer 2종을 연결한다. 범위 실패, 재할당의 0 채움, 전송 성공 뒤 분리와 기존 뷰의 동작을 스크립트에서 검증한다.
   - [ ] P29-04-f. `Uint8Array`의 Base64·Hex 변환을 추가한다. 알파벳, 패딩, 접두부 처리, 버퍼 길이·분리 경계 및 read/written을 JDK 6에서 검증한다.
-    - [ ] P29-04-f1. `Uint8ArrayConversions`를 등록하고 Hex 3종을 구현한다. 입력·출력 형식, 제한 길이, 불완전 입력, 오류 전 접두부 저장, 분리·가변 버퍼를 시험한다.
+    - [x] P29-04-f1. `Uint8ArrayConversions`를 등록하고 Hex 3종을 구현한다. 입력·출력 형식, 제한 길이, 불완전 입력, 오류 전 접두부 저장, 분리·가변 버퍼를 시험한다.
     - [ ] P29-04-f2. Base64 3종을 구현한다. 알파벳, ASCII 공백, 패딩, 마지막 조각 처리, 출력 범위와 관찰 가능한 옵션 접근을 시험한다.
 - [ ] P29-05. `SharedArrayBuffer`와 `Atomics`(ES2017·ES2024, `25.2`·`25.4`·`29`)를 구현한다.
   - `SharedArrayBuffer` 생성자(`{ maxByteLength }` 성장 옵션 포함), `byteLength`, `maxByteLength`, `growable`, `grow(newLength)`(축소 금지·원자적 확장), `slice`, `@@species`/`@@toStringTag`를 구현한다.

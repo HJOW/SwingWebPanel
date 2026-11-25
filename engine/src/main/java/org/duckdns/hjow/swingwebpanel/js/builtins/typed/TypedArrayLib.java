@@ -166,5 +166,8 @@ final class TypedArrayLib {
         realm.setIntrinsic("%" + name + "%", ctor);
         realm.setIntrinsic("%" + name + "Prototype%", proto);
         realm.getGlobalObject().defineBuiltin(name, ctor);
+        if (type == ElementType.UINT8) {
+            Uint8ArrayConversions.install(realm, ctor, proto);
+        }
     }
 }
