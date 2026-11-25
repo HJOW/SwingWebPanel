@@ -2604,8 +2604,9 @@ public final class PageScripts {
         try {
             realm.getLimits().beginTask();
             try {
-                JsValue factory = realm.evaluateScript("(function(__d,__f,__e){return function(event){with(__d){with(__f){with(__e){\n" + body
-                        + "\n}}}};})", "handler");
+                JsValue factory = realm.getInterpreter().evaluateScript(
+                        "(function(__d,__f,__e){return function(event){with(__d){with(__f){with(__e){\n" + body
+                        + "\n}}}};})", "handler", null);
                 Element form = ParserNodeData.getFormOwner(element);
                 JsValue fn = Ops.call(factory, Js.UNDEFINED, new JsValue[] { bridge.toJs(document),
                     form == null ? realm.newObject() : bridge.toJs(form), bridge.toJs(element) });

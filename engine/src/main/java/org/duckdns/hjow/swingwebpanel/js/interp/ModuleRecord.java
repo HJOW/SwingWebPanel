@@ -633,7 +633,7 @@ final class ModuleRecord {
             throw failure;
         }
         status = EVALUATING;
-        ScriptScope previous = RealmExecution.enterScript(in.realm);
+        ScriptScope previous = RealmExecution.enterScript(in.realm, key);
         try {
             // 요청한 모듈을 순서대로 평가한다.
             for (int i = 0; i < requested.size(); i++) {
@@ -730,8 +730,16 @@ final class ModuleRecord {
     void evaluateBody(Ctx ctx) {
         if (program == null) {
             env.set("default", jsonDefault, true);
-        } else {
+        } else if (ctx.gen == null) {
             in.st.execList(program.list, env, ctx);
+        } else {
+            // 최상위 await 뒤에 재개할 때 이미 끝난 문장과 이전 await는 건너뛴다.
+            NodeState state = ctx.gen.enter(program);
+            try {
+                in.st.runList(program.list, env, ctx, state);
+            } finally {
+                ctx.gen.leave(program);
+            }
         }
     }
 

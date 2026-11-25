@@ -167,7 +167,7 @@ public final class AsyncGeneratorObject extends JsObject {
         gen.suspending = false;
         gen.resumeMode = mode;
         gen.resumeValue = value;
-        ScriptScope previous = in.enter();
+        ScriptScope previous = in.enter(function.scriptSource);
         try {
             JsValue result = in.runBody(function, ctx);
             state = DONE;

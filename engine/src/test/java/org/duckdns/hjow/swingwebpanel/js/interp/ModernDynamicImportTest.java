@@ -7,6 +7,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
 import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
@@ -38,7 +39,7 @@ public class ModernDynamicImportTest {
             if (!specifier.startsWith(".")) {
                 return specifier;
             }
-            int slash = referrer.lastIndexOf('/');
+            int slash = referrer == null ? -1 : referrer.lastIndexOf('/');
             String base = slash < 0 ? "" : referrer.substring(0, slash + 1);
             String path = base + specifier;
             java.util.List<String> parts = new java.util.ArrayList<String>();
@@ -142,6 +143,52 @@ public class ModernDynamicImportTest {
         realm.runJobs();
         Check.equal("7:root/dep.js", Ops.toString(realm.getGlobalObject().get("result")), "dynamic import result");
         Check.equal(Integer.valueOf(1), loader.fetches.get("root/dep.js"), "module is fetched once");
+    }
+
+    /**
+     * Checks relative imports through direct eval, indirect eval and resumed functions.
+     * <p>
+     * 직접 eval, 간접 eval, 재개한 함수의 상대 import를 확인한다.
+     */
+    public void testEvalAndResumptionUseDefiningScript() {
+        Object[] setup = realm("root/dep.js", "export default 'root';");
+        JsRealm realm = (JsRealm) setup[0];
+        Loader loader = (Loader) setup[1];
+        loader.sources.put("other/dep.js", "export default 'tail';");
+        realm.evaluateScript("function direct(){return eval(\"import('./dep.js')\");}"
+                + "function indirect(){return (0,eval)(\"import('./dep.js')\");}"
+                + "async function deferred(){await 0;return (0,eval)(\"import('./dep.js')\");}"
+                + "function* resumable(){yield 0;return (0,eval)(\"import('./dep.js')\");}"
+                + "function entry(){'use strict';return leaf();}", "root/functions.js");
+        realm.evaluateScript("function leaf(){'use strict';return eval(\"import('./dep.js')\");}", "other/leaf.js");
+        realm.evaluateScript("var gen=resumable();gen.next();"
+                + "Promise.all([direct(),indirect(),deferred(),gen.next().value,entry()])"
+                + ".then(values=>globalThis.result=values.map(m=>m.default).join());", "caller/main.js");
+        realm.runJobs();
+        Check.equal("root,root,root,root,tail", Ops.toString(realm.getGlobalObject().get("result")),
+                "direct, indirect, resumed and tail frames use the source where each function was defined");
+        Check.isNull(RealmExecution.currentScriptSource(), "script key is restored after the job drains");
+    }
+
+    /**
+     * Checks linked functions and top-level await retain the module record's key.
+     * <p>
+     * 링크 때 만든 함수와 최상위 await가 모듈 레코드 키를 보존하는지 확인한다.
+     */
+    public void testEvalUsesActiveModuleRecord() {
+        Object[] setup = realm("root/dep.js", "export default 'module';");
+        JsRealm realm = (JsRealm) setup[0];
+        Loader loader = (Loader) setup[1];
+        loader.sources.put("root/export.js", "export function access(){return (0,eval)(\"import('./dep.js')\");}"
+                + "globalThis.moduleRuns=(globalThis.moduleRuns??0)+1;await 0;"
+                + "export const value=(await eval(\"import('./dep.js')\")).default;");
+        realm.evaluateScript("import('root/export.js').then(async m=>globalThis.result=m.value+':'+(await m.access()).default);",
+                "caller/main.js");
+        realm.runJobs();
+        Check.equal("module:module", Ops.toString(realm.getGlobalObject().get("result")),
+                "module frame follows its own key during linking and top-level await");
+        Check.equal("1", Ops.toString(realm.getGlobalObject().get("moduleRuns")), "multiple awaits never replay earlier statements");
+        Check.isNull(RealmExecution.currentScriptSource(), "resumed module restores the caller's active key");
     }
 
     /**

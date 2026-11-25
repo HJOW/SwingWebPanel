@@ -149,7 +149,21 @@ public final class Interpreter {
      * @return the completion value of the last statement, or undefined / 마지막 문장의 완료 값. 없으면 undefined
      */
     public JsValue evaluateScript(String source, String name) {
-        return run(Parser.parseScript(source, name), name);
+        return evaluateScript(source, name, name);
+    }
+
+    /**
+     * Evaluates host-supplied code whose diagnostic label and active record key may differ.
+     * <p>
+     * 오류 위치 이름과 활성 레코드 키가 서로 다를 수 있는 호스트 코드를 실행한다.
+     *
+     * @param source the code / 코드
+     * @param name the source label for errors / 오류에 쓰는 소스 이름
+     * @param scriptSource the source key, or null for code without a script record / 원문 키. 스크립트 레코드가 없는 코드는 null
+     * @return the completion value / 완료 값
+     */
+    public JsValue evaluateScript(String source, String name, String scriptSource) {
+        return run(Parser.parseScript(source, name), name, scriptSource);
     }
 
     /**
@@ -179,7 +193,7 @@ public final class Interpreter {
             throw new IllegalArgumentException("not a script parsed by this engine: " + script);
         }
         ParsedProgram p = (ParsedProgram) script;
-        return run(p.program, p.name);
+        return run(p.program, p.name, p.name);
     }
 
     /**
@@ -189,11 +203,12 @@ public final class Interpreter {
      *
      * @param prog the PROGRAM node / PROGRAM 노드
      * @param name the source name / 소스 이름
+     * @param scriptSource the active record key or null / 활성 레코드 키 또는 null
      * @return the completion value of the last statement, or undefined / 마지막 문장의 완료 값. 없으면 undefined
      */
-    private JsValue run(Node prog, String name) {
+    private JsValue run(Node prog, String name, String scriptSource) {
         limits.beginTask();
-        ScriptScope previous = RealmExecution.enterScript(realm);
+        ScriptScope previous = RealmExecution.enterScript(realm, scriptSource);
         try {
             ProgramInfo pi = (ProgramInfo) prog.value;
             Ctx ctx = new Ctx(pi.strict, globalEnv, null);
@@ -538,15 +553,16 @@ public final class Interpreter {
      * <p>
      * 호출을 센다: 단계 수와 호출 깊이 제한을 검사한다.
      *
+     * @param scriptSource the active record key or null / 활성 레코드 키 또는 null
      * @return previous scope for {@link #leave(ScriptScope)} / {@link #leave(ScriptScope)}에서 복원할 이전 범위
      */
-    ScriptScope enter() {
+    ScriptScope enter(String scriptSource) {
         limits.tick();
         if (depth >= limits.getMaxCallDepth()) {
             throw JsException.rangeError("Maximum call stack size exceeded");
         }
         depth++;
-        return RealmExecution.enterScript(realm);
+        return RealmExecution.enterScript(realm, scriptSource);
     }
 
     /**
@@ -572,7 +588,7 @@ public final class Interpreter {
      * @return the result / 결과
      */
     JsValue callFunction(ScriptFunction f, JsValue thisArg, JsValue[] args) {
-        ScriptScope previous = enter();
+        ScriptScope previous = enter(f.scriptSource);
         try {
             ScriptFunction cur = f;
             JsValue curThis = thisArg;
@@ -595,6 +611,10 @@ public final class Interpreter {
                     return r;
                 }
                 cur = ctx.tailTarget;
+                ScriptScope changed = RealmExecution.enterScript(realm, cur.scriptSource);
+                if (previous == null) {
+                    previous = changed;
+                }
                 curThis = ctx.tailThis;
                 curArgs = ctx.tailArgs;
                 limits.tick();
@@ -617,7 +637,7 @@ public final class Interpreter {
      * @return the new object / 새 객체
      */
     JsObject constructFunction(ScriptFunction f, JsValue[] args, JsObject newTarget) {
-        ScriptScope previous = enter();
+        ScriptScope previous = enter(f.scriptSource);
         try {
             boolean derived = f.info.derived;
             if (f.defaultConstructor) {
@@ -979,7 +999,7 @@ public final class Interpreter {
         evalCtx.funcEnv = direct ? ctx.funcEnv : null;
         // eval 코드의 줄 번호는 eval 문자열 안의 위치이므로 호출 위치의 스크립트 이름과 섞지 않는다.
         evalCtx.sourceName = "eval";
-        ScriptScope previous = RealmExecution.enterScript(realm);
+        ScriptScope previous = RealmExecution.enterScript(realm, RealmExecution.currentScriptSource());
         try {
             evalDeclarationInstantiation(prog.scope, callerEnv, varEnv, lexEnv, strict);
             Completion c = st.execList(prog.list, lexEnv, evalCtx);

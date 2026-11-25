@@ -81,7 +81,7 @@ final class AsyncFunction {
             return;
         }
         state = RUNNING;
-        ScriptScope previous = initial ? null : in.enter();
+        ScriptScope previous = initial ? null : in.enter(function.scriptSource);
         GenState gen = ctx.gen;
         gen.suspending = false;
         gen.resumeMode = mode;

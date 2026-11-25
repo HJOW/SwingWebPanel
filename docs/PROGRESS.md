@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-09-d3a 활성 스크립트와 모듈 재개 (2026-11-26) ===
+현재 작업 번호: P29-09-d3a 완료.
+완료한 내용: 함수, eval, 모듈의 활성 원문 키를 오류 위치와 별도로 저장한다. 상대 import는 이 키를 사용한다. 최상위 await 재개 시 이전 문장을 다시 실행하지 않는다.
+변경 파일: RealmExecution.java, Interpreter.java, ScriptFunction.java, Expressions.java, AsyncFunction.java, GeneratorObject.java, AsyncGeneratorObject.java, ModuleRecord.java, ModuleAsyncEvaluation.java, Statements.java, PageScripts.java, ModernDynamicImportTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45 엔진 전체 859건, ModuleScriptTest 6건 통과. sourcecheck 0 위반.
+미해결 사항: Promise 작업 콜백의 등록 시 문맥 보존(P29-09-d3b), 구판 통합(P29-09-e).
+다음 작업 번호: P29-09-d3b.
+-----------------------------------------------------------------------------------------------
 === P29-09-d2 호스트 객체의 private 요소 (2026-11-26) ===
 현재 작업 번호: P29-09-d2 완료.
 완료한 내용: WindowProxy와 Location의 private 메서드·필드 추가를 거부한다. 필드 추가 시점, 중복 추가 오류, 클로저의 렉시컬 private 환경을 보완했다.
@@ -1002,6 +1010,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-09-d3a eval·재개 시 활성 원문 키
+
+- ECMA-262 제17판 함수의 ScriptOrModule과 eval·모듈 실행을 대조했다. 실행 범위에 상대 import에 쓰는 키를 저장한다. 파생 함수·꼬리 호출·await/yield에서 정의 위치를 복원한다. 이벤트 속성 함수는 활성 스크립트 레코드 없이 실행해 호스트 기준 URL을 사용할 수 있다.
+- 최상위 await가 여러 개 있는 모듈에서 이전 await와 그 앞 문장을 다시 실행하던 문제를 수정했다. 재개 상태가 모듈의 문장 위치를 보존한다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 859건, `mvn -B -o -pl browser -am test -Dtest.filter=ModuleScriptTest` 6건 통과.
 
 ### 2026-11-26 · P29-09-d2 HostEnsureCanAddPrivateElement
 

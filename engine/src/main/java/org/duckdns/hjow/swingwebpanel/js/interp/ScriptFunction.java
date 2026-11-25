@@ -9,6 +9,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.Property;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
 import org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo;
 
 /**
@@ -34,6 +35,9 @@ public final class ScriptFunction extends JsFunction {
      * 함수가 닫아 둔 환경.
      */
     final Environment scope;
+
+    /** The defining script or module key, or null. / 이 함수를 정의한 스크립트 또는 모듈 키. 없으면 null. */
+    final String scriptSource;
 
     /**
      * The interpreter that runs the function.
@@ -94,6 +98,8 @@ public final class ScriptFunction extends JsFunction {
         this.interp = interp;
         this.info = info;
         this.scope = scope;
+        // 모듈의 최상위 함수 선언은 해당 모듈을 실행하기 전 링크 단계에서도 만들어진다.
+        scriptSource = scope.module == null ? RealmExecution.currentScriptSource() : scope.module.key;
         defineNameAndLength(name, info.length);
         protoMaterialized = info.arrow || info.async || (info.method && !info.classConstructor && !info.generator);
     }

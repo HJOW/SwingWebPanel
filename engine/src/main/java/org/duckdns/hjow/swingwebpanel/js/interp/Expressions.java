@@ -22,6 +22,7 @@ import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
 import org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo;
 import org.duckdns.hjow.swingwebpanel.js.ast.Node;
 import org.duckdns.hjow.swingwebpanel.js.ast.NodeType;
@@ -270,7 +271,7 @@ final class Expressions {
             // 두 인수의 평가 예외는 Promise를 만들기 전 호출한 코드에 전달된다.
             JsValue specifier = memo(st, n.a, env, ctx);
             JsValue options = n.b == null ? Js.UNDEFINED : memo(st, n.b, env, ctx);
-            return in.dynamicImport(specifier, options, ctx.sourceName);
+            return in.dynamicImport(specifier, options, RealmExecution.currentScriptSource());
         }
         default:
             throw JsException.syntaxError("Unsupported expression (node type " + n.type + ")", null, n.line, n.column);

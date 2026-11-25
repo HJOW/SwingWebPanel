@@ -156,7 +156,7 @@ final class Statements {
      * @param st   the node state or null / 노드 상태 또는 null
      * @return the completion / 완료
      */
-    private Completion runList(Node[] list, Environment env, Ctx ctx, NodeState st) {
+    Completion runList(Node[] list, Environment env, Ctx ctx, NodeState st) {
         int start = 0;
         JsValue last = null;
         if (st != null) {
