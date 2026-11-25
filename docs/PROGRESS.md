@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-06-e2 Iterator 즉시 소비 헬퍼 (2026-11-26) ===
+현재 작업 번호: P29-06-e2 완료.
+완료한 내용: toArray, forEach, reduce, some, every, find가 동기 이터레이터를 소비한다. 콜백이 잘못됐거나 실행 중 오류가 나면 원래 완료를 보존한 채 닫고, 조건이 결정되면 정상 닫기 결과를 따른다.
+변경 파일: IteratorConstructor.java, IteratorEagerMethods.java, IteratorMethodSupport.java, Es2026IteratorTest.java, AGENTS.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행) 792건 통과. sourcecheck 0 위반.
+미해결 사항: map·filter·take·drop과 flatMap·concat(P29-06-e3~e4).
+다음 작업 번호: P29-06-e3.
+-----------------------------------------------------------------------------------------------
 === P29-06-e1 전역 Iterator와 from (2026-11-26) ===
 현재 작업 번호: P29-06-e1 완료.
 완료한 내용: 기존 IteratorPrototype에 추상 Iterator 생성자와 접근자를 설치했다. Iterator.from은 next를 캡처한 뒤 기존 표준 이터레이터 객체를 그대로 반환하거나 수신 realm의 래퍼로 감싼다.
@@ -794,6 +802,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-06-e2 조건 단락과 누산
+
+초기값이 생략된 reduce와 undefined가 전달된 reduce, 콜백 인수와 this, 조건 단락 뒤 제너레이터의 finally를 확인했다. 콜백 유효성 검사, next getter, next 결과의 value getter, 정상 닫기와 콜백 오류의 순서를 검증했다.
 
 ### 2026-11-26 · P29-06-e1 기존 프로토타입 위의 Iterator
 

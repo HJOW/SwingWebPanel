@@ -111,6 +111,7 @@ final class IteratorConstructor {
                 return Ops.ordinaryHasInstance(constructor, iterator) ? iterator : new WrappedIterator(wrapper, record);
             }
         });
+        IteratorEagerMethods.install(realm, prototype);
     }
 
     /**

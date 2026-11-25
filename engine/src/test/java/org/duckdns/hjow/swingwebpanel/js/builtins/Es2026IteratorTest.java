@@ -87,6 +87,60 @@ public class Es2026IteratorTest {
     }
 
     /**
+     * Tests toArray, reduce, and forEach with different accumulator states and callback arguments.
+     * <p>
+     * 누산값과 콜백 인수의 차이를 포함해 toArray, reduce, forEach를 검증한다.
+     */
+    public void testEagerIteratorConsumption() {
+        String script = "function error(f){try{f();return 'missing';}catch(e){return e.name;}}"
+                + "const log=[];const array=Iterator.from('ab').toArray();"
+                + "const sum=Iterator.from([2,3,6]).reduce(function(a,v,i){'use strict';log.push(i,this===undefined,arguments.length);return a+v;});"
+                + "const initial=Iterator.from([7]).reduce(function(a,v,i){return [String(a),v,i].join(',');},undefined);"
+                + "const done=Iterator.from([4,6]).forEach((v,i)=>log.push(v+i));"
+                + "[array instanceof Array,array.join(),sum,initial,done===undefined,log.join(),"
+                + "Iterator.from([]).reduce(()=>{throw 'called';},undefined)===undefined,"
+                + "error(()=>Iterator.from([]).reduce(()=>0)),Iterator.prototype.toArray.length,"
+                + "Iterator.prototype.reduce.length,Iterator.prototype.forEach.length].join('|')";
+        Check.equal("true|a,b|11|undefined,7,0|true|1,true,3,2,true,3,4,7|true|TypeError|0|1|1", evaluate(JsRealm.create(), script),
+                "eager methods consume the receiver and preserve callback argument order");
+    }
+
+    /**
+     * Predicate methods close a generator on a short circuit, including when find matches undefined.
+     * <p>
+     * 조건 검사 메서드는 단락할 때 제너레이터를 닫으며 find에서 undefined가 일치하는 경우에도 닫는다.
+     */
+    public void testEagerPredicateShortCircuit() {
+        String script = "var closed='';function* seq(tag){try{yield undefined;yield 3;yield 8;}finally{closed+=tag;}}"
+                + "const first=seq('S').some((v,i)=>i===1);const every=seq('E').every((v,i)=>i<1);"
+                + "const found=seq('F').find((v,i)=>i===0);const last=seq('L').find(v=>v===8);"
+                + "[first,every,found===undefined,last,closed,Iterator.from([]).some(()=>true),"
+                + "Iterator.from([]).every(()=>false),Iterator.from([]).find(()=>true)===undefined].join('|')";
+        Check.equal("true|false|true|8|SEFL|false|true|true", evaluate(JsRealm.create(), script),
+                "early exit closes sources and empty iterators return per-method identities");
+    }
+
+    /**
+     * Validates the order and precedence of iterator getter, callback and return errors.
+     * <p>
+     * 이터레이터 getter, 콜백 및 return 오류의 순서와 우선순위를 검증한다.
+     */
+    public void testEagerIteratorAbruptClose() {
+        String script = "let log='';function fail(f){try{f();return 'missing';}catch(e){return e.name||e;}}"
+                + "const p=Iterator.prototype;function input(mode){return {get next(){log+='n';if(mode===1)throw 'next getter';"
+                + "return ()=>({done:false,get value(){if(mode===2)throw 'step';return 1;}});},"
+                + "return(){log+='r';if(mode===3)throw 'return';return {};}};}"
+                + "const invalid=fail(()=>p.some.call(input(1),0));"
+                + "const next=fail(()=>p.forEach.call(input(1),()=>0));"
+                + "const step=fail(()=>p.every.call(input(2),()=>false));"
+                + "const callback=fail(()=>p.some.call(input(3),()=>{throw 'callback';}));"
+                + "const close=fail(()=>p.find.call(input(3),()=>true));"
+                + "[invalid,next,step,callback,close,log,fail(()=>p.toArray.call('abc'))].join('|')";
+        Check.equal("TypeError|next getter|step|callback|return|rnnnrnr|TypeError", evaluate(JsRealm.create(), script),
+                "invalid callbacks close before next lookup and step errors are propagated directly");
+    }
+
+    /**
      * Runs a script in the given realm and converts the result for assertions.
      * <p>
      * 주어진 realm에서 스크립트를 실행하고 검증에 쓸 문자열로 바꾼다.
