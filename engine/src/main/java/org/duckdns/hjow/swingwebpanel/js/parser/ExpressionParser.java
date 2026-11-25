@@ -2468,7 +2468,13 @@ abstract class ExpressionParser extends ParserBase {
         fc.strict = savedStrict;
         cls.list = members.toArray(new Node[members.size()]);
         cls.value = source;
-        return done(cls);
+        done(cls);
+        // 명시적 생성자의 소스 텍스트는 메서드가 아닌 클래스 정의 전체이다.
+        if (cls.b != null) {
+            cls.b.fn.start = cls.start;
+            cls.b.fn.end = cls.end;
+        }
+        return cls;
     }
 
     /**
@@ -2491,6 +2497,7 @@ abstract class ExpressionParser extends ParserBase {
             next();
         }
         m.flag = isStatic;
+        Token methodStart = tok;
         boolean async = false;
         if (isN("async") && !peek().newlineBefore && !peek().isPunct("(")
                 && (peek().isPunct("*") || startsPropertyName(peek()))) {
@@ -2537,7 +2544,7 @@ abstract class ExpressionParser extends ParserBase {
             Node keyHolder = new Node(NodeType.PROPERTY, m.line, m.column);
             keyHolder.a = m.a;
             keyHolder.flag = computed;
-            m.b = parseMethodFunction(start, keyHolder, gen, getter, setter, ctor, derived, async);
+            m.b = parseMethodFunction(methodStart, keyHolder, gen, getter, setter, ctor, derived, async);
             if (ctor) {
                 m.value = Boolean.FALSE;
             }

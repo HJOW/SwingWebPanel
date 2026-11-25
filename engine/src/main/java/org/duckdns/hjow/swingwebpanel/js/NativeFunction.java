@@ -72,6 +72,13 @@ public class NativeFunction extends JsFunction {
     private final Construct constructImpl;
 
     /**
+     * Original name used in the native representation even when the public name is redefined.
+     * <p>
+     * 공개 이름이 재정의되어도 네이티브 표현에 사용하는 최초 이름.
+     */
+    private final String initialName;
+
+    /**
      * Creates a non-constructor function whose prototype is the realm's Function.prototype.
      * <p>
      * realm 의 Function.prototype 을 프로토타입으로 갖는 비생성자 함수를 만든다.
@@ -116,7 +123,43 @@ public class NativeFunction extends JsFunction {
         super(realm, proto);
         this.callImpl = call;
         this.constructImpl = construct;
+        this.initialName = name;
         defineNameAndLength(name, length);
+    }
+
+    /**
+     * Returns the native representation without invoking script properties. A host name that cannot be used as the
+     * displayed property name uses the anonymous native form.
+     * <p>
+     * 스크립트 프로퍼티를 평가하지 않고 네이티브 표현을 반환한다. 프로퍼티 이름으로 표현할 수 없는 호스트 이름은 익명 형태로 표시한다.
+     *
+     * @return native function text / 네이티브 함수 텍스트
+     */
+    @Override
+    public String getSourceText() {
+        if (initialName == null || initialName.length() == 0) {
+            return super.getSourceText();
+        }
+        String key = initialName;
+        // 접근자 접두어와 내장 심볼 프로퍼티 표기를 빼고 식별자 부분을 검사한다.
+        if (key.startsWith("get ") || key.startsWith("set ")) {
+            key = key.substring(4);
+        }
+        if (key.startsWith("[Symbol.") && key.endsWith("]")) {
+            key = key.substring(8, key.length() - 1);
+        }
+        if (key.length() == 0 || !JsChars.isIdStart(key.codePointAt(0))) {
+            return super.getSourceText();
+        }
+        // 식별자 이름은 유니코드 코드 포인트 단위로 확인한다.
+        for (int i = Character.charCount(key.codePointAt(0)); i < key.length();) {
+            int cp = key.codePointAt(i);
+            if (!JsChars.isIdPart(cp)) {
+                return super.getSourceText();
+            }
+            i += Character.charCount(cp);
+        }
+        return "function " + initialName + "() { [native code] }";
     }
 
     /**

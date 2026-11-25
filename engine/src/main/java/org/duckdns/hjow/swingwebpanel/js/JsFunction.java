@@ -83,9 +83,7 @@ public abstract class JsFunction extends JsObject {
      * @return the source text / 소스 텍스트
      */
     public String getSourceText() {
-        JsValue n = getOwnPropertySlot("name") == null ? Js.UNDEFINED : get("name");
-        String name = n instanceof JsString ? ((JsString) n).getValue() : "";
-        return "function " + name + "() { [native code] }";
+        return "function () { [native code] }";
     }
 
     /**

@@ -94,8 +94,6 @@ final class Classes {
         ScriptFunction f;
         if (cls.b != null) {
             f = in.createClosure(cls.b, classEnv, className);
-            f.info.start = cls.start;
-            f.info.end = cls.end;
         } else {
             FunctionInfo di = new FunctionInfo();
             di.classConstructor = true;

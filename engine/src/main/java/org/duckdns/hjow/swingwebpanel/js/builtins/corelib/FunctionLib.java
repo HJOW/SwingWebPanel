@@ -76,7 +76,7 @@ final class FunctionLib {
                 if (!thisValue.isCallable()) {
                     throw JsException.typeError("Function.prototype.toString requires that 'this' be a Function");
                 }
-                if (thisValue instanceof BoundFunction || !(thisValue instanceof JsFunction)) {
+                if (!(thisValue instanceof JsFunction)) {
                     return Js.str(NATIVE_TEXT);
                 }
                 return Js.str(((JsFunction) thisValue).getSourceText());
