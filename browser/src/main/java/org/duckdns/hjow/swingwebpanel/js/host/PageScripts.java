@@ -37,6 +37,7 @@ import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseJobs;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseRejectionTracker;
 import org.duckdns.hjow.swingwebpanel.js.ModuleGraph;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
@@ -358,12 +359,12 @@ public final class PageScripts {
     private final Map<String, String> moduleBases = new HashMap<String, String>();
 
     /**
-     * The source text of the modules that were already fetched, by module key, so that a module that a script element and an import both ask
+     * The already fetched sources by URL and module attributes, so that a module that a script element and an import both ask
      * for is requested once. Guarded by the page lock.
      * <p>
-     * 이미 가져온 모듈의 원문(모듈 키별). script 요소와 import 가 함께 요청한 모듈을 한 번만 요청하게 한다. 페이지 잠금으로 보호한다.
+     * 이미 가져온 모듈의 URL과 속성별 원문. script 요소와 import가 함께 요청한 모듈을 한 번만 요청하게 한다. 페이지 잠금으로 보호한다.
      */
-    private final Map<String, String> moduleTexts = new HashMap<String, String>();
+    private final Map<ModuleRequest, String> moduleTexts = new HashMap<ModuleRequest, String>();
 
     /**
      * Whether the module graph that is being loaded sends cookies to every origin (the top-level script has
@@ -528,7 +529,7 @@ public final class PageScripts {
         });
         DomInterfaces.install(bridge);
         document.setEventWindow(window);
-        realm.setModuleLoader(new ModuleLoader() {
+        realm.setModuleLoader(new ModuleLoader.WithAttributes() {
             /**
              * Resolves a module specifier against the importing module or the document URL.
              * <p>
@@ -545,11 +546,7 @@ public final class PageScripts {
                     String known = moduleBases.get(referrer);
                     base = known != null ? known : referrer;
                 }
-                try {
-                    return UrlUtil.stripFragment(UrlUtil.resolve(base, specifier));
-                } catch (RuntimeException e) {
-                    throw JsException.typeError("Failed to resolve module specifier '" + specifier + "'");
-                }
+                return ModuleSources.resolve(base, specifier);
             }
 
             /**
@@ -563,19 +560,30 @@ public final class PageScripts {
              * @return the source / 소스
              */
             public String fetch(String key) {
-                ScriptSource src = PageScripts.this.env.getScriptSource();
-                if (src == null) {
-                    throw JsException.typeError("Failed to fetch module " + key);
-                }
-                String cached = moduleTexts.get(key);
+                return fetch(new ModuleRequest(key));
+            }
+
+            /**
+             * Fetches a module with the selected type and keeps source text by the exact request.
+             * <p>
+             * 선택한 타입의 모듈을 가져오고 정확히 일치하는 요청별로 소스 텍스트를 저장한다.
+             *
+             * @param request the resolved module request / 해석된 모듈 요청
+             * @return module source / 모듈 소스
+             */
+            public String fetch(ModuleRequest request) {
+                String key = request.getSpecifier();
+                String cached = moduleTexts.get(request);
                 if (cached != null) {
                     return cached;
                 }
                 try {
-                    ScriptText result = src instanceof ModuleScriptSource ? ((ModuleScriptSource) src).fetchModule(key, moduleCredentials)
-                            : new ScriptText(src.fetch(key), key);
-                    moduleBases.put(key, result.getUrl());
-                    moduleTexts.put(key, result.getText());
+                    ScriptText result = ModuleSources.fetch(PageScripts.this.env.getScriptSource(), request, moduleCredentials);
+                    // 상대 가져오기가 가능한 JavaScript 모듈만 기준 URL을 기록한다.
+                    if (!request.isJson()) {
+                        moduleBases.put(key, result.getUrl());
+                    }
+                    moduleTexts.put(request, result.getText());
                     return result.getText();
                 } catch (IOException e) {
                     throw JsException.typeError("Failed to fetch module " + key + ": " + e.getMessage());
@@ -1787,7 +1795,7 @@ public final class PageScripts {
             // 모듈의 상대 import 는 요청한 URL이 아니라 리디렉션 뒤의 최종 URL을 기준으로 해석한다.
             if (p.module) {
                 moduleBases.put(p.url, fetched.getUrl());
-                moduleTexts.put(p.url, fetched.getText());
+                moduleTexts.put(new ModuleRequest(p.url), fetched.getText());
             }
             boolean ok = execute(p.element, fetched.getText(), p.url, p.module, control);
             if (scripting()) {

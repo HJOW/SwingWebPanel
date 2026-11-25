@@ -273,6 +273,70 @@ public class ModuleScriptHttpTest {
     }
 
     /**
+     * Imports an actual JSON response with UTF-8 decoding and a cache shared across import forms.
+     * <p>
+     * 실제 JSON 응답을 UTF-8로 디코딩하고 정적·동적 가져오기에서 캐시를 공유하는지 확인한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testJsonModuleTypeAndCache() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        SwingWebPanel panel = newPanel();
+        try {
+            server.routeFixed("/data", TestHttpServer.Response.ok("application/problem+json; charset=iso-8859-1",
+                    (char) 0xfeff + "{\"message\":\"한국\"}").header("Cache-Control", "no-store"));
+            server.routeFixed("/code", TestHttpServer.Response.ok("text/javascript", "export default 9;"));
+            server.routeFixed("/page", TestHttpServer.Response.html("<!doctype html><script type=module>"
+                    + "import data from './data' with {type:'json'};data.changed=true;"
+                    + "const opts={with:{type:'json'}};"
+                    + "const kind=e=>e.name;"
+                    + "Promise.all([import('./data',opts).then(m=>[m.default.message,m.default===data,m.default.changed]),"
+                    + "import('./data').catch(kind),import('./code',opts).catch(kind),import('./code').then(m=>m.default)])"
+                    + ".then(results=>sessionStorage.setItem('json',results.join(':')));</script>"));
+            server.start();
+            panel.setPage(server.url("/page"));
+            awaitValue(panel, "json", "한국,true,true:TypeError:TypeError:9");
+            Check.equal(2, server.count("/data"), "two request types, one JSON fetch shared by both forms");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
+     * Applies CORS and same-origin credentials through a redirect to a JSON endpoint.
+     * <p>
+     * JSON 응답으로 리디렉션될 때 CORS와 동일 오리진 자격 증명 규칙을 적용한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testJsonModuleCorsThroughRedirect() throws Exception {
+        TestHttpServer page = new TestHttpServer();
+        TestHttpServer other = new TestHttpServer();
+        SwingWebPanel panel = newPanel();
+        try {
+            other.routeFixed("/open", TestHttpServer.Response.ok("text/json", "\"open\"").header("Access-Control-Allow-Origin", "*"));
+            other.routeFixed("/closed", TestHttpServer.Response.ok("application/json", "\"closed\""));
+            other.start();
+            page.routeFixed("/redirect", TestHttpServer.Response.redirect(302, other.url("/open")));
+            page.routeFixed("/page", TestHttpServer.Response.html("<!doctype html><script type=module>"
+                    + "import data from './redirect' with {type:'json'};"
+                    + "import('" + other.url("/closed") + "',{with:{type:'json'}})"
+                    + ".catch(e=>sessionStorage.setItem('cors',data+':'+e.name));</script>")
+                    .header("Set-Cookie", "mod=42; Path=/"));
+            page.start();
+            panel.setPage(page.url("/page"));
+            awaitValue(panel, "cors", "open:TypeError");
+            Check.equal("mod=42", page.last("/redirect").header("Cookie"), "cookie on the first same-origin hop");
+            Check.isNull(other.last("/open").header("Cookie"), "no cookie on the cross-origin redirect");
+        } finally {
+            panel.dispose();
+            page.stop();
+            other.stop();
+        }
+    }
+
+    /**
      * Counts the whole-word occurrences of an item in a comma separated log (an item ends with a comma).
      * <p>
      * 쉼표로 이은 기록에서 항목이 나타난 횟수를 센다(항목은 쉼표로 끝난다).

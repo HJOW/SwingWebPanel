@@ -1,6 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.host;
 
 import java.io.IOException;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 
 /**
  * A {@link ScriptSource} that also knows the browser rules of module scripts: the request uses CORS mode (a cross-origin module must be
@@ -15,6 +16,26 @@ import java.io.IOException;
  * {@link ScriptSource#fetch(String)} 로 이런 검사 없이 모듈에 쓰인다(시험과 단순한 호스트).
  */
 public interface ModuleScriptSource extends ScriptSource {
+
+    /**
+     * Provides typed module responses with the host's MIME and origin checks.
+     * <p>
+     * 호스트의 MIME 및 오리진 검사를 적용한 모듈 타입별 응답을 제공한다.
+     */
+    interface WithAttributes extends ModuleScriptSource {
+
+        /**
+         * Fetches a module of the type selected by the resolved request.
+         * <p>
+         * 해석된 요청이 선택한 타입의 모듈을 가져온다.
+         *
+         * @param request resolved module request / 해석된 모듈 요청
+         * @param useCredentials true to send credentials to other origins / 다른 오리진에도 자격 증명을 보내려면 true
+         * @return source text and final URL / 소스 텍스트와 최종 URL
+         * @throws IOException if the request or its MIME or origin checks fail / 요청이나 MIME·오리진 검사가 실패하면
+         */
+        ScriptText fetchModule(ModuleRequest request, boolean useCredentials) throws IOException;
+    }
 
     /**
      * Fetches a module script or a module that a module imports.

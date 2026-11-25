@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-03-e1 브라우저 문서의 JSON 모듈 (2026-11-26) ===
+현재 작업 번호: P29-03-e1 완료.
+완료한 내용: 문서 스크립트 로더가 모듈 타입별로 MIME을 검사하고 UTF-8로 읽는다. 캐시는 URL과 속성으로 구분하고, 같은 오리진 자격 증명 모드를 리디렉션의 각 구간에 적용한다.
+변경 파일: PageRuntime.java, ModuleScriptSource.java, ModuleSources.java, PageScripts.java, ModuleScriptHttpTest.java, AGENTS.md, 이 문서.
+검증 결과: mvn -B -o -pl browser -am test -Dtest.filter=ModuleScript (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 브라우저 13건 통과. sourcecheck 0 위반.
+미해결 사항: Worker와 AudioWorklet의 모듈 타입별 요청(P29-03-e2~e3).
+다음 작업 번호: P29-03-e2.
+-----------------------------------------------------------------------------------------------
 === P29-03-d 엔진의 JSON 합성 모듈 (2026-11-26) ===
 현재 작업 번호: P29-03-d 완료.
 완료한 내용: ModuleLoader.WithAttributes가 제공한 JSON 본문을 공통 JSON 파서로 읽고 default 하나만 내보낸다. 해석된 URL과 속성을 키로 삼아 모듈과 JSON 구문 오류를 공유한다. 미완성 순환 그래프의 재시도와 export * as 이름의 네임스페이스 연결도 수정했다.
@@ -554,6 +562,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-03-e1 문서 모듈 HTTP 검증
+
+정적·동적 요청의 동일 객체, `+json` 및 `text/json` MIME, 잘못된 모듈 타입 거부, UTF-8 BOM과 응답의 인코딩 선언 처리, CORS 및 리디렉션별 쿠키를 실제 로컬 HTTP 요청으로 확인했다. 모듈 타입과 원본·최종 URL 규칙은 WHATWG HTML Living Standard의 [fetch a single module script](https://html.spec.whatwg.org/multipage/webappapis.html#fetch-a-single-module-script)를 참고했다(webfetch, JRE 25, 2026-11-26 조회, 리비전 ETag `6b06c784-c4bd4`, Last-Modified 2026-11-25 11:33:24 UTC).
 
 ### 2026-11-26 · P29-03-d JSON 합성 모듈과 캐시
 

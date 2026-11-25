@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.duckdns.hjow.swingwebpanel.content.ContentType;
 import org.duckdns.hjow.swingwebpanel.dom.Document;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
 import org.duckdns.hjow.swingwebpanel.css.CssEngine;
 import org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.host.HostEnvironment;
 import org.duckdns.hjow.swingwebpanel.js.host.CorsImageRequestSource;
 import org.duckdns.hjow.swingwebpanel.js.host.ImageRequestSource;
@@ -43,7 +45,7 @@ import org.duckdns.hjow.swingwebpanel.storage.SessionStorage;
  * <p>페이지별 스크립트 호스트. 파싱 중에는 로더가 소유하고 확정 뒤에는 문서 큐에서 작업한다. 취소는 기다리지 않고 영구 적용되며
  * JavaScript를 다시 켜도 새 페이지가 필요하다. 이동 요청·이력 스냅샷을 보관하지 않고 해제 작업자만 실행 중인 스크립트 잠금을 기다린다.
  */
-final class PageRuntime extends HostEnvironment implements ModuleScriptSource, CancelToken.Hook {
+final class PageRuntime extends HostEnvironment implements ModuleScriptSource.WithAttributes, CancelToken.Hook {
     /** Owning component state. / 소유 컴포넌트 상태. */
     private final BrowserSession session;
     /** Component view with document-queue query hooks. / 문서 큐 조회 훅이 있는 컴포넌트 뷰. */
@@ -993,13 +995,27 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource, C
      * @throws IOException on cancellation, policy failure, CORS refusal, wrong MIME type or response error / 취소, 정책 실패, CORS 거부, 잘못된 MIME 타입, 응답 오류 시
      */
     public ScriptText fetchModule(String url, boolean useCredentials) throws IOException {
+        return fetchModule(new ModuleRequest(url), useCredentials);
+    }
+
+    /**
+     * Fetches a module with CORS and the MIME type and decoding rules for its module type.
+     * <p>
+     * CORS와 모듈 타입에 해당하는 MIME 타입 및 디코딩 규칙을 적용해 모듈을 가져온다.
+     *
+     * @param module the resolved module request / 해석된 모듈 요청
+     * @param useCredentials true to send credentials across origins / 교차 오리진으로 자격 증명을 보내려면 true
+     * @return UTF-8 text and final URL / UTF-8 텍스트와 최종 URL
+     * @throws IOException if the module cannot be loaded / 모듈을 불러올 수 없으면
+     */
+    public ScriptText fetchModule(ModuleRequest module, boolean useCredentials) throws IOException {
         resources.throwIfCancelled();
+        String url = module.getSpecifier();
         Origin initiator = Origin.of(pageUrl);
-        // 쿠키는 페이지와 같은 오리진에만 보낸다. 다른 오리진에 보내려면 crossorigin="use-credentials" 가 필요하다.
-        boolean credentials = useCredentials || initiator.isSameOrigin(Origin.of(url));
+        // 자격 증명 모드를 리디렉션마다 적용하도록 요청에 넘긴다.
         ResourceRequest request = new ResourceRequest(url).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                 .setCookies(cookies).setCancelToken(resources).setReferrer(pageUrl).setInitiator(initiator)
-                .setPurpose(RequestPurpose.MODULE).setSendCredentials(credentials)
+                .setPurpose(RequestPurpose.MODULE).setSendCredentials(true).setSameOriginCredentialsOnly(!useCredentials)
                 .setCacheMode(context.force ? ResourceRequest.CacheMode.FORCE_RELOAD : ResourceRequest.CacheMode.DEFAULT);
         ResourceResponse response = fetcher.fetch(request);
         resources.throwIfCancelled();
@@ -1008,14 +1024,20 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource, C
         }
         String finalUrl = response.getFinalUrl() == null ? url : response.getFinalUrl();
         // 다른 오리진의 모듈은 서버가 CORS 로 허용해야 하고, 쿠키를 보냈다면 자격 증명까지 허용해야 한다.
-        if (!OriginPolicy.mayUse(initiator, Origin.of(finalUrl), RequestPurpose.MODULE, response, credentials)) {
+        if (!OriginPolicy.mayUse(initiator, Origin.of(finalUrl), RequestPurpose.MODULE, response, useCredentials)) {
             throw new IOException("blocked by CORS policy: " + finalUrl);
         }
-        // 모듈은 JavaScript MIME 타입으로 제공되어야 한다(HTML 오류 페이지 등을 모듈로 실행하지 않는다).
-        if (!PageScripts.isJavaScriptMimeType(response.getMimeType())) {
-            throw new IOException("expected a JavaScript module but the server responded with a MIME type of '" + response.getMimeType() + "'");
+        String mime = response.getMimeType();
+        boolean json = module.isJson();
+        // 지정한 모듈 타입과 서버가 제공한 MIME 타입이 일치해야 한다.
+        if (json ? !ContentType.parse(mime).isJson() : !PageScripts.isJavaScriptMimeType(mime)) {
+            throw new IOException("expected a " + (json ? "JSON" : "JavaScript") + " module but the server responded with a MIME type of '" + mime + "'");
         }
-        return new ScriptText(decode(response.getBody(), response.getCharset(), scripts.getDocument().getCharacterSet()), finalUrl);
+        String text = new String(response.getBody(), "UTF-8");
+        if (text.length() > 0 && text.charAt(0) == (char) 0xfeff) {
+            text = text.substring(1);
+        }
+        return new ScriptText(text, finalUrl);
     }
 
     /**
