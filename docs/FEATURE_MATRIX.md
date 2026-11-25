@@ -1,6 +1,6 @@
 # SwingWebPanel 기능 표
 
-작성 시작: 2026-11-16 (P00-02 ~ P00-08, P00-10). 최종 갱신: 2026-11-17(P20-10/11/12, P22-14: 낡은 행을 현재 구현과 시험에 맞추고, `T-...`/`C-...` 계획용 번호를 실제 시험 이름으로 바꾸고, 11~14절을 더했다). 현재 상태의 요약은 13절(축별 대조)과 14절(검증 환경과 남은 차이)이다. 시험은 모두 JDK 6u45 에서 `scripts/pkgtest.sh` 로 실행한 것이다.
+작성 시작: 2026-11-16 (P00-02 ~ P00-08, P00-10). 최종 갱신: 2026-11-25(P28-01: ECMAScript 2022 판본과 ES2015 이후 대상 목록 고정). 이전 갱신: 2026-11-17(P20-10/11/12, P22-14: 낡은 행을 현재 구현과 시험에 맞추고, `T-...`/`C-...` 계획용 번호를 실제 시험 이름으로 바꾸고, 11~14절을 더했다). 현재 상태의 요약은 13절(축별 대조)과 14절(검증 환경과 남은 차이)이다. 시험은 모두 JDK 6u45 에서 `scripts/pkgtest.sh` 로 실행한 것이다.
 
 2026-11-24 Maven 전환 이후 소스는 `browser/src/main/java`와 `engine/src/main/java`에, 시험은 각 모듈의 `src/test/java`에 있다. 같은 JDK 6u45로 `mvn verify`를 실행한다. 아래의 전환 전 시험 명령과 결과는 실행 당시의 기록이다. [이전 경로 대응표](progress/maven.md#모듈과-이전-경로)
 
@@ -19,6 +19,7 @@
 | HTML Living Standard | WHATWG (파싱 차이와 최신 동작 참고용, 기준은 아님) | https://html.spec.whatwg.org/multipage/ | 200 확인 |
 | Canvas 2D / Web Storage | W3C 주소가 WHATWG HTML 로 리디렉션됨 → **정본은 WHATWG HTML Living Standard** | https://www.w3.org/TR/2dcontext/ , https://www.w3.org/TR/webstorage/ | 모두 `https://html.spec.whatwg.org/multipage/` 로 이동(200) |
 | ECMAScript 2015 (ES6) | ECMA-262 6th edition, June 2015 (계획서 고정값) | https://262.ecma-international.org/6.0/ | **HTTP 403** (도구 기본 User-Agent). 우회하지 않음. 장 번호는 기억 기반이며 본문 대조 미완료 |
+| ECMAScript 2022 (P28 추가 목표) | ECMA-262 13th edition, June 2022 | https://262.ecma-international.org/13.0/ 및 https://ecma-international.org/wp-content/uploads/ECMA-262_13th_edition_june_2022.pdf | 두 공식 URL 모두 **HTTP 403**(2026-11-25, `tools/webfetch`, JRE 25.0.5.0.2); User-Agent 우회는 하지 않음. 사용자가 저장소에 둔 완전한 오프라인 HTML 사본 [`docs/es2022`](es2022/)을 본문 기준으로 대조했다. TC39 공식 저장소의 `es2022` 스냅샷 `https://raw.githubusercontent.com/tc39/ecma262/es2022/spec.html`도 200, 2,657,094바이트(ETag `ffa4eed67e5c1aeee0f8bd4740f43a1ade7a8f0345195ac3b267ac110f7ef11a`)로 확인했다 |
 | CSS | **CSS Snapshot 2026, W3C Group Note 2026-06-22** | https://www.w3.org/TR/2026/NOTE-css-2026-20260622/ | 200 확인, 모듈 판본은 4절 |
 | DOM | WHATWG DOM Standard, Living Standard — Last Updated 15 November 2026 (`/TR/dom/` 이 이곳으로 리디렉션) | https://dom.spec.whatwg.org/ | 200 확인 |
 | UI Events | W3C | https://www.w3.org/TR/uievents/ | 200 확인(판본 미기록) |
@@ -383,29 +384,44 @@
 
 브라우저 페이지가 흔히 사용하므로 확장 항목(`ESX-*`)으로 추적한다. 2026-11-24 NetstormJava 게임 번들(ES2022 문법을 변환 없이 사용)이 첫 줄에서 구문 오류로 멈춘 것을 계기로 계획 P28(AGENTS.md)에 행을 추가했다.
 상태는 2026-11-24 판정 결과이다. `js.embed.JsEngine`에서 기능별 코드를 평가하고, 실제 `SwingWebPanel` 페이지에서도 확인했다(근거: `docs/progress/netstorm.md` 3~4절).
-기준 판본(ECMA-262 제13판, ES2022 예정)의 URL과 조회 날짜는 P28-01에서 고정한다. "게임"은 NetstormJava 번들의 사용 수이다.
+P28의 기준 판본은 **ECMA-262 제13판, ECMAScript 2022, June 2022**이다(조회 2026-11-25, 0절의 공식 URL·조회 제한과 저장소의 오프라인 사본 [`docs/es2022`](es2022/) 참조). "게임"은 NetstormJava 번들의 사용 수 또는 `"사용"`/`"없음"`이다. ES2023 이후 기능은 이 표의 `ESX-OUT-*` 목록으로 분리하며 P28 대상은 아니다.
 
 | 기능 ID | 판본 | 요구사항 | 구현 클래스 | 검증 사례 | 상태 | 게임 |
 | --- | --- | --- | --- | --- | --- | --- |
-| ESX-EXP | ES2016 | `**`, `**=` | (P28-02/03) | - | 미구현(구문 오류) | 199 |
-| ESX-ASYNC | ES2017/2018 | async 함수·화살표·메서드, `await`, async 제너레이터, `for await` | (P28-02/03) | - | 미구현(구문 오류) | async 26, await 34 |
-| ESX-OBJREST | ES2018 | 객체 spread `{...x}`, 객체 rest | (P28-02/03) | - | 미구현(구문 오류) | spread 513 |
-| ESX-CATCH | ES2019 | optional catch binding | (P28-02) | - | 미구현(구문 오류) | 8 |
-| ESX-CHAIN | ES2020 | optional chaining `?.`, nullish `??` | (P28-02/03) | - | 미구현(구문 오류) | `?.` 1,985, `??` 714 |
-| ESX-BIGINT | ES2020 | BigInt 원시값·리터럴·연산, `BigInt`, `asIntN/asUintN`, `BigInt64Array/BigUint64Array`, `DataView` BigInt 접근 | (P28-04) | - | 미구현 | 리터럴 129, `BigInt` 307 |
-| ESX-IMPORT | ES2020 | 동적 `import()`, `import.meta` | (P28-02/03) | - | 미구현(구문 오류) | 없음 |
-| ESX-LOGASSIGN | ES2021 | `\|\|=`, `&&=`, `??=` | (P28-02/03) | - | 미구현(구문 오류) | 102 |
-| ESX-NUMSEP | ES2021 | 숫자 구분자 `1_000` | (P28-02) | - | 미구현(구문 오류) | 원본 소스만 2 |
-| ESX-CLASS | ES2022 | public/private/static 클래스 필드, private 메서드·접근자, static 블록, `#x in obj` | (P28-02/03) | - | 미구현(구문 오류, 게임의 첫 오류 위치) | 필드 5,852, private 메서드 1,570 |
-| ESX-B-OBJ | ES2017~2022 | `Object.entries/values/getOwnPropertyDescriptors/fromEntries/hasOwn` | (P28-05) | - | 미구현 | 사용 |
-| ESX-B-ARR | ES2016~2022 | `Array.prototype.includes`(있음), `flat/flatMap/at`, `%TypedArray%.prototype.at` | `js.builtins.stringarray.ArrayMethods`(includes) | - | 부분 구현 | 사용 |
-| ESX-B-STR | ES2017~2022 | `padStart/padEnd`, `trimStart/trimEnd`(있음), `at/replaceAll/matchAll` | `js.builtins.stringarray.StringBuiltins`(있는 것) | - | 부분 구현 | 사용 |
-| ESX-B-PROM | ES2018~2021 | `Promise.prototype.finally`, `Promise.allSettled/any`, `AggregateError` | (P28-05) | - | 미구현 | 번들에 없음 |
-| ESX-B-SYM | ES2018/2019 | `Symbol.asyncIterator`, `Symbol.prototype.description` | (P28-05) | - | 미구현 | `description` 사용 |
-| ESX-B-WEAK | ES2021 | `WeakRef`, `FinalizationRegistry` | (P28-05) | - | 미구현 | `WeakRef` 사용 |
-| ESX-B-ERR | ES2022 | Error `cause` 옵션 | (P28-05) | - | 미구현 | 원본 소스 1곳 |
-| ESX-B-GLOBAL | ES2020 | `globalThis` | (기존) | 2026-11-24 판정 통과(전용 시험은 대조하지 않음) | 부분 구현 | 사용 |
-| ESX-RE | ES2018/2022 | `s` 플래그(있음), 이름 있는 그룹 결과 `groups`·`$<name>`(파서만 받음), 후방 탐색, `\p{}`, `d` 플래그 | `js.regexp.*` | - | 부분 구현 | `groups` 사용 |
+| ESX-EXP | ES2016 | 지수 연산자 `**`, 지수 대입 `**=` | (P28-02/03) | - | 미구현(구문 오류) | 199 |
+| ESX-TRAILING | ES2017 | 함수 매개변수·호출 인수 목록의 마지막 쉼표 | `js.parser.*` | (P28-02) | 판정 필요 | 관찰 안 됨 |
+| ESX-ASYNC | ES2017 | async 함수·화살표·메서드, `await`, Promise 재개 순서 | (P28-02/03) | - | 미구현(구문 오류) | async 26, await 34 |
+| ESX-SHARED | ES2017 | `SharedArrayBuffer`, `Atomics`, View 연동 | (P28-05) | - | 미구현 | 없음 |
+| ESX-ASYNCITER | ES2018 | async 제너레이터, `for await`, AsyncIterator/AsyncFromSyncIterator, `Symbol.asyncIterator` | (P28-02/03/05) | - | 미구현(구문 오류) | 없음 |
+| ESX-OBJREST | ES2018 | 객체 spread `{...x}`, 객체 rest, CopyDataProperties 평가 순서 | (P28-02/03) | - | 미구현(구문 오류) | spread 513 |
+| ESX-PROMISE-FINALLY | ES2018 | `Promise.prototype.finally` | (P28-05) | - | 미구현 | 없음 |
+| ESX-REGEXP-2018 | ES2018 | `s` 플래그, 이름 있는 캡처, 후방 탐색, Unicode 속성 이스케이프 `\p{}`/`\P{}` | `js.regexp.*` | - | 부분 구현: `s`와 이름 있는 캡처 구문은 받으나 `groups`와 `$<name>`이 없음, 나머지는 구문 오류 | `groups` 2, 원본 소스의 `\p{}`는 없음 확인 |
+| ESX-SYNTAX-2018 | ES2018 | 태그가 있는 템플릿 리터럴에서 잘못된 이스케이프의 cooked 값이 `undefined`가 되는 규칙(tagged template revision)과 관련 조기 오류 | `js.parser.*`, `js.interp.*` | (P28-02/03) | 판정 필요 | 관찰 안 됨 |
+| ESX-CATCH | ES2019 | optional catch binding `catch {}` | (P28-02) | - | 미구현(구문 오류) | 8 |
+| ESX-SEMANTICS-2019 | ES2019/2021 | U+2028/U+2029를 문자열 리터럴에 허용하는 JSON superset 문법, 안정적인 `Array#sort`(ES2021의 정밀한 정렬 순서 포함), `JSON.stringify`의 well-formed UTF-16, `Function#toString`의 원문/표준 자리표시자 | `js.parser.*`, `js.builtins.*` | (P28-02/05) | 부분 구현/판정 필요 | 사용 여부 미관찰 |
+| ESX-CHAIN | ES2020 | optional chaining `?.`, nullish `??`와 단락 평가·괄호 조기 오류 | (P28-02/03) | - | 미구현(구문 오류) | `?.` 1,985, `??` 714 |
+| ESX-BIGINT | ES2020 | BigInt 원시값·모든 진법 리터럴, 연산/변환, `BigInt`, `asIntN/asUintN`, `BigInt64Array/BigUint64Array`, `DataView` BigInt 접근 | (P28-04) | - | 미구현 | 리터럴 129, `BigInt` 307, `asIntN` 83, `asUintN` 44, get/setBigUint64 각 14 |
+| ESX-IMPORT | ES2020 | 동적 `import()`, `import.meta`, `export * as name from` | (P28-02/03) | - | 미구현(구문 오류) | 없음 |
+| ESX-GLOBALTHIS | ES2020 | `globalThis` | (기존) | `js.builtins.*`의 2026-11-24 판정 | 부분 구현 | 16 |
+| ESX-LOGASSIGN | ES2021 | `\|\|=`, `&&=`, `??=`과 단락된 참조·대입 | (P28-02/03) | - | 미구현(구문 오류) | 102 |
+| ESX-NUMSEP | ES2021 | 숫자 구분자 `_`(decimal/binary/octal/hex, BigInt) | (P28-02) | - | 미구현(구문 오류) | 원본 소스 2 |
+| ESX-TOPAWAIT | ES2022 | 모듈 최상위 `await`와 모듈 평가 비동기 순환 | (P28-02/03) | - | 미구현 | 없음 |
+| ESX-CLASS | ES2022 | public/private/static 필드, private 메서드·접근자, static 블록, `#x in obj`, PrivateEnvironment/brand 검사 | (P28-02/03) | - | 미구현(구문 오류, 게임의 첫 오류 위치) | public 필드 2,053, private 필드 3,797, static 필드 2, static 블록 5, private 메서드·접근자 1,570, private 이름 사용 30,294 |
+| ESX-B-OBJ | ES2017~2022 | `Object.entries/values/getOwnPropertyDescriptors/fromEntries/hasOwn` | (P28-05) | - | 미구현 | 각각 15/6/0/4/9 |
+| ESX-B-ARR | ES2016~2022 | `Array.prototype.includes/flat/flatMap/at`, `%TypedArray%.prototype.at` | `js.builtins.stringarray.ArrayMethods`(includes) | - | 부분 구현 | includes 144, flat 0, flatMap 1, `at` 총 42(소유 객체는 P28-05에서 판정) |
+| ESX-B-STR | ES2017~2022 | `padStart/padEnd/trimStart/trimEnd/replaceAll/matchAll/at` | `js.builtins.stringarray.StringBuiltins`(pad/trim) | - | 부분 구현 | padStart 22, padEnd 3, trimStart/trimEnd 0, replaceAll 3, matchAll 0, `at`는 ESX-B-ARR과 합산 42 |
+| ESX-B-PROM | ES2018~2021 | `Promise.prototype.finally`, `Promise.allSettled/any`, `AggregateError` | (P28-05) | - | 미구현 | 없음 |
+| ESX-B-SYM | ES2018/2019 | `Symbol.asyncIterator`, `Symbol.prototype.description` | (P28-05) | - | 미구현 | `description` 36, asyncIterator 미관찰 |
+| ESX-B-WEAK | ES2021 | `WeakRef`, `FinalizationRegistry` | (P28-05) | - | 미구현 | `WeakRef` 7, FinalizationRegistry 0 |
+| ESX-B-ERR | ES2022 | Error `cause` 옵션 | (P28-05) | - | 미구현 | 원본 소스 1 |
+| ESX-RE-INDICES | ES2022 | 정규식 `d` 플래그, `hasIndices`, `RegExpExec` 결과의 `indices`/그룹 인덱스 | (P28-05) | - | 미구현(구문 오류) | 원본 소스 9, 번들에는 없음 |
+
+P28 대상 밖(ES2023 이후)은 아래처럼 분리한다. 이 목록은 당면 ES2022 완료 판정에 포함하지 않으며, 필요하면 이후 계획에서 상세 행으로 승격한다.
+
+| 기능 ID | 판본 | 대상 밖 기능 | 게임에서의 관찰 |
+| --- | --- | --- | --- |
+| ESX-OUT-2023 | ES2023 | `Array.prototype.findLast/findLastIndex`, change-array-by-copy(`toReversed/toSorted/toSpliced/with`), Symbols as WeakMap keys, Hashbang Grammar | `findLast`·`toSorted`는 판정기 입력에 있었으나 번들 사용으로 관찰되지 않음 |
+| ESX-OUT-2024+ | ES2024 이후 | ES2022 판본에 없는 후속 연도 기능 전체 | P28 범위 밖 |
 
 게임이 쓰는데 빠진 웹 API(`addEventListener`의 `signal`, `ReadableStream`/`response.body.getReader`, `navigator.clipboard`, `Blob`/`FileReader`/`URL.createObjectURL` 중 일부)는 P28-06에서 5.4절에 행으로 추가한다.
 

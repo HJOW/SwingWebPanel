@@ -11,8 +11,16 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-01 ECMAScript 2022 기준 판본과 대상 목록 확정 (2026-11-25) ===
+현재 작업 번호: P28-01 완료.
+완료한 내용: ECMA-262 제13판(ECMAScript 2022, June 2022)을 P28 기준 판본으로 고정했다. 기능 표 7.5절을 ES2016~ES2022의 문법/실행 의미/내장 객체 행으로 다시 나누고 각 행에 NetstormJava 번들 사용 횟수나 사용 여부를 적었다. ES2023 이후 기능은 ESX-OUT-2023+로 분리했다. `**` 구문 오류와 이름 있는 정규식 캡처의 `groups`/`$<name>` 미구현 판정을 명시적으로 유지했다. NetstormReborn 원본 소스 위치를 사용자 제공 경로 `D:\Workspace\git\NetstormReborn\webpj\www`로 정정했다.
+변경 파일: AGENTS.md(P28-01 완료 표시), docs/FEATURE_MATRIX.md(0절 판본 표, 7.5절 ESX 목록), docs/progress/netstorm.md(경로와 8절 판본 조회 기록), 이 문서.
+검증 결과: 저장소의 [`docs/es2022`](es2022/) 오프라인 규격서 서문에서 제13판과 ES2016~ES2022 추가 기능 목록을 확인했다. `tools/webfetch`를 JRE 25.0.5.0.2로 실행해 공식 HTML/PDF URL은 모두 HTTP 403임을 확인했고(User-Agent 우회 안 함), TC39 공식 저장소 `es2022/spec.html`은 HTTP 200, 2,657,094바이트, ETag ffa4eed67e5c1aeee0f8bd4740f43a1ade7a8f0345195ac3b267ac110f7ef11a로 조회했다. 정정한 Netstorm 원본 경로와 `dist/netstorm.bundle.js`(3,445,839바이트)가 실제로 존재함을 확인했다. 문서 변경만 수행했다.
+미해결 사항: P28-02부터 실제 렉서/파서 구현과 시험이 필요하다. ECMA 공식 URL은 계속 접근 제한되므로 직접 조회 성공 여부는 다음 조회에서도 장담하지 않는다.
+다음 작업 번호: P28-02.
+-----------------------------------------------------------------------------------------------
 === NetstormJava 게임 구동 점검과 P28 계획 추가 (2026-11-24) ===
-현재 작업 번호: P28 계획 추가(문서만). 구현은 시작하지 않았다.
+현재 작업 번호: P28 계획 추가 완료. P28-01은 위 2026-11-25 기록에서 완료했다.
 완료한 내용: 사용자 프로젝트 NetstormJava(`H:\Workspace\eclipse photon\NetstormJava`, `setPage("classpath://www/index.html")`)의 구동 오류를 JDK 7u80과 JDK 6u45에서 재현했다. 오류는 `classpath://www/dist/netstorm.bundle.js:1:782 Uncaught Invalid or unexpected token`이고, 원인은 ES2022 private 메서드 `#e`이다. 번들(webpack, 변환 없음)이 쓰는 ES2016~ES2022 문법을 집계했고, 엔진 단독과 실제 페이지에서 기능별로 판정했다(엔진 언어 판정 49개 중 14개 통과). 웹 API는 대부분 동작했고, 없는 것은 `addEventListener`의 `signal`, `ReadableStream`, `navigator.clipboard`, `Blob`/`FileReader`/`createObjectURL` 중 일부였다. 계획 P28(P28-01~09)을 AGENTS.md에 추가했고, 기능 표 7.5절에 `ESX-*` 행을 만들었다. ES-EXPR 행의 `**` 검증 완료 표기는 실제와 달라 바로잡았다.
 변경 파일: AGENTS.md(P22-16 메모, 공통 사항 제목, P28, 중간 실행 목표 표), docs/FEATURE_MATRIX.md(ES-EXPR, 7.5절), docs/progress/netstorm.md(새 문서), 이 문서.
 검증 결과: 문서만 변경했다. 판정에 쓴 임시 프로그램(헤드리스 페이지 실행기, 엔진 기능 판정기, acorn 집계 스크립트)은 저장소 밖의 세션 임시 디렉터리에서 실행했다. 재현 조건과 결과는 netstorm.md 1~4절에 있다.

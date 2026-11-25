@@ -13,7 +13,7 @@
 | 샘플 프로젝트 | `H:\Workspace\eclipse photon\NetstormJava` (Maven, `source/target 1.7`, 의존성 `swingwebpanel`·`swingwebpanel-js` 0.1.0) |
 | 진입점 | `org.duckdns.hjow.netstorm.Netstorm`: `JFrame` 안의 `SwingWebPanel` 에 콘솔 리스너를 달고 `setPage("classpath://www/index.html")` |
 | 페이지 | `www/index.html` 의 작은 인라인 로더가 `dist/netstorm.bundle.js` 를 `<script>` 로 넣는다(실패 시 세 번 재시도). `www/debug.html` 은 번들 없이 `<script type=module>` 로 `netstorm.js` 를 직접 불러온다 |
-| 번들 | 원본 소스 `H:\Workspace\git\NetstormReborn\webpj\www`(ES 모듈 1,057개)를 webpack 5.113.0 과 terser-webpack-plugin 5.6.1 로 묶은 한 줄짜리 파일, 3,271,267 자(UTF-16 단위). `webpack.config.js` 는 `target: 'web'` 이고 Babel 같은 하위 판본 변환이 없어 소스의 ES2022 문법이 그대로 들어 있다 |
+| 번들 | 원본 소스 `D:\Workspace\git\NetstormReborn\webpj\www`(ES 모듈 1,057개)를 webpack 5.113.0 과 terser-webpack-plugin 5.6.1 로 묶은 한 줄짜리 파일, 3,271,267 자(UTF-16 단위), 현재 파일 크기 3,445,839바이트. `webpack.config.js` 는 `target: 'web'` 이고 Babel 같은 하위 판본 변환이 없어 소스의 ES2022 문법이 그대로 들어 있다 |
 | 재현 환경 | 이 저장소의 `browser/target/swingwebpanel.jar`(2026-11-24 빌드), 샘플의 `src/main/resources` 를 클래스패스에 두고 같은 주소를 연 헤드리스 실행. JDK 7u80(샘플의 실행 조건)과 JDK 6u45 |
 | 결과(두 JDK 같음) | 콘솔 리스너로 `[ERROR] classpath://www/dist/netstorm.bundle.js:1:782 (UNCAUGHT_EXCEPTION) > Uncaught Invalid or unexpected token`. 페이지 자체는 확정(`Done`, 진행률 100)되지만 게임 코드는 한 줄도 실행되지 않는다 |
 | 오류 위치 | 1행 782열은 `class AssetLoader { ... async#e(e){for(let t=0;;...` 의 `#e`, 즉 ES2022 클래스 비공개(private) 메서드이다. 엔진의 렉서가 `#` 를 토큰으로 읽지 못한다 |
@@ -90,3 +90,29 @@ ES5 문법만 쓴 판정 페이지를 클래스패스에 두고 열어 콘솔 �
 게임 프로젝트(webpj)의 webpack 설정에 Babel 등으로 ES2015 대상 변환을 넣으면 async/await, 클래스 필드·private 이름, `?.`, `??`, 객체 spread 같은 문법 대부분은 변환 코드(도우미 함수와 WeakMap)로 바뀌어 지금 엔진에서도 파싱될 수 있다.
 그러나 BigInt 리터럴과 BigInt 연산은 변환할 수 없고, `WeakRef`·`Object.hasOwn`·`Array.prototype.at` 같은 내장 객체는 폴리필(core-js 등)을 따로 넣어야 한다.
 또한 이 프로젝트의 목표는 실제 웹 페이지를 그대로 띄우는 것이므로, 계획 P28 은 엔진 쪽 구현을 기준으로 한다.
+
+## 8. P28-01 판본과 대상 목록 확정 (2026-11-25)
+
+P28의 기준 판본을 **ECMA-262 제13판, ECMAScript 2022 (June 2022)**로 고정했다.
+공식 URL은 `https://262.ecma-international.org/13.0/` 이고 ECMA 공식 PDF는
+`https://ecma-international.org/wp-content/uploads/ECMA-262_13th_edition_june_2022.pdf`이다.
+`tools/webfetch`를 JRE 25.0.5.0.2로 실행한 조회에서는 두 공식 URL 모두 HTTP 403으로 거부되어
+본문을 받지 못했다(2026-11-25). User-Agent 위장이나 인증서 검증 해제는 하지 않았다.
+
+본문 대조는 사용자가 저장소에 둔 완전한 오프라인 HTML 사본
+[`docs/es2022`](../es2022/)을 기준으로 했다. 사본의 링크는 `https://tc39.es/ecma262/2022/` 을 가리킨다.
+TC39 공식 저장소의 같은 판 스냅샷
+`https://raw.githubusercontent.com/tc39/ecma262/es2022/spec.html`을 보조 출처로 사용했다.
+같은 도구·JRE에서 HTTP 200, 2,657,094바이트를 확인했고 ETag는
+`ffa4eed67e5c1aeee0f8bd4740f43a1ade7a8f0345195ac3b267ac110f7ef11a`이다.
+오프라인 사본과 스냅샷의 서문(HTML 95, 104~110행)은 이 판본이 "thirteenth edition"이며 ES2016~ES2022의
+주요 추가 기능을 연도별로 정리한 본문임을 확인한다.
+최종 판정의 `ESX-*` 목록은 `docs/FEATURE_MATRIX.md` 7.5절에 판본별 문법·실행 의미·내장 객체로 나누었고,
+각 행에 NetstormJava 번들의 사용 여부 또는 관찰된 횟수를 기록했다.
+
+P28-01에서 확인해 정정한 사실은 다음과 같다.
+
+1. 기능 표의 ES-EXPR에서 `**`를 ES2016 기능으로 옮긴 기존 정정이 맞다. 엔진에서 실제 구문 오류이다.
+2. 이름 있는 정규식 캡처는 구문만 받고, `exec()` 결과의 `groups`와 치환의 `$<name>`은 구현되어 있지 않다.
+3. `Array`/`String`/`%TypedArray%`의 `at`은 ES2022 기능이며 번들에서 42회 사용된다. Netstorm 판정기에서 봤던 `findLast`와 `toSorted`는 ES2023 이후이므로 P28의 ES2022 완료 판정에는 포함하지 않는다.
+4. ES2023 이후 기능은 `ESX-OUT-2023+`로 별도 기록했다.
