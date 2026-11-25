@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.duckdns.hjow.swingwebpanel.dom.Document;
+import org.duckdns.hjow.swingwebpanel.dom.Event;
 import org.duckdns.hjow.swingwebpanel.html.HtmlMarkupSupport;
 import org.duckdns.hjow.swingwebpanel.html.HtmlParser;
 import org.duckdns.hjow.swingwebpanel.css.selector.CssSelectorEngine;
@@ -278,5 +279,51 @@ public class ModuleScriptTest {
         Check.equal("start,module http://example.test/dir/dyn.js,value 7,inline done", log.toString(),
                 "dynamic and TLA modules resumed through the page event loop");
         Check.equal(1, m.count("http://example.test/dir/dyn.js"), "dynamic module fetched once");
+    }
+
+    /**
+     * A native eval reaction resolves imports against the script that attached the reaction.
+     * <p>
+     * 네이티브 eval 반응은 그 반응을 등록한 스크립트를 기준으로 import를 해석한다.
+     */
+    public void testPromiseEvalUsesRegistrationSource() {
+        FakeModules m = new FakeModules();
+        m.texts.put("http://example.test/scripts/register.js",
+                "var good=Promise.withResolvers(), bad=Promise.withResolvers();"
+                + "good.promise.then(eval).then(m=>window.goodResult=m.default);"
+                + "bad.promise.catch(eval).catch(e=>window.badResult=e.name);");
+        m.texts.put("http://example.test/scripts/dep.js", "export default 'script directory';");
+        m.texts.put("http://example.test/dir/dep.js", "export default 'document directory';");
+        PageScripts page = load(m, "<script src='/scripts/register.js'></script><script>"
+                + "good.resolve(\"import('./dep.js')\");bad.reject(\"import('./missing.js')\");</script>", new StringBuilder());
+        try {
+            Check.equal("script directory|TypeError", page.evaluate("[goodResult,badResult].join('|')", "verify"),
+                    "registration source survives settlement by another script and async errors reject");
+            Check.equal(1, m.count("http://example.test/scripts/dep.js"), "fulfilled callback imports the registration sibling");
+            Check.equal(1, m.count("http://example.test/scripts/missing.js"), "rejected callback uses the same base");
+            Check.equal(0, m.count("http://example.test/dir/dep.js"), "document base is not used for the external script");
+        } finally {
+            page.dispose();
+        }
+    }
+
+    /**
+     * An event attribute with no active script record uses the document's base URL.
+     * <p>
+     * 활성 스크립트 레코드가 없는 이벤트 속성은 문서의 기준 URL을 사용한다.
+     */
+    public void testPromiseEvalWithoutActiveScriptUsesDocumentBase() {
+        FakeModules m = new FakeModules();
+        m.texts.put("http://example.test/assets/dep.js", "export default 'document base';");
+        PageScripts page = load(m, "<base href='/assets/'><button id=b onclick=\""
+                + "Promise.resolve('import(&quot;./dep.js&quot;)').then(eval).then(m=>window.handlerResult=m.default)\">Run</button>",
+                new StringBuilder());
+        try {
+            page.dispatchEvent(page.getDocument().getElementById("b"), new Event("click", true, true));
+            Check.equal("document base", page.evaluate("handlerResult", "verify"), "event callback falls back to the document base");
+            Check.equal(1, m.count("http://example.test/assets/dep.js"), "the base element applies");
+        } finally {
+            page.dispose();
+        }
     }
 }

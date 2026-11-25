@@ -517,6 +517,7 @@ final class WorkerScope implements ScriptContext {
      */
     private void buildRealm() {
         JsRealm r = JsRealm.create();
+        r.enableHtmlJobCallbacks();
         realm = r;
         Origin scriptOrigin = Origin.of(scriptUrl);
         // 불투명 문서나 다른 오리진에서 로드한 스크립트는 기존 클러스터의 공유 버퍼를 받지 못한다.

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-09-d3b Promise 작업 콜백 (2026-11-26) ===
+현재 작업 번호: P29-09-d3b 및 P29-09-d 완료.
+완료한 내용: HTML 창·워커·워크릿의 Promise 반응 및 thenable 콜백이 등록 당시의 활성 원문 키와 incumbent를 복원한다. 독립 엔진은 기본 JobCallback을 사용한다.
+변경 파일: JsRealm.java, RealmExecution.java, PromiseJobCallback.java, PromiseBuiltins.java, PromiseReaction.java, PageScripts.java, WorkerScope.java, WorkletScope.java, PromiseJobContextTest.java, ModuleScriptTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45 엔진 전체 861건, 브라우저 ModuleScriptTest 8건, FrameWindowTest 10건, WorkerGlobalScopeTest 5건, AudioWorkletModulesTest 10건, PageScriptsTest 19건 통과. sourcecheck 0 위반.
+미해결 사항: 구판 통합(P29-09-e). 다른 렐름의 eval이 활성 레코드 소유 렐름의 모듈 로더를 사용하는 것과 중첩 이벤트 콜백의 원문 탐색은 P29-10 호스트 경계에서 대조한다.
+다음 작업 번호: P29-09-e.
+-----------------------------------------------------------------------------------------------
 === P29-09-d3a 활성 스크립트와 모듈 재개 (2026-11-26) ===
 현재 작업 번호: P29-09-d3a 완료.
 완료한 내용: 함수, eval, 모듈의 활성 원문 키를 오류 위치와 별도로 저장한다. 상대 import는 이 키를 사용한다. 최상위 await 재개 시 이전 문장을 다시 실행하지 않는다.
@@ -1010,6 +1018,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-09-d3b HostMakeJobCallback 및 HostCallJobCallback
+
+- ECMA-262 제17판 B.3.7과 WHATWG HTML §8.1.6.6.1·§8.1.6.6.6(`https://html.spec.whatwg.org/multipage/webappapis.html`, Last-Modified 2026-11-25, 조회 2026-11-26, JRE 25 `tools/webfetch`)을 대조했다.
+- 이행·거부 반응과 thenable 작업이 등록한 곳의 활성 원문 키와 incumbent를 실행 동안 복원한다. 외부 스크립트의 `.then(eval)`이 별도 스크립트에서 확정되어도 등록 경로로 가져오며, 활성 레코드가 없는 이벤트 속성은 문서의 기준 URL을 쓴다.
+- `mvn -B -o -pl engine test` 861건, `mvn -B -o -pl browser -am test -Dtest.filter=ModuleScriptTest` 8건, JDK 6u45 TestRunner의 프레임·워커·워크릿·페이지 시험 44건이 통과했다.
 
 ### 2026-11-26 · P29-09-d3a eval·재개 시 활성 원문 키
 

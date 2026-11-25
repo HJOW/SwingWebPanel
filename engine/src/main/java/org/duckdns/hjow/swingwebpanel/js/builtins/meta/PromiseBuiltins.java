@@ -120,11 +120,12 @@ final class PromiseBuiltins {
             return;
         }
         // PromiseResolveThenableJob(25.4.2.2): 작업 큐에 넣어 나중에 thenable.then 을 호출한다.
+        final PromiseJobCallback callback = new PromiseJobCallback(realm, then);
         PromiseJobs.enqueue(realm, new Runnable() {
             public void run() {
                 NativeFunction[] fns = createResolvingFunctions(realm, promise);
                 try {
-                    Ops.call(then, thenable, new JsValue[] { fns[0], fns[1] });
+                    callback.call(thenable, new JsValue[] { fns[0], fns[1] });
                 } catch (JsException e) {
                     Ops.call(fns[1], Js.UNDEFINED, new JsValue[] { e.getValue(realm) });
                 }
@@ -214,12 +215,12 @@ final class PromiseBuiltins {
     private static void runReaction(JsRealm realm, PromiseReaction reaction, JsValue argument) {
         JsValue handlerResult;
         boolean threw = false;
-        if (reaction.handler.isUndefined()) {
+        if (reaction.handler == null) {
             handlerResult = argument;
             threw = !reaction.fulfill;
         } else {
             try {
-                handlerResult = Ops.call(reaction.handler, Js.UNDEFINED, new JsValue[] { argument });
+                handlerResult = reaction.handler.call(Js.UNDEFINED, new JsValue[] { argument });
             } catch (JsException e) {
                 handlerResult = e.getValue(realm);
                 threw = true;
@@ -282,8 +283,10 @@ final class PromiseBuiltins {
      * @param capability  capability of the derived promise or null / 파생 promise 의 capability 또는 null
      */
     static void performThen(JsRealm realm, PromiseObject promise, JsValue onFulfilled, JsValue onRejected, PromiseCapability capability) {
-        PromiseReaction fulfillReaction = new PromiseReaction(capability, true, onFulfilled.isCallable() ? onFulfilled : Js.UNDEFINED);
-        PromiseReaction rejectReaction = new PromiseReaction(capability, false, onRejected.isCallable() ? onRejected : Js.UNDEFINED);
+        PromiseReaction fulfillReaction = new PromiseReaction(capability, true,
+                onFulfilled.isCallable() ? new PromiseJobCallback(realm, onFulfilled) : null);
+        PromiseReaction rejectReaction = new PromiseReaction(capability, false,
+                onRejected.isCallable() ? new PromiseJobCallback(realm, onRejected) : null);
         if (promise.getState() == PromiseObject.PENDING) {
             promise.fulfillReactions().add(fulfillReaction);
             promise.rejectReactions().add(rejectReaction);

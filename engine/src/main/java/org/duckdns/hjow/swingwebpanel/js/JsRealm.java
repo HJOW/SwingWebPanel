@@ -161,6 +161,9 @@ public class JsRealm {
     /** Whether this host can load modules through import(). / 호스트가 import()를 통해 모듈을 불러올 수 있는지 여부. */
     private boolean dynamicImportEnabled = true;
 
+    /** Whether Promise job callbacks preserve HTML host state. / Promise 작업 콜백의 HTML 호스트 상태 보존 여부. */
+    private boolean htmlJobCallbacks;
+
     /**
      * The console hook (defaults to standard output).
      * <p>
@@ -931,6 +934,26 @@ public class JsRealm {
      */
     public void setDynamicImportEnabled(boolean enabled) {
         dynamicImportEnabled = enabled;
+    }
+
+    /**
+     * Reports whether the host uses HTML's Promise callback rules.
+     * <p>
+     * 호스트가 HTML의 Promise 콜백 규칙을 쓰는지 반환한다.
+     *
+     * @return whether HTML behavior is enabled / HTML 동작의 활성 여부
+     */
+    public boolean usesHtmlJobCallbacks() {
+        return htmlJobCallbacks;
+    }
+
+    /**
+     * Enables HTML's Promise callback rules when creating a window, worker, or worklet realm.
+     * <p>
+     * 창, 워커, 워클릿 realm을 만들 때 HTML의 Promise 콜백 규칙을 활성화한다.
+     */
+    public void enableHtmlJobCallbacks() {
+        htmlJobCallbacks = true;
     }
 
     /**

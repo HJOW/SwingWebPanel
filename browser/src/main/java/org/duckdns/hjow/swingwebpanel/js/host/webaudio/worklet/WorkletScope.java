@@ -1110,6 +1110,7 @@ public final class WorkletScope {
             return;
         }
         final JsRealm r = JsRealm.create();
+        r.enableHtmlJobCallbacks();
         SharedMemoryScope.bind(r, host.getPage().getEnvironment().getSharedMemoryCluster(), Origin.of(host.getPage().getDocument().getOriginUrl()));
         r.setDynamicImportEnabled(false);
         r.setAtomicsWaitAllowed(false);

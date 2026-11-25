@@ -485,6 +485,7 @@ public final class PageScripts {
         this.document = document;
         this.env = env;
         this.realm = JsRealm.create(WindowProxy.forContext(env.getBrowsingContext()));
+        this.realm.enableHtmlJobCallbacks();
         SharedMemoryScope.bind(realm, env.getSharedMemoryCluster(), Origin.of(document.getOriginUrl()));
         realm.setAtomicsWaitAllowed(false);
         installExternalJobExecutor(env.getScheduler());
@@ -1263,7 +1264,7 @@ public final class PageScripts {
      * @return author page or fallback / 작성자 페이지 또는 대체 페이지
      */
     static PageScripts messageSender(PageScripts fallback) {
-        PageScripts author = pageForRealm(RealmExecution.currentScript());
+        PageScripts author = pageForRealm(RealmExecution.currentIncumbent());
         return author == null ? fallback : author;
     }
 
