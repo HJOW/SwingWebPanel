@@ -33,6 +33,13 @@ public class JsRealm {
     private final JsObject globalObject;
 
     /**
+     * The global this binding, which can be supplied by a host.
+     * <p>
+     * 호스트가 지정할 수 있는 전역 this 바인딩.
+     */
+    private final JsObject globalThisValue;
+
+    /**
      * The intrinsic %ObjectPrototype% object of this realm.
      * <p>
      * 이 realm 의 내장 객체 %ObjectPrototype%.
@@ -195,6 +202,17 @@ public class JsRealm {
      * (완전히 초기화된 realm 을 만드는 하위 클래스나 팩터리를 참조).
      */
     public JsRealm() {
+        this(null);
+    }
+
+    /**
+     * Creates the realm and chooses the global this value before installing built-ins.
+     * <p>
+     * realm을 만들고 내장 객체를 설치하기 전에 전역 this 값을 정한다.
+     *
+     * @param hostThis host-provided this value, or null to use the global object / 호스트의 this 값. null이면 전역 객체
+     */
+    private JsRealm(JsObject hostThis) {
         objectPrototype = new JsObject(null);
         functionPrototype = new NativeFunction(this, objectPrototype, "", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
@@ -217,6 +235,7 @@ public class JsRealm {
             }
         }
         globalObject = new GlobalObject(objectPrototype);
+        globalThisValue = hostThis == null ? globalObject : hostThis;
         // %IteratorPrototype% 은 [Symbol.iterator]() 가 자기 자신을 돌려주는 모든 이터레이터의 공통 조상이다.
         iteratorPrototype = new JsObject(objectPrototype);
         method(iteratorPrototype, WellKnownSymbols.ITERATOR, 0, new NativeFunction.Call() {
@@ -342,6 +361,17 @@ public class JsRealm {
      */
     public JsObject getGlobalObject() {
         return globalObject;
+    }
+
+    /**
+     * Returns the value used for the global this binding and the initial globalThis property.
+     * <p>
+     * 전역 this 바인딩과 globalThis 속성의 초기값에 쓰는 객체를 반환한다.
+     *
+     * @return the realm's global this value / realm의 전역 this 값
+     */
+    public JsObject getGlobalThisValue() {
+        return globalThisValue;
     }
 
     /**
@@ -596,7 +626,21 @@ public class JsRealm {
      * @return the new realm / 새 realm
      */
     public static JsRealm create() {
-        JsRealm r = new JsRealm();
+        return create(null);
+    }
+
+    /**
+     * Creates a complete realm with a host-provided global this value, such as a browsing context's window proxy.
+     * Global identifier and declaration operations use the realm's global object.
+     * <p>
+     * 브라우징 문맥의 창 프록시 같은 호스트의 전역 this 값으로 완전한 realm을 만든다.
+     * 전역 식별자 조회와 선언에는 realm의 전역 객체를 쓴다.
+     *
+     * @param hostThis host-provided this value, or null to use the global object / 호스트의 this 값. null이면 전역 객체
+     * @return the new realm / 새 realm
+     */
+    public static JsRealm create(JsObject hostThis) {
+        JsRealm r = new JsRealm(hostThis);
         org.duckdns.hjow.swingwebpanel.js.builtins.StandardBuiltins.installAll(r);
         return r;
     }

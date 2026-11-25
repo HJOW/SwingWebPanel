@@ -121,7 +121,7 @@ public final class Interpreter {
         this.globalEnv = new Environment(null);
         this.globalEnv.objectRecord = realm.getGlobalObject();
         this.globalEnv.hasThis = true;
-        this.globalEnv.thisValue = realm.getGlobalObject();
+        this.globalEnv.thisValue = realm.getGlobalThisValue();
         this.globalEnv.thisBound = true;
         this.ex = new Expressions(this);
         this.st = new Statements(this);
@@ -462,7 +462,7 @@ public final class Interpreter {
             return thisArg;
         }
         if (thisArg.isNullOrUndefined()) {
-            return realm.getGlobalObject();
+            return realm.getGlobalThisValue();
         }
         return Ops.toObject(realm, thisArg);
     }

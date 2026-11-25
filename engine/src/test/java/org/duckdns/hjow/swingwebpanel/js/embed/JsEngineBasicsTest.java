@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 import org.duckdns.hjow.swingwebpanel.js.ConsoleHook;
 import org.duckdns.hjow.swingwebpanel.js.ExecutionLimits;
+import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
+import org.duckdns.hjow.swingwebpanel.js.JsObject;
+import org.duckdns.hjow.swingwebpanel.js.JsRealm;
+import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
 import org.duckdns.hjow.swingwebpanel.js.ParsedScript;
 import org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException;
@@ -79,6 +83,26 @@ public class JsEngineBasicsTest {
         Check.equal(Boolean.TRUE, engine.eval("var original=globalThis; globalThis=42;"
                 + " globalThis===42 && this===original && delete this.globalThis && typeof globalThis==='undefined'"),
                 "replacement and deletion preserve the realm's this binding");
+    }
+
+    /**
+     * Checks a realm whose host supplies a distinct global this value.
+     * <p>
+     * 호스트가 별도의 전역 this 값을 지정한 realm을 검사한다.
+     */
+    public void testGlobalThisHostValue() {
+        JsObject hostThis = new JsObject(null);
+        JsRealm realm = JsRealm.create(hostThis);
+        Check.same(hostThis, realm.getGlobalObject().get("globalThis"), "the initial property uses the host value");
+        Check.same(hostThis, realm.evaluateScript("this", "host.js"), "classic script this");
+        Check.same(hostThis, realm.evaluateScript("function f(){return this}; f.call(null)", "host.js"), "sloppy call this");
+        Check.same(hostThis, realm.evaluateScript("eval('this')", "host.js"), "direct eval shares classic script this");
+        Check.same(hostThis, realm.evaluateScript("(0, eval)('this')", "host.js"), "indirect eval uses its realm's global this");
+        Check.same(Js.UNDEFINED, realm.evaluateModule("host.mjs", "export const topValue = this;").get("topValue"),
+                "module top-level this stays undefined");
+        Check.equal("42", Ops.toString(realm.evaluateScript("var property=42; property", "host.js")), "global binding lookup");
+        Check.same(Js.UNDEFINED, hostThis.get("property"), "global declarations use the separate global object");
+        Check.isTrue(realm.getGlobalObject().hasOwnProperty("property"), "the global object holds the variable");
     }
 
     /**

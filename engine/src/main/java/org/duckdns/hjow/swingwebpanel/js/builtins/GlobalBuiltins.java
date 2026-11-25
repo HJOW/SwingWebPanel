@@ -49,7 +49,7 @@ final class GlobalBuiltins implements BuiltinInstaller {
         g.defineData("NaN", JsNumber.NAN, false, false, false);
         g.defineData("Infinity", JsNumber.of(Double.POSITIVE_INFINITY), false, false, false);
         g.defineData("undefined", Js.UNDEFINED, false, false, false);
-        g.defineBuiltin("globalThis", g);
+        g.defineBuiltin("globalThis", realm.getGlobalThisValue());
         NativeFunction eval = realm.method(g, "eval", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 JsValue x = Js.arg(args, 0);
