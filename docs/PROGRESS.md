@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-e1 부속서 B 반복문의 제17판 대조 (2026-11-26) ===
+현재 작업 번호: P29-10-e1 완료.
+완료한 내용: ECMA-262 제17판 §14.7.5.7에 따라 비엄격 for-in/of/await의 호출 좌변을 평가한 뒤 정상·갑작스러운 완료 모두 ReferenceError로 끝낸다. 이 분기는 이터레이터의 return을 호출하지 않는다. async value 접근 오류도 좌변 처리 전에 전파된다.
+변경 파일: Statements.java, AnnexB17ConformanceTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45에서 두 변경 Java 파일을 분리 컴파일하고 AnnexB17ConformanceTest 15건, ModernAsyncIteratorTest 12건, GeneratorTest 7건 통과. 일반 좌변의 setter 예외는 IteratorClose와 AsyncIteratorClose를 거쳐 전파된다. sourcecheck 0 위반.
+미해결 사항: 엔진·브라우저 전체 회귀와 패키지 확인(P29-10-e2).
+다음 작업 번호: P29-10-e2.
+-----------------------------------------------------------------------------------------------
 === P29-10-d2 ECMA-262 기본 지역화 (2026-11-26) ===
 현재 작업 번호: P29-10-d2 및 P29-10-d 완료.
 완료한 내용: localeCompare가 피연산자를 순서대로 문자열로 변환한 뒤 Unicode 18 NFC를 적용한다. Intl 전역 부재와 String·Object·Number·BigInt·Date·Array·TypedArray의 기본 지역화, 예약 인수 생략, 수신 객체와 원소 접근 오류 순서를 대조했다.

@@ -756,6 +756,10 @@ final class Statements {
                         st.o2 = iterEnv;
                     }
                 }
+                // 웹 호환 좌변은 평가 완료를 기록하고 IteratorClose 단계에 들어가기 전에 오류를 던진다.
+                if (n.a.type == NodeType.CALL) {
+                    throw callLoopTargetError(n.a, iterEnv, ctx);
+                }
                 try {
                     bindLoopVariable(n.a, item, iterEnv, ctx);
                 } catch (JsException e) {
@@ -874,26 +878,21 @@ final class Statements {
                     state.iteration = new Environment(env);
                     in.declareLexicals(n.scope, state.iteration);
                 }
-                try {
-                    JsValue value = IteratorHelper.value(result);
-                    if (n.a.type == NodeType.CALL) {
-                        st.phase = FOR_CALL_TARGET;
-                    } else {
+                JsValue value = IteratorHelper.value(result);
+                // value 접근을 끝낸 뒤 좌변의 오류 처리 단계를 선택한다.
+                if (n.a.type == NodeType.CALL) {
+                    st.phase = FOR_CALL_TARGET;
+                } else {
+                    try {
                         bindLoopVariable(n.a, value, state.iteration, ctx);
                         st.phase = 2;
+                    } catch (RuntimeException e) {
+                        return beginAsyncClose(state, n, st, ctx, labels, null, e);
                     }
-                } catch (RuntimeException e) {
-                    return beginAsyncClose(state, n, st, ctx, labels, null, e);
                 }
             }
             if (st.phase == FOR_CALL_TARGET) {
-                try {
-                    throw in.ex.callAssignmentError(n.a, state.iteration, ctx);
-                } catch (JsException e) {
-                    return beginAsyncClose(state, n, st, ctx, labels, null, e);
-                } catch (GeneratorReturn e) {
-                    return beginAsyncClose(state, n, st, ctx, labels, null, e);
-                }
+                throw callLoopTargetError(n.a, state.iteration, ctx);
             }
             if (st.phase == 2) {
                 Completion c;
@@ -977,6 +976,27 @@ final class Statements {
     }
 
     /**
+     * Evaluates a web-compat loop target and returns the direct ReferenceError of ECMA-262 17 §14.7.5.7.
+     * <p>
+     * 웹 호환 반복문 대상을 평가한 뒤 ECMA-262 제17판 §14.7.5.7에 따라 바로 던질 ReferenceError를 반환한다.
+     *
+     * @param target call expression / 호출 표현식
+     * @param env iteration environment / 반복 환경
+     * @param ctx execution context / 실행 문맥
+     * @return reference error after a normal or abrupt evaluation / 정상 또는 갑작스러운 평가 이후의 참조 오류
+     */
+    private JsException callLoopTargetError(Node target, Environment env, Ctx ctx) {
+        try {
+            in.ex.eval(target, env, ctx);
+        } catch (JsException e) {
+            // 좌변의 throw 완료는 이 반복문 분기의 ReferenceError로 대체된다.
+        } catch (GeneratorReturn e) {
+            // 좌변 평가로 주입된 return 완료도 같은 규칙을 따른다.
+        }
+        return JsException.referenceError("Invalid left-hand side in assignment");
+    }
+
+    /**
      * Binds the value of the current iteration to the loop head: a declaration or an assignment target.
      * <p>
      * 현재 반복의 값을 반복문 머리에 바인딩한다: 선언 또는 대입 대상.
@@ -990,8 +1010,6 @@ final class Statements {
         if (left.type == NodeType.VAR_DECL) {
             Node target = left.list[0].a;
             in.pat.bind(target, value, env, ctx, left.op == Op.VAR ? Patterns.ASSIGN : Patterns.INIT);
-        } else if (left.type == NodeType.CALL) {
-            throw in.ex.callAssignmentError(left, env, ctx);
         } else {
             in.pat.bind(left, value, env, ctx, Patterns.ASSIGN);
         }

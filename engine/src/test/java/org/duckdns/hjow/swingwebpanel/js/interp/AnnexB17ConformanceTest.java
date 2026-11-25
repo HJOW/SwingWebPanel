@@ -166,9 +166,9 @@ public class AnnexB17ConformanceTest {
     }
 
     /**
-     * Checks legacy loop call targets, iterator closing, and resumption without fetching another value.
+     * Checks legacy loop call targets and resumption without fetching another value or closing the iterator.
      * <p>
-     * 레거시 반복문 호출 대상, 이터레이터 닫기 및 다음 값을 읽지 않는 재개를 확인한다.
+     * 레거시 반복문 호출 대상이 이터레이터를 닫거나 다음 값을 읽지 않고 재개되는지 확인한다.
      */
     public void testCallTargetsInForLoops() {
         String script = "const log=[];function f(x){log.push('call:'+x);}"
@@ -178,25 +178,35 @@ public class AnnexB17ConformanceTest {
                 + "let err;try{for(f('in') in {x:1}){} }catch(e){err=e.name;}"
                 + "const g=(function*(){try{for(f(yield 'pause') of iterable){} }catch(e){return e.name;}})();"
                 + "const a=g.next(),b=g.next('resume');"
-                + "let original;try{for((()=>{throw 'call error';})() of iterable){} }catch(e){original=e;}"
-                + "[err,a.value,a.done,b.value,b.done,original,log.join()].join('|')";
-        Check.equal("ReferenceError|pause|false|ReferenceError|true|call error|call:in,next,value,call:resume,close,next,value,close",
-                Scripts.eval(script), "loop call targets keep iteration state and close the iterator on failure");
+                + "let abrupt;try{for((()=>{throw 'call error';})() of iterable){} }catch(e){abrupt=e.name;}"
+                + "let normal;const ordinary={set x(value){throw 'setter';}};"
+                + "try{for(ordinary.x of iterable){} }catch(e){normal=e;}"
+                + "[err,a.value,a.done,b.value,b.done,abrupt,normal,log.join()].join('|')";
+        Check.equal("ReferenceError|pause|false|ReferenceError|true|ReferenceError|setter|"
+                + "call:in,next,value,call:resume,next,value,next,value,close",
+                Scripts.eval(script), "a loop call evaluation ends in ReferenceError before IteratorClose");
     }
 
     /**
-     * Verifies close ordering when an asynchronous loop's call target awaits an argument.
+     * Verifies early errors after an asynchronous loop's call target awaits an argument.
      * <p>
-     * 비동기 반복문의 호출 대상이 인수를 await할 때 닫는 순서를 검증한다.
+     * 비동기 반복문의 호출 대상이 인수를 await한 뒤 오류로 끝나는 순서를 검증한다.
      */
     public void testCallTargetInForAwait() {
         String script = "const log=[];function f(x){log.push('call:'+x);}"
-                + "const input={[Symbol.asyncIterator](){return this;},next(){log.push('next');return Promise.resolve({value:0});},"
+                + "const input={[Symbol.asyncIterator](){return this;},next(){log.push('next');"
+                + "return Promise.resolve({get value(){log.push('value');return 0;}});},"
                 + "return(){log.push('close');return Promise.resolve({});}};"
                 + "async function run(){try{for await(f(await Promise.resolve('argument')) of input){} }"
-                + "catch(e){print(e.name+':'+log.join());}}run();";
-        Check.equal("ReferenceError:next,call:argument,close", Scripts.output(script),
-                "await resumes the call and IteratorClose precedes the catch");
+                + "catch(e){log.push(e.name);}"
+                + "try{for await(f(await Promise.reject('argument')) of input){} }catch(e){log.push(e.name);}"
+                + "const broken={...input,next(){return {get value(){throw 'value error';}};}};"
+                + "try{for await(f('unreachable') of broken){} }catch(e){log.push(e);}"
+                + "const ordinary={set x(value){throw 'setter';}};"
+                + "try{for await(ordinary.x of input){} }catch(e){log.push(e);}"
+                + "print(log.join());}run();";
+        Check.equal("next,value,call:argument,ReferenceError,next,value,ReferenceError,value error,next,value,close,setter",
+                Scripts.output(script), "the direct ReferenceError skips AsyncIteratorClose");
     }
 
     /**
