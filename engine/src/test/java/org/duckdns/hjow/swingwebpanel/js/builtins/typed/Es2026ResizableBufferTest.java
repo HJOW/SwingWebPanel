@@ -105,6 +105,45 @@ public class Es2026ResizableBufferTest {
     }
 
     /**
+     * Exercises bounds, endianness and recovery of fixed and length-tracking DataViews.
+     * <p>
+     * 고정 길이와 길이 추적 DataView의 경계, 엔디언, 범위 복구를 검증한다.
+     */
+    public void testDataViewTrackingAndBounds() {
+        checkViewScript("const b=new ArrayBuffer(5,{maxByteLength:10});"
+                + "const d=new DataView(b,1),f=new DataView(b,1,4);"
+                + "d.setUint16(0,0x1234);"
+                + "resizeBuffer(b,3);t('tracking length',d.byteLength,2);"
+                + "t('endian read',d.getUint16(0,true),0x3412);"
+                + "try{f.byteLength;}catch(e){t('fixed length bounds',e.name,'TypeError');}"
+                + "try{f.getUint8(0);}catch(e){t('fixed read bounds',e.name,'TypeError');}"
+                + "try{d.getUint32(0);}catch(e){t('field does not fit',e.name,'RangeError');}"
+                + "resizeBuffer(b,1);t('zero length at valid offset',d.byteLength,0);"
+                + "t('original offset at valid zero length',d.byteOffset,1);"
+                + "resizeBuffer(b,8);t('recovery',[d.byteLength,f.byteLength,f.getUint16(0)].join(','),'7,4,0');"
+                + "try{d.setUint8(0,{valueOf(){resizeBuffer(b,0);return 5;}});}"
+                + " catch(e){t('setter after value conversion',e.name,'TypeError');}"
+                + "try{d.byteOffset;}catch(e){t('offset bounds',e.name,'TypeError');}"
+                + "t('buffer retained',d.buffer===b,true);", 11);
+    }
+
+    /**
+     * Rechecks the constructor's bounds after user code obtains the prototype.
+     * <p>
+     * 사용자 코드가 프로토타입을 반환한 뒤 생성자의 경계를 다시 검사한다.
+     */
+    public void testDataViewConstructorRechecksBufferAfterPrototypeLookup() {
+        checkViewScript("const b=new ArrayBuffer(6,{maxByteLength:10});const log=[];"
+                + "const target=new Proxy(function(){},{get(t,k){if(k==='prototype'){log.push(k);resizeBuffer(b,2);}return t[k];}});"
+                + "try{Reflect.construct(DataView,[b,1,3],target);}"
+                + " catch(e){t('fixed range after prototype',e.name,'RangeError');}"
+                + "t('prototype was accessed',log.join(','),'prototype');"
+                + "const auto=Reflect.construct(DataView,[b,1],target);"
+                + "const getter=Object.getOwnPropertyDescriptor(DataView.prototype,'byteLength').get;"
+                + "resizeBuffer(b,5);t('tracking through custom constructor',getter.call(auto),4);", 3);
+    }
+
+    /**
      * Runs view assertions with a host hook that calls the underlying resize operation.
      * <p>
      * 내부 크기 변경 연산을 호출하는 호스트 함수를 연결해 뷰 단언을 실행한다.

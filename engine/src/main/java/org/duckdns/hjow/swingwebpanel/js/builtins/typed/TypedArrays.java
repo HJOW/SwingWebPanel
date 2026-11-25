@@ -244,7 +244,7 @@ public final class TypedArrays {
         }
         if (v instanceof DataViewObject) {
             DataViewObject d = (DataViewObject) v;
-            return d.getBuffer().isDetached() ? null : new ByteView(d.getBuffer().getData(), d.getByteOffset(), d.getByteLength());
+            return d.isOutOfBounds() ? null : new ByteView(d.getBuffer().getData(), d.getByteOffset(), d.getByteLength());
         }
         return null;
     }

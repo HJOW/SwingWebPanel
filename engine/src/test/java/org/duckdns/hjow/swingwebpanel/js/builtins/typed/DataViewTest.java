@@ -317,9 +317,9 @@ public class DataViewTest {
     }
 
     /**
-     * Methods of a view on a detached buffer throw a TypeError.
+     * Operations that read bounds of a view on a detached buffer throw a TypeError.
      * <p>
-     * 분리된 버퍼 위의 뷰의 메서드는 TypeError 를 던진다.
+     * 분리된 버퍼 위의 뷰에서 범위를 읽는 연산은 TypeError를 던진다.
      */
     public void testDetachedBuffer() {
         buffer.detach();
@@ -328,7 +328,17 @@ public class DataViewTest {
                 v("getInt8", 0);
             }
         }, "getInt8 after detach");
-        TypedTestSupport.eq(0, TypedTestSupport.num(view.get("byteLength")), "byteLength after detach");
+        TypedTestSupport.expectError(ErrorKind.TYPE_ERROR, new Block() {
+            public void run() {
+                view.get("byteLength");
+            }
+        }, "byteLength after detach");
+        TypedTestSupport.expectError(ErrorKind.TYPE_ERROR, new Block() {
+            public void run() {
+                view.get("byteOffset");
+            }
+        }, "byteOffset after detach");
+        Check.same(buffer, view.get("buffer"), "view retains its buffer");
         TypedTestSupport.expectError(ErrorKind.TYPE_ERROR, new Block() {
             public void run() {
                 TypedTestSupport.make(realm, "DataView", buffer);

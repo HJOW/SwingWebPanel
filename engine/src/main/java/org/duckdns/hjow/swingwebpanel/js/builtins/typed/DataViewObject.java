@@ -3,9 +3,9 @@ package org.duckdns.hjow.swingwebpanel.js.builtins.typed;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 
 /**
- * A DataView object: a window of a given byte offset and length on an {@link ArrayBufferObject} with explicit-endianness accessors.
+ * A DataView object: a fixed-length or length-tracking window on an {@link ArrayBufferObject} with explicit-endianness accessors.
  * <p>
- * DataView 객체: {@link ArrayBufferObject} 위의 주어진 바이트 위치와 길이의 창이며 엔디언을 직접 지정하는 접근자를 가진다.
+ * DataView 객체: {@link ArrayBufferObject} 위의 고정 길이 또는 길이를 추적하는 창이며 엔디언을 직접 지정하는 접근자를 가진다.
  */
 public class DataViewObject extends JsObject {
 
@@ -24,9 +24,9 @@ public class DataViewObject extends JsObject {
     private final int byteOffset;
 
     /**
-     * Length of the window in bytes.
+     * Fixed byte length, or -1 to track the buffer length.
      * <p>
-     * 창의 바이트 길이.
+     * 고정 바이트 길이. 버퍼 길이를 추적하면 -1.
      */
     private final int byteLength;
 
@@ -38,7 +38,7 @@ public class DataViewObject extends JsObject {
      * @param prototype  the [[Prototype]] / [[Prototype]]
      * @param buffer     the buffer / 버퍼
      * @param byteOffset offset in bytes / 바이트 위치
-     * @param byteLength length in bytes / 바이트 길이
+     * @param byteLength byte length or -1 to track a resizable buffer / 바이트 길이. 가변 버퍼를 추적하면 -1
      */
     public DataViewObject(JsObject prototype, ArrayBufferObject buffer, int byteOffset, int byteLength) {
         super(prototype);
@@ -81,13 +81,31 @@ public class DataViewObject extends JsObject {
     }
 
     /**
-     * Returns the length of the window in bytes.
+     * Checks the view's current bounds.
      * <p>
-     * 창의 바이트 길이를 반환한다.
+     * 뷰의 현재 경계를 확인한다.
      *
-     * @return the length / 길이
+     * @return true if detached or out of bounds / 분리되었거나 범위를 벗어났으면 true
+     */
+    public boolean isOutOfBounds() {
+        if (buffer.isDetached()) {
+            return true;
+        }
+        int remaining = buffer.getByteLength() - byteOffset;
+        return remaining < 0 || (byteLength >= 0 && byteLength > remaining);
+    }
+
+    /**
+     * Returns the accessible window length, or zero if out of bounds.
+     * <p>
+     * 접근할 수 있는 창의 길이를 반환한다. 범위를 벗어나면 0이다.
+     *
+     * @return current length in bytes / 현재 바이트 길이
      */
     public int getByteLength() {
-        return byteLength;
+        if (isOutOfBounds()) {
+            return 0;
+        }
+        return byteLength < 0 ? buffer.getByteLength() - byteOffset : byteLength;
     }
 }

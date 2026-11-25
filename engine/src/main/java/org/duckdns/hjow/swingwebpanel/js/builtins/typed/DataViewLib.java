@@ -59,13 +59,15 @@ final class DataViewLib {
         realm.getter(proto, "byteLength", new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 DataViewObject v = thisView(thisValue);
-                return Js.num(v.getBuffer().isDetached() ? 0 : v.getByteLength());
+                validateBounds(v);
+                return Js.num(v.getByteLength());
             }
         });
         realm.getter(proto, "byteOffset", new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 DataViewObject v = thisView(thisValue);
-                return Js.num(v.getBuffer().isDetached() ? 0 : v.getByteOffset());
+                validateBounds(v);
+                return Js.num(v.getByteOffset());
             }
         });
         ElementType[] types = { ElementType.INT8, ElementType.UINT8, ElementType.INT16, ElementType.UINT16, ElementType.INT32, ElementType.UINT32,
@@ -125,13 +127,24 @@ final class DataViewLib {
      * @return the position in the buffer / 버퍼 안의 위치
      */
     private static int checkRange(DataViewObject view, double index, ElementType type) {
-        if (view.getBuffer().isDetached()) {
-            throw JsException.typeError("the buffer of this DataView is detached");
-        }
+        validateBounds(view);
         if (index + type.getSize() > view.getByteLength()) {
             throw JsException.rangeError("Offset is outside the bounds of the DataView");
         }
         return view.getByteOffset() + (int) index;
+    }
+
+    /**
+     * Checks the view's current buffer bounds before an accessor or element operation.
+     * <p>
+     * 접근자 또는 요소 연산에 앞서 뷰의 현재 버퍼 경계를 확인한다.
+     *
+     * @param view the DataView / DataView
+     */
+    private static void validateBounds(DataViewObject view) {
+        if (view.isOutOfBounds()) {
+            throw JsException.typeError("DataView is out of bounds");
+        }
     }
 
     /**
@@ -162,7 +175,7 @@ final class DataViewLib {
         double viewLength;
         JsValue lengthArg = Js.arg(args, 2);
         if (lengthArg.isUndefined()) {
-            viewLength = bufferLength - offset;
+            viewLength = buffer.isResizable() ? -1 : bufferLength - offset;
         } else {
             viewLength = TypedSupport.toIndex(lengthArg, "DataView length");
             if (offset + viewLength > bufferLength) {
@@ -172,6 +185,11 @@ final class DataViewLib {
         JsObject p = Ops.getPrototypeFromConstructor(realm, newTarget, proto);
         if (buffer.isDetached()) {
             throw JsException.typeError("the buffer is detached");
+        }
+        // 인수 변환과 newTarget의 프로토타입 접근 뒤 버퍼 경계를 다시 읽는다.
+        bufferLength = buffer.getByteLength();
+        if (offset > bufferLength || (viewLength >= 0 && offset + viewLength > bufferLength)) {
+            throw JsException.rangeError("DataView is outside the bounds of the buffer");
         }
         return new DataViewObject(p, buffer, (int) offset, (int) viewLength);
     }
