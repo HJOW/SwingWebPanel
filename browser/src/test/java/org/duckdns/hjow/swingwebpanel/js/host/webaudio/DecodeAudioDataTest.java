@@ -127,6 +127,8 @@ public class DecodeAudioDataTest {
      * 공유 버퍼와 가변 버퍼를 디코딩 입력으로 받으면 데이터를 다루기 전에 Promise를 거부한다.
      */
     public void testSharedMemoryDecodeBoundary() {
+        page.fixture.scripts.dispose();
+        page = new WebAudioPage(true);
         page.run("var ctx=new OfflineAudioContext(1,128,8000), s=new SharedArrayBuffer(4), r=new ArrayBuffer(4,{maxByteLength:8}), errs=[];"
                 + "ctx.decodeAudioData(s).catch(e=>errs.push(e.name));ctx.decodeAudioData(r).catch(e=>errs.push(e.name));");
         page.waitFor("errs.length===2", 10000, "both IDL buffer conversions reject");

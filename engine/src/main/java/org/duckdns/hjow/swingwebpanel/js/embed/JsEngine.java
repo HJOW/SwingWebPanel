@@ -20,7 +20,7 @@ import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseJobs;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseRejectionTracker;
 
 /**
- * A self contained ECMAScript 2015 (ES6) engine that any Java program can use, with or without the browser component. It needs nothing
+ * A self contained JavaScript engine targeting ECMAScript 2026 that any Java program can use, with or without the browser component. It needs nothing
  * but the JRE (Java 6 or later): no external library, no native code, no other script engine. One <code>JsEngine</code> owns one realm: a
  * global object with the complete set of standard built-in objects (<code>Object</code>, <code>Array</code>, <code>Promise</code>,
  * <code>Map</code>, <code>JSON</code>, <code>RegExp</code>, typed arrays, <code>Proxy</code> ...). Engines are independent of each other.
@@ -84,7 +84,7 @@ import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseRejectionTracker;
  * {@link #getLimits()} returns the {@link ExecutionLimits} of the engine: a step limit per task (default 200 million), an optional time limit
  * (default none), the nesting of calls (default 400) and the length of strings. Set a time limit before running code that you do not trust.
  * <p>
- * 브라우저 컴포넌트 유무와 관계없이 모든 Java 프로그램이 쓸 수 있는 자체 완결형 ECMAScript 2015(ES6) 엔진. JRE(Java 6 이상) 외에는 아무것도 필요 없다.
+ * 브라우저 컴포넌트 유무와 관계없이 Java 프로그램에서 쓸 수 있는 ECMAScript 2026 대상 엔진. JRE(Java 6 이상) 외에는 아무것도 필요 없다.
  * 외부 라이브러리, 네이티브 코드, 다른 스크립트 엔진을 쓰지 않는다. <code>JsEngine</code> 하나는 realm 하나를 가진다. 표준 내장 객체
  * (<code>Object</code>, <code>Array</code>, <code>Promise</code>, <code>Map</code>, <code>JSON</code>, <code>RegExp</code>, 타입 배열, <code>Proxy</code> ...)를 모두 갖춘
  * 전역 객체이며 엔진끼리는 서로 독립이다. 사용 예는 위 코드를 본다.

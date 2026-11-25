@@ -27,6 +27,12 @@ final class WebAudioPage {
      * 기본 주소의 빈 페이지를 로드한다.
      */
     WebAudioPage() {
+        this(false);
+    }
+
+    /** Loads the page with the specified isolation capability. / 지정한 격리 권한으로 페이지를 로드한다. */
+    WebAudioPage(boolean isolated) {
+        fixture.env.crossOriginIsolated = isolated;
         fixture.load("http://example.test/dir/page.html", "<!doctype html><body><p>audio</p></body>");
     }
 

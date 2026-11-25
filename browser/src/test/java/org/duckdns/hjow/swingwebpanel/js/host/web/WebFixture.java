@@ -126,6 +126,14 @@ final class WebFixture {
         /** False to switch scripts off. / 스크립트를 끄려면 false. */
         boolean scripting = true;
 
+        /** Whether the test page has the isolated capability. / 시험 페이지에 격리 권한이 있는지 여부. */
+        boolean isolated;
+
+        /** Returns the mocked isolation capability. / 시험용 격리 권한을 반환한다. */
+        public boolean isCrossOriginIsolated() {
+            return isolated;
+        }
+
         /**
          * Returns the manual scheduler.
          * <p>
@@ -227,6 +235,20 @@ final class WebFixture {
      * @param html the markup / 마크업
      */
     WebFixture(String url, String html) {
+        this(url, html, false);
+    }
+
+    /**
+     * Loads a page with the specified isolation capability.
+     * <p>
+     * 지정한 격리 권한으로 페이지를 로드한다.
+     *
+     * @param url page URL / 페이지 URL
+     * @param html page markup / 페이지 마크업
+     * @param isolated whether shared memory is available / 공유 메모리를 사용할 수 있는지 여부
+     */
+    private WebFixture(String url, String html, boolean isolated) {
+        env.isolated = isolated;
         Document doc = Document.createHtmlDocument();
         doc.setMarkupSupport(new HtmlMarkupSupport());
         CssSelectorEngine.install(doc);
@@ -252,7 +274,12 @@ final class WebFixture {
      * 보통의 시험 주소의 빈 페이지를 로드한다.
      */
     WebFixture() {
-        this("http://example.test/dir/page.html", "<html><body><div id=out></div></body></html>");
+        this(false);
+    }
+
+    /** Loads the default page with the specified capability. / 지정한 권한으로 기본 페이지를 로드한다. */
+    WebFixture(boolean isolated) {
+        this("http://example.test/dir/page.html", "<html><body><div id=out></div></body></html>", isolated);
     }
 
     /**

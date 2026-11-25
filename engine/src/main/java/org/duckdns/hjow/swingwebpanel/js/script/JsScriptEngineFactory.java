@@ -8,7 +8,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 
 /**
- * The factory of the Java Scripting API (JSR 223) engine that is built on this project's own ECMAScript 2015 engine. It is registered in
+ * The factory of the Java Scripting API (JSR 223) engine targeting ECMAScript 2026. It is registered in
  * <code>META-INF/services/javax.script.ScriptEngineFactory</code> of the engine jar, so that
  * <pre>
  * ScriptEngine engine = new ScriptEngineManager().getEngineByName("swingwebpanel-js");
@@ -23,7 +23,7 @@ import javax.script.ScriptEngineFactory;
  * extension <code>js</code> and the common MIME types are then registered as well, and which engine <code>getEngineByName("javascript")</code> returns is up to the
  * search order of the Java runtime. This engine never delegates to Rhino, Nashorn or any other engine.
  * <p>
- * 이 프로젝트의 자체 ECMAScript 2015 엔진으로 만든 Java Scripting API(JSR 223) 엔진의 팩터리. 엔진 JAR 의
+ * ECMAScript 2026을 대상으로 하는 Java Scripting API(JSR 223) 엔진의 팩터리. 엔진 JAR 의
  * <code>META-INF/services/javax.script.ScriptEngineFactory</code> 에 등록되어 있어 위 코드의 <code>getEngineByName("swingwebpanel-js")</code> 가 찾는다.
  * <b>이름.</b> Java 런타임이 이미 흔한 이름으로 엔진을 등록했을 수 있다. JRE 6, 7 은 Rhino, JRE 8~14 는 Nashorn 이 있고(<code>js</code>, <code>JavaScript</code>,
  * <code>javascript</code>, <code>ECMAScript</code>, <code>ecmascript</code>, 확장자 <code>js</code>, MIME <code>application/javascript</code> 등), 그때
@@ -72,11 +72,11 @@ public final class JsScriptEngineFactory implements ScriptEngineFactory {
     public static final String LANGUAGE_NAME = "ECMAScript";
 
     /**
-     * The version of the language: the 6th edition of ECMA-262 (ECMAScript 2015).
+     * The targeted language edition: ECMA-262, 17th edition (ECMAScript 2026).
      * <p>
-     * 언어의 버전: ECMA-262 6판(ECMAScript 2015).
+     * 대상 언어 판본: ECMA-262 제17판(ECMAScript 2026).
      */
-    public static final String LANGUAGE_VERSION = "6";
+    public static final String LANGUAGE_VERSION = "17";
 
     /**
      * The unique names of the engine.

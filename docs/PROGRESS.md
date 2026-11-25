@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-e3 전체 회귀의 시험 전제와 JSR 223 메타데이터 (2026-11-26) ===
+현재 작업 번호: P29-10-e3 진행 중.
+완료한 내용: 공유 메모리의 IDL·AudioWorklet 시험에 격리된 호스트 조건을 부여하고 Worker 진입 모듈에 같은 오리진 시작점을 지정한다. 오류 페이지 및 정적 상태 점검을 갱신하고, 미디어 테스트는 실제 출력 생성 및 렌더링 시계 진행을 확인한다. JSR 223 언어 판본 표기를 17로 갱신했다.
+변경 파일: StaticStateAuditTest.java, ErrorPageBuilderTest.java, HttpFetcherTest.java, MediaElementsTest.java, CanvasPixelsTest.java, WebFixture.java, WebTypesTest.java, WebAudioPage.java, DecodeAudioDataTest.java, WebAudioInterfaceTest.java, AudioWorkletModulesTest.java, AudioWorkletRealtimeTest.java, JsEngine.java, JsScriptEngineFactory.java, ScriptEngineDiscoveryTest.java, README.md, docs/ARCHITECTURE.md, docs/FEATURE_MATRIX.md, docs/progress/es2026.md, 이 문서.
+검증 결과: 최초 mvn -B -o verify에서 JDK 6u45 엔진 890건 통과, 브라우저 3,726건 통과·11건 실패·14건 건너뜀. 위 수정 시험을 분리 컴파일해 브라우저 89건 통과(부하에 따른 작업량 측정 1건 건너뜀), HttpFetcherTest 20건 통과, ScriptEngineDiscoveryTest 4건 통과. 11건의 실패 사례를 모두 재확인했다. sourcecheck 변경 파일 검사 0 위반.
+미해결 사항: 최종 트리로 mvn -B -o verify 재실행 및 생성한 JAR의 예제 smoke. 첫 전체 실행에서 선택 Opus 원본 자료 12건과 Java Sound 믹서가 필요한 2건을 건너뛰었다.
+다음 작업 번호: P29-10-e3, 이후 P27-01.
+-----------------------------------------------------------------------------------------------
 === P29-10-e2 정규식 일반 범주 접기의 제17판 대조 (2026-11-26) ===
 현재 작업 번호: P29-10-e2 완료.
 완료한 내용: 제17판 §22.2.2.9에 따라 /iv에서 명시형 gc=Lu를 접고, 축약형 Lu는 접은 입력을 원시 범주와 비교한다. 동치 집합 표현을 유지해 중첩 클래스의 여집합·교집합·차집합에 적용한다.

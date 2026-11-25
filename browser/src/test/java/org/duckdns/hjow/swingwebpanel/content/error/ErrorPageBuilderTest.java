@@ -200,6 +200,7 @@ public class ErrorPageBuilderTest {
                 expected[i] = ErrorKind.FTP_FAILURE;
                 break;
             case CORS:
+            case BLOCKED_EMBEDDER_POLICY:
                 expected[i] = ErrorKind.CORS;
                 break;
             default:

@@ -49,7 +49,7 @@ public class AudioWorkletModulesTest {
      * 유휴 AudioWorklet에서 동기 대기를 거부하고 비동기 타임아웃 작업을 실행하는지 확인한다.
      */
     public void testAtomicsWaitPolicyAndTimeout() {
-        WorkletPage p = new WorkletPage();
+        WorkletPage p = new WorkletPage(true);
         try {
             p.module("atomics.js", "const a=new Int32Array(new SharedArrayBuffer(4));"
                     + "try{Atomics.wait(a,0,0,0);console.log('missing');}catch(e){console.log(e.name);}"

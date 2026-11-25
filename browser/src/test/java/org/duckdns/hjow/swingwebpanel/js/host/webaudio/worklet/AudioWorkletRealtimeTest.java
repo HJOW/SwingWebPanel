@@ -90,6 +90,9 @@ public class AudioWorkletRealtimeTest {
      */
     private static final String SINE = "class Sine extends AudioWorkletProcessor {\n" + "  constructor() { super(); this.phase = 0; this.report = false; this.port.onmessage = (e) => {\n"
             + "    if (e.data.type === 'report') this.report = e.data.on;\n" + "    else if (e.data.type === 'busy') { const end = Date.now() + e.data.ms; while (Date.now() < end) {} this.port.postMessage({type: 'busy-done'}); }\n"
+            + "    else if (e.data.type === 'gate') { const gate = e.data.gate; const end = Date.now() + 3000;"
+            + "      Atomics.store(gate, 0, 1); while (Atomics.load(gate, 0) === 1 && Date.now() < end) {}"
+            + "      this.port.postMessage({type: 'busy-done'}); }\n"
             + "  }; }\n" + "  process(inputs, outputs) {\n" + "    if (this.report) this.port.postMessage({type: 'frame', frame: currentFrame});\n" + "    const o = outputs[0][0];\n"
             + "    const step = 2 * Math.PI * 1000 / sampleRate;\n" + "    for (let i = 0; i < o.length; i++) { o[i] = Math.sin(this.phase); this.phase += step; }\n"
             + "    this.phase %= 2 * Math.PI;\n" + "    return true;\n" + "  }\n" + "}\n" + "registerProcessor('sine', Sine);\n";
@@ -102,7 +105,19 @@ public class AudioWorkletRealtimeTest {
      * @return the page / 페이지
      */
     private static WorkletPage live() {
-        WorkletPage p = new WorkletPage();
+        return live(false);
+    }
+
+    /**
+     * Creates the real-time fixture with optional access to shared memory.
+     * <p>
+     * 공유 메모리 접근을 지정해 실시간 시험 페이지를 만든다.
+     *
+     * @param isolated whether to grant shared memory / 공유 메모리 허용 여부
+     * @return the page / 페이지
+     */
+    private static WorkletPage live(boolean isolated) {
+        WorkletPage p = new WorkletPage(isolated);
         p.module("sine.js", SINE);
         p.run("var ctx = new AudioContext(); var frames = []; var events = []; var ready = false; var node = null; var an = null; var busyDone = false;"
                 + "ctx.audioWorklet.addModule('sine.js').then(function () { node = new AudioWorkletNode(ctx, 'sine', {numberOfInputs: 0});"
@@ -175,36 +190,39 @@ public class AudioWorkletRealtimeTest {
     }
 
     /**
-     * A worklet that is busy does not hold the rendering thread: while a message handler of the processor runs for 400 ms the script realm is not free, the processor is skipped in those quanta (the frame
-     * counter jumps, the clock does not wait), it plays again afterwards without a <code>processorerror</code>, and the page thread is not blocked.
+     * The rendering clock advances while the processor's message handler waits for the page to release a shared gate.
+     * Processing resumes after release and emits a skipped-quantum warning without a <code>processorerror</code>.
      * <p>
-     * 바쁜 worklet 은 렌더링 스레드를 붙잡지 않는다: 프로세서의 메시지 핸들러가 400 ms 동안 실행되는 동안 스크립트 realm 이 비어 있지 않아 그 quantum 에서 프로세서를 건너뛰고(프레임 계수가 건너뛰고 시계는
-     * 기다리지 않는다), 그 뒤에는 <code>processorerror</code> 없이 다시 재생하며, 페이지 스레드는 막히지 않는다.
+     * 프로세서의 메시지 핸들러가 공유 플래그의 해제를 기다리는 동안에도 렌더링 시계는 전진한다.
+     * 플래그를 해제하면 처리기가 재개되고 <code>processorerror</code> 없이 건너뛴 quantum 경고를 낸다.
      */
     public void testABusyWorkletDoesNotHoldTheRenderingThread() {
-        WorkletPage p = live();
-        p.run("node.port.postMessage({type: 'report', on: true});");
-        p.waitFor("frames.length > 50", 30000, "the processor runs");
-        p.run("node.port.postMessage({type: 'busy', ms: 400});");
-        p.waitFor("busyDone", 30000, "the long handler ends");
-        int before = (int) p.number("frames.length");
-        p.waitFor("frames.length > " + (before + 80), 30000, "the processor plays again");
-        // 프레임 계수의 가장 큰 도약: 건너뛴 quantum 이 있어야 한다. 400 ms 는 48 kHz 에서 약 150 quantum 이다.
-        double biggest = p.number("var big = 0; for (var i = 1; i < frames.length; i++) { big = Math.max(big, frames[i] - frames[i - 1]); } big / 128");
-        Check.isTrue(biggest >= 40, "the processor was skipped for " + biggest + " quanta while the handler ran (about 150 expected)");
-        // 위쪽 한도는 느슨하다(약 5 초): 핸들러가 끝난 뒤 다시 재생하는 것을 확인하되, 바쁜 컴퓨터에서 재개가 늦어지는 것은 허용한다.
-        Check.isTrue(biggest <= 2000, "but it came back after the handler (a stuck realm would never): " + biggest + " quanta");
-        Check.equal("0", p.run("String(events.length)"), "no processorerror: a busy realm is not a failure");
-        // 콘솔에는 worklet 이 시계를 따라가지 못했다는 경고가 있다(건너뛴 quantum 수와 함께).
-        boolean warned = false;
-        // 콘솔의 줄마다 경고가 있는지 확인한다.
-        for (String line : p.console()) {
-            if (line.startsWith("warn: AudioWorklet: the audio worklet could not keep up with the clock")) {
-                warned = true;
+        WorkletPage p = live(true);
+        try {
+            p.run("var gate = new Int32Array(new SharedArrayBuffer(4)); node.port.postMessage({type: 'report', on: true});");
+            p.waitFor("frames.length > 50", 20000, "the processor runs");
+            p.run("node.port.postMessage({type: 'gate', gate: gate});");
+            p.waitFor("Atomics.load(gate, 0) === 1", 4000, "the handler owns the worklet realm");
+            p.run("var firstBusyTime = ctx.currentTime;");
+            p.waitFor("ctx.currentTime >= firstBusyTime + 4 * 128 / ctx.sampleRate", 2000, "the rendering clock advances during the handler");
+            Check.equal("false", p.run("String(busyDone)"), "the handler is still holding the worklet");
+            p.run("Atomics.store(gate, 0, 0);");
+            p.waitFor("busyDone", 5000, "the handler ends after release");
+            int before = (int) p.number("frames.length");
+            p.waitFor("frames.length > " + (before + 10), 15000, "the processor reports frames again");
+            Check.equal("0", p.run("String(events.length)"), "no processorerror: a busy realm is not a failure");
+            boolean warned = false;
+            // 콘솔의 줄마다 건너뛴 quantum 경고가 있는지 확인한다.
+            for (String line : p.console()) {
+                if (line.startsWith("warn: AudioWorklet: the audio worklet could not keep up with the clock")) {
+                    warned = true;
+                }
             }
+            Check.isTrue(warned, "the console of the page was warned: " + p.console());
+        } finally {
+            p.run("if(typeof gate !== 'undefined') Atomics.store(gate, 0, 0); ctx.close();");
+            p.fixture.scripts.dispose();
         }
-        Check.isTrue(warned, "the console of the page was warned: " + p.console());
-        p.run("ctx.close();");
     }
 
     /**

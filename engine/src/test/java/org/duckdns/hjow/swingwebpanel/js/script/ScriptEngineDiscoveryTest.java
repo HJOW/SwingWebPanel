@@ -114,7 +114,8 @@ public class ScriptEngineDiscoveryTest {
         Check.equal(f.getEngineVersion(), f.getParameter(ScriptEngine.ENGINE_VERSION), "javax.script.engine_version");
         Check.equal("swingwebpanel-js", f.getParameter(ScriptEngine.NAME), "javax.script.name");
         Check.equal("ECMAScript", f.getParameter(ScriptEngine.LANGUAGE), "javax.script.language");
-        Check.equal("6", f.getParameter(ScriptEngine.LANGUAGE_VERSION), "javax.script.language_version");
+        Check.equal("17", f.getLanguageVersion(), "the ECMAScript edition");
+        Check.equal("17", f.getParameter(ScriptEngine.LANGUAGE_VERSION), "javax.script.language_version");
         Check.equal("MULTITHREADED", f.getParameter("THREADING"), "the threading model");
         Check.isNull(f.getParameter("no.such.key"), "an unknown key");
         Check.equal("obj.run(1, \"a\")", f.getMethodCallSyntax("obj", "run", "1", "\"a\""), "method call syntax");

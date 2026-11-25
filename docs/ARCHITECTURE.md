@@ -83,6 +83,10 @@ User-Agent 기본값 `swingwebpanel/1.0`, JAR 이름 `swingwebpanel.jar`, 스레
 - 의존 방향은 예제 → 브라우저 → 엔진이다. Maven 전환 전후 경로는 [Maven 전환 기록](progress/maven.md)에 있다.
 - 시험 실행기(`testing.TestRunner/Check/...`)는 엔진 시험 소스에 있고 브라우저가 `test` 범위의 test JAR로 사용한다.
 
+ECMA-262 제17판의 내장 객체, 모듈과 공유 메모리 자료형은 엔진 모듈에서 구현한다. 브라우저 모듈은 `StructuredClone`에서 수신 렐름의 프로토타입과 버퍼·뷰의 별칭을 보존하고, `SharedMemoryScope`에서 문서·Worker·AudioWorklet의 오리진·격리·에이전트 클러스터를 검사한다. `RealmExecution`은 스크립트·모듈 키와 렐름을 실행 범위에 기록하며 HTML의 Promise 콜백은 등록 시점의 활성 스크립트와 incumbent 설정을 보존한다. 실행 범위가 끝나면 해당 스레드의 이전 값을 복원한다.
+
+`tools/unicodegen`이 Unicode 18 UCD로 `UnicodePropertyData`를 만든다. 렉서·정규식은 `UnicodeProperties`와 `UnicodeCase`를 사용하며, 문자열 정규화와 정준 동치 비교는 `UnicodeNormalization`의 데이터를 공유한다. 엔진은 동일한 데이터로 JDK 6에서도 네 정규화 형식을 적용하며, 지역화 기본 형식과 호스트 예외는 [기능 표 7절](FEATURE_MATRIX.md#7-ecmascript-es2026-목표-및-이전-버전-호환-p00-04-p28-p29)에 기록한다.
+
 ## 3. 책임 분리와 데이터 흐름 (P02-02)
 
 | 자료형 | 패키지 | 책임 |

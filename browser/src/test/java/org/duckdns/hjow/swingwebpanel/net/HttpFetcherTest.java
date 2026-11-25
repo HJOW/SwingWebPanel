@@ -177,8 +177,9 @@ public class HttpFetcherTest {
             server = new TestHttpServer();
             server.routeFixed("/x", TestHttpServer.Response.ok("text/plain", "x"));
             server.start();
-            ResourceRequest req = new ResourceRequest(server.url("/x")).setUserAgent("Custom/2.0")
-                    .setExtraHeaders(extra).setPurpose(purposes[i]);
+            String url = server.url("/x");
+            ResourceRequest req = new ResourceRequest(url).setUserAgent("Custom/2.0")
+                    .setExtraHeaders(extra).setPurpose(purposes[i]).setInitiator(Origin.of(url));
             ResourceResponse r = fetcher.fetch(req);
             Check.equal(200, r.getStatus(), "status for " + purposes[i]);
             TestHttpServer.Request q = server.last("/x");

@@ -230,7 +230,7 @@ public class WebTypesTest {
      * 고정 길이 공유 저장소, 관찰 가능한 옵션 변환, Encoding API의 잘못된 버퍼 타입을 확인한다.
      */
     public void testTextEncodingWithSharedMemory() {
-        WebFixture f = new WebFixture();
+        WebFixture f = new WebFixture(true);
         String source = "function fail(f){try{f();return 'missing';}catch(e){return e.name;}}"
                 + "var b=new SharedArrayBuffer(6), small=new SharedArrayBuffer(1);"
                 + "var dst=new Uint8Array(b,1,4), te=new TextEncoder(), td=new TextDecoder();"
@@ -253,7 +253,7 @@ public class WebTypesTest {
      * 공유 버퍼 자체의 Web IDL 합집합 변환과 공유 뷰 및 가변 버퍼 거부를 확인한다.
      */
     public void testSharedMemoryBufferSourceBoundaries() {
-        WebFixture f = new WebFixture();
+        WebFixture f = new WebFixture(true);
         String source = "function fail(f){try{f();return 'missing';}catch(e){return e.name;}}"
                 + "var b=new SharedArrayBuffer(4), u=new Uint8Array(b), d=new DataView(b), r=new ArrayBuffer(4,{maxByteLength:8});"
                 + "b.toString=()=> 'raw-tag';"

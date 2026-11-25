@@ -730,12 +730,13 @@ public class MediaElementsTest {
         until(f, "a.readyState === 4", "the new resource loaded");
         js(f, "a.play();");
         until(f, "!a.paused && a.currentTime >= 0 && events().indexOf('playing') >= 0", "playing");
+        FakeOutputs.Out output = outs.await(0);
         js(f, "log.length = 0; a.load();");
         settleBriefly(f);
         Check.equal("true,0,0,NaN", js(f, "[a.paused, a.currentTime, a.readyState, a.duration].join(',')"), "load() resets the element");
         Check.equal("a:abort,a:emptied,a:loadstart", js(f, "events()"), "events of load() on a loaded element");
         Check.equal(3, media.count(), "a third fetch");
-        Check.equal(1, outs.outputs.get(0).closeCalls(), "the output of the old playback was closed");
+        Check.equal(1, output.closeCalls(), "the output of the old playback was closed");
     }
 
     /**

@@ -55,11 +55,11 @@ SwingWebPanel 컴포넌트 사용 시 다음 사항을 dependencies 에 넣습�
     
 ## 소개 (AI 작성)
 
-Java Swing 에서 쓰는 웹 브라우저 컴포넌트입니다. HTML 파서, CSS 처리기, 레이아웃/렌더링 엔진, JavaScript 엔진(ES2015 대상), DOM, 이미지/오디오 디코더, HTTP/HTTPS/FTP 요청 계층을
+Java Swing 에서 쓰는 웹 브라우저 컴포넌트입니다. HTML 파서, CSS 처리기, 레이아웃/렌더링 엔진, JavaScript 엔진(ECMA-262 제17판, ECMAScript 2026 기준), DOM, 이미지/오디오 디코더, HTTP/HTTPS/FTP 요청 계층을
 **순수 Java 로 직접 구현**했고 외부 라이브러리, 기존 JavaScript 엔진(Rhino 등), JavaFX WebView, 네이티브 코드(JNI 등), OS 브라우저 실행에 의존하지 않습니다.
 
-> **현재 상태: 부분 구현입니다.** HTML5/CSS3/ES6 전체를 지원한다고 주장하지 않습니다. 기능별 지원 상태와 근거, 남은 차이는 [docs/FEATURE_MATRIX.md](docs/FEATURE_MATRIX.md),
-> 진행과 검증 결과는 [docs/PROGRESS.md](docs/PROGRESS.md), 계획은 [AGENTS.md](AGENTS.md) 의 "개발 계획"에 있습니다.
+HTML·CSS·JavaScript의 지원 범위와 브라우저 호환성 차이는 [기능 표](docs/FEATURE_MATRIX.md)에 있습니다.
+JavaScript는 이전 판본과 ES2026 기능을 함께 검증합니다. 프로젝트의 검증 결과와 작업 계획은 [진행 기록](docs/PROGRESS.md)과 [개발 계획](AGENTS.md)에 있습니다.
 
 ## 요구 사항
 
@@ -233,8 +233,7 @@ panel.addConsoleListener(new ConsoleListener() {
 
 ### 독립 JavaScript 엔진과 `javax.script`
 
-브라우저 컴포넌트 없이 자체 ECMAScript 2015 엔진과 기능 표에 검증 완료로 기록한 ES2016~2022 확장을 쓸 수 있습니다(`swingwebpanel-js.jar` 하나, Java 6 이상, 외부 라이브러리 없음). 현재 검증 완료 확장에는 BigInt 원시값·연산·형식화 배열, `Object/Array/String/Promise`의 ES2017~2022 메서드, named capture/lookbehind/indices/Unicode 13 정규식 속성, `WeakRef`/`FinalizationRegistry`가 포함됩니다. JAR 크기를 위해 Unicode 13 Emoji 속성 escape만 명시적으로 지원하지 않습니다(EXC-15).
-엔진은 **Rhino/Nashorn 등 다른 엔진에 위임하지 않습니다.**
+`swingwebpanel-js.jar` 하나를 클래스패스에 두고 Java 6 이상에서 실행할 수 있습니다. 지원 기능에는 JSON 모듈과 import attributes, 가변·공유 버퍼, `Atomics.waitAsync`, `Float16Array`와 `Uint8Array`의 Base64·16진 변환, 이터레이터 헬퍼, 정규식 `/v`, Unicode 18 정규화가 포함됩니다. 정규식의 이모지 전용 속성은 미지원이며 `Intl`은 제공하지 않습니다. `localeCompare`와 `toLocaleString` 계열은 ECMA-262의 기본 동작을 사용합니다. [기능 표 7절](docs/FEATURE_MATRIX.md#7-ecmascript-es2026-목표-및-이전-버전-호환-p00-04-p28-p29)
 
 ```java
 import org.duckdns.hjow.swingwebpanel.js.embed.*;
@@ -254,12 +253,12 @@ engine.putFunction("add", new JsHostFunction() {            // 스크립트가 J
 
 - **값 변환**: Java→스크립트는 `null`, `JsEngine.UNDEFINED`, `Boolean`, 모든 `Number`(기본적으로 Number, `BigInteger`는 정밀도를 유지하는 BigInt), 문자열류/`Character`/`Enum`, `Map`(복사), `Collection`/배열(복사), `JsHostFunction`, 핸들만 받고 **그 밖의 Java 객체는 `IllegalArgumentException`** 으로 거부합니다(스크립트에 Java 객체, 클래스, 메서드가 노출되지 않습니다). 스크립트→Java 는 Number가 **항상 `Double`**, BigInt가 `java.math.BigInteger`, undefined 는 `JsEngine.UNDEFINED`, 배열은 살아 있는 `List`, 객체는 살아 있는 `Map`, 함수는 `JsCallable` 입니다. 복사본은 `toPlain` 으로 얻습니다.
 - 형식화 배열과 버퍼는 `JsObjectHandle`로 반환됩니다. 현재 바이트의 독립 복사본을 얻으려면 `TypedArrays.copyBytes(handle.getJsObject())`를 호출합니다. 분리된 버퍼나 범위를 벗어난 뷰의 복사 결과는 빈 배열입니다.
-- **독립 모드 전역**: ES2015 표준 내장 객체, `console`, `print`. `window`/`document`/`fetch` 등 브라우저 객체와 **타이머(`setTimeout`)는 없습니다**(이벤트 루프가 없으므로. 필요하면 `putFunction` 으로 직접 만들고 자기 루프에서 호출). promise 작업은 최상위 호출이 끝날 때마다 실행됩니다.
+- 독립 모드에는 기능 표에 있는 ECMAScript 내장 객체와 `console`, `print`가 있습니다. 브라우저 객체와 타이머는 제공하지 않습니다. Promise 작업은 최상위 호출 끝에서 실행되며, 다른 스레드에서 들어온 작업은 `runJobs()`로 처리할 수 있습니다.
 - **오류**: 구문/런타임 오류와 `throw` 는 이름, 메시지, 스크립트 이름, 줄, 열을 가진 `JsScriptError` 로 던져지고, 제한/취소로 멈춘 스크립트는 `ScriptAbortedException` 입니다.
 - **스레드**: 엔진과 핸들은 어느 스레드에서나 쓸 수 있고 연산은 한 번에 하나씩 실행되며, `cancel()` 만 잠금 없이 아무 스레드에서나 호출할 수 있습니다.
 - 예제는 `examples/run.sh EngineExample`로 실행합니다. 실행 클래스패스에는 예제 클래스와 엔진 JAR를 둡니다.
 
-**Java Scripting API(JSR 223)**: 엔진 JAR 의 `META-INF/services/javax.script.ScriptEngineFactory` 로 등록되어 있습니다.
+엔진 JAR는 Java Scripting API(JSR 223)의 `META-INF/services/javax.script.ScriptEngineFactory`에 등록됩니다. `getLanguageVersion()` 및 `ScriptEngine.LANGUAGE_VERSION`은 대상 ECMA-262 판본인 `"17"`을 반환합니다.
 
 ```java
 ScriptEngine engine = new ScriptEngineManager().getEngineByName("swingwebpanel-js");   // 고유한 이름

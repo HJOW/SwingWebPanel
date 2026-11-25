@@ -54,6 +54,8 @@ public class WebAudioInterfaceTest {
      * Web Audio의 형식화 배열 입력과 출력이 공유 또는 가변 저장소를 거부하는지 확인한다.
      */
     public void testSharedMemoryAudioArrayBoundary() {
+        page.fixture.scripts.dispose();
+        page = new WebAudioPage(true);
         String script = "function fail(f){try{f();return 'missing';}catch(e){return e.name;}}"
                 + "var ctx=new OfflineAudioContext(1,128,8000), buf=ctx.createBuffer(1,8,8000), analyser=ctx.createAnalyser();"
                 + "var shared=new SharedArrayBuffer(32), floats=new Float32Array(shared), bytes=new Uint8Array(shared);"

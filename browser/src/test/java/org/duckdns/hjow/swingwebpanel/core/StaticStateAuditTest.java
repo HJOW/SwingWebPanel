@@ -55,6 +55,7 @@ public class StaticStateAuditTest {
         // 프로세스 전체가 공유하는 스레드와 시계: 컴포넌트나 페이지를 강하게 붙잡지 않는다.
         REVIEWED.put("org.duckdns.hjow.swingwebpanel.core.DocumentScheduler#CLOCK", "shared daemon clock, tasks hold their page weakly (DocumentSchedulerTest), idle threads end");
         REVIEWED.put("org.duckdns.hjow.swingwebpanel.core.PageCleanup#WORKER", "shared daemon release worker, a task only holds the page that is being released, idle threads end");
+        REVIEWED.put("org.duckdns.hjow.swingwebpanel.js.builtins.typed.SharedWaiters$Timeouts#TIMER", "daemon timer for pending finite Atomics waits; expiry, notification and realm cancellation remove the waiter and timer entry");
         // 약한 키를 쓰는 맵: 값이 키를 되짚어 붙잡지 않는다.
         REVIEWED.put("org.duckdns.hjow.swingwebpanel.html.ParserNodeData#FORM_OWNERS", "WeakHashMap with weak values (element to its form owner)");
         REVIEWED.put("org.duckdns.hjow.swingwebpanel.html.ParserNodeData#SCRIPT_FLAGS", "WeakHashMap, the values are plain flags without node references");
@@ -76,6 +77,10 @@ public class StaticStateAuditTest {
         // 스레드 로컬: 호출이 끝나면 비우는 재진입 방지용 자료.
         REVIEWED.put("org.duckdns.hjow.swingwebpanel.js.builtins.stringarray.ArrayMethods#JOINING", "ThreadLocal of arrays being joined (cycle detection), cleared when join returns");
         REVIEWED.put("org.duckdns.hjow.swingwebpanel.js.host.PageScripts#ENTRY", "ThreadLocal of the page whose task runs outermost on the thread (the entry of the sandbox rules for navigation); set when a task starts and removed in its finally, so nothing stays after the task (P20-02)");
+        REVIEWED.put("org.duckdns.hjow.swingwebpanel.js.RealmExecution#ACTIVE", "running realm restored or removed by the execution scope in finally");
+        REVIEWED.put("org.duckdns.hjow.swingwebpanel.js.RealmExecution#SCRIPT", "running script realm restored or removed by the script scope in finally");
+        REVIEWED.put("org.duckdns.hjow.swingwebpanel.js.RealmExecution#SCRIPT_SOURCE", "active script reference restored or removed when the script or Promise callback scope ends");
+        REVIEWED.put("org.duckdns.hjow.swingwebpanel.js.RealmExecution#INCUMBENT", "callback incumbent restored or removed in the Promise callback scope's finally");
         REVIEWED.put("org.duckdns.hjow.swingwebpanel.media.image.svg.SvgImage#NESTING", "ThreadLocal nesting depth counter, restored when the decode returns");
         // 코덱 등록부: 클래스 이름과 해독기 객체(상태 없음)만 있다.
         REVIEWED.put("org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoders#CODECS", "registry of stateless decoder factories, filled once");

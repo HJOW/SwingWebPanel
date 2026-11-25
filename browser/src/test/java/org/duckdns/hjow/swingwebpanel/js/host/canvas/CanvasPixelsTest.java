@@ -192,7 +192,9 @@ public class CanvasPixelsTest {
      * Canvas가 ImageData 래퍼를 만들기 전에 공유 및 가변 픽셀 배열을 거부한다.
      */
     public void testSharedMemoryImageDataBoundary() {
-        PageFixture f = page(2, 2);
+        PageFixture f = new PageFixture();
+        f.env.crossOriginIsolated = true;
+        f.load("");
         String script = "function fail(f){try{f();return 'missing';}catch(e){return e.name;}}"
                 + "var s=new Uint8ClampedArray(new SharedArrayBuffer(4)), r=new Uint8ClampedArray(new ArrayBuffer(4,{maxByteLength:8}));"
                 + "var old=new ArrayBuffer(4), detached=new Uint8ClampedArray(old);old.transfer();s[0]=42;"
