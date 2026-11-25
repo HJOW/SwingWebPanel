@@ -871,7 +871,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-08-d1. rawJSON, isRawJSON, stringify에 내부 브랜드와 토큰 원문 출력을 연결한다. 단일 원시 토큰과 구문 오류, 프로토타입·동결 상태, replacer·toJSON 호출 순서를 검증한다.
     - [x] P29-08-d2. JSON.parse에서 원문 위치가 있는 reviver context를 전달한다. 복합 값, 중복 키, 정밀 수치, 형제 속성의 교체·삭제, 빈 context와 기술자를 검증한다.
   - [ ] P29-08-e. `js.date`에서 제17판의 시간대 오프셋과 Date 파싱을 대조한다.
-    - [ ] P29-08-e1. `TimeZoneOffsets`에서 A.7 문자열 판정과 나노초 오프셋을 구현한다. 콜론, 초·소수, 부호 및 초과 범위를 검증한다.
+    - [x] P29-08-e1. `TimeZoneOffsets`에서 A.7 문자열 판정과 나노초 오프셋을 구현한다. 콜론, 초·소수, 부호 및 초과 범위를 검증한다.
     - [ ] P29-08-e2. `DateParser`와 `DateBuiltins`에 Date Time String Format과 호스트 시간대 적용을 연결한다. 날짜 전용, 현지 시간, 명시 오프셋, 경계와 기존 표준·비표준 형식을 검증한다.
 - [ ] P29-09. 이전 버전 ECMAScript(ES1~ES5.1, ES2015~ES2025) 하위 호환성 및 웹 호환(Annex B)을 전수 검증한다.
   - 상단 요구사항 `이전 버전의 ES 호환 필요`를 충족하기 위해 ES3/ES5 비엄격(sloppy) 코드(`var`/함수 선언 호이스팅, 매핑된 `arguments`와 `arguments.callee`, `with` 문과 `@@unscopables`, 생성자 프로토타입 체인, `eval`의 호출 환경 바인딩, ES3/ES5 표준 내장 메서드 전체)와 ES2015~ES2025 기능들이 ES2026 엔진 위에서 회귀 없이 함께 동작하는지 검증한다.
