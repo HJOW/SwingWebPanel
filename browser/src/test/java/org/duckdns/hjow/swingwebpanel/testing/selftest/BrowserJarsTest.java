@@ -37,6 +37,9 @@ public class BrowserJarsTest {
      */
     private static final String PREFIX = "org/duckdns/hjow/swingwebpanel/";
 
+    /** License notice for generated Unicode engine data. / 엔진의 생성 유니코드 데이터 라이선스. */
+    private static final String UNICODE_LICENSE = "META-INF/LICENSE-unicode.txt";
+
     /**
      * Creates the suite.
      * <p>
@@ -91,15 +94,16 @@ public class BrowserJarsTest {
 
     /**
      * Tells whether a name belongs to the engine module (a class below <code>js</code> that is not one of the browser sub packages <code>host</code>, <code>dom</code>,
-     * <code>worker</code>, or the Java Scripting API registration).
+     * <code>worker</code>, the Java Scripting API registration, or the generated data license).
      * <p>
-     * 이름이 엔진 모듈에 속하는지 알려 준다(<code>js</code> 아래 클래스 중 브라우저 하위 패키지 <code>host</code>, <code>dom</code>, <code>worker</code> 가 아닌 것, 또는 Java Scripting API 등록).
+     * 이름이 엔진 모듈에 속하는지 알려 준다(<code>js</code> 아래 클래스 중 브라우저 하위 패키지 <code>host</code>, <code>dom</code>,
+     * <code>worker</code>가 아닌 것, Java Scripting API 등록, 생성 데이터 라이선스).
      *
      * @param name the entry name / 항목 이름
      * @return true for an engine entry / 엔진 항목이면 true
      */
     private static boolean isEngineEntry(String name) {
-        if (name.startsWith("META-INF/services/")) {
+        if (name.startsWith("META-INF/services/") || UNICODE_LICENSE.equals(name)) {
             return true;
         }
         return name.startsWith(PREFIX + "js/") && !name.startsWith(PREFIX + "js/host/") && !name.startsWith(PREFIX + "js/dom/") && !name.startsWith(PREFIX + "js/worker/");
@@ -127,6 +131,7 @@ public class BrowserJarsTest {
         Check.isTrue(browser.contains(PREFIX + "SwingWebPanel.class"), "the component is in the browser jar");
         Check.isTrue(browser.contains(PREFIX + "js/host/PageScripts.class") || browser.contains(PREFIX + "js/dom/DomBridge.class"), "the script bindings of the browser are in the browser jar");
         Check.isTrue(engine.contains(PREFIX + "js/embed/JsEngine.class"), "the embedding API is in the engine jar");
+        Check.isTrue(engine.contains(UNICODE_LICENSE), "the engine jar preserves the license notice for Unicode data");
         Set<String> common = new HashSet<String>(browser);
         common.retainAll(engine);
         Check.isTrue(common.isEmpty(), "the two jars share entries: " + common);

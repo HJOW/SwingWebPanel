@@ -515,6 +515,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
 
 ## 작업 로그 (최신이 위)
 
+### 2026-11-26 · P29-02-g2 후속 JAR 분리 시험
+
+`mvn -B -o verify`의 JDK 6u45 전체 실행 결과는 엔진 715건 통과, 브라우저 3,686건 통과, 실패 6건, 선택 벡터 12건 건너뜀이었다. 여섯 실패 중 하나는 새 유니코드 라이선스를 브라우저 항목으로 판단한 JAR 시험이었다. 엔진 소유 항목으로 분류하고 라이선스 포함 여부를 직접 검증했다. JRE 6u45 `BrowserJarsTest` 3건이 통과했다.
+
+나머지 다섯 실패는 `WebAudioComponentTest` 2건, `WebAudioOutputComponentTest` 1건, `OutputRenderDriverTest` 1건과 `WorkerLifecycleTest` 1건이다. 개별 시험과 후속 전체 회귀 결과를 별도로 대조한다. 다음 구현 작업은 P29-02-h2b이다.
+
 ### 2026-11-26 · P29-02-h2a 실행 realm
 
 문서 이동 뒤 WindowProxy에서 접근 오리진을 판단할 수 있도록 엔진에서 현재 실행 realm을 추적한다. JRE 6u45에서 다른 realm의 함수와 예외를 지나도 호출자의 realm이 복원됨을 확인했다.
