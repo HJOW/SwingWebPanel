@@ -738,10 +738,15 @@ public final class Lexer {
                     throw error(err);
                 }
                 runStart = pos;
-            } else if (ch == '\n' || ch == '\r' || ch == 0x2028 || ch == 0x2029) {
+            } else if (ch == '\n' || ch == '\r') {
                 throw error("Unterminated string literal", t.line, t.column);
             } else {
                 pos++;
+                // U+2028과 U+2029는 리터럴에 보존하고 다음 토큰의 소스 위치에 반영한다.
+                if (ch == 0x2028 || ch == 0x2029) {
+                    line++;
+                    lineStart = pos;
+                }
             }
         }
         if (sb == null) {

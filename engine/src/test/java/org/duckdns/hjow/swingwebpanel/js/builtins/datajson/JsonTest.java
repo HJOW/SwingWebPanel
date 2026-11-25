@@ -363,6 +363,29 @@ public class JsonTest {
     }
 
     /**
+     * Checks that JSON.stringify escapes unpaired surrogates in values and keys while preserving valid pairs.
+     * <p>
+     * JSON.stringify가 값과 키의 고립 서로게이트를 이스케이프하고 유효한 쌍은 보존하는지 확인한다.
+     */
+    public void testStringifyWellFormed() {
+        String high = String.valueOf((char) 0xD800);
+        String low = String.valueOf((char) 0xDFFF);
+        String pair = high + low;
+        Check.equal("\"\\ud800\"", stringify(Env.s(high)), "unpaired high surrogate");
+        Check.equal("\"\\udfff\"", stringify(Env.s(low)), "unpaired low surrogate");
+        Check.equal("\"" + pair + "\"", stringify(Env.s(pair)), "valid pair");
+
+        String mixed = low + pair + high;
+        JsObject object = env.realm.newObject();
+        object.createDataProperty(mixed, Env.s(mixed));
+        String quoted = "\"\\udfff" + pair + "\\ud800\"";
+        String json = stringify(object);
+        Check.equal("{" + quoted + ":" + quoted + "}", json, "property names and values use the same escaping");
+        JsObject parsed = (JsObject) parse(json, null);
+        Check.equal(mixed, Env.str(parsed.get(mixed)), "JSON.parse recovers the original UTF-16 code units");
+    }
+
+    /**
      * Object and array serialization: skipped members, null for unrepresentable array elements, key order.
      * <p>
      * 객체와 배열의 직렬화: 건너뛰는 멤버, 나타낼 수 없는 배열 요소는 null, 키 순서.

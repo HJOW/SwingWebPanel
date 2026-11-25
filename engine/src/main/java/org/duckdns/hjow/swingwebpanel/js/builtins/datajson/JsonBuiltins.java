@@ -417,7 +417,7 @@ public final class JsonBuiltins {
                 return "false";
             }
             if (value instanceof JsString) {
-                return JsonText.quote(((JsString) value).getValue());
+                return JsonText.quoteWellFormed(((JsString) value).getValue());
             }
             if (value instanceof JsNumber) {
                 double d = ((JsNumber) value).getValue();
@@ -497,7 +497,7 @@ public final class JsonBuiltins {
             for (int i = 0; i < keys.size(); i++) {
                 String strP = property(keys.get(i), value);
                 if (strP != null) {
-                    partial.add(JsonText.quote(keys.get(i)) + ":" + (gap.length() > 0 ? " " : "") + strP);
+                    partial.add(JsonText.quoteWellFormed(keys.get(i)) + ":" + (gap.length() > 0 ? " " : "") + strP);
                 }
             }
             String result;

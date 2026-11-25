@@ -268,12 +268,32 @@ public class LexerTest {
     public void testStringErrors() {
         fails("'abc");
         fails("'abc\nd'");
+        fails("\"abc\rd\"");
         fails("'a\\x4'");
         fails("'a\\u00'");
         fails("'a\\u{}'");
         fails("'a\\u{110000}'");
-        fails("'a" + (char) 0x2028 + "b'");
         fails("'\\");
+    }
+
+    /**
+     * Checks JSON-superset string literals and source positions after Unicode line breaks.
+     * <p>
+     * JSON 상위 집합 문자열 리터럴과 유니코드 줄 끝 다음의 소스 위치를 확인한다.
+     */
+    public void testStringUnicodeSeparators() {
+        char lineSeparator = (char) 0x2028;
+        char paragraphSeparator = (char) 0x2029;
+        String value = "a" + lineSeparator + paragraphSeparator + "b";
+        List<Token> tokens = lex("'" + value + "'+1");
+        Check.equal(value, tokens.get(0).value, "literal separators survive in single quotes");
+        Check.equal(value, lex("\"" + value + "\"").get(0).value, "literal separators survive in double quotes");
+        Check.equal(value, lex("'\\x61" + lineSeparator + paragraphSeparator + "b'").get(0).value, "mixed run and escape");
+        Check.equal("ab", lex("'a\\" + lineSeparator + "\\" + paragraphSeparator + "b'").get(0).value, "escaped separators continue the line");
+        Token plus = tokens.get(1);
+        Check.equal(3, plus.line, "both separators start new source lines");
+        Check.equal(3, plus.column, "the column restarts after the final separator");
+        Check.isFalse(plus.newlineBefore, "separators inside a token are not trivia between tokens");
     }
 
     /**
