@@ -135,7 +135,10 @@ public class JsRealm {
      * <p>
      * 마이크로태스크 큐.
      */
-    private JobQueue jobQueue = new SimpleJobQueue();
+    private volatile JobQueue jobQueue = new SimpleJobQueue();
+
+    /** Whether a script on this agent may block in Atomics.wait. / 이 에이전트에서 Atomics.wait로 차단할 수 있는지 여부. */
+    private boolean atomicsWaitAllowed = true;
 
     /**
      * Objects returned by WeakRef.deref during the current task.
@@ -778,6 +781,41 @@ public class JsRealm {
      */
     public void enqueueJob(Runnable job) {
         jobQueue.enqueue(job);
+    }
+
+    /**
+     * Schedules a job submitted by another agent or a host timer. The job runs on the receiving agent.
+     * <p>
+     * 다른 에이전트나 호스트 타이머가 등록한 작업을 예약한다. 작업은 받는 에이전트에서 실행된다.
+     *
+     * @param job work to execute on this agent / 이 에이전트에서 실행할 작업
+     */
+    public void enqueueExternalJob(Runnable job) {
+        if (!limits.isCancelled()) {
+            jobQueue.enqueue(job);
+        }
+    }
+
+    /**
+     * Reports whether the host permits blocking the current script agent.
+     * <p>
+     * 호스트가 현재 스크립트 에이전트의 차단을 허용하는지 반환한다.
+     *
+     * @return true if Atomics.wait may suspend this agent / Atomics.wait가 이 에이전트를 멈출 수 있으면 true
+     */
+    public boolean isAtomicsWaitAllowed() {
+        return atomicsWaitAllowed;
+    }
+
+    /**
+     * Configures whether Atomics.wait may block scripts in the realm. Configure on the owning thread.
+     * <p>
+     * Atomics.wait가 이 realm의 스크립트를 차단할 수 있는지 설정한다. realm 소유 스레드에서 설정한다.
+     *
+     * @param allowed whether synchronous waiting is allowed / 동기 대기 허용 여부
+     */
+    public void setAtomicsWaitAllowed(boolean allowed) {
+        atomicsWaitAllowed = allowed;
     }
 
     /**

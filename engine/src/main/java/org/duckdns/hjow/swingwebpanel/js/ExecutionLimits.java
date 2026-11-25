@@ -1,5 +1,8 @@
 package org.duckdns.hjow.swingwebpanel.js;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Execution limits and cancellation of one realm (plan item P13-12). The interpreter calls {@link #tick()} for every executed
  * statement, loop iteration and function call, and built-ins that run long loops should call {@link #tick()} too.
@@ -100,6 +103,9 @@ public final class ExecutionLimits {
      * 취소 표시.
      */
     private volatile boolean cancelled;
+
+    /** Pending operations to wake on cancellation. / 취소하면 깨울 대기 연산. */
+    private List<Runnable> cancellationHooks;
 
     /**
      * Steps executed in the current task.
@@ -236,7 +242,51 @@ public final class ExecutionLimits {
      * 실행 중인 스크립트에 중단을 요청한다. 어느 스레드에서나 호출할 수 있다.
      */
     public void cancel() {
-        cancelled = true;
+        List<Runnable> hooks;
+        synchronized (this) {
+            cancelled = true;
+            hooks = cancellationHooks;
+            cancellationHooks = null;
+        }
+        // 작업이 쥔 잠금과 취소 잠금이 교차하지 않도록 잠금 밖에서 깨운다.
+        if (hooks != null) {
+            for (Runnable hook : hooks) {
+                hook.run();
+            }
+        }
+    }
+
+    /**
+     * Registers a pending operation to wake when cancellation is requested.
+     * The hook runs on the cancelling thread and must finish promptly without throwing.
+     * <p>
+     * 취소 요청 시 깨울 대기 연산을 등록한다. 훅은 취소하는 스레드에서 실행되며 예외 없이 신속히 끝나야 한다.
+     *
+     * @param hook cancellation action / 취소 시 작업
+     * @return false if cancellation was already requested / 이미 취소를 요청했으면 false
+     */
+    public synchronized boolean addCancellationHook(Runnable hook) {
+        if (cancelled) {
+            return false;
+        }
+        if (cancellationHooks == null) {
+            cancellationHooks = new ArrayList<Runnable>();
+        }
+        cancellationHooks.add(hook);
+        return true;
+    }
+
+    /**
+     * Unregisters a completed operation.
+     * <p>
+     * 완료된 연산의 등록을 해제한다.
+     *
+     * @param hook cancellation action / 취소 시 작업
+     */
+    public synchronized void removeCancellationHook(Runnable hook) {
+        if (cancellationHooks != null) {
+            cancellationHooks.remove(hook);
+        }
     }
 
     /**
@@ -282,6 +332,20 @@ public final class ExecutionLimits {
         if (t > 0 && System.currentTimeMillis() - taskStart > t) {
             throw new ScriptAbortedException(ScriptAbortedException.Reason.TIME_LIMIT, "Script time limit exceeded (" + t + " ms)");
         }
+    }
+
+    /**
+     * Returns the time available for a blocking operation on the running script thread.
+     * <p>
+     * 스크립트 실행 스레드의 차단 연산에 남은 시간을 반환한다.
+     *
+     * @return whole milliseconds until the next deadline check, or -1 without a limit /
+     * 다음 기한 확인까지의 밀리초. 제한이 없으면 -1
+     */
+    public long remainingTaskTimeMillis() {
+        poll();
+        long limit = maxTimeMillis;
+        return limit == 0 ? -1 : Math.max(1L, limit - Math.max(0L, System.currentTimeMillis() - taskStart));
     }
 
     /**

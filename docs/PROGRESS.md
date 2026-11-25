@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-05-d1 Atomics 대기와 통지 (2026-11-26) ===
+현재 작업 번호: P29-05-d1 완료.
+완료한 내용: 공유 바이트 위치별 FIFO 대기열에서 wait, waitAsync, notify를 구현했다. 시간 초과는 대기 에이전트의 작업에서 처리하고 실행 제한 취소 시 동기·비동기 대기 및 예약 타이머를 제거한다.
+변경 파일: AtomicsLib.java, AtomicsWait.java, SharedWaiters.java, SharedByteBlock.java, ExecutionLimits.java, JsRealm.java, JobQueue.java, SimpleJobQueue.java, Es2026AtomicsWaitTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 770건 통과. sourcecheck 0 위반.
+미해결 사항: Window와 AudioWorklet의 차단 금지 및 브라우저 작업 예약(P29-05-d2), 브라우저 구조화 복제(P29-05-e).
+다음 작업 번호: P29-05-d2.
+-----------------------------------------------------------------------------------------------
 === P29-05-c Atomics 읽기·쓰기와 산술 (2026-11-26) ===
 현재 작업 번호: P29-05-c 완료.
 완료한 내용: Atomics의 정수·BigInt 읽기, 쓰기, 산술·비트 연산, 교환, 비교 교환과 isLockFree를 설치했다. 초기 뷰 길이를 사용해 인덱스를 변환하고 모든 피연산자 변환 후 경계를 다시 확인한다.
@@ -698,6 +706,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-05-d1 바이트 위치별 Atomics 대기열
+
+동기 에이전트가 정지하기 직전 받은 통지를 놓치지 않고, Int32Array와 BigInt64Array가 같은 바이트 위치에 등록한 대기자가 FIFO로 선택되는 것을 확인했다. Promise 해결 작업은 대기 에이전트가 실행하고, 무한 대기라도 실행 시간 한도 또는 취소 시 기록을 제거한다.
 
 ### 2026-11-26 · P29-05-c 원자적 읽기-수정-쓰기
 

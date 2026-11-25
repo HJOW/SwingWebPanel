@@ -12,9 +12,9 @@ package org.duckdns.hjow.swingwebpanel.js;
 public interface JobQueue {
 
     /**
-     * Adds a job to the end of the queue.
+     * Adds a job to the end of the queue. This can also be called from a notifying agent or timeout thread.
      * <p>
-     * 큐의 끝에 작업을 추가한다.
+     * 큐의 끝에 작업을 추가한다. 통지 에이전트나 타임아웃 스레드에서도 호출될 수 있다.
      *
      * @param job the job / 작업
      */

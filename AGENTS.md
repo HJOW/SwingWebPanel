@@ -816,7 +816,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-05-b2. `SharedArrayBufferLib`를 설치하고 크기와 병행 성장, slice·species 및 일반 ArrayBuffer 메서드의 거부를 스크립트에서 검증한다.
   - [x] P29-05-c. `Atomics`의 읽기·쓰기·읽기-수정-쓰기와 isLockFree를 구현한다. 정수·BigInt, 범위와 인수 변환, 스레드 경합을 검증한다.
   - [ ] P29-05-d. `wait`, `notify`, `waitAsync`와 호스트의 차단 허용·취소 처리를 구현한다. 대기열 순서, 무한·유한 대기, 타임아웃과 폐기를 검증한다.
-    - [ ] P29-05-d1. `AtomicsWait`, `SharedWaiters`, `ExecutionLimits`에서 대기 위치별 FIFO, 동기 대기와 비동기 Promise, 기한·취소를 구현한다. 독립 realm으로 즉시 결과, 서로 다른 위치, 통지 개수·순서, 시간 초과와 대기 해제를 검사한다.
+    - [x] P29-05-d1. `AtomicsWait`, `SharedWaiters`, `ExecutionLimits`에서 대기 위치별 FIFO, 동기 대기와 비동기 Promise, 기한·취소를 구현한다. 독립 realm으로 즉시 결과, 서로 다른 위치, 통지 개수·순서, 시간 초과와 대기 해제를 검사한다.
     - [ ] P29-05-d2. `PageScripts`, `WorkerScope`, `WorkletScope`에 차단 허용 설정과 비동기 결과를 호스트 작업에 올리는 경로를 연결한다. 페이지와 AudioWorklet은 차단을 거부하고 Worker는 차단할 수 있으며, 새 스크립트 실행 없이도 타임아웃 결과가 전달되는지 검증한다.
   - [ ] P29-05-e. 브라우저의 동일 에이전트 클러스터 구조화 복제를 연결한다. Worker와 원본 뷰가 공유 바이트를 관찰하는 사례, 다른 오리진/클러스터의 거부와 전송 목록 검사, 종료 시 대기 해제를 통합 검증한다.
 - [ ] P29-06. ES2023~ES2026 컬렉션·약한 참조·이터레이터 헬퍼(`Iterator`, `Set`, `Map`/`WeakMap`, Weak Symbol 키)를 구현한다.

@@ -53,6 +53,9 @@ final class SharedByteBlock {
     /** Current shared state. / 현재 공유 저장소 상태. */
     private volatile Storage storage;
 
+    /** Wait lists shared by all wrappers of this block. / 이 블록의 모든 래퍼가 공유하는 대기열. */
+    private final SharedWaiters waiters = new SharedWaiters();
+
     /**
      * Allocates zero-initialized shared storage.
      * <p>
@@ -73,6 +76,17 @@ final class SharedByteBlock {
      */
     int length() {
         return storage.length;
+    }
+
+    /**
+     * Returns the wait lists associated with this storage.
+     * <p>
+     * 이 저장소에 연결된 대기열을 반환한다.
+     *
+     * @return the shared wait lists / 공유 대기열
+     */
+    SharedWaiters waiters() {
+        return waiters;
     }
 
     /**

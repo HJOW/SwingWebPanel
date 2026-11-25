@@ -33,7 +33,7 @@ public final class SimpleJobQueue implements JobQueue {
      *
      * @param job the job / 작업
      */
-    public void enqueue(Runnable job) {
+    public synchronized void enqueue(Runnable job) {
         jobs.addLast(job);
     }
 
@@ -44,7 +44,7 @@ public final class SimpleJobQueue implements JobQueue {
      *
      * @return true if empty / 비어 있으면 true
      */
-    public boolean isEmpty() {
+    public synchronized boolean isEmpty() {
         return jobs.isEmpty();
     }
 
@@ -56,10 +56,14 @@ public final class SimpleJobQueue implements JobQueue {
      * @return true if a job was run / 작업을 실행했으면 true
      */
     public boolean runOne() {
-        if (jobs.isEmpty()) {
+        Runnable job;
+        synchronized (this) {
+            job = jobs.pollFirst();
+        }
+        if (job == null) {
             return false;
         }
-        jobs.removeFirst().run();
+        job.run();
         return true;
     }
 

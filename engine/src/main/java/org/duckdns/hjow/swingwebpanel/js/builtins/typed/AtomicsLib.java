@@ -143,6 +143,7 @@ final class AtomicsLib {
                 }
             });
         }
+        AtomicsWait.install(realm, atomics);
     }
 
     /**
