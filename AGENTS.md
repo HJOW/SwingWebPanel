@@ -878,6 +878,15 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - ECMA-262 제17판 2.2절 `Legacy` 조항 및 웹 브라우저 호환 부속서 B(`B.1` HTML 주석·느슨한 정규식 패턴, `B.2` `escape`/`unescape`·`String#substr`/HTML 메서드·`Date#getYear/setYear/toGMTString`·`RegExp#compile`·`__proto__`·`__defineGetter__` 계열, `B.3.1`~`B.3.5` 라벨/블록/if 함수 선언·catch `var`·`for-in` 초기화식, `B.3.6` `[[IsHTMLDDA]]` 정책, `B.3.7`~`B.3.9` 호스트 콜백·함수 호출 좌변 런타임 `ReferenceError`)를 본문과 대조하고 미비점을 보완한다.
   - 부속서 E·F에 명시된 구판 대비 표준 변경 사항(예: `ToNumber("0b10")`, `U+180E` 비공백, 함수 `length` configurable, `Object.keys` 등의 원시값 `ToObject` 강제 변환)은 최신 정본인 ES2026 의미를 따름을 시험과 문서로 고정한다.
   구현: `js.parser.*`, `js.interp.*`, `js.builtins.meta.LegacyBuiltins*`, 호환성 회귀 시험. 완료 조건: 구판(ES3/ES5)·부속서 B·판본 전이 적합성 시험 묶음이 JDK 6에서 통과한다.
+  - [ ] P29-09-a. `js.parser`와 `js.interp`의 Annex B 문법과 평가를 보완한다.
+    - [ ] P29-09-a1. B.3.5의 비엄격 for-in var 초기화식을 허용한다. 초기화·우변 평가 순서, 단일 평가, null/undefined, 중단과 재개, 엄격 코드와 잘못된 선언의 조기 오류를 검증한다.
+    - [ ] P29-09-a2. B.3.9의 함수 호출 대입 대상에 대한 구문과 런타임 ReferenceError를 연결한다. 대입·복합 대입·증감, 호출 부작용, 예외 순서와 엄격 코드의 조기 오류를 검증한다.
+  - [ ] P29-09-b. `ReflectBuiltins`에서 최신 판본에 없는 Reflect.enumerate를 제거하고 `EditionTransitionTest`에서 Annex E·F의 숫자 변환, 공백, 공개 프로퍼티, Date·RegExp 프로토타입 동작을 검증한다.
+  - [ ] P29-09-c. `js.regexp`에서 B.1.2의 느슨한 문법과 이후 판본의 정규식 동작을 검증한다.
+    - [ ] P29-09-c1. 초기 확장 문법, 리터럴과 생성자의 조기 오류, 다양한 플래그의 검색 시작·실패 시 인덱스 갱신을 확인한다.
+    - [ ] P29-09-c2. 뒤쪽 탐색을 역방향 평가와 대조한다. 반복·분기 우선순위, 역참조, 기존 캡처 및 단언과 섞인 경우를 검증한다.
+  - [ ] P29-09-d. B.3.6~8의 호스트 동작과 HTML 레거시 상태를 대조한다. 독립 엔진과 브라우저의 전역 객체·콜백 정책 및 오류 전파를 확인한다.
+  - [ ] P29-09-e. `EsLegacyCompatTest`와 `AnnexB17ConformanceTest`에서 구판 문법·내장·부속서 B.1/B.2/B.3과 최신 기능의 혼합 실행을 검증하고, 발견한 차이와 보완 결과를 기능 표에 반영한다.
 - [ ] P29-10. 호스트·독립 엔진 경계 갱신과 ES2026 전체 적합성 대조를 완료한다.
   - 브라우저 `StructuredClone`(P20-09), Worker/AudioWorklet, 독립 엔진 `js.embed.JsEngine` 및 `javax.script`(P26)에서 ES2026의 모든 자료형(`Float16Array`, 가변/분리 `ArrayBuffer`, `SharedArrayBuffer`, `Error` cause/AggregateError, JSON 모듈 등)이 일관되게 동작하고 엔진 모듈의 무의존 경계(`engine-boundary`)가 유지되는지 검증한다.
   - `ConformanceTable`(전역·생성자·프로토타입·정적 메서드·접근자·심볼 프로퍼티의 존재, `name`, `length`, 속성 기술자, 프로토타입 사슬)을 ECMA-262 제17판(19~28장 및 부속서 B.2) 전체 목록으로 확장하고 허용 목록(`PENDING`)에 설명 없는 누락이 없게 한다.
