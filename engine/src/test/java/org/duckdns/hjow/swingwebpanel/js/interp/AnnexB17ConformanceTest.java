@@ -1,5 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.js.interp;
 
+import org.duckdns.hjow.swingwebpanel.js.ErrorKind;
+import org.duckdns.hjow.swingwebpanel.js.JsException;
+import org.duckdns.hjow.swingwebpanel.js.JsRealm;
+import org.duckdns.hjow.swingwebpanel.testing.Block;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
@@ -18,6 +22,66 @@ public class AnnexB17ConformanceTest {
         Check.equal("undefined,undefined,object,true,false,false", Scripts.eval(
                 "var o={}; [typeof document,typeof HTMLAllCollection,typeof o,Boolean(o),o==null,o==undefined].join()"),
                 "the standalone engine creates no HTMLDDA objects");
+    }
+
+    /**
+     * Checks HTML comments and old string escapes in scripts, including the module and strict grammar boundaries.
+     * <p>
+     * 스크립트의 HTML 주석과 문자열 레거시 이스케이프, 모듈과 엄격 문법의 경계를 확인한다.
+     */
+    public void testHtmlCommentsAndLegacyEscapes() {
+        Check.equal("13|89a|SyntaxError", Scripts.eval(
+                "var total=6; <!-- ignored\n"
+                + "total+=7;\n --> total=99;\n"
+                + "var escaped='\\8\\9\\141', syntax;var bs=String.fromCharCode(92);"
+                + "try{Function(\"'use strict';return '\"+bs+\"8'\");}catch(e){syntax=e.name;}"
+                + "[total,escaped,syntax].join('|')"), "script grammar accepts only the applicable legacy forms");
+        final JsRealm realm = JsRealm.create();
+        JsException failure = (JsException) Check.throwsException(JsException.class, new Block() {
+            /**
+             * Parses a module containing an HTML-style comment opener.
+             * <p>
+             * HTML 주석 시작 표기가 있는 모듈을 파싱한다.
+             */
+            public void run() {
+                realm.evaluateModule("module.js", "<!-- legacy\nexport const result=1;");
+            }
+        }, "module rejects HTML comments");
+        Check.equal(ErrorKind.SYNTAX_ERROR, failure.getKind(), "module grammar error");
+    }
+
+    /**
+     * Checks Annex B function declarations in blocks, labels, if branches and switch cases.
+     * <p>
+     * 블록, 라벨, if 분기와 switch 절의 부속서 B 함수 선언을 확인한다.
+     */
+    public void testLegacyDeclarationScope() {
+        Check.equal("undefined:function:undefined|function:undefined:function|9|then:else|SyntaxError", Scripts.eval(
+                "function choose(flag){if(flag){label: function labeled(){return 'ok';}}"
+                + "switch(flag){case 0:function zero(){return 0;}break;case 1:function one(){return 1;}}"
+                + "return [typeof labeled,typeof zero,typeof one].join(':');}"
+                + "function collide(f){if(true){function f(){return 'nested';}}return f;}"
+                + "function branch(flag){if(flag)function picked(){return 'then';}else function picked(){return 'else';}"
+                + "return picked();}"
+                + "var strict;try{Function(\"'use strict';label:function disallowed(){}\");}catch(e){strict=e.name;}"
+                + "[choose(0),choose(1),collide(9),branch(true)+':'+branch(false),strict].join('|')"),
+                "legacy copies occur only on executed declarations and respect parameter collisions");
+    }
+
+    /**
+     * Checks which catch declarations accept a redeclaring var and where its assignment goes.
+     * <p>
+     * catch를 다시 선언하는 var의 허용 여부와 대입 위치를 확인한다.
+     */
+    public void testCatchVarRedeclaration() {
+        Check.equal("changed|outer|2:undefined|SyntaxError", Scripts.eval(
+                "var e='outer', seen, syntax;"
+                + "function update(){var e='outer';try{throw 'caught';}catch(e){var e='changed';seen=e;}return e;}"
+                + "var after=update();"
+                + "function strict(){'use strict';var v;try{throw 1;}catch(v){var v=2;return v;}}"
+                + "try{Function('try{}catch({e}){var e;}');}catch(ex){syntax=ex.name;}"
+                + "[seen,after,strict()+':'+typeof v,syntax].join('|')"),
+                "a simple catch binding may share a var name, a destructured binding may not");
     }
 
     /**

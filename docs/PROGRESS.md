@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-09-e 구판과 제17판 통합 호환 (2026-11-26) ===
+현재 작업 번호: P29-09-e 및 P29-09 완료.
+완료한 내용: 구판 호이스팅·eval/Function·매핑된 arguments·with·생성자 프로토타입 및 ES5 내장을 현재 문법과 함께 검증했다. HTML 주석, 레거시 문자열 escape, 라벨·switch·if 함수 선언, catch var 경계를 확인했다.
+변경 파일: EsLegacyCompatTest.java, AnnexB17ConformanceTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 868건 통과. sourcecheck 0 위반.
+미해결 사항: P29-10의 내장 표, 호스트 경계, Unicode/지역화와 최종 회귀.
+다음 작업 번호: P29-10-a1.
+-----------------------------------------------------------------------------------------------
 === P29-09-d3b Promise 작업 콜백 (2026-11-26) ===
 현재 작업 번호: P29-09-d3b 및 P29-09-d 완료.
 완료한 내용: HTML 창·워커·워크릿의 Promise 반응 및 thenable 콜백이 등록 당시의 활성 원문 키와 incumbent를 복원한다. 독립 엔진은 기본 JobCallback을 사용한다.
@@ -1018,6 +1026,11 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-09-e 구판 통합 회귀
+
+- `EsLegacyCompatTest` 4건과 `AnnexB17ConformanceTest` 3건을 추가했다. 구판 코드와 현대 내장 객체를 같은 스크립트에서 실행하고, Annex B의 허용 문맥과 조기 오류를 구분해 확인했다. 라벨·switch 함수 및 매핑된 arguments의 비교 값은 V8 14.6.202.34에서도 확인했다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 868건 통과. P29-10의 전수 표와 호스트 검증 항목을 나눴다.
 
 ### 2026-11-26 · P29-09-d3b HostMakeJobCallback 및 HostCallJobCallback
 

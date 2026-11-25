@@ -873,7 +873,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - [x] P29-08-e. `js.date`에서 제17판의 시간대 오프셋과 Date 파싱을 대조한다.
     - [x] P29-08-e1. `TimeZoneOffsets`에서 A.7 문자열 판정과 나노초 오프셋을 구현한다. 콜론, 초·소수, 부호 및 초과 범위를 검증한다.
     - [x] P29-08-e2. `DateParser`와 `DateBuiltins`에 Date Time String Format과 호스트 시간대 적용을 연결한다. 날짜 전용, 현지 시간, 명시 오프셋, 경계와 기존 표준·비표준 형식을 검증한다.
-- [ ] P29-09. 이전 버전 ECMAScript(ES1~ES5.1, ES2015~ES2025) 하위 호환성 및 웹 호환(Annex B)을 전수 검증한다.
+- [x] P29-09. 이전 버전 ECMAScript(ES1~ES5.1, ES2015~ES2025) 하위 호환성 및 웹 호환(Annex B)을 전수 검증한다.
   - 상단 요구사항 `이전 버전의 ES 호환 필요`를 충족하기 위해 ES3/ES5 비엄격(sloppy) 코드(`var`/함수 선언 호이스팅, 매핑된 `arguments`와 `arguments.callee`, `with` 문과 `@@unscopables`, 생성자 프로토타입 체인, `eval`의 호출 환경 바인딩, ES3/ES5 표준 내장 메서드 전체)와 ES2015~ES2025 기능들이 ES2026 엔진 위에서 회귀 없이 함께 동작하는지 검증한다.
   - ECMA-262 제17판 2.2절 `Legacy` 조항 및 웹 브라우저 호환 부속서 B(`B.1` HTML 주석·느슨한 정규식 패턴, `B.2` `escape`/`unescape`·`String#substr`/HTML 메서드·`Date#getYear/setYear/toGMTString`·`RegExp#compile`·`__proto__`·`__defineGetter__` 계열, `B.3.1`~`B.3.5` 라벨/블록/if 함수 선언·catch `var`·`for-in` 초기화식, `B.3.6` `[[IsHTMLDDA]]` 정책, `B.3.7`~`B.3.9` 호스트 콜백·함수 호출 좌변 런타임 `ReferenceError`)를 본문과 대조하고 미비점을 보완한다.
   - 부속서 E·F에 명시된 구판 대비 표준 변경 사항(예: `ToNumber("0b10")`, `U+180E` 비공백, 함수 `length` configurable, `Object.keys` 등의 원시값 `ToObject` 강제 변환)은 최신 정본인 ES2026 의미를 따름을 시험과 문서로 고정한다.
@@ -891,11 +891,19 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-09-d3. B.3.7의 Promise 작업 콜백이 등록 시 활성 스크립트와 호스트 설정을 유지하는지 확인한다. 독립 엔진의 기본 동작과 브라우저 모듈 해석, 오류 전파를 검증한다.
       - [x] P29-09-d3a. 실행 범위에 활성 스크립트·모듈 키를 연결한다. eval과 함수·모듈 재개에서 상대 import가 정의 위치를 사용하고 종료 시 범위가 복원되는지 확인한다.
       - [x] P29-09-d3b. 브라우저의 Promise 반응·thenable 콜백 기록에 등록 시 실행 범위와 incumbent settings를 보존한다. 지연 실행, 예외, 문서 기준 URL 대체를 검증한다.
-  - [ ] P29-09-e. `EsLegacyCompatTest`와 `AnnexB17ConformanceTest`에서 구판 문법·내장·부속서 B.1/B.2/B.3과 최신 기능의 혼합 실행을 검증하고, 발견한 차이와 보완 결과를 기능 표에 반영한다.
+  - [x] P29-09-e. `EsLegacyCompatTest`와 `AnnexB17ConformanceTest`에서 구판 문법·내장·부속서 B.1/B.2/B.3과 최신 기능의 혼합 실행을 검증하고, 발견한 차이와 보완 결과를 기능 표에 반영한다.
 - [ ] P29-10. 호스트·독립 엔진 경계 갱신과 ES2026 전체 적합성 대조를 완료한다.
   - 브라우저 `StructuredClone`(P20-09), Worker/AudioWorklet, 독립 엔진 `js.embed.JsEngine` 및 `javax.script`(P26)에서 ES2026의 모든 자료형(`Float16Array`, 가변/분리 `ArrayBuffer`, `SharedArrayBuffer`, `Error` cause/AggregateError, JSON 모듈 등)이 일관되게 동작하고 엔진 모듈의 무의존 경계(`engine-boundary`)가 유지되는지 검증한다.
   - `ConformanceTable`(전역·생성자·프로토타입·정적 메서드·접근자·심볼 프로퍼티의 존재, `name`, `length`, 속성 기술자, 프로토타입 사슬)을 ECMA-262 제17판(19~28장 및 부속서 B.2) 전체 목록으로 확장하고 허용 목록(`PENDING`)에 설명 없는 누락이 없게 한다.
   - JDK 6u45에서 엔진 단독 시험 전체, 브라우저 전체 회귀 시험, 예제 smoke, `tools/sourcecheck` 0 위반을 확인한다. `docs/FEATURE_MATRIX.md`(7절 및 13절 재집계), `docs/ARCHITECTURE.md`, `README.md`, `docs/PROGRESS.md`를 갱신한 뒤 P29를 완료 처리한다.
+  - [ ] P29-10-a. 내장 객체 표와 자체 검사기를 제17판 기준으로 갱신하고 발견한 구현 차이를 보완한다.
+    - [ ] P29-10-a1. 19~22장 및 B.2의 전역, 기본 객체, 숫자·날짜, 텍스트를 대조한다. 함수 이름·길이, 접근자 및 속성 기술자, 별칭 정체성과 프로토타입을 검사한다.
+    - [ ] P29-10-a2. 23~25장의 인덱스·키 컬렉션과 이진 데이터, Atomics, JSON을 대조한다. 신규·기존 생성자와 각 프로토타입의 전체 속성 표를 검증한다.
+    - [ ] P29-10-a3. 26~28장의 약한 참조, 이터레이터·제너레이터·Promise·Reflect·Proxy를 대조한다. 내부 프로토타입, 심볼과 제약 목록을 검증한다.
+  - [ ] P29-10-b. 구조화 복제와 독립 엔진 경계를 보완한다. 가변 버퍼·뷰, Float16Array, 공유 버퍼 정책, Error cause·AggregateError, JSON 모듈을 호스트별 정상 진입점과 JSR 223에서 확인한다.
+  - [ ] P29-10-c. 브라우저 렐름 경계를 대조한다. 전역 `WindowProxy`의 정체성과 반사 연산, 타 렐름 eval이 사용하는 활성 모듈 레코드의 소유 렐름, 이벤트 속성의 중첩 실행, COOP/COEP와 공유 메모리 조건을 확인한다.
+  - [ ] P29-10-d. Java 6에서 정본의 Unicode 정규화와 ECMA-402 없는 기본 지역화 동작을 확인한다. Unicode 18 입력, 정규화 형식과 문자열·수치·날짜의 경계를 검증한다.
+  - [ ] P29-10-e. JDK 6u45 엔진·브라우저 전체 회귀, 예제 smoke, 엔진 분리, sourcecheck를 실행하고 7절과 13절 및 사용자·구조·진행 문서를 갱신한다.
 
 ## 중간 실행 목표와 다음 작업 선택
 
