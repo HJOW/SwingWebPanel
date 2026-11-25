@@ -94,6 +94,12 @@ final class WorkerGlobals {
         g.setPrototypeOf(kind.getPrototype());
         g.defineData("self", g, true, true, true);
         g.defineData("name", Js.str(scope.getName()), true, true, true);
+        getter(realm, g, "crossOriginIsolated", new NativeFunction.Call() {
+            /** Reports the worker's isolation capability. / 워커의 격리 권한을 반환한다. */
+            public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
+                return Js.bool(scope.isCrossOriginIsolated());
+            }
+        });
         installEventTarget(realm, bridge, g, global);
         bridge.getEventHandlers().defineBound(g, global, scope.isShared() ? new String[] { "connect" } : new String[] { "message", "messageerror" });
         installOnError(scope, realm, g);

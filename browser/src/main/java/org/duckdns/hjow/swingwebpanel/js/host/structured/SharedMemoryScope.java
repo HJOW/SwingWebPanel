@@ -28,6 +28,7 @@ public final class SharedMemoryScope {
      *
      * @param cluster host cluster token / 호스트 클러스터 토큰
      * @param origin effective origin / 유효 오리진
+     * @param isolated true if the browser realm may create or receive shared memory / 브라우저 realm이 공유 메모리를 만들거나 받을 수 있으면 true
      */
     private SharedMemoryScope(Object cluster, Origin origin) {
         this.cluster = cluster;
@@ -45,9 +46,14 @@ public final class SharedMemoryScope {
      * @param cluster stable host cluster token / 고정된 호스트 클러스터 토큰
      * @param origin effective origin / 유효 오리진
      */
-    public static void bind(JsRealm realm, Object cluster, Origin origin) {
+    public static void bind(JsRealm realm, Object cluster, Origin origin, boolean isolated) {
         if (realm == null || cluster == null || origin == null) {
             throw new IllegalArgumentException("Realm, cluster and origin are required");
+        }
+        // 일반 브라우저 렐름에는 생성자나 공유 복제 권한을 노출하지 않는다.
+        if (!isolated) {
+            realm.getGlobalObject().delete("SharedArrayBuffer");
+            return;
         }
         synchronized (SCOPES) {
             if (SCOPES.containsKey(realm)) {

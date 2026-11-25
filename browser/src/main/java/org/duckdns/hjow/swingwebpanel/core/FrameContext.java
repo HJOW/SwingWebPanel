@@ -19,6 +19,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.CancelledException;
 import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
+import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.render.FramePicture;
 import org.duckdns.hjow.swingwebpanel.render.FrameScroll;
 import org.duckdns.hjow.swingwebpanel.render.RenderedPage;
@@ -662,6 +663,26 @@ final class FrameContext implements BrowsingContext {
             return u;
         }
         return owner.sourceUrl();
+    }
+
+    /**
+     * Checks ancestor isolation and container delegation for a newly parsed frame document.
+     * <p>
+     * 새로 파싱하는 프레임 문서의 조상 격리 상태와 컨테이너 권한 위임을 확인한다.
+     *
+     * @param child the new document's effective origin / 새 문서의 유효 오리진
+     * @return true when isolation is inherited / 격리를 물려받으면 true
+     */
+    boolean inheritsIsolation(Origin child) {
+        PageRuntime parent = owner.runtime;
+        if (parent == null || !parent.isCrossOriginIsolated()) {
+            return false;
+        }
+        Origin parentOrigin = Origin.of(owner.document.getOriginUrl());
+        String src = element.getAttribute("src");
+        String resolvedSrc = kind == KIND_SRCDOC ? FrameUrls.ABOUT_SRCDOC : FrameUrls.resolveSrc(owner.document.getBaseUri(), src);
+        Origin declaredSrc = resolvedSrc == null || resolvedSrc.startsWith("about:") ? parentOrigin : Origin.of(resolvedSrc);
+        return parent.crossOriginPolicy().allowsChildIsolation(parentOrigin, child, declaredSrc, element.getAttribute("allow"));
     }
 
     /**

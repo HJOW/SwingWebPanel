@@ -45,6 +45,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.ScriptText;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.SharedMemoryScope;
 import org.duckdns.hjow.swingwebpanel.js.host.web.WebApis;
+import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
 
 /**
@@ -180,6 +181,12 @@ final class WorkerScope implements ScriptContext {
      * 공유 worker(<code>SharedWorkerGlobalScope</code>)이면 true, 전용 worker 이면 false.
      */
     private final boolean shared;
+
+    /** The isolation capability of the worker's agent. / 워커 에이전트의 격리 권한. */
+    private boolean crossOriginIsolated;
+
+    /** The embedder policy supplied by the worker response. / 워커 응답이 제공한 삽입 정책. */
+    private CrossOriginPolicy.Embedder embedderPolicy = CrossOriginPolicy.Embedder.UNSAFE_NONE;
 
     /**
      * The number of messages from the page that wait for delivery (a flood limit).
@@ -397,18 +404,23 @@ final class WorkerScope implements ScriptContext {
      * 스크립트를 가져오고 realm 을 만들어 스크립트를 실행한다. worker 스레드에서 실행된다.
      */
     private void boot() {
-        String source;
+        ScriptText entry;
         try {
-            if (module) {
-                ScriptText entry = ModuleSources.fetch(env.getScriptSource(), new ModuleRequest(scriptUrl), credentials, true);
-                if (!Origin.of(scriptUrl).isSameOrigin(Origin.of(entry.getUrl()))) {
-                    throw new IOException("worker module entry must be same-origin");
-                }
-                scriptUrl = entry.getUrl();
-                source = entry.getText();
-            } else {
-                source = fetchScript(scriptUrl);
+            entry = module ? ModuleSources.fetch(env.getScriptSource(), new ModuleRequest(scriptUrl), credentials, true)
+                    : fetchScript(scriptUrl, env.getEmbedderPolicy());
+            Origin scriptOrigin = Origin.of(entry.getUrl());
+            if (!Origin.of(scriptUrl).isSameOrigin(scriptOrigin)) {
+                throw new IOException("worker entry must be same-origin");
             }
+            CrossOriginPolicy policy = entry.getCrossOriginPolicy();
+            embedderPolicy = policy.getEmbedder();
+            // 격리 가능한 부모 정책 아래에서 opt-in 하지 않은 워커는 실행할 수 없다.
+            if (env.getEmbedderPolicy() != CrossOriginPolicy.Embedder.UNSAFE_NONE && embedderPolicy == CrossOriginPolicy.Embedder.UNSAFE_NONE) {
+                throw new IOException("worker blocked by cross-origin embedder policy");
+            }
+            scriptUrl = entry.getUrl();
+            crossOriginIsolated = scriptOrigin.isPotentiallyTrustworthy() && policy.allowsIsolation(scriptOrigin)
+                    && embedderPolicy != CrossOriginPolicy.Embedder.UNSAFE_NONE && (shared || env.isCrossOriginIsolated());
         } catch (IOException e) {
             failLoad("Failed to load the worker script " + scriptUrl + ": " + e.getMessage());
             return;
@@ -422,7 +434,7 @@ final class WorkerScope implements ScriptContext {
             failLoad("Failed to create the worker: " + e);
             return;
         }
-        final String text = source;
+        final String text = entry.getText();
         runTask(new Runnable() {
             /**
              * Runs the worker's script or starts module evaluation.
@@ -483,15 +495,17 @@ final class WorkerScope implements ScriptContext {
      * 컴포넌트의 스크립트 공급원으로 스크립트 텍스트를 가져온다.
      *
      * @param url the absolute URL / 절대 URL
-     * @return the text / 텍스트
+     * @param policy the effective embedder policy / 적용할 삽입 정책
+     * @return the classic script and its response settings / 일반 스크립트와 응답 설정
      * @throws IOException if it cannot be fetched / 가져올 수 없으면
      */
-    private String fetchScript(String url) throws IOException {
+    private ScriptText fetchScript(String url, CrossOriginPolicy.Embedder policy) throws IOException {
         ScriptSource source = env.getScriptSource();
         if (source == null) {
             throw new IOException("scripts cannot be fetched");
         }
-        return source.fetch(url);
+        return source instanceof ScriptSource.WithResponse ? ((ScriptSource.WithResponse) source).fetchScript(url, policy)
+                : new ScriptText(source.fetch(url), url);
     }
 
     /**
@@ -521,7 +535,8 @@ final class WorkerScope implements ScriptContext {
         realm = r;
         Origin scriptOrigin = Origin.of(scriptUrl);
         // 불투명 문서나 다른 오리진에서 로드한 스크립트는 기존 클러스터의 공유 버퍼를 받지 못한다.
-        SharedMemoryScope.bind(r, env.getSharedMemoryCluster(), scriptOrigin.isSameOrigin(ownerOrigin) ? ownerOrigin : Origin.opaque());
+        SharedMemoryScope.bind(r, env.getSharedMemoryCluster(), scriptOrigin.isSameOrigin(ownerOrigin) ? ownerOrigin : Origin.opaque(),
+                crossOriginIsolated);
         r.setAtomicsWaitAllowed(true);
         r.setExternalJobExecutor(new Executor() {
             public void execute(Runnable job) {
@@ -651,6 +666,28 @@ final class WorkerScope implements ScriptContext {
      */
     boolean isShared() {
         return shared;
+    }
+
+    /**
+     * Reports whether the worker has an isolated agent capability.
+     * <p>
+     * 워커에 격리된 에이전트 권한이 있는지 알려 준다.
+     *
+     * @return the isolation capability / 격리 권한
+     */
+    boolean isCrossOriginIsolated() {
+        return crossOriginIsolated;
+    }
+
+    /**
+     * Returns the policy that the worker applies to subsequent requests.
+     * <p>
+     * 워커가 후속 요청에 적용할 정책을 반환한다.
+     *
+     * @return the worker response policy / 워커 응답 정책
+     */
+    CrossOriginPolicy.Embedder getEmbedderPolicy() {
+        return embedderPolicy;
     }
 
     /** Checks the entry script type. / 진입 스크립트가 모듈인지 반환한다. */
@@ -993,7 +1030,7 @@ final class WorkerScope implements ScriptContext {
         }
         String text;
         try {
-            text = fetchScript(absoluteUrl);
+            text = fetchScript(absoluteUrl, embedderPolicy).getText();
         } catch (IOException e) {
             throw bridge.domError(new DomException("NetworkError", DomException.NETWORK_ERR,
                     "Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at '" + absoluteUrl + "' failed to load (" + e.getMessage() + ")."));

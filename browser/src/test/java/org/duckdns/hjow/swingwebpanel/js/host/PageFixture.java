@@ -195,6 +195,15 @@ public final class PageFixture {
      * 시험 도구의 환경.
      */
     public static final class Env extends HostEnvironment {
+        /** Grants the fixture the isolated-host capability at construction. / 시험 환경 생성 시 격리된 호스트 권한을 부여한다. */
+        public boolean crossOriginIsolated;
+
+        /** Returns the fixture's isolation permission. / 시험 환경의 격리 권한을 반환한다. */
+        @Override
+        public boolean isCrossOriginIsolated() {
+            return crossOriginIsolated;
+        }
+
         /**
          * The scheduler.
          * <p>

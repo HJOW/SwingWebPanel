@@ -487,7 +487,7 @@ public final class PageScripts {
         this.env = env;
         this.realm = JsRealm.create(WindowProxy.forContext(env.getBrowsingContext()));
         this.realm.enableHtmlJobCallbacks();
-        SharedMemoryScope.bind(realm, env.getSharedMemoryCluster(), Origin.of(document.getOriginUrl()));
+        SharedMemoryScope.bind(realm, env.getSharedMemoryCluster(), Origin.of(document.getOriginUrl()), env.isCrossOriginIsolated());
         realm.setAtomicsWaitAllowed(false);
         installExternalJobExecutor(env.getScheduler());
         installPromiseJobQueue();

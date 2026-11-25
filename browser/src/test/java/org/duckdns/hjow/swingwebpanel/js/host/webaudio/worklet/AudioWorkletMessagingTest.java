@@ -115,7 +115,7 @@ public class AudioWorkletMessagingTest {
      * 프로세서의 공유 옵션과 MessagePort로 받은 응답을 확인한다.
      */
     public void testSharedMemoryInOptionsAndPort() {
-        WorkletPage p = new WorkletPage();
+        WorkletPage p = new WorkletPage(true);
         try {
             p.module("shared.js", "class SharedProcessor extends AudioWorkletProcessor {"
                     + "constructor(options){super(options);const b=options.processorOptions.buffer;const a=new Int32Array(b);"

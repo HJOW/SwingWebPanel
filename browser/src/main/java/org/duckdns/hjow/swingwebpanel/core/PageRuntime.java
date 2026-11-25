@@ -87,6 +87,8 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
     private final FrameContext frame;
     /** The browsing context that the scripts of this page see: the frame, or the top-level context. / 이 페이지의 스크립트가 보는 브라우징 문맥: 프레임, 또는 최상위 문맥. */
     private final org.duckdns.hjow.swingwebpanel.js.host.BrowsingContext browsingContext;
+    /** The permission to use the isolated agent capabilities. / 격리된 에이전트 권한의 사용 허용 상태. */
+    private final boolean crossOriginIsolated;
     /** The name assigned by this top-level document. / 이 최상위 문서에서 설정한 이름. */
     private volatile String topWindowName = "";
 
@@ -113,6 +115,11 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         frame = request.getFrame();
         browsingContext = frame != null ? frame : session.topContext();
         pageUrl = document.getOriginUrl();
+        Origin origin = Origin.of(pageUrl);
+        CrossOriginPolicy policy = context.crossOriginPolicy;
+        crossOriginIsolated = origin.isPotentiallyTrustworthy() && policy.getEmbedder() != CrossOriginPolicy.Embedder.UNSAFE_NONE
+                && policy.allowsIsolation(origin)
+                && (frame == null ? "same-origin".equals(policy.getOpener()) : frame.inheritsIsolation(origin));
         webRequests = new PageWebRequests(fetcher, cookies, context, pageUrl, resources);
         parent = request.getCancelToken();
         scheduler = new DocumentScheduler(session);
@@ -969,6 +976,39 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
     }
 
     /**
+     * Returns the isolation capability computed from this document and its container.
+     * <p>
+     * 이 문서와 컨테이너의 정책으로 정한 격리 권한을 반환한다.
+     *
+     * @return whether the document is isolated / 문서가 격리되었는지 여부
+     */
+    public boolean isCrossOriginIsolated() {
+        return crossOriginIsolated;
+    }
+
+    /**
+     * Returns the policies retained from the page response.
+     * <p>
+     * 페이지 응답에서 보관한 정책을 반환한다.
+     *
+     * @return the document policies / 문서 정책
+     */
+    CrossOriginPolicy crossOriginPolicy() {
+        return context.crossOriginPolicy;
+    }
+
+    /**
+     * Returns the policy used for resources and worker response checks.
+     * <p>
+     * 리소스와 워커 응답 검사에 쓰는 정책을 반환한다.
+     *
+     * @return the document's embedder policy / 문서의 삽입 정책
+     */
+    public CrossOriginPolicy.Embedder getEmbedderPolicy() {
+        return crossOriginPolicy().getEmbedder();
+    }
+
+    /**
      * Tells the script host whether the page still has resources (stylesheets, images) that it started and that the window
      * <code>load</code> event waits for.
      * <p>
@@ -1032,10 +1072,24 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
      * @throws IOException on request failure / 요청 실패 시
      */
     public ScriptText fetchScript(String url) throws IOException {
+        return fetchScript(url, getEmbedderPolicy());
+    }
+
+    /**
+     * Fetches a classic script using the supplied embedder policy.
+     * <p>
+     * 지정한 삽입 정책으로 일반 스크립트를 가져온다.
+     *
+     * @param url absolute script URL / 절대 스크립트 URL
+     * @param policy the requester's embedder policy / 요청자의 삽입 정책
+     * @return the decoded script and response metadata / 디코딩한 스크립트와 응답 메타데이터
+     * @throws IOException on request failure / 요청 실패 시
+     */
+    public ScriptText fetchScript(String url, CrossOriginPolicy.Embedder policy) throws IOException {
         resources.throwIfCancelled();
         ResourceRequest request = new ResourceRequest(url).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                 .setCookies(cookies).setCancelToken(resources).setReferrer(pageUrl).setInitiator(Origin.of(pageUrl))
-                .setEmbedderPolicy(context.crossOriginPolicy.getEmbedder())
+                .setEmbedderPolicy(policy)
                 .setPurpose(RequestPurpose.SCRIPT)
                 .setCacheMode(context.force ? ResourceRequest.CacheMode.FORCE_RELOAD : ResourceRequest.CacheMode.DEFAULT);
         ResourceResponse response = fetcher.fetch(request);

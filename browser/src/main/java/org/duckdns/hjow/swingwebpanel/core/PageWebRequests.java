@@ -423,7 +423,7 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
             boolean noCors = WebRequest.MODE_NO_CORS.equals(request.getMode());
             ResourceRequest rr = new ResourceRequest(url).setMethod(request.getMethod()).setUserAgent(context.userAgent).setExtraHeaders(extra)
                     .setCookies(cookies).setCancelToken(token).setInitiator(initiator)
-                    .setEmbedderPolicy(context.crossOriginPolicy.getEmbedder())
+                    .setEmbedderPolicy(request.getEmbedderPolicy() == null ? context.crossOriginPolicy.getEmbedder() : request.getEmbedderPolicy())
                     .setPurpose(noCors ? RequestPurpose.OTHER : RequestPurpose.XHR).setSendCredentials(!omit)
                     .setSameOriginCredentialsOnly(!omit && !include).setCorsAuthorHeaders(corsDeciding(author));
             if (request.getBody() != null) {

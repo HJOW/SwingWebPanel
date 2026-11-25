@@ -1,6 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.host;
 
 import java.io.IOException;
+import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 
 /**
  * Supplies the text of external scripts and modules to the page (the component fetches them through its request layer, so User-Agent, extra
@@ -27,6 +28,18 @@ public interface ScriptSource {
          * @throws IOException if the request fails / 요청 실패 시
          */
         ScriptText fetchScript(String url) throws IOException;
+
+        /**
+         * Fetches a worker's classic script using the worker's own embedder policy.
+         * <p>
+         * 워커의 삽입 정책을 사용해 일반 스크립트를 가져온다.
+         *
+         * @param url the requested URL / 요청한 URL
+         * @param policy the requester's policy / 요청자의 삽입 정책
+         * @return the fetched script / 읽은 스크립트
+         * @throws IOException if the request fails / 요청 실패 시
+         */
+        ScriptText fetchScript(String url, CrossOriginPolicy.Embedder policy) throws IOException;
     }
 
     /**

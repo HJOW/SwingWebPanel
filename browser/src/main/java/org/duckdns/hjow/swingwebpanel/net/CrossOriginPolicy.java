@@ -37,13 +37,16 @@ public final class CrossOriginPolicy {
             + "(?:; *[a-z*][a-z0-9_.*-]*(?:=" + PARAM_VALUE + ")?)*+");
 
     /** Policy used when a response cannot opt in. / 응답이 정책을 적용할 수 없을 때 사용하는 값. */
-    public static final CrossOriginPolicy NONE = new CrossOriginPolicy(null, Embedder.UNSAFE_NONE);
+    public static final CrossOriginPolicy NONE = new CrossOriginPolicy(null, Embedder.UNSAFE_NONE, null);
 
     /** The effective opener token, or null for the default. / 적용되는 opener 토큰. 기본값이면 null. */
     private final String opener;
 
     /** The effective embedder policy. / 적용되는 삽입 정책. */
     private final Embedder embedder;
+
+    /** The declared isolation allowlist, or null for the default. / 선언된 격리 허용 목록. 기본값이면 null. */
+    private final String isolationAllowlist;
 
     /**
      * Records the parsed enforcement policies.
@@ -52,10 +55,12 @@ public final class CrossOriginPolicy {
      *
      * @param opener the valid opener token or null / 올바른 opener 토큰 또는 null
      * @param embedder the effective embedder policy / 적용되는 삽입 정책
+     * @param isolationAllowlist the Permissions-Policy declaration or null / Permissions-Policy 선언 또는 null
      */
-    private CrossOriginPolicy(String opener, Embedder embedder) {
+    private CrossOriginPolicy(String opener, Embedder embedder, String isolationAllowlist) {
         this.opener = opener;
         this.embedder = embedder;
+        this.isolationAllowlist = isolationAllowlist;
     }
 
     /**
@@ -78,7 +83,8 @@ public final class CrossOriginPolicy {
         if (!"same-origin".equals(opener) && !"same-origin-allow-popups".equals(opener) && !"noopener-allow-popups".equals(opener)) {
             opener = null;
         }
-        return opener == null && value == Embedder.UNSAFE_NONE ? NONE : new CrossOriginPolicy(opener, value);
+        String allowlist = IsolationPermission.read(response.getHeaders("Permissions-Policy"));
+        return opener == null && value == Embedder.UNSAFE_NONE && allowlist == null ? NONE : new CrossOriginPolicy(opener, value, allowlist);
     }
 
     /**
@@ -120,6 +126,34 @@ public final class CrossOriginPolicy {
     }
 
     /**
+     * Tests whether this document's own header permits its isolation capability.
+     * <p>
+     * 이 문서의 헤더가 문서 자체의 격리 권한을 허용하는지 검사한다.
+     *
+     * @param origin the document's origin / 문서 오리진
+     * @return true if permitted / 허용되면 true
+     */
+    public boolean allowsIsolation(Origin origin) {
+        return IsolationPermission.declaredAllows(isolationAllowlist, origin, origin);
+    }
+
+    /**
+     * Tests whether this document's allowlist and the iframe's attribute delegate isolation.
+     * <p>
+     * 이 문서의 허용 목록과 iframe 속성이 격리 권한을 이어주는지 검사한다.
+     *
+     * @param parent the container document's origin / 컨테이너 문서 오리진
+     * @param target the child document's origin / 자식 문서 오리진
+     * @param source the declared iframe source origin / iframe의 선언 src 오리진
+     * @param allow the iframe allow attribute / iframe의 allow 속성
+     * @return true if both policies permit delegation / 두 정책이 권한 위임을 허용하면 true
+     */
+    public boolean allowsChildIsolation(Origin parent, Origin target, Origin source, String allow) {
+        return IsolationPermission.declaredAllows(isolationAllowlist, parent, target)
+                && IsolationPermission.containerAllows(allow, parent, source, target);
+    }
+
+    /**
      * Creates the inherited embedder state of a locally created child document.
      * <p>
      * 로컬에서 만든 하위 문서가 물려받을 삽입 정책을 만든다.
@@ -128,7 +162,7 @@ public final class CrossOriginPolicy {
      * @return the inherited response settings / 물려받은 응답 설정
      */
     public static CrossOriginPolicy inheritedEmbedder(Embedder policy) {
-        return policy == Embedder.UNSAFE_NONE ? NONE : new CrossOriginPolicy(null, policy);
+        return policy == Embedder.UNSAFE_NONE ? NONE : new CrossOriginPolicy(null, policy, null);
     }
 
     /**

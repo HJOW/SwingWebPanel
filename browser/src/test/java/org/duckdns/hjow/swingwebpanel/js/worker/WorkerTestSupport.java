@@ -141,6 +141,31 @@ public final class WorkerTestSupport {
     }
 
     /**
+     * Serves a document that can grant isolation to its workers.
+     * <p>
+     * 워커에 격리 권한을 부여할 수 있는 문서를 제공한다.
+     *
+     * @param code the inline page script / 인라인 페이지 스크립트
+     * @return the response / 응답
+     */
+    static TestHttpServer.Response isolatedPage(String code) {
+        return TestHttpServer.Response.html(page(code)).header("Cross-Origin-Opener-Policy", "same-origin")
+                .header("Cross-Origin-Embedder-Policy", "require-corp");
+    }
+
+    /**
+     * Serves a worker entry that opts in to embedder isolation.
+     * <p>
+     * 삽입 격리를 요청하는 워커 진입 파일을 제공한다.
+     *
+     * @param code the worker script / 워커 스크립트
+     * @return the response / 응답
+     */
+    static TestHttpServer.Response isolatedScript(String code) {
+        return js(code).header("Cross-Origin-Embedder-Policy", "require-corp");
+    }
+
+    /**
      * Counts the live threads whose name starts with a prefix.
      * <p>
      * 이름이 접두사로 시작하는 살아 있는 스레드를 센다.

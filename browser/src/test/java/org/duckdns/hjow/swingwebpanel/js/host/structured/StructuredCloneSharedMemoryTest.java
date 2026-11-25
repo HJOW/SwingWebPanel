@@ -106,7 +106,7 @@ public class StructuredCloneSharedMemoryTest {
      */
     private static JsRealm bound(Object cluster, String url) {
         JsRealm realm = JsRealm.create();
-        SharedMemoryScope.bind(realm, cluster, Origin.of(url));
+        SharedMemoryScope.bind(realm, cluster, Origin.of(url), true);
         return realm;
     }
 

@@ -30,6 +30,73 @@ import org.duckdns.hjow.swingwebpanel.testing.TestHttpServer;
  */
 public class CrossOriginIsolationTest {
     /**
+     * Enforces the isolation capability at window, iframe, worker and structured clone entry points.
+     * <p>
+     * 창, iframe, 워커, 구조화 복제 진입점에서 격리 권한을 적용한다.
+     *
+     * @throws Exception on setup or request failure / 환경 구성이나 요청 실패 시
+     */
+    public void testIsolationCapabilityAcrossHosts() throws Exception {
+        TestHttpServer site = new TestHttpServer();
+        SwingWebPanel panel = FrameTestSupport.newPanel(400, 300);
+        try {
+            site.routeFixed("/bare-worker.js", TestHttpServer.Response.ok("text/javascript", "postMessage('unexpected');"));
+            site.routeFixed("/isolated-worker.js", TestHttpServer.Response.ok("text/javascript",
+                    "onmessage=e=>{if(e.data instanceof Object&&typeof SharedArrayBuffer==='function'){"
+                    + "const v=new Int32Array(e.data);Atomics.add(v,0,4);}"
+                    + "postMessage([crossOriginIsolated,typeof SharedArrayBuffer].join());};")
+                    .header("Cross-Origin-Embedder-Policy", "require-corp"));
+            site.routeFixed("/shared-worker.js", TestHttpServer.Response.ok("text/javascript",
+                    "onconnect=e=>{const p=e.ports[0];p.postMessage([crossOriginIsolated,typeof SharedArrayBuffer].join());};")
+                    .header("Cross-Origin-Embedder-Policy", "require-corp"));
+            site.routeFixed("/processor.js", TestHttpServer.Response.ok("text/javascript",
+                    "class Processor extends AudioWorkletProcessor{constructor(options){super(options);"
+                    + "const a=new Int32Array(options.processorOptions.memory);Atomics.store(a,0,7);"
+                    + "this.port.postMessage([typeof SharedArrayBuffer,a[0]].join());}process(){return true}}"
+                    + "registerProcessor('test-isolation',Processor);"));
+            site.routeFixed("/enabled", TestHttpServer.Response.html(
+                    "<iframe id=denied allow=\"cross-origin-isolated 'none'\" srcdoc='<p>Restricted</p>'></iframe>"
+                    + "<script>const b=new SharedArrayBuffer(4);const a=new Int32Array(b);a[0]=5;"
+                    + "const put=(k,v)=>sessionStorage.setItem(k,v);"
+                    + "const w=new Worker('/isolated-worker.js');w.onmessage=e=>put('isolated-worker',[e.data,a[0]].join());w.postMessage(b);"
+                    + "const bad=new Worker('/bare-worker.js');bad.onerror=e=>put('worker-error',[e.type,e.target===bad].join());"
+                    + "const context=new OfflineAudioContext(1,128,8000), memory=new SharedArrayBuffer(4);"
+                    + "context.audioWorklet.addModule('/processor.js').then(()=>{"
+                    + "const n=new AudioWorkletNode(context,'test-isolation',{processorOptions:{memory}});"
+                    + "n.port.onmessage=e=>put('isolated-worklet',[e.data,new Int32Array(memory)[0]].join());"
+                    + "n.connect(context.destination);return context.startRendering();}).catch(e=>put('isolated-worklet',String(e)));"
+                    + "window.onload=()=>{const child=document.getElementById('denied').contentWindow;let failure='none';"
+                    + "try{child.structuredClone(b)}catch(e){failure=e.name;}"
+                    + "put('isolated-window',[crossOriginIsolated,typeof SharedArrayBuffer,child.crossOriginIsolated,"
+                    + "typeof child.SharedArrayBuffer,failure].join());};</script>")
+                    .header("Cross-Origin-Opener-Policy", "same-origin")
+                    .header("Cross-Origin-Embedder-Policy", "require-corp"));
+            site.routeFixed("/disabled", TestHttpServer.Response.html(
+                    "<script>const put=(k,v)=>sessionStorage.setItem(k,v);"
+                    + "put('disabled-window',[crossOriginIsolated,typeof SharedArrayBuffer,typeof Atomics].join());"
+                    + "const w=new Worker('/isolated-worker.js',{type:'module'});w.onmessage=e=>put('disabled-worker',e.data);w.postMessage('ready');"
+                    + "const s=new SharedWorker('/shared-worker.js');s.port.onmessage=e=>put('shared-independent',e.data);</script>")
+                    .header("Cross-Origin-Opener-Policy", "same-origin")
+                    .header("Cross-Origin-Embedder-Policy", "require-corp")
+                    .header("Permissions-Policy", "cross-origin-isolated=()"));
+            site.start();
+
+            panel.setPage(site.url("/enabled"));
+            FrameTestSupport.awaitStored(panel, "isolated-worker", "true,function,9");
+            FrameTestSupport.awaitStored(panel, "worker-error", "error,true");
+            FrameTestSupport.awaitStored(panel, "isolated-window", "true,function,false,undefined,DataCloneError");
+            FrameTestSupport.awaitStored(panel, "isolated-worklet", "function,7,7");
+            panel.setPage(site.url("/disabled"));
+            FrameTestSupport.awaitStored(panel, "disabled-window", "false,undefined,object");
+            FrameTestSupport.awaitStored(panel, "disabled-worker", "false,undefined");
+            FrameTestSupport.awaitStored(panel, "shared-independent", "true,function");
+        } finally {
+            panel.dispose();
+            site.stop();
+        }
+    }
+
+    /**
      * Enforces the policy for cached scripts, allowed CORS scripts and child frame navigations.
      * <p>
      * 캐시된 스크립트, CORS로 허용된 스크립트, 하위 프레임 이동에 정책을 적용한다.
@@ -51,7 +118,7 @@ public class CrossOriginIsolationTest {
                     .header("Cross-Origin-Embedder-Policy", "require-corp").header("Cross-Origin-Resource-Policy", "cross-origin"));
             external.start();
             site.routeFixed("/plain", TestHttpServer.Response.html("<script src='" + external.url("/cached.js") + "'></script>"
-                    + "<script>sessionStorage.setItem('unrestricted',String(window.fromCache));</script>"));
+                    + "<script>sessionStorage.setItem('unrestricted',[window.fromCache,crossOriginIsolated,typeof SharedArrayBuffer].join());</script>"));
             site.routeFixed("/bare-frame", TestHttpServer.Response.html("<script>window.frameValue='unexpected';</script>"));
             site.routeFixed("/isolated-frame", TestHttpServer.Response.html("<script>window.frameValue='allowed';</script>")
                     .header("Cross-Origin-Embedder-Policy", "require-corp"));
@@ -68,7 +135,7 @@ public class CrossOriginIsolationTest {
                     .header("Cross-Origin-Embedder-Policy", "require-corp"));
             site.start();
             panel.setPage(site.url("/plain"));
-            FrameTestSupport.awaitStored(panel, "unrestricted", "ran");
+            FrameTestSupport.awaitStored(panel, "unrestricted", "ran,false,undefined");
             panel.setPage(site.url("/isolated"));
             FrameTestSupport.awaitStored(panel, "policy-result", "undefined,allowed,allowed,undefined,allowed");
             FrameTestSupport.awaitStored(panel, "from-frame", "embedded");

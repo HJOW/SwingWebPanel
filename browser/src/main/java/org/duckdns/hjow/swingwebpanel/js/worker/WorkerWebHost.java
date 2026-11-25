@@ -68,13 +68,14 @@ final class WorkerWebHost implements WebApis.Host {
     }
 
     /**
-     * Sets the referrer of a request of the worker: a request without an explicit referrer gets the URL of the worker script.
+     * Sets the worker's response policy and supplies the script URL when no explicit referrer was given.
      * <p>
-     * worker 요청의 참조를 정한다. 참조를 명시하지 않은 요청은 worker 스크립트의 URL을 참조로 갖는다.
+     * 워커의 응답 정책을 설정하고 참조를 명시하지 않은 요청에는 워커 스크립트의 URL을 사용한다.
      *
      * @param request the request / 요청
      */
-    private void referrerOf(WebRequest request) {
+    private void applyClientSettings(WebRequest request) {
+        request.setEmbedderPolicy(scope.getEmbedderPolicy());
         if (WebRequest.REFERRER_CLIENT.equals(request.getReferrer())) {
             request.setReferrer(scope.getScriptUrl());
         }
@@ -114,7 +115,7 @@ final class WorkerWebHost implements WebApis.Host {
          * @return the handle / 핸들
          */
         public Call start(WebRequest request, Callback callback) {
-            referrerOf(request);
+            applyClientSettings(request);
             return delegate.start(request, callback);
         }
     }
@@ -146,7 +147,7 @@ final class WorkerWebHost implements WebApis.Host {
          * @return the handle / 핸들
          */
         public Call startStream(WebRequest request, StreamingWebRequestSource.Listener listener) {
-            referrerOf(request);
+            applyClientSettings(request);
             return ((StreamingWebRequestSource) delegate).startStream(request, listener);
         }
     }

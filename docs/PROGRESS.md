@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-c3c 호스트의 격리 권한과 공유 메모리 (2026-11-26) ===
+현재 작업 번호: P29-10-c3c, P29-10-c3 및 P29-10-c 완료.
+완료한 내용: COOP·COEP 및 Permissions-Policy로 창·프레임·Worker의 격리 권한을 정한다. 격리된 창·Worker·AudioWorklet에서 공유 메모리를 쓰고, 다른 오리진이나 격리 권한이 없는 렐름으로는 구조화 복제를 거부한다.
+변경 파일: CrossOriginPolicy.java, IsolationPermission.java, FrameContext.java, PageRuntime.java, PageWebRequests.java, HostEnvironment.java, PageScripts.java, WindowGlobals.java, ScriptSource.java, WebRequest.java, SharedMemoryScope.java, WorkerScope.java, WorkerGlobals.java, WorkerWebHost.java, WorkletScope.java, 관련 시험·시험 도우미 9개, .gitattributes, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45 CrossOriginIsolationTest 4건, FrameWindowTest 13건, WorkerSharedMemoryTest 2건, WorkerAtomicsHostTest 2건, AudioWorkletMessagingTest 9건, StructuredCloneSharedMemoryTest 3건, WorkerSharedTest 7건, WorkerRequestTest 3건 통과. 오류 이벤트의 기존 계약에 맞춰 시험을 고친 뒤 변경한 스위트를 JDK 6에서 재컴파일했다. 엔진 경계 검증은 P29-10-b3에서 완료했다. sourcecheck 0 위반.
+미해결 사항: 제17판 Unicode 정규화, 지역화 폴백과 전체 회귀(P29-10-d1~e).
+다음 작업 번호: P29-10-d1.
+-----------------------------------------------------------------------------------------------
 === P29-10-c3b COEP·CORP 리소스 및 캐시 정책 (2026-11-26) ===
 현재 작업 번호: P29-10-c3b 완료.
 완료한 내용: 리소스 소비 전 COEP·CORP를 검사한다. credentialless 교차 구간에서 자격 증명 및 Set-Cookie를 생략하며 캐시를 시작 오리진별로 나눈다. 프레임 응답을 검사하고 srcdoc·빈 프레임은 부모의 삽입 정책을 물려받는다.
@@ -1138,6 +1146,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-c3c 브라우저 격리 권한과 공유 저장소
+
+- [HTML Living Standard의 Workers §10.2](https://html.spec.whatwg.org/multipage/workers.html#worker-processing-model) 2026-11-25 11:33:24 GMT 판 및 [Permissions Policy §9.7](https://www.w3.org/TR/permissions-policy/#algo-define-inherited-policy-in-container) 2026-10-26 판을 2026-11-26에 `tools/webfetch`로 조회했다.
+- 실제 HTTP 문서에서 전용 Worker 및 OfflineAudioContext의 AudioWorklet과 공유 버퍼가 왕복한다. Worker 응답에 COEP가 없으면 로딩 오류를 보낸다. iframe의 `allow`와 문서의 Permissions-Policy의 거부·위임, 서로 다른 오리진의 `messageerror`를 확인했다. 공유 Worker는 자신의 응답 정책으로 격리 능력을 얻는다.
+- 응답 정책의 보고 전용 전송과 별도 브라우저 창 그룹은 제품 범위에서 제공하지 않는다. 독립 엔진은 HTML 호스트의 권한 모델 없이 ECMA-262 공유 메모리를 제공한다.
 
 ### 2026-11-26 · P29-10-c3b 교차 오리진 리소스 제한과 credentialless
 

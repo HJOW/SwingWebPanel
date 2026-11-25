@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.js.host;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 
 /**
  * One request that a page script asks the component to make through <code>XMLHttpRequest</code> or <code>fetch()</code>. The page layer
@@ -43,6 +44,9 @@ public final class WebRequest {
 
     /** The absolute request URL (fragment allowed, it is not sent). / 절대 요청 URL(프래그먼트는 있어도 되며 전송하지 않는다). */
     private final String url;
+
+    /** Optional requesting worker's policy. / 선택적인 요청 워커의 정책. */
+    private CrossOriginPolicy.Embedder embedderPolicy;
 
     /** The normalized method. / 정규화한 메서드. */
     private String method = "GET";
@@ -97,6 +101,28 @@ public final class WebRequest {
      */
     public String getUrl() {
         return url;
+    }
+
+    /**
+     * Returns an explicit worker policy or null to inherit the document's settings.
+     * <p>
+     * 명시한 워커 정책을 반환한다. 문서 설정을 사용하려면 null이다.
+     *
+     * @return the policy or null / 정책 또는 null
+     */
+    public CrossOriginPolicy.Embedder getEmbedderPolicy() {
+        return embedderPolicy;
+    }
+
+    /**
+     * Carries the worker's policy through the shared document request service.
+     * <p>
+     * 공용 문서 요청 서비스를 통해 워커의 정책을 전달한다.
+     *
+     * @param policy the worker's COEP value / 워커의 COEP 값
+     */
+    public void setEmbedderPolicy(CrossOriginPolicy.Embedder policy) {
+        embedderPolicy = policy;
     }
 
     /**

@@ -424,7 +424,13 @@ final class WindowGlobals {
              * @return the flag / 플래그
              */
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
-                return Js.bool(origin().isPotentiallyTrustworthy());
+                return Js.bool(isSecureContext());
+            }
+        });
+        getter(g, "crossOriginIsolated", new NativeFunction.Call() {
+            /** Returns the document's isolation capability. / 문서의 격리 권한을 반환한다. */
+            public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
+                return Js.bool(page.getEnvironment().isCrossOriginIsolated());
             }
         });
         g.defineData("status", Js.str(""), true, true, true);
@@ -1346,6 +1352,27 @@ final class WindowGlobals {
      */
     private Origin origin() {
         return Origin.of(page.getDocument().getOriginUrl());
+    }
+
+    /**
+     * Checks the trustworthiness of this document and every containing document.
+     * <p>
+     * 현재 문서와 모든 컨테이너 문서의 신뢰 가능 여부를 확인한다.
+     *
+     * @return true for a secure document context / 문서가 보안 컨텍스트이면 true
+     */
+    private boolean isSecureContext() {
+        if (!origin().isPotentiallyTrustworthy()) {
+            return false;
+        }
+        BrowsingContext current = page.getEnvironment().getBrowsingContext();
+        // 자기 오리진이 안전해도 상위 문서가 안전하지 않으면 보안 컨텍스트가 아니다.
+        for (BrowsingContext parent = current == null ? null : current.getParent(); parent != null; parent = parent.getParent()) {
+            if (!Origin.of(parent.getOriginUrl()).isPotentiallyTrustworthy()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

@@ -8,6 +8,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
+import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 import org.duckdns.hjow.swingwebpanel.storage.LocalStorageManager;
 import org.duckdns.hjow.swingwebpanel.storage.SessionStorage;
 
@@ -41,6 +42,28 @@ public abstract class HostEnvironment {
      */
     public Object getSharedMemoryCluster() {
         return sharedMemoryCluster;
+    }
+
+    /**
+     * Reports whether this document is allowed to use the isolated agent capabilities.
+     * <p>
+     * 이 문서가 격리된 에이전트의 권한을 사용할 수 있는지 알려 준다.
+     *
+     * @return true for an isolated document / 격리된 문서이면 true
+     */
+    public boolean isCrossOriginIsolated() {
+        return false;
+    }
+
+    /**
+     * Returns the policy inherited by requests and used to check worker responses.
+     * <p>
+     * 요청이 물려받고 워커 응답 검사에 사용하는 정책을 반환한다.
+     *
+     * @return the document embedder policy / 문서의 삽입 정책
+     */
+    public CrossOriginPolicy.Embedder getEmbedderPolicy() {
+        return CrossOriginPolicy.Embedder.UNSAFE_NONE;
     }
 
     /**

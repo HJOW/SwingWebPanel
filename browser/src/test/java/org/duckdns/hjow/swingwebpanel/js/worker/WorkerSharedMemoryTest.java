@@ -22,14 +22,14 @@ public class WorkerSharedMemoryTest {
         TestHttpServer server = new TestHttpServer();
         SwingWebPanel panel = WorkerTestSupport.newPanel();
         try {
-            server.routeFixed("/shared.js", WorkerTestSupport.js(
+            server.routeFixed("/shared.js", WorkerTestSupport.isolatedScript(
                     "onmessage=e=>{const local=structuredClone(e.data.b); const a=new Int32Array(local);"
                     + "const old=Atomics.add(a,1,1); local.grow(12);"
                     + "e.data.p.postMessage({buffer:local,tracking:a,old});"
                     + "const bc=new BroadcastChannel('sab'); bc.postMessage(local); bc.close();"
                     + "postMessage([local instanceof SharedArrayBuffer,Atomics.notify(a,0)].join('|'));"
                     + "postMessage(Atomics.wait(a,2,0,3000));};"));
-            server.routeFixed("/page", TestHttpServer.Response.html(WorkerTestSupport.page(
+            server.routeFixed("/page", WorkerTestSupport.isolatedPage(
                     "const buffer=new SharedArrayBuffer(8,{maxByteLength:16}), a=new Int32Array(buffer);"
                     + "a[1]=41; Atomics.waitAsync(a,0,0).value.then(v=>put('mainWait',v));"
                     + "const ab=new ArrayBuffer(4);"
@@ -44,7 +44,7 @@ public class WorkerSharedMemoryTest {
                     + "function wake(i){ if(!Atomics.notify(a,2,1) && i<1500)setTimeout(()=>wake(i+1),1); }"
                     + "w.onmessage=e=>{if(e.data==='true|1'){put('wokePage',e.data);wake(0);}else put('workerWait',e.data);};"
                     + "w.onerror=e=>put('workerWait',e.message);"
-                    + "w.postMessage({b:buffer,p:ch.port2},[ch.port2]);")));
+                    + "w.postMessage({b:buffer,p:ch.port2},[ch.port2]);"));
             server.start();
             panel.setPage(server.url("/page"));
             Check.equal("DataCloneError|4", WorkerTestSupport.await(panel, "transfer"), "failed transfer did not detach the ordinary buffer");
@@ -72,15 +72,15 @@ public class WorkerSharedMemoryTest {
         SwingWebPanel panel = WorkerTestSupport.newPanel();
         int before = WorkerTestSupport.workerThreads();
         try {
-            server.routeFixed("/block.js", WorkerTestSupport.js(
+            server.routeFixed("/block.js", WorkerTestSupport.isolatedScript(
                     "onmessage=e=>{const a=new Int32Array(e.data);"
                     + "Atomics.waitAsync(a,0,0).value.then(v=>postMessage(v));"
                     + "postMessage('waiting'); Atomics.wait(a,1,0);};"));
-            server.routeFixed("/page", TestHttpServer.Response.html(WorkerTestSupport.page(
+            server.routeFixed("/page", WorkerTestSupport.isolatedPage(
                     "const a=new Int32Array(new SharedArrayBuffer(8)), w=new Worker('/block.js');"
                     + "w.onmessage=e=>{if(e.data==='waiting'){w.terminate();"
                     + "put('remaining',[Atomics.notify(a,0),Atomics.notify(a,1)].join());}};"
-                    + "w.postMessage(a.buffer);")));
+                    + "w.postMessage(a.buffer);"));
             server.start();
             panel.setPage(server.url("/page"));
             Check.equal("0,0", WorkerTestSupport.await(panel, "remaining"), "terminated worker left no waiter at either byte position");

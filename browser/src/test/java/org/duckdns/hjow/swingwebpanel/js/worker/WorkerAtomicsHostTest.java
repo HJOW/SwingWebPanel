@@ -22,10 +22,10 @@ public class WorkerAtomicsHostTest {
         TestHttpServer server = new TestHttpServer();
         SwingWebPanel panel = WorkerTestSupport.newPanel();
         try {
-            server.routeFixed("/page", TestHttpServer.Response.html(WorkerTestSupport.page(
+            server.routeFixed("/page", WorkerTestSupport.isolatedPage(
                     "window.onload=function(){const a=new Int32Array(new SharedArrayBuffer(4));"
                     + "try{Atomics.wait(a,0,0,0);put('policy','missing');}catch(e){put('policy',e.name);}"
-                    + "Atomics.waitAsync(a,0,0,20).value.then(v=>put('pageTimeout',v));};")));
+                    + "Atomics.waitAsync(a,0,0,20).value.then(v=>put('pageTimeout',v));};"));
             server.start();
             panel.setPage(server.url("/page"));
             Check.equal("TypeError", WorkerTestSupport.await(panel, "policy"), "document agent cannot block");
@@ -47,14 +47,14 @@ public class WorkerAtomicsHostTest {
         TestHttpServer server = new TestHttpServer();
         SwingWebPanel panel = WorkerTestSupport.newPanel();
         try {
-            server.routeFixed("/worker.js", WorkerTestSupport.js(
+            server.routeFixed("/worker.js", WorkerTestSupport.isolatedScript(
                     "const a=new Int32Array(new SharedArrayBuffer(4));"
                     + "postMessage(['policy',Atomics.wait(a,0,0,5)]);"
                     + "Atomics.waitAsync(a,0,0,20).value.then(v=>postMessage(['workerTimeout',v]));"));
-            server.routeFixed("/page", TestHttpServer.Response.html(WorkerTestSupport.page(
+            server.routeFixed("/page", WorkerTestSupport.isolatedPage(
                     "const worker=new Worker('/worker.js');"
                     + "worker.onmessage=e=>put(e.data[0],e.data[1]);"
-                    + "worker.onerror=e=>put('policy',e.message);")));
+                    + "worker.onerror=e=>put('policy',e.message);"));
             server.start();
             panel.setPage(server.url("/page"));
             Check.equal("timed-out", WorkerTestSupport.await(panel, "policy"), "worker agent can suspend");

@@ -45,6 +45,18 @@ final class WorkletPage {
      * 빈 페이지를 로드한다.
      */
     WorkletPage() {
+        this(false);
+    }
+
+    /**
+     * Loads an empty page with the specified isolated-host capability.
+     * <p>
+     * 지정한 격리 호스트 권한으로 빈 페이지를 로드한다.
+     *
+     * @param isolated whether the page grants shared memory / 페이지가 공유 메모리를 허용하는지 여부
+     */
+    WorkletPage(boolean isolated) {
+        fixture.env.crossOriginIsolated = isolated;
         fixture.load(DIR + "page.html", "<!doctype html><body><p>worklet</p></body>");
         fixture.scripts.getRealm().setConsole(new ConsoleHook() {
             /**

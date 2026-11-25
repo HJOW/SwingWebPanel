@@ -60,7 +60,21 @@ public class FrameWindowTest {
      * @throws Exception if the server cannot start / 서버를 시작할 수 없으면
      */
     private static void serve(SwingWebPanel panel, TestHttpServer server, String html) throws Exception {
-        server.routeFixed("/page", TestHttpServer.Response.html(html));
+        serve(panel, server, TestHttpServer.Response.html(html));
+    }
+
+    /**
+     * Serves a page with its response headers and loads it.
+     * <p>
+     * 응답 헤더가 있는 문서를 제공하고 로드한다.
+     *
+     * @param panel the component / 컴포넌트
+     * @param server the server / 서버
+     * @param page the response / 응답
+     * @throws Exception if the server cannot start / 서버를 시작할 수 없으면
+     */
+    private static void serve(SwingWebPanel panel, TestHttpServer server, TestHttpServer.Response page) throws Exception {
+        server.routeFixed("/page", page);
         server.start();
         panel.setPage(server.url("/page"));
     }
@@ -503,20 +517,25 @@ public class FrameWindowTest {
             cross.routeFixed("/cross", TestHttpServer.Response.html(
                     "<!doctype html><script>onmessageerror=e=>parent.postMessage(['denied',e.type,e.data===null,e.origin,e.ports.length],'*');"
                     + "onmessage=e=>parent.postMessage(['crossPlain',typeof e.data==='string'?e.data:'unexpected shared buffer'],'*');"
-                    + "onload=()=>parent.postMessage(['crossReady'],'*');</script>"));
+                    + "onload=()=>parent.postMessage(['crossReady',crossOriginIsolated,typeof SharedArrayBuffer],'*');</script>")
+                    .header("Cross-Origin-Embedder-Policy", "require-corp").header("Cross-Origin-Resource-Policy", "cross-origin"));
             cross.start();
             String inner = "<script>onmessage=e=>{const v=new Int32Array(e.data);"
                     + "Atomics.store(v,0,7);parent.postMessage(['sameDone',e.data instanceof SharedArrayBuffer],'*');};"
-                    + "onload=()=>parent.postMessage(['sameReady'],'*');</script>";
-            serve(panel, outer, "<!doctype html><script>const b=new SharedArrayBuffer(4), v=new Int32Array(b);"
+                    + "onload=()=>parent.postMessage(['sameReady',crossOriginIsolated],'*');</script>";
+            serve(panel, outer, TestHttpServer.Response.html("<!doctype html><script>const b=new SharedArrayBuffer(4), v=new Int32Array(b);"
                     + "onmessage=e=>{const d=e.data;"
-                    + "if(d[0]==='sameReady')e.source.postMessage(b,'*');"
-                    + "else if(d[0]==='crossReady'){e.source.postMessage({nested:b},'*');e.source.postMessage('alive','*');}"
+                    + "if(d[0]==='sameReady'){sessionStorage.setItem('same-isolation',String(d[1]));e.source.postMessage(b,'*');}"
+                    + "else if(d[0]==='crossReady'){sessionStorage.setItem('cross-isolation',d.slice(1).join());"
+                    + "e.source.postMessage({nested:b},'*');e.source.postMessage('alive','*');}"
                     + "else if(d[0]==='sameDone')sessionStorage.setItem('sameDone',[d[1],v[0]].join('|'));"
                     + "else if(d[0]==='denied')sessionStorage.setItem('denied',d.slice(1).join('|'));"
                     + "else if(d[0]==='crossPlain')sessionStorage.setItem('crossPlain',d[1]);};</script>"
                     + "<iframe srcdoc=\"" + attr(inner) + "\"></iframe>"
-                    + "<iframe src=\"" + cross.url("/cross") + "\"></iframe>");
+                    + "<iframe allow='cross-origin-isolated' src=\"" + cross.url("/cross") + "\"></iframe>")
+                    .header("Cross-Origin-Opener-Policy", "same-origin").header("Cross-Origin-Embedder-Policy", "require-corp"));
+            FrameTestSupport.awaitStored(panel, "same-isolation", "true");
+            FrameTestSupport.awaitStored(panel, "cross-isolation", "true,function");
             FrameTestSupport.awaitStored(panel, "sameDone", "true|7");
             String origin = outer.url("/page");
             FrameTestSupport.awaitStored(panel, "denied", "messageerror|true|" + origin.substring(0, origin.length() - 5) + "|0");
