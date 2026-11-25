@@ -79,6 +79,62 @@ public class Es2026RegExpUnicodeSetsTest {
     }
 
     /**
+     * Checks nested ranges, intersection, subtraction, and empty sets over complete code points.
+     * <p>
+     * 전체 코드 포인트로 중첩 범위, 교집합, 차집합, 빈 집합을 검사한다.
+     */
+    public void testCodePointSetExpressions() {
+        String script = "const letters=/[[a-z]--[aeiou]]/gv, wide=/[[\uD801\uDC00-\uD801\uDC27]&&\\p{Letter}]/gv;"
+                + "const edge=String.fromCodePoint(0x10400), past=String.fromCodePoint(0x10428);"
+                + "[ 'abcefg'.match(letters).join(''),"
+                + "'ABCaz2'.match(/[\\p{ASCII}&&\\p{Letter}&&[^Bz]]/gv).join(''),"
+                + "'abcdef'.match(/[[a-f]--[b-d]--f]/gv).join(''),"
+                + "'abcXYZ5'.match(/[[\\p{Letter}--[a-z]]0-9]/gv).join(''),"
+                + "(past+edge+past).match(wide)[0]===edge, /[]/v.test('x'),/[^]/v.test(edge),"
+                + "/[[a-z]&&[]]/v.test('a'), /[[a-z]--[^]]/v.test('a'), /[[a-z]--[]]/v.test('a') ].join('|')";
+        Check.equal("bcfg|ACa|ae|XYZ5|true|false|true|false|false|true", evaluate(script),
+                "Unicode set union, intersection, subtraction, and complete code points");
+    }
+
+    /**
+     * Checks which characters are reserved in v classes and rejects mixed operators and invalid ranges.
+     * <p>
+     * v 클래스의 예약 문자를 확인하고 혼합 연산자와 잘못된 범위를 거부한다.
+     */
+    public void testUnicodeSetsPunctuationAndEarlyErrors() {
+        String script = "const bad=['[()]','[{}]','[a|b]','[a/b]','[-a]','[a-]','[a--]','[a&&]','[a&&&b]',"
+                + "'[a&&b--c]','[ab&&c]','[a&&bc]','[a-z&&b]','[a--b-c]',"
+                + "'[a-\\\\d]','[\\\\d-a]','[z-a]','[a\\\\01]','[a\\\\a]','[[a]','[a!!]',"
+                + "'['+String.fromCharCode(96,96)+']','[^^^]','[==]','[..]'];"
+                + "function invalid(p){try{new RegExp(p,'v');return false;}catch(e){return e.name==='SyntaxError';}}"
+                + "const punctuation=/[\\(\\)\\{\\}\\/\\|\\-\\!\\&\\=\\~]/gv;"
+                + "[bad.every(invalid), '(){}/|-!&=~'.match(punctuation).join(''),"
+                + "/[&=.!~]/v.test('&'), /[\\b\\0]/v.test(String.fromCharCode(0)),"
+                + "/[^]/v.test(String.fromCharCode(0xD800)), /[/]/u.test('/'),"
+                + "(function(){try{Function('return /[a&&]/v');return false;}catch(e){return e.name==='SyntaxError';}})()].join('|')";
+        Check.equal("true|(){}/|-!&=~|true|true|true|true|true", evaluate(script), "Unicode Sets class grammar");
+    }
+
+    /**
+     * Checks the order of Unicode case folding and complement and the treatment of word classes.
+     * <p>
+     * 유니코드 대소문자 접기와 여집합의 순서 및 단어 클래스를 검사한다.
+     */
+    public void testFoldBeforeUnicodeSetOperation() {
+        String script = "const kelvin=String.fromCodePoint(0x212A), capital=String.fromCodePoint(0x10400),"
+                + " small=String.fromCodePoint(0x10428);"
+                + "[/\\P{Lowercase_Letter}/iu.test('A'),/\\P{Lowercase_Letter}/iv.test('A'),"
+                + "/\\P{Uppercase_Letter}/iv.test('a'),/\\P{gc=Uppercase_Letter}/iv.test('a'),"
+                + "/\\P{Lowercase_Letter}/iv.test('@'),/[\\p{Ll}&&\\p{Lu}]/iv.test('a'),"
+                + "/[a&&A]/iv.test('A'),/[a&&A]/v.test('A'),/[[A-Z]--[kK]]/iv.test(kelvin),"
+                + "/[[A-Z]&&[kK]]/iv.test(kelvin),/[^[K]]/iv.test(kelvin), /[^\\p{Lu}]/iv.test('a'),"
+                + "/[\\w&&[^a-z0-9_]]/iv.test(kelvin), /\\W/iv.test(kelvin), /\\W/iu.test(kelvin),"
+                + "new RegExp('['+capital+'&&'+small+']','iv').test(capital)].join()";
+        Check.equal("true,false,false,false,true,true,true,false,false,true,false,false,false,false,false,true",
+                evaluate(script), "folding for ranges, properties, complements, word escapes, and supplementary code points");
+    }
+
+    /**
      * Evaluates a regular expression test script in an independent realm.
      * <p>
      * 독립 realm에서 정규식 시험 스크립트를 실행한다.

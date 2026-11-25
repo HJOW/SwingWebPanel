@@ -1,13 +1,12 @@
 package org.duckdns.hjow.swingwebpanel.js.parser;
 
 /**
- * Hook that lets the parser validate the pattern of a regular expression literal as an early error (ECMA-262 6th edition
- * 12.2.8.1). The regular expression engine is a separate component (<code>org.duckdns.hjow.swingwebpanel.js.regexp</code>); until it is
- * connected through {@link Parser#setDefaultRegExpValidator(RegExpValidator)} only the flags are validated by the lexer.
+ * Validates regular expression literal patterns during parsing (ECMA-262 6th edition 12.2.8.1).
+ * The parser uses the regular expression compiler by default and allows a replacement via
+ * {@link Parser#setDefaultRegExpValidator(RegExpValidator)}.
  * <p>
- * 파서가 정규식 리터럴의 패턴을 조기 오류로 검증하게 하는 연결 지점(ECMA-262 6판 12.2.8.1). 정규식 엔진은 별도 구성요소
- * (<code>org.duckdns.hjow.swingwebpanel.js.regexp</code>)이며, {@link Parser#setDefaultRegExpValidator(RegExpValidator)} 로 연결하기 전에는
- * 렉서가 플래그만 검증한다.
+ * 파싱할 때 정규식 리터럴 패턴을 검증한다(ECMA-262 6판 12.2.8.1). 기본은 정규식 컴파일러이며,
+ * {@link Parser#setDefaultRegExpValidator(RegExpValidator)} 로 교체할 수 있다.
  */
 public interface RegExpValidator {
 

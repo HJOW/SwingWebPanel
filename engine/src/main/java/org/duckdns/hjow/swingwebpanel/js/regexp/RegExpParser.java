@@ -38,11 +38,17 @@ final class RegExpParser {
     private final int n;
 
     /**
-     * True if the u flag is set.
+     * True if either Unicode flag is set.
      * <p>
-     * u 플래그가 있으면 true.
+     * 유니코드 플래그 u와 v 중 하나가 있으면 true.
      */
     private final boolean unicode;
+
+    /** Whether Unicode Sets grammar applies. / Unicode Sets 문법 사용 여부. */
+    private final boolean unicodeSets;
+
+    /** Whether character comparison ignores case. / 문자 비교에서 대소문자 무시 여부. */
+    private final boolean ignoreCase;
 
     /**
      * Current read offset.
@@ -98,6 +104,8 @@ final class RegExpParser {
         this.src = src;
         this.n = src.length();
         this.unicode = RegExpFlags.isUnicodeMode(flags);
+        this.unicodeSets = (flags & RegExpFlags.UNICODE_SETS) != 0;
+        this.ignoreCase = (flags & RegExpFlags.IGNORE_CASE) != 0;
     }
 
     /**
@@ -169,18 +177,20 @@ final class RegExpParser {
      * 십진 escape 가 역참조인지 레거시 8진 escape 인지 구별할 수 있도록, 본 해석 전에 캡처 그룹 수를 세고 이름 있는 그룹을 찾는다.
      */
     private void prescan() {
-        boolean inClass = false;
+        int classDepth = 0;
         // 이스케이프와 문자 클래스 안을 건너뛰며 여는 괄호를 센다.
         for (int i = 0; i < n; i++) {
             char c = src.charAt(i);
             if (c == '\\') {
                 i++;
-            } else if (inClass) {
+            } else if (classDepth != 0) {
                 if (c == ']') {
-                    inClass = false;
+                    classDepth--;
+                } else if (c == '[' && unicodeSets) {
+                    classDepth++;
                 }
             } else if (c == '[') {
-                inClass = true;
+                classDepth = 1;
             } else if (c == '(') {
                 if (i + 1 < n && src.charAt(i + 1) == '?') {
                     if (i + 3 < n && src.charAt(i + 2) == '<' && src.charAt(i + 3) != '=' && src.charAt(i + 3) != '!') {
@@ -195,9 +205,9 @@ final class RegExpParser {
     }
 
     /**
-     * Reads one pattern character: a code point with the u flag, else a code unit.
+     * Reads one pattern character: a code point in Unicode mode, else a code unit.
      * <p>
-     * 패턴 문자 하나를 읽는다. u 플래그가 있으면 코드 포인트, 아니면 코드 단위.
+     * 패턴 문자 하나를 읽는다. 유니코드 모드에서는 코드 포인트, 그 밖에는 코드 단위.
      *
      * @return the character / 문자
      */
@@ -539,28 +549,11 @@ final class RegExpParser {
      */
     private RegExpNode parseAtomEscape() throws RegExpSyntaxException {
         char e = src.charAt(pos);
+        RegExpCharSet predefined = parseClassEscape();
+        if (predefined != null) {
+            return setNode(predefined);
+        }
         switch (e) {
-        case 'd':
-            pos++;
-            return setNode(RegExpCharSet.digits());
-        case 'D':
-            pos++;
-            return setNode(RegExpCharSet.digits().complement(maxChar()));
-        case 's':
-            pos++;
-            return setNode(RegExpCharSet.space());
-        case 'S':
-            pos++;
-            return setNode(RegExpCharSet.space().complement(maxChar()));
-        case 'w':
-            pos++;
-            return setNode(RegExpCharSet.word());
-        case 'W':
-            pos++;
-            return setNode(RegExpCharSet.word().complement(maxChar()));
-        case 'p':
-        case 'P':
-            return setNode(parseUnicodeProperty(e == 'P'));
         case 'k':
             if (hasNamed) {
                 pos++;
@@ -620,10 +613,48 @@ final class RegExpParser {
      * <p>
      * 여집합에 쓰는 최대 문자 값.
      *
-     * @return 0x10FFFF with the u flag, else 0xFFFF / u 플래그면 0x10FFFF, 아니면 0xFFFF
+     * @return 0x10FFFF in Unicode mode, else 0xFFFF / 유니코드 모드에서는 0x10FFFF, 그 밖에는 0xFFFF
      */
     private int maxChar() {
         return unicode ? 0x10FFFF : 0xFFFF;
+    }
+
+    /**
+     * Reads a predefined CharacterClassEscape at the current position, if present.
+     * <p>
+     * 현재 위치에 미리 정의된 CharacterClassEscape가 있으면 읽는다.
+     *
+     * @return predefined set, or null without advancing / 미리 정의된 집합 또는 위치 변경 없이 null
+     * @throws RegExpSyntaxException on an invalid property escape / 속성 이스케이프 오류 시
+     */
+    private RegExpCharSet parseClassEscape() throws RegExpSyntaxException {
+        char ch = src.charAt(pos);
+        RegExpCharSet set;
+        switch (ch) {
+        case 'd':
+        case 'D':
+            set = RegExpCharSet.digits();
+            break;
+        case 's':
+        case 'S':
+            set = RegExpCharSet.space();
+            break;
+        case 'w':
+        case 'W':
+            set = RegExpCharSet.word();
+            // WordCharacters는 u와 v 모두에서 여집합을 구하기 전에 접기 동치 문자를 포함한다.
+            if (unicode && ignoreCase) {
+                set = CaseFold.closeUnicodeSet(set);
+            }
+            break;
+        case 'p':
+        case 'P':
+            return unicode ? parseUnicodeProperty(ch == 'P') : null;
+        default:
+            return null;
+        }
+        pos++;
+        return ch == 'D' || ch == 'S' || ch == 'W' ? set.complement(maxChar()) : set;
     }
 
     /**
@@ -650,6 +681,10 @@ final class RegExpParser {
             throw error("Invalid property name " + name, at);
         }
         pos = end + 1;
+        // v에서는 속성의 대소문자 동치 집합을 만든 뒤 집합 연산과 여집합에 사용한다.
+        if (unicodeSets && ignoreCase) {
+            set = CaseFold.closeUnicodeSet(set);
+        }
         return complement ? set.complement(0x10FFFF) : set;
     }
 
@@ -871,6 +906,9 @@ final class RegExpParser {
      * @throws RegExpSyntaxException on error / 오류 시
      */
     private RegExpNode parseClass() throws RegExpSyntaxException {
+        if (unicodeSets) {
+            return setNode(parseUnicodeSetClass());
+        }
         int open = pos;
         pos++;
         RegExpCharSet set = new RegExpCharSet();
@@ -916,6 +954,156 @@ final class RegExpParser {
     }
 
     /**
+     * Parses a bracketed Unicode Sets expression, including a nested class.
+     * <p>
+     * 중첩 클래스도 포함하는 대괄호로 둘러싼 Unicode Sets 식을 해석한다.
+     *
+     * @return normalized class set / 정규화한 클래스 집합
+     * @throws RegExpSyntaxException on invalid class grammar / 클래스 문법 오류 시
+     */
+    private RegExpCharSet parseUnicodeSetClass() throws RegExpSyntaxException {
+        int open = pos++;
+        boolean complement = pos < n && src.charAt(pos) == '^';
+        if (complement) {
+            pos++;
+        }
+        RegExpCharSet set = new RegExpCharSet();
+        if (pos < n && src.charAt(pos) != ']') {
+            ClassAtom first = parseUnicodeSetOperand();
+            if (src.startsWith("&&", pos) || src.startsWith("--", pos)) {
+                String operator = src.substring(pos, pos + 2);
+                set = unicodeSetOf(first);
+                // 같은 연산자로 연결된 피연산자만 왼쪽부터 결합한다.
+                while (src.startsWith(operator, pos)) {
+                    pos += 2;
+                    RegExpCharSet next = unicodeSetOf(parseUnicodeSetOperand());
+                    set = operator.equals("&&") ? set.intersect(next) : set.subtract(next);
+                }
+            } else {
+                // 구분자 없는 합집합만 단일 코드 포인트 범위를 직접 포함할 수 있다.
+                addUnicodeUnionPart(set, first);
+                while (pos < n && src.charAt(pos) != ']') {
+                    addUnicodeUnionPart(set, parseUnicodeSetOperand());
+                }
+                set.normalize();
+                if (ignoreCase) {
+                    set = CaseFold.closeUnicodeSet(set);
+                }
+            }
+        }
+        if (pos >= n || src.charAt(pos) != ']') {
+            throw error("Invalid Unicode set class", open);
+        }
+        pos++;
+        return complement ? set.complement(maxChar()) : set;
+    }
+
+    /**
+     * Returns the set for one intersection or subtraction operand.
+     * <p>
+     * 교집합 또는 차집합의 피연산자 하나를 집합으로 반환한다.
+     *
+     * @param atom operand / 피연산자
+     * @return normalized operand set / 정규화한 피연산자 집합
+     */
+    private RegExpCharSet unicodeSetOf(ClassAtom atom) {
+        if (atom.set != null) {
+            return atom.set;
+        }
+        RegExpCharSet result = new RegExpCharSet();
+        result.addChar(atom.ch);
+        if (ignoreCase) {
+            // 한 문자의 동치 묶음은 전체 접기 표를 훑지 않고 얻는다.
+            for (int equivalent : CaseFold.equivalents(atom.ch, true)) {
+                result.addChar(equivalent);
+            }
+            result.normalize();
+        }
+        return result;
+    }
+
+    /**
+     * Appends a class union operand or a Unicode code point range.
+     * <p>
+     * 클래스 합집합 피연산자 또는 유니코드 코드 포인트 범위를 추가한다.
+     *
+     * @param set union to build / 만들고 있는 합집합
+     * @param first first operand or range endpoint / 피연산자 또는 범위 시작점
+     * @throws RegExpSyntaxException on an invalid range / 올바르지 않은 범위이면
+     */
+    private void addUnicodeUnionPart(RegExpCharSet set, ClassAtom first) throws RegExpSyntaxException {
+        if (first.set == null && pos < n && src.charAt(pos) == '-' && !src.startsWith("--", pos)) {
+            int dash = pos++;
+            int end = parseUnicodeSetCharacter();
+            if (end < first.ch) {
+                throw error("Range out of order in character class", dash);
+            }
+            set.addRange(first.ch, end);
+        } else {
+            addAtom(set, first);
+        }
+    }
+
+    /**
+     * Reads one Unicode Sets operand without a range.
+     * <p>
+     * 범위 없이 Unicode Sets 피연산자 하나를 읽는다.
+     *
+     * @return operand / 피연산자
+     * @throws RegExpSyntaxException on an invalid operand / 올바르지 않은 피연산자이면
+     */
+    private ClassAtom parseUnicodeSetOperand() throws RegExpSyntaxException {
+        ClassAtom atom = new ClassAtom();
+        if (pos < n && src.charAt(pos) == '[') {
+            atom.set = parseUnicodeSetClass();
+            return atom;
+        }
+        if (pos + 1 < n && src.charAt(pos) == '\\') {
+            pos++;
+            atom.set = parseClassEscape();
+            if (atom.set != null) {
+                return atom;
+            }
+            pos--;
+        }
+        atom.ch = parseUnicodeSetCharacter();
+        return atom;
+    }
+
+    /**
+     * Reads a ClassSetCharacter in v mode, also used for range endpoints.
+     * <p>
+     * 범위 끝점에도 사용하는 v 모드의 ClassSetCharacter를 읽는다.
+     *
+     * @return character code point / 문자 코드 포인트
+     * @throws RegExpSyntaxException on reserved characters or invalid escapes / 예약 문자 또는 잘못된 이스케이프이면
+     */
+    private int parseUnicodeSetCharacter() throws RegExpSyntaxException {
+        if (pos < n) {
+            char ch = src.charAt(pos);
+            if (ch == '\\' && pos + 1 < n) {
+                char escaped = src.charAt(++pos);
+                if (escaped == 'b') {
+                    pos++;
+                    return 0x08;
+                }
+                if ("&-!#%,:;<=>@\u0060~".indexOf(escaped) >= 0) {
+                    pos++;
+                    return escaped;
+                }
+                // Unicode 모드의 NUL 이스케이프 뒤에는 십진 숫자가 올 수 없다.
+                if (escaped != '0' || pos + 1 == n || src.charAt(pos + 1) < '0' || src.charAt(pos + 1) > '9') {
+                    return parseCharacterEscape(true);
+                }
+            } else if ("()[]{}/-\\|".indexOf(ch) < 0 && !(pos + 1 < n && ch == src.charAt(pos + 1)
+                    && "&!#$%*+,.:;<=>?@^\u0060~".indexOf(ch) >= 0)) {
+                return nextChar();
+            }
+        }
+        throw error("Invalid Unicode set character", pos);
+    }
+
+    /**
      * Adds a class atom to a set.
      * <p>
      * 클래스 원소를 집합에 추가한다.
@@ -949,42 +1137,15 @@ final class RegExpParser {
         if (pos >= n) {
             throw error("\\ at end of pattern", pos);
         }
+        a.set = parseClassEscape();
+        if (a.set != null) {
+            return a;
+        }
         char e = src.charAt(pos);
-        switch (e) {
-        case 'd':
-            pos++;
-            a.set = RegExpCharSet.digits();
-            return a;
-        case 'D':
-            pos++;
-            a.set = RegExpCharSet.digits().complement(maxChar());
-            return a;
-        case 's':
-            pos++;
-            a.set = RegExpCharSet.space();
-            return a;
-        case 'S':
-            pos++;
-            a.set = RegExpCharSet.space().complement(maxChar());
-            return a;
-        case 'w':
-            pos++;
-            a.set = RegExpCharSet.word();
-            return a;
-        case 'W':
-            pos++;
-            a.set = RegExpCharSet.word().complement(maxChar());
-            return a;
-        case 'p':
-        case 'P':
-            a.set = parseUnicodeProperty(e == 'P');
-            return a;
-        case 'b':
+        if (e == 'b') {
             pos++;
             a.ch = 0x08;
             return a;
-        default:
-            break;
         }
         if (e >= '0' && e <= '9') {
             if (unicode) {

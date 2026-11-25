@@ -15,6 +15,8 @@ import org.duckdns.hjow.swingwebpanel.js.ast.NodeType;
 import org.duckdns.hjow.swingwebpanel.js.ast.Op;
 import org.duckdns.hjow.swingwebpanel.js.ast.ProgramInfo;
 import org.duckdns.hjow.swingwebpanel.js.ast.ScopeInfo;
+import org.duckdns.hjow.swingwebpanel.js.regexp.RegExpCompiler;
+import org.duckdns.hjow.swingwebpanel.js.regexp.RegExpSyntaxException;
 
 /**
  * The JavaScript parser (ECMA-262 6th edition clauses 12 to 15) with the early errors of the specification:
@@ -73,7 +75,17 @@ public final class Parser extends ExpressionParser {
      * <p>
      * 새로 만드는 파서의 정규식 리터럴 검증에 쓰는 검증기.
      */
-    private static volatile RegExpValidator defaultRegExpValidator;
+    private static volatile RegExpValidator defaultRegExpValidator = new RegExpValidator() {
+        /** Validates the literal without generating matcher code. / 검색기 코드를 생성하지 않고 리터럴을 검증한다. */
+        public String validate(String pattern, String flags) {
+            try {
+                RegExpCompiler.validate(pattern, flags);
+                return null;
+            } catch (RegExpSyntaxException invalid) {
+                return invalid.getMessage();
+            }
+        }
+    };
 
     /**
      * Information collected for modules.
@@ -115,7 +127,7 @@ public final class Parser extends ExpressionParser {
      * <p>
      * 이후 만들어지는 모든 파서가 정규식 리터럴 패턴을 검사하는 데 쓸 검증기를 지정한다.
      *
-     * @param validator the validator or null / 검증기 또는 null
+     * @param validator replacement, or null to skip pattern validation / 대체 검증기, 또는 패턴 검사를 건너뛰려면 null
      */
     public static void setDefaultRegExpValidator(RegExpValidator validator) {
         defaultRegExpValidator = validator;

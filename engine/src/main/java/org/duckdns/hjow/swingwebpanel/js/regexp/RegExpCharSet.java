@@ -159,15 +159,79 @@ final class RegExpCharSet {
     }
 
     /**
-     * Returns a new normalized, non-negated set holding every character in 0..max that is not in this set.
+     * Intersects two normalized sets without modifying them.
      * <p>
-     * 0..max 범위에서 이 집합에 없는 모든 문자를 담은, 정규화되고 부정되지 않은 새 집합을 반환한다.
+     * 두 정규화 집합을 변경하지 않고 교집합을 계산한다.
+     *
+     * @param other normalized set / 정규화 집합
+     * @return normalized intersection / 정규화한 교집합
+     */
+    RegExpCharSet intersect(RegExpCharSet other) {
+        RegExpCharSet result = new RegExpCharSet();
+        int left = 0;
+        int right = 0;
+        // 겹친 부분을 결과에 넣고 끝점이 먼저 오는 구간을 넘긴다.
+        while (left < used && right < other.used) {
+            int lo = Math.max(ranges[left], other.ranges[right]);
+            int hi = Math.min(ranges[left + 1], other.ranges[right + 1]);
+            if (lo <= hi) {
+                result.addRange(lo, hi);
+            }
+            if (ranges[left + 1] <= other.ranges[right + 1]) {
+                left += 2;
+            } else {
+                right += 2;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Subtracts another normalized set from this normalized set.
+     * <p>
+     * 이 정규화 집합에서 다른 정규화 집합을 뺀다.
+     *
+     * @param other normalized set / 정규화 집합
+     * @return normalized difference / 정규화한 차집합
+     */
+    RegExpCharSet subtract(RegExpCharSet other) {
+        RegExpCharSet result = new RegExpCharSet();
+        int right = 0;
+        // 왼쪽의 각 구간에서 오른쪽 구간과 겹치지 않는 조각을 뽑는다.
+        for (int left = 0; left < used; left += 2) {
+            int next = ranges[left];
+            int end = ranges[left + 1];
+            // 현재 왼쪽 구간 전에 끝난 오른쪽 구간은 다시 볼 필요가 없다.
+            while (right < other.used && other.ranges[right + 1] < next) {
+                right += 2;
+            }
+            // 오른쪽 구간 사이의 빈 부분을 남기고 겹친 부분을 건너뛴다.
+            while (right < other.used && other.ranges[right] <= end) {
+                if (next < other.ranges[right]) {
+                    result.addRange(next, other.ranges[right] - 1);
+                }
+                next = other.ranges[right + 1] + 1;
+                if (next > end) {
+                    break;
+                }
+                right += 2;
+            }
+            if (next <= end) {
+                result.addRange(next, end);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Complements the ranges of this normalized set within 0..max.
+     * <p>
+     * 이 정규화 집합의 구간을 0..max 안에서 여집합으로 만든다.
      *
      * @param max largest character to include / 포함할 최대 문자
      * @return complement set / 여집합
      */
     RegExpCharSet complement(int max) {
-        normalize();
         RegExpCharSet out = new RegExpCharSet();
         int next = 0;
         // 정규화된 구간 사이의 빈 곳을 새 구간으로 만든다.
@@ -183,7 +247,6 @@ final class RegExpCharSet {
         if (next <= max) {
             out.addRange(next, max);
         }
-        out.normalize();
         return out;
     }
 

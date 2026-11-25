@@ -52,7 +52,9 @@ public final class Es2022RegExpTest {
         } catch (ExceptionInInitializerError e) {
             Check.fail("UnicodePropertyData initialization: " + e.getCause());
         }
-        Check.equal("SyntaxError", Scripts.eval("try{new RegExp('\\\\p{L}')}catch(e){e.name}"), "u required");
+        Check.equal("true,false,true", Scripts.eval(
+                "[/\\p{L}/.test('p{L}'),/\\p{L}/.test('a'),/[\\P]/.test('P')].join()"),
+                "legacy identity escapes outside Unicode mode");
         Check.equal("SyntaxError", Scripts.eval("try{new RegExp('\\\\p{Emoji}','u')}catch(e){e.name}"), "Emoji table is intentionally excluded");
     }
 

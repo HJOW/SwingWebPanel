@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-07-b2 Unicode Sets 문자 집합 (2026-11-26) ===
+현재 작업 번호: P29-07-b2 완료.
+완료한 내용: 중첩 클래스와 코드 포인트 범위, 합집합·교집합·차집합·여집합을 지원한다. v와 i를 함께 사용할 때 여집합을 만들기 전에 대소문자 동치 문자를 반영한다. 정규식 리터럴 기본 검증을 연결하고 Unicode 모드 밖의 p·P 이스케이프를 Annex B 리터럴로 처리한다.
+변경 파일: RegExpCharSet.java, CaseFold.java, RegExpParser.java, Parser.java, RegExpValidator.java, Es2022RegExpTest.java, Es2026RegExpUnicodeSetsTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 809건 통과. sourcecheck 0 위반.
+미해결 사항: 문자열 집합과 보완 조기 오류, 이모지 전용 속성 제외 확인(P29-07-b3). 일반 범주 축약의 대소문자 폴딩 차이는 기능 표에 명시했다.
+다음 작업 번호: P29-07-b3.
+-----------------------------------------------------------------------------------------------
 === P29-07-b1 정규식 Unicode Sets 플래그 (2026-11-26) ===
 현재 작업 번호: P29-07-b1 완료.
 완료한 내용: 생성자와 리터럴이 v를 인식하고 u·v 충돌을 거부한다. unicodeSets 접근자, flags 조회 순서, 검색 및 문자열 메서드의 코드 포인트 이동을 구현했다. String.matchAll의 전역 검사를 Symbol.matchAll 호출보다 먼저 실행한다. 정규식 문자열 이터레이터가 표준 Iterator 프로토타입을 상속하고 종료 후 exec를 호출하지 않게 했다.
@@ -834,6 +842,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-07-b2 Unicode Sets 문자 집합
+
+- 정렬된 구간에 교집합과 차집합을 적용한다. 보충 평면과 단독 서로게이트, 중첩 여집합, 예약 구두점, 잘못된 연산자 연결을 검증했다.
+- 대소문자 폴딩으로 `\P{Lowercase_Letter}`와 `\W`의 여집합을 검증했다. ECMA-262 제17판 §22.2.2.9의 일반 범주 축약 분기에는 폴딩 단계가 빠져 있다. 웹 조회 도구로 같은 문구를 TC39 편집본에서 재확인했다(https://tc39.es/ecma262/multipage/text-processing.html, 2026-11-25 Last-Modified, 2026-11-26 조회, JRE 25). Node에 포함된 V8 14.6.202.34 대조에서는 `\p{Lu}`와 `\p{gc=Lu}`에 동일한 폴딩이 적용되므로 구현도 그 결과를 사용한다.
+- JDK 6u45로 `mvn -B -o -pl engine test` 809건을 확인했다. 다음 작업은 문자열 집합 P29-07-b3이다.
 
 ### 2026-11-26 · P29-07-b1 Unicode Sets 플래그와 검색
 

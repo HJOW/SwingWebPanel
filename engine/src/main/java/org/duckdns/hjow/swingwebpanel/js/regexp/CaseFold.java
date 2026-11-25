@@ -134,6 +134,40 @@ final class CaseFold {
     }
 
     /**
+     * Expands a normalized set to contain all Unicode case equivalents of its members.
+     * This represents folded code points as full equivalence classes for set operations.
+     * <p>
+     * 정규화 집합에 포함된 코드 포인트의 유니코드 대소문자 동치 문자를 모두 넣는다.
+     * 집합 연산에서 접힌 코드 포인트 하나를 같은 접기 결과를 갖는 전체 문자의 묶음으로 표현한다.
+     *
+     * @param set normalized original set / 정규화한 원본 집합
+     * @return normalized expanded set / 정규화한 확장 집합
+     */
+    static RegExpCharSet closeUnicodeSet(RegExpCharSet set) {
+        RegExpCharSet result = new RegExpCharSet();
+        result.addAll(set);
+        // 유니코드 전체를 훑지 않고 접기 결과를 공유하는 묶음만 살핀다.
+        for (int[] group : FullUnicode.GROUPS.values()) {
+            boolean present = false;
+            // 원본 집합에 속하는 문자가 하나라도 있는지 확인한다.
+            for (int member : group) {
+                if (set.contains(member)) {
+                    present = true;
+                    break;
+                }
+            }
+            if (present) {
+                // 대응하는 동치 문자를 모두 추가한다.
+                for (int member : group) {
+                    result.addChar(member);
+                }
+            }
+        }
+        result.normalize();
+        return result;
+    }
+
+    /**
      * Adds a nonidentity mapping to an inverse group.
      * <p>
      * 원본과 결과가 다른 매핑을 역방향 묶음에 추가한다.
