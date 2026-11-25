@@ -209,12 +209,17 @@ final class Expressions {
         }
         case NodeType.LOGICAL: {
             JsValue l = memo(st, n.a, env, ctx);
-            boolean truthy = Ops.toBoolean(l);
-            if (n.op == Op.LOGAND ? !truthy : truthy) {
+            if (n.op == Op.COALESCE ? !l.isNullOrUndefined() : (n.op == Op.LOGAND ? !Ops.toBoolean(l) : Ops.toBoolean(l))) {
                 return l;
             }
             return memo(st, n.b, env, ctx);
         }
+        case NodeType.OPTIONAL_CHAIN:
+            try {
+                return eval(n.a, env, ctx);
+            } catch (OptionalShortCircuit e) {
+                return Js.UNDEFINED;
+            }
         case NodeType.ASSIGN:
             return evalAssign(n, env, ctx, st);
         case NodeType.CONDITIONAL: {
@@ -440,6 +445,9 @@ final class Expressions {
             return base == null ? Js.UNDEFINED : base.get(key, thisV);
         }
         JsValue base = memo(st, n.a, env, ctx);
+        if (n.optional && base.isNullOrUndefined()) {
+            throw OptionalShortCircuit.INSTANCE;
+        }
         if (n.flag) {
             JsValue key = memo(st, n.b, env, ctx);
             return getElement(base, key);
@@ -482,6 +490,8 @@ final class Expressions {
             double b = Ops.toNumber(r);
             return JsNumber.of(a % b);
         }
+        case Op.EXP:
+            return JsNumber.of(Math.pow(Ops.toNumber(l), Ops.toNumber(r)));
         case Op.SHL:
             return JsNumber.of(Ops.toInt32(l) << (int) (Ops.toUint32(r) & 31));
         case Op.SHR:
@@ -660,6 +670,9 @@ final class Expressions {
             return Reference.superProperty(this, thisV, superBase(env), key, ctx.strict);
         }
         JsValue base = memo(st, t.a, env, ctx);
+        if (t.optional && base.isNullOrUndefined()) {
+            throw OptionalShortCircuit.INSTANCE;
+        }
         if (t.flag) {
             return Reference.element(this, base, memo(st, t.b, env, ctx), ctx.strict);
         }
@@ -694,7 +707,20 @@ final class Expressions {
                     old = ref.getValue();
                     save(st, old);
                 }
-                value = applyBinary(op, old, memo(st, n.b, env, ctx));
+                if (op == Op.LOGAND && !Ops.toBoolean(old)) {
+                    return old;
+                }
+                if (op == Op.LOGOR && Ops.toBoolean(old)) {
+                    return old;
+                }
+                if (op == Op.COALESCE && !old.isNullOrUndefined()) {
+                    return old;
+                }
+                if (op == Op.LOGAND || op == Op.LOGOR || op == Op.COALESCE) {
+                    value = memo(st, n.b, env, ctx);
+                } else {
+                    value = applyBinary(op, old, memo(st, n.b, env, ctx));
+                }
             }
             ref.putValue(value);
             return value;
@@ -948,8 +974,7 @@ final class Expressions {
             return evalTail(Ops.toBoolean(eval(n.a, env, ctx)) ? n.b : n.c, env, ctx);
         case NodeType.LOGICAL: {
             JsValue l = eval(n.a, env, ctx);
-            boolean truthy = Ops.toBoolean(l);
-            if (n.op == Op.LOGAND ? !truthy : truthy) {
+            if (n.op == Op.COALESCE ? !l.isNullOrUndefined() : (n.op == Op.LOGAND ? !Ops.toBoolean(l) : Ops.toBoolean(l))) {
                 return l;
             }
             return evalTail(n.b, env, ctx);
@@ -985,6 +1010,9 @@ final class Expressions {
         }
         JsValue[] thisOut = new JsValue[1];
         JsValue func = evalCallee(callee, env, ctx, st, thisOut);
+        if (n.optional && func.isNullOrUndefined()) {
+            throw OptionalShortCircuit.INSTANCE;
+        }
         JsValue[] args = evalArgs(n.list, env, ctx, st);
         if (!(func instanceof JsObject) || !func.isCallable()) {
             throw JsException.typeError(describeNode(callee) + " is not a function");
@@ -1246,13 +1274,42 @@ final class Expressions {
             if (st != null) {
                 st.idx = i;
             }
-            defineProperty(obj, n.list[i], env, ctx, st);
+            Node property = n.list[i];
+            if (property.type == NodeType.SPREAD) {
+                copyDataProperties(obj, eval(property.a, env, ctx));
+            } else {
+                defineProperty(obj, property, env, ctx, st);
+            }
             if (st != null) {
                 st.idx2 = 0;
                 st.o2 = null;
             }
         }
         return obj;
+    }
+
+    /**
+     * Performs CopyDataProperties for an object spread.
+     * <p>
+     * 객체 spread 의 CopyDataProperties 를 수행한다.
+     *
+     * @param target destination object / 대상 객체
+     * @param value  source value / 원본 값
+     */
+    private void copyDataProperties(JsObject target, JsValue value) {
+        if (value.isNullOrUndefined()) {
+            return;
+        }
+        JsObject source = Ops.toObject(realm, value);
+        List<Object> keys = source.ownKeys();
+        // OwnPropertyKeys 순서대로 열거 가능한 문자열과 심볼 프로퍼티만 CreateDataProperty 한다.
+        for (int i = 0; i < keys.size(); i++) {
+            Object key = keys.get(i);
+            PropertyDescriptor desc = source.getOwnProperty(key);
+            if (desc != null && Boolean.TRUE.equals(desc.enumerable)) {
+                target.createDataPropertyOrThrow(key, source.get(key, source));
+            }
+        }
     }
 
     /**

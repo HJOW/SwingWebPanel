@@ -11,13 +11,13 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
-=== P28-03 실행 의미 하위 작업 분해 (2026-11-25) ===
-현재 작업 번호: P28-03-a~f 계획·구현 준비.
-완료한 내용: P28-03 실행 의미를 일반 식·객체, 클래스 요소, async/await, async generator/for-await, dynamic import, 페이지 수명 통합의 여섯 하위 작업으로 나누었다. 각 하위 작업에 입력, 기대 의미, 구현 파일, 완료 조건을 적었다.
-변경 파일: AGENTS.md(P28-03-a~f), 이 문서.
-검증 결과: 문서만 변경했다.
-미해결 사항: P28-03-a 구현 전이다.
-다음 작업 번호: P28-03-a.
+=== P28-03-a 일반 식·객체 실행 의미 (2026-11-25) ===
+현재 작업 번호: P28-03-a 완료.
+완료한 내용: Number 지수 `**`/`**=`, `??`, optional member/call chain, 논리 대입의 단락/단일 참조, object spread의 CopyDataProperties와 object rest의 열거 가능한 문자열·심볼 키 제외/복사를 구현했다. optional chain은 내부 제어 신호로 한 체인 범위에서만 undefined 단축한다.
+변경 파일: AGENTS.md(P28-03-a 완료), engine/src/main/java/.../interp/{Expressions,Patterns,OptionalShortCircuit}.java, engine/src/test/java/.../interp/ModernExpressionTest.java, 이 문서.
+검증 결과: `engine\test.bat --filter ModernExpressionTest` JDK 6u45 6 passed/0 failed/0 skipped.
+미해결 사항: 클래스 실행 의미(P28-03-b), async/await(b 이하), BigInt(P28-04)는 후속.
+다음 작업 번호: P28-03-b.
 -----------------------------------------------------------------------------------------------
 === P28-02 ES2016~ES2022 파서 완료 (2026-11-25) ===
 현재 작업 번호: P28-02 완료(P28-02-a~f).

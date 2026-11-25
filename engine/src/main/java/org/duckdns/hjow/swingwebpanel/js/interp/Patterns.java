@@ -1,7 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.js.interp;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -281,10 +284,30 @@ final class Patterns {
         if (value.isNullOrUndefined()) {
             throw JsException.typeError("Cannot destructure '" + value + "' as it is " + value + ".");
         }
+        Set<Object> excluded = new HashSet<Object>();
         // 각 프로퍼티의 키를 정하고 값을 읽어 대상에 바인딩한다.
         for (int i = 0; i < pattern.list.length; i++) {
             Node p = pattern.list[i];
+            if (p.type == NodeType.REST) {
+                JsObject source = Ops.toObject(realm, value);
+                JsObject rest = realm.newObject();
+                List<Object> keys = source.ownKeys();
+                // 제외하지 않은 열거 가능 자체 프로퍼티만 getter 를 호출해 새 객체에 복사한다.
+                for (int k = 0; k < keys.size(); k++) {
+                    Object key = keys.get(k);
+                    if (excluded.contains(key)) {
+                        continue;
+                    }
+                    PropertyDescriptor desc = source.getOwnProperty(key);
+                    if (desc != null && Boolean.TRUE.equals(desc.enumerable)) {
+                        rest.createDataPropertyOrThrow(key, source.get(key, source));
+                    }
+                }
+                bind(p.a, rest, env, ctx, mode);
+                continue;
+            }
             Object key = p.flag ? Ops.toPropertyKey(in.ex.eval(p.a, env, ctx)) : p.a.name;
+            excluded.add(key);
             JsValue v = in.ex.getV(value, key);
             bindElement(p.b, v, env, ctx, mode);
         }
