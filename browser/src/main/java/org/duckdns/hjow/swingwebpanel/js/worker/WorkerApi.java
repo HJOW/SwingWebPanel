@@ -275,7 +275,8 @@ public final class WorkerApi {
         }
         if (entry == null) {
             entry = new SharedEntry(originText, absolute, name);
-            WorkerScope scope = new WorkerScope(page.getEnvironment(), entry, hub, absolute, name, true, module, credentials);
+            WorkerScope scope = new WorkerScope(page.getEnvironment(), entry, hub, absolute, name, true, module, credentials,
+                    Origin.of(page.getDocument().getOriginUrl()));
             entry.attach(scope);
             if (!registry.addShared(entry)) {
                 throw bridge.domError(new DomException("QuotaExceededError", DomException.QUOTA_EXCEEDED_ERR,
@@ -325,7 +326,8 @@ public final class WorkerApi {
                     + (mine.isOpaque() ? "null" : mine.serialize()) + "'."));
         }
         WorkerHandle handle = new WorkerHandle(this, page, context);
-        WorkerScope scope = new WorkerScope(page.getEnvironment(), handle, hub, absolute, name, false, "module".equals(type), credentials);
+        WorkerScope scope = new WorkerScope(page.getEnvironment(), handle, hub, absolute, name, false, "module".equals(type), credentials,
+                Origin.of(page.getDocument().getOriginUrl()));
         handle.attach(scope);
         synchronized (live) {
             if (closed) {

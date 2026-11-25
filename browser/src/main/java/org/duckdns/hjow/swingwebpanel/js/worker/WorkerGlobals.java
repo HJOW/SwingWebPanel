@@ -15,7 +15,6 @@ import org.duckdns.hjow.swingwebpanel.js.dom.DomBridge;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomInterfaces;
 import org.duckdns.hjow.swingwebpanel.js.dom.EventHandlers;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
-import org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 
@@ -181,7 +180,7 @@ final class WorkerGlobals {
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
                 ScriptUtil.requireArgs(args, 1, "execute 'structuredClone' on 'WorkerGlobalScope'");
                 ClonedValue cloned = Messages.serialize(scope, args[0], Js.arg(args, 1));
-                return StructuredClone.deserialize(r, cloned);
+                return Messages.deserialize(scope, cloned, null);
             }
         });
         installLocation(scope, realm, g);

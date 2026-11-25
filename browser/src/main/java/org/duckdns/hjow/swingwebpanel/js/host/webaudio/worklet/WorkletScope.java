@@ -36,6 +36,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials;
 import org.duckdns.hjow.swingwebpanel.js.host.ModuleSources;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone;
+import org.duckdns.hjow.swingwebpanel.js.host.structured.SharedMemoryScope;
 import org.duckdns.hjow.swingwebpanel.js.worker.ChannelPorts;
 import org.duckdns.hjow.swingwebpanel.js.worker.PortTarget;
 import org.duckdns.hjow.swingwebpanel.js.worker.ScriptContext;
@@ -1109,6 +1110,7 @@ public final class WorkletScope {
             return;
         }
         final JsRealm r = JsRealm.create();
+        SharedMemoryScope.bind(r, host.getPage().getEnvironment().getSharedMemoryCluster(), Origin.of(host.getPage().getDocument().getOriginUrl()));
         r.setDynamicImportEnabled(false);
         r.setAtomicsWaitAllowed(false);
         r.setExternalJobExecutor(new Executor() {
@@ -1286,7 +1288,7 @@ public final class WorkletScope {
             limits.beginTask();
             try {
                 pendingPort = port;
-                JsValue optionsValue = StructuredClone.deserialize(r, options);
+                JsValue optionsValue = StructuredClone.deserializeForMessaging(r, options, null, null);
                 JsObject instance = reg.constructor.construct(new JsValue[] {optionsValue}, reg.constructor);
                 if (!(instance instanceof ProcessorObject)) {
                     throw new WorkletProcessorException("The constructor of the processor '" + name + "' did not create an AudioWorkletProcessor.", "", 0, 0);

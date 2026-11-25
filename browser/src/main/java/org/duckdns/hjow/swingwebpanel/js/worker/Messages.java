@@ -5,6 +5,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.dom.DomException;
 import org.duckdns.hjow.swingwebpanel.dom.MessageEvent;
+import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
@@ -105,7 +106,7 @@ final class Messages {
      */
     static ClonedValue serializeWith(ScriptContext ctx, JsValue message, List<JsObject> transfer) {
         try {
-            return StructuredClone.serialize(ctx.getRealm(), message, StructuredClone.DEFAULT_MAX_BYTES, transfer, new PortTransfer(ctx));
+            return StructuredClone.serializeForMessaging(ctx.getRealm(), message, StructuredClone.DEFAULT_MAX_BYTES, transfer, new PortTransfer(ctx));
         } catch (StructuredCloneException e) {
             throw cloneError(ctx, e.getMessage());
         }
@@ -138,25 +139,35 @@ final class Messages {
      * @return the value / 값
      */
     static JsValue deserialize(ScriptContext ctx, ClonedValue data, List<JsObject> ports) {
-        return StructuredClone.deserialize(ctx.getRealm(), data, new PortTransfer(ctx), ports);
+        return StructuredClone.deserializeForMessaging(ctx.getRealm(), data, new PortTransfer(ctx), ports);
     }
 
     /**
-     * Fills the <code>message</code> event of a received message: the data, the origin, the source and the ports that came with the message
-     * (call it inside a task of the receiving context).
+     * Creates a message event or a messageerror when the receiving realm cannot reconstitute its data.
+     * Call this inside a task of the receiving context.
      * <p>
-     * 받은 메시지의 <code>message</code> 이벤트를 채운다: 데이터, 오리진, 소스, 메시지와 함께 온 포트(받는 문맥의 작업 안에서 부른다).
+     * message 이벤트를 만들거나 수신 realm이 데이터를 복원할 수 없으면 messageerror를 만든다.
+     * 수신 문맥의 작업 안에서 호출한다.
      *
      * @param ctx    the receiving context / 받는 문맥
-     * @param event  the event / 이벤트
      * @param data   the serialized message / 직렬화된 메시지
      * @param origin the origin of the sender, empty if there is none / 보낸 쪽의 오리진. 없으면 빈 문자열
      * @param source the source object of the event, or null / 이벤트의 소스 객체. 없으면 null
+     * @return the event for the receiver / 수신자에게 전달할 이벤트
      */
-    static void fill(ScriptContext ctx, MessageEvent event, ClonedValue data, String origin, Object source) {
+    static MessageEvent event(ScriptContext ctx, ClonedValue data, String origin, Object source) {
         List<JsObject> ports = new ArrayList<JsObject>();
-        JsValue value = deserialize(ctx, data, ports);
-        event.setContent(value, origin, "", source, ports);
+        try {
+            JsValue value = deserialize(ctx, data, ports);
+            MessageEvent event = new MessageEvent("message", false, false);
+            event.setContent(value, origin, "", source, ports);
+            return event;
+        } catch (StructuredCloneException e) {
+            // 역직렬화를 거부한 메시지의 데이터와 전달 포트는 수신자에 노출하지 않는다.
+            MessageEvent event = new MessageEvent("messageerror", false, false);
+            event.setContent(Js.NULL, origin, "", source, null);
+            return event;
+        }
     }
 
     /**
@@ -170,8 +181,6 @@ final class Messages {
      * @return the event / 이벤트
      */
     static MessageEvent event(ScriptContext ctx, ClonedValue data, String origin) {
-        MessageEvent event = new MessageEvent("message", false, false);
-        fill(ctx, event, data, origin, null);
-        return event;
+        return event(ctx, data, origin, null);
     }
 }

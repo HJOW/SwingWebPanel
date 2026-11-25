@@ -49,6 +49,9 @@ public final class BrowserSession implements FormSubmitSink {
      */
     private final Object lock = new Object();
 
+    /** Shared-memory cluster token for this component. / 이 컴포넌트의 공유 메모리 클러스터 토큰. */
+    private final Object sharedMemoryCluster = new Object();
+
     /**
      * Strategy that loads pages.
      * <p>
@@ -360,6 +363,17 @@ public final class BrowserSession implements FormSubmitSink {
      */
     public SessionStorage getSessionStorageStore() {
         return sessionStorage;
+    }
+
+    /**
+     * Returns the cluster token shared by this component's documents and workers.
+     * <p>
+     * 이 컴포넌트의 문서와 Worker가 공유하는 클러스터 토큰을 반환한다.
+     *
+     * @return the standalone identity token / 독립 식별 토큰
+     */
+    Object sharedMemoryCluster() {
+        return sharedMemoryCluster;
     }
 
     /**

@@ -49,6 +49,8 @@ import org.duckdns.hjow.swingwebpanel.js.dom.DomInterfaces;
 import org.duckdns.hjow.swingwebpanel.js.dom.HandlerListener;
 import org.duckdns.hjow.swingwebpanel.js.dom.HostObject;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
+import org.duckdns.hjow.swingwebpanel.js.host.structured.SharedMemoryScope;
+import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 
 /**
@@ -483,6 +485,7 @@ public final class PageScripts {
         this.document = document;
         this.env = env;
         this.realm = JsRealm.create(WindowProxy.forContext(env.getBrowsingContext()));
+        SharedMemoryScope.bind(realm, env.getSharedMemoryCluster(), Origin.of(document.getOriginUrl()));
         realm.setAtomicsWaitAllowed(false);
         installExternalJobExecutor(env.getScheduler());
         synchronized (BY_REALM) {

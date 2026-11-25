@@ -350,4 +350,44 @@ public class FrameWindowTest {
             server.stop();
         }
     }
+
+    /**
+     * A shared buffer is received by a same-origin frame, while a different origin receives messageerror.
+     * <p>
+     * 같은 오리진 프레임은 공유 버퍼를 받고 다른 오리진은 messageerror를 받는다.
+     *
+     * @throws Exception on test infrastructure failure / 시험 환경이 실패하면
+     */
+    public void testSharedMemoryMessageAcrossFrameOrigins() throws Exception {
+        TestHttpServer outer = new TestHttpServer();
+        TestHttpServer cross = new TestHttpServer();
+        SwingWebPanel panel = FrameTestSupport.newPanel(400, 300);
+        try {
+            cross.routeFixed("/cross", TestHttpServer.Response.html(
+                    "<!doctype html><script>onmessageerror=e=>parent.postMessage(['denied',e.type,e.data===null,e.origin,e.ports.length],'*');"
+                    + "onmessage=e=>parent.postMessage(['crossPlain',typeof e.data==='string'?e.data:'unexpected shared buffer'],'*');"
+                    + "onload=()=>parent.postMessage(['crossReady'],'*');</script>"));
+            cross.start();
+            String inner = "<script>onmessage=e=>{const v=new Int32Array(e.data);"
+                    + "Atomics.store(v,0,7);parent.postMessage(['sameDone',e.data instanceof SharedArrayBuffer],'*');};"
+                    + "onload=()=>parent.postMessage(['sameReady'],'*');</script>";
+            serve(panel, outer, "<!doctype html><script>const b=new SharedArrayBuffer(4), v=new Int32Array(b);"
+                    + "onmessage=e=>{const d=e.data;"
+                    + "if(d[0]==='sameReady')e.source.postMessage(b,'*');"
+                    + "else if(d[0]==='crossReady'){e.source.postMessage({nested:b},'*');e.source.postMessage('alive','*');}"
+                    + "else if(d[0]==='sameDone')sessionStorage.setItem('sameDone',[d[1],v[0]].join('|'));"
+                    + "else if(d[0]==='denied')sessionStorage.setItem('denied',d.slice(1).join('|'));"
+                    + "else if(d[0]==='crossPlain')sessionStorage.setItem('crossPlain',d[1]);};</script>"
+                    + "<iframe srcdoc=\"" + attr(inner) + "\"></iframe>"
+                    + "<iframe src=\"" + cross.url("/cross") + "\"></iframe>");
+            FrameTestSupport.awaitStored(panel, "sameDone", "true|7");
+            String origin = outer.url("/page");
+            FrameTestSupport.awaitStored(panel, "denied", "messageerror|true|" + origin.substring(0, origin.length() - 5) + "|0");
+            FrameTestSupport.awaitStored(panel, "crossPlain", "alive");
+        } finally {
+            panel.dispose();
+            cross.stop();
+            outer.stop();
+        }
+    }
 }

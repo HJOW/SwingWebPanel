@@ -109,17 +109,17 @@ public final class PortApi {
     }
 
     /**
-     * Fills the <code>message</code> event that a window receives: data, origin, source and the ports that came with the message.
+     * Creates the message or messageerror event that a window receives after deserialization.
      * <p>
-     * window 가 받는 <code>message</code> 이벤트를 채운다: 데이터, 오리진, 소스, 메시지와 함께 온 포트.
+     * 역직렬화 뒤 window가 받는 message 또는 messageerror 이벤트를 만든다.
      *
-     * @param event  the event / 이벤트
      * @param data   the serialized message / 직렬화된 메시지
      * @param origin the origin of the sender / 보낸 쪽의 오리진
      * @param source the source object of the event / 이벤트의 소스 객체
+     * @return the event to dispatch / 전달할 이벤트
      */
-    public void fillEvent(MessageEvent event, ClonedValue data, String origin, Object source) {
-        Messages.fill(context, event, data, origin, source);
+    public MessageEvent receiveEvent(ClonedValue data, String origin, Object source) {
+        return Messages.event(context, data, origin, source);
     }
 
     /**

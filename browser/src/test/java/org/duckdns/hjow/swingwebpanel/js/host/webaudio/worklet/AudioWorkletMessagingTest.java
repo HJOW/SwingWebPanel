@@ -89,6 +89,33 @@ public class AudioWorkletMessagingTest {
     }
 
     /**
+     * Checks shared processor options and the reply from the processor's MessagePort.
+     * <p>
+     * 프로세서의 공유 옵션과 MessagePort로 받은 응답을 확인한다.
+     */
+    public void testSharedMemoryInOptionsAndPort() {
+        WorkletPage p = new WorkletPage();
+        try {
+            p.module("shared.js", "class SharedProcessor extends AudioWorkletProcessor {"
+                    + "constructor(options){super(options);const b=options.processorOptions.buffer;const a=new Int32Array(b);"
+                    + "Atomics.add(a,0,3);this.port.postMessage(b);}process(){return true;} }"
+                    + "registerProcessor('shared',SharedProcessor);");
+            p.run("var ctx=new OfflineAudioContext(1,128,8000), buffer=new SharedArrayBuffer(4),"
+                    + "view=new Int32Array(buffer), result=null, ready=false;view[0]=4;"
+                    + "ctx.audioWorklet.addModule('shared.js').then(()=>{"
+                    + "const node=new AudioWorkletNode(ctx,'shared',{processorOptions:{buffer}});"
+                    + "node.port.onmessage=e=>result=[e.data!==buffer,e.data instanceof SharedArrayBuffer,"
+                    + "new Int32Array(e.data)[0],view[0]].join('|');node.connect(ctx.destination);ready=true;});");
+            p.waitFor("ready", 20000, "the node with shared options");
+            render(p);
+            p.waitFor("result!==null", 20000, "the shared reply");
+            Check.equal("true|true|7|7", p.run("result"), "processor options and replies keep the underlying shared bytes");
+        } finally {
+            p.fixture.scripts.dispose();
+        }
+    }
+
+    /**
      * Messages go both ways: a message is answered by the processor, with the value that it got, and the answer reaches the page as an object that the page can use.
      * <p>
      * 메시지는 양방향으로 간다: 프로세서가 메시지에 답하고, 받은 값과 함께 온 답이 페이지가 쓸 수 있는 객체로 페이지에 닿는다.

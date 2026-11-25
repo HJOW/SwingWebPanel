@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-05-e2 브라우저 메시징 공유 메모리 연결 (2026-11-26) ===
+현재 작업 번호: P29-05-e2 완료.
+완료한 내용: 컴포넌트별 클러스터 토큰과 문서의 유효 오리진을 Window, Worker와 AudioWorklet에 지정했다. Window, Worker, MessagePort, BroadcastChannel과 AudioWorklet 옵션·포트에서 같은 범위의 버퍼가 원본 바이트를 공유하고, 수신 범위가 다르면 messageerror가 발생한다.
+변경 파일: BrowserSession.java, PageRuntime.java, HostEnvironment.java, PageScripts.java, MessagingApi.java, EventHandlers.java, ClonedValue.java, WorkerApi.java, WorkerScope.java, WorkerGlobals.java, Messages.java, PortApi.java, WorkletApi.java, WorkletScope.java, FrameWindowTest.java, WorkerSharedMemoryTest.java, AudioWorkletMessagingTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl browser -am test -Dtest.filter=SharedMemory에서 JDK 6u45 엔진 7건과 브라우저 7건 통과. sourcecheck 0 위반.
+미해결 사항: Web IDL에서 공유 버퍼·가변 버퍼를 받는 API의 바이트 경계(P29-05-e3). 에이전트 클러스터는 컴포넌트와 유효 오리진으로 결정하며 COOP/COEP 헤더의 crossOriginIsolated는 브라우저 정책 목표 P29-10에서 확인한다.
+다음 작업 번호: P29-05-e3-a.
+-----------------------------------------------------------------------------------------------
 === P29-05-e1 공유 메모리 구조화 복제 (2026-11-26) ===
 현재 작업 번호: P29-05-e1 완료.
 완료한 내용: 메시징용 복제가 공유 저장소 참조를 유지하며, 같은 에이전트 클러스터와 오리진의 수신 realm에서만 새로운 래퍼·길이 추적 뷰를 만드는 경로를 마련했다. 일반 복제와 전달 목록에서는 SharedArrayBuffer를 거부한다.
@@ -722,6 +730,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-05-e2 브라우저에서 공유 버퍼 왕복
+
+로컬 HTTP 페이지와 Worker가 공유 바이트를 갱신하고 양쪽에서 Atomics 대기를 깨웠다. 포트와 브로드캐스트, AudioWorklet 옵션, 같은 오리진 프레임이 같은 저장소를 사용하고, 다른 포트의 프레임은 데이터를 받는 대신 messageerror를 받는 것을 확인했다. Worker 종료는 공유 블록을 유지하는 페이지가 있을 때도 해당 Worker의 대기를 지웠다.
 
 ### 2026-11-26 · P29-05-e1 공유 바이트를 유지하는 구조화 복제
 

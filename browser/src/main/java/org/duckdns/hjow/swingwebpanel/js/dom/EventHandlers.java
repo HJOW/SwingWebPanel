@@ -41,7 +41,7 @@ public final class EventHandlers {
      * <p>
      * 창에만(그리고 이를 전달하는 body 요소에) 핸들러 속성이 있는 이벤트의 이름.
      */
-    public static final String[] WINDOW_EVENTS = { "afterprint", "beforeprint", "beforeunload", "hashchange", "languagechange", "message",
+    public static final String[] WINDOW_EVENTS = { "afterprint", "beforeprint", "beforeunload", "hashchange", "languagechange", "message", "messageerror",
         "offline", "online", "pagehide", "pageshow", "popstate", "storage", "unload" };
 
     /**

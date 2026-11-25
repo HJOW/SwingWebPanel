@@ -43,6 +43,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.Scheduler;
 import org.duckdns.hjow.swingwebpanel.js.host.ScriptSource;
 import org.duckdns.hjow.swingwebpanel.js.host.ScriptText;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
+import org.duckdns.hjow.swingwebpanel.js.host.structured.SharedMemoryScope;
 import org.duckdns.hjow.swingwebpanel.js.host.web.WebApis;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
 
@@ -118,6 +119,9 @@ final class WorkerScope implements ScriptContext {
      * 페이지와 그 worker 의 브로드캐스트 채널 허브.
      */
     private final BroadcastHub hub;
+
+    /** Effective origin of the creating document. / 생성한 문서의 유효 오리진. */
+    private final Origin ownerOrigin;
 
     /**
      * The absolute URL of the worker script (the <code>location</code> of the worker).
@@ -339,12 +343,14 @@ final class WorkerScope implements ScriptContext {
      * @param shared    true for a shared worker / 공유 worker 이면 true
      * @param module true to use a module entry / 모듈을 진입점으로 사용하면 true
      * @param credentials the requested credentials mode / 요청한 자격 증명 모드
+     * @param ownerOrigin the effective origin of the owner / 소유 문서의 유효 오리진
      */
     WorkerScope(HostEnvironment env, WorkerParent parent, BroadcastHub hub, String scriptUrl, String name, boolean shared, boolean module,
-            Credentials credentials) {
+            Credentials credentials, Origin ownerOrigin) {
         this.env = env;
         this.parent = parent;
         this.hub = hub;
+        this.ownerOrigin = ownerOrigin;
         this.scriptUrl = scriptUrl;
         this.name = name;
         this.shared = shared;
@@ -512,6 +518,9 @@ final class WorkerScope implements ScriptContext {
     private void buildRealm() {
         JsRealm r = JsRealm.create();
         realm = r;
+        Origin scriptOrigin = Origin.of(scriptUrl);
+        // 불투명 문서나 다른 오리진에서 로드한 스크립트는 기존 클러스터의 공유 버퍼를 받지 못한다.
+        SharedMemoryScope.bind(r, env.getSharedMemoryCluster(), scriptOrigin.isSameOrigin(ownerOrigin) ? ownerOrigin : Origin.opaque());
         r.setAtomicsWaitAllowed(true);
         r.setExternalJobExecutor(new Executor() {
             public void execute(Runnable job) {

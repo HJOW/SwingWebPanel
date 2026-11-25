@@ -820,8 +820,10 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-05-d2. `PageScripts`, `WorkerScope`, `WorkletScope`에 차단 허용 설정과 비동기 결과를 호스트 작업에 올리는 경로를 연결한다. 페이지와 AudioWorklet은 차단을 거부하고 Worker는 차단할 수 있으며, 새 스크립트 실행 없이도 타임아웃 결과가 전달되는지 검증한다.
   - [ ] P29-05-e. 브라우저의 동일 에이전트 클러스터 구조화 복제를 연결한다. Worker와 원본 뷰가 공유 바이트를 관찰하는 사례, 다른 오리진/클러스터의 거부와 전송 목록 검사, 종료 시 대기 해제를 통합 검증한다.
     - [x] P29-05-e1. `StructuredClone`, `ClonedValue`, `SharedBufferReference`를 연결한다. 같은 클러스터·오리진의 래퍼와 길이 추적 뷰만 복원하고, 다른 오리진·클러스터 및 일반 저장용 직렬화와 transfer 항목은 거부하는 것을 검증한다.
-    - [ ] P29-05-e2. Window, Worker, MessagePort, BroadcastChannel, AudioWorklet의 메시징에 클러스터 키와 역직렬화 실패 처리를 연결한다. 로컬 HTTP로 공유 바이트 왕복, Worker 대기 해제·폐기, 다른 오리진에서의 `messageerror`를 검증한다.
+    - [x] P29-05-e2. Window, Worker, MessagePort, BroadcastChannel, AudioWorklet의 메시징에 클러스터 키와 역직렬화 실패 처리를 연결한다. 로컬 HTTP로 공유 바이트 왕복, Worker 대기 해제·폐기, 다른 오리진에서의 `messageerror`를 검증한다.
     - [ ] P29-05-e3. 공유 뷰를 받는 Web IDL 바이트 경계를 확인한다. `[AllowShared]` 대상인 텍스트 변환과 공유를 거부하는 Blob·요청 바디 처리를 검증한다.
+      - [ ] P29-05-e3-a. `TypedArrays`, `EncodingApi`, `BlobApi`, `BodyApi`, `XhrApi` 및 `LegacyWebApi`에서 공유 여부와 크기 변경 가능 여부를 각 IDL 타입에 맞게 판정한다. 텍스트 변환의 공유 바이트 읽기·쓰기, Blob·요청 바디의 공유 뷰 거부와 합집합 문자열 변환, Crypto 입력 경계를 검증한다.
+      - [ ] P29-05-e3-b. `js.host.webaudio`와 `js.host.canvas`의 실시간 바이트 접근에서 IDL 경계를 적용한다. 입력 검증이 공유 버퍼의 사본에 쓰거나 공유 버퍼를 분리하기 전에 실행되는지 관련 회귀 시험으로 검증한다.
 - [ ] P29-06. ES2023~ES2026 컬렉션·약한 참조·이터레이터 헬퍼(`Iterator`, `Set`, `Map`/`WeakMap`, Weak Symbol 키)를 구현한다.
   - 약한 참조의 Symbol 키 허용(ES2023, `9.13 CanBeHeldWeakly`): `Symbol.for`로 등록되지 않은 모든 Symbol(`KeyForSymbol(sym) === undefined`, well-known symbol 포함)을 `WeakMap`, `WeakSet`, `WeakRef`, `FinalizationRegistry`(대상 및 unregisterToken)에서 허용하고 등록 심볼은 `TypeError`로 거부한다.
   - 데이터 그룹화(ES2024): `Object.groupBy(items, callback)`(null 프로토타입 객체, 프로퍼티 키 강제 변환)과 `Map.groupBy(items, callback)`(`CanonicalizeKeyedCollectionKey` 적용)을 구현한다.

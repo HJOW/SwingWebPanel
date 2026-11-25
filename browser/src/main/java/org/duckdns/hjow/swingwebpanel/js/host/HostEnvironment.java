@@ -21,12 +21,26 @@ import org.duckdns.hjow.swingwebpanel.storage.SessionStorage;
  */
 public abstract class HostEnvironment {
 
+    /** Shared memory cluster for a standalone host environment. / 독립 호스트 환경의 공유 메모리 클러스터. */
+    private final Object sharedMemoryCluster = new Object();
+
     /**
      * Creates the environment.
      * <p>
      * 환경을 만든다.
      */
     protected HostEnvironment() {
+    }
+
+    /**
+     * Returns the stable cluster token for the component that owns this environment.
+     * <p>
+     * 이 환경을 소유한 컴포넌트의 고정 클러스터 토큰을 반환한다.
+     *
+     * @return standalone identity token / 독립 식별 토큰
+     */
+    public Object getSharedMemoryCluster() {
+        return sharedMemoryCluster;
     }
 
     /**

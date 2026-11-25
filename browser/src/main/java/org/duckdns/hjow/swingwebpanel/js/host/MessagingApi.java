@@ -395,8 +395,7 @@ public final class MessagingApi {
                      * 이벤트를 만들어 window 에 전달한다.
                      */
                     public void run() {
-                        MessageEvent event = new MessageEvent("message", false, false);
-                        ports.fillEvent(event, cloned, origin, source);
+                        MessageEvent event = ports.receiveEvent(cloned, origin, source);
                         try {
                             page.getWindow().dispatchTrustedEvent(event);
                         } catch (DomException e) {

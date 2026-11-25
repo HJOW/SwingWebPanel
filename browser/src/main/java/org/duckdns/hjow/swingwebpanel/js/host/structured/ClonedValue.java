@@ -3,12 +3,12 @@ package org.duckdns.hjow.swingwebpanel.js.host.structured;
 /**
  * The serialized form of a script value made by {@link StructuredClone#serialize}: an immutable tree of Java data that belongs to no
  * realm. Primitive values are stored as Java values, objects as numbered cells (so cycles and shared references need no Java object
- * cycles). It can be kept for any time (a history entry, a queued message) and be turned into a fresh value of any realm, any number of
- * times, with {@link StructuredClone#deserialize}.
+ * cycles). Ordinary data can be stored for later deserialization. A shared buffer cell holds a reference to shared storage
+ * and requires a compatible receiving scope.
  * <p>
  * {@link StructuredClone#serialize} 가 만든 스크립트 값의 직렬화된 형태: 어떤 realm 에도 속하지 않는 Java 데이터의 불변 트리. 원시 값은 Java 값으로,
- * 객체는 번호가 붙은 칸으로 저장하므로(순환과 공유 참조가 Java 객체 순환을 만들지 않는다) 얼마든지 오래(이력 항목, 대기 중인 메시지) 보관할 수 있고
- * {@link StructuredClone#deserialize} 로 어느 realm 의 새 값으로든 몇 번이고 바꿀 수 있다.
+ * 객체는 번호가 붙은 칸으로 저장한다. 일반 데이터는 나중에 역직렬화할 수 있다.
+ * 공유 버퍼 칸은 공유 저장소 참조를 간직하며 호환되는 수신 범위에서만 복원할 수 있다.
  */
 public final class ClonedValue {
 

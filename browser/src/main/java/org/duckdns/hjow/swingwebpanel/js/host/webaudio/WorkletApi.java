@@ -967,7 +967,7 @@ final class WorkletApi implements WorkletHost {
         }
         ClonedValue serialized;
         try {
-            serialized = StructuredClone.serialize(realm, optionsObject);
+            serialized = StructuredClone.serializeForMessaging(realm, optionsObject, StructuredClone.DEFAULT_MAX_BYTES, null, null);
         } catch (StructuredCloneException e) {
             throw api.domError("DataCloneError", e.getMessage());
         }

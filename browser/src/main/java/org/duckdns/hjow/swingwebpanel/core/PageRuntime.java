@@ -921,6 +921,18 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
     }
 
     /**
+     * Returns the cluster token for this component's documents and workers.
+     * <p>
+     * 이 컴포넌트의 문서와 Worker에 부여된 클러스터 토큰을 반환한다.
+     *
+     * @return stable cluster token / 고정 클러스터 토큰
+     */
+    @Override
+    public Object getSharedMemoryCluster() {
+        return session.sharedMemoryCluster();
+    }
+
+    /**
      * Tells the script host whether the page still has resources (stylesheets, images) that it started and that the window
      * <code>load</code> event waits for.
      * <p>
