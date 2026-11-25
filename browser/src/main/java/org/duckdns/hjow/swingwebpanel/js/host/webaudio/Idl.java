@@ -319,9 +319,9 @@ final class Idl {
     }
 
     /**
-     * Requires a typed array of an element type (a <code>Float32Array</code> argument is such a thing, a plain array is not) whose buffer is not detached.
+     * Requires the named typed array backed by fixed, attached, non-shared storage.
      * <p>
-     * 요소 형식이 정해진 형식화 배열을 요구한다(<code>Float32Array</code> 인수가 그런 것이며 일반 배열은 아니다). 버퍼는 분리되지 않은 것이어야 한다.
+     * 이름이 지정된 형식화 배열을 요구한다. 기반 저장소는 분리되지 않은 고정 길이 비공유 버퍼여야 한다.
      *
      * @param v    the value / 값
      * @param type the element type / 요소 형식
@@ -333,6 +333,9 @@ final class Idl {
             throw JsException.typeError(what + " is not of type '" + type.getConstructorName() + "'.");
         }
         TypedArrayObject t = (TypedArrayObject) v;
+        if (t.getBuffer().isShared() || t.getBuffer().isResizable()) {
+            throw JsException.typeError(what + " must have fixed, non-shared storage.");
+        }
         if (t.getBuffer().isDetached()) {
             throw JsException.typeError(what + " is detached.");
         }

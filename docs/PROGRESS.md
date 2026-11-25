@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-05-e3-b Canvas·Web Audio 공유 경계와 공유 메모리 완료 (2026-11-26) ===
+현재 작업 번호: P29-05 완료.
+완료한 내용: Canvas ImageData 및 Web Audio의 복사·분석·디코딩에서 공유·가변 저장소가 잘못 들어오는 경우를 각 IDL 타입에 맞게 거부한다. 공유 버퍼와 Atomics, 브라우저에서의 정책과 대기 종료까지 하위 시험을 완료했다.
+변경 파일: CanvasBindings.java, Web Audio Idl.java, ContextApi.java, CanvasPixelsTest.java, WebAudioInterfaceTest.java, DecodeAudioDataTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl browser -am test -Dtest.filter=SharedMemory에서 JDK 6u45 엔진 7건과 브라우저 12건 통과. 같은 JRE의 TestRunner CanvasPixelsTest·DecodeAudioDataTest·WebAudioInterfaceTest 26건 통과. WorkerLifecycleTest 12건 단독 재실행이 통과했으며 이전 광범위 Worker 실행의 60초 초과는 기록으로 남겼다. sourcecheck 0 위반.
+미해결 사항: COOP/COEP 기반 호스트 정책 대조, 기존 Worker·오디오의 전체 회귀 재검증은 P29-10. 다음은 컬렉션에 대한 P29-06.
+다음 작업 번호: P29-06-a.
+-----------------------------------------------------------------------------------------------
 === P29-05-e3-a 공유 가능한 Web IDL 바이트 입력 (2026-11-26) ===
 현재 작업 번호: P29-05-e3-a 완료.
 완료한 내용: TextEncoder의 공유 Uint8Array 쓰기와 TextDecoder의 공유 버퍼·뷰 읽기를 추가했다. Encode/Decode의 IDL에는 AllowResizable이 없어 성장·가변 버퍼를 거부한다. Blob과 Fetch/XHR 바디의 합집합에서 공유 뷰는 TypeError이고 공유 버퍼 객체는 문자열 항목으로 변환된다. Crypto는 고정·비공유 뷰를 검증한다.
@@ -738,6 +746,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-05-e3-b Canvas와 Web Audio의 저장소 검증
+
+Canvas의 공유·가변 입력과 길이 0, Web Audio에서 공유·가변 데이터의 복사·분석·디코딩 거부를 확인했다. 기존 오디오 디코딩 및 Canvas 픽셀 시험도 JDK 6에서 재실행했다.
+
+`tools/webfetch/run.bat`로 JRE 25에서 2026-11-26에 조회한 [HTML Living Standard의 ImageData](https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagedata) 2026-11-25 수정본과 [Web Audio API 편집자 초안](https://webaudio.github.io/web-audio-api/) 2026-11-17 수정본의 IDL을 사용했다.
 
 ### 2026-11-26 · P29-05-e3-a Encoding과 웹 바디의 공유 입력
 

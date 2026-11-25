@@ -49,6 +49,22 @@ public class WebAudioInterfaceTest {
     }
 
     /**
+     * Checks that Web Audio typed-array input and output reject shared or resizable backing.
+     * <p>
+     * Web Audio의 형식화 배열 입력과 출력이 공유 또는 가변 저장소를 거부하는지 확인한다.
+     */
+    public void testSharedMemoryAudioArrayBoundary() {
+        String script = "function fail(f){try{f();return 'missing';}catch(e){return e.name;}}"
+                + "var ctx=new OfflineAudioContext(1,128,8000), buf=ctx.createBuffer(1,8,8000), analyser=ctx.createAnalyser();"
+                + "var shared=new SharedArrayBuffer(32), floats=new Float32Array(shared), bytes=new Uint8Array(shared);"
+                + "var rab=new Float32Array(new ArrayBuffer(32,{maxByteLength:64}));floats[0]=3;"
+                + "[fail(()=>buf.copyFromChannel(floats,0)),fail(()=>buf.copyToChannel(floats,0)),"
+                + "fail(()=>analyser.getByteTimeDomainData(bytes)),fail(()=>buf.copyToChannel(rab,0)),floats[0],buf.getChannelData(0)[0]].join('|')";
+        Check.equal("TypeError|TypeError|TypeError|TypeError|3|0", page.run(script),
+                "Web Audio typed array methods fail before changing either storage block");
+    }
+
+    /**
      * The own property names of an interface prototype, sorted, as the specification lists them: no member is missing and none is extra.
      * <p>
      * 인터페이스 프로토타입의 자체 프로퍼티 이름(정렬). 규격이 나열한 대로이며 빠진 멤버도 남는 멤버도 없다.

@@ -762,8 +762,8 @@ final class ContextApi {
     private JsValue decodeAudioData(JsValue self, JsValue[] args) {
         final ContextValue c = contextOf(self);
         Idl.requireArgs(args, 1, "decodeAudioData", "BaseAudioContext");
-        if (!TypedArrays.isArrayBuffer(args[0])) {
-            throw JsException.typeError("Failed to execute 'decodeAudioData' on 'BaseAudioContext': parameter 1 is not of type 'ArrayBuffer'.");
+        if (!TypedArrays.isArrayBuffer(args[0]) || ((ArrayBufferObject) args[0]).isResizable()) {
+            throw JsException.typeError("Failed to execute 'decodeAudioData' on 'BaseAudioContext': parameter 1 must be a fixed-length ArrayBuffer.");
         }
         final JsValue success = callback(args, 1, "success callback");
         final JsValue failure = callback(args, 2, "error callback");

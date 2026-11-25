@@ -122,6 +122,19 @@ public class DecodeAudioDataTest {
     }
 
     /**
+     * The promise rejects invalid shared and resizable decode inputs before touching their data.
+     * <p>
+     * 공유 버퍼와 가변 버퍼를 디코딩 입력으로 받으면 데이터를 다루기 전에 Promise를 거부한다.
+     */
+    public void testSharedMemoryDecodeBoundary() {
+        page.run("var ctx=new OfflineAudioContext(1,128,8000), s=new SharedArrayBuffer(4), r=new ArrayBuffer(4,{maxByteLength:8}), errs=[];"
+                + "ctx.decodeAudioData(s).catch(e=>errs.push(e.name));ctx.decodeAudioData(r).catch(e=>errs.push(e.name));");
+        page.waitFor("errs.length===2", 10000, "both IDL buffer conversions reject");
+        Check.equal("TypeError|TypeError|4|4|false", page.run("[errs[0],errs[1],s.byteLength,r.byteLength,r.detached].join('|')"),
+                "neither failed conversion detached the caller's buffer");
+    }
+
+    /**
      * The decoded buffer is converted to the sample rate of the context: a file of 8000 Hz decoded in a context of 16000 Hz has twice the frames, and the content is the same
      * signal (a slow ramp stays a ramp, to the precision of the resampler).
      * <p>

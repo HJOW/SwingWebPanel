@@ -915,9 +915,13 @@ public final class CanvasBindings implements CanvasSource {
                 throw JsException.typeError("Failed to construct 'ImageData': parameter 1 is not of type 'Uint8ClampedArray'.");
             }
             TypedArrayObject array = (TypedArrayObject) args[0];
+            // ImageDataArray의 IDL 변환은 공유 및 가변 저장소를 허용하지 않는다.
+            if (array.getBuffer().isShared() || array.getBuffer().isResizable()) {
+                throw JsException.typeError("Failed to construct 'ImageData': the data must have fixed, non-shared storage.");
+            }
             int length = array.getByteLength();
-            if (length % 4 != 0) {
-                throw DomException.invalidState("The input data length is not a multiple of 4.");
+            if (length == 0 || length % 4 != 0) {
+                throw DomException.invalidState("The input data length must be a nonzero multiple of 4.");
             }
             long sw = Ops.toUint32(args[1]);
             int pixels = length / 4;

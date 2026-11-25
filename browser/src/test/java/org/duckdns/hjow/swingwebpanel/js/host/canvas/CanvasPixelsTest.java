@@ -187,6 +187,20 @@ public class CanvasPixelsTest {
     }
 
     /**
+     * Shared and resizable pixel arrays are rejected before Canvas creates a live ImageData wrapper.
+     * <p>
+     * Canvas가 ImageData 래퍼를 만들기 전에 공유 및 가변 픽셀 배열을 거부한다.
+     */
+    public void testSharedMemoryImageDataBoundary() {
+        PageFixture f = page(2, 2);
+        String script = "function fail(f){try{f();return 'missing';}catch(e){return e.name;}}"
+                + "var s=new Uint8ClampedArray(new SharedArrayBuffer(4)), r=new Uint8ClampedArray(new ArrayBuffer(4,{maxByteLength:8}));"
+                + "var old=new ArrayBuffer(4), detached=new Uint8ClampedArray(old);old.transfer();s[0]=42;"
+                + "[fail(()=>new ImageData(s,1)),fail(()=>new ImageData(r,1)),fail(()=>new ImageData(detached,1)),s[0]].join('|')";
+        Check.equal("TypeError|TypeError|InvalidStateError|42", js(f, script), "pixel data uses an eligible fixed backing buffer");
+    }
+
+    /**
      * <code>getImageData</code> reads the pixels (also outside the canvas and with negative sizes) and <code>putImageData</code> writes them
      * without matrix, clip, alpha, shadow or operator, with dirty rectangles.
      * <p>
