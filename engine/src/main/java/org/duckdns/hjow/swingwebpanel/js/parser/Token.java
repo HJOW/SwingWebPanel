@@ -187,6 +187,8 @@ public final class Token {
             return "number " + raw;
         case BIGINT:
             return "bigint " + raw;
+        case PRIVATE_NAME:
+            return "private name " + raw;
         case TEMPLATE:
             return "template";
         case REGEXP:

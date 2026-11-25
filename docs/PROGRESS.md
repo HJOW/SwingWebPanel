@@ -12,12 +12,12 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 
 ```text
 === P28-02 파서 하위 작업 분해 (2026-11-25) ===
-현재 작업 번호: P28-02-d 완료.
-완료한 내용: P28-02-a/b/c에 이어 객체 spread/rest, binding 없는 catch, 동적 `import()`, 모듈 `import.meta`, `export * as ns` 문법을 추가했다. object rest는 마지막만 허용하고, 기존 duplicate `__proto__` 검사와 분리했다.
-변경 파일: AGENTS.md(P28-02-d 완료), engine/src/main/java/.../ast/{NodeType,AstDump}.java, parser/{Parser,ExpressionParser}.java, parser 시험, 이 문서.
-검증 결과: `engine\test.bat --filter js.parser` JDK 6u45 39 passed/0 failed/0 skipped. 제품 컴파일도 source/target 1.6으로 통과.
-미해결 사항: BigInt 실행 의미는 P28-04; P28-02-e~f 미구현.
-다음 작업 번호: P28-02-e.
+현재 작업 번호: P28-02-e 완료.
+완료한 내용: P28-02-a~d에 이어 public/private/static/computed class field, private 메서드·getter/setter, static initialization block과 `#x in obj`를 추가했다. private 선언은 클래스별 환경과 바깥 클래스 체인에서 지연 해석하며, 중복/미선언/static 충돌/`delete private`/필드 초기화의 arguments를 조기 오류로 처리한다.
+변경 파일: AGENTS.md(P28-02-e 완료), engine/src/main/java/.../ast/{Node,NodeType,Op,AstDump}.java, parser/{Lexer,Token,TokenType,ParserBase,Parser,ExpressionParser}.java, parser 시험, 이 문서.
+검증 결과: `engine\test.bat --filter js.parser` JDK 6u45 40 passed/0 failed/0 skipped. 제품 컴파일도 source/target 1.6으로 통과.
+미해결 사항: BigInt 실행 의미는 P28-04; P28-02-f(Netstorm bundle/module 파싱) 미완료.
+다음 작업 번호: P28-02-f.
 -----------------------------------------------------------------------------------------------
 === P28-01 ECMAScript 2022 기준 판본과 대상 목록 확정 (2026-11-25) ===
 현재 작업 번호: P28-01 완료.

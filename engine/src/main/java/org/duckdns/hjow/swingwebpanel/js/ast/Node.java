@@ -124,6 +124,13 @@ public final class Node {
     public boolean optional;
 
     /**
+     * True for a private-name key or member access.
+     * <p>
+     * private 이름 키나 멤버 접근이면 true.
+     */
+    public boolean privateName;
+
+    /**
      * True if this node contains a yield expression outside nested functions (used to resume generators).
      * <p>
      * 중첩 함수 밖에 yield 식을 포함하면 true(제너레이터 재개에 쓴다).

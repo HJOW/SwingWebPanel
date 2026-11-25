@@ -62,8 +62,13 @@ public class EarlyErrorTest {
         // 예약어
         "var if", "var class = 1", "var enum", "var null", "var true", "var \\u0069f", "\\u0069f (a) b", "({ if })", "({ if = 1 } = x)",
         // ES2015 에 없는 문법: 무시하지 않고 오류로 보고한다
-        "class A { x = 1 }", "class A { #x }",
-        "f(a, ...)", "class A { static { } }",
+        "class A { #x; #x; }", "class A { #x; #x() {} }", "class A { get #x() {} get #x() {} }",
+        "class A { static #x; #x; }", "class A { m() { return this.#missing; } }", "class A { m(o) { return #missing in o; } }",
+        "class A { m() { delete this.#x; } #x; }", "class A { x = arguments; }", "class A { x = () => arguments; }",
+        "class A { constructor = 1; }", "class A { static prototype; }", "#x in value", "obj.#x",
+        "class A { #1x; }", "class A { async #x; }", "class A { static { return; } }",
+        "async function f() { class A { x = await 1; } }",
+        "f(a, ...)",
     };
 
     /**
@@ -101,6 +106,8 @@ public class EarlyErrorTest {
         "function f() { 'use strict'; return typeof this; }", "(function() { return arguments; })", "x = /[/]\\//.test(y);",
         "var let; let\nx = 1;".replace("let\nx", "x"), "label: { break label; }", "outer: for (;;) { inner: for (;;) { continue outer; } }",
         "0, function(){ with ({}) {} }",
+        "class A { x; static y = 1; [z] = 2; static #s; #m() {} get #v() {} set #v(x) {} static { let x; } }",
+        "class Outer { #x; method() { return class Inner { read(o) { return #x in o; } } } }",
     };
 
     /**

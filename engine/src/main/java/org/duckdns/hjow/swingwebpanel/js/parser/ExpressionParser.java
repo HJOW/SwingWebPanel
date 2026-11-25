@@ -1,7 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.js.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsBoolean;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -30,6 +32,90 @@ import org.duckdns.hjow.swingwebpanel.js.ast.TemplateParts;
  */
 abstract class ExpressionParser extends ParserBase {
 
+    /** Private declaration kinds. / private 선언 종류. */
+    private static final int PRIVATE_FIELD = 1;
+    /** Private method kind. / private 메서드 종류. */
+    private static final int PRIVATE_METHOD = 2;
+    /** Private getter kind. / private getter 종류. */
+    private static final int PRIVATE_GETTER = 4;
+    /** Private setter kind. / private setter 종류. */
+    private static final int PRIVATE_SETTER = 8;
+
+    /**
+     * Private-name environment for one class.
+     * <p>
+     * 클래스 하나의 private 이름 환경.
+     */
+    private static final class PrivateEnvironment {
+        /** Enclosing class environment. / 바깥 클래스 환경. */
+        final PrivateEnvironment parent;
+        /** Names declared by this class. / 이 클래스가 선언한 이름. */
+        final Map<String, PrivateDeclaration> names = new HashMap<String, PrivateDeclaration>();
+
+        /**
+         * Creates a class environment.
+         * <p>
+         * 클래스 환경을 만든다.
+         *
+         * @param parent enclosing class environment / 바깥 환경
+         */
+        PrivateEnvironment(PrivateEnvironment parent) {
+            this.parent = parent;
+        }
+    }
+
+    /**
+     * One declared private slot.
+     * <p>
+     * 하나의 private 슬롯 선언.
+     */
+    private static final class PrivateDeclaration {
+        /** True for a static private element. / static private 요소이면 true. */
+        final boolean staticElement;
+        /** Declaration kind bits. / 선언 종류 비트. */
+        int kinds;
+
+        /**
+         * Creates a private declaration.
+         * <p>
+         * private 선언을 만든다.
+         */
+        PrivateDeclaration(boolean staticElement, int kinds) {
+            this.staticElement = staticElement;
+            this.kinds = kinds;
+        }
+    }
+
+    /**
+     * A private-name use resolved after all class elements are parsed.
+     * <p>
+     * 모든 클래스 요소를 파싱한 뒤 해석하는 private 이름 사용.
+     */
+    private static final class PrivateUse {
+        /** Name without the hash. / 해시를 뺀 이름. */
+        final String name;
+        /** Source token for an error. / 오류 위치 토큰. */
+        final Token token;
+        /** Innermost visible class environment. / 가장 안쪽의 보이는 클래스 환경. */
+        final PrivateEnvironment environment;
+
+        /**
+         * Creates a use record.
+         * <p>
+         * 사용 기록을 만든다.
+         */
+        PrivateUse(String name, Token token, PrivateEnvironment environment) {
+            this.name = name;
+            this.token = token;
+            this.environment = environment;
+        }
+    }
+
+    /** Current class private environments, innermost last. / 현재 클래스 private 환경(가장 안쪽이 마지막). */
+    private final List<PrivateEnvironment> privateEnvironments = new ArrayList<PrivateEnvironment>();
+    /** Private-name uses awaiting whole-program resolution. / 전체 프로그램 해석을 기다리는 private 이름 사용. */
+    private final List<PrivateUse> privateUses = new ArrayList<PrivateUse>();
+
     /**
      * True if the last call of {@link #parsePropertyName()} read a computed key.
      * <p>
@@ -51,6 +137,91 @@ abstract class ExpressionParser extends ParserBase {
     }
 
     /**
+     * Enters a class private-name environment.
+     * <p>
+     * 클래스 private 이름 환경에 들어간다.
+     */
+    private void pushPrivateEnvironment() {
+        privateEnvironments.add(new PrivateEnvironment(
+                privateEnvironments.isEmpty() ? null : privateEnvironments.get(privateEnvironments.size() - 1)));
+    }
+
+    /**
+     * Leaves the innermost class private-name environment.
+     * <p>
+     * 가장 안쪽 클래스 private 이름 환경에서 나온다.
+     */
+    private void popPrivateEnvironment() {
+        privateEnvironments.remove(privateEnvironments.size() - 1);
+    }
+
+    /**
+     * Records a private-name use in the current lexical class chain.
+     * <p>
+     * 현재 렉시컬 클래스 체인에서 private 이름 사용을 기록한다.
+     *
+     * @param token private-name token / private 이름 토큰
+     */
+    private void recordPrivateUse(Token token) {
+        PrivateEnvironment env = privateEnvironments.isEmpty() ? null : privateEnvironments.get(privateEnvironments.size() - 1);
+        privateUses.add(new PrivateUse(token.value, token, env));
+    }
+
+    /**
+     * Declares a private class element and rejects duplicate private slots.
+     * <p>
+     * private 클래스 요소를 선언하고 중복 슬롯을 거부한다.
+     *
+     * @param token         private-name token / private 이름 토큰
+     * @param staticElement true for a static element / static 요소이면 true
+     * @param kind          declaration kind bit / 선언 종류 비트
+     */
+    private void declarePrivate(Token token, boolean staticElement, int kind) {
+        if (privateEnvironments.isEmpty()) {
+            throw error("Private name outside a class body", token);
+        }
+        PrivateEnvironment env = privateEnvironments.get(privateEnvironments.size() - 1);
+        PrivateDeclaration old = env.names.get(token.value);
+        if (old == null) {
+            env.names.put(token.value, new PrivateDeclaration(staticElement, kind));
+            return;
+        }
+        if (old.staticElement != staticElement) {
+            throw error("Private name has a conflicting static declaration", token);
+        }
+        boolean accessorPair = (old.kinds == PRIVATE_GETTER && kind == PRIVATE_SETTER)
+                || (old.kinds == PRIVATE_SETTER && kind == PRIVATE_GETTER);
+        if (!accessorPair) {
+            throw error("Private name has already been declared", token);
+        }
+        old.kinds |= kind;
+    }
+
+    /**
+     * Resolves all deferred private-name uses against enclosing class environments.
+     * <p>
+     * 모든 지연된 private 이름 사용을 바깥 클래스 환경에서 해석한다.
+     */
+    protected final void resolvePrivateNames() {
+        // 모든 사용을 가장 안쪽부터 찾아가며 선언된 클래스 슬롯이 있는지 검사한다.
+        for (int i = 0; i < privateUses.size(); i++) {
+            PrivateUse use = privateUses.get(i);
+            boolean found = false;
+            PrivateEnvironment env = use.environment;
+            while (env != null) {
+                if (env.names.containsKey(use.name)) {
+                    found = true;
+                    break;
+                }
+                env = env.parent;
+            }
+            if (!found) {
+                throw error("Private name '#" + use.name + "' is not declared in an enclosing class", use.token);
+            }
+        }
+    }
+
+    /**
      * Parses a function body block <code>{ ... }</code> (with directive prologue) into the function description and checks
      * the strict mode rules that depend on the body.
      * <p>
@@ -60,6 +231,15 @@ abstract class ExpressionParser extends ParserBase {
      * @param ctx  the function context / 함수 문맥
      */
     abstract void parseFunctionBody(FunctionInfo info, FuncCtx ctx);
+
+    /**
+     * Parses one statement list item for class static blocks and ordinary parser bodies.
+     * <p>
+     * 클래스 static 블록과 일반 파서 본문용 문장 목록 항목 하나를 파싱한다.
+     *
+     * @return parsed statement or declaration / 파싱한 문장 또는 선언
+     */
+    abstract Node parseStatementListItem();
 
     // ------------------------------------------------------------------ expressions
 
@@ -150,6 +330,9 @@ abstract class ExpressionParser extends ParserBase {
         coverError = null;
         Token start = tok;
         Node left = parseConditional(noIn);
+        if (left.type == NodeType.PRIVATE_NAME) {
+            throw error("Private name must be the left operand of 'in'", left);
+        }
         int op = assignmentOp(tok);
         if (op >= 0) {
             Token opTok = tok;
@@ -195,7 +378,8 @@ abstract class ExpressionParser extends ParserBase {
      * await 가 키워드인 곳(async 함수 또는 모듈 최상위)이면 true.
      */
     private boolean canAwait() {
-        return fc.async || (moduleGoal && !fc.inFunction);
+        return fc.async && !fc.classFieldInitializer && !fc.classStaticBlock
+                || (moduleGoal && !fc.inFunction && !fc.classFieldInitializer && !fc.classStaticBlock);
     }
 
     /**
@@ -634,6 +818,9 @@ abstract class ExpressionParser extends ParserBase {
             if (op == Op.DELETE && fc.strict && operand.type == NodeType.IDENT) {
                 throw error("Delete of an unqualified identifier in strict mode.", operand);
             }
+            if (op == Op.DELETE && operand.type == NodeType.MEMBER && operand.privateName) {
+                throw error("Private fields cannot be deleted", operand);
+            }
             Node n = mk(NodeType.UNARY, t);
             n.op = op;
             n.a = operand;
@@ -728,12 +915,17 @@ abstract class ExpressionParser extends ParserBase {
                 }
             } else if (isP(".")) {
                 next();
-                if (tok.type != TokenType.NAME) {
+                if (tok.type != TokenType.NAME && tok.type != TokenType.PRIVATE_NAME) {
                     throw unexpected(tok);
                 }
+                Token property = tok;
                 Node m = mk(NodeType.MEMBER, start);
                 m.a = e;
-                m.name = tok.value;
+                m.privateName = tok.type == TokenType.PRIVATE_NAME;
+                m.name = m.privateName ? "#" + tok.value : tok.value;
+                if (m.privateName) {
+                    recordPrivateUse(property);
+                }
                 next();
                 e = done(m);
             } else if (isP("[")) {
@@ -892,6 +1084,17 @@ abstract class ExpressionParser extends ParserBase {
         switch (t.type) {
         case NAME:
             return parsePrimaryName(t);
+        case PRIVATE_NAME: {
+            if (!peek().isName("in")) {
+                throw error("Private name must be used in an 'in' expression", t);
+            }
+            recordPrivateUse(t);
+            next();
+            Node n = mk(NodeType.PRIVATE_NAME, t);
+            n.name = "#" + t.value;
+            n.privateName = true;
+            return done(n);
+        }
         case NUMBER: {
             if (fc.strict && t.legacyOctal) {
                 throw error("Octal literals are not allowed in strict mode.", t);
@@ -1008,6 +1211,9 @@ abstract class ExpressionParser extends ParserBase {
         }
         checkIdentifier(t, false);
         if (t.value.equals("arguments")) {
+            if (fc.classFieldInitializer) {
+                throw error("'arguments' is not allowed in a class field initializer", t);
+            }
             markArguments();
         }
         next();
@@ -1233,7 +1439,8 @@ abstract class ExpressionParser extends ParserBase {
      * @return true if it starts a property name / 프로퍼티 이름의 시작이면 true
      */
     protected final boolean startsPropertyName(Token n) {
-        return n.type == TokenType.NAME || n.type == TokenType.STRING || n.type == TokenType.NUMBER || n.isPunct("[");
+        return n.type == TokenType.NAME || n.type == TokenType.STRING || n.type == TokenType.NUMBER
+                || n.type == TokenType.PRIVATE_NAME || n.isPunct("[");
     }
 
     /**
@@ -1950,6 +2157,8 @@ abstract class ExpressionParser extends ParserBase {
         info.derived = classCtor && derived;
         if (member.a != null && member.a.type == NodeType.LITERAL && !member.flag) {
             info.name = member.a.name == null ? "" : member.a.name;
+        } else if (member.a != null && member.a.type == NodeType.PRIVATE_NAME && !member.flag) {
+            info.name = member.a.name;
         }
         int savedKind = accessorKind;
         accessorKind = getter ? 1 : (setter ? 2 : 0);
@@ -2043,6 +2252,7 @@ abstract class ExpressionParser extends ParserBase {
         c.allowNewTarget = fc.allowNewTarget;
         c.allowSuperProp = fc.allowSuperProp;
         c.allowSuperCall = fc.allowSuperCall;
+        c.classFieldInitializer = fc.classFieldInitializer;
         return c;
     }
 
@@ -2228,13 +2438,16 @@ abstract class ExpressionParser extends ParserBase {
             cls.a = parseLeftHandSide();
         }
         expectP("{");
+        pushPrivateEnvironment();
         List<Node> members = new ArrayList<Node>();
         // 닫는 중괄호까지 클래스 멤버를 읽는다.
         while (!isP("}")) {
             if (eatP(";")) {
                 continue;
             }
-            Node m = parseClassMember(cls.a != null);
+            Node m = isN("static") && peek().isPunct("{")
+                    ? parseClassStaticBlock()
+                    : parseClassMember(cls.a != null);
             if (m.value == Boolean.FALSE) {
                 if (cls.b != null) {
                     throw error("A class may only have one constructor", m);
@@ -2245,6 +2458,7 @@ abstract class ExpressionParser extends ParserBase {
             }
         }
         expectP("}");
+        popPrivateEnvironment();
         fc.strict = savedStrict;
         cls.list = members.toArray(new Node[members.size()]);
         cls.value = source;
@@ -2265,7 +2479,8 @@ abstract class ExpressionParser extends ParserBase {
         Token start = tok;
         Node m = mk(NodeType.CLASS_MEMBER, start);
         boolean isStatic = false;
-        if (isN("static") && !peek().isPunct("(")) {
+        if (isN("static") && !peek().isPunct("(") && !peek().isPunct("=") && !peek().isPunct(";")
+                && !peek().isPunct("}")) {
             isStatic = true;
             next();
         }
@@ -2288,31 +2503,133 @@ abstract class ExpressionParser extends ParserBase {
             setter = !getter;
             next();
         }
-        m.a = parsePropertyName();
+        Token keyToken = tok;
+        m.a = parseClassPropertyName();
         boolean computed = keyComputed;
+        m.privateName = keyToken.type == TokenType.PRIVATE_NAME;
         m.op = getter ? Op.PROP_GET : (setter ? Op.PROP_SET : Op.PROP_METHOD);
         boolean ctor = false;
         if (!computed && m.a.name != null) {
-            if (!isStatic && m.a.name.equals("constructor")) {
+            if (!m.privateName && !isStatic && m.a.name.equals("constructor")) {
                 if (getter || setter || gen || async) {
                     throw error("Class constructor may not be an accessor, generator or async method", m.a);
                 }
                 ctor = true;
-            } else if (isStatic && m.a.name.equals("prototype")) {
+            } else if (!m.privateName && isStatic && m.a.name.equals("prototype")) {
                 throw error("Classes may not have a static property named 'prototype'", m.a);
             }
         }
         if (computed) {
             m.value = Boolean.TRUE;
         }
-        // 계산된 키는 FunctionInfo 이름을 정하지 않도록 member.flag 대신 value 로 표시한다.
-        Node keyHolder = new Node(NodeType.PROPERTY, m.line, m.column);
-        keyHolder.a = m.a;
-        keyHolder.flag = computed;
-        m.b = parseMethodFunction(start, keyHolder, gen, getter, setter, ctor, derived, async);
-        if (ctor) {
-            m.value = Boolean.FALSE;
+        int privateKind = getter ? PRIVATE_GETTER : (setter ? PRIVATE_SETTER : PRIVATE_METHOD);
+        if (m.privateName) {
+            declarePrivate(keyToken, isStatic, isP("(") ? privateKind : PRIVATE_FIELD);
         }
+        if (isP("(")) {
+            // 계산된 키는 FunctionInfo 이름을 정하지 않도록 member.flag 대신 value 로 표시한다.
+            Node keyHolder = new Node(NodeType.PROPERTY, m.line, m.column);
+            keyHolder.a = m.a;
+            keyHolder.flag = computed;
+            m.b = parseMethodFunction(start, keyHolder, gen, getter, setter, ctor, derived, async);
+            if (ctor) {
+                m.value = Boolean.FALSE;
+            }
+            return done(m);
+        }
+        if (gen || getter || setter || async) {
+            throw error("Expected a method parameter list", tok);
+        }
+        if (ctor) {
+            throw error("A class field cannot be named 'constructor'", m.a);
+        }
+        m.op = Op.PROP_FIELD;
+        if (isP("=")) {
+            next();
+            m.b = parseClassFieldInitializer();
+        }
+        consumeSemicolon();
         return done(m);
+    }
+
+    /**
+     * Parses a class property name, including a private name.
+     * <p>
+     * private 이름을 포함해 클래스 프로퍼티 이름을 파싱한다.
+     *
+     * @return the key node / 키 노드
+     */
+    private Node parseClassPropertyName() {
+        keyComputed = false;
+        if (tok.type != TokenType.PRIVATE_NAME) {
+            return parsePropertyName();
+        }
+        Token t = tok;
+        next();
+        Node n = mk(NodeType.PRIVATE_NAME, t);
+        n.name = "#" + t.value;
+        n.privateName = true;
+        return done(n);
+    }
+
+    /**
+     * Parses a class field initializer in its isolated evaluation context.
+     * <p>
+     * 클래스 필드 초기화 식을 분리된 평가 문맥에서 파싱한다.
+     *
+     * @return initializer expression / 초기화 식
+     */
+    private Node parseClassFieldInitializer() {
+        FuncCtx saved = fc;
+        FuncCtx field = new FuncCtx();
+        field.parent = saved;
+        field.strict = true;
+        field.classFieldInitializer = true;
+        field.allowSuperProp = true;
+        fc = field;
+        Node value = parseAssignment(false);
+        fc = saved;
+        return value;
+    }
+
+    /**
+     * Parses a class static initialization block.
+     * <p>
+     * 클래스 static 초기화 블록을 파싱한다.
+     *
+     * @return the CLASS_STATIC_BLOCK node / CLASS_STATIC_BLOCK 노드
+     */
+    private Node parseClassStaticBlock() {
+        Token start = tok;
+        next();
+        Token open = tok;
+        expectP("{");
+        FuncCtx savedFc = fc;
+        Scope savedScope = scope;
+        FuncCtx blockContext = new FuncCtx();
+        blockContext.parent = savedFc;
+        blockContext.strict = true;
+        blockContext.classStaticBlock = true;
+        blockContext.allowSuperProp = true;
+        fc = blockContext;
+        Scope blockScope = new Scope(savedScope, SCOPE_FUNCTION);
+        scope = blockScope;
+        blockContext.funcScope = blockScope;
+        List<Node> statements = new ArrayList<Node>();
+        // 닫는 중괄호까지 static 블록 문장을 바깥 함수의 return 권한과 스코프를 물려받지 않고 읽는다.
+        while (!isP("}")) {
+            if (tok.type == TokenType.EOF) {
+                throw unexpected(tok);
+            }
+            statements.add(parseStatementListItem());
+        }
+        expectP("}");
+        fc = savedFc;
+        scope = savedScope;
+        Node block = mk(NodeType.CLASS_STATIC_BLOCK, start);
+        block.start = open.start;
+        block.list = statements.toArray(new Node[statements.size()]);
+        block.scope = toInfo(blockScope);
+        return done(block);
     }
 }

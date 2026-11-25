@@ -377,7 +377,9 @@ public final class Lexer {
             return finish(t);
         }
         char c = src.charAt(pos);
-        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '$' || c == '_' || c == '\\'
+        if (c == '#') {
+            scanPrivateIdentifier(t);
+        } else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '$' || c == '_' || c == '\\'
                 || (c >= 0x80 && JsChars.isIdStart(src.codePointAt(pos)))) {
             scanIdentifier(t);
         } else if ((c >= '0' && c <= '9') || (c == '.' && pos + 1 < len && src.charAt(pos + 1) >= '0' && src.charAt(pos + 1) <= '9')) {
@@ -466,6 +468,28 @@ public final class Lexer {
             sb.appendCodePoint(cp);
         }
         t.value = sb.toString();
+    }
+
+    /**
+     * Scans a private identifier token. The hash is syntax and is not part of {@link Token#value}.
+     * <p>
+     * private 식별자 토큰을 읽는다. 해시는 구문이며 {@link Token#value} 에 포함하지 않는다.
+     *
+     * @param t token to fill / 채울 토큰
+     */
+    private void scanPrivateIdentifier(Token t) {
+        pos++;
+        if (pos >= len) {
+            throw error("Private identifier is missing a name");
+        }
+        char c = src.charAt(pos);
+        boolean valid = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '$' || c == '_' || c == '\\'
+                || (c >= 0x80 && JsChars.isIdStart(src.codePointAt(pos)));
+        if (!valid) {
+            throw error("Private identifier is missing a valid name");
+        }
+        scanIdentifier(t);
+        t.type = TokenType.PRIVATE_NAME;
     }
 
     /**

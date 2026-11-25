@@ -312,6 +312,18 @@ abstract class ParserBase {
          */
         boolean inParams;
         /**
+         * True while parsing a class field initializer.
+         * <p>
+         * 클래스 필드 초기화 식을 파싱하는 동안 true.
+         */
+        boolean classFieldInitializer;
+        /**
+         * True inside a class static block (return, await and outer function permissions do not carry in).
+         * <p>
+         * 클래스 static 블록 안이면 true(return, await, 바깥 함수 권한을 이어받지 않음).
+         */
+        boolean classStaticBlock;
+        /**
          * Set when the code refers to arguments.
          * <p>
          * 코드가 arguments 를 참조하면 설정된다.

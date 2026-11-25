@@ -123,6 +123,8 @@ public final class AstDump {
             return "get";
         case Op.PROP_SET:
             return "set";
+        case Op.PROP_FIELD:
+            return "field";
         default:
             return "?";
         }
@@ -175,6 +177,9 @@ public final class AstDump {
             return;
         }
         case NodeType.IDENT:
+            sb.append(n.name);
+            return;
+        case NodeType.PRIVATE_NAME:
             sb.append(n.name);
             return;
         case NodeType.THIS:
@@ -257,6 +262,11 @@ public final class AstDump {
             sb.append(n.flag ? "(static-" : "(").append(propKind(n.op)).append(' ');
             writeKey(n.a, n.value == Boolean.TRUE, sb);
             child(n.b, sb);
+            sb.append(')');
+            return;
+        case NodeType.CLASS_STATIC_BLOCK:
+            sb.append("(static-block");
+            writeList(n.list, sb);
             sb.append(')');
             return;
         case NodeType.UNARY:

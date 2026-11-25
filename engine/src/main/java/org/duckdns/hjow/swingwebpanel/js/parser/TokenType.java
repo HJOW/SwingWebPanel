@@ -37,6 +37,12 @@ public enum TokenType {
      */
     BIGINT,
     /**
+     * A private identifier token such as <code>#name</code>.
+     * <p>
+     * <code>#name</code> 같은 private 식별자 토큰.
+     */
+    PRIVATE_NAME,
+    /**
      * A string literal.
      * <p>
      * 문자열 리터럴.

@@ -123,6 +123,23 @@ public class LexerTest {
         Check.equal("a ** b", forms("a ** b"), "exponentiation");
         Check.equal("a ?. b a ?? b a ??= b", forms("a?.b a??b a??=b"), "optional chaining and nullish");
         Check.equal("a ? N(.3) : b", forms("a?.3:b"), "optional chaining punctuator is not formed before a digit");
+    }
+
+    /**
+     * Private identifiers are single tokens, including escaped identifier parts.
+     * <p>
+     * private 식별자는 이스케이프가 있는 식별자 부분까지 하나의 토큰이다.
+     */
+    public void testPrivateNames() {
+        List<Token> names = lex("#x #\\u0079");
+        Check.equal(TokenType.PRIVATE_NAME, names.get(0).type, "private type");
+        Check.equal("x", names.get(0).value, "private value excludes hash");
+        Check.equal("#x", names.get(0).raw, "private raw includes hash");
+        Check.equal("y", names.get(1).value, "escaped private name");
+        Check.isTrue(names.get(1).escaped, "escaped flag");
+        fails("#");
+        fails("#1x");
+        fails("# if");
         Check.equal("a . . . b", forms("a . . . b"), "spaced dots stay separate");
     }
 

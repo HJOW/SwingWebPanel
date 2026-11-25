@@ -225,6 +225,7 @@ public final class Parser extends ExpressionParser {
         next();
         Token start = tok;
         List<Node> stmts = parseBodyStatements(null, false);
+        resolvePrivateNames();
         pinfo.strict = fc.strict;
         resolveCandidates(top);
         if (moduleGoal) {
@@ -327,7 +328,7 @@ public final class Parser extends ExpressionParser {
      *
      * @return the node / 노드
      */
-    private Node parseStatementListItem() {
+    protected Node parseStatementListItem() {
         if (tok.type == TokenType.NAME && !tok.escaped) {
             String v = tok.value;
             if (v.equals("function")) {

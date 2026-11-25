@@ -79,6 +79,10 @@ public final class NodeType {
     public static final int IMPORT_META = 29;
     /** Dynamic import call; a = specifier expression. / 동적 import 호출. a 는 지정자 식. */
     public static final int IMPORT_CALL = 35;
+    /** Private identifier expression used only on the left of in. / in 의 왼쪽에만 쓰는 private 식별자 식. */
+    public static final int PRIVATE_NAME = 36;
+    /** Static class block; list = statements, scope = block scope. / static 클래스 블록. list 문장, scope 블록 스코프. */
+    public static final int CLASS_STATIC_BLOCK = 37;
 
     // ---------------------------------------------------------------- patterns
 

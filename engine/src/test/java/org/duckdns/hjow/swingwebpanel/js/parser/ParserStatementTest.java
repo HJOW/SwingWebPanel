@@ -148,6 +148,22 @@ public class ParserStatementTest {
                 ? objectRest.list[0].list[0].a.list[1].type : -1, "object binding rest");
         Node asyncProgram = Parser.parseScript("async function f() {}", "t.js");
         Check.isTrue(asyncProgram.list[0].b.fn.async, "FunctionInfo preserves async");
+        String fields = p("class A { x; y = 1; static z = 2; [k] = 3; #p; static #q = 4; "
+                + "#m(o) { return #p in o; } get #v() { return this.#p; } set #v(v) { this.#p = v; } "
+                + "static { let n = 1; this.#q = n; } }");
+        Check.contains(fields, "(field x _)", "public field");
+        Check.contains(fields, "(field y 1)", "field initializer");
+        Check.contains(fields, "(static-field z 2)", "static field");
+        Check.contains(fields, "(field [k] 3)", "computed field");
+        Check.contains(fields, "(field #p _)", "private field");
+        Check.contains(fields, "(static-field #q 4)", "static private field");
+        Check.contains(fields, "(method #m (method #m", "private method");
+        Check.contains(fields, "(in #p o)", "private in expression");
+        Check.contains(fields, "(get #v (method #v", "private getter");
+        Check.contains(fields, "(set #v (method #v", "private setter pair");
+        Check.contains(fields, "(static-block", "static initialization block");
+        Check.contains(p("class Outer { #x; m() { return class Inner { f(o) { return this.#x in o; } } } }"),
+                "(in (. this #x) o)", "nested class retains the outer private environment");
     }
 
     /**

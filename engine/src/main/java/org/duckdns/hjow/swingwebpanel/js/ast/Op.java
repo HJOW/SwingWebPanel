@@ -100,6 +100,8 @@ public final class Op {
     public static final int PROP_GET = 54;
     /** Property kind: setter. / 프로퍼티 종류: setter. */
     public static final int PROP_SET = 55;
+    /** Property kind: class field. / 프로퍼티 종류: 클래스 필드. */
+    public static final int PROP_FIELD = 56;
 
     /**
      * Returns the source text of a binary or compound assignment operator code, for messages.
