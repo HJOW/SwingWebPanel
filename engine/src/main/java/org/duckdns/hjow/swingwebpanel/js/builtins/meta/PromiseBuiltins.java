@@ -384,6 +384,16 @@ final class PromiseBuiltins {
                 return all(r, thisValue, Js.arg(args, 0));
             }
         });
+        realm.method(ctor, "allSettled", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return allSettled(r, thisValue, Js.arg(args, 0));
+            }
+        });
+        realm.method(ctor, "any", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return any(r, thisValue, Js.arg(args, 0));
+            }
+        });
         // Promise.race(iterable) (25.4.4.3)
         realm.method(ctor, "race", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
@@ -430,6 +440,11 @@ final class PromiseBuiltins {
         realm.method(proto, "catch", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 return Ops.invoke(r, thisValue, "then", new JsValue[] { Js.UNDEFINED, Js.arg(args, 0) });
+            }
+        });
+        realm.method(proto, "finally", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return promiseFinally(r, thisValue, Js.arg(args, 0));
             }
         });
         // Promise.prototype.then(onFulfilled, onRejected) (25.4.5.3)
@@ -589,5 +604,225 @@ final class PromiseBuiltins {
             cap.reject(e.getValue(realm));
             return cap.getPromise();
         }
+    }
+
+    /**
+     * Promise.allSettled: resolves after every input settles and preserves values and reasons in order.
+     * <p>
+     * Promise.allSettled: 모든 입력이 확정된 뒤 값과 거부 이유를 순서대로 보존한다.
+     *
+     * @param realm the realm / realm
+     * @param c the Promise constructor / Promise 생성자
+     * @param iterable the inputs / 입력들
+     * @return the aggregate promise / 결과 promise
+     */
+    private static JsValue allSettled(final JsRealm realm, JsValue c, JsValue iterable) {
+        if (!(c instanceof JsObject)) {
+            throw JsException.typeError("Promise.allSettled called on non-object");
+        }
+        final PromiseCapability cap = newCapability(realm, c);
+        final List<JsValue> values = new ArrayList<JsValue>();
+        final int[] remaining = new int[] { 1 };
+        JsObject iterator;
+        try {
+            iterator = IteratorHelper.getIterator(realm, iterable);
+        } catch (JsException e) {
+            cap.reject(e.getValue(realm));
+            return cap.getPromise();
+        }
+        boolean iteratorDone = false;
+        try {
+            while (true) {
+                JsObject next = IteratorHelper.step(iterator);
+                if (next == null) {
+                    iteratorDone = true;
+                    remaining[0]--;
+                    if (remaining[0] == 0) {
+                        cap.resolve(realm.newArray(values));
+                    }
+                    return cap.getPromise();
+                }
+                final int slot = values.size();
+                values.add(Js.UNDEFINED);
+                JsValue p = Ops.invoke(realm, c, "resolve", new JsValue[] { IteratorHelper.value(next) });
+                final boolean[] called = new boolean[] { false };
+                NativeFunction fulfilled = new NativeFunction(realm, "", 1, new NativeFunction.Call() {
+                    public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                        if (!called[0]) {
+                            called[0] = true;
+                            values.set(slot, recordAllSettled(r, true, Js.arg(args, 0)));
+                            remaining[0]--;
+                            if (remaining[0] == 0) {
+                                cap.resolve(r.newArray(values));
+                            }
+                        }
+                        return Js.UNDEFINED;
+                    }
+                });
+                NativeFunction rejected = new NativeFunction(realm, "", 1, new NativeFunction.Call() {
+                    public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                        if (!called[0]) {
+                            called[0] = true;
+                            values.set(slot, recordAllSettled(r, false, Js.arg(args, 0)));
+                            remaining[0]--;
+                            if (remaining[0] == 0) {
+                                cap.resolve(r.newArray(values));
+                            }
+                        }
+                        return Js.UNDEFINED;
+                    }
+                });
+                remaining[0]++;
+                Ops.invoke(realm, p, "then", new JsValue[] { fulfilled, rejected });
+            }
+        } catch (JsException e) {
+            if (!iteratorDone) {
+                IteratorHelper.closeQuietly(iterator);
+            }
+            cap.reject(e.getValue(realm));
+            return cap.getPromise();
+        }
+    }
+
+    /**
+     * Creates one Object record for Promise.allSettled.
+     * <p>
+     * Promise.allSettled 의 결과 객체 하나를 만든다.
+     *
+     * @param realm the realm / realm
+     * @param fulfilled true for a fulfilled record / 이행 기록이면 true
+     * @param value value or reason / 값 또는 이유
+     * @return the record / 기록 객체
+     */
+    private static JsObject recordAllSettled(JsRealm realm, boolean fulfilled, JsValue value) {
+        JsObject record = realm.newObject();
+        record.createDataProperty("status", Js.str(fulfilled ? "fulfilled" : "rejected"));
+        record.createDataProperty(fulfilled ? "value" : "reason", value);
+        return record;
+    }
+
+    /**
+     * Promise.any: fulfills with the first fulfillment and rejects with AggregateError after all inputs reject.
+     * <p>
+     * Promise.any: 첫 이행으로 이행하고 모든 입력이 거부되면 AggregateError 로 거부한다.
+     *
+     * @param realm the realm / realm
+     * @param c the Promise constructor / Promise 생성자
+     * @param iterable the inputs / 입력들
+     * @return the result promise / 결과 promise
+     */
+    private static JsValue any(final JsRealm realm, JsValue c, JsValue iterable) {
+        if (!(c instanceof JsObject)) {
+            throw JsException.typeError("Promise.any called on non-object");
+        }
+        final PromiseCapability cap = newCapability(realm, c);
+        final List<JsValue> errors = new ArrayList<JsValue>();
+        final int[] remaining = new int[] { 1 };
+        JsObject iterator;
+        try {
+            iterator = IteratorHelper.getIterator(realm, iterable);
+        } catch (JsException e) {
+            cap.reject(e.getValue(realm));
+            return cap.getPromise();
+        }
+        boolean iteratorDone = false;
+        try {
+            while (true) {
+                JsObject next = IteratorHelper.step(iterator);
+                if (next == null) {
+                    iteratorDone = true;
+                    remaining[0]--;
+                    if (remaining[0] == 0) {
+                        rejectAnyAll(realm, cap, errors);
+                    }
+                    return cap.getPromise();
+                }
+                final int slot = errors.size();
+                errors.add(Js.UNDEFINED);
+                JsValue p = Ops.invoke(realm, c, "resolve", new JsValue[] { IteratorHelper.value(next) });
+                final boolean[] called = new boolean[1];
+                NativeFunction rejected = new NativeFunction(realm, "", 1, new NativeFunction.Call() {
+                    public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                        if (!called[0]) {
+                            called[0] = true;
+                            errors.set(slot, Js.arg(args, 0));
+                            remaining[0]--;
+                            if (remaining[0] == 0) {
+                                rejectAnyAll(r, cap, errors);
+                            }
+                        }
+                        return Js.UNDEFINED;
+                    }
+                });
+                remaining[0]++;
+                Ops.invoke(realm, p, "then", new JsValue[] { cap.getResolveFunction(), rejected });
+            }
+        } catch (JsException e) {
+            if (!iteratorDone) {
+                IteratorHelper.closeQuietly(iterator);
+            }
+            cap.reject(e.getValue(realm));
+            return cap.getPromise();
+        }
+    }
+
+    /**
+     * Rejects Promise.any with an AggregateError containing the ordered rejection reasons.
+     * <p>
+     * 순서대로 보존한 거부 이유를 AggregateError 에 담아 Promise.any 를 거부한다.
+     *
+     * @param realm the realm / realm
+     * @param capability the promise capability / promise capability
+     * @param errors rejection reasons / 거부 이유들
+     */
+    private static void rejectAnyAll(JsRealm realm, PromiseCapability capability, List<JsValue> errors) {
+        JsValue aggregate = realm.getGlobalObject().get("AggregateError");
+        JsObject error = Ops.construct(aggregate, new JsValue[] { realm.newArray(errors), Js.str("All promises were rejected") });
+        capability.reject(error);
+    }
+
+    /**
+     * Implements Promise.prototype.finally without changing fulfillment values or rejection reasons.
+     * <p>
+     * 이행 값이나 거부 이유를 바꾸지 않고 Promise.prototype.finally 를 구현한다.
+     *
+     * @param realm the realm / realm
+     * @param receiver the receiver / 수신 객체
+     * @param onFinally finally callback / finally 처리기
+     * @return the result of then / then 의 결과
+     */
+    private static JsValue promiseFinally(final JsRealm realm, JsValue receiver, final JsValue onFinally) {
+        if (!(receiver instanceof JsObject)) {
+            throw JsException.typeError("Method Promise.prototype.finally called on incompatible receiver");
+        }
+        final JsValue c = speciesConstructor((JsObject) receiver, realm.getIntrinsic(INTRINSIC_PROMISE));
+        if (!onFinally.isCallable()) {
+            return Ops.invoke(realm, receiver, "then", new JsValue[] { onFinally, onFinally });
+        }
+        NativeFunction fulfilled = new NativeFunction(realm, "", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                final JsValue value = Js.arg(args, 0);
+                JsValue cleanup = Ops.call(onFinally, Js.UNDEFINED, Js.NO_ARGS);
+                JsValue resolved = Ops.invoke(r, c, "resolve", new JsValue[] { cleanup });
+                return Ops.invoke(r, resolved, "then", new JsValue[] { new NativeFunction(r, "", 0, new NativeFunction.Call() {
+                    public JsValue call(JsRealm rr, JsValue ignored, JsValue[] ignoredArgs) {
+                        return value;
+                    }
+                }) });
+            }
+        });
+        NativeFunction rejected = new NativeFunction(realm, "", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                final JsValue reason = Js.arg(args, 0);
+                JsValue cleanup = Ops.call(onFinally, Js.UNDEFINED, Js.NO_ARGS);
+                JsValue resolved = Ops.invoke(r, c, "resolve", new JsValue[] { cleanup });
+                return Ops.invoke(r, resolved, "then", new JsValue[] { new NativeFunction(r, "", 0, new NativeFunction.Call() {
+                    public JsValue call(JsRealm rr, JsValue ignored, JsValue[] ignoredArgs) {
+                        throw new JsException(reason);
+                    }
+                }) });
+            }
+        });
+        return Ops.invoke(realm, receiver, "then", new JsValue[] { fulfilled, rejected });
     }
 }

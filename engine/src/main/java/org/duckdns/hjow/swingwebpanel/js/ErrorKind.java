@@ -48,7 +48,13 @@ public enum ErrorKind {
      * <p>
      * 잘못된 URI 처리를 나타내는 URIError 형식(URI 오류).
      */
-    URI_ERROR("URIError");
+    URI_ERROR("URIError"),
+    /**
+     * The AggregateError type for several failures.
+     * <p>
+     * 여러 실패를 나타내는 AggregateError 형식.
+     */
+    AGGREGATE_ERROR("AggregateError");
 
     /**
      * The constructor name, also the value of the prototype's name property.

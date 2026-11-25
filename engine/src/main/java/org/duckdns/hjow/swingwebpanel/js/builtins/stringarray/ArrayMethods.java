@@ -68,8 +68,114 @@ final class ArrayMethods {
         installBuilders(realm, proto);
         installSearch(realm, proto);
         installIteration(realm, proto);
+        installModern(realm, proto);
         installReduce(realm, proto);
         installIterators(realm, proto);
+    }
+
+    /**
+     * Installs ES2019 and ES2022 Array.prototype methods: flat, flatMap and at.
+     * <p>
+     * ES2019 와 ES2022 의 Array.prototype 메서드 flat, flatMap, at 를 설치한다.
+     *
+     * @param realm the realm / realm
+     * @param proto Array.prototype / Array.prototype
+     */
+    private static void installModern(JsRealm realm, JsObject proto) {
+        Support.def(realm, proto, "flat", 0, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsObject source = toObject(r, thisValue);
+                double depth = args.length == 0 ? 1 : Ops.toInteger(args[0]);
+                return flatten(r, source, Math.max(depth, 0));
+            }
+        });
+        Support.def(realm, proto, "flatMap", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsObject source = toObject(r, thisValue);
+                double length = Ops.lengthOf(source);
+                JsValue mapper = Js.arg(args, 0);
+                Support.requireCallable(mapper, "callback");
+                JsValue thisArg = Js.arg(args, 1);
+                JsObject out = ArrayBuiltins.speciesCreate(r, source, 0);
+                double target = 0;
+                for (double k = 0; k < length; k++) {
+                    Support.poll(k);
+                    if (Support.hasAt(source, k)) {
+                        JsValue mapped = Ops.call(mapper, thisArg, new JsValue[] { Support.getAt(source, k), Js.num(k), source });
+                        target = flattenInto(r, out, target, mapped, 1);
+                    }
+                }
+                Support.setLength(out, target);
+                return out;
+            }
+        });
+        Support.def(realm, proto, "at", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsObject o = toObject(r, thisValue);
+                double length = Ops.lengthOf(o);
+                double relative = Ops.toInteger(Js.arg(args, 0));
+                double index = relative < 0 ? length + relative : relative;
+                if (index < 0 || index >= length) {
+                    return Js.UNDEFINED;
+                }
+                return Support.getAt(o, index);
+            }
+        });
+    }
+
+    /**
+     * Flattens the source array into a newly created array.
+     * <p>
+     * 원본 배열을 새 배열에 평탄화한다.
+     *
+     * @param realm the realm / realm
+     * @param source the source object / 원본 객체
+     * @param depth maximum nesting depth / 최대 중첩 깊이
+     * @return the flattened array / 평탄화한 배열
+     */
+    private static JsValue flatten(JsRealm realm, JsObject source, double depth) {
+        JsObject out = ArrayBuiltins.speciesCreate(realm, source, 0);
+        double target = 0;
+        double length = Ops.lengthOf(source);
+        for (double k = 0; k < length; k++) {
+            Support.poll(k);
+            if (Support.hasAt(source, k)) {
+                target = flattenInto(realm, out, target, Support.getAt(source, k), depth);
+            }
+        }
+        Support.setLength(out, target);
+        return out;
+    }
+
+    /**
+     * Adds one value to a flatten destination, recursing only into actual arrays.
+     * <p>
+     * 실제 배열에만 재귀하여 평탄화 대상에 값 하나를 추가한다.
+     *
+     * @param realm the realm / realm
+     * @param out destination / 대상
+     * @param target next destination index / 다음 대상 인덱스
+     * @param value value to add / 추가할 값
+     * @param depth remaining depth / 남은 깊이
+     * @return next destination index / 다음 대상 인덱스
+     */
+    private static double flattenInto(JsRealm realm, JsObject out, double target, JsValue value, double depth) {
+        if (depth > 0 && Ops.isArray(value)) {
+            JsObject nested = (JsObject) value;
+            double length = Ops.lengthOf(nested);
+            for (double n = 0; n < length; n++) {
+                Support.poll(n);
+                if (Support.hasAt(nested, n)) {
+                    target = flattenInto(realm, out, target, Support.getAt(nested, n), depth - 1);
+                }
+            }
+            return target;
+        }
+        if (target >= Support.MAX_SAFE_INTEGER) {
+            throw JsException.typeError("Invalid array length");
+        }
+        Support.createAt(out, target, value);
+        return target + 1;
     }
 
     /**

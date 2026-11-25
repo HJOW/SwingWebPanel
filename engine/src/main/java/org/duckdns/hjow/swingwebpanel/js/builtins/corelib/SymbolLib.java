@@ -71,6 +71,7 @@ final class SymbolLib {
         defineWellKnown(ctor, "iterator", WellKnownSymbols.ITERATOR);
         defineWellKnown(ctor, "asyncIterator", WellKnownSymbols.ASYNC_ITERATOR);
         defineWellKnown(ctor, "match", WellKnownSymbols.MATCH);
+        defineWellKnown(ctor, "matchAll", WellKnownSymbols.MATCH_ALL);
         defineWellKnown(ctor, "replace", WellKnownSymbols.REPLACE);
         defineWellKnown(ctor, "search", WellKnownSymbols.SEARCH);
         defineWellKnown(ctor, "species", WellKnownSymbols.SPECIES);
@@ -87,6 +88,12 @@ final class SymbolLib {
         realm.method(proto, "valueOf", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 return thisSymbolValue(thisValue);
+            }
+        });
+        realm.getter(proto, "description", new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                String description = thisSymbolValue(thisValue).getDescription();
+                return description == null ? Js.UNDEFINED : Js.str(description);
             }
         });
         NativeFunction toPrimitive = new NativeFunction(realm, "[Symbol.toPrimitive]", 1, new NativeFunction.Call() {

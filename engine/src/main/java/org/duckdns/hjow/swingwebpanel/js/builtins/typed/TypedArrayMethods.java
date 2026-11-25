@@ -159,6 +159,17 @@ final class TypedArrayMethods {
      * @param proto the prototype / 프로토타입
      */
     private static void installIteration(JsRealm realm, JsObject proto) {
+        realm.method(proto, "at", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                TypedArrayObject array = TypedSupport.validate(thisValue);
+                double relative = Ops.toInteger(Js.arg(args, 0));
+                double index = relative < 0 ? array.getLength() + relative : relative;
+                if (index < 0 || index >= array.getLength()) {
+                    return Js.UNDEFINED;
+                }
+                return array.getElementValue((int) index);
+            }
+        });
         realm.method(proto, "entries", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 return TypedArrayIterator.create(r, TypedSupport.validate(thisValue), TypedArrayIterator.ENTRIES);

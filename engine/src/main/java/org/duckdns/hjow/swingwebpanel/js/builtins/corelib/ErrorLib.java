@@ -1,5 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.builtins.corelib;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.duckdns.hjow.swingwebpanel.js.ErrorKind;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsErrorObject;
@@ -79,7 +81,8 @@ final class ErrorLib {
      */
     private static NativeFunction installOne(JsRealm realm, final ErrorKind kind, JsObject parent) {
         final JsObject proto = realm.getErrorPrototype(kind);
-        NativeFunction ctor = LibSupport.defineConstructor(realm, kind.getErrorName(), 1, new NativeFunction.Call() {
+        int length = kind == ErrorKind.AGGREGATE_ERROR ? 2 : 1;
+        NativeFunction ctor = LibSupport.defineConstructor(realm, kind.getErrorName(), length, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 return create(r, kind, args, null);
             }
@@ -109,9 +112,23 @@ final class ErrorLib {
     private static JsObject create(JsRealm realm, ErrorKind kind, JsValue[] args, JsObject newTarget) {
         JsObject proto = Ops.getPrototypeFromConstructor(realm, newTarget, realm.getErrorPrototype(kind));
         JsErrorObject e = new JsErrorObject(proto);
-        JsValue message = Js.arg(args, 0);
+        int messageIndex = kind == ErrorKind.AGGREGATE_ERROR ? 1 : 0;
+        JsValue message = Js.arg(args, messageIndex);
         if (!message.isUndefined()) {
             e.defineOwnProperty("message", PropertyDescriptor.data(JsString.of(Ops.toString(message)), true, false, true));
+        }
+        if (kind == ErrorKind.AGGREGATE_ERROR) {
+            List<JsValue> values = new ArrayList<JsValue>();
+            JsObject iterator = org.duckdns.hjow.swingwebpanel.js.IteratorHelper.getIterator(realm, Js.arg(args, 0));
+            JsObject next;
+            while ((next = org.duckdns.hjow.swingwebpanel.js.IteratorHelper.step(iterator)) != null) {
+                values.add(org.duckdns.hjow.swingwebpanel.js.IteratorHelper.value(next));
+            }
+            e.defineOwnProperty("errors", PropertyDescriptor.data(realm.newArray(values), true, false, true));
+        }
+        JsValue options = Js.arg(args, messageIndex + 1);
+        if (options instanceof JsObject && ((JsObject) options).hasProperty("cause")) {
+            e.defineOwnProperty("cause", PropertyDescriptor.data(((JsObject) options).get("cause"), true, false, true));
         }
         return e;
     }

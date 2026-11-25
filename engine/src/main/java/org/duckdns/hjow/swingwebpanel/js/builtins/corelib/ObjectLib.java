@@ -19,14 +19,12 @@ import org.duckdns.hjow.swingwebpanel.js.builtins.DescriptorOps;
 /**
  * Installs the <code>Object</code> constructor with its static methods, <code>Object.prototype</code> and the Annex B accessor and
  * helper methods (<code>__proto__</code>, <code>__defineGetter__</code>, <code>__defineSetter__</code>, <code>__lookupGetter__</code>,
- * <code>__lookupSetter__</code>) of ECMA-262 6th edition section 19.1 and B.2.2. The ES2017 methods <code>Object.entries</code>,
- * <code>Object.values</code> and <code>Object.getOwnPropertyDescriptors</code> are deliberately not provided.
+ * <code>__lookupSetter__</code>) of ECMA-262 6th edition section 19.1 and B.2.2, with the later ES2022 static methods.
  * The property descriptor conversion and integrity level helpers are package visible because other installers need them.
  * <p>
  * ECMA-262 6판 19.1 절과 부속서 B.2.2 의 <code>Object</code> 생성자와 정적 메서드, <code>Object.prototype</code>, 부속서 B 의 접근자와
  * 도우미 메서드(<code>__proto__</code>, <code>__defineGetter__</code>, <code>__defineSetter__</code>, <code>__lookupGetter__</code>,
- * <code>__lookupSetter__</code>)를 설치한다. ES2017 의 <code>Object.entries</code>, <code>Object.values</code>,
- * <code>Object.getOwnPropertyDescriptors</code> 는 의도적으로 제공하지 않는다. 프로퍼티 기술자 변환과 무결성 수준 도우미는 다른 설치기가
+ * <code>__lookupSetter__</code>)와 ES2022 까지 추가된 정적 메서드를 설치한다. 프로퍼티 기술자 변환과 무결성 수준 도우미는 다른 설치기가
  * 필요로 하므로 패키지 공개이다.
  */
 final class ObjectLib {
@@ -113,6 +111,16 @@ final class ObjectLib {
                 return o;
             }
         });
+        realm.method(ctor, "entries", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return enumerableKeyValueArray(r, Ops.toObject(r, Js.arg(args, 0)), false);
+            }
+        });
+        realm.method(ctor, "fromEntries", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return fromEntries(r, Js.arg(args, 0));
+            }
+        });
         realm.method(ctor, "defineProperties", 2, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 JsObject o = LibSupport.requireObject(Js.arg(args, 0), "Object.defineProperties called on non-object");
@@ -143,6 +151,21 @@ final class ObjectLib {
                 JsObject o = Ops.toObject(r, Js.arg(args, 0));
                 Object key = Ops.toPropertyKey(Js.arg(args, 1));
                 return DescriptorOps.fromDescriptor(r, o.getOwnProperty(key));
+            }
+        });
+        realm.method(ctor, "getOwnPropertyDescriptors", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsObject o = Ops.toObject(r, Js.arg(args, 0));
+                JsObject result = r.newObject();
+                List<Object> keys = o.ownKeys();
+                for (int i = 0; i < keys.size(); i++) {
+                    Object key = keys.get(i);
+                    PropertyDescriptor desc = o.getOwnProperty(key);
+                    if (desc != null) {
+                        result.createDataPropertyOrThrow(key, DescriptorOps.fromDescriptor(r, desc));
+                    }
+                }
+                return result;
             }
         });
         realm.method(ctor, "getOwnPropertyNames", 1, new NativeFunction.Call() {
@@ -201,6 +224,12 @@ final class ObjectLib {
                 return r.newArray(names);
             }
         });
+        realm.method(ctor, "hasOwn", 2, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsObject o = Ops.toObject(r, Js.arg(args, 0));
+                return Js.bool(o.hasOwnProperty(Ops.toPropertyKey(Js.arg(args, 1))));
+            }
+        });
         realm.method(ctor, "preventExtensions", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 JsValue v = Js.arg(args, 0);
@@ -235,6 +264,80 @@ final class ObjectLib {
                 return o;
             }
         });
+        realm.method(ctor, "values", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return enumerableKeyValueArray(r, Ops.toObject(r, Js.arg(args, 0)), true);
+            }
+        });
+    }
+
+    /**
+     * Creates the array used by Object.entries or Object.values from enumerable own string keys.
+     * <p>
+     * 열거 가능한 자체 문자열 키에서 Object.entries 또는 Object.values 가 돌려줄 배열을 만든다.
+     *
+     * @param realm the realm / realm
+     * @param object the source object / 원본 객체
+     * @param values true for values only / 값만 모으려면 true
+     * @return the entries or values array / 항목 또는 값 배열
+     */
+    private static JsValue enumerableKeyValueArray(JsRealm realm, JsObject object, boolean values) {
+        List<JsValue> out = new ArrayList<JsValue>();
+        List<Object> keys = object.ownKeys();
+        for (int i = 0; i < keys.size(); i++) {
+            Object key = keys.get(i);
+            if (!(key instanceof String)) {
+                continue;
+            }
+            PropertyDescriptor desc = object.getOwnProperty(key);
+            if (desc == null || !desc.isEnumerableTrue()) {
+                continue;
+            }
+            JsValue value = object.get(key);
+            if (values) {
+                out.add(value);
+            } else {
+                out.add(realm.newArray(new JsValue[] { JsString.of((String) key), value }));
+            }
+        }
+        return realm.newArray(out);
+    }
+
+    /**
+     * Implements Object.fromEntries, including iterator closing after a malformed pair or a property definition failure.
+     * <p>
+     * Object.fromEntries 를 구현한다. 잘못된 쌍이나 프로퍼티 정의 실패 뒤에는 이터레이터를 닫는다.
+     *
+     * @param realm the realm / realm
+     * @param iterable the iterable / 이터러블
+     * @return the new object / 새 객체
+     */
+    private static JsValue fromEntries(JsRealm realm, JsValue iterable) {
+        JsObject result = realm.newObject();
+        JsObject iterator = org.duckdns.hjow.swingwebpanel.js.IteratorHelper.getIterator(realm, iterable);
+        boolean done = false;
+        try {
+            while (true) {
+                JsObject next = org.duckdns.hjow.swingwebpanel.js.IteratorHelper.step(iterator);
+                if (next == null) {
+                    done = true;
+                    return result;
+                }
+                JsValue entryValue = org.duckdns.hjow.swingwebpanel.js.IteratorHelper.value(next);
+                if (!(entryValue instanceof JsObject)) {
+                    throw JsException.typeError("Object.fromEntries iterator value is not an entry object");
+                }
+                JsObject entry = (JsObject) entryValue;
+                JsValue key = entry.get("0");
+                JsValue value = entry.get("1");
+                result.createDataPropertyOrThrow(Ops.toPropertyKey(key), value);
+            }
+        } catch (JsException e) {
+            if (!done) {
+                org.duckdns.hjow.swingwebpanel.js.IteratorHelper.closeQuietly(iterator);
+            }
+            throw e;
+        }
     }
 
     /**

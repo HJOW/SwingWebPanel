@@ -43,6 +43,13 @@ public final class WellKnownSymbols {
     public static final JsSymbol MATCH = new JsSymbol("Symbol.match");
 
     /**
+     * The well-known symbol Symbol.matchAll.
+     * <p>
+     * 잘 알려진 심볼 Symbol.matchAll.
+     */
+    public static final JsSymbol MATCH_ALL = new JsSymbol("Symbol.matchAll");
+
+    /**
      * The well-known symbol Symbol.replace.
      * <p>
      * 잘 알려진 심볼 Symbol.replace 를 나타낸다.

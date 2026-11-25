@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-05-a 현대 내장 객체 1차 묶음 (2026-11-25) ===
+현재 작업 번호: P28-05-a 완료. P28-05는 계속 진행.
+완료한 내용: Object.entries/values/fromEntries/getOwnPropertyDescriptors/hasOwn, Array.flat/flatMap/at, String.at/replaceAll/matchAll 표면, TypedArray.at, Promise.allSettled/any/finally, Symbol.description/asyncIterator/matchAll, Error cause와 AggregateError를 구현했다.
+변경 파일: engine js WellKnownSymbols/ErrorKind와 corelib ObjectLib/SymbolLib/ErrorLib, stringarray ArrayMethods/StringBuiltins, typed TypedArrayMethods, meta PromiseBuiltins, Es2022BuiltinsTest, AGENTS.md, 이 문서.
+검증 결과: `.\engine\test.bat --filter js.interp.Es2022BuiltinsTest` JDK 6u45: 6 passed/0 failed. engine package JDK 6 source/target 컴파일 성공.
+미해결 사항: String/RegExp matchAll의 실제 @@matchAll iterator·named groups·d 플래그·lookbehind·Unicode properties, WeakRef/FinalizationRegistry와 P28-05 전체 회귀는 다음 작업.
+다음 작업 번호: P28-05-b.
+-----------------------------------------------------------------------------------------------
 === P28-04 BigInt 완료 (2026-11-25) ===
 현재 작업 번호: P28-04 완료(P28-04-a~d).
 완료한 내용: BigInt 원시값·연산·래퍼/BigInt 내장 객체, BigInt64Array/BigUint64Array/DataView BigInt 접근, JSON TypeError, 구조화 복제, java.math.BigInteger/JSR 223 왕복과 문서를 구현했다.

@@ -266,6 +266,14 @@ final class StringBuiltins {
                 return Js.str(String.valueOf(s.charAt((int) pos)));
             }
         });
+        Support.def(realm, proto, "at", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                String s = thisString(thisValue, "at");
+                double relative = Ops.toInteger(Js.arg(args, 0));
+                double index = relative < 0 ? s.length() + relative : relative;
+                return index < 0 || index >= s.length() ? Js.UNDEFINED : Js.str(String.valueOf(s.charAt((int) index)));
+            }
+        });
         Support.def(realm, proto, "charCodeAt", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 String s = thisString(thisValue, "charCodeAt");
@@ -447,6 +455,20 @@ final class StringBuiltins {
                 return Ops.invoke(r, rx, WellKnownSymbols.MATCH, new JsValue[] { Js.str(s) });
             }
         });
+        Support.def(realm, proto, "matchAll", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsValue o = Ops.requireObjectCoercible(thisValue);
+                JsValue regexp = Js.arg(args, 0);
+                if (!regexp.isNullOrUndefined()) {
+                    JsValue matcher = Ops.getMethod(r, regexp, WellKnownSymbols.MATCH_ALL);
+                    if (!matcher.isUndefined()) {
+                        return Ops.call(matcher, regexp, new JsValue[] { o });
+                    }
+                }
+                JsValue rx = regExpCreate(r, regexp);
+                return Ops.invoke(r, rx, WellKnownSymbols.MATCH_ALL, new JsValue[] { Js.str(Ops.toString(o)) });
+            }
+        });
         Support.def(realm, proto, "search", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 JsValue o = Ops.requireObjectCoercible(thisValue);
@@ -490,6 +512,62 @@ final class StringBuiltins {
                 }
                 Support.checkStringLength((double) string.length() - searchString.length() + replStr.length());
                 return Js.str(string.substring(0, pos) + replStr + string.substring(pos + searchString.length()));
+            }
+        });
+        Support.def(realm, proto, "replaceAll", 2, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsValue o = Ops.requireObjectCoercible(thisValue);
+                JsValue searchValue = Js.arg(args, 0);
+                JsValue replaceValue = Js.arg(args, 1);
+                if (isRegExp(searchValue)) {
+                    JsValue flags = ((JsObject) searchValue).get("flags");
+                    if (!Ops.toString(flags).contains("g")) {
+                        throw JsException.typeError("String.prototype.replaceAll called with a non-global RegExp argument");
+                    }
+                }
+                if (!searchValue.isNullOrUndefined()) {
+                    JsValue replacer = Ops.getMethod(r, searchValue, WellKnownSymbols.REPLACE);
+                    if (!replacer.isUndefined()) {
+                        return Ops.call(replacer, searchValue, new JsValue[] { o, replaceValue });
+                    }
+                }
+                String string = Ops.toString(o);
+                String search = Ops.toString(searchValue);
+                boolean functional = replaceValue.isCallable();
+                String replacement = functional ? null : Ops.toString(replaceValue);
+                StringBuilder out = new StringBuilder();
+                if (search.length() == 0) {
+                    for (int i = 0; i <= string.length(); i++) {
+                        JsValue next = functional
+                                ? Ops.call(replaceValue, Js.UNDEFINED, new JsValue[] { JsString.EMPTY, Js.num(i), Js.str(string) })
+                                : Js.str(replacement);
+                        out.append(functional ? Ops.toString(next)
+                                : Substitution.expand("", string, i, Js.NO_ARGS, replacement));
+                        if (i < string.length()) {
+                            out.append(string.charAt(i));
+                        }
+                    }
+                    Support.checkStringLength(out.length());
+                    return Js.str(out.toString());
+                }
+                int from = 0;
+                while (true) {
+                    int position = string.indexOf(search, from);
+                    if (position < 0) {
+                        break;
+                    }
+                    out.append(string, from, position);
+                    JsValue replacementValue = functional
+                            ? Ops.call(replaceValue, Js.UNDEFINED, new JsValue[] { Js.str(search), Js.num(position), Js.str(string) })
+                            : Js.str(replacement);
+                    String text = functional ? Ops.toString(replacementValue)
+                            : Substitution.expand(search, string, position, Js.NO_ARGS, replacement);
+                    out.append(text);
+                    from = position + search.length();
+                }
+                out.append(string, from, string.length());
+                Support.checkStringLength(out.length());
+                return Js.str(out.toString());
             }
         });
         Support.def(realm, proto, "split", 2, new NativeFunction.Call() {
