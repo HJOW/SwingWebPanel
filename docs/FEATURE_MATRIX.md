@@ -106,7 +106,7 @@
 
 ## 3. 명시적 예외와 처리 정책 (P00-08)
 
-예외는 미구현과 구분한다. EXC-01~08 은 요구사항 원문에 근거한 의도적 미지원이다. EXC-09~13(CSS-J, 2026-11-18)은 요구사항이 아니라 **구현 구조나 JRE 6 의 한계**에 근거한 명시적 예외이며 근거 열에 확인한 내용을 적었다(해당 기능이 없는 이유가 "하지 않았다"가 아니라 "이 구조에서는 할 수 없다"인 것만 넣었다).
+예외는 미구현과 구분한다. EXC-01~08 은 요구사항 원문에 근거한 의도적 미지원이다. EXC-09~15는 요구사항이 아니라 구현 구조·JRE 6·JAR 크기·장치 입력 범위에 근거한 명시적 예외이며 근거 열에 확인한 내용을 적었다.
 
 | 기능 ID | 대상 | 근거 | 처리 정책 | 남은 호환성 차이 |
 | --- | --- | --- | --- | --- |
@@ -124,6 +124,7 @@
 | EXC-12 | `hyphens: auto`(자동 음절 나눔) | **언어 자원 없음**: 언어별 하이픈 패턴 자료를 번들하지 않았고 번들할 근거 자료도 없다. 규격은 언어에 맞는 자원이 없으면 자동 하이픈을 넣지 않아도 된다고 한다(CSS Text 3 하이픈 절) | `auto` 는 `manual` 처럼 동작한다: 소프트 하이픈(U+00AD)에서만 나누고 `hyphens: none` 은 소프트 하이픈을 없앤다(`HyphensAndBalanceLayoutTest`) | 긴 낱말이 자동으로 나뉘지 않음 |
 | EXC-13 | 컴포넌트가 스크롤을 소유해야 하는 기능(`scroll-snap-*`, `scrollbar-width/color/gutter`, `overscroll-behavior`, `scroll-behavior: smooth`, `scroll-state()` 질의, `animation-timeline` 의 `scroll()/view()`, scroll anchoring, 요소 안의 `overflow: auto/scroll` 스크롤) | **구현 구조의 한계**: 스크롤바와 스크롤 위치는 호스트 `JScrollPane` 이 소유하며 컴포넌트에는 자체 스크롤 컨테이너가 없다(`layout.Css.clips`: `overflow` 가 `visible` 이 아니면 자르기만 한다). 호스트의 스크롤바는 컴포넌트 안에서 꾸밀 수 없다 | 선언은 파싱하고 계산 값만 있다(`ScrollPropertiesTest`) | 스냅과 스크롤바 꾸미기 없음, 요소 안 스크롤 없음 |
 | EXC-14 | `MediaStream` 계열 노드(`createMediaStreamSource/Destination/TrackSource`), `getUserMedia` | 장치 입력 없음(EXC-07 과 같은 범위) | `createMediaStream*` 은 `NotSupportedError`, 전역 `MediaStream*` 미노출(C) | | 명시적 예외 | 마이크/캡처 불가 |
+| EXC-15 | 정규식 Unicode 13 Emoji 계열 이진 속성(`Emoji`, `Emoji_Presentation`, `Extended_Pictographic`, `Emoji_Modifier`, `Regional_Indicator`) | 사용자 결정(2026-11-25): JAR 크기 제한으로 `emoji-data.txt` 범위 표를 제품에 넣지 않음 | `/\p{Emoji}/u` 등의 속성은 `SyntaxError`(알 수 없는 속성). 일반 General_Category/Script/Script_Extensions와 다른 Unicode 13 이진 속성은 지원 | Emoji 전용 속성 escape 불가 |
 
 ## 4. HTML (HTML) 과 이전 버전 호환 (LEG)
 
@@ -383,7 +384,7 @@
 ### 7.5 ES2015 이후 확장 (별도 추적, ES6 완료 판정과 무관)
 
 브라우저 페이지가 흔히 사용하므로 확장 항목(`ESX-*`)으로 추적한다. 2026-11-24 NetstormJava 게임 번들(ES2022 문법을 변환 없이 사용)이 첫 줄에서 구문 오류로 멈춘 것을 계기로 계획 P28(AGENTS.md)에 행을 추가했다.
-상태는 2026-11-24 판정 결과이다. `js.embed.JsEngine`에서 기능별 코드를 평가하고, 실제 `SwingWebPanel` 페이지에서도 확인했다(근거: `docs/progress/netstorm.md` 3~4절).
+상태는 2026-11-25 구현 결과와 2026-11-24 게임 판정을 합친 결과이다. `js.embed.JsEngine`에서 기능별 코드를 평가하고, P28-05에서 추가한 기능은 JDK 6의 엔진·브라우저 회귀로 다시 확인했다(근거: `docs/progress/netstorm.md` 3~4, 11절).
 P28의 기준 판본은 **ECMA-262 제13판, ECMAScript 2022, June 2022**이다(조회 2026-11-25, 0절의 공식 URL·조회 제한과 저장소의 오프라인 사본 [`docs/es2022`](es2022/) 참조). "게임"은 NetstormJava 번들의 사용 수 또는 `"사용"`/`"없음"`이다. ES2023 이후 기능은 이 표의 `ESX-OUT-*` 목록으로 분리하며 P28 대상은 아니다.
 
 | 기능 ID | 판본 | 요구사항 | 구현 클래스 | 검증 사례 | 상태 | 게임 |
@@ -394,11 +395,11 @@ P28의 기준 판본은 **ECMA-262 제13판, ECMAScript 2022, June 2022**이다(
 | ESX-SHARED | ES2017 | `SharedArrayBuffer`, `Atomics`, View 연동 | (P28-05) | - | 미구현 | 없음 |
 | ESX-ASYNCITER | ES2018 | async 제너레이터, `for await`, AsyncIterator/AsyncFromSyncIterator, `Symbol.asyncIterator` | `interp.AsyncGeneratorObject`, `AsyncIteratorHelper`, `Statements` | `ModernAsyncIteratorTest` | 검증 완료: 요청 큐, await/yield/yield*, next/return/throw, sync wrapper, for-await close/rejection 검증 | 없음 |
 | ESX-OBJREST | ES2018 | 객체 spread `{...x}`, 객체 rest, CopyDataProperties 평가 순서 | `parser.ExpressionParser`, `interp.Expressions`, `Patterns` | `ModernExpressionTest` | 검증 완료: 문자열/심볼 열거·getter·setter bypass·excluded key 순서 검증 | spread 513 |
-| ESX-PROMISE-FINALLY | ES2018 | `Promise.prototype.finally` | (P28-05) | - | 미구현 | 없음 |
-| ESX-REGEXP-2018 | ES2018 | `s` 플래그, 이름 있는 캡처, 후방 탐색, Unicode 속성 이스케이프 `\p{}`/`\P{}` | `js.regexp.*` | - | 부분 구현: `s`와 이름 있는 캡처 구문은 받으나 `groups`와 `$<name>`이 없음, 나머지는 구문 오류 | `groups` 2, 원본 소스의 `\p{}`는 없음 확인 |
+| ESX-PROMISE-FINALLY | ES2018 | `Promise.prototype.finally` | `js.builtins.meta.PromiseBuiltins` | `Es2022BuiltinsTest.testModernPromises` | 검증 완료 | 없음 |
+| ESX-REGEXP-2018 | ES2018 | `s` 플래그, 이름 있는 캡처, 후방 탐색, Unicode 속성 이스케이프 `\p{}`/`\P{}` | `js.regexp.*`, `js.builtins.datajson.RegExpBuiltins`, `tools/unicodegen` | `Es2022RegExpTest`, 기존 `RegExpTest` | 검증 완료(제약): `groups`와 `$<name>`·callback groups, positive/negative lookbehind, Unicode 13.0 category/script/scx/이진 속성 구현. Emoji 13 전용 속성은 EXC-15 | `groups` 2, 원본 소스의 `\p{}`는 없음 확인 |
 | ESX-SYNTAX-2018 | ES2018 | 태그가 있는 템플릿 리터럴에서 잘못된 이스케이프의 cooked 값이 `undefined`가 되는 규칙(tagged template revision)과 관련 조기 오류 | `js.parser.*`, `js.interp.*` | (P28-02/03) | 판정 필요 | 관찰 안 됨 |
 | ESX-CATCH | ES2019 | optional catch binding `catch {}` | `js.parser.Parser` | `ParserStatementTest`, `ModernExpressionTest` | 검증 완료 | 8 |
-| ESX-SEMANTICS-2019 | ES2019/2021 | U+2028/U+2029를 문자열 리터럴에 허용하는 JSON superset 문법, 안정적인 `Array#sort`(ES2021의 정밀한 정렬 순서 포함), `JSON.stringify`의 well-formed UTF-16, `Function#toString`의 원문/표준 자리표시자 | `js.parser.*`, `js.builtins.*` | (P28-02/05) | 부분 구현/판정 필요 | 사용 여부 미관찰 |
+| ESX-SEMANTICS-2019 | ES2019/2021 | U+2028/U+2029를 문자열 리터럴에 허용하는 JSON superset 문법, 안정적인 `Array#sort`(ES2021의 정밀한 정렬 순서 포함), `JSON.stringify`의 well-formed UTF-16, `Function#toString`의 원문/표준 자리표시자 | `js.parser.*`, `js.builtins.*` | `Es2022BuiltinsTest.testStableSort`, 기존 JSON/Function 시험 | 부분 구현: 안정 sort 검증 완료; JSON stringify와 Function#toString 경계는 별도 대조 필요 | 사용 여부 미관찰 |
 | ESX-CHAIN | ES2020 | optional chaining `?.`, nullish `??`와 단락 평가·괄호 조기 오류 | `interp.OptionalShortCircuit`, `Expressions` | `ModernExpressionTest` | 검증 완료: member/call chain 범위, 인수 생략, 논리 혼합 오류 검증 | `?.` 1,985, `??` 714 |
 | ESX-BIGINT | ES2020 | BigInt 원시값·모든 진법 리터럴, 연산/변환, `BigInt`, `asIntN/asUintN`, `BigInt64Array/BigUint64Array`, `DataView` BigInt 접근 | `JsBigInt`, `Ops`, `interp.Expressions`, `corelib.BigIntLib`, `builtins.typed.*`, `embed.JavaValues`, `StructuredClone` | `BigIntCoreTest`, `BigIntTypedArrayTest`, `JsEngineValuesTest`, `JsScriptEngineTest`, `StructuredCloneTest`, `tools/netstormparse` | 검증 완료: 2/8/10/16진 리터럴, Number 혼합 오류, 정확한 비교/산술/비트/시프트, BigInt/래퍼, N-bit 절단, 64비트 형식화 배열/DataView, JSON TypeError/replacer, clone, Java `BigInteger`/JSR 223 왕복 검증 | 리터럴 129, `BigInt` 307, `asIntN` 83, `asUintN` 44, get/setBigUint64 각 14 |
 | ESX-IMPORT | ES2020 | 동적 `import()`, `import.meta`, `export * as name from` | `interp.ModuleAsyncEvaluation`, `ModuleRecord`, `PageScripts` | `ModernDynamicImportTest`, `ModuleScriptTest` | 검증 완료: Promise, coercion/rejection, import.meta.url, 중복/cycle, 요청 계층 연동 검증 | 없음 |
@@ -407,14 +408,14 @@ P28의 기준 판본은 **ECMA-262 제13판, ECMAScript 2022, June 2022**이다(
 | ESX-NUMSEP | ES2021 | 숫자 구분자 `_`(decimal/binary/octal/hex, BigInt) | `js.parser.Lexer` | `LexerTest`, `ParserExpressionTest`, `tools/netstormparse` | 검증 완료(문법): 위치/진법 오류와 BigInt 조합을 P28-02에서 검증 | 원본 소스 2 |
 | ESX-TOPAWAIT | ES2022 | 모듈 최상위 `await`와 모듈 평가 비동기 순환 | `interp.ModuleAsyncEvaluation`, `ModuleRecord` | `ModernDynamicImportTest`, `ModuleScriptTest` | 검증 완료: 의존성 순서, Promise 재개, cycle과 페이지 module script 검증 | 없음 |
 | ESX-CLASS | ES2022 | public/private/static 필드, private 메서드·접근자, static 블록, `#x in obj`, PrivateEnvironment/brand 검사 | `interp.ClassRuntime`, `Classes`, `Reference` | `ModernClassTest`, `ClassTest`, `tools/netstormparse` | 검증 완료: field 정의 순서, base/derived, static block, computed key, private brand/method/accessor/in 검증 | public 필드 2,053, private 필드 3,797, static 필드 2, static 블록 5, private 메서드·접근자 1,570, private 이름 사용 30,294 |
-| ESX-B-OBJ | ES2017~2022 | `Object.entries/values/getOwnPropertyDescriptors/fromEntries/hasOwn` | (P28-05) | - | 미구현 | 각각 15/6/0/4/9 |
-| ESX-B-ARR | ES2016~2022 | `Array.prototype.includes/flat/flatMap/at`, `%TypedArray%.prototype.at` | `js.builtins.stringarray.ArrayMethods`(includes) | - | 부분 구현 | includes 144, flat 0, flatMap 1, `at` 총 42(소유 객체는 P28-05에서 판정) |
-| ESX-B-STR | ES2017~2022 | `padStart/padEnd/trimStart/trimEnd/replaceAll/matchAll/at` | `js.builtins.stringarray.StringBuiltins`(pad/trim) | - | 부분 구현 | padStart 22, padEnd 3, trimStart/trimEnd 0, replaceAll 3, matchAll 0, `at`는 ESX-B-ARR과 합산 42 |
-| ESX-B-PROM | ES2018~2021 | `Promise.prototype.finally`, `Promise.allSettled/any`, `AggregateError` | (P28-05) | - | 미구현 | 없음 |
-| ESX-B-SYM | ES2018/2019 | `Symbol.asyncIterator`, `Symbol.prototype.description` | (P28-05) | - | 미구현 | `description` 36, asyncIterator 미관찰 |
-| ESX-B-WEAK | ES2021 | `WeakRef`, `FinalizationRegistry` | (P28-05) | - | 미구현 | `WeakRef` 7, FinalizationRegistry 0 |
-| ESX-B-ERR | ES2022 | Error `cause` 옵션 | (P28-05) | - | 미구현 | 원본 소스 1 |
-| ESX-RE-INDICES | ES2022 | 정규식 `d` 플래그, `hasIndices`, `RegExpExec` 결과의 `indices`/그룹 인덱스 | `js.parser.Lexer` | `LexerTest`, `tools/netstormparse` | 부분 구현: `/d` 리터럴 문법과 외부 원본 9곳 파싱 완료; `hasIndices`/실제 `indices`는 P28-05 | 원본 소스 9, 번들에는 없음 |
+| ESX-B-OBJ | ES2017~2022 | `Object.entries/values/getOwnPropertyDescriptors/fromEntries/hasOwn` | `js.builtins.corelib.ObjectLib` | `Es2022BuiltinsTest.testModernObjectMethods` | 검증 완료 | 각각 15/6/0/4/9 |
+| ESX-B-ARR | ES2016~2022 | `Array.prototype.includes/flat/flatMap/at`, `%TypedArray%.prototype.at` | `js.builtins.stringarray.ArrayMethods`, `typed.TypedArrayMethods` | `Es2022BuiltinsTest.testModernArrayMethods` | 검증 완료 | includes 144, flat 0, flatMap 1, `at` 총 42 |
+| ESX-B-STR | ES2017~2022 | `padStart/padEnd/trimStart/trimEnd/replaceAll/matchAll/at` | `js.builtins.stringarray.StringBuiltins`, `datajson.RegExpBuiltins` | `Es2022BuiltinsTest.testModernStringMethods`, `Es2022RegExpTest.testMatchAll` | 검증 완료 | padStart 22, padEnd 3, trimStart/trimEnd 0, replaceAll 3, matchAll 0, `at`는 ESX-B-ARR과 합산 42 |
+| ESX-B-PROM | ES2018~2021 | `Promise.prototype.finally`, `Promise.allSettled/any`, `AggregateError` | `meta.PromiseBuiltins`, `corelib.ErrorLib` | `Es2022BuiltinsTest.testModernPromises` | 검증 완료 | 없음 |
+| ESX-B-SYM | ES2018/2019 | `Symbol.asyncIterator`, `Symbol.prototype.description` | `corelib.SymbolLib`, `WellKnownSymbols` | `Es2022BuiltinsTest.testSymbolExtensions`, `ModernAsyncIteratorTest` | 검증 완료 | `description` 36, asyncIterator 미관찰 |
+| ESX-B-WEAK | ES2021 | `WeakRef`, `FinalizationRegistry` | `meta.WeakReferenceBuiltins`, `JsRealm` | `Es2022BuiltinsTest.testWeakReferences`, `testWeakReferenceCollection`(3회 연속) | 검증 완료 | `WeakRef` 7, FinalizationRegistry 0 |
+| ESX-B-ERR | ES2022 | Error `cause` 옵션 | `corelib.ErrorLib` | `Es2022BuiltinsTest.testModernErrors` | 검증 완료 | 원본 소스 1 |
+| ESX-RE-INDICES | ES2022 | 정규식 `d` 플래그, `hasIndices`, `RegExpExec` 결과의 `indices`/그룹 인덱스 | `js.regexp.RegExpFlags`, `datajson.RegExpBuiltins` | `Es2022RegExpTest.testNamedGroupsAndIndices`, `testIndicesFlagAccessor` | 검증 완료 | 원본 소스 9, 번들에는 없음 |
 
 P28 대상 밖(ES2023 이후)은 아래처럼 분리한다. 이 목록은 당면 ES2022 완료 판정에 포함하지 않으며, 필요하면 이후 계획에서 상세 행으로 승격한다.
 

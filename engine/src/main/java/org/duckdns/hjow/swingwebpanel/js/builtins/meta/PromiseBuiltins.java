@@ -632,6 +632,7 @@ final class PromiseBuiltins {
         }
         boolean iteratorDone = false;
         try {
+            // 이터러블의 promise 마다 상태 객체 기록 함수를 연결한다.
             while (true) {
                 JsObject next = IteratorHelper.step(iterator);
                 if (next == null) {
@@ -727,6 +728,7 @@ final class PromiseBuiltins {
         }
         boolean iteratorDone = false;
         try {
+            // 첫 이행 또는 마지막 거부를 결정하도록 promise 마다 반응을 건다.
             while (true) {
                 JsObject next = IteratorHelper.step(iterator);
                 if (next == null) {
@@ -776,7 +778,10 @@ final class PromiseBuiltins {
      * @param errors rejection reasons / 거부 이유들
      */
     private static void rejectAnyAll(JsRealm realm, PromiseCapability capability, List<JsValue> errors) {
-        JsValue aggregate = realm.getGlobalObject().get("AggregateError");
+        JsValue aggregate = realm.getIntrinsic("%AggregateError%");
+        if (aggregate == null) {
+            throw new IllegalStateException("AggregateError intrinsic is not installed");
+        }
         JsObject error = Ops.construct(aggregate, new JsValue[] { realm.newArray(errors), Js.str("All promises were rejected") });
         capability.reject(error);
     }

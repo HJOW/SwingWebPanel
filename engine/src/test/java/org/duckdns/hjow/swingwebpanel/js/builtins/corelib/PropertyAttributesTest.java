@@ -33,8 +33,9 @@ public class PropertyAttributesTest {
      */
     private static final String[][] TABLE = {
         { "Object", "assign:2", "create:2", "defineProperties:2", "defineProperty:3", "freeze:1", "getOwnPropertyDescriptor:2",
-            "getOwnPropertyNames:1", "getOwnPropertySymbols:1", "getPrototypeOf:1", "is:2", "isExtensible:1", "isFrozen:1", "isSealed:1",
-            "keys:1", "preventExtensions:1", "seal:1", "setPrototypeOf:2" },
+            "entries:1", "fromEntries:1", "getOwnPropertyDescriptors:1", "getOwnPropertyNames:1", "getOwnPropertySymbols:1", "getPrototypeOf:1",
+            "hasOwn:2", "is:2", "isExtensible:1", "isFrozen:1", "isSealed:1", "keys:1", "preventExtensions:1", "seal:1",
+            "setPrototypeOf:2", "values:1" },
         { "Object.prototype", "__defineGetter__:2", "__defineSetter__:2", "__lookupGetter__:1", "__lookupSetter__:1", "hasOwnProperty:1",
             "isPrototypeOf:1", "propertyIsEnumerable:1", "toLocaleString:0", "toString:0", "valueOf:0" },
         { "Function.prototype", "apply:2", "bind:1", "call:1", "toString:0", "@@hasInstance:1" },
@@ -43,7 +44,7 @@ public class PropertyAttributesTest {
         { "Symbol.prototype", "toString:0", "valueOf:0", "@@toPrimitive:1" },
         { "Error.prototype", "toString:0" },
         { "EvalError.prototype" }, { "RangeError.prototype" }, { "ReferenceError.prototype" }, { "SyntaxError.prototype" },
-        { "TypeError.prototype" }, { "URIError.prototype" },
+        { "TypeError.prototype" }, { "URIError.prototype" }, { "AggregateError.prototype" },
         { "Number", "isFinite:1", "isInteger:1", "isNaN:1", "isSafeInteger:1", "parseFloat:1", "parseInt:2" },
         { "Number.prototype", "toExponential:1", "toFixed:1", "toLocaleString:0", "toPrecision:1", "toString:1", "valueOf:0" },
         { "BigInt", "asIntN:2", "asUintN:2" },
@@ -59,7 +60,7 @@ public class PropertyAttributesTest {
      * 생성자와 "length".
      */
     private static final String[] CONSTRUCTORS = { "Object:1", "Boolean:1", "Symbol:0", "Error:1", "EvalError:1", "RangeError:1",
-        "ReferenceError:1", "SyntaxError:1", "TypeError:1", "URIError:1", "Number:1" };
+        "ReferenceError:1", "SyntaxError:1", "TypeError:1", "URIError:1", "AggregateError:2", "Number:1" };
 
     /**
      * The global functions with their "length" (besides the constructors).

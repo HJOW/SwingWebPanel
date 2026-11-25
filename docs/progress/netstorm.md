@@ -13,7 +13,7 @@
 | 샘플 프로젝트 | `H:\Workspace\eclipse photon\NetstormJava` (Maven, `source/target 1.7`, 의존성 `swingwebpanel`·`swingwebpanel-js` 0.1.0) |
 | 진입점 | `org.duckdns.hjow.netstorm.Netstorm`: `JFrame` 안의 `SwingWebPanel` 에 콘솔 리스너를 달고 `setPage("classpath://www/index.html")` |
 | 페이지 | `www/index.html` 의 작은 인라인 로더가 `dist/netstorm.bundle.js` 를 `<script>` 로 넣는다(실패 시 세 번 재시도). `www/debug.html` 은 번들 없이 `<script type=module>` 로 `netstorm.js` 를 직접 불러온다 |
-| 번들 | 원본 소스 `D:\Workspace\git\NetstormReborn\webpj\www`(ES 모듈 1,057개)를 webpack 5.113.0 과 terser-webpack-plugin 5.6.1 로 묶은 한 줄짜리 파일, 3,271,267 자(UTF-16 단위), 현재 파일 크기 3,445,839바이트. `webpack.config.js` 는 `target: 'web'` 이고 Babel 같은 하위 판본 변환이 없어 소스의 ES2022 문법이 그대로 들어 있다 |
+| 번들 | 원본 소스 `H:\Workspace\git\NetstormReborn\webpj\www`(2026-11-25 현재 ES 모듈 1,059개)를 webpack 5.113.0 과 terser-webpack-plugin 5.6.1 로 묶은 한 줄짜리 파일, 3,283,377 UTF-16 코드 단위. `webpack.config.js` 는 `target: 'web'` 이고 Babel 같은 하위 판본 변환이 없어 소스의 ES2022 문법이 그대로 들어 있다 |
 | 재현 환경 | 이 저장소의 `browser/target/swingwebpanel.jar`(2026-11-24 빌드), 샘플의 `src/main/resources` 를 클래스패스에 두고 같은 주소를 연 헤드리스 실행. JDK 7u80(샘플의 실행 조건)과 JDK 6u45 |
 | 결과(두 JDK 같음) | 콘솔 리스너로 `[ERROR] classpath://www/dist/netstorm.bundle.js:1:782 (UNCAUGHT_EXCEPTION) > Uncaught Invalid or unexpected token`. 페이지 자체는 확정(`Done`, 진행률 100)되지만 게임 코드는 한 줄도 실행되지 않는다 |
 | 오류 위치 | 1행 782열은 `class AssetLoader { ... async#e(e){for(let t=0;;...` 의 `#e`, 즉 ES2022 클래스 비공개(private) 메서드이다. 엔진의 렉서가 `#` 를 토큰으로 읽지 못한다 |
@@ -120,7 +120,7 @@ P28-01에서 확인해 정정한 사실은 다음과 같다.
 ## 9. P28-02-f 실제 번들·모듈 파싱 (2026-11-25)
 
 `tools/netstormparse`를 추가해 JDK 6u45에서 외부 경로
-`D:\Workspace\git\NetstormReborn\webpj\www`를 직접 검사했다. 도구는 다음을 제품 외부 자산을
+`H:\Workspace\git\NetstormReborn\webpj\www`를 직접 검사했다. 도구는 다음을 제품 외부 자산을
 저장소에 복사하지 않고 수행한다.
 
 1. `dist/netstorm.bundle.js`를 Script 목표로 파싱한다.
@@ -162,3 +162,26 @@ JSON의 TypeError/replacer, 구조화 복제, `java.math.BigInteger`/`javax.scri
 게임 번들이 쓰는 BigInt 리터럴 수·`asIntN/asUintN`·`get/setBigUint64`의 사용수는 2절과 기능 표의
 `ESX-BIGINT` 행에 남겼다. 실제 게임 실행과 P28-08의 화면·입력·소리 검증은 아직 하지 않았다.
 이 결과는 구문 파싱만의 근거이며 실행 의미·DOM·렌더링·오디오 게임 구동이 완료됐다는 뜻은 아니다.
+
+## 11. P28-05 현대 내장 객체와 정규식 (2026-11-25)
+
+게임이 직접 쓰는 `Object.hasOwn`/`fromEntries`/`values`, `Array.flatMap`/`at`, `String.replaceAll`/`at`,
+`WeakRef.deref`, Symbol `description`와 정규식 `groups`/`d` 플래그를 P28-05에서 구현했다.
+그 밖에 `Object.entries/getOwnPropertyDescriptors`, `Array.flat`, `%TypedArray%.at`, `Promise.finally/allSettled/any`,
+`AggregateError`, Error `cause`, `RegExp[Symbol.matchAll]`, `String.matchAll`도 같은 판본(ECMAScript 2022)으로 추가했다.
+
+정규식은 이름 있는 그룹 객체와 치환 `$<name>`, positive/negative lookbehind, match indices, Unicode 13.0 속성 escape를 지원한다.
+`tools/unicodegen`은 Unicode 13.0 UCD `UnicodeData.txt`, `Scripts.txt`, `ScriptExtensions.txt`, `PropList.txt`,
+`DerivedCoreProperties.txt`, `PropertyValueAliases.txt`에서 825개 속성 이름·별칭의 구간표를 생성한다.
+사용자 결정(2026-11-25)으로 JAR 용량을 줄이기 위해 Emoji 13 속성(`Emoji`, `Emoji_Presentation`,
+`Extended_Pictographic`, `Emoji_Modifier`, `Regional_Indicator`)은 생성하지 않으며,
+해당 `\p{...}` / `\P{...}`는 알 수 없는 속성 `SyntaxError`가 된다(EXC-15).
+
+`WeakReference`는 Java `WeakReference`/`ReferenceQueue`로 구현하고 `FinalizationRegistry`의 정리 콜백을
+realm 작업 큐에 넣는다. `WeakRef.deref()`가 돌려준 값은 현재 작업이 끝날 때까지 강하게 유지한다.
+GC 회수 시험은 3회 연속 통과했다.
+
+집중 검증은 `Es2022BuiltinsTest`와 `Es2022RegExpTest` 15건, 전체 엔진 회귀 699건이 JDK 6u45에서
+모두 통과했다. 기존 RegExp 회귀에서 P28 이전 "lookbehind는 오류" 기대 하나를 새 ES2018 의미로 갱신했고,
+메서드 이름·length·프로퍼티 표와 `Symbol.matchAll` 심볼도 함께 대조했다.
+전체 브라우저 회귀 결과와 최종 작업 인계는 `docs/PROGRESS.md`에 둔다.

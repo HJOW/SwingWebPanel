@@ -10,16 +10,16 @@ import org.duckdns.hjow.swingwebpanel.js.text.CharClass;
  * when the pattern has named groups), literal <code>]</code>, <code>{</code>, <code>}</code>, quantifiable lookaheads, a
  * <code>\c</code> that is not followed by a letter meaning a backslash, and class escapes such as <code>[\d-x]</code>.
  * With the u flag these forms are early errors and <code>u-brace code point escapes</code> and surrogate pair escapes are supported.
- * Named groups <code>(?&lt;name&gt;...)</code> with <code>\k&lt;name&gt;</code> are accepted as an ES2018 extension;
- * lookbehind assertions are not supported and are reported as an invalid group.
+ * Named groups <code>(?&lt;name&gt;...)</code> with <code>\k&lt;name&gt;</code>, lookbehind and Unicode property escapes are
+ * accepted as ES2018 syntax.
  * Instances are single use and not thread-safe.
  * <p>
  * ECMAScript 2015 정규식 패턴(ECMA-262 21.2.1)의 재귀 하강 해석기. u 플래그가 없으면 부속서 B.1.4 의 웹 호환 구문을 허용한다:
  * 8진 escape, c(그리고 이름 있는 그룹이 있을 때 k)를 뺀 모든 문자의 identity escape, 리터럴 <code>]</code>, <code>{</code>, <code>}</code>,
  * 수량자가 붙는 선행 탐색, 글자가 뒤따르지 않는 <code>\c</code>(역슬래시를 뜻함), <code>[\d-x]</code> 같은 클래스 escape.
  * u 플래그가 있으면 이런 형태는 조기 오류이고 <code>u-brace code point escapes</code> 와 서로게이트 쌍 escape 를 지원한다.
- * 이름 있는 그룹 <code>(?&lt;name&gt;...)</code> 와 <code>\k&lt;name&gt;</code> 는 ES2018 확장으로 받아들인다.
- * 뒷쪽 탐색(lookbehind)은 지원하지 않으며 올바르지 않은 그룹으로 보고한다. 인스턴스는 한 번만 쓰며 스레드 안전하지 않다.
+ * 이름 있는 그룹 <code>(?&lt;name&gt;...)</code> 와 <code>\k&lt;name&gt;</code>, 뒤쪽 탐색, 유니코드 속성 escape 를 ES2018 구문으로
+ * 받아들인다. 인스턴스는 한 번만 쓰며 스레드 안전하지 않다.
  */
 final class RegExpParser {
 
@@ -272,7 +272,7 @@ final class RegExpParser {
             break;
         case '(':
             atom = parseGroup();
-            quantifiable = atom.type != RegExpNode.LOOK || !unicode;
+            quantifiable = atom.type != RegExpNode.LOOK_BEHIND && (atom.type != RegExpNode.LOOK || !unicode);
             break;
         case '.':
             pos++;
@@ -457,6 +457,10 @@ final class RegExpParser {
             boolean negative = src.charAt(pos + 1) == '!';
             pos += 2;
             node = RegExpNode.of(RegExpNode.LOOK, negative ? 1 : 0, parseDisjunction());
+        } else if (src.startsWith("?<=", pos) || src.startsWith("?<!", pos)) {
+            boolean negative = src.charAt(pos + 2) == '!';
+            pos += 3;
+            node = RegExpNode.of(RegExpNode.LOOK_BEHIND, negative ? 1 : 0, parseDisjunction());
         } else if (src.startsWith("?:", pos)) {
             pos += 2;
             node = RegExpNode.of(RegExpNode.GROUP, 0, parseDisjunction());
@@ -546,6 +550,9 @@ final class RegExpParser {
         case 'W':
             pos++;
             return setNode(RegExpCharSet.word().complement(maxChar()));
+        case 'p':
+        case 'P':
+            return setNode(parseUnicodeProperty(e == 'P'));
         case 'k':
             if (hasNamed) {
                 pos++;
@@ -609,6 +616,33 @@ final class RegExpParser {
      */
     private int maxChar() {
         return unicode ? 0x10FFFF : 0xFFFF;
+    }
+
+    /**
+     * Parses a Unicode property escape and returns its normalized set.
+     * <p>
+     * 유니코드 속성 escape 를 해석해 정규화한 집합을 돌려준다.
+     *
+     * @param complement true for \P / \P 이면 true
+     * @return property set / 속성 집합
+     * @throws RegExpSyntaxException on invalid syntax or an unknown property / 구문 또는 속성 오류 시
+     */
+    private RegExpCharSet parseUnicodeProperty(boolean complement) throws RegExpSyntaxException {
+        int at = pos;
+        if (!unicode || pos + 2 >= n || src.charAt(pos + 1) != '{') {
+            throw error("Invalid property escape", at);
+        }
+        int end = src.indexOf('}', pos + 2);
+        if (end < 0 || end == pos + 2) {
+            throw error("Invalid property escape", at);
+        }
+        String name = src.substring(pos + 2, end);
+        RegExpCharSet set = RegExpCharSet.unicodeProperty(name);
+        if (set == null) {
+            throw error("Invalid property name " + name, at);
+        }
+        pos = end + 1;
+        return complement ? set.complement(0x10FFFF) : set;
     }
 
     /**
@@ -931,6 +965,10 @@ final class RegExpParser {
         case 'W':
             pos++;
             a.set = RegExpCharSet.word().complement(maxChar());
+            return a;
+        case 'p':
+        case 'P':
+            a.set = parseUnicodeProperty(e == 'P');
             return a;
         case 'b':
             pos++;

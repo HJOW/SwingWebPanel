@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.js;
 
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -128,6 +129,13 @@ public class JsRealm {
      * 마이크로태스크 큐.
      */
     private JobQueue jobQueue = new SimpleJobQueue();
+
+    /**
+     * Objects returned by WeakRef.deref during the current task.
+     * <p>
+     * 현재 작업에서 WeakRef.deref 가 돌려준 객체.
+     */
+    private final List<JsObject> weakKeepAlive = new ArrayList<JsObject>();
 
     /**
      * The module loader hook (null if not set).
@@ -726,6 +734,17 @@ public class JsRealm {
     }
 
     /**
+     * Keeps a WeakRef target alive until the end of the current task.
+     * <p>
+     * WeakRef 대상을 현재 작업이 끝날 때까지 살아 있게 둔다.
+     *
+     * @param target the target / 대상
+     */
+    public void keepWeaklyHeld(JsObject target) {
+        weakKeepAlive.add(target);
+    }
+
+    /**
      * Runs all pending jobs when the default {@link SimpleJobQueue} is in use (each job is a separate task for the limits).
      * With a host-provided queue the host drains it itself and this method does nothing.
      * <p>
@@ -733,6 +752,7 @@ public class JsRealm {
      * 호스트가 준 큐를 쓰면 호스트가 직접 비우므로 이 메서드는 아무 일도 하지 않는다.
      */
     public void runJobs() {
+        org.duckdns.hjow.swingwebpanel.js.builtins.meta.WeakReferenceBuiltins.poll(this);
         if (jobQueue instanceof SimpleJobQueue) {
             SimpleJobQueue q = (SimpleJobQueue) jobQueue;
             // 작업 하나마다 단계 수와 시간 측정을 새로 시작한다.
@@ -741,10 +761,13 @@ public class JsRealm {
                 try {
                     q.runOne();
                 } finally {
+                    org.duckdns.hjow.swingwebpanel.js.builtins.meta.WeakReferenceBuiltins.poll(this);
+                    weakKeepAlive.clear();
                     limits.endTask();
                 }
             }
         }
+        weakKeepAlive.clear();
     }
 
     /**

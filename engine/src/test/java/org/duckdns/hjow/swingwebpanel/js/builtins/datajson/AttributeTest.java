@@ -175,12 +175,13 @@ public class AttributeTest {
         method(p, "test", 1);
         method(p, "toString", 0);
         method(p, "compile", 2);
-        String[] flags = { "global", "ignoreCase", "multiline", "dotAll", "unicode", "sticky", "flags", "source" };
+        String[] flags = { "hasIndices", "global", "ignoreCase", "multiline", "dotAll", "unicode", "sticky", "flags", "source" };
         // 플래그 접근자들을 등록한다.
         for (int i = 0; i < flags.length; i++) {
             getter(p, flags[i]);
         }
         row(p, WellKnownSymbols.MATCH, METHOD, "[Symbol.match]", 1);
+        row(p, WellKnownSymbols.MATCH_ALL, METHOD, "[Symbol.matchAll]", 1);
         row(p, WellKnownSymbols.REPLACE, METHOD, "[Symbol.replace]", 2);
         row(p, WellKnownSymbols.SEARCH, METHOD, "[Symbol.search]", 1);
         row(p, WellKnownSymbols.SPLIT, METHOD, "[Symbol.split]", 2);

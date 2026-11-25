@@ -222,7 +222,7 @@ public class BuiltinPropertiesTest {
         method("%TypedArray%.from", ctor, "from", "from", 1);
         method("%TypedArray%.of", ctor, "of", "of", 0);
         getter("%TypedArray%[@@species]", ctor, WellKnownSymbols.SPECIES, "get [Symbol.species]");
-        String[][] methods = { { "copyWithin", "2" }, { "entries", "0" }, { "every", "1" }, { "fill", "1" }, { "filter", "1" }, { "find", "1" },
+        String[][] methods = { { "at", "1" }, { "copyWithin", "2" }, { "entries", "0" }, { "every", "1" }, { "fill", "1" }, { "filter", "1" }, { "find", "1" },
             { "findIndex", "1" }, { "forEach", "1" }, { "indexOf", "1" }, { "join", "1" }, { "keys", "0" }, { "lastIndexOf", "1" }, { "map", "1" },
             { "reduce", "1" }, { "reduceRight", "1" }, { "reverse", "0" }, { "set", "1" }, { "slice", "2" }, { "some", "1" }, { "sort", "1" },
             { "subarray", "2" }, { "toLocaleString", "0" }, { "values", "0" } };

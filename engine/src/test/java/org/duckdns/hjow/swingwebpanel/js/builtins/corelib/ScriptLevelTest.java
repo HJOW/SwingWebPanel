@@ -130,7 +130,7 @@ public class ScriptLevelTest {
             "Object.is(NaN, NaN) + ',' + Object.is(0, -0)", "true,false",
             "Object.setPrototypeOf({}, null).toString", "undefined",
             "try { Object.defineProperty(1, 'x', {}); } catch (e) { e instanceof TypeError }", "true",
-            "Object.entries === undefined && Object.values === undefined", "true");
+            "Object.entries({a:1})[0][1] + ',' + Object.values({a:1})[0]", "1,1");
     }
 
     /**

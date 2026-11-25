@@ -43,14 +43,16 @@ final class ConformanceTable {
         "global: const NaN Infinity undefined",
         "global: fn eval=1 isFinite=1 isNaN=1 parseFloat=1 parseInt=2 decodeURI=1 decodeURIComponent=1 encodeURI=1 encodeURIComponent=1 escape=1 unescape=1",
         "global: ctor Object=1 Function=1 Boolean=1 Symbol=0 Error=1 EvalError=1 RangeError=1 ReferenceError=1 SyntaxError=1 TypeError=1 URIError=1"
-                + " Number=1 String=1 RegExp=2 Date=7 Array=1 Map=0 Set=0 WeakMap=0 WeakSet=0 ArrayBuffer=1 DataView=3 Promise=1"
+                + " AggregateError=2 Number=1 String=1 RegExp=2 Date=7 Array=1 Map=0 Set=0 WeakMap=0 WeakSet=0 ArrayBuffer=1 DataView=3 Promise=1"
+                + " WeakRef=1 FinalizationRegistry=1"
                 + " Int8Array=3 Uint8Array=3 Uint8ClampedArray=3 Int16Array=3 Uint16Array=3 Int32Array=3 Uint32Array=3 Float32Array=3 Float64Array=3",
         "global: ctor0 Proxy=2",
         "global: obj Math JSON Reflect",
 
         // ---- 19.1 Object (+ B.2.2)
         "Object: fn assign=2 create=2 defineProperties=2 defineProperty=3 freeze=1 getOwnPropertyDescriptor=2 getOwnPropertyNames=1"
-                + " getOwnPropertySymbols=1 getPrototypeOf=1 is=2 isExtensible=1 isFrozen=1 isSealed=1 keys=1 preventExtensions=1 seal=1 setPrototypeOf=2",
+                + " entries=1 fromEntries=1 getOwnPropertyDescriptors=1 getOwnPropertySymbols=1 getPrototypeOf=1 hasOwn=2 is=2 isExtensible=1"
+                + " isFrozen=1 isSealed=1 keys=1 preventExtensions=1 seal=1 setPrototypeOf=2 values=1",
         "Object.prototype: fn hasOwnProperty=1 isPrototypeOf=1 propertyIsEnumerable=1 toLocaleString=0 toString=0 valueOf=0"
                 + " __defineGetter__=2 __defineSetter__=2 __lookupGetter__=1 __lookupSetter__=1",
         "Object.prototype: accessor __proto__",
@@ -64,8 +66,9 @@ final class ConformanceTable {
         // ---- 19.3 Boolean, 19.4 Symbol, 19.5 Error
         "Boolean.prototype: fn toString=0 valueOf=0",
         "Symbol: fn for=1 keyFor=1",
-        "Symbol: const hasInstance isConcatSpreadable iterator match replace search species split toPrimitive toStringTag unscopables",
+        "Symbol: const hasInstance isConcatSpreadable iterator asyncIterator match matchAll replace search species split toPrimitive toStringTag unscopables",
         "Symbol.prototype: fn toString=0 valueOf=0",
+        "Symbol.prototype: getter description",
         "Symbol.prototype: rfn @@toPrimitive=1",
         "Symbol.prototype: tag @@toStringTag=Symbol",
         "Error.prototype: fn toString=0",
@@ -76,6 +79,7 @@ final class ConformanceTable {
         "SyntaxError.prototype: val name message",
         "TypeError.prototype: val name message",
         "URIError.prototype: val name message",
+        "AggregateError.prototype: val name message",
 
         // ---- 20 Numbers and Dates
         "Number: const EPSILON MAX_SAFE_INTEGER MAX_VALUE MIN_SAFE_INTEGER MIN_VALUE NaN NEGATIVE_INFINITY POSITIVE_INFINITY",
@@ -100,25 +104,25 @@ final class ConformanceTable {
         "String: fn fromCharCode=1 fromCodePoint=1 raw=1",
         "String.prototype: fn charAt=1 charCodeAt=1 codePointAt=1 concat=1 endsWith=1 includes=1 indexOf=1 lastIndexOf=1 localeCompare=1 match=1"
                 + " normalize=0 repeat=1 replace=2 search=1 slice=2 split=2 startsWith=1 substring=2 toLocaleLowerCase=0 toLocaleUpperCase=0"
-                + " toLowerCase=0 toString=0 toUpperCase=0 trim=0 valueOf=0 @@iterator=0"
+                + " toLowerCase=0 toString=0 toUpperCase=0 trim=0 valueOf=0 at=1 matchAll=1 replaceAll=2 @@iterator=0"
                 + " anchor=1 big=0 blink=0 bold=0 fixed=0 fontcolor=1 fontsize=1 italics=0 link=1 small=0 strike=0 sub=0 substr=2 sup=0",
         "RegExp: getter @@species",
-        "RegExp.prototype: fn exec=1 test=1 toString=0 compile=2 @@match=1 @@replace=2 @@search=1 @@split=2",
-        "RegExp.prototype: getter flags global ignoreCase multiline source sticky unicode",
+        "RegExp.prototype: fn exec=1 test=1 toString=0 compile=2 @@match=1 @@matchAll=1 @@replace=2 @@search=1 @@split=2",
+        "RegExp.prototype: getter flags global hasIndices ignoreCase multiline source sticky unicode",
 
         // ---- 22 Indexed Collections
         "Array: fn from=1 isArray=1 of=0",
         "Array: getter @@species",
         "Array.prototype: fn concat=1 copyWithin=2 entries=0 every=1 fill=1 filter=1 find=1 findIndex=1 forEach=1 indexOf=1 join=1 keys=0"
                 + " lastIndexOf=1 map=1 pop=0 push=1 reduce=1 reduceRight=1 reverse=0 shift=0 slice=2 some=1 sort=1 splice=2 toLocaleString=0"
-                + " toString=0 unshift=1 values=0",
+                + " toString=0 unshift=1 values=0 at=1 flat=0 flatMap=1",
         "Array.prototype: link @@iterator=Array.prototype.values",
         "Array.prototype: robj @@unscopables",
         "%TypedArray%: fn from=1 of=0",
         "%TypedArray%: getter @@species",
         "%TypedArray%.prototype: getter buffer byteLength byteOffset length @@toStringTag",
         "%TypedArray%.prototype: fn copyWithin=2 entries=0 every=1 fill=1 filter=1 find=1 findIndex=1 forEach=1 indexOf=1 join=1 keys=0"
-                + " lastIndexOf=1 map=1 reduce=1 reduceRight=1 reverse=0 set=1 slice=2 some=1 sort=1 subarray=2 toLocaleString=0 values=0",
+                + " lastIndexOf=1 map=1 reduce=1 reduceRight=1 reverse=0 set=1 slice=2 some=1 sort=1 subarray=2 toLocaleString=0 values=0 at=1",
         "%TypedArray%.prototype: link @@iterator=%TypedArray%.prototype.values toString=Array.prototype.toString",
         "Int8Array: const BYTES_PER_ELEMENT",
         "Uint8Array: const BYTES_PER_ELEMENT",
@@ -162,9 +166,9 @@ final class ConformanceTable {
         "JSON: tag @@toStringTag=JSON",
 
         // ---- 25 Control Abstraction Objects
-        "Promise: fn all=1 race=1 reject=1 resolve=1",
+        "Promise: fn all=1 allSettled=1 any=1 race=1 reject=1 resolve=1",
         "Promise: getter @@species",
-        "Promise.prototype: fn catch=1 then=2",
+        "Promise.prototype: fn catch=1 finally=1 then=2",
         "Promise.prototype: tag @@toStringTag=Promise",
         "%IteratorPrototype%: fn @@iterator=0",
         "%ArrayIteratorPrototype%: fn next=0",
@@ -172,6 +176,8 @@ final class ConformanceTable {
         "%GeneratorPrototype%: fn next=1 return=1 throw=1",
         "%GeneratorPrototype%: tag @@toStringTag=Generator",
         "%GeneratorFunction.prototype%: tag @@toStringTag=GeneratorFunction",
+        "WeakRef.prototype: fn deref=0",
+        "FinalizationRegistry.prototype: fn register=2 unregister=1 cleanupSome=0",
 
         // ---- 26 Reflection
         "Proxy: fn revocable=2",

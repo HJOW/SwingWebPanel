@@ -37,6 +37,7 @@ public final class MetaLibInstaller implements BuiltinInstaller {
         ProxyBuiltins.install(realm);
         ReflectBuiltins.install(realm);
         PromiseBuiltins.install(realm);
+        WeakReferenceBuiltins.install(realm);
         LegacyBuiltins.install(realm);
         EnumerateSupport.forInPrototype(realm);
     }

@@ -83,6 +83,13 @@ final class RegExpNode {
     static final int LOOK = 9;
 
     /**
+     * Node type: lookbehind, {@link #value} is 1 for a negative lookbehind.
+     * <p>
+     * 노드 종류: 뒤쪽 탐색. 부정이면 {@link #value} 가 1.
+     */
+    static final int LOOK_BEHIND = 11;
+
+    /**
      * Node type: quantified {@link #child}.
      * <p>
      * 노드 종류: 수량자가 붙은 {@link #child}.

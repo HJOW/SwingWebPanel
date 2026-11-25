@@ -15,7 +15,7 @@ tools\netstormparse\build.bat
 ## 실행
 
 ```bat
-tools\netstormparse\run.bat "D:\Workspace\git\NetstormReborn\webpj\www"
+tools\netstormparse\run.bat "H:\Workspace\git\NetstormReborn\webpj\www"
 ```
 
 성공하면 번들 문자 수, inline module 수, 원본 모듈 수, static import 수와 오류 0을 출력합니다.

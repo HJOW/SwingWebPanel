@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Compiles an ECMAScript 2015 regular expression into a {@link RegExpProgram}: the pattern is parsed into a syntax tree
+ * Compiles an ECMAScript regular expression into a {@link RegExpProgram}: the pattern is parsed into a syntax tree
  * by {@link RegExpParser} and translated to the instruction set interpreted by the backtracking matcher.
  * <p>
  * Translation rules (ECMA-262 21.2.2): alternation and quantifiers become split/jump instructions; a quantifier whose
@@ -17,7 +17,7 @@ import java.util.List;
  * Use {@link #compile(String, int)} or {@link #compile(String, String)}; {@link #validate(String, String)} only checks
  * the early errors of a regular expression literal. All methods are static and thread-safe.
  * <p>
- * ECMAScript 2015 정규식을 {@link RegExpProgram} 으로 컴파일한다. {@link RegExpParser} 가 패턴을 구문 트리로 해석하고, 이를 역추적
+ * ECMAScript 정규식을 {@link RegExpProgram} 으로 컴파일한다. {@link RegExpParser} 가 패턴을 구문 트리로 해석하고, 이를 역추적
  * 일치 검색기가 해석하는 명령으로 번역한다.
  * <p>
  * 번역 규칙(ECMA-262 21.2.2): 선택과 수량자는 분기/점프 명령이 된다. 원자가 문자 하나나 클래스인 수량자는 일정한 역추적 메모리만 쓰는 REPEAT 명령
@@ -65,6 +65,13 @@ public final class RegExpCompiler {
     private final boolean dotAll;
 
     /**
+     * Flag bits passed to subprograms.
+     * <p>
+     * 하위 프로그램에 넘기는 플래그 비트.
+     */
+    private final int flags;
+
+    /**
      * The pattern text, used for error messages.
      * <p>
      * 오류 메시지에 쓰는 패턴 문자열.
@@ -100,6 +107,13 @@ public final class RegExpCompiler {
     private final List<RegExpCharSet> sets = new ArrayList<RegExpCharSet>();
 
     /**
+     * Compiled lookbehind bodies.
+     * <p>
+     * 컴파일한 뒤쪽 탐색 본문.
+     */
+    private final List<RegExpProgram> lookbehinds = new ArrayList<RegExpProgram>();
+
+    /**
      * Next free register index for loops.
      * <p>
      * 반복문이 쓸 다음 빈 레지스터 번호.
@@ -117,6 +131,7 @@ public final class RegExpCompiler {
      */
     private RegExpCompiler(String source, int flags, int groupCount) {
         this.source = source;
+        this.flags = flags;
         this.ignoreCase = (flags & RegExpFlags.IGNORE_CASE) != 0;
         this.multiline = (flags & RegExpFlags.MULTILINE) != 0;
         this.unicode = (flags & RegExpFlags.UNICODE) != 0;
@@ -157,7 +172,7 @@ public final class RegExpCompiler {
         }
         boolean anchored = (flags & RegExpFlags.MULTILINE) == 0 && isAnchored(root);
         return new RegExpProgram(source, flags, parser.getGroupCount(), Arrays.copyOf(gen.code, gen.len), setArray, gen.nextReg,
-                names, firstChar, anchored);
+                names, firstChar, anchored, gen.lookbehinds.toArray(new RegExpProgram[gen.lookbehinds.size()]));
     }
 
     /**
@@ -335,6 +350,11 @@ public final class RegExpCompiler {
             code[contSlot] = len;
             break;
         }
+        case RegExpNode.LOOK_BEHIND:
+            emit(RegExpProgram.OP_LOOK_BEHIND);
+            emit(n.value);
+            emit(compileLookbehind(n.child));
+            break;
         case RegExpNode.REPEAT:
             genRepeat(n);
             break;
@@ -518,5 +538,28 @@ public final class RegExpCompiler {
         emit(n.min);
         emit(head);
         code[exitSlot] = len;
+    }
+
+    /**
+     * Compiles a lookbehind body as an independent matcher with the same capture numbering and flags.
+     * <p>
+     * 같은 캡처 번호와 플래그로 뒤쪽 탐색 본문을 독립 일치 검색기로 컴파일한다.
+     *
+     * @param body assertion body / 단언 본문
+     * @return subprogram index / 하위 프로그램 번호
+     */
+    private int compileLookbehind(RegExpNode body) {
+        RegExpCompiler gen = new RegExpCompiler(source, flags, groupCount);
+        try {
+            gen.generate(body);
+        } catch (RegExpSyntaxException e) {
+            throw new IllegalStateException(e.getMessage());
+        }
+        gen.emit(RegExpProgram.OP_MATCH);
+        RegExpProgram program = new RegExpProgram(source, flags, groupCount, Arrays.copyOf(gen.code, gen.len),
+                gen.sets.toArray(new RegExpCharSet[gen.sets.size()]), gen.nextReg, new String[groupCount + 1], -1, false,
+                gen.lookbehinds.toArray(new RegExpProgram[gen.lookbehinds.size()]));
+        lookbehinds.add(program);
+        return lookbehinds.size() - 1;
     }
 }

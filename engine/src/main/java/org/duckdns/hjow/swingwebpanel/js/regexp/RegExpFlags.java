@@ -4,11 +4,11 @@ package org.duckdns.hjow.swingwebpanel.js.regexp;
  * Bit constants and parsing of regular expression flags. The matcher itself only uses {@link #IGNORE_CASE},
  * {@link #MULTILINE}, {@link #UNICODE} and {@link #DOT_ALL}; {@link #GLOBAL} and {@link #STICKY} are carried for the
  * caller (<code>RegExp.prototype.exec</code> decides where matching starts and whether it may scan forward).
- * {@link #DOT_ALL} (flag s) is an ES2018 extension and is accepted as such.
+ * {@link #DOT_ALL} (flag s) and {@link #HAS_INDICES} (flag d) are later extensions and are accepted as such.
  * <p>
  * 정규식 플래그의 비트 상수와 해석. 일치 검색기 자체는 {@link #IGNORE_CASE}, {@link #MULTILINE}, {@link #UNICODE}, {@link #DOT_ALL} 만 쓰고
  * {@link #GLOBAL}, {@link #STICKY} 는 호출자를 위해 보관한다(<code>RegExp.prototype.exec</code> 가 시작 위치와 앞쪽 탐색 여부를 정한다).
- * {@link #DOT_ALL}(플래그 s)은 ES2018 확장이며 그렇게 받아들인다.
+ * {@link #DOT_ALL}(플래그 s)과 {@link #HAS_INDICES}(플래그 d)는 이후 판 확장이며 그렇게 받아들인다.
  */
 public final class RegExpFlags {
 
@@ -55,6 +55,13 @@ public final class RegExpFlags {
     public static final int DOT_ALL = 32;
 
     /**
+     * Flag d: expose matched substring indices (ES2022).
+     * <p>
+     * 플래그 d: 일치한 부분 문자열의 위치를 제공한다(ES2022).
+     */
+    public static final int HAS_INDICES = 64;
+
+    /**
      * Private constructor: static helper class.
      * <p>
      * 비공개 생성자: 정적 도우미 클래스이다.
@@ -98,6 +105,9 @@ public final class RegExpFlags {
             case 's':
                 bit = DOT_ALL;
                 break;
+            case 'd':
+                bit = HAS_INDICES;
+                break;
             default:
                 throw new RegExpSyntaxException(flags, "Invalid flags supplied to RegExp constructor '" + flags + "'", i);
             }
@@ -118,7 +128,10 @@ public final class RegExpFlags {
      * @return flags text / 플래그 문자열
      */
     public static String toString(int bits) {
-        StringBuilder sb = new StringBuilder(6);
+        StringBuilder sb = new StringBuilder(7);
+        if ((bits & HAS_INDICES) != 0) {
+            sb.append('d');
+        }
         if ((bits & GLOBAL) != 0) {
             sb.append('g');
         }

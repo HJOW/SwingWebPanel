@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-05 ES2022 현대 내장 객체 완료 (2026-11-25) ===
+현재 작업 번호: P28-05 완료(P28-05-a~c).
+완료한 내용: Object/Array/String/TypedArray/Symbol/Promise/Error 확장, Error cause/AggregateError, named group·lookbehind·/d·matchAll, Unicode 13 일반 범주·Script/Script_Extensions·이진 속성, WeakRef/FinalizationRegistry와 ES2019 안정 sort를 구현했다. Unicode 표는 tools/unicodegen(Java 6)이 생성하며 사용자 지시로 Emoji 13 속성은 EXC-15로 제외했다. Netstorm 원본 경로는 H:\Workspace\git\NetstormReborn\webpj\www로 정정했다.
+변경 파일: engine js core/builtins/regexp와 시험·적합성 표, UnicodePropertyData 생성 소스, tools/unicodegen, AGENTS/README/ARCHITECTURE/FEATURE_MATRIX/netstorm, 이 문서.
+검증 결과: P28 집중 `Es2022` 15 passed/0 failed, 기존+신규 RegExp 36 passed/0 failed(실제 실행 묶음에서 35개 표), WeakRef GC 수거 시험 3회 연속 통과, 전체 엔진 699 passed/0 failed, Java 6 source/target 컴파일과 JAR 경계 시험 통과, P28 변경 영역 sourcecheck 0 violation/101 files. `test.bat -pl browser -am`은 엔진 699/0 뒤 브라우저 3685 passed/1 failed/14 skipped였고 실패는 기존 시간 민감 `AudioDecodeServiceTest.testCloseDuringADecoding`; 해당 시험을 3회 반복 실행하면 모두 통과했다.
+미해결 사항: Emoji 전용 정규식 속성은 EXC-15(의도적 제외). 브라우저 전체 실행의 단일 시간 민감 시험은 재현 실패 없이 3회 단독 통과했으나 3685/1 기록은 남겨 둔다.
+다음 작업 번호: P28-06.
+-----------------------------------------------------------------------------------------------
 === P28-05-a 현대 내장 객체 1차 묶음 (2026-11-25) ===
 현재 작업 번호: P28-05-a 완료. P28-05는 계속 진행.
 완료한 내용: Object.entries/values/fromEntries/getOwnPropertyDescriptors/hasOwn, Array.flat/flatMap/at, String.at/replaceAll/matchAll 표면, TypedArray.at, Promise.allSettled/any/finally, Symbol.description/asyncIterator/matchAll, Error cause와 AggregateError를 구현했다.
@@ -63,13 +71,13 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 현재 작업 번호: P28-02 완료(P28-02-a~f).
 완료한 내용: P28-02-a~e의 문법 구현을 마쳤고 P28-02-f용 Java 6 도구 `tools/netstormparse`를 추가했다. 외부 Netstorm 번들 3,283,377 UTF-16 문자, `debug.html` inline module 1개, 현재 원본 모듈 1,059개, static import 2,486건을 자체 파서로 구문 오류 0·missing module 0으로 확인했다. 계획 당시 1,057개에서 원본이 두 파일 늘어난 현재 개수를 기록한다. 외부 검증 중 단항 위치의 await, await 뒤 async function IIFE 호출, 정규식 `/d` 플래그 어휘 인식의 실제 파서 결함을 고쳤다.
 변경 파일: AGENTS.md(P28-02/f 완료), engine/src/main/java/.../ast·parser, engine/src/test/java/.../parser, tools/netstormparse/{AGENTS,README,build/run,src}, docs/ARCHITECTURE.md, docs/FEATURE_MATRIX.md, docs/progress/netstorm.md, 이 문서.
-검증 결과: `engine\test.bat --filter js.parser` JDK 6u45 40 passed/0 failed/0 skipped. `tools/netstormparse/run.bat D:\Workspace\git\NetstormReborn\webpj\www` JRE 6u45 syntax-errors 0, missing-modules 0. 제품과 도구 모두 Java 6 source/target 컴파일.
+검증 결과: `engine\test.bat --filter js.parser` JDK 6u45 40 passed/0 failed/0 skipped. `tools/netstormparse/run.bat H:\Workspace\git\NetstormReborn\webpj\www` JRE 6u45 syntax-errors 0, missing-modules 0. 제품과 도구 모두 Java 6 source/target 컴파일.
 미해결 사항: 파서는 완료되었지만 async/optional chain/class field/BigInt 등의 실행 의미는 P28-03~05, 정규식 `/d`의 indices 결과는 P28-05이다.
 다음 작업 번호: P28-03.
 -----------------------------------------------------------------------------------------------
 === P28-01 ECMAScript 2022 기준 판본과 대상 목록 확정 (2026-11-25) ===
 현재 작업 번호: P28-01 완료.
-완료한 내용: ECMA-262 제13판(ECMAScript 2022, June 2022)을 P28 기준 판본으로 고정했다. 기능 표 7.5절을 ES2016~ES2022의 문법/실행 의미/내장 객체 행으로 다시 나누고 각 행에 NetstormJava 번들 사용 횟수나 사용 여부를 적었다. ES2023 이후 기능은 ESX-OUT-2023+로 분리했다. `**` 구문 오류와 이름 있는 정규식 캡처의 `groups`/`$<name>` 미구현 판정을 명시적으로 유지했다. NetstormReborn 원본 소스 위치를 사용자 제공 경로 `D:\Workspace\git\NetstormReborn\webpj\www`로 정정했다.
+완료한 내용: ECMA-262 제13판(ECMAScript 2022, June 2022)을 P28 기준 판본으로 고정했다. 기능 표 7.5절을 ES2016~ES2022의 문법/실행 의미/내장 객체 행으로 다시 나누고 각 행에 NetstormJava 번들 사용 횟수나 사용 여부를 적었다. ES2023 이후 기능은 ESX-OUT-2023+로 분리했다. `**` 구문 오류와 이름 있는 정규식 캡처의 `groups`/`$<name>` 미구현 판정을 명시적으로 유지했다. NetstormReborn 원본 소스 위치를 사용자 제공 경로 `H:\Workspace\git\NetstormReborn\webpj\www`로 정정했다.
 변경 파일: AGENTS.md(P28-01 완료 표시), docs/FEATURE_MATRIX.md(0절 판본 표, 7.5절 ESX 목록), docs/progress/netstorm.md(경로와 8절 판본 조회 기록), 이 문서.
 검증 결과: 저장소의 [`docs/es2022`](es2022/) 오프라인 규격서 서문에서 제13판과 ES2016~ES2022 추가 기능 목록을 확인했다. `tools/webfetch`를 JRE 25.0.5.0.2로 실행해 공식 HTML/PDF URL은 모두 HTTP 403임을 확인했고(User-Agent 우회 안 함), TC39 공식 저장소 `es2022/spec.html`은 HTTP 200, 2,657,094바이트, ETag ffa4eed67e5c1aeee0f8bd4740f43a1ade7a8f0345195ac3b267ac110f7ef11a로 조회했다. 정정한 Netstorm 원본 경로와 `dist/netstorm.bundle.js`(3,445,839바이트)가 실제로 존재함을 확인했다. 문서 변경만 수행했다.
 미해결 사항: P28-02부터 실제 렉서/파서 구현과 시험이 필요하다. ECMA 공식 URL은 계속 접근 제한되므로 직접 조회 성공 여부는 다음 조회에서도 장담하지 않는다.

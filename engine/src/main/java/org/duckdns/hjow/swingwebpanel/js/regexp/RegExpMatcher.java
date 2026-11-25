@@ -189,6 +189,13 @@ final class RegExpMatcher {
     private int pos;
 
     /**
+     * Required end position, or -1 for an ordinary match.
+     * <p>
+     * 필요한 끝 위치. 일반 일치이면 -1.
+     */
+    private int requiredEnd = -1;
+
+    /**
      * Creates a matcher for one execution.
      * <p>
      * 실행 한 번을 위한 일치 검색기를 만든다.
@@ -481,6 +488,33 @@ final class RegExpMatcher {
      * @throws RegExpLimitException if a resource limit is exceeded / 자원 제한을 넘으면
      */
     boolean matchAt(int start) {
+        requiredEnd = -1;
+        return run(start);
+    }
+
+    /**
+     * Tries to match and backtracks until the successful path ends exactly at the requested position.
+     * <p>
+     * 성공 경로가 요청한 위치에서 정확히 끝날 때까지 역추적한다.
+     *
+     * @param start start position / 시작 위치
+     * @param end required end / 필요한 끝 위치
+     * @return true if matched / 일치하면 true
+     */
+    boolean matchAtEnding(int start, int end) {
+        requiredEnd = end;
+        return run(start);
+    }
+
+    /**
+     * Executes a match after its end constraint has been selected.
+     * <p>
+     * 끝 조건을 정한 뒤 일치를 실행한다.
+     *
+     * @param start start position / 시작 위치
+     * @return true if matched / 일치하면 true
+     */
+    private boolean run(int start) {
         Arrays.fill(caps, -1);
         Arrays.fill(regs, 0);
         sp = 0;
@@ -496,8 +530,12 @@ final class RegExpMatcher {
             boolean ok = true;
             switch (code[pc]) {
             case RegExpProgram.OP_MATCH:
-                caps[1] = pos;
-                return true;
+                if (requiredEnd < 0 || pos == requiredEnd) {
+                    caps[1] = pos;
+                    return true;
+                }
+                ok = false;
+                break;
             case RegExpProgram.OP_CHAR: {
                 int np = matchAtom(RegExpProgram.KIND_CHAR, code[pc + 1], pos);
                 if (np < 0) {
@@ -627,6 +665,13 @@ final class RegExpMatcher {
                     ok = false;
                 }
                 break;
+            case RegExpProgram.OP_LOOK_BEHIND:
+                if (executeLookbehind(code[pc + 1] == 1, prog.lookbehinds[code[pc + 2]])) {
+                    pc += 3;
+                } else {
+                    ok = false;
+                }
+                break;
             case RegExpProgram.OP_SET_REG:
                 setReg(code[pc + 1], code[pc + 2]);
                 pc += 3;
@@ -676,6 +721,36 @@ final class RegExpMatcher {
                 return false;
             }
         }
+    }
+
+    /**
+     * Executes one lookbehind assertion and copies its captures on success.
+     * <p>
+     * 뒤쪽 탐색 단언 하나를 실행하고 성공하면 캡처를 복사한다.
+     *
+     * @param negative true for negative lookbehind / 부정 뒤쪽 탐색이면 true
+     * @param body compiled assertion body / 컴파일된 단언 본문
+     * @return assertion result / 단언 결과
+     */
+    private boolean executeLookbehind(boolean negative, RegExpProgram body) {
+        // 가능한 시작점마다 본문이 현재 위치에서 정확히 끝나는지 검사한다.
+        for (int start = 0; start <= pos; ) {
+            int[] found = body.matchAtEnding(in, start, pos, cancel);
+            if (found != null) {
+                if (negative) {
+                    return false;
+                }
+                // 성공한 본문의 캡처 위치를 바깥 일치에 역추적 가능하게 복사한다.
+                for (int i = 2; i < found.length && i < caps.length; i++) {
+                    setCap(i, found[i]);
+                }
+                return true;
+            }
+            boolean pair = unicode && start + 1 < end && Character.isHighSurrogate(in.charAt(start))
+                    && Character.isLowSurrogate(in.charAt(start + 1));
+            start += pair ? 2 : 1;
+        }
+        return negative;
     }
 
     /**

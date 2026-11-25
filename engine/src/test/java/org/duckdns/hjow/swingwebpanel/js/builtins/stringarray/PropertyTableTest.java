@@ -56,7 +56,8 @@ public class PropertyTableTest {
      * <p>
      * 문서화한 ES2015 이후 String.prototype 확장.
      */
-    static final String[][] STRING_EXTENSIONS = { { "trimStart", "0" }, { "trimEnd", "0" }, { "padStart", "1" }, { "padEnd", "1" } };
+    static final String[][] STRING_EXTENSIONS = { { "trimStart", "0" }, { "trimEnd", "0" }, { "padStart", "1" }, { "padEnd", "1" },
+        { "at", "1" }, { "replaceAll", "2" }, { "matchAll", "1" } };
 
     /**
      * ES2015 Array.prototype methods: name, length.
@@ -74,7 +75,7 @@ public class PropertyTableTest {
      * <p>
      * 문서화한 ES2015 이후 Array.prototype 확장.
      */
-    static final String[][] ARRAY_EXTENSIONS = { { "includes", "1" } };
+    static final String[][] ARRAY_EXTENSIONS = { { "includes", "1" }, { "flat", "0" }, { "flatMap", "1" }, { "at", "1" } };
 
     /**
      * Creates the suite (required by the runner).

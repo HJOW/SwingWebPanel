@@ -271,7 +271,6 @@ public class RegExpTest {
         bad("a)", "", "Unmatched ')'");
         bad("(?", "", "Invalid group");
         bad("(?x)", "", "Invalid group");
-        bad("(?<=a)b", "", "Invalid group");
         bad("(?:a", "", "Unterminated group");
         bad("*a", "", "Nothing to repeat");
         bad("+", "", "Nothing to repeat");

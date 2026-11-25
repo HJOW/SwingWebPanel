@@ -1,10 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.js;
 
 /**
- * The native error types of ECMA-262 6th edition 19.5.5, used to throw errors from Java code without a realm at hand
+ * The native error types used by the engine, including AggregateError of later editions, and Java-side error creation
  * (see {@link JsException}).
  * <p>
- * ECMA-262 6판 19.5.5 의 기본 오류 형식. realm 이 없는 Java 코드에서 오류를 던질 때 쓴다({@link JsException} 참조).
+ * 엔진이 쓰는 기본 오류 형식과 이후 판의 AggregateError. realm 이 없는 Java 코드에서 오류를 던질 때 쓴다({@link JsException} 참조).
  */
 public enum ErrorKind {
     /**

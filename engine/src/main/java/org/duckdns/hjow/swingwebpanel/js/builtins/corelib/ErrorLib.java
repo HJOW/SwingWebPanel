@@ -14,12 +14,12 @@ import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 
 /**
- * Installs <code>Error</code> and the six native error constructors <code>EvalError</code>, <code>RangeError</code>,
+ * Installs <code>Error</code> and the native error constructors <code>EvalError</code>, <code>RangeError</code>,
  * <code>ReferenceError</code>, <code>SyntaxError</code>, <code>TypeError</code>, <code>URIError</code> with their prototypes
  * (ECMA-262 6th edition 19.5). Every constructor works with and without <code>new</code>; the prototypes carry the <code>name</code> and
  * <code>message</code> properties and <code>Error.prototype.toString</code>.
  * <p>
- * <code>Error</code> 와 여섯 가지 기본 오류 생성자 <code>EvalError</code>, <code>RangeError</code>, <code>ReferenceError</code>,
+ * <code>Error</code> 와 기본 오류 생성자 <code>EvalError</code>, <code>RangeError</code>, <code>ReferenceError</code>,
  * <code>SyntaxError</code>, <code>TypeError</code>, <code>URIError</code> 를 프로토타입과 함께 설치한다(ECMA-262 6판 19.5).
  * 모든 생성자는 <code>new</code> 가 있든 없든 동작하며, 프로토타입은 <code>name</code>, <code>message</code> 프로퍼티와
  * <code>Error.prototype.toString</code> 을 가진다.
@@ -61,7 +61,7 @@ final class ErrorLib {
             }
         });
         ErrorKind[] kinds = ErrorKind.values();
-        // Error 를 뺀 여섯 기본 오류 형식의 생성자는 Error 생성자를 [[Prototype]] 으로 가진다.
+        // Error 를 뺀 기본 오류 형식의 생성자는 Error 생성자를 [[Prototype]] 으로 가진다.
         for (int i = 0; i < kinds.length; i++) {
             if (kinds[i] != ErrorKind.ERROR) {
                 installOne(realm, kinds[i], errorCtor);
@@ -120,9 +120,18 @@ final class ErrorLib {
         if (kind == ErrorKind.AGGREGATE_ERROR) {
             List<JsValue> values = new ArrayList<JsValue>();
             JsObject iterator = org.duckdns.hjow.swingwebpanel.js.IteratorHelper.getIterator(realm, Js.arg(args, 0));
-            JsObject next;
-            while ((next = org.duckdns.hjow.swingwebpanel.js.IteratorHelper.step(iterator)) != null) {
-                values.add(org.duckdns.hjow.swingwebpanel.js.IteratorHelper.value(next));
+            boolean done = false;
+            try {
+                JsObject next;
+                // 이터러블의 오류 목록을 차례로 배열 값으로 모은다.
+                while ((next = org.duckdns.hjow.swingwebpanel.js.IteratorHelper.step(iterator)) != null) {
+                    values.add(org.duckdns.hjow.swingwebpanel.js.IteratorHelper.value(next));
+                }
+                done = true;
+            } finally {
+                if (!done) {
+                    org.duckdns.hjow.swingwebpanel.js.IteratorHelper.closeQuietly(iterator);
+                }
             }
             e.defineOwnProperty("errors", PropertyDescriptor.data(realm.newArray(values), true, false, true));
         }

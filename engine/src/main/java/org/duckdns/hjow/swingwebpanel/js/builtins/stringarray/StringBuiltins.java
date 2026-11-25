@@ -465,7 +465,8 @@ final class StringBuiltins {
                         return Ops.call(matcher, regexp, new JsValue[] { o });
                     }
                 }
-                JsValue rx = regExpCreate(r, regexp);
+                JsValue ctor = r.getIntrinsic("%RegExp%");
+                JsValue rx = Ops.construct(ctor, new JsValue[] { regexp, Js.str("g") });
                 return Ops.invoke(r, rx, WellKnownSymbols.MATCH_ALL, new JsValue[] { Js.str(Ops.toString(o)) });
             }
         });
@@ -537,6 +538,7 @@ final class StringBuiltins {
                 String replacement = functional ? null : Ops.toString(replaceValue);
                 StringBuilder out = new StringBuilder();
                 if (search.length() == 0) {
+                    // 빈 검색어는 UTF-16 코드 단위 사이마다 치환한다.
                     for (int i = 0; i <= string.length(); i++) {
                         JsValue next = functional
                                 ? Ops.call(replaceValue, Js.UNDEFINED, new JsValue[] { JsString.EMPTY, Js.num(i), Js.str(string) })
@@ -551,6 +553,7 @@ final class StringBuiltins {
                     return Js.str(out.toString());
                 }
                 int from = 0;
+                // 겹치지 않는 다음 일치 위치를 계속 찾아 전부 치환한다.
                 while (true) {
                     int position = string.indexOf(search, from);
                     if (position < 0) {

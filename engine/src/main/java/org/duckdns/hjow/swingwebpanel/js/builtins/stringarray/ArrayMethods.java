@@ -98,11 +98,13 @@ final class ArrayMethods {
                 JsValue thisArg = Js.arg(args, 1);
                 JsObject out = ArrayBuiltins.speciesCreate(r, source, 0);
                 double target = 0;
+                Set<JsObject> active = Collections.newSetFromMap(new IdentityHashMap<JsObject, Boolean>());
+                // 원본 길이를 고정해 매핑하고 결과를 한 칸씩 평탄화한다.
                 for (double k = 0; k < length; k++) {
                     Support.poll(k);
                     if (Support.hasAt(source, k)) {
                         JsValue mapped = Ops.call(mapper, thisArg, new JsValue[] { Support.getAt(source, k), Js.num(k), source });
-                        target = flattenInto(r, out, target, mapped, 1);
+                        target = flattenInto(r, out, target, mapped, 1, active, 0);
                     }
                 }
                 Support.setLength(out, target);
@@ -137,10 +139,12 @@ final class ArrayMethods {
         JsObject out = ArrayBuiltins.speciesCreate(realm, source, 0);
         double target = 0;
         double length = Ops.lengthOf(source);
+        Set<JsObject> active = Collections.newSetFromMap(new IdentityHashMap<JsObject, Boolean>());
+        // 원본에 실제로 있는 요소만 깊이에 따라 평탄화한다.
         for (double k = 0; k < length; k++) {
             Support.poll(k);
             if (Support.hasAt(source, k)) {
-                target = flattenInto(realm, out, target, Support.getAt(source, k), depth);
+                target = flattenInto(realm, out, target, Support.getAt(source, k), depth, active, 0);
             }
         }
         Support.setLength(out, target);
@@ -157,17 +161,28 @@ final class ArrayMethods {
      * @param target next destination index / 다음 대상 인덱스
      * @param value value to add / 추가할 값
      * @param depth remaining depth / 남은 깊이
+     * @param active arrays on the active recursion path / 현재 재귀 경로의 배열
+     * @param nesting current nesting depth / 현재 중첩 깊이
      * @return next destination index / 다음 대상 인덱스
      */
-    private static double flattenInto(JsRealm realm, JsObject out, double target, JsValue value, double depth) {
+    private static double flattenInto(JsRealm realm, JsObject out, double target, JsValue value, double depth,
+            Set<JsObject> active, int nesting) {
         if (depth > 0 && Ops.isArray(value)) {
             JsObject nested = (JsObject) value;
+            if (nesting >= 1024 || !active.add(nested)) {
+                throw JsException.rangeError("Maximum call stack size exceeded while flattening an array");
+            }
             double length = Ops.lengthOf(nested);
-            for (double n = 0; n < length; n++) {
-                Support.poll(n);
-                if (Support.hasAt(nested, n)) {
-                    target = flattenInto(realm, out, target, Support.getAt(nested, n), depth - 1);
+            try {
+                // 중첩 배열의 있는 요소만 남은 깊이로 재귀 처리한다.
+                for (double n = 0; n < length; n++) {
+                    Support.poll(n);
+                    if (Support.hasAt(nested, n)) {
+                        target = flattenInto(realm, out, target, Support.getAt(nested, n), depth - 1, active, nesting + 1);
+                    }
                 }
+            } finally {
+                active.remove(nested);
             }
             return target;
         }

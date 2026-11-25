@@ -1,7 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.regexp;
 
 /**
- * A compiled ECMAScript 2015 regular expression. It is immutable apart from the two resource limits, so one program
+ * A compiled ECMAScript regular expression. It is immutable apart from the two resource limits, so one program
  * can be executed by several threads at the same time (each execution has its own matcher state).
  * <p>
  * Matching works on UTF-16 strings. Without the u flag characters are code units; with the u flag they are code points
@@ -15,7 +15,7 @@ package org.duckdns.hjow.swingwebpanel.js.regexp;
  * {@link RegExpLimitException} when more than {@link #getStepLimit()} steps are used or when the backtracking stack holds
  * more than {@link #getMaxBacktrackEntries()} entries; an optional {@link RegExpCancel} is polled every 1024 steps.
  * <p>
- * 컴파일된 ECMAScript 2015 정규식. 두 가지 자원 제한을 빼면 불변이므로 한 프로그램을 여러 스레드가 동시에 실행할 수 있다(실행마다 자기 일치 상태를 가진다).
+ * 컴파일된 ECMAScript 정규식. 두 가지 자원 제한을 빼면 불변이므로 한 프로그램을 여러 스레드가 동시에 실행할 수 있다(실행마다 자기 일치 상태를 가진다).
  * <p>
  * 일치 검색은 UTF-16 문자열 위에서 한다. u 플래그가 없으면 문자는 코드 단위이고, 있으면 코드 포인트(서로게이트 쌍이 한 문자)이다. 플래그 g 와 y 는
  * 여기서 해석하지 않는다. 호출자가 시작 위치를 정하고 {@link #exec(String, int)} (앞쪽으로 훑음: 전역 플래그나 일반 exec)와
@@ -210,6 +210,13 @@ public final class RegExpProgram {
     static final int OP_REPEAT = 23;
 
     /**
+     * Instruction: lookbehind, operands: negative flag and subprogram index.
+     * <p>
+     * 명령: 뒤쪽 탐색. 피연산자: 부정 여부와 하위 프로그램 번호.
+     */
+    static final int OP_LOOK_BEHIND = 24;
+
+    /**
      * Atom kind: literal character.
      * <p>
      * 원자 종류: 리터럴 문자.
@@ -273,6 +280,13 @@ public final class RegExpProgram {
     final RegExpCharSet[] sets;
 
     /**
+     * Subprograms of lookbehind assertions.
+     * <p>
+     * 뒤쪽 탐색 단언의 하위 프로그램.
+     */
+    final RegExpProgram[] lookbehinds;
+
+    /**
      * Number of registers needed by the matcher.
      * <p>
      * 일치 검색기에 필요한 레지스터 수.
@@ -330,7 +344,7 @@ public final class RegExpProgram {
      * @param anchored      whether anchored at the start / 시작에 고정되었는지
      */
     RegExpProgram(String source, int flags, int groupCount, int[] code, RegExpCharSet[] sets, int registerCount, String[] groupNames,
-            int firstChar, boolean anchored) {
+            int firstChar, boolean anchored, RegExpProgram[] lookbehinds) {
         this.source = source;
         this.flags = flags;
         this.groupCount = groupCount;
@@ -340,6 +354,7 @@ public final class RegExpProgram {
         this.groupNames = groupNames;
         this.firstChar = firstChar;
         this.anchored = anchored;
+        this.lookbehinds = lookbehinds;
     }
 
     /**
@@ -521,5 +536,24 @@ public final class RegExpProgram {
         }
         RegExpMatcher m = new RegExpMatcher(this, input, cancel);
         return m.matchAt(index) ? m.result() : null;
+    }
+
+    /**
+     * Matches at a start position and requires the match to end at the requested index.
+     * <p>
+     * 시작 위치에서 일치하되 지정 위치에서 끝나야 한다.
+     *
+     * @param input input string / 입력 문자열
+     * @param start start index / 시작 위치
+     * @param expectedEnd expected end / 필요한 끝 위치
+     * @param cancel cancellation hook / 취소 훅
+     * @return captures or null / 캡처 또는 null
+     */
+    int[] matchAtEnding(String input, int start, int expectedEnd, RegExpCancel cancel) {
+        if (start < 0 || start > input.length() || expectedEnd < start || expectedEnd > input.length()) {
+            return null;
+        }
+        RegExpMatcher m = new RegExpMatcher(this, input, cancel);
+        return m.matchAtEnding(start, expectedEnd) ? m.result() : null;
     }
 }

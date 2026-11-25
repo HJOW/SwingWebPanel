@@ -478,14 +478,14 @@ public class ObjectLibTest {
     }
 
     /**
-     * The ES2017 methods must not exist (ES2015 conformance: nothing from later editions is added to Object).
+     * The ES2017 extension methods exist after P28-05.
      * <p>
-     * ES2017 메서드는 없어야 한다(ES2015 적합성: 이후 판본의 것을 Object 에 더하지 않는다).
+     * P28-05 뒤 ES2017 확장 메서드가 있다.
      */
-    public void testNoLaterEditionMethods() {
-        Check.isTrue(env.get("Object.entries").isUndefined(), "Object.entries is ES2017");
-        Check.isTrue(env.get("Object.values").isUndefined(), "Object.values is ES2017");
-        Check.isTrue(env.get("Object.getOwnPropertyDescriptors").isUndefined(), "getOwnPropertyDescriptors is ES2017");
+    public void testLaterEditionMethods() {
+        Check.isTrue(env.get("Object.entries").isCallable(), "Object.entries is installed");
+        Check.isTrue(env.get("Object.values").isCallable(), "Object.values is installed");
+        Check.isTrue(env.get("Object.getOwnPropertyDescriptors").isCallable(), "getOwnPropertyDescriptors is installed");
     }
 
 }

@@ -158,6 +158,7 @@ final class ObjectLib {
                 JsObject o = Ops.toObject(r, Js.arg(args, 0));
                 JsObject result = r.newObject();
                 List<Object> keys = o.ownKeys();
+                // 문자열과 심볼 자체 키의 기술자를 순서대로 복사한다.
                 for (int i = 0; i < keys.size(); i++) {
                     Object key = keys.get(i);
                     PropertyDescriptor desc = o.getOwnProperty(key);
@@ -284,6 +285,7 @@ final class ObjectLib {
     private static JsValue enumerableKeyValueArray(JsRealm realm, JsObject object, boolean values) {
         List<JsValue> out = new ArrayList<JsValue>();
         List<Object> keys = object.ownKeys();
+        // 열거 가능한 자체 문자열 키를 entries 쌍 또는 값으로 만든다.
         for (int i = 0; i < keys.size(); i++) {
             Object key = keys.get(i);
             if (!(key instanceof String)) {
@@ -317,6 +319,7 @@ final class ObjectLib {
         JsObject iterator = org.duckdns.hjow.swingwebpanel.js.IteratorHelper.getIterator(realm, iterable);
         boolean done = false;
         try {
+            // 이터러블 항목을 키·값 쌍으로 차례로 정의한다.
             while (true) {
                 JsObject next = org.duckdns.hjow.swingwebpanel.js.IteratorHelper.step(iterator);
                 if (next == null) {

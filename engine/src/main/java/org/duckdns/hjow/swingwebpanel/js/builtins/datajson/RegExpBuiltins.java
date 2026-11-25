@@ -33,8 +33,8 @@ import org.duckdns.hjow.swingwebpanel.js.regexp.RegExpSyntaxException;
  * {@link ScriptAbortedException} (reason CANCELLED) so the host can stop the script. The step limit can be changed per realm with
  * {@link #setStepLimit(JsRealm, long)}.
  * <p>
- * Extensions beyond ES2015: the flag <code>s</code> (dotAll) with the accessor <code>dotAll</code>; named groups in patterns are accepted by the
- * engine but the result array has no <code>groups</code> property. Not implemented: the legacy static properties <code>RegExp.$1</code> and
+ * Extensions beyond ES2015: <code>s</code>/<code>d</code>, named capture result groups, lookbehind, matchAll and Unicode property escapes.
+ * Not implemented: the legacy static properties <code>RegExp.$1</code> and
  * <code>RegExp.lastMatch</code>.
  * <p>
  * js.regexp 패키지의 정규식 엔진 위에 만든 내장 <code>RegExp</code> 생성자와 <code>RegExp.prototype</code>(ECMA-262 6판 21.2): 생성과 부속서 B 의
@@ -46,8 +46,8 @@ import org.duckdns.hjow.swingwebpanel.js.regexp.RegExpSyntaxException;
  * 취소를 알리면 일치를 {@link ScriptAbortedException}(이유 CANCELLED)으로 중단하여 호스트가 스크립트를 멈출 수 있게 한다. 단계 제한은
  * {@link #setStepLimit(JsRealm, long)} 으로 realm 마다 바꿀 수 있다.
  * <p>
- * ES2015 를 넘는 확장: 플래그 <code>s</code>(dotAll)와 접근자 <code>dotAll</code>. 패턴의 이름 있는 그룹은 엔진이 받아들이지만 결과 배열에
- * <code>groups</code> 프로퍼티는 없다. 미구현: 구형 정적 프로퍼티 <code>RegExp.$1</code>, <code>RegExp.lastMatch</code>.
+ * ES2015 를 넘는 확장: <code>s</code>/<code>d</code>, 이름 있는 캡처 결과, 뒤쪽 탐색, matchAll, 유니코드 속성 escape.
+ * 미구현: 구형 정적 프로퍼티 <code>RegExp.$1</code>, <code>RegExp.lastMatch</code>.
  */
 public final class RegExpBuiltins {
 
@@ -317,15 +317,68 @@ public final class RegExpBuiltins {
         }
         JsArray a = r.newArray();
         int groups = m.length / 2;
+        boolean hasIndices = (bits & RegExpFlags.HAS_INDICES) != 0;
+        JsArray indices = hasIndices ? r.newArray() : null;
+        JsObject named = null;
+        JsObject namedIndices = null;
         // 캡처 그룹마다 일치한 부분 문자열(일치하지 않은 그룹은 undefined)을 배열에 넣는다.
         for (int i = 0; i < groups; i++) {
             int b = m[2 * i];
             int e = m[2 * i + 1];
-            a.add(b < 0 || e < 0 ? Js.UNDEFINED : Js.str(s.substring(b, e)));
+            JsValue value = b < 0 || e < 0 ? Js.UNDEFINED : Js.str(s.substring(b, e));
+            a.add(value);
+            if (hasIndices) {
+                indices.add(b < 0 || e < 0 ? Js.UNDEFINED
+                        : r.newArray(new JsValue[] { Js.num(b), Js.num(e) }));
+            }
+            if (i > 0) {
+                String name = x.getProgram().getGroupName(i);
+                if (name != null) {
+                    if (named == null) {
+                        named = new JsObject(null);
+                    }
+                    named.createDataProperty(name, value);
+                    if (hasIndices) {
+                        if (namedIndices == null) {
+                            namedIndices = new JsObject(null);
+                        }
+                        namedIndices.createDataProperty(name, indices.get(String.valueOf(i)));
+                    }
+                }
+            }
         }
         a.createDataProperty("index", Js.num(m[0]));
         a.createDataProperty("input", Js.str(s));
+        if (named != null) {
+            a.createDataProperty("groups", named);
+        } else if (hasNamedCaptures(x.getProgram())) {
+            a.createDataProperty("groups", Js.UNDEFINED);
+        }
+        if (hasIndices) {
+            if (namedIndices != null) {
+                indices.createDataProperty("groups", namedIndices);
+            }
+            a.createDataProperty("indices", indices);
+        }
         return a;
+    }
+
+    /**
+     * Tells whether the program declares any named capture group.
+     * <p>
+     * 프로그램이 이름 있는 캡처 그룹을 선언했는지 확인한다.
+     *
+     * @param program the compiled program / 컴파일된 프로그램
+     * @return true if a name exists / 이름이 있으면 true
+     */
+    private static boolean hasNamedCaptures(RegExpProgram program) {
+        // 그룹 번호를 따라가며 이름이 하나라도 있는지 확인한다.
+        for (int i = 1; i <= program.groupCount(); i++) {
+            if (program.getGroupName(i) != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -505,6 +558,7 @@ public final class RegExpBuiltins {
      * @param proto RegExp.prototype / RegExp.prototype
      */
     private static void installAccessors(JsRealm realm, JsObject proto) {
+        flagAccessor(realm, proto, "hasIndices", RegExpFlags.HAS_INDICES);
         flagAccessor(realm, proto, "global", RegExpFlags.GLOBAL);
         flagAccessor(realm, proto, "ignoreCase", RegExpFlags.IGNORE_CASE);
         flagAccessor(realm, proto, "multiline", RegExpFlags.MULTILINE);
@@ -524,7 +578,10 @@ public final class RegExpBuiltins {
              */
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 JsObject o = Support.requireObject(thisValue, "get RegExp.prototype.flags");
-                StringBuilder sb = new StringBuilder(6);
+                StringBuilder sb = new StringBuilder(7);
+                if (Ops.toBoolean(o.get("hasIndices"))) {
+                    sb.append('d');
+                }
                 if (Ops.toBoolean(o.get("global"))) {
                     sb.append('g');
                 }
@@ -687,6 +744,12 @@ public final class RegExpBuiltins {
                 return symbolMatch(r, Support.requireObject(thisValue, "RegExp.prototype[Symbol.match]"), Ops.toString(Js.arg(args, 0)));
             }
         });
+        realm.method(proto, WellKnownSymbols.MATCH_ALL, 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return symbolMatchAll(r, Support.requireObject(thisValue, "RegExp.prototype[Symbol.matchAll]"),
+                        Ops.toString(Js.arg(args, 0)));
+            }
+        });
         realm.method(proto, WellKnownSymbols.REPLACE, 2, new NativeFunction.Call() {
             /**
              * RegExp.prototype[@@replace](string, replaceValue).
@@ -780,6 +843,54 @@ public final class RegExpBuiltins {
     }
 
     /**
+     * RegExp.prototype[Symbol.matchAll] creates a lazy global regular-expression iterator.
+     * <p>
+     * RegExp.prototype[Symbol.matchAll] 이 느리게 동작하는 전역 정규식 이터레이터를 만든다.
+     *
+     * @param realm the realm / realm
+     * @param rx regular expression / 정규식
+     * @param string input string / 입력 문자열
+     * @return the iterator / 이터레이터
+     */
+    private static JsValue symbolMatchAll(final JsRealm realm, JsObject rx, final String string) {
+        JsObject constructor = Support.speciesConstructor(rx, realm.getIntrinsic("%RegExp%"));
+        String flags = Ops.toString(rx.get("flags"));
+        if (flags.indexOf('g') < 0) {
+            throw JsException.typeError("RegExp.prototype[Symbol.matchAll] called with a non-global RegExp");
+        }
+        final JsObject matcher = Ops.construct(constructor, new JsValue[] { rx, Js.str(flags) });
+        matcher.setStrict("lastIndex", Js.num(Ops.toLength(rx.get("lastIndex"))));
+        final boolean unicode = Ops.toBoolean(matcher.get("unicode"));
+        final JsObject iterator = realm.newObject();
+        iterator.createDataProperty(WellKnownSymbols.TO_STRING_TAG, Js.str("RegExp String Iterator"));
+        iterator.createDataProperty("next", realm.newFunction("next", 0, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsValue result = regExpExec(r, matcher, string);
+                JsObject record = r.newObject();
+                if (result.isNull()) {
+                    record.createDataProperty("value", Js.UNDEFINED);
+                    record.createDataProperty("done", Js.TRUE);
+                } else {
+                    record.createDataProperty("value", result);
+                    record.createDataProperty("done", Js.FALSE);
+                    String matched = Ops.toString(((JsObject) result).get("0"));
+                    if (matched.length() == 0) {
+                        double index = Ops.toLength(matcher.get("lastIndex"));
+                        matcher.setStrict("lastIndex", Js.num(advance(string, index, unicode)));
+                    }
+                }
+                return record;
+            }
+        }));
+        iterator.createDataProperty(WellKnownSymbols.ITERATOR, realm.newFunction("[Symbol.iterator]", 0, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return iterator;
+            }
+        }));
+        return iterator;
+    }
+
+    /**
      * RegExp.prototype[@@replace] (ECMA-262 21.2.5.8).
      * <p>
      * RegExp.prototype[@@replace] (ECMA-262 21.2.5.8).
@@ -841,14 +952,19 @@ public final class RegExpBuiltins {
             }
             String rep;
             if (functional) {
-                JsValue[] fargs = new JsValue[caps + 3];
+                JsValue groups = result.get("groups");
+                int extra = groups.isUndefined() ? 0 : 1;
+                JsValue[] fargs = new JsValue[caps + 3 + extra];
                 fargs[0] = Js.str(matched);
                 System.arraycopy(captureValues, 0, fargs, 1, caps);
                 fargs[caps + 1] = Js.num(position);
                 fargs[caps + 2] = Js.str(s);
+                if (extra != 0) {
+                    fargs[caps + 3] = groups;
+                }
                 rep = Ops.toString(Ops.call(replaceValue, Js.UNDEFINED, fargs));
             } else {
-                rep = substitution(matched, s, position, captureTexts, replacement);
+                rep = substitution(matched, s, position, captureTexts, result.get("groups"), replacement);
             }
             if (position >= nextSourcePosition) {
                 accumulated.append(s, nextSourcePosition, position).append(rep);
@@ -864,11 +980,11 @@ public final class RegExpBuiltins {
     /**
      * GetSubstitution (ECMA-262 21.1.3.14.1): expands <code>$$</code>, <code>$&amp;</code>, <code>$`</code>, <code>$'</code>, <code>$n</code> and
      * <code>$nn</code>. As in all browsers, a two digit reference that is out of range falls back to its first digit; references to groups that
-     * do not exist stay as written. <code>$&lt;name&gt;</code> (ES2018) is not expanded.
+     * do not exist stay as written. <code>$&lt;name&gt;</code> is expanded from the named capture object.
      * <p>
      * GetSubstitution (ECMA-262 21.1.3.14.1): <code>$$</code>, <code>$&amp;</code>, <code>$`</code>, <code>$'</code>, <code>$n</code>, <code>$nn</code> 을
      * 펼친다. 모든 브라우저처럼 범위를 벗어난 두 자리 참조는 첫 자리로 되돌아가며, 없는 그룹에 대한 참조는 쓴 그대로 둔다.
-     * <code>$&lt;name&gt;</code>(ES2018)은 펼치지 않는다.
+     * <code>$&lt;name&gt;</code>(ES2018)은 이름 있는 캡처 객체에서 펼친다.
      *
      * @param matched  the matched text / 일치한 문자열
      * @param str      the whole string / 전체 문자열
@@ -878,6 +994,23 @@ public final class RegExpBuiltins {
      * @return the expanded text / 펼친 문자열
      */
     static String substitution(String matched, String str, int position, String[] captures, String template) {
+        return substitution(matched, str, position, captures, Js.UNDEFINED, template);
+    }
+
+    /**
+     * Expands a replacement template and optionally named captures.
+     * <p>
+     * 이름 있는 캡처를 선택적으로 써 치환 틀을 펼친다.
+     *
+     * @param matched the matched text / 일치 문자열
+     * @param str the whole string / 전체 문자열
+     * @param position match position / 일치 위치
+     * @param captures captures / 캡처
+     * @param named named captures / 이름 있는 캡처
+     * @param template template / 틀
+     * @return expanded text / 펼친 문자열
+     */
+    static String substitution(String matched, String str, int position, String[] captures, JsValue named, String template) {
         int m = captures.length;
         int len = template.length();
         StringBuilder sb = new StringBuilder(len + matched.length());
@@ -927,6 +1060,18 @@ public final class RegExpBuiltins {
                         sb.append(cap);
                     }
                     i += consumed;
+                }
+            } else if (n == '<' && !named.isUndefined()) {
+                int close = template.indexOf('>', i + 2);
+                if (close < 0) {
+                    sb.append('$');
+                    i++;
+                } else {
+                    JsValue capture = named instanceof JsObject ? ((JsObject) named).get(template.substring(i + 2, close)) : Js.UNDEFINED;
+                    if (!capture.isUndefined()) {
+                        sb.append(Ops.toString(capture));
+                    }
+                    i = close + 1;
                 }
             } else {
                 sb.append('$');

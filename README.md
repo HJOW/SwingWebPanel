@@ -233,7 +233,7 @@ panel.addConsoleListener(new ConsoleListener() {
 
 ### 독립 JavaScript 엔진과 `javax.script`
 
-브라우저 컴포넌트 없이 자체 ECMAScript 2015 엔진과 기능 표에 검증 완료로 기록한 ES2016~2022 확장을 쓸 수 있습니다(`swingwebpanel-js.jar` 하나, Java 6 이상, 외부 라이브러리 없음). 현재 검증 완료 확장에는 BigInt 원시값·연산·형식화 배열이 포함됩니다.
+브라우저 컴포넌트 없이 자체 ECMAScript 2015 엔진과 기능 표에 검증 완료로 기록한 ES2016~2022 확장을 쓸 수 있습니다(`swingwebpanel-js.jar` 하나, Java 6 이상, 외부 라이브러리 없음). 현재 검증 완료 확장에는 BigInt 원시값·연산·형식화 배열, `Object/Array/String/Promise`의 ES2017~2022 메서드, named capture/lookbehind/indices/Unicode 13 정규식 속성, `WeakRef`/`FinalizationRegistry`가 포함됩니다. JAR 크기를 위해 Unicode 13 Emoji 속성 escape만 명시적으로 지원하지 않습니다(EXC-15).
 엔진은 **Rhino/Nashorn 등 다른 엔진에 위임하지 않습니다.**
 
 ```java
