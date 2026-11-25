@@ -770,7 +770,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-02-h2. 프레임 브라우징 문맥별 WindowProxy를 브라우저에서 사용한다. 같은 오리진 사이의 동작, 이동 후 기존 참조의 현재 문서 연결, 교차 오리진 재판정과 폐기, 메시지 출처와 window 별칭을 실제 HTTP 프레임의 JDK 6 시험으로 확인한다.
       - [x] P29-02-h2a. 현재 실행 realm을 추적한다. 다른 realm의 함수·생성자·제너레이터·모듈로 들어갔다가 예외로 끝나도 호출자의 realm이 복원되어야 한다. JDK 6 엔진 시험에서 속성 접근으로 관찰한다.
       - [x] P29-02-h2b. `PageScripts`, `WindowGlobals`, `FrameApi`의 창 진입점을 문맥별 WindowProxy에 연결한다. 보관한 참조의 오리진 재검사와 창 별칭, 프레임 메시징을 JDK 6 통합 시험으로 검증한다.
-- [ ] P29-03. ES2023~ES2025 어휘·구문·모듈 확장(Hashbang, Import Attributes, JSON 모듈)을 구현한다.
+- [x] P29-03. ES2023~ES2025 어휘·구문·모듈 확장(Hashbang, Import Attributes, JSON 모듈)을 구현한다.
   - Hashbang 주석(`12.5 Hashbang Comments`): Script와 Module 시작 오프셋 0의 `#!...` 한 줄 주석을 허용하고(`InputElementHashbangOrRegExp`), 공백·BOM 뒤나 함수 본문 등 허용되지 않는 위치의 조기 오류 및 `eval`/`Function` 처리 규칙을 규격대로 검증한다.
   - Import Attributes(`16.2.2`, `13.3.10`): 정적 `import ... with { key: "value" }`, `export ... from ... with { ... }`, 동적 `import(specifier, options)` 두 번째 인수(`options.with`), `ModuleRequest Record`와 속성 동등성(`ModuleRequestsEqual`), 중복 키 조기 오류와 호스트 미지원 속성 거부(`AllImportAttributesSupported`/`HostGetSupportedImportAttributes`)를 구현한다.
   - JSON 모듈(`16.2.1.8 Synthetic Module Records`, `ParseJSONModule`): `with { type: "json" }`으로 요청한 JSON 리소스를 파싱하여 `default` 내보내기 하나만 가진 합성 모듈로 평가한다. 독립 엔진 `ModuleLoader`와 브라우저 `<script type="module">`·동적 `import()`·Worker·AudioWorklet 요청 계층에 연결하며, 브라우저에서는 JSON MIME 검사·CORS·모듈 캐시 키(지정자+속성) 분리를 적용한다(`type: "json"` 없이 JSON MIME이 오거나 반대의 경우 실패).
@@ -779,10 +779,10 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - [x] P29-03-b. `Parser`, `ProgramInfo`와 모듈 레코드에 정적 가져오기·재내보내기의 속성을 포함한다. 문자열·식별자 키, 중복과 오류, 키 순서에 독립적인 요청 동일성을 JDK 6에서 검증한다.
   - [x] P29-03-c. 표현식 파서와 인터프리터에서 동적 `import()` 옵션을 읽고 `ModuleLoader`로 넘기기 전에 호스트 속성을 검사한다. 옵션 평가 순서와 실패의 Promise 전달을 JDK 6에서 검증한다.
   - [x] P29-03-d. 엔진 모듈 레코드에서 JSON 합성 모듈의 `default`와 속성별 캐시를 구현한다. 정적·동적 가져오기, 재내보내기, 값과 오류 수명을 JDK 6에서 검증한다.
-  - [ ] P29-03-e. 브라우저 페이지·Worker·AudioWorklet 로더에 JSON 모듈 요청을 전달한다. HTTP 서버로 MIME 및 CORS 검사와 캐시 분리를 JDK 6에서 검증한다.
+  - [x] P29-03-e. 브라우저 페이지·Worker·AudioWorklet 로더에 JSON 모듈 요청을 전달한다. HTTP 서버로 MIME 및 CORS 검사와 캐시 분리를 JDK 6에서 검증한다.
     - [x] P29-03-e1. `PageRuntime`, `PageScripts`의 문서 모듈 요청에 타입을 전달한다. 정적·동적 JSON 가져오기에서 UTF-8, MIME과 CORS, 같은 URL의 타입별 캐시 분리를 `ModuleScriptHttpTest`에서 검증한다.
     - [x] P29-03-e2. `WorkerScope`와 Worker 설정에 모듈 로더를 연결한다. Worker 메시지로 받은 JSON 값, 기존 스크립트와 오리진 검사를 실제 HTTP 시험에서 대조한다.
-    - [ ] P29-03-e3. `ModuleGraphFetcher`와 `WorkletScope`의 선취득 키에 타입을 포함한다. JSON 의존성에서 등록된 프로세서의 값, MIME 오류, 기존 AudioWorklet 시험을 검증한다.
+    - [x] P29-03-e3. `ModuleGraphFetcher`와 `WorkletScope`의 선취득 키에 타입을 포함한다. JSON 의존성에서 등록된 프로세서의 값, MIME 오류, 기존 AudioWorklet 시험을 검증한다.
 - [ ] P29-04. ES2023~ES2026 배열·형식화 배열·이진 데이터(`Float16Array`, `Uint8Array` Base64/Hex, 가변 `ArrayBuffer`)를 구현한다.
   - 복사 기반 배열 변경과 역방향 탐색(ES2023): `Array.prototype`의 `findLast`, `findLastIndex`, `toReversed`, `toSorted`, `toSpliced`, `with`(`@@unscopables` 포함, 희소 배열 빈 슬롯을 `undefined`로 채우는 복사 규칙 준수) 및 `%TypedArray%.prototype`의 `findLast`, `findLastIndex`, `toReversed`, `toSorted`, `with`(species를 보지 않는 `TypedArrayCreateSameType` 적용).
   - 비동기 배열 생성(ES2026, `23.1.2.1`): `Array.fromAsync(items [, mapper [, thisArg]])` — async iterable·sync iterable·array-like 입력의 순차 소비, 각 원소와 매퍼 결과의 `await`, 도중 예외 발생 시 열린 iterator/async iterator 닫기(`IfAbruptCloseAsyncIterator`), 생성자 `this` 처리.
@@ -790,6 +790,12 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - `Uint8Array` Base64·Hex 메서드(ES2026, `23.3`): `Uint8Array.fromBase64(string [, options])`, `Uint8Array.fromHex(string)`, `Uint8Array.prototype.toBase64([options])`, `toHex()`, `setFromBase64(string [, options])`, `setFromHex(string)`을 구현한다(`alphabet`: `"base64"`/`"base64url"`, `lastChunkHandling`: `"loose"`/`"strict"`/`"stop-before-partial"`, `omitPadding`, ASCII 공백 건너뛰기, `{ read, written }` 결과, 분리·가변 버퍼 경계 검사).
   - 가변 길이·전송 가능 `ArrayBuffer`(ES2024, `25.1`·`10.4.5`): `new ArrayBuffer(length, { maxByteLength })`, `ArrayBuffer.prototype.maxByteLength`·`resizable`·`resize(newLength)`·`detached`·`transfer([newLength])`·`transferToFixedLength([newLength])`를 구현하고, 가변 버퍼를 바라보는 `TypedArray`/`DataView`의 자동 길이 추적과 경계 이탈 동작(`TypedArray/DataView With Buffer Witness Records`, `IsTypedArrayOutOfBounds`, `IsViewOutOfBounds`)을 전 메서드에 반영한다.
   구현: `js.num.*`, `js.builtins.stringarray.*`, `js.builtins.typed.*`, `js.builtins.corelib.MathLib`. 완료 조건: 각 메서드의 이름·`length`·속성 기술자·경계값(희소 배열, IEEE 754 half 경계, Base64 패딩/오류, 버퍼 축소 중 콜백 부작용, 분리 후 접근) 시험이 JDK 6에서 통과한다.
+  - [ ] P29-04-a. `ArrayMethods`에 역방향 탐색과 복사 메서드를 추가한다. 희소 배열의 밀집 복사, 인덱스 읽기 순서, 변경 대상 슬롯의 getter 회피와 범위 오류를 JDK 6에서 검증한다.
+  - [ ] P29-04-b. `TypedArrayMethods`에 역방향 탐색과 복사 메서드를 추가한다. 일반·BigInt 배열의 결과, 수치 정렬, 동일 타입 생성과 species 접근 회피를 JDK 6에서 검증한다.
+  - [ ] P29-04-c. `ArrayBuiltins`와 비동기 반복 경로에 `Array.fromAsync`를 추가한다. 반복자 종류, await 순서, 매퍼 예외와 반복자 닫기를 JDK 6에서 검증한다.
+  - [ ] P29-04-d. 반정밀도 변환과 `Math.f16round`, `Float16Array`, DataView 접근을 추가한다. 짝수 반올림, 부호 있는 0 및 경계 비트열을 JDK 6에서 검증한다.
+  - [ ] P29-04-e. `ArrayBufferLib`와 View 연산에 가변 길이, 전송, 자동 길이와 경계 검사 지원을 추가한다. 버퍼 축소 후 접근과 콜백 부작용을 JDK 6에서 검증한다.
+  - [ ] P29-04-f. `Uint8Array`의 Base64·Hex 변환을 추가한다. 알파벳, 패딩, 접두부 처리, 버퍼 길이·분리 경계 및 read/written을 JDK 6에서 검증한다.
 - [ ] P29-05. `SharedArrayBuffer`와 `Atomics`(ES2017·ES2024, `25.2`·`25.4`·`29`)를 구현한다.
   - `SharedArrayBuffer` 생성자(`{ maxByteLength }` 성장 옵션 포함), `byteLength`, `maxByteLength`, `growable`, `grow(newLength)`(축소 금지·원자적 확장), `slice`, `@@species`/`@@toStringTag`를 구현한다.
   - Java 6 표준 공개 API(`java.util.concurrent.atomic`, 모니터/잠금 등 — `sun.misc.Unsafe` 및 네이티브 코드 금지)만으로 공유 바이트 블록과 8/16/32/64비트 정수 `TypedArray`(`Int8`~`Uint32`, `BigInt64`/`BigUint64`)에 대한 원자적 읽기·쓰기·산술·비트·교환 연산(`Atomics.load`, `store`, `add`, `sub`, `and`, `or`, `xor`, `exchange`, `compareExchange`, `isLockFree`)을 구현한다.

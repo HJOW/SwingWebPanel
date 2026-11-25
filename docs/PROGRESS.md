@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-03-e3 AudioWorklet의 JSON 선취득 (2026-11-26) ===
+현재 작업 번호: P29-03 완료.
+완료한 내용: AudioWorklet에서 모듈 타입별로 그래프를 렐름 잠금 밖에서 미리 가져온다. JSON을 정적 의존성으로 링크하며 동적 import는 저장된 모듈이 있어도 TypeError로 거부한다. credentials: omit는 동일 오리진에서도 쿠키를 보내지 않는다.
+변경 파일: ModuleGraphFetcher.java, WorkletScope.java, WorkletApi.java, ModuleSources.java, WorkerApi.java, JsRealm.java, ModuleRequest.java, Interpreter.java, ModuleRecord.java, AudioWorkletComponentTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: Maven의 AudioWorklet 필터 실행 62건 통과, 실시간 타이밍 1건 실패. 동일 JRE 6u45로 문서·AudioWorklet 집중 시험 16건 통과, 힙을 -Xms256m -Xmx512m으로 설정한 AudioWorklet 전체 63건 통과. sourcecheck 0 위반.
+미해결 사항: 기본 힙의 그룹 실행에서 AudioWorkletRealtimeTest.testABusyWorkletDoesNotHoldTheRenderingThread의 최소 40 quantum 조건이 두 차례 실패(9, 20 quantum)했다. P29-04 이후 미완료.
+다음 작업 번호: P29-04-a.
+-----------------------------------------------------------------------------------------------
 === P29-03-e2 Worker의 JSON 모듈 (2026-11-26) ===
 현재 작업 번호: P29-03-e2 완료.
 완료한 내용: 일반 Worker에서 동적 import를, 모듈 Worker와 SharedWorker에서 정적·동적 의존성 로드를 연결했다. 모듈 Worker의 자격 증명 모드와 진입 요청의 동일 오리진 제한을 적용했다.
@@ -570,6 +578,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-03-e3 AudioWorklet 모듈과 전체 구문 단계 검증
+
+JSON에서 읽은 값을 실물 HTTP 연결로 가져온 프로세서의 파라미터로 확인했다. 동일 URL을 JavaScript 진입점으로 열면 MIME 검사를 다시 적용했고, 쿠키 생략과 동적 import의 TypeError도 확인했다. 호스트 정책의 근거는 WHATWG HTML Living Standard의 [HostLoadImportedModule](https://html.spec.whatwg.org/multipage/webappapis.html#hostloadimportedmodule)이며 조회 기록은 P29-03-e1과 같다. 정확한 실시간 타이밍 실패와 재검증 환경은 현재 상태에 기록했다.
 
 ### 2026-11-26 · P29-03-e2 Worker 모듈 로더
 

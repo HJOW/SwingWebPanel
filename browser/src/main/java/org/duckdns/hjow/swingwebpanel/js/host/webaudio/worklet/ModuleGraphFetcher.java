@@ -5,13 +5,14 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.ast.Node;
 import org.duckdns.hjow.swingwebpanel.js.ast.ProgramInfo;
-import org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource;
+import org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials;
+import org.duckdns.hjow.swingwebpanel.js.host.ModuleSources;
 import org.duckdns.hjow.swingwebpanel.js.host.ScriptSource;
 import org.duckdns.hjow.swingwebpanel.js.host.ScriptText;
 import org.duckdns.hjow.swingwebpanel.js.parser.Parser;
-import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 
 /**
  * Fetches the whole graph of a module before any of it runs (the HTML Worklets step "fetch a worklet script graph"): the entry module is fetched through the request layer of the
@@ -34,52 +35,13 @@ final class ModuleGraphFetcher {
     }
 
     /**
-     * Fetches one module through the script source: with the module rules (CORS, MIME type, final address after redirects) when the source knows them.
-     * <p>
-     * 스크립트 공급원으로 모듈 하나를 가져온다. 공급원이 알면 모듈 규칙(CORS, MIME 타입, 리디렉션 뒤 최종 주소)으로 가져온다.
-     *
-     * @param source      the script source of the component / 컴포넌트의 스크립트 공급원
-     * @param url         the absolute URL / 절대 URL
-     * @param credentials true to send cookies to every origin / 모든 오리진에 쿠키를 보내려면 true
-     * @return the text and the final address / 텍스트와 최종 주소
-     * @throws IOException if it cannot be fetched / 가져올 수 없으면
-     */
-    static ScriptText fetchOne(ScriptSource source, String url, boolean credentials) throws IOException {
-        if (source == null) {
-            throw new IOException("scripts cannot be fetched");
-        }
-        if (source instanceof ModuleScriptSource) {
-            return ((ModuleScriptSource) source).fetchModule(url, credentials);
-        }
-        return new ScriptText(source.fetch(url), url);
-    }
-
-    /**
-     * Resolves a specifier against the address of the importing module (its final address after redirects, if it was fetched).
-     * <p>
-     * 지정자를 가져오는 모듈의 주소(가져왔다면 리디렉션 뒤의 최종 주소)를 기준으로 해석한다.
-     *
-     * @param base      the address to resolve against / 기준 주소
-     * @param specifier the specifier / 지정자
-     * @return the key of the module (an absolute address without a fragment) / 모듈의 키(조각 없는 절대 주소)
-     * @throws JsException a <code>TypeError</code> if it cannot be resolved / 해석할 수 없으면 <code>TypeError</code>
-     */
-    static String resolve(String base, String specifier) {
-        try {
-            return UrlUtil.stripFragment(UrlUtil.resolve(base, specifier));
-        } catch (RuntimeException e) {
-            throw JsException.typeError("Failed to resolve module specifier '" + specifier + "'");
-        }
-    }
-
-    /**
      * Fetches the entry module and everything it imports into the maps. Modules whose keys are in <code>known</code> are already in the script realm and are not fetched again.
      * <p>
      * 진입 모듈과 그것이 import 하는 모든 것을 맵으로 가져온다. 키가 <code>known</code> 에 있는 모듈은 이미 스크립트 realm 에 있으므로 다시 가져오지 않는다.
      *
      * @param source      the script source / 스크립트 공급원
-     * @param entryKey    the key of the entry module (an absolute address) / 진입 모듈의 키(절대 주소)
-     * @param credentials true to send cookies to every origin / 모든 오리진에 쿠키를 보내려면 true
+     * @param entry       the resolved request for the entry module / 해석된 진입 모듈 요청
+     * @param credentials fetch credentials mode / 가져오기 자격 증명 모드
      * @param texts       receives the text of every module that was fetched, by key / 가져온 모든 모듈의 텍스트를 키별로 받는다
      * @param bases       receives the final address of every module that was fetched, by key / 가져온 모든 모듈의 최종 주소를 키별로 받는다
      * @param known       the keys of the modules that the realm has / realm 이 가진 모듈의 키
@@ -87,27 +49,35 @@ final class ModuleGraphFetcher {
      * @throws JsException  a <code>SyntaxError</code> of a module, or the <code>TypeError</code> of a specifier that cannot be resolved / 모듈의 <code>SyntaxError</code> 또는 해석할
      *                      수 없는 지정자의 <code>TypeError</code>
      */
-    static void fetch(ScriptSource source, String entryKey, boolean credentials, Map<String, String> texts, Map<String, String> bases, Set<String> known)
+    static void fetch(ScriptSource source, ModuleRequest entry, Credentials credentials, Map<ModuleRequest, String> texts,
+            Map<String, String> bases, Set<ModuleRequest> known)
             throws IOException {
-        LinkedList<String> work = new LinkedList<String>();
-        work.add(entryKey);
+        LinkedList<ModuleRequest> work = new LinkedList<ModuleRequest>();
+        work.add(entry);
         // 가져올 모듈이 없어질 때까지 하나씩 가져와 파싱하고 import 하는 모듈을 대기열에 더한다.
         while (!work.isEmpty()) {
-            String key = work.removeFirst();
-            if (texts.containsKey(key) || known.contains(key)) {
+            ModuleRequest request = work.removeFirst();
+            if (texts.containsKey(request) || known.contains(request)) {
                 continue;
             }
             if (texts.size() >= WorkletLimits.MAX_MODULES_PER_LOAD) {
                 throw new IOException("The module graph has more than " + WorkletLimits.MAX_MODULES_PER_LOAD + " modules.");
             }
-            ScriptText loaded = fetchOne(source, key, credentials);
-            texts.put(key, loaded.getText());
+            ScriptText loaded = ModuleSources.fetch(source, request, credentials, false);
+            texts.put(request, loaded.getText());
+            // JSON은 추가 요청을 만들지 않으며 JavaScript 파서를 거치지 않는다.
+            if (request.isJson()) {
+                continue;
+            }
+            String key = request.getSpecifier();
             bases.put(key, loaded.getUrl());
             Node program = Parser.parseModule(loaded.getText(), key);
             ProgramInfo info = (ProgramInfo) program.value;
             // 모듈이 요청한 지정자마다 키를 구해 아직 없는 것은 대기열에 더한다.
-            for (int i = 0; i < info.requestedModules.size(); i++) {
-                String dependency = resolve(loaded.getUrl(), info.requestedModules.get(i));
+            for (ModuleRequest attributeRequest : info.moduleRequests) {
+                attributeRequest.validateAttributes();
+                String url = ModuleSources.resolve(loaded.getUrl(), attributeRequest.getSpecifier());
+                ModuleRequest dependency = new ModuleRequest(url, attributeRequest.getAttributes());
                 if (!texts.containsKey(dependency) && !known.contains(dependency)) {
                     work.add(dependency);
                 }

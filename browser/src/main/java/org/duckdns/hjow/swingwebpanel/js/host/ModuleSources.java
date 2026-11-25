@@ -18,6 +18,27 @@ public final class ModuleSources {
     }
 
     /**
+     * Converts a Web IDL RequestCredentials value to a fetch mode.
+     * <p>
+     * Web IDL RequestCredentials 값을 가져오기 모드로 변환한다.
+     *
+     * @param value the option string / 옵션 문자열
+     * @return credentials mode / 자격 증명 모드
+     */
+    public static Credentials credentials(String value) {
+        if ("same-origin".equals(value)) {
+            return Credentials.SAME_ORIGIN;
+        }
+        if ("include".equals(value)) {
+            return Credentials.INCLUDE;
+        }
+        if ("omit".equals(value)) {
+            return Credentials.OMIT;
+        }
+        throw JsException.typeError("The provided value '" + value + "' is not a valid enum value of type RequestCredentials.");
+    }
+
+    /**
      * Resolves a module specifier against the importing script's base URL.
      * <p>
      * 가져오는 스크립트의 기준 URL로 모듈 지정자를 해석한다.

@@ -13,6 +13,7 @@ import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomBridge;
 import org.duckdns.hjow.swingwebpanel.js.dom.HostObject;
 import org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials;
+import org.duckdns.hjow.swingwebpanel.js.host.ModuleSources;
 import org.duckdns.hjow.swingwebpanel.js.host.PageScripts;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
@@ -355,17 +356,7 @@ public final class WorkerApi {
      * @return requested credentials mode / 요청한 자격 증명 모드
      */
     private static Credentials workerCredentials(JsValue options) {
-        String value = ScriptUtil.text(options, "credentials", "same-origin");
-        if ("same-origin".equals(value)) {
-            return Credentials.SAME_ORIGIN;
-        }
-        if ("include".equals(value)) {
-            return Credentials.INCLUDE;
-        }
-        if ("omit".equals(value)) {
-            return Credentials.OMIT;
-        }
-        throw JsException.typeError("The provided value '" + value + "' is not a valid RequestCredentials value");
+        return ModuleSources.credentials(ScriptUtil.text(options, "credentials", "same-origin"));
     }
 
     /**

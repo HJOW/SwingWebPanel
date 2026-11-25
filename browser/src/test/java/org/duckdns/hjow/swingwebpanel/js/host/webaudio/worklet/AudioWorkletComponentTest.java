@@ -249,6 +249,57 @@ public class AudioWorkletComponentTest {
     }
 
     /**
+     * Adds a processor through a static JSON dependency and keeps the JavaScript entry cache separate.
+     * <p>
+     * 정적 JSON 의존성으로 프로세서를 추가하고 JavaScript 진입 모듈의 캐시는 별도로 유지한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testJsonModuleInWorklet() throws Exception {
+        final List<String> lines = Collections.synchronizedList(new ArrayList<String>());
+        TestHttpServer server = new TestHttpServer();
+        SwingWebPanel panel = newPanel();
+        try {
+            panel.addConsoleListener(new ConsoleListener() {
+                public void consoleMessage(ConsoleEvent event) {
+                    lines.add(event.getMessage());
+                }
+            });
+            server.routeFixed("/mods/settings.json", TestHttpServer.Response.ok("application/json", "{\"gain\":0.25}")
+                    .header("Cache-Control", "no-store"));
+            server.routeFixed("/mods/main.js", script("import settings from './settings.json' with {type:'json'};"
+                    + "import('./settings.json',{with:{type:'json'}}).then(()=>console.log('dynamic:loaded'),"
+                    + "e=>console.log('dynamic:'+e.name));"
+                    + "class Test extends AudioWorkletProcessor {"
+                    + " static get parameterDescriptors(){return [{name:'gain',defaultValue:settings.gain}];}"
+                    + " process(){return false;} } registerProcessor('json',Test);"));
+            server.routeFixed("/page", TestHttpServer.Response.html("<!doctype html><script>"
+                    + "const ctx=new OfflineAudioContext(1,128,8000);"
+                    + "ctx.audioWorklet.addModule('/mods/main.js',{credentials:'omit'}).then(()=>{"
+                    + "const node=new AudioWorkletNode(ctx,'json');"
+                    + "sessionStorage.setItem('gain',node.parameters.get('gain').value);"
+                    + "return ctx.audioWorklet.addModule('/mods/settings.json');"
+                    + "}).catch(e=>sessionStorage.setItem('moduleError',e.name));</script>")
+                    .header("Set-Cookie", "worklet=42; Path=/"));
+            server.start();
+            panel.setPage(server.url("/page"));
+            Check.equal("0.25", awaitStored(panel, "gain"), "processor uses the static JSON value");
+            Check.equal("AbortError", awaitStored(panel, "moduleError"), "a cached JSON dependency cannot be a JavaScript entry");
+            Check.isNull(server.last("/mods/main.js").header("Cookie"), "omit mode does not send the page cookie");
+            Check.equal(2, server.count("/mods/settings.json"), "JSON and JavaScript paths fetch separately");
+            long end = System.currentTimeMillis() + 10000;
+            // worklet의 동적 가져오기 거부가 콘솔 이벤트로 도착하기를 기다린다.
+            while (!lines.contains("dynamic:TypeError") && System.currentTimeMillis() < end) {
+                Thread.sleep(10);
+            }
+            Check.isTrue(lines.contains("dynamic:TypeError"), "dynamic import is rejected in the worklet");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
      * A module of another origin needs CORS (the request mode of module scripts): without <code>Access-Control-Allow-Origin</code> <code>addModule()</code> rejects with <code>AbortError</code>, with it the
      * module loads.
      * <p>

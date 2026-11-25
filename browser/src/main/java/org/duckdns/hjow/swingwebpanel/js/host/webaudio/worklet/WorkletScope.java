@@ -24,13 +24,15 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.ModuleGraph;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomBridge;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomExceptionObjects;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomInterfaces;
 import org.duckdns.hjow.swingwebpanel.js.host.MessagingApi;
-import org.duckdns.hjow.swingwebpanel.js.host.ScriptSource;
+import org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials;
+import org.duckdns.hjow.swingwebpanel.js.host.ModuleSources;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone;
 import org.duckdns.hjow.swingwebpanel.js.worker.ChannelPorts;
@@ -249,14 +251,14 @@ public final class WorkletScope {
      * <p>
      * realm 이 가진 모듈의 키(평가했거나 평가 중). 모듈은 한 번만 가져와 평가한다.
      */
-    private final Set<String> loadedKeys = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
+    private final Set<ModuleRequest> loadedKeys = Collections.newSetFromMap(new ConcurrentHashMap<ModuleRequest, Boolean>());
 
     /**
      * The text of the modules that were fetched, by key; what the module loader of the realm reads.
      * <p>
      * 가져온 모듈의 텍스트(키별). realm 의 모듈 로더가 읽는다.
      */
-    private final Map<String, String> moduleTexts = new ConcurrentHashMap<String, String>();
+    private final Map<ModuleRequest, String> moduleTexts = new ConcurrentHashMap<ModuleRequest, String>();
 
     /**
      * The final address of the modules that were fetched (after redirects), by key; relative imports resolve against it.
@@ -476,10 +478,10 @@ public final class WorkletScope {
      * 불러오지 않는다(호출은 성공한다). 어느 스레드에서나 부를 수 있으며 일은 worklet 스레드가 한다.
      *
      * @param moduleKey   the absolute address of the module, without a fragment / 모듈의 절대 주소(조각 없음)
-     * @param credentials true to send cookies to every origin (<code>credentials: "include"</code>) / 모든 오리진에 쿠키를 보내려면 true(<code>credentials: "include"</code>)
+     * @param credentials fetch credentials mode / 가져오기 자격 증명 모드
      * @param done        told on the page / 페이지에 알린다
      */
-    public void addModule(final String moduleKey, final boolean credentials, final Completion done) {
+    public void addModule(final String moduleKey, final Credentials credentials, final Completion done) {
         if (disposed) {
             finish(done, "InvalidStateError", "The audio worklet was closed.");
             return;
@@ -928,22 +930,23 @@ public final class WorkletScope {
      * worklet 스레드에서 모듈을 불러와 평가한다: 그래프를 잠금 없이 가져온 뒤, 잠금을 쥐고 realm 에서 불러오고 링크하고 평가한다.
      *
      * @param key         the key of the entry module / 진입 모듈의 키
-     * @param credentials true to send cookies to every origin / 모든 오리진에 쿠키를 보내려면 true
+     * @param credentials fetch credentials mode / 가져오기 자격 증명 모드
      * @param done        the completion / 완료
      */
-    private void loadModule(String key, boolean credentials, Completion done) {
+    private void loadModule(String key, Credentials credentials, Completion done) {
         if (disposed) {
             return;
         }
-        // 이미 불러온 모듈이면 다시 가져오지 않고 성공으로 끝낸다.
-        if (loadedKeys.contains(key)) {
+        ModuleRequest entry = new ModuleRequest(key);
+        // 이미 불러온 JavaScript 진입 모듈이면 다시 가져오지 않고 성공으로 끝낸다.
+        if (loadedKeys.contains(entry)) {
             finish(done, null, null);
             return;
         }
-        Map<String, String> texts = new HashMap<String, String>();
+        Map<ModuleRequest, String> texts = new HashMap<ModuleRequest, String>();
         Map<String, String> bases = new HashMap<String, String>();
         try {
-            ModuleGraphFetcher.fetch(host.getPage().getEnvironment().getScriptSource(), key, credentials, texts, bases, loadedKeys);
+            ModuleGraphFetcher.fetch(host.getPage().getEnvironment().getScriptSource(), entry, credentials, texts, bases, loadedKeys);
         } catch (IOException e) {
             report(ConsoleRecord.Kind.HOST_ERROR, "Failed to load the audio worklet module " + key + ": " + e.getMessage(), key, 0, 0);
             finish(done, "AbortError", "Unable to load a worklet's module.");
@@ -970,7 +973,7 @@ public final class WorkletScope {
                 return;
             }
             ensureRealm();
-            String[] rejection = evaluate(key);
+            String[] rejection = evaluate(entry);
             // 평가에 이르렀으면(평가 중 예외로 끝났어도) 모듈은 평가한 것으로 친다. 같은 모듈은 다시 평가하지 않는다.
             if (rejection == null) {
                 loadedKeys.addAll(texts.keySet());
@@ -991,17 +994,17 @@ public final class WorkletScope {
      * 링크할 수 없는 모듈(모듈이 export 하지 않은 이름의 import)은 <em>error to rethrow</em> 이다: <code>addModule()</code> 의 프라미스는 그 오류로 reject 된다. 모듈이 <em>실행되는 동안</em> 던지는 예외
      * (<code>throw</code>, 모듈 안의 <code>registerProcessor()</code> 오류)는 프라미스를 reject 하지 않는다: 처리되지 않은 예외로 콘솔에 보고하고 프라미스는 resolve 된다(예외 전에 등록한 이름은 등록된 채로 남는다).
      *
-     * @param key the key of the module / 모듈의 키
+     * @param entry a resolved JavaScript module request / 해석된 JavaScript 모듈 요청
      * @return null if the promise resolves; otherwise the name of the error that rejects it and its message / 프라미스가 resolve 되면 null. 아니면 reject 하는 오류의 이름과 메시지
      */
-    private String[] evaluate(String key) {
+    private String[] evaluate(ModuleRequest entry) {
         JsRealm r = realm;
         ExecutionLimits limits = r.getLimits();
         limits.setMaxSteps(ExecutionLimits.DEFAULT_MAX_STEPS);
         limits.setMaxTimeMillis(host.getPage().getEnvironment().getTaskTimeLimitMillis());
         ModuleGraph graph;
         try {
-            graph = r.loadModule(key, moduleTexts.get(key));
+            graph = r.loadModule(entry.getSpecifier(), moduleTexts.get(entry));
         } catch (RuntimeException e) {
             // 불러오는 단계(파싱, 의존 모듈 해석)의 실패는 error to rethrow 이다.
             if (!disposed) {
@@ -1086,6 +1089,7 @@ public final class WorkletScope {
             return;
         }
         JsRealm r = JsRealm.create();
+        r.setDynamicImportEnabled(false);
         DomBridge b = new DomBridge(r);
         realm = r;
         bridge = b;
@@ -1134,7 +1138,7 @@ public final class WorkletScope {
         r.getGlobalObject().delete("MessageChannel");
         freezeFunction = ((JsObject) r.getGlobalObject().get("Object")).get("freeze");
         WorkletGlobals.install(this);
-        r.setModuleLoader(new ModuleLoader() {
+        r.setModuleLoader(new ModuleLoader.WithAttributes() {
             /**
              * Resolves a specifier against the final address of the importing module.
              * <p>
@@ -1146,7 +1150,7 @@ public final class WorkletScope {
              */
             public String resolve(String specifier, String referrer) {
                 String known = referrer == null ? null : moduleBases.get(referrer);
-                return ModuleGraphFetcher.resolve(known != null ? known : referrer == null ? host.getPage().getDocument().getBaseUri() : referrer, specifier);
+                return ModuleSources.resolve(known != null ? known : referrer == null ? host.getPage().getDocument().getBaseUri() : referrer, specifier);
             }
 
             /**
@@ -1158,9 +1162,21 @@ public final class WorkletScope {
              * @return the text / 텍스트
              */
             public String fetch(String key) {
-                String text = moduleTexts.get(key);
+                return fetch(new ModuleRequest(key));
+            }
+
+            /**
+             * Looks up source by the URL and attributes used for prefetching.
+             * <p>
+             * 선취득에 쓴 URL과 속성으로 소스를 찾는다.
+             *
+             * @param request resolved module request / 해석된 모듈 요청
+             * @return the text / 텍스트
+             */
+            public String fetch(ModuleRequest request) {
+                String text = moduleTexts.get(request);
                 if (text == null) {
-                    throw JsException.typeError("Failed to fetch module " + key);
+                    throw JsException.typeError("Failed to fetch module " + request);
                 }
                 return text;
             }

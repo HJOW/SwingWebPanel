@@ -86,6 +86,23 @@ public final class ModuleRequest {
     }
 
     /**
+     * Validates the import attributes supported by the engine's hosts.
+     * <p>
+     * 엔진 호스트가 지원하는 가져오기 속성인지 검사한다.
+     *
+     * @throws JsException for an unsupported key or type / 지원하지 않는 키나 모듈 타입이면
+     */
+    public void validateAttributes() {
+        if (attributes.isEmpty() || (attributes.size() == 1 && isJson())) {
+            return;
+        }
+        if (attributes.size() != 1 || !attributes.containsKey("type")) {
+            throw JsException.typeError("Unsupported import attributes for module '" + specifier + "'");
+        }
+        throw JsException.typeError("Unsupported module type '" + attributes.get("type") + "'");
+    }
+
+    /**
      * Checks module request equality by specifier and attribute key/value pairs.
      * <p>
      * 지정자와 속성의 키·값 쌍으로 요청의 동일성을 검사한다.

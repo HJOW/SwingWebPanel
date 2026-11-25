@@ -244,7 +244,7 @@ public final class Interpreter {
         try {
             String text = Ops.toString(specifier);
             request = new ModuleRequest(text, importAttributes(options));
-            ModuleRecord.validateImportAttributes(request);
+            request.validateAttributes();
         } catch (JsException e) {
             // 지정자 변환과 속성 조회 중의 예외부터는 Promise로 전달한다.
             Ops.call(capability.getRejectFunction(), Js.UNDEFINED, new JsValue[] { e.getValue(realm) });
@@ -253,6 +253,10 @@ public final class Interpreter {
         org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseJobs.enqueue(realm, new Runnable() {
             public void run() {
                 try {
+                    // worklet처럼 동적 가져오기를 제한하는 호스트는 캐시 조회 전에 거부한다.
+                    if (!realm.isDynamicImportEnabled()) {
+                        throw JsException.typeError("Dynamic import is not allowed in this realm");
+                    }
                     ModuleRequest resolved = ModuleRecord.resolve(realm.getModuleLoader(), request, referrer);
                     ModuleRecord module = ModuleRecord.load(Interpreter.this, resolved, null);
                     module.link();

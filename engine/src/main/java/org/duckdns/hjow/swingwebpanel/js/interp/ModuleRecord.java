@@ -341,7 +341,7 @@ final class ModuleRecord {
         pending.put(request, m);
         // 의존성을 모두 연결하기 전에는 완료 레코드 캐시에 넣지 않는다.
         for (ModuleRequest dependency : m.info.moduleRequests) {
-            validateImportAttributes(dependency);
+            dependency.validateAttributes();
             ModuleRequest resolved = resolve(loader, dependency, key);
             m.requested.add(load(in, resolved, null, pending));
         }
@@ -364,25 +364,6 @@ final class ModuleRecord {
             throw JsException.typeError("Cannot resolve module '" + specifier + "': no module loader is configured");
         }
         return new ModuleRequest(loader.resolve(specifier, referrer), request.getAttributes());
-    }
-
-    /**
-     * Checks that the engine's module host can honor the import attributes.
-     * <p>
-     * 엔진의 모듈 호스트가 가져오기 속성을 처리할 수 있는지 검사한다.
-     *
-     * @param request the module request / 모듈 요청
-     */
-    static void validateImportAttributes(ModuleRequest request) {
-        Map<String, String> attributes = request.getAttributes();
-        // 프로젝트 호스트의 모듈 타입 속성은 JSON을 선택한다.
-        if (attributes.isEmpty() || (attributes.size() == 1 && request.isJson())) {
-            return;
-        }
-        if (attributes.size() != 1 || !attributes.containsKey("type")) {
-            throw JsException.typeError("Unsupported import attributes for module '" + request.getSpecifier() + "'");
-        }
-        throw JsException.typeError("Unsupported module type '" + attributes.get("type") + "'");
     }
 
     /**

@@ -151,6 +151,9 @@ public class JsRealm {
      */
     private ModuleLoader moduleLoader;
 
+    /** Whether this host can load modules through import(). / 호스트가 import()를 통해 모듈을 불러올 수 있는지 여부. */
+    private boolean dynamicImportEnabled = true;
+
     /**
      * The console hook (defaults to standard output).
      * <p>
@@ -834,6 +837,28 @@ public class JsRealm {
      */
     public void setModuleLoader(ModuleLoader loader) {
         this.moduleLoader = loader;
+    }
+
+    /**
+     * Tests whether the host allows dynamic imports in this realm.
+     * <p>
+     * 호스트가 이 realm에서 동적 가져오기를 허용하는지 확인한다.
+     *
+     * @return true if import() is allowed / import()를 허용하면 true
+     */
+    public boolean isDynamicImportEnabled() {
+        return dynamicImportEnabled;
+    }
+
+    /**
+     * Sets the host policy for import calls. Static loading uses the configured module loader.
+     * <p>
+     * import 호출에 적용할 호스트 정책을 지정한다. 정적 가져오기는 지정한 모듈 로더를 사용한다.
+     *
+     * @param enabled whether the host allows import() / 호스트가 import()를 허용하는지 여부
+     */
+    public void setDynamicImportEnabled(boolean enabled) {
+        dynamicImportEnabled = enabled;
     }
 
     /**

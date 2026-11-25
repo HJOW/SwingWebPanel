@@ -22,6 +22,8 @@ import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrayObject;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomBridge;
 import org.duckdns.hjow.swingwebpanel.js.dom.HostObject;
+import org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials;
+import org.duckdns.hjow.swingwebpanel.js.host.ModuleSources;
 import org.duckdns.hjow.swingwebpanel.js.host.PageScripts;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone;
@@ -592,7 +594,7 @@ final class WorkletApi implements WorkletHost {
             }
             Idl.requireArgs(args, 1, "addModule", "Worklet");
             String raw = Ops.toString(args[0]);
-            boolean credentials = credentials(Idl.dictionary(Js.arg(args, 1), "Failed to execute 'addModule' on 'Worklet': The provided value"));
+            Credentials credentials = credentials(Idl.dictionary(Js.arg(args, 1), "Failed to execute 'addModule' on 'Worklet': The provided value"));
             if (api.isDisposed()) {
                 throw api.domError("InvalidStateError", "The document is not fully active.");
             }
@@ -640,25 +642,16 @@ final class WorkletApi implements WorkletHost {
     }
 
     /**
-     * Reads <code>options.credentials</code> of <code>addModule()</code>: <code>include</code> sends cookies to every origin; <code>omit</code> and <code>same-origin</code> only to the
-     * origin of the page (the request layer has no mode that sends none, so <code>omit</code> is the same as <code>same-origin</code>).
+     * Reads <code>options.credentials</code> of <code>addModule()</code>, defaulting to same-origin.
      * <p>
-     * <code>addModule()</code> 의 <code>options.credentials</code> 를 읽는다: <code>include</code> 는 모든 오리진에 쿠키를 보내고, <code>omit</code> 과 <code>same-origin</code> 은 페이지의 오리진에만 보낸다
-     * (요청 계층에는 쿠키를 전혀 보내지 않는 모드가 없으므로 <code>omit</code> 은 <code>same-origin</code> 과 같다).
+     * <code>addModule()</code>의 <code>options.credentials</code>를 읽는다. 기본값은 same-origin이다.
      *
      * @param options the options, or null / 옵션. 없으면 null
-     * @return true to send cookies to every origin / 모든 오리진에 쿠키를 보내려면 true
+     * @return credentials mode / 자격 증명 모드
      */
-    private static boolean credentials(JsObject options) {
+    private static Credentials credentials(JsObject options) {
         JsValue v = Idl.member(options, "credentials");
-        if (v.isUndefined()) {
-            return false;
-        }
-        String s = Ops.toString(v);
-        if (!"omit".equals(s) && !"same-origin".equals(s) && !"include".equals(s)) {
-            throw JsException.typeError("The provided value '" + s + "' is not a valid enum value of type RequestCredentials.");
-        }
-        return "include".equals(s);
+        return v.isUndefined() ? Credentials.SAME_ORIGIN : ModuleSources.credentials(Ops.toString(v));
     }
 
     /**
