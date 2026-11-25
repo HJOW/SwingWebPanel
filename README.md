@@ -3,8 +3,30 @@
 
 ## 소개
 
-Java 의 Swing 용 웹 브라우저 컴포넌트입니다.
+Java 의 Swing 용 웹 브라우저 컴포넌트입니다.    
 일부 에셋을 제외하면 순수 자바로 구현되어 있습니다.
+```java
+import java.awt.BorderLayout;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
+public class JavaBrowser extends JFrame {
+    private SwingWebPanel web;
+    public JavaBrowser() {
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(600, 400);
+        setLayout(new BorderLayout());
+        
+        web = new SwingWebPanel();
+        add(new JScrollPane(web));
+        
+        web.setPage("https://www.w3.org/");
+    }
+    public static void main(String[] args) {
+        new JavaBrowser().setVisible(true);
+    }
+}
+```
 Java 6 이상 버전을 모두 지원합니다.
     
 우리 프로젝트에서는 AI를 적극 사용합니다.
