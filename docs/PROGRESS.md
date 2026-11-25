@@ -11,6 +11,21 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-01 ECMAScript 2026 기준 판본과 전체 격차·호환 목록 확정 (2026-11-25) ===
+현재 작업 번호: P29-01 완료.
+완료한 내용:
+  1. 오프라인 정본 docs/es2026/(ECMA-262 17th edition, June 2026, 53,284줄, 1~29장·부속서 A~F)과 tools/webfetch(JRE 25.0.5.0.2)로 확인한 공식 스냅샷(https://tc39.es/ecma262/2026/ HTTP 200 7,530,216B ETag "6b0628b1-72e6e8", https://raw.githubusercontent.com/tc39/ecma262/es2026/spec.html HTTP 200 2,979,557B, https://262.ecma-international.org/ HTTP 403 무우회)을 docs/FEATURE_MATRIX.md 0절에 고정하고, 제13판(docs/es2022/) 대비 추가된 모든 문법 생성규칙 5개 영역과 전 장을 7.1~7.7절에 매핑했다.
+  2. JDK 6u45(C:\Program Files\Java\jdk1.6.0_45)에서 현행 swingwebpanel-js.jar에 대해 44건의 실측 감사를 수행해 정확한 출발 상태를 확정했다:
+     - ES2015 기반 중 숨은 격차: js.text.CharClass가 JRE 6 Character(Unicode 4.0)에 위임되어 Unicode 4.1+ 식별자를 거부함(정규식 \p{}는 Unicode 13.0 표라 불일치 → P29-02 통합), ES2016에서 제거된 Reflect.enumerate 잔존(→ P29-09/10 제거).
+     - ES2016~ES2022 잔여분: 태그 템플릿 개정·캐싱(ESX-SYNTAX-2018)과 독립 JsRealm globalThis 기술자는 동작 확인(경계·다중 문맥 시험 P29-02), 문자열 생 U+2028/U+2029 허용과 JSON.stringify 고립 서로게이트 이스케이프는 미구현 확인(P29-02), SharedArrayBuffer/Atomics는 미구현(P29-05).
+     - ES2023~ES2026(ES26-* 23행): Hashbang, Import Attributes·JSON 모듈, 배열/형식화 배열/Float16Array/Uint8Array Base64·Hex/가변 ArrayBuffer, Weak Symbol, groupBy/Set 7종/Map·WeakMap getOrInsert*/Iterator 헬퍼·concat, isWellFormed/정규식 /v·중복 그룹·인라인 수정자·escape, Promise.withResolvers·try/Error.isError(브라우저 DomExceptionObjects 오류 브랜드 연동 포함)/Math.sumPrecise/JSON.rawJSON·reviver context/Date 시간대 오프셋 연산의 구현 클래스와 검증 시험 계획을 연결했다.
+     - 이전 판본 및 부속서 B·E·F(ES-COMPAT-* 3행): B.1.1·B.2·B.3.1~3.4 및 Annex E·F 핵심 항목 동작 확인, 비엄격 for(var x = init in obj)(B.3.5)와 함수 호출 좌변 런타임 ReferenceError(B.3.9) 미구현 확인(→ P29-09).
+  3. ECMA-262 제17판 §2 Conformance의 조건부 적합성 조항 및 JRE 6 CLDR 부재·JAR 용량 제약을 근거로 전역 Intl 미제공을 명시적 예외 EXC-16으로 확정하고, 비-ECMA-402 기본 toLocaleString/localeCompare(정준 동치 포함) 준수 범위를 고정했다. 상세는 docs/progress/es2026.md에 기록했다.
+변경 파일: AGENTS.md, docs/PROGRESS.md, docs/FEATURE_MATRIX.md, docs/progress/es2026.md.
+검증 결과: tools/webfetch(JRE 25) 스냅샷 HTTP 200 확인, JDK 6u45 엔진 실측 프로브 44건 실행 완료, 상단 보호 단락 무변경 git diff 확인, tools/sourcecheck 0 위반.
+미해결 사항: P29-01에서 식별·고정한 코드 격차(P29-02~P29-10)는 순서대로 구현·검증한다.
+다음 작업 번호: P29-02.
+-----------------------------------------------------------------------------------------------
 === JavaScript 규격 목표 ES2026 상향과 작업 계획·순서 개편 (2026-11-25) ===
 현재 작업 번호: ES2026 목표 상향에 따른 계획·순서 및 문서 개편 완료.
 완료한 내용: 상단 "목표 - 지원 기능"이 ES2026 및 이전 버전 ES 호환으로 변경됨에 따라 AGENTS.md 개발 계획 전반과 진행 순서를 개편하고 P29(P29-01~10: ES2016~ES2022 잔여 항목, ES2023~ES2026 문법·내장 객체·이진 데이터·컬렉션·정규식·JSON 모듈, ES1~ES5.1 및 제17판 Annex B 하위 호환, 호스트·독립 엔진 경계와 적합성 표 확장)를 신설했다. 진행 순서는 P29(ES2026 완성) → P28-06~09(웹 API·완성된 실행기 기준 성능 최적화·NetstormJava 구동) → P27(postMessage) → P22 마무리로 재조정했다. docs/es2026(ECMA-262 제17판)과 docs/es2022를 전수 비교하여 docs/FEATURE_MATRIX.md(0절 판본, 7.5절 필수 승격, 7.6절 ES26-* 23행, 7.7절 ES-COMPAT-* 3행, 10·11·13절)와 ARCHITECTURE/API_CONTRACT/progress 문서를 갱신했다.

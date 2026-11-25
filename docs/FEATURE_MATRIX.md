@@ -1,6 +1,6 @@
 # SwingWebPanel 기능 표
 
-작성 시작: 2026-11-16 (P00-02 ~ P00-08, P00-10). 최종 갱신: 2026-11-25(상단 JavaScript 규격 목표를 ES6에서 **ECMAScript 2026 및 이전 버전 ES 호환**으로 상향함에 따라 P29 대상 목록 `ES26-*`·`ES-COMPAT-*` 추가 및 0·7·10·13절 개편; 같은 날 앞선 P28-01~05 ES2022 구현 반영 포함). 이전 갱신: 2026-11-17(P20-10/11/12, P22-14: 낡은 행을 현재 구현과 시험에 맞추고, `T-...`/`C-...` 계획용 번호를 실제 시험 이름으로 바꾸고, 11~14절을 더했다). 현재 상태의 요약은 13절(축별 대조)과 14절(검증 환경과 남은 차이)이다. 시험은 모두 JDK 6u45 에서 `scripts/pkgtest.sh` 또는 Maven 래퍼로 실행한 것이다.
+작성 시작: 2026-11-16 (P00-02 ~ P00-08, P00-10). 최종 갱신: 2026-11-25(P29-01 완료: `docs/es2026/` 제17판 전 장·조항 및 `tools/webfetch` 스냅샷 대조 확정, JDK 6u45 현행 엔진 실측 감사 반영, `EXC-16` `Intl` 조건부 미제공 정책 확정, 0·3·7·13절 갱신; 같은 날 앞선 ES2026 계획 개편 및 P28-01~05 ES2022 구현 반영 포함). 이전 갱신: 2026-11-17(P20-10/11/12, P22-14: 낡은 행을 현재 구현과 시험에 맞추고, `T-...`/`C-...` 계획용 번호를 실제 시험 이름으로 바꾸고, 11~14절을 더했다). 현재 상태의 요약은 13절(축별 대조)과 14절(검증 환경과 남은 차이)이다. 시험은 모두 JDK 6u45 에서 `scripts/pkgtest.sh` 또는 Maven 래퍼로 실행한 것이다.
 
 2026-11-24 Maven 전환 이후 소스는 `browser/src/main/java`와 `engine/src/main/java`에, 시험은 각 모듈의 `src/test/java`에 있다. 같은 JDK 6u45로 `mvn verify`를 실행한다. 아래의 전환 전 시험 명령과 결과는 실행 당시의 기록이다. [이전 경로 대응표](progress/maven.md#모듈과-이전-경로)
 
@@ -19,9 +19,9 @@
 | HTML Living Standard | WHATWG (파싱 차이와 최신 동작 참고용, 기준은 아님) | https://html.spec.whatwg.org/multipage/ | 200 확인 |
 | Canvas 2D / Web Storage | W3C 주소가 WHATWG HTML 로 리디렉션됨 → **정본은 WHATWG HTML Living Standard** | https://www.w3.org/TR/2dcontext/ , https://www.w3.org/TR/webstorage/ | 모두 `https://html.spec.whatwg.org/multipage/` 로 이동(200) |
 | ECMAScript 2015 (ES6, P12~P14 1차 기반) | ECMA-262 6th edition, June 2015 (초기 기반 판본) | https://262.ecma-international.org/6.0/ | **HTTP 403** (도구 기본 User-Agent). 우회하지 않음. P12~P14 구현 완료 뒤 2026-11-25 상위 판본 오프라인 사본(`docs/es2022`, `docs/es2026`)으로 대조 보강 |
-| ECMAScript 2022 (P28 2차 중간 단계) | ECMA-262 13th edition, June 2022 | https://262.ecma-international.org/13.0/ 및 https://ecma-international.org/wp-content/uploads/ECMA-262_13th_edition_june_2022.pdf | 두 공식 URL 모두 **HTTP 403**(2026-11-25, `tools/webfetch`, JRE 25.0.5.0.2); User-Agent 우회는 하지 않음. 저장소의 오프라인 HTML 사본 [`docs/es2022`](es2022/)(상단 AGENTS.md 안내에도 언급)과 TC39 스냅샷 `https://raw.githubusercontent.com/tc39/ecma262/es2022/spec.html`(HTTP 200, 2,657,094바이트, ETag `ffa4eed67e5c1aeee0f8bd4740f43a1ade7a8f0345195ac3b267ac110f7ef11a`)로 확인했다 |
+| ECMAScript 2022 (P28 2차 중간 단계) | ECMA-262 13th edition, June 2022 | https://262.ecma-international.org/13.0/ 및 https://ecma-international.org/wp-content/uploads/ECMA-262_13th_edition_june_2022.pdf | 두 공식 URL 모두 **HTTP 403**(2026-11-25, `tools/webfetch`, JRE 25.0.5.0.2); User-Agent 우회는 하지 않음. 저장소의 오프라인 HTML 사본 [`docs/es2022`](es2022/)과 TC39 스냅샷 `https://raw.githubusercontent.com/tc39/ecma262/es2022/spec.html`(HTTP 200, 2,657,094바이트, ETag `ffa4eed67e5c1aeee0f8bd4740f43a1ade7a8f0345195ac3b267ac110f7ef11a`)로 확인했다 |
 | ECMAScript 2025 (판본 변천 대조 자료) | ECMA-262 16th edition, June 2025 | [`docs/ECMA-262_16th_edition_june_2025.pdf`](ECMA-262_16th_edition_june_2025.pdf) | 사용자가 저장소에 추가한 공식 PDF 사본(ES2025 신규 조항 대조용) |
-| **ECMAScript 2026 (최종 목표 정본, P29)** | **ECMA-262 17th edition, June 2026** | https://262.ecma-international.org/ (다중 페이지 https://tc39.es/ecma262/2026/multipage/) | 2026-11-25 상단 목표 상향으로 최종 기준 판본 고정. 사용자가 저장소에 둔 완전한 오프라인 단일 페이지 HTML 사본 [`docs/es2026`](es2026/)(`ECMAScript® 2026 Language Specification.html`, 서문·1~29장·부속서 A~F 포함)을 본문 정본으로 사용한다 |
+| **ECMAScript 2026 (최종 목표 정본, P29)** | **ECMA-262 17th edition, June 2026** | https://262.ecma-international.org/ , https://tc39.es/ecma262/2026/ , https://raw.githubusercontent.com/tc39/ecma262/es2026/spec.html | P29-01 확정(조회 2026-11-25, `tools/webfetch`, JRE 25.0.5.0.2): `262.ecma-international.org`는 **HTTP 403**(우회 안 함); `tc39.es/ecma262/2026/` **HTTP 200**(7,530,216바이트, `Last-Modified: Wed, 25 Nov 2026 00:15:45 GMT`, ETag `"6b0628b1-72e6e8"`), `raw.githubusercontent.com/tc39/ecma262/es2026/spec.html` **HTTP 200**(2,979,557바이트, ETag `"3b0f04bb5d932e5380b6d49de1b656ab0901fdc4318892a5358aaedaf300eb14"`). 본문 판정 정본은 저장소의 완전한 오프라인 단일 페이지 HTML 사본 [`docs/es2026`](es2026/)(`ECMAScript® 2026 Language Specification.html`, 53,284줄, 서문·1~29장·부속서 A~F)이다 |
 | CSS | **CSS Snapshot 2026, W3C Group Note 2026-06-22** | https://www.w3.org/TR/2026/NOTE-css-2026-20260622/ | 200 확인, 모듈 판본은 4절 |
 | DOM | WHATWG DOM Standard, Living Standard — Last Updated 15 November 2026 (`/TR/dom/` 이 이곳으로 리디렉션) | https://dom.spec.whatwg.org/ | 200 확인 |
 | UI Events | W3C | https://www.w3.org/TR/uievents/ | 200 확인(판본 미기록) |
@@ -108,7 +108,7 @@
 
 ## 3. 명시적 예외와 처리 정책 (P00-08)
 
-예외는 미구현과 구분한다. EXC-01~08 은 요구사항 원문에 근거한 의도적 미지원이다. EXC-09~15는 요구사항이 아니라 구현 구조·JRE 6·JAR 크기·장치 입력 범위에 근거한 명시적 예외이며 근거 열에 확인한 내용을 적었다.
+예외는 미구현과 구분한다. EXC-01~08 은 요구사항 원문에 근거한 의도적 미지원이다. EXC-09~16은 요구사항이 아니라 규격의 조건부 적합성 조항·구현 구조·JRE 6·JAR 크기·장치 입력 범위에 근거한 명시적 예외이며 근거 열에 확인한 내용을 적었다.
 
 | 기능 ID | 대상 | 근거 | 처리 정책 | 남은 호환성 차이 |
 | --- | --- | --- | --- | --- |
@@ -127,6 +127,7 @@
 | EXC-13 | 컴포넌트가 스크롤을 소유해야 하는 기능(`scroll-snap-*`, `scrollbar-width/color/gutter`, `overscroll-behavior`, `scroll-behavior: smooth`, `scroll-state()` 질의, `animation-timeline` 의 `scroll()/view()`, scroll anchoring, 요소 안의 `overflow: auto/scroll` 스크롤) | **구현 구조의 한계**: 스크롤바와 스크롤 위치는 호스트 `JScrollPane` 이 소유하며 컴포넌트에는 자체 스크롤 컨테이너가 없다(`layout.Css.clips`: `overflow` 가 `visible` 이 아니면 자르기만 한다). 호스트의 스크롤바는 컴포넌트 안에서 꾸밀 수 없다 | 선언은 파싱하고 계산 값만 있다(`ScrollPropertiesTest`) | 스냅과 스크롤바 꾸미기 없음, 요소 안 스크롤 없음 |
 | EXC-14 | `MediaStream` 계열 노드(`createMediaStreamSource/Destination/TrackSource`), `getUserMedia` | 장치 입력 없음(EXC-07 과 같은 범위) | `createMediaStream*` 은 `NotSupportedError`, 전역 `MediaStream*` 미노출(C) | | 명시적 예외 | 마이크/캡처 불가 |
 | EXC-15 | 정규식 Unicode 13 Emoji 계열 이진 속성(`Emoji`, `Emoji_Presentation`, `Extended_Pictographic`, `Emoji_Modifier`, `Regional_Indicator`) | 사용자 결정(2026-11-25): JAR 크기 제한으로 `emoji-data.txt` 범위 표를 제품에 넣지 않음 | `/\p{Emoji}/u` 등의 속성은 `SyntaxError`(알 수 없는 속성). 일반 General_Category/Script/Script_Extensions와 다른 Unicode 13 이진 속성은 지원 | Emoji 전용 속성 escape 불가 |
+| EXC-16 | 국제화 API `ECMA-402`(`globalThis.Intl`: `Collator`, `NumberFormat`, `DateTimeFormat`, `PluralRules`, `RelativeTimeFormat`, `ListFormat`, `Segmenter`, `DisplayNames`, `DurationFormat` 등) | **규격 조건부 적합성 + JRE 6·JAR 크기 한계**(P29-01 확정, `docs/progress/es2026.md` 4절): ECMA-262 제17판 §2 Conformance는 국제화 API를 *제공하는* 구현에만 ECMA-402 준수를 요구하며 미제공 시 ECMA-262 본문의 기본 의미를 따르도록 정한다. JRE 6에는 BCP 47 언어 태그(`Locale.forLanguageTag`), `java.time` 달력/시간대, 복수형·분할·목록 형식 API가 없고 외부 라이브러리(ICU4J) 금지 및 수십 MB CLDR 번들의 JAR 비대화로 전체 ECMA-402 내장이 부적합하다 | `globalThis.Intl`을 정의하지 않는다(`typeof Intl === "undefined"`). 대신 `Object`/`Number`/`BigInt`/`Date`/`Array`/`TypedArray`의 `toLocaleString`과 `String.prototype.localeCompare`(유니코드 정준 동치 비교 포함)는 ECMA-262 제17판 본문의 비-ECMA-402 명세를 정확히 따른다(`ES26-INTL-POLICY`) | `Intl`에 직접 의존하는 다국어 서식 코드는 폴백 분기가 필요함 |
 
 ## 4. HTML (HTML) 과 이전 버전 호환 (LEG)
 
@@ -320,55 +321,56 @@
 
 ## 7. ECMAScript (ES2026 목표 및 이전 버전 호환) (P00-04, P28, P29)
 
-2026-11-25 상단 목표 상향에 따라 최종 기준은 **ECMA-262 17th edition (ECMAScript 2026, June 2026, 정본 `docs/es2026/`) 및 이전 판본(ES1~ES5.1, ES2015~ES2025) 하위 호환**이다.
-7.1~7.4절은 P12~P14에서 먼저 구축한 ES2015(제6판) 기반 행(장 번호는 제6판 기준), 7.5절은 P28에서 구현한 ES2016~ES2022(제7~13판) 행과 잔여 보완 대상, **7.6절은 P29에서 구현할 ES2023~ES2026(제14~17판) 필수 행(`ES26-*`)**, **7.7절은 이전 버전 ES 및 웹 브라우저 호환(Annex B) 검증 행(`ES-COMPAT-*`)**이다. **ES2026 이하의 미구현 기능을 범위 밖 확장으로 분류하지 않으며**, 7.1~7.7절 전체에 미구현·설명 없는 건너뜀이 없어야 JavaScript 목표 완료로 판정한다.
+2026-11-25 상단 목표 상향에 따라 최종 기준은 **ECMA-262 17th edition (ECMAScript 2026, June 2026, 정본 `docs/es2026/`) 및 이전 판본(ES1~ES5.1, ES2015~ES2025) 하위 호환**이다(전 장 대조·실측 감사 상세: [`docs/progress/es2026.md`](progress/es2026.md)).
+제17판은 서문·1~29장·부속서 A~F로 구성되며 제6판(1~26장) 대비 장 번호 대응은 `1~8→1~8`, `9(CanBeHeldWeakly 등) 신설`, `9~16→10~17`, `17~22→18~23`(`23.3 Uint8Array` 신설), `23~24→24~25`, `26(Managing Memory) 신설`, `25→27`(`27.1.2~3 Iterator` 확장), `26→28`, `29(Memory Model) 신설`이다.
+7.1~7.4절은 P12~P14에서 먼저 구축한 ES2015(제6판) 기반 행(괄호 안에 제17판 대응 장 병기), 7.5절은 P28에서 구현한 ES2016~ES2022(제7~13판) 행과 잔여 보완 대상, **7.6절은 P29에서 구현할 ES2023~ES2026(제14~17판) 필수 행(`ES26-*`)**, **7.7절은 이전 버전 ES 및 웹 브라우저 호환(Annex B·E·F) 검증 행(`ES-COMPAT-*`)**이다. **ES2026 이하의 미구현 기능을 범위 밖 확장으로 분류하지 않으며**, 명시적 조건부 예외(`EXC-15`, `EXC-16`)를 제외한 7.1~7.7절 전체에 미구현·설명 없는 건너뜀이 없어야 JavaScript 목표 완료로 판정한다.
 
 ### 7.1 언어 문법 (JS 파서: P12)
 
-| 기능 ID | 장 | 요구사항 | 구현 클래스 | 검증 사례 | 상태 |
+| 기능 ID | 장(6판 / 17판) | 요구사항 | 구현 클래스 | 검증 사례 | 상태 |
 | --- | --- | --- | --- | --- | --- |
-| ES-LEX | 10~11 | 소스 텍스트, 유니코드 식별자(`ID_Start/ID_Continue`), 주석, 줄 끝, 리터럴(숫자 `0b 0o`, 문자열 `\u{}`, 템플릿, 정규식), 예약어, 자동 세미콜론 삽입 | `js.parser.Lexer` | `js.parser.LexerTest` | 검증 완료 |
-| ES-EXPR | 12 | 표현식 문법 전체: 우선순위, 연산자, 분해, spread(ES2015 범위), `**` 는 ES2016 기능이라 7.5절 ESX-EXP 로 옮김(2026-11-24 판정에서 구문 오류였는데 이 행에 검증 완료로 적혀 있었음), 템플릿/태그 템플릿, 화살표 함수, `new.target`, `super`, `yield` | `js.parser.Parser`, `js.ast.*` | `js.parser.ParserExpressionTest` | 검증 완료 |
-| ES-STMT | 13 | 문장/선언: `let const var`, 블록, `if for for-in for-of while do switch label break continue return with throw try debugger` | `js.parser.Parser` | `js.parser.ParserStatementTest` | 검증 완료 |
-| ES-FUNC | 14 | 함수 정의, 화살표 함수, 메서드 정의, 제너레이터 정의, 클래스(`extends super static get set`), 꼬리 호출(strict) | `js.parser.Parser` | `js.interp.FunctionTest`, `js.interp.ClassTest`, `js.interp.TailCallTest` | 검증 완료 |
-| ES-SCRIPT | 15 | Script/Module 파싱 목표, `import/export` 선언, strict mode, early error | `js.parser.Parser` | `js.parser.EarlyErrorTest` | 검증 완료 |
+| ES-LEX | 10~11 / 11~12 | 소스 텍스트, 유니코드 식별자(`ID_Start/ID_Continue`), 주석, 줄 끝, 리터럴(숫자 `0b 0o`, 문자열 `\u{}`, 템플릿, 정규식), 예약어, 자동 세미콜론 삽입 | `js.parser.Lexer`, `js.text.CharClass` | `js.parser.LexerTest` | 검증 완료(ES6; **P29-01 실측**: `CharClass`가 JRE 6 `Character` Unicode 4.0에 위임되어 Unicode 4.1+ 식별자는 `P29-02`에서 UCD 표로 갱신 예정) |
+| ES-EXPR | 12 / 13 | 표현식 문법 전체: 우선순위, 연산자, 분해, spread(ES2015 범위), `**` 는 ES2016 기능이라 7.5절 ESX-EXP 로 옮김(2026-11-24 판정에서 구문 오류였는데 이 행에 검증 완료로 적혀 있었음), 템플릿/태그 템플릿, 화살표 함수, `new.target`, `super`, `yield` | `js.parser.Parser`, `js.ast.*` | `js.parser.ParserExpressionTest` | 검증 완료 |
+| ES-STMT | 13 / 14 | 문장/선언: `let const var`, 블록, `if for for-in for-of while do switch label break continue return with throw try debugger` | `js.parser.Parser` | `js.parser.ParserStatementTest` | 검증 완료 |
+| ES-FUNC | 14 / 15 | 함수 정의, 화살표 함수, 메서드 정의, 제너레이터 정의, 클래스(`extends super static get set`), 꼬리 호출(strict) | `js.parser.Parser` | `js.interp.FunctionTest`, `js.interp.ClassTest`, `js.interp.TailCallTest` | 검증 완료 |
+| ES-SCRIPT | 15 / 16 | Script/Module 파싱 목표, `import/export` 선언, strict mode, early error | `js.parser.Parser` | `js.parser.EarlyErrorTest` | 검증 완료 |
 
 ### 7.2 실행 의미 (인터프리터: P13)
 
-| 기능 ID | 장 | 요구사항 | 구현 클래스 | 검증 사례 | 상태 |
+| 기능 ID | 장(6판 / 17판) | 요구사항 | 구현 클래스 | 검증 사례 | 상태 |
 | --- | --- | --- | --- | --- | --- |
-| ES-TYPE | 6 | 자료형(Undefined Null Boolean String Symbol Number Object), 프로퍼티 키, 속성 기술자 | `js.JsValue` 계층 | `js.ValueModelTest` | 검증 완료 |
-| ES-ABS | 7 | 추상 연산: ToPrimitive/ToNumber/ToString/ToObject/ToPropertyKey, 동등/엄격/SameValue, `Call/Construct/Invoke`, 이터레이터 연산 | `js.Ops` | `js.ConversionTest` | 검증 완료 |
-| ES-EXEC | 8 | Realm, 실행 문맥, Lexical/Variable 환경, 환경 레코드, Reference, 작업 큐(Jobs) | `js.interp.Interpreter`, `js.interp.Environment` | `js.interp.ScopeTest`, `js.interp.ReferenceTest`, `js.interp.CoreIntegrationTest` | 검증 완료 |
-| ES-OBJ | 9 | 일반/이국적(exotic) 객체: 함수, 배열, 문자열, arguments, 정수 인덱스, 모듈 네임스페이스, 바운드 함수, Proxy | `js.JsObject` 계층 | `js.ObjectModelTest`, `js.ArrayModelTest` | 검증 완료 |
-| ES-ERR | 16 | 오류 처리, 확장(Annex B 포함), 조기 오류와 런타임 오류 | `js.*` | `js.interp.ControlFlowTest` | 검증 완료 |
-| ES-GEN | 14.4/25.3 | 제너레이터/이터레이터 의미(스레드 없이 재개 가능한 상태 보관) | `js.interp.GenState`, `js.interp.GeneratorObject` | `js.interp.GeneratorTest` | 검증 완료 |
+| ES-TYPE | 6 / 6 | 자료형(Undefined Null Boolean String Symbol Number Object; BigInt는 `ESX-BIGINT`), 프로퍼티 키, 속성 기술자 | `js.JsValue` 계층 | `js.ValueModelTest` | 검증 완료 |
+| ES-ABS | 7 / 7 | 추상 연산: ToPrimitive/ToNumber/ToString/ToObject/ToPropertyKey, 동등/엄격/SameValue, `Call/Construct/Invoke`, 이터레이터 연산 | `js.Ops` | `js.ConversionTest` | 검증 완료 |
+| ES-EXEC | 8 / 8~9 | Realm, 실행 문맥, Lexical/Variable 환경, 환경 레코드, Reference, 작업 큐(Jobs) | `js.interp.Interpreter`, `js.interp.Environment` | `js.interp.ScopeTest`, `js.interp.ReferenceTest`, `js.interp.CoreIntegrationTest` | 검증 완료 |
+| ES-OBJ | 9 / 10 | 일반/이국적(exotic) 객체: 함수, 배열, 문자열, arguments, 정수 인덱스, 모듈 네임스페이스, 바운드 함수, Proxy | `js.JsObject` 계층 | `js.ObjectModelTest`, `js.ArrayModelTest` | 검증 완료 |
+| ES-ERR | 16 / 17 | 오류 처리, 확장(Annex B 포함), 조기 오류와 런타임 오류 | `js.*` | `js.interp.ControlFlowTest` | 검증 완료 |
+| ES-GEN | 14.4·25.3 / 15.5·27.5 | 제너레이터/이터레이터 의미(스레드 없이 재개 가능한 상태 보관) | `js.interp.GenState`, `js.interp.GeneratorObject` | `js.interp.GeneratorTest` | 검증 완료 |
 
 ### 7.3 표준 내장 객체 (P14)
 
-| 기능 ID | 장 | 객체 | 검증 사례 | 상태 |
+| 기능 ID | 장(6판 / 17판) | 객체 | 검증 사례 | 상태 |
 | --- | --- | --- | --- | --- |
-| ES-B-GLOBAL | 18 | 전역 값/함수: `NaN Infinity undefined eval isFinite isNaN parseFloat parseInt decodeURI(Component) encodeURI(Component)` | `js.builtins.corelib.NumberGlobalTest`, `js.text.UriCodecTest` | 검증 완료 |
-| ES-B-OBJ | 19.1 | `Object` 생성자/정적/프로토타입 메서드(`assign is setPrototypeOf getOwnPropertySymbols` 등) | `js.builtins.corelib.ObjectLibTest` | 검증 완료 |
-| ES-B-FUNC | 19.2 | `Function`(`call apply bind toString @@hasInstance`) | `js.builtins.corelib.FunctionBooleanSymbolTest` | 검증 완료 |
-| ES-B-BOOL | 19.3 | `Boolean` | `js.builtins.corelib.FunctionBooleanSymbolTest` | 검증 완료 |
-| ES-B-SYM | 19.4 | `Symbol`, well-known symbols(`iterator asyncIterator? toPrimitive toStringTag species hasInstance isConcatSpreadable match replace search split unscopables`), `Symbol.for/keyFor` | `js.builtins.corelib.FunctionBooleanSymbolTest` | 검증 완료 |
-| ES-B-ERR | 19.5 | `Error`, `EvalError RangeError ReferenceError SyntaxError TypeError URIError` | `js.builtins.corelib.ErrorLibTest` | 검증 완료 |
-| ES-B-NUM | 20.1 | `Number`(`EPSILON isInteger isSafeInteger parseFloat toFixed toPrecision toExponential`) | `js.builtins.corelib.NumberGlobalTest` | 검증 완료 |
-| ES-B-MATH | 20.2 | `Math`(`trunc sign cbrt log1p expm1 hypot clz32 imul fround sinh/cosh/tanh asinh/acosh/atanh log2 log10`) | `js.builtins.corelib.MathLibTest` | 검증 완료 |
-| ES-B-DATE | 20.3 | `Date`(파싱/UTC/로컬/`toISOString/toJSON`, 시간값 범위) | `js.builtins.datajson.DateTest`, `js.date.DateTest` | 검증 완료 |
-| ES-B-STR | 21.1 | `String`(`codePointAt fromCodePoint normalize repeat startsWith endsWith includes raw`, 이터레이터) | `js.builtins.stringarray.StringBuiltinsTest` | 검증 완료 |
-| ES-B-RE | 21.2 | `RegExp`(`y u` 플래그, `lastIndex`, `@@match @@replace @@search @@split`, 자체 엔진) | `js.regexp.RegExpTest`, `js.builtins.datajson.RegExpTest` | 검증 완료 |
-| ES-B-ARR | 22.1 | `Array`(`from of copyWithin fill find findIndex keys values entries`, 이터레이터, Species) | `js.builtins.stringarray.ArrayBuiltinsTest`, `js.builtins.stringarray.ArrayMethodsTest` | 검증 완료 |
-| ES-B-TYPED | 22.2 | `%TypedArray%`와 `Int8Array … Float64Array` | `js.builtins.typed.TypedArrayMethodsTest` | 검증 완료 |
-| ES-B-MAP | 23 | `Map Set WeakMap WeakSet` | `js.builtins.datajson.CollectionTest` | 검증 완료 |
-| ES-B-BUF | 24.1-2 | `ArrayBuffer`, `DataView` | `js.builtins.typed.ArrayBufferTest`, `js.builtins.typed.DataViewTest` | 검증 완료 |
-| ES-B-JSON | 24.3 | `JSON`(parse/stringify, reviver/replacer, 순환 오류) | `js.builtins.datajson.JsonTest` | 검증 완료 |
-| ES-B-ITER | 25.1 | `%IteratorPrototype%`, 이터레이터/제너레이터 프로토콜 객체 | `js.IteratorHelperTest` | 검증 완료 |
-| ES-B-PROM | 25.4 | `Promise`(`all race resolve reject then catch`), microtask 큐 | `js.builtins.meta.PromiseTest` | 검증 완료 |
-| ES-B-REFL | 26.1 | `Reflect` | `js.builtins.meta.ReflectTest` | 검증 완료 |
-| ES-B-PROXY | 26.2 | `Proxy`(13개 trap과 불변 조건), `Proxy.revocable` | `js.builtins.meta.ProxyTest`, `js.builtins.meta.ProxyInvariantTest` | 검증 완료 |
-| ES-B-ANNEXB | 부속서 B | 웹 호환: `escape/unescape`, `String.prototype.substr/anchor 등 HTML 메서드`, `__proto__`, `__defineGetter__ 계열`, 블록 수준 함수 선언, HTML 주석 | `js.builtins.meta.LegacyBuiltinsTest` | 검증 완료 |
+| ES-B-GLOBAL | 18 / 19 | 전역 값/함수: `NaN Infinity undefined eval isFinite isNaN parseFloat parseInt decodeURI(Component) encodeURI(Component)` | `js.builtins.corelib.NumberGlobalTest`, `js.text.UriCodecTest` | 검증 완료 |
+| ES-B-OBJ | 19.1 / 20.1 | `Object` 생성자/정적/프로토타입 메서드(`assign is setPrototypeOf getOwnPropertySymbols` 등) | `js.builtins.corelib.ObjectLibTest` | 검증 완료 |
+| ES-B-FUNC | 19.2 / 20.2 | `Function`(`call apply bind toString @@hasInstance`) | `js.builtins.corelib.FunctionBooleanSymbolTest` | 검증 완료 |
+| ES-B-BOOL | 19.3 / 20.3 | `Boolean` | `js.builtins.corelib.FunctionBooleanSymbolTest` | 검증 완료 |
+| ES-B-SYM | 19.4 / 20.4 | `Symbol`, well-known symbols(`iterator asyncIterator? toPrimitive toStringTag species hasInstance isConcatSpreadable match replace search split unscopables`), `Symbol.for/keyFor` | `js.builtins.corelib.FunctionBooleanSymbolTest` | 검증 완료 |
+| ES-B-ERR | 19.5 / 20.5 | `Error`, `EvalError RangeError ReferenceError SyntaxError TypeError URIError` | `js.builtins.corelib.ErrorLibTest` | 검증 완료 |
+| ES-B-NUM | 20.1 / 21.1 | `Number`(`EPSILON isInteger isSafeInteger parseFloat toFixed toPrecision toExponential`) | `js.builtins.corelib.NumberGlobalTest` | 검증 완료 |
+| ES-B-MATH | 20.2 / 21.3 | `Math`(`trunc sign cbrt log1p expm1 hypot clz32 imul fround sinh/cosh/tanh asinh/acosh/atanh log2 log10`) | `js.builtins.corelib.MathLibTest` | 검증 완료 |
+| ES-B-DATE | 20.3 / 21.4 | `Date`(파싱/UTC/로컬/`toISOString/toJSON`, 시간값 범위) | `js.builtins.datajson.DateTest`, `js.date.DateTest` | 검증 완료 |
+| ES-B-STR | 21.1 / 22.1 | `String`(`codePointAt fromCodePoint normalize repeat startsWith endsWith includes raw`, 이터레이터) | `js.builtins.stringarray.StringBuiltinsTest` | 검증 완료 |
+| ES-B-RE | 21.2 / 22.2 | `RegExp`(`y u` 플래그, `lastIndex`, `@@match @@replace @@search @@split`, 자체 엔진) | `js.regexp.RegExpTest`, `js.builtins.datajson.RegExpTest` | 검증 완료 |
+| ES-B-ARR | 22.1 / 23.1 | `Array`(`from of copyWithin fill find findIndex keys values entries`, 이터레이터, Species) | `js.builtins.stringarray.ArrayBuiltinsTest`, `js.builtins.stringarray.ArrayMethodsTest` | 검증 완료 |
+| ES-B-TYPED | 22.2 / 23.2 | `%TypedArray%`와 `Int8Array … Float64Array` | `js.builtins.typed.TypedArrayMethodsTest` | 검증 완료 |
+| ES-B-MAP | 23 / 24 | `Map Set WeakMap WeakSet` | `js.builtins.datajson.CollectionTest` | 검증 완료 |
+| ES-B-BUF | 24.1-2 / 25.1·25.3 | `ArrayBuffer`, `DataView` | `js.builtins.typed.ArrayBufferTest`, `js.builtins.typed.DataViewTest` | 검증 완료 |
+| ES-B-JSON | 24.3 / 25.5 | `JSON`(parse/stringify, reviver/replacer, 순환 오류) | `js.builtins.datajson.JsonTest` | 검증 완료 |
+| ES-B-ITER | 25.1 / 27.1 | `%IteratorPrototype%`, 이터레이터/제너레이터 프로토콜 객체 | `js.IteratorHelperTest` | 검증 완료 |
+| ES-B-PROM | 25.4 / 27.2 | `Promise`(`all race resolve reject then catch`), microtask 큐 | `js.builtins.meta.PromiseTest` | 검증 완료 |
+| ES-B-REFL | 26.1 / 28.1 | `Reflect` | `js.builtins.meta.ReflectTest` | 검증 완료(ES6; **P29-01 실측**: ES2016에서 제거된 `Reflect.enumerate`가 아직 남아 있어 `P29-09`/`10`에서 제17판 기준으로 제거 예정) |
+| ES-B-PROXY | 26.2 / 28.2 | `Proxy`(13개 trap과 불변 조건), `Proxy.revocable` | `js.builtins.meta.ProxyTest`, `js.builtins.meta.ProxyInvariantTest` | 검증 완료 |
+| ES-B-ANNEXB | 부속서 B | 웹 호환: `escape/unescape`, `String.prototype.substr/anchor 등 HTML 메서드`, `__proto__`, `__defineGetter__ 계열`, 블록 수준 함수 선언, HTML 주석 | `js.builtins.meta.LegacyBuiltinsTest` | 검증 완료(ES6 범위; 제17판 추가 절은 `ES-COMPAT-ANNEXB17`) |
 
 ### 7.4 모듈
 
@@ -394,18 +396,18 @@
 | ESX-EXP | ES2016 | 지수 연산자 `**`, 지수 대입 `**=` | `js.parser.*`, `js.interp.Expressions` | `ParserExpressionTest`, `ModernExpressionTest`, `tools/netstormparse` | 검증 완료(Number): 우결합·단항 좌변 조기 오류와 `Math.pow` 실행 검증. BigInt 거듭제곱은 ESX-BIGINT/P28-04 | 199 |
 | ESX-TRAILING | ES2017 | 함수 매개변수·호출 인수 목록의 마지막 쉼표 | `js.parser.*` | `ParserExpressionTest`, `ParserStatementTest` | 검증 완료 | 관찰 안 됨 |
 | ESX-ASYNC | ES2017 | async 함수·화살표·메서드, `await`, Promise 재개 순서 | `js.parser.*`, `interp.AsyncFunction`, `PromiseInterop` | `ModernAsyncTest`, `ModuleScriptTest`, `PageDisposalTest` | 검증 완료: Promise 반환, ES2022 PromiseResolve·thenable·microtask·reject/finally/constructor 금지, 수명 취소 검증 | async 26, await 34 |
-| ESX-SHARED | ES2017 | `SharedArrayBuffer`, `Atomics`, View 연동 | (계획 P29-05) `js.builtins.typed.*`, `js.host.structured.*`, `js.worker.*` | (계획 P29-05) | 미구현 | 없음 |
+| ESX-SHARED | ES2017 (§25.2, §25.4, §29) | `SharedArrayBuffer`, `Atomics`, 정수 `TypedArray` 원자 연산·`wait`/`notify` | (계획 P29-05) `js.builtins.typed.{SharedArrayBufferObject,SharedArrayBufferLib,AtomicsLib}`, `js.host.structured.*`, `js.worker.*` | (계획 P29-05) `Es2026SharedMemoryTest`, `WorkerSharedMemoryTest` | 미구현(P29-01 실측: 두 전역 모두 `undefined`) | 없음 |
 | ESX-ASYNCITER | ES2018 | async 제너레이터, `for await`, AsyncIterator/AsyncFromSyncIterator, `Symbol.asyncIterator` | `interp.AsyncGeneratorObject`, `AsyncIteratorHelper`, `Statements` | `ModernAsyncIteratorTest` | 검증 완료: 요청 큐, await/yield/yield*, next/return/throw, sync wrapper, for-await close/rejection 검증 | 없음 |
 | ESX-OBJREST | ES2018 | 객체 spread `{...x}`, 객체 rest, CopyDataProperties 평가 순서 | `parser.ExpressionParser`, `interp.Expressions`, `Patterns` | `ModernExpressionTest` | 검증 완료: 문자열/심볼 열거·getter·setter bypass·excluded key 순서 검증 | spread 513 |
 | ESX-PROMISE-FINALLY | ES2018 | `Promise.prototype.finally` | `js.builtins.meta.PromiseBuiltins` | `Es2022BuiltinsTest.testModernPromises` | 검증 완료 | 없음 |
-| ESX-REGEXP-2018 | ES2018 | `s` 플래그, 이름 있는 캡처, 후방 탐색, Unicode 속성 이스케이프 `\p{}`/`\P{}` | `js.regexp.*`, `js.builtins.datajson.RegExpBuiltins`, `tools/unicodegen` | `Es2022RegExpTest`, 기존 `RegExpTest` | 검증 완료(제약): `groups`와 `$<name>`·callback groups, positive/negative lookbehind, Unicode 13.0 category/script/scx/이진 속성 구현(최신 UCD 판본 점검은 P29-02). Emoji 전용 속성은 EXC-15 | `groups` 2, 원본 소스의 `\p{}`는 없음 확인 |
-| ESX-SYNTAX-2018 | ES2018 | 태그가 있는 템플릿 리터럴에서 잘못된 이스케이프의 cooked 값이 `undefined`가 되는 규칙(tagged template revision), 조기 오류, Parse Node별 템플릿 객체 캐싱(Annex F) | `js.parser.*`, `js.interp.*` | (계획 P29-02) | 미구현(판정·보완 예정: P29-02) | 관찰 안 됨 |
+| ESX-REGEXP-2018 | ES2018 | `s` 플래그, 이름 있는 캡처, 후방 탐색, Unicode 속성 이스케이프 `\p{}`/`\P{}` | `js.regexp.*`, `js.builtins.datajson.RegExpBuiltins`, `tools/unicodegen` | `Es2022RegExpTest`, 기존 `RegExpTest` | 검증 완료(제약): `groups`와 `$<name>`·callback groups, positive/negative lookbehind, Unicode 13.0 category/script/scx/이진 속성 구현(최신 UCD 판본 갱신은 P29-02). Emoji 전용 속성은 EXC-15 | `groups` 2, 원본 소스의 `\p{}`는 없음 확인 |
+| ESX-SYNTAX-2018 | ES2018 (§12.9.6, §13.2.8, §13.3.11) | 태그가 있는 템플릿 리터럴에서 잘못된 이스케이프의 cooked 값이 `undefined`가 되는 규칙(tagged template revision), 조기 오류, Parse Node별 템플릿 객체 캐싱(Annex F) | `js.parser.Lexer`, `js.interp.Expressions` | (계획 P29-02) `Es2022ResidualSemanticsTest` | 부분 구현(P29-01 실측: ``tag`\unicode` `` cooked `undefined`·raw 보존, 비태그 `SyntaxError`, Parse Node별 캐싱 모두 동작 확인됨; `\01`/`\8`/`\9`/`\xG`/`\u{110000}` 전 경계 회귀 시험은 P29-02) | 관찰 안 됨 |
 | ESX-CATCH | ES2019 | optional catch binding `catch {}` | `js.parser.Parser` | `ParserStatementTest`, `ModernExpressionTest` | 검증 완료 | 8 |
-| ESX-SEMANTICS-2019 | ES2019~2021 | U+2028/U+2029 문자열 리터럴 허용(JSON superset), 안정적인 `Array#sort`(ES2021 정밀 정렬 순서 포함), `JSON.stringify`의 well-formed UTF-16, `Function#toString`의 원문/표준 자리표시자, `for-in` 열거 순서(ES2020) | `js.parser.*`, `js.builtins.*`, `js.interp.*` | `Es2022BuiltinsTest.testStableSort`, 기존 JSON/Function 시험 (나머지는 P29-02) | 부분 구현: 안정 sort 검증 완료; U+2028/2029·JSON stringify·Function#toString·for-in 순서·정밀 sort 경계는 P29-02에서 완성 | 사용 여부 미관찰 |
+| ESX-SEMANTICS-2019 | ES2019~2021 (§12.9.4, §14.7.5.9, §20.2.3.5, §23.1.3.30, §25.5.2) | U+2028/U+2029 문자열 리터럴 허용(JSON superset), 안정적인 `Array#sort`(ES2021 정밀 정렬 순서 포함), `JSON.stringify`의 well-formed UTF-16, `Function#toString`의 원문/표준 자리표시자, `for-in` 열거 순서(ES2020) | `js.parser.Lexer`, `js.builtins.datajson.JsonBuiltins`, `js.builtins.corelib.FunctionLib`, `js.builtins.stringarray.ArrayMethods`, `js.interp.Statements` | `Es2022BuiltinsTest.testStableSort`, (계획 P29-02) `Es2022ResidualSemanticsTest` | 부분 구현(P29-01 실측: 안정 sort·기본 `Function#toString`·기본 `for-in` 순서 동작; **생 U+2028/U+2029 문자열 `SyntaxError`와 `JSON.stringify('\uD800')` 미이스케이프 미구현 확인** → P29-02에서 해결) | 사용 여부 미관찰 |
 | ESX-CHAIN | ES2020 | optional chaining `?.`, nullish `??`와 단락 평가·괄호 조기 오류 | `interp.OptionalShortCircuit`, `Expressions` | `ModernExpressionTest` | 검증 완료: member/call chain 범위, 인수 생략, 논리 혼합 오류 검증 | `?.` 1,985, `??` 714 |
 | ESX-BIGINT | ES2020 | BigInt 원시값·모든 진법 리터럴, 연산/변환, `BigInt`, `asIntN/asUintN`, `BigInt64Array/BigUint64Array`, `DataView` BigInt 접근 | `JsBigInt`, `Ops`, `interp.Expressions`, `corelib.BigIntLib`, `builtins.typed.*`, `embed.JavaValues`, `StructuredClone` | `BigIntCoreTest`, `BigIntTypedArrayTest`, `JsEngineValuesTest`, `JsScriptEngineTest`, `StructuredCloneTest`, `tools/netstormparse` | 검증 완료: 2/8/10/16진 리터럴, Number 혼합 오류, 정확한 비교/산술/비트/시프트, BigInt/래퍼, N-bit 절단, 64비트 형식화 배열/DataView, JSON TypeError/replacer, clone, Java `BigInteger`/JSR 223 왕복 검증 | 리터럴 129, `BigInt` 307, `asIntN` 83, `asUintN` 44, get/setBigUint64 각 14 |
 | ESX-IMPORT | ES2020 | 동적 `import()`, `import.meta`, `export * as name from` | `interp.ModuleAsyncEvaluation`, `ModuleRecord`, `PageScripts` | `ModernDynamicImportTest`, `ModuleScriptTest` | 검증 완료: Promise, coercion/rejection, import.meta.url, 중복/cycle, 요청 계층 연동 검증 | 없음 |
-| ESX-GLOBALTHIS | ES2020 | `globalThis`(속성 기술자 및 WindowProxy·Worker·독립 엔진 일관성) | `js.JsRealm`, `js.host.WindowGlobals`, `js.worker.*` | 2026-11-24 판정 (기술자·다중 문맥 검증은 P29-02) | 부분 구현 | 16 |
+| ESX-GLOBALTHIS | ES2020 (§19.1.1) | `globalThis`(속성 기술자 및 WindowProxy·Worker·독립 엔진 일관성) | `js.JsRealm`, `js.host.WindowGlobals`, `js.worker.{WorkerScope,SharedWorkerScope}`, `js.host.webaudio.worklet.*` | (계획 P29-02) `Es2022ResidualSemanticsTest`, `GlobalThisConsistencyTest` | 부분 구현(P29-01 실측: 독립 `JsRealm` 기술자 `{writable:true, enumerable:false, configurable:true}` 확인됨; 브라우저 WindowProxy·Worker·AudioWorklet 다중 문맥 검증은 P29-02) | 16 |
 | ESX-LOGASSIGN | ES2021 | `\|\|=`, `&&=`, `??=`과 단락된 참조·대입 | `interp.Expressions` | `ModernExpressionTest` | 검증 완료: 단락, 단일 Reference, 단일 getter/setter 검증 | 102 |
 | ESX-NUMSEP | ES2021 | 숫자 구분자 `_`(decimal/binary/octal/hex, BigInt) | `js.parser.Lexer` | `LexerTest`, `ParserExpressionTest`, `tools/netstormparse` | 검증 완료(문법): 위치/진법 오류와 BigInt 조합을 P28-02에서 검증 | 원본 소스 2 |
 | ESX-TOPAWAIT | ES2022 | 모듈 최상위 `await`와 모듈 평가 비동기 순환 | `interp.ModuleAsyncEvaluation`, `ModuleRecord` | `ModernDynamicImportTest`, `ModuleScriptTest` | 검증 완료: 의존성 순서, Promise 재개, cycle과 페이지 module script 검증 | 없음 |
@@ -425,29 +427,29 @@
 
 | 기능 ID | 도입 판본(제17판 절) | 요구사항 | 구현 클래스(계획) | 검증 사례(계획) | 지원 상태 | 제약 / 비고 |
 | --- | --- | --- | --- | --- | --- | --- |
-| ES26-HASHBANG | ES2023 (§12.5) | Script·Module 시작 오프셋 0의 `#!...` Hashbang 주석 허용과 위치별 조기 오류 | `js.parser.Lexer` | P29-03 파서 시험 | 미구현 | |
-| ES26-ARR-FINDLAST | ES2023 (§23.1.3, §23.2.3) | `Array.prototype.findLast/findLastIndex`, `%TypedArray%.prototype.findLast/findLastIndex`, `@@unscopables` | `js.builtins.stringarray.ArrayMethods`, `typed.TypedArrayMethods` | P29-04 배열 시험 | 미구현 | |
-| ES26-ARR-COPY | ES2023 (§23.1.3, §23.2.3) | 복사 기반 변경: `Array.prototype.toReversed/toSorted/toSpliced/with`, `%TypedArray%.prototype.toReversed/toSorted/with`(`TypedArrayCreateSameType`) | `js.builtins.stringarray.ArrayMethods`, `typed.TypedArrayMethods` | P29-04 배열 시험 | 미구현 | 희소 배열 빈 슬롯은 `undefined`로 채움 |
-| ES26-WEAK-SYM | ES2023 (§9.13) | `CanBeHeldWeakly`: 비등록 Symbol(`KeyForSymbol === undefined`, well-known symbol 포함)을 `WeakMap`/`WeakSet`/`WeakRef`/`FinalizationRegistry` 대상·해제 토큰으로 허용 | `js.builtins.datajson.*`, `meta.WeakReferenceBuiltins`, `Ops` | P29-06 약한 참조·컬렉션 시험 | 미구현 | `Symbol.for` 등록 심볼은 `TypeError` |
-| ES26-STR-WELLFORMED | ES2024 (§7.2.7, §22.1.3) | `String.prototype.isWellFormed()`, `String.prototype.toWellFormed()` | `js.builtins.stringarray.StringBuiltins` | P29-07 문자열 시험 | 미구현 | 고립 서로게이트 판정·`U+FFFD` 치환 |
-| ES26-GROUPBY | ES2024 (§7.3.35, §20.1.2, §24.1.2) | `Object.groupBy(items, callback)`(null 프로토타입), `Map.groupBy(items, callback)` | `js.builtins.corelib.ObjectLib`, `datajson.*` | P29-06 컬렉션 시험 | 미구현 | |
-| ES26-PROMISE-EXT | ES2024/2025 (§27.2.4.8~9) | `Promise.withResolvers()`(ES2024), `Promise.try(callback, ...args)`(ES2025) | `js.builtins.meta.PromiseBuiltins` | P29-08 Promise 시험 | 미구현 | 서브클래스 `this` 생성자 지원 |
-| ES26-RESIZABLE-BUF | ES2024 (§25.1, §10.4.5, §25.3.1) | 가변·전송 가능 `ArrayBuffer`(`{ maxByteLength }`, `resizable`, `maxByteLength`, `resize`, `detached`, `transfer`, `transferToFixedLength`)와 `TypedArray`/`DataView` Buffer Witness Records(자동 길이·경계 이탈) | `js.builtins.typed.*` | P29-04 이진 버퍼 시험 | 미구현 | |
-| ES26-SHARED-GROW | ES2024 (§25.2, §25.4.14) | 성장 가능 `SharedArrayBuffer`(`{ maxByteLength }`, `growable`, `maxByteLength`, `grow`) 및 `Atomics.waitAsync` | `js.builtins.typed.*` | P29-05 공유 메모리 시험 | 미구현 | `ESX-SHARED`와 함께 구현 |
-| ES26-REGEXP-V | ES2024 (§22.2) | 정규식 `/v`(`unicodeSets`) 플래그, 중첩 클래스, 집합 교집합 `&&`·차집합 `--`, `\q{...}` 문자열 대안, `v` 모드 대소문자 폴딩·보완 집합 규칙 | `js.regexp.*`, `datajson.RegExpBuiltins` | P29-07 정규식 시험 | 미구현 | Emoji 문자열 속성과 EXC-15 관계는 P29-01/07에서 확정 |
-| ES26-ITERATOR-HELPERS | ES2025/2026 (§27.1.2~3) | 전역 `Iterator` 생성자(서브클래싱 허용), `Iterator.from`, **ES2026 `Iterator.concat`**, `Iterator.prototype` 지연·소비 헬퍼(`map`, `filter`, `take`, `drop`, `flatMap`, `reduce`, `toArray`, `forEach`, `some`, `every`, `find`) 및 `constructor`/`@@toStringTag` 접근자 | `js.builtins.meta.*`, `js.interp.*` | P29-06 이터레이터 시험 | 미구현 | 조기 종료 시 내부 이터레이터 `return()` 정리 |
-| ES26-SET-METHODS | ES2025 (§24.2.1, §24.2.4) | `Set.prototype` 집합 연산 7종: `intersection`, `union`, `difference`, `symmetricDifference`, `isSubsetOf`, `isSupersetOf`, `isDisjointFrom`(`GetSetRecord`) | `js.builtins.datajson.*` | P29-06 Set 시험 | 미구현 | 유사 Set 객체 지원 |
-| ES26-IMPORT-ATTR-JSON | ES2025 (§16.2, §13.3.10) | Import Attributes(`import/export ... with { ... }`, `import(spec, { with })`)와 JSON 모듈(`with { type: "json" }`, `SyntheticModuleRecord`, `ParseJSONModule`) 및 브라우저/엔진 로더 연결 | `js.parser.*`, `js.interp.*`, `js.ModuleLoader`, `js.host.*`, `js.worker.*` | P29-03 모듈·HTTP 통합 시험 | 미구현 | 브라우저 JSON MIME·CORS·캐시 키 분리 |
-| ES26-REGEXP-2025 | ES2025 (§22.2) | 중복 이름 캡처 그룹(`(?<x>a)\|(?<x>b)`), 인라인 패턴 수정자(`(?ims-ims:...)`), `RegExp.escape(S)` | `js.regexp.*`, `datajson.RegExpBuiltins` | P29-07 정규식 시험 | 미구현 | |
-| ES26-FLOAT16 | ES2025 (§21.3.2, §23.2, §25.3.4) | 순수 Java IEEE 754 binary16 변환 기반 `Math.f16round`, `Float16Array`, `DataView.prototype.getFloat16/setFloat16` | `js.num.*`, `corelib.MathLib`, `typed.*` | P29-04 부동소수점·배열 시험 | 미구현 | 짝수 반올림·비정규수·NaN 보존 |
-| ES26-ARR-FROMASYNC | ES2026 (§23.1.2.1) | `Array.fromAsync(items [, mapper [, thisArg]])` (async/sync iterable·array-like 순차 await, 오류 시 close) | `js.builtins.stringarray.*`, `interp.*` | P29-04 비동기 배열 시험 | 미구현 | |
-| ES26-UINT8-BASE64HEX | ES2026 (§23.3) | `Uint8Array.fromBase64/fromHex`, `Uint8Array.prototype.toBase64/toHex/setFromBase64/setFromHex`(`base64`/`base64url`, `lastChunkHandling`, `omitPadding`) | `js.builtins.typed.*` | P29-04 Base64·Hex 시험 | 미구현 | |
-| ES26-MAP-UPSERT | ES2026 (§24.1.3, §24.3.3) | `Map.prototype.getOrInsert/getOrInsertComputed`, `WeakMap.prototype.getOrInsert/getOrInsertComputed` | `js.builtins.datajson.*` | P29-06 Upsert 시험 | 미구현 | |
-| ES26-ERROR-ISERROR | ES2026 (§20.5.2.1) | `Error.isError(arg)` (내부 오류 슬롯 판정, 교차 realm·프로토타입 변조·Proxy 안전) | `js.builtins.corelib.ErrorLib`, `js.dom.*` | P29-08 오류 판정 시험 | 미구현 | `DOMException` 연동 확인 포함 |
-| ES26-MATH-SUMPRECISE | ES2026 (§21.3.2.33) | `Math.sumPrecise(items)` (이터러블 고정밀 무손실 누적 후 단일 IEEE 754 반올림, `-0`/무한대/`NaN`/실행 제한 처리) | `js.builtins.corelib.MathLib`, `js.num.*` | P29-08 정밀 합산 시험 | 미구현 | |
-| ES26-JSON-RAW | ES2026 (§25.5) | `JSON.rawJSON(text)`, `JSON.isRawJSON(O)`, `JSON.stringify` 원문 출력, `JSON.parse` reviver 3번째 인수 `context`(`{ source }`) | `js.builtins.datajson.JsonBuiltins`, `js.text.*` | P29-08 JSON 원문 시험 | 미구현 | |
-| ES26-DATE-TZOFFSET | ES2026 (§21.4, 부속서 A.7) | 시간대 오프셋 문자열 형식(`Time Zone Offset String Format`) 및 제17판 Date 추상 연산 정합성 | `js.date.*`, `datajson.DateBuiltins` | P29-08 Date 시험 | 부분 구현(제17판 대조 예정) | |
-| ES26-INTL-POLICY | ES2026 (§2 Conformance, ECMA-402) | 국제화 API(`Intl`) 조건부 적합성: ECMA-262 §2는 국제화 API를 제공하는 구현에만 ECMA-402 준수를 요구함. 기본안은 별도 `Intl` 객체를 두지 않고 ECMA-262 본문의 `toLocaleString`/`localeCompare` 기본 의미를 정확히 제공하는 것(근거·정책 확정 P29-01) | `js.builtins.*` | P29-01/10 적합성 시험 | 부분 구현(정책 확정 예정) | JRE 6 로케일 데이터 한계와 JAR 용량 근거 기록 |
+| ES26-HASHBANG | ES2023 (§12.5) | Script·Module 시작 오프셋 0의 `#!...` Hashbang 주석 허용과 위치별 조기 오류 | `js.parser.Lexer` | `Es2026SyntaxModuleTest` (P29-03) | 미구현 | P29-01 실측: 현재 오프셋 0의 `#!`를 private 식별자로 읽어 `SyntaxError` |
+| ES26-ARR-FINDLAST | ES2023 (§23.1.3.13~14, §23.2.3.13~14) | `Array.prototype.findLast/findLastIndex`, `%TypedArray%.prototype.findLast/findLastIndex`, `@@unscopables` | `js.builtins.stringarray.ArrayMethods`, `typed.TypedArrayMethods` | `Es2026ArrayTest` (P29-04) | 미구현 | |
+| ES26-ARR-COPY | ES2023 (§23.1.3.34~36·39, §23.2.3.34~35·37) | 복사 기반 변경: `Array.prototype.toReversed/toSorted/toSpliced/with`, `%TypedArray%.prototype.toReversed/toSorted/with`(`TypedArrayCreateSameType`) | `js.builtins.stringarray.ArrayMethods`, `typed.TypedArrayMethods` | `Es2026ArrayTest` (P29-04) | 미구현 | 희소 배열 빈 슬롯은 `undefined`로 채움, species 미사용 |
+| ES26-WEAK-SYM | ES2023 (§9.13, §20.4.5.1, §24.3~4, §26.1~2) | `CanBeHeldWeakly`: 비등록 Symbol(`KeyForSymbol === undefined`, well-known symbol 포함)을 `WeakMap`/`WeakSet`/`WeakRef`/`FinalizationRegistry` 대상·해제 토큰으로 허용 | `js.Ops`, `datajson.CollectionBuiltins`, `meta.WeakReferenceBuiltins` | `Es2026WeakSymbolTest` (P29-06) | 미구현 | `Symbol.for` 등록 심볼은 `TypeError` |
+| ES26-STR-WELLFORMED | ES2024 (§7.2.7, §22.1.3.10·32) | `String.prototype.isWellFormed()`, `String.prototype.toWellFormed()` | `js.builtins.stringarray.StringBuiltins` | `Es2026WellFormedStringTest` (P29-07) | 미구현 | 고립 서로게이트 판정·`U+FFFD` 치환 |
+| ES26-GROUPBY | ES2024 (§7.3.35, §20.1.2.13, §24.1.2.1) | `Object.groupBy(items, callback)`(null 프로토타입), `Map.groupBy(items, callback)` | `js.builtins.corelib.ObjectLib`, `datajson.CollectionBuiltins` | `Es2026CollectionMethodsTest` (P29-06) | 미구현 | |
+| ES26-PROMISE-EXT | ES2024/2025 (§27.2.4.8~9) | `Promise.withResolvers()`(ES2024), `Promise.try(callback, ...args)`(ES2025) | `js.builtins.meta.PromiseBuiltins` | `Es2026PromiseErrorMathTest` (P29-08) | 미구현 | 서브클래스 `NewPromiseCapability(this)` 지원 |
+| ES26-RESIZABLE-BUF | ES2024 (§25.1, §10.4.5, §25.3.1) | 가변·전송 가능 `ArrayBuffer`(`{ maxByteLength }`, `resizable`, `maxByteLength`, `resize`, `detached`, `transfer`, `transferToFixedLength`)와 `TypedArray`/`DataView` Buffer Witness Records(자동 길이·경계 이탈) | `js.builtins.typed.{ArrayBufferObject,ArrayBufferLib,TypedArrayObject,TypedArrayMethods,DataViewLib}` | `Es2026ResizableBufferTest` (P29-04) | 미구현 | |
+| ES26-SHARED-GROW | ES2024 (§25.2, §25.4.14) | 성장 가능 `SharedArrayBuffer`(`{ maxByteLength }`, `growable`, `maxByteLength`, `grow`) 및 `Atomics.waitAsync` | `js.builtins.typed.{SharedArrayBufferObject,SharedArrayBufferLib,AtomicsLib}` | `Es2026SharedMemoryTest`, `WorkerSharedMemoryTest` (P29-05) | 미구현 | `ESX-SHARED`와 함께 구현 |
+| ES26-REGEXP-V | ES2024 (§22.2) | 정규식 `/v`(`unicodeSets`) 플래그, 중첩 클래스, 집합 교집합 `&&`·차집합 `--`, `\q{...}` 문자열 대안, `v` 모드 대소문자 폴딩·보완 집합 규칙 | `js.regexp.{RegExpFlags,RegExpParser,RegExpCompiler,RegExpMatcher}`, `datajson.RegExpBuiltins` | `Es2026RegExpUnicodeSetsTest` (P29-07) | 미구현 | P29-01 확정: Emoji 문자열 속성(`Basic_Emoji` 등)은 `EXC-15`와 동일하게 제외하여 `/\p{Basic_Emoji}/v`도 조기 `SyntaxError`로 일관 처리 |
+| ES26-ITERATOR-HELPERS | ES2025/2026 (§27.1.2~3, §7.3.36) | 전역 `Iterator` 생성자(서브클래싱 허용), `Iterator.from`, **ES2026 `Iterator.concat`**, `Iterator.prototype` 지연·소비 헬퍼(`map`, `filter`, `take`, `drop`, `flatMap`, `reduce`, `toArray`, `forEach`, `some`, `every`, `find`) 및 `constructor`/`@@toStringTag` 접근자 | `js.builtins.meta.IteratorBuiltins`, `js.interp.*` | `Es2026IteratorHelpersTest` (P29-06) | 미구현 | 조기 종료 시 내부 이터레이터 `IteratorClose`/`IteratorCloseAll` 정리 |
+| ES26-SET-METHODS | ES2025 (§24.2.1, §24.2.4) | `Set.prototype` 집합 연산 7종: `intersection`, `union`, `difference`, `symmetricDifference`, `isSubsetOf`, `isSupersetOf`, `isDisjointFrom`(`GetSetRecord`) | `js.builtins.datajson.CollectionBuiltins` | `Es2026CollectionMethodsTest` (P29-06) | 미구현 | 유사 Set 객체 지원 |
+| ES26-IMPORT-ATTR-JSON | ES2025 (§16.2.1.8, §16.2.2, §13.3.10) | Import Attributes(`import/export ... with { ... }`, `import(spec, { with })`)와 JSON 모듈(`with { type: "json" }`, `SyntheticModuleRecord`, `ParseJSONModule`) 및 브라우저/엔진 로더 연결 | `js.parser.*`, `js.module.*`, `js.interp.*`, `js.ModuleLoader`, `js.host.PageScripts`, `js.worker.*` | `Es2026SyntaxModuleTest`, `JsonModuleHttpIntegrationTest` (P29-03) | 미구현 | 브라우저 JSON MIME·CORS·캐시 키(지정자+속성) 분리 |
+| ES26-REGEXP-2025 | ES2025 (§22.2.1, §22.2.2, §22.2.5.1) | 중복 이름 캡처 그룹(`(?<x>a)\|(?<x>b)`), 인라인 패턴 수정자(`(?ims-ims:...)`), `RegExp.escape(S)` | `js.regexp.{RegExpParser,RegExpCompiler,RegExpMatcher}`, `datajson.RegExpBuiltins` | `Es2026RegExpModifiersAndEscapeTest` (P29-07) | 미구현 | |
+| ES26-FLOAT16 | ES2025 (§21.3.2.17, §23.2, §25.3.4.5·16) | 순수 Java IEEE 754 binary16 변환 기반 `Math.f16round`, `Float16Array`, `DataView.prototype.getFloat16/setFloat16` | `js.num.Float16`, `corelib.MathLib`, `typed.{ElementType,TypedArrayFactory,DataViewLib}` | `Es2026Float16Test` (P29-04) | 미구현 | 짝수 반올림·비정규수·NaN 보존 |
+| ES26-ARR-FROMASYNC | ES2026 (§23.1.2.1) | `Array.fromAsync(items [, mapper [, thisArg]])` (async/sync iterable·array-like 순차 await, 오류 시 close) | `js.builtins.stringarray.ArrayBuiltins`, `interp.AsyncIteratorHelper` | `Es2026ArrayTest` (P29-04) | 미구현 | |
+| ES26-UINT8-BASE64HEX | ES2026 (§23.3) | `Uint8Array.fromBase64/fromHex`, `Uint8Array.prototype.toBase64/toHex/setFromBase64/setFromHex`(`base64`/`base64url`, `lastChunkHandling`, `omitPadding`) | `js.builtins.typed.{Uint8Base64Hex,TypedArrayFactory,TypedArrayMethods}` | `Es2026Uint8Base64HexTest` (P29-04) | 미구현 | |
+| ES26-MAP-UPSERT | ES2026 (§24.1.3.6~7, §24.3.3.4~5) | `Map.prototype.getOrInsert/getOrInsertComputed`, `WeakMap.prototype.getOrInsert/getOrInsertComputed` | `js.builtins.datajson.CollectionBuiltins` | `Es2026CollectionMethodsTest` (P29-06) | 미구현 | |
+| ES26-ERROR-ISERROR | ES2026 (§20.5.2.1) | `Error.isError(arg)` (내부 오류 슬롯 `[[ErrorData]]` 판정, 교차 realm·프로토타입 변조·Proxy 안전) | `js.builtins.corelib.ErrorLib`, `js.JsError`, `js.dom.DomExceptionObjects` | `Es2026PromiseErrorMathTest`, `DomExceptionIsErrorTest` (P29-08) | 미구현 | P29-01 실측: `DomExceptionObjects.create`가 현재 일반 `JsObject`를 만들어 WebIDL `[[ErrorData]]` 브랜드 연동 필요 |
+| ES26-MATH-SUMPRECISE | ES2026 (§21.3.2.33) | `Math.sumPrecise(items)` (이터러블 고정밀 무손실 누적 후 단일 IEEE 754 반올림, `-0`/무한대/`NaN`/실행 제한 처리) | `js.builtins.corelib.MathLib`, `js.num.*` | `Es2026PromiseErrorMathTest` (P29-08) | 미구현 | |
+| ES26-JSON-RAW | ES2026 (§25.5.1~4) | `JSON.rawJSON(text)`, `JSON.isRawJSON(O)`, `JSON.stringify` 원문 출력, `JSON.parse` reviver 3번째 인수 `context`(`{ source }`) | `js.builtins.datajson.JsonBuiltins` | `Es2026RawJsonTest` (P29-08) | 미구현 | P29-01 실측: 현재 reviver는 인수 2개만 전달 |
+| ES26-DATE-TZOFFSET | ES2026 (§21.4.1.32~33, §21.4.4.41.3, 부속서 A.7) | 시간대 오프셋 문자열 형식(`UTCOffset`, `IsTimeZoneOffsetString`, `ParseTimeZoneOffsetString`) 및 제17판 Date 추상 연산·`Date.parse` 정합성 | `js.date.{DateParser,TimeZoneOffsets}`, `datajson.DateBuiltins` | `Es2026DateOffsetTest` (P29-08) | 부분 구현 | P29-01 실측: `Date.parse`의 `Z`·`+09:00`·`-00:00` 파싱 동작 확인; §21.4.1.33/A.7 오프셋 연산과 Date 경계 대조는 P29-08 |
+| ES26-INTL-POLICY | ES2026 (§2 Conformance, §20.1.3.5, §21.1.3.4, §21.2.3.2, §21.4.4.39~41, §22.1.3.12, §23.1.3.31, §23.2.3.32) | 국제화 API(`Intl`) 조건부 미제공(`EXC-16`) 및 ECMA-262 본문 `toLocaleString`/`localeCompare` 기본 의미 준수 | `js.builtins.{corelib,datajson,stringarray,typed}.*` | `ConformanceTableTest`, `EsLegacyCompatTest` (P29-09/10) | 예외(`EXC-16`)·기본 메서드 부분 구현 | P29-01 확정: `typeof Intl === "undefined"`, `'\u00E9'.localeCompare('e\u0301') === 0`(정준 동치) 및 각 타입 `toLocaleString` 기본 동작 실측 확인; 경계 사례 회귀 시험은 P29-09/10 |
 
 ### 7.7 이전 버전 ES(ES1~ES5.1) 및 웹 브라우저 호환(Annex B) (P29-09)
 
@@ -455,9 +457,9 @@
 
 | 기능 ID | 대상 범위 | 요구사항 | 구현 클래스 | 검증 사례 | 지원 상태 | 제약 / 비고 |
 | --- | --- | --- | --- | --- | --- | --- |
-| ES-COMPAT-ES35 | ES1~ES3, ES5/5.1 | 비엄격(sloppy) 모드 기본 실행, `var`/함수 호이스팅, 매핑된 `arguments`(`callee` 포함), `with` 문, 프로토타입 체인, 직접/간접 `eval` 스코프, ES3/ES5 표준 내장 메서드 전체 | `js.parser.*`, `js.interp.*`, `js.builtins.*` | 기존 `js.*` 회귀 + P29-09 구판 전용 호환 시험 묶음 | 부분 구현(개별 동작 검증됨, ES2026 기준 통합 하위 호환 묶음은 P29-09) | |
-| ES-COMPAT-ANNEXB17 | ECMA-262 제17판 §2.2 `Legacy` 및 부속서 B(`B.1`~`B.3.9`) | HTML 주석, 느슨한 정규식 패턴(`B.1.2`), `escape/unescape`, `String#substr`/HTML 래퍼, `Date#getYear/setYear/toGMTString`, `RegExp#compile`, `__proto__`/`__defineGetter__` 계열, 라벨·블록·if 함수 선언(`B.3.1`~`B.3.3`), catch `var`(`B.3.4`), `for-in` 초기화식(`B.3.5`), `[[IsHTMLDDA]]`(`B.3.6`), 호스트 콜백·함수 호출 대입 런타임 오류(`B.3.7`~`B.3.9`) | `js.parser.*`, `js.interp.*`, `js.builtins.meta.LegacyBuiltins*`, `js.regexp.*` | `LegacyBuiltinsTest`, `Es2015LanguageProbeTest` + P29-09 제17판 부속서 B 대조 시험 | 부분 구현(`ES-B-ANNEXB` 검증 완료, 제17판 `B.1.2` `v` 플래그 분기 및 `B.3.6`~`B.3.9` 대조는 P29-09) | `document.all` 비노출 정책(LEG-14)과의 관계 기록 |
-| ES-COMPAT-TRANSITION | ECMA-262 제17판 부속서 E·F | 구판과 ES2015~ES2026 표준이 충돌하는 지점(`ToNumber("0b10")`, `U+180E` 비공백, 함수 `length` configurable, `Object.keys` 원시값 강제 변환, `await` 작업 수 등)은 최신 표준인 ES2026 의미를 따름 | `js.*` | P29-09 판본 전이 시험 | 부분 구현(대조·문서화 P29-09) | |
+| ES-COMPAT-ES35 | ES1~ES3, ES5/5.1 | 비엄격(sloppy) 모드 기본 실행, `var`/함수 호이스팅, 매핑된 `arguments`(`callee` 포함), `with` 문, 프로토타입 체인, 직접/간접 `eval` 스코프, ES3/ES5 표준 내장 메서드 전체 | `js.parser.*`, `js.interp.*`, `js.builtins.*` | 기존 `js.*` 회귀 + `EsLegacyCompatTest` (P29-09) | 부분 구현(개별 동작 검증됨; 구판 전용 통합 하위 호환 시험 묶음은 P29-09) | |
+| ES-COMPAT-ANNEXB17 | ECMA-262 제17판 §2.2 `Legacy` 및 부속서 B(`B.1`~`B.3.9`) | HTML 주석(`B.1.1`), 느슨한 정규식 패턴(`B.1.2`), `escape/unescape`·`String#substr`/HTML 래퍼/`trimLeft`·`Date#getYear/setYear/toGMTString`·`RegExp#compile`·`__proto__`/`__defineGetter__` 계열(`B.2`), 라벨·블록·if 함수 선언(`B.3.1`~`B.3.3`), catch `var`(`B.3.4`), `for-in` 초기화식(`B.3.5`), `[[IsHTMLDDA]]`(`B.3.6`), 호스트 콜백·함수 호출 대입 런타임 오류(`B.3.7`~`B.3.9`) | `js.parser.{StatementParser,ExpressionParser}`, `js.interp.{Statements,Expressions}`, `js.builtins.meta.LegacyBuiltins*`, `js.regexp.RegExpParser` | `LegacyBuiltinsTest`, `Es2015LanguageProbeTest`, `AnnexB17ConformanceTest` (P29-09) | 부분 구현 | P29-01 실측: `B.1.1`·`B.2`·`B.3.1`~`B.3.4` 통과 확인; **비엄격 `for (var x = init in obj)`(`B.3.5`)와 함수 호출 좌변 런타임 `ReferenceError`(`B.3.9`) 미구현 확인** → P29-09 구현. `B.1.2` `/v` 가드는 P29-07/09 연동. `B.3.6`은 `document.all` 비노출(`LEG-14`)과 일치 |
+| ES-COMPAT-TRANSITION | ECMA-262 제17판 부속서 E·F | 구판과 ES2015~ES2026 표준이 충돌하는 지점(`ToNumber("0b10")`, `U+180E` 비공백, 함수 `length` configurable, `Object.keys` 원시값 강제 변환, `Date(-0)` `+0` 정규화, `RegExp.prototype`/`Date.prototype` 비인스턴스, ES2016 `Reflect.enumerate` 제거 등)은 최신 정본인 ES2026 의미를 따름 | `js.*`, `js.builtins.meta.ReflectBuiltins` | `EditionTransitionTest` (P29-09) | 부분 구현 | P29-01 실측: `0b`/`0o`·`U+180E`·`Date(-0)`·`Object.keys`·`fn.length`·비인스턴스 프로토타입은 이미 일치; **`Reflect.enumerate` 잔존 확인** → P29-09에서 제거 |
 
 ES2027 이후(제17판 이후의 차기 Stage 4 제안, 예: Temporal 등 제17판 본문에 포함되지 않은 규격)는 이 프로젝트의 ES2026 완료 판정 범위 밖으로 분리한다.
 게임이 쓰는데 빠진 웹 API(`addEventListener`의 `signal`, `ReadableStream`/`response.body.getReader`, `navigator.clipboard`, `Blob`/`FileReader`/`URL.createObjectURL` 중 일부)는 P28-06에서 5.4절에 행으로 추가한다.
@@ -643,9 +645,9 @@ AGENTS.md 상단 "목표 - 지원 기능"의 각 행이 이 표의 어느 기능
 
 (2026-11-22) 8.4절 Web Audio(WAU-01~09)와 예외 EXC-14 는 P25 진행 중이라 위 개수표에 넣지 않았다. P25 완료 때 집계한다.
 (2026-11-22) 1절 API-30(P27 Java 호스트 메시지, 미구현)은 계획만 추가한 상태라 위 개수표에 넣지 않았다. P27 완료 때 집계한다.
-(2026-11-25) 상단 JavaScript 목표가 ES6에서 **ES2026 및 이전 버전 ES 호환**으로 상향됨에 따라 7.5절(`ESX-*`, 27행: 검증 완료 23, 부분 구현 2, 미구현 2), 7.6절(`ES26-*`, 23행: 부분 구현 2, 미구현 21), 7.7절(`ES-COMPAT-*`, 3행: 부분 구현 3)이 필수 범위로 편입되었다. 위 표의 `JavaScript 언어(ES6)` 36행은 2026-11-19 시점의 1차 기반(7.1~7.4절) 집계이며, P29 완료 때 ES2026 통합 축으로 재집계한다.
+(2026-11-25) 상단 JavaScript 목표가 ES6에서 **ES2026 및 이전 버전 ES 호환**으로 상향되고 P29-01 실측 감사가 완료됨에 따라 7.5절(`ESX-*`, 27행: 검증 완료 23, 부분 구현 3, 미구현 1), 7.6절(`ES26-*`, 23행: 예외·부분 구현 1, 부분 구현 1, 미구현 21), 7.7절(`ES-COMPAT-*`, 3행: 부분 구현 3)이 필수 범위로 고정되었다(상세 실측 표: `docs/progress/es2026.md` 3절). 위 표의 `JavaScript 언어(ES6)` 36행은 2026-11-19 시점의 1차 기반(7.1~7.4절) 집계이며, P29 완료 때 ES2026 통합 축으로 재집계한다.
 
-**명시적 예외(미구현과 구분)**: EXC-01 비디오(미지원 문구 표시), EXC-02 3D 가속·WebGL·WebGPU(`getContext` 가 `null`, 전역 객체 없음), EXC-03 CSS 3D 변환, EXC-04 플러그인(대체 내용 또는 안내), EXC-05 허용되지 않은 URL 스킴, EXC-06 `ws:`/`wss:`, EXC-07 미디어 캡처/EME/WebRTC, EXC-08 캔버스 히트 영역(규격에서 삭제됨). 근거는 3절이다.
+**명시적 예외(미구현과 구분)**: EXC-01 비디오(미지원 문구 표시), EXC-02 3D 가속·WebGL·WebGPU(`getContext` 가 `null`, 전역 객체 없음), EXC-03 CSS 3D 변환, EXC-04 플러그인(대체 내용 또는 안내), EXC-05 허용되지 않은 URL 스킴, EXC-06 `ws:`/`wss:`, EXC-07 미디어 캡처/EME/WebRTC, EXC-08 캔버스 히트 영역(규격에서 삭제됨), EXC-15 정규식 Emoji 전용 속성(JAR 용량 제한), EXC-16 `ECMA-402 Intl` 국제화 객체 미제공(ECMA-262 §2 조건부 적합성·JRE 6/JAR 용량 한계). 근거는 3절이다.
 
 **축별로 남은 행**(부분 구현·미구현의 행 ID. 각 행의 `제약` 열이 남은 차이이다)
 - JavaScript 언어(ES6): 부분 구현 ES-HOST-MOD / 미구현 없음
