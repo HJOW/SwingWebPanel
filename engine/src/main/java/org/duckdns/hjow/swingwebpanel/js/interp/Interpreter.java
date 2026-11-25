@@ -12,12 +12,16 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsString;
 import org.duckdns.hjow.swingwebpanel.js.ModuleGraph;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
+import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
+import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.ParsedScript;
 import org.duckdns.hjow.swingwebpanel.js.Property;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseCapability;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseInterop;
 import org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo;
 import org.duckdns.hjow.swingwebpanel.js.ast.Node;
 import org.duckdns.hjow.swingwebpanel.js.ast.NodeType;
@@ -215,6 +219,49 @@ public final class Interpreter {
     }
 
     /**
+     * Starts a dynamic import and returns its Promise.
+     * <p>
+     * 동적 import 를 시작하고 Promise 를 반환한다.
+     *
+     * @param capability returned Promise capability / 반환 Promise capability
+     * @param specifier module specifier / 모듈 지정자
+     * @param referrer referring module or script name / 참조하는 모듈/스크립트 이름
+     * @return import Promise / import Promise
+     */
+    JsObject dynamicImport(final PromiseCapability capability, final String specifier, final String referrer) {
+        org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseJobs.enqueue(realm, new Runnable() {
+            public void run() {
+                try {
+                    ModuleLoader loader = realm.getModuleLoader();
+                    if (loader == null) {
+                        throw JsException.typeError("Cannot import module '" + specifier + "': no module loader is configured");
+                    }
+                    String key = loader.resolve(specifier, referrer);
+                    ModuleRecord module = ModuleRecord.load(Interpreter.this, key, null);
+                    module.link();
+                    JsObject evaluation = module.evaluateAsync();
+                    NativeFunction fulfilled = new NativeFunction(realm, "", 1, new NativeFunction.Call() {
+                        public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                            Ops.call(capability.getResolveFunction(), Js.UNDEFINED, new JsValue[] { Js.arg(args, 0) });
+                            return Js.UNDEFINED;
+                        }
+                    });
+                    NativeFunction rejected = new NativeFunction(realm, "", 1, new NativeFunction.Call() {
+                        public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                            Ops.call(capability.getRejectFunction(), Js.UNDEFINED, new JsValue[] { Js.arg(args, 0) });
+                            return Js.UNDEFINED;
+                        }
+                    });
+                    PromiseInterop.await(realm, evaluation, fulfilled, rejected);
+                } catch (JsException e) {
+                    Ops.call(capability.getRejectFunction(), Js.UNDEFINED, new JsValue[] { e.getValue(realm) });
+                }
+            }
+        });
+        return capability.getPromise();
+    }
+
+    /**
      * Fetches and parses a module and its dependencies without linking or evaluating them. A failure of the loader or a syntax error
      * is thrown here; the returned graph links and evaluates when asked.
      * <p>
@@ -246,6 +293,23 @@ public final class Interpreter {
                     m.link();
                     m.evaluate();
                     return m.namespaceObject();
+                } finally {
+                    limits.endTask();
+                }
+            }
+
+            /**
+             * Links and asynchronously evaluates the loaded graph.
+             * <p>
+             * 불러온 그래프를 링크하고 비동기로 평가한다.
+             *
+             * @return Promise / Promise
+             */
+            public JsObject evaluateAsync() {
+                limits.beginTask();
+                try {
+                    m.link();
+                    return m.evaluateAsync();
                 } finally {
                     limits.endTask();
                 }

@@ -22,6 +22,8 @@ import org.duckdns.hjow.swingwebpanel.js.ast.Node;
 import org.duckdns.hjow.swingwebpanel.js.ast.NodeType;
 import org.duckdns.hjow.swingwebpanel.js.ast.Op;
 import org.duckdns.hjow.swingwebpanel.js.ast.TemplateParts;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseCapability;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseInterop;
 
 /**
  * Evaluates expressions (ECMA-262 6th edition clause 12). All evaluation goes through {@link #eval(Node, Environment, Ctx)}.
@@ -249,6 +251,22 @@ final class Expressions {
             return n.flag ? evalYieldStar(n, env, ctx, st) : evalYield(n, env, ctx, st);
         case NodeType.AWAIT:
             return evalAwait(n, env, ctx, st);
+        case NodeType.IMPORT_META:
+            ModuleRecord metaModule = moduleOf(env);
+            if (metaModule == null) {
+                throw JsException.syntaxError("import.meta is only valid in a module");
+            }
+            return metaModule.importMeta();
+        case NodeType.IMPORT_CALL: {
+            PromiseCapability capability = PromiseInterop.newCapability(realm);
+            try {
+                String specifier = Ops.toString(memo(st, n.a, env, ctx));
+                return in.dynamicImport(capability, specifier, ctx.sourceName);
+            } catch (JsException e) {
+                Ops.call(capability.getRejectFunction(), Js.UNDEFINED, new JsValue[] { e.getValue(realm) });
+                return capability.getPromise();
+            }
+        }
         default:
             throw JsException.syntaxError("Unsupported expression (node type " + n.type + ")", null, n.line, n.column);
         }
@@ -1451,6 +1469,26 @@ final class Expressions {
             throw AwaitSignal.INSTANCE;
         }
         return resumeValue(gen);
+    }
+
+    /**
+     * Finds the module record of an environment.
+     * <p>
+     * 환경의 모듈 레코드를 찾는다.
+     *
+     * @param env environment / 환경
+     * @return module or null / 모듈 또는 null
+     */
+    private ModuleRecord moduleOf(Environment env) {
+        Environment e = env;
+        // 바깥 환경을 따라 올라가며 Module Record 를 찾는다.
+        while (e != null) {
+            if (e.module != null) {
+                return e.module;
+            }
+            e = e.outer;
+        }
+        return null;
     }
 
     /**

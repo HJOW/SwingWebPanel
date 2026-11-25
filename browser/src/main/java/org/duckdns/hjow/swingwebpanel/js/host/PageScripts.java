@@ -35,6 +35,7 @@ import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseJobs;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseRejectionTracker;
 import org.duckdns.hjow.swingwebpanel.js.ModuleGraph;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
+import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomBridge;
@@ -2015,7 +2016,20 @@ public final class PageScripts {
                         reportError(e);
                     }
                     if (graph != null) {
-                        graph.evaluate();
+                        JsObject evaluation = graph.evaluateAsync();
+                        Ops.invoke(realm, evaluation, "then", new JsValue[] {
+                                new NativeFunction(realm, "", 1, new NativeFunction.Call() {
+                                    public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                                        return Js.UNDEFINED;
+                                    }
+                                }),
+                                new NativeFunction(realm, "", 1, new NativeFunction.Call() {
+                                    public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                                        reportError(new JsException(Js.arg(args, 0)));
+                                        return Js.UNDEFINED;
+                                    }
+                                })
+                        });
                     }
                 } else {
                     realm.evaluateScript(code, name);

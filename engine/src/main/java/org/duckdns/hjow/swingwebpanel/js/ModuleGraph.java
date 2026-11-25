@@ -22,4 +22,13 @@ public interface ModuleGraph {
      * @return the namespace object / 네임스페이스 객체
      */
     JsObject evaluate();
+
+    /**
+     * Links and evaluates the graph asynchronously and returns a Promise of the entry namespace.
+     * <p>
+     * 그래프를 링크하고 비동기로 평가해 진입 네임스페이스의 Promise 를 반환한다.
+     *
+     * @return evaluation Promise / 평가 Promise
+     */
+    JsObject evaluateAsync();
 }

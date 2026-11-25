@@ -7,8 +7,12 @@ import java.util.Set;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
+import org.duckdns.hjow.swingwebpanel.js.JsString;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
+import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseCapability;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseInterop;
 import org.duckdns.hjow.swingwebpanel.js.ast.Node;
 import org.duckdns.hjow.swingwebpanel.js.ast.ProgramInfo;
 import org.duckdns.hjow.swingwebpanel.js.ast.ScopeInfo;
@@ -115,7 +119,7 @@ final class ModuleRecord {
      * <p>
      * 인터프리터.
      */
-    private final Interpreter in;
+    final Interpreter in;
 
     /**
      * The unique key of the module.
@@ -172,6 +176,20 @@ final class ModuleRecord {
      * 네임스페이스 객체(필요할 때 만든다).
      */
     private ModuleNamespace namespace;
+
+    /**
+     * Promise used by asynchronous evaluation, or null for a synchronous module.
+     * <p>
+     * 비동기 평가가 쓰는 Promise. 동기 모듈이면 null.
+     */
+    private PromiseCapability evaluation;
+
+    /**
+     * The host-populated import.meta object.
+     * <p>
+     * 호스트가 채우는 import.meta 객체.
+     */
+    private JsObject importMeta;
 
     /**
      * Creates a module record from a parsed module.
@@ -505,6 +523,10 @@ final class ModuleRecord {
             Ctx ctx = new Ctx(true, env, null);
             ctx.sourceName = key;
             ctx.funcEnv = env;
+            if (program.hasYield) {
+                status = LINKED;
+                throw JsException.typeError("Module '" + key + "' contains top-level await; dynamic import is required");
+            }
             in.st.execList(program.list, env, ctx);
             status = EVALUATED;
         } catch (JsException e) {
@@ -515,6 +537,110 @@ final class ModuleRecord {
             status = FAILED;
             failure = new JsException(Js.UNDEFINED);
             throw e;
+        }
+    }
+
+    /**
+     * Starts or returns the Promise of asynchronous module evaluation.
+     * <p>
+     * 비동기 모듈 평가 Promise 를 시작하거나 반환한다.
+     *
+     * @return evaluation Promise / 평가 Promise
+     */
+    JsObject evaluateAsync() {
+        return evaluateAsync(false);
+    }
+
+    /**
+     * Returns the async evaluation promise, optionally cutting a dependency cycle with the module namespace.
+     * <p>
+     * 비동기 평가 Promise 를 반환하며 선택적으로 의존성 순환을 네임스페이스로 자른다.
+     *
+     * @param dependencyCycle true for a requested dependency edge / 의존성 간선이면 true
+     * @return evaluation Promise / 평가 Promise
+     */
+    JsObject evaluateAsync(boolean dependencyCycle) {
+        if (status == EVALUATED) {
+            PromiseCapability cap = PromiseInterop.newCapability(in.realm);
+            Ops.call(cap.getResolveFunction(), Js.UNDEFINED, new JsValue[] { namespaceObject() });
+            return cap.getPromise();
+        }
+        if (status == FAILED) {
+            PromiseCapability cap = PromiseInterop.newCapability(in.realm);
+            Ops.call(cap.getRejectFunction(), Js.UNDEFINED, new JsValue[] { failure.getValue(in.realm) });
+            return cap.getPromise();
+        }
+        if (evaluation != null) {
+            if (dependencyCycle && status == EVALUATING) {
+                PromiseCapability cycle = PromiseInterop.newCapability(in.realm);
+                Ops.call(cycle.getResolveFunction(), Js.UNDEFINED, new JsValue[] { namespaceObject() });
+                return cycle.getPromise();
+            }
+            return evaluation.getPromise();
+        }
+        evaluation = PromiseInterop.newCapability(in.realm);
+        status = EVALUATING;
+        ModuleAsyncEvaluation.start(this, evaluation);
+        return evaluation.getPromise();
+    }
+
+    /**
+     * Returns the per-module import.meta object with its URL property.
+     * <p>
+     * URL 프로퍼티를 가진 모듈별 import.meta 객체를 반환한다.
+     *
+     * @return import.meta / import.meta
+     */
+    JsObject importMeta() {
+        if (importMeta == null) {
+            importMeta = in.realm.newObject();
+            importMeta.createDataProperty("url", JsString.of(key));
+        }
+        return importMeta;
+    }
+
+    /**
+     * Returns the parsed module program.
+     * <p>
+     * 파싱된 모듈 프로그램을 반환한다.
+     */
+    Node program() {
+        return program;
+    }
+
+    /**
+     * Returns requested records.
+     * <p>
+     * 요청 레코드를 반환한다.
+     */
+    List<ModuleRecord> requested() {
+        return requested;
+    }
+
+    /**
+     * Marks evaluation failure and rejects its Promise.
+     * <p>
+     * 평가 실패를 표시하고 Promise 를 거부한다.
+     *
+     * @param error failure / 실패
+     */
+    void failAsync(JsException error) {
+        status = FAILED;
+        failure = error;
+        if (evaluation != null) {
+            Ops.call(evaluation.getRejectFunction(), Js.UNDEFINED, new JsValue[] { error.getValue(in.realm) });
+        }
+    }
+
+    /**
+     * Marks evaluation success and resolves its Promise.
+     * <p>
+     * 평가 성공을 표시하고 Promise 를 이행한다.
+     */
+    void finishAsync() {
+        status = EVALUATED;
+        if (evaluation != null) {
+            Ops.call(evaluation.getResolveFunction(), Js.UNDEFINED, new JsValue[] { namespaceObject() });
         }
     }
 

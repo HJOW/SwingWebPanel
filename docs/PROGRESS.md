@@ -11,13 +11,13 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
-=== P28-03-d async generator와 for-await (2026-11-25) ===
-현재 작업 번호: P28-03-d 완료.
-완료한 내용: async generator의 next/return/throw 요청을 Promise capability 큐로 직렬화하고, yield 값의 Promise 해결과 await/throw/return 재개를 연결했다. Symbol.asyncIterator, AsyncFromSyncIterator 래퍼, async/sync iterable의 for-await와 break/throw 시 async iterator close를 구현했다.
-변경 파일: AGENTS.md(P28-03-d 완료), interp/{AsyncGeneratorObject,Statements,Interpreter,AsyncIteratorHelper,Parser}.java, WellKnownSymbols, SymbolLib, IteratorBuiltins, ModernAsyncIteratorTest.java, 이 문서.
-검증 결과: `engine\test.bat --filter ModernAsyncIteratorTest` JDK 6u45 4 passed/0 failed/0 skipped.
-미해결 사항: dynamic import/TLA(P28-03-e), 수명 통합(P28-03-f), BigInt(P28-04).
-다음 작업 번호: P28-03-e.
+=== P28-03-e dynamic import와 비동기 모듈 (2026-11-25) ===
+현재 작업 번호: P28-03-e 완료.
+완료한 내용: ModuleGraph에 evaluateAsync를 추가하고 ModuleAsyncEvaluation으로 top-level await 모듈과 의존성 Promise를 순서대로 재개했다. `import()`는 Promise 작업으로 변환/resolve/fetch/evaluate 실패를 거부하고, import.meta.url과 cycle/중복 모듈 공유, PageScripts의 ModuleScriptSource를 연결했다.
+변경 파일: AGENTS.md(P28-03-e 완료), engine interp/{ModuleRecord,ModuleAsyncEvaluation,Expressions,Interpreter}.java, js/ModuleGraph.java, browser/js/host/PageScripts.java, ModernDynamicImportTest, ModuleScriptTest, 이 문서.
+검증 결과: `engine\test.bat --filter ModernDynamicImportTest` 4 passed/0 failed; `test.bat --filter ModuleScriptTest -pl browser -am` 6 passed/0 failed, 모두 JDK 6u45.
+미해결 사항: P28-03-f 수명 통합과 BigInt(P28-04).
+다음 작업 번호: P28-03-f.
 -----------------------------------------------------------------------------------------------
 === P28-02 ES2016~ES2022 파서 완료 (2026-11-25) ===
 현재 작업 번호: P28-02 완료(P28-02-a~f).

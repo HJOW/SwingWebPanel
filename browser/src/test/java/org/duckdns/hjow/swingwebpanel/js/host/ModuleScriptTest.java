@@ -262,4 +262,21 @@ public class ModuleScriptTest {
                 + "document.body.appendChild(s); console.log('inserted');</script></body>", log);
         Check.equal("inserted,dynamic module", log.toString(), "the module ran after the inserting script");
     }
+
+    /**
+     * P28-03-e: dynamic import and a module with top-level await resume on the page's microtask queue.
+     * <p>
+     * P28-03-e: 동적 import 와 top-level await 가 페이지 마이크로태스크 큐에서 재개된다.
+     */
+    public void testDynamicImportAndTopLevelAwait() {
+        FakeModules m = new FakeModules();
+        m.texts.put("http://example.test/dir/dyn.js",
+                "await Promise.resolve(); console.log('module ' + import.meta.url); export default 7;");
+        StringBuilder log = new StringBuilder();
+        load(m, "<script>console.log('start'); import('./dyn.js').then(function(m){ console.log('value ' + m.default); });</script>"
+                + "<script type=module>await 0; console.log('inline done');</script>", log);
+        Check.equal("start,module http://example.test/dir/dyn.js,value 7,inline done", log.toString(),
+                "dynamic and TLA modules resumed through the page event loop");
+        Check.equal(1, m.count("http://example.test/dir/dyn.js"), "dynamic module fetched once");
+    }
 }
