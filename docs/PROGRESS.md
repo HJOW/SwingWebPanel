@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-04-a Array 역방향 탐색과 복사 (2026-11-26) ===
+현재 작업 번호: P29-04-a 완료.
+완료한 내용: findLast와 findLastIndex, toReversed, toSorted, toSpliced, with를 추가했다. 프로퍼티 읽기 순서, 희소 배열의 밀집 복사, 원본 constructor 미조회, 범위와 타입 오류 및 ES2026의 @@unscopables 목록을 검증했다.
+변경 파일: ArrayMethods.java, ArrayMethodsTest.java, PropertyTableTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 730건 통과. sourcecheck 0 위반.
+미해결 사항: TypedArray 복사·탐색, Array.fromAsync, Float16, 가변 ArrayBuffer, Uint8Array 인코딩(P29-04-b~f).
+다음 작업 번호: P29-04-b.
+-----------------------------------------------------------------------------------------------
 === P29-03-e3 AudioWorklet의 JSON 선취득 (2026-11-26) ===
 현재 작업 번호: P29-03 완료.
 완료한 내용: AudioWorklet에서 모듈 타입별로 그래프를 렐름 잠금 밖에서 미리 가져온다. JSON을 정적 의존성으로 링크하며 동적 import는 저장된 모듈이 있어도 TypeError로 거부한다. credentials: omit는 동일 오리진에서도 쿠키를 보내지 않는다.
@@ -578,6 +586,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-04-a 배열 탐색과 복사
+
+JDK 6의 엔진 시험에서 역방향 콜백 인수와 빈 칸 처리, Proxy 인덱스 읽기 순서, 건너뛸 인덱스, 오류 발생 전후 접근, 메서드 기술자를 확인했다. 로컬 ES2026 본문 §23.1.3.41의 항목에 따라 배열의 `with` 메서드는 `@@unscopables` 목록에 추가하지 않았다.
 
 ### 2026-11-26 · P29-03-e3 AudioWorklet 모듈과 전체 구문 단계 검증
 

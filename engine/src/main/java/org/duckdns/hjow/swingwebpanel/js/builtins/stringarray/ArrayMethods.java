@@ -18,7 +18,7 @@ import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 /**
  * The methods of <code>Array.prototype</code> (ECMA-262 6th edition 22.1.3). Every method is generic: it works on any object through ToObject and
  * the object's own internal methods (Get, Set, HasProperty, DeletePropertyOrThrow, CreateDataPropertyOrThrow), so array-likes, holes, accessors
- * and prototype chains behave as specified. Methods that return a new array use ArraySpeciesCreate. <code>includes</code> (ES2016) is installed as a
+ * and prototype chains behave as specified. Methods use ArraySpeciesCreate or ArrayCreate as specified for their result. <code>includes</code> (ES2016) is installed as a
  * documented extension.
  * <p>
  * Implementation notes: <code>join</code>, <code>toString</code> and <code>toLocaleString</code> return the empty string for an array that
@@ -66,11 +66,140 @@ final class ArrayMethods {
         JsObject proto = realm.getArrayPrototype();
         installMutators(realm, proto);
         installBuilders(realm, proto);
+        installCopies(realm, proto);
         installSearch(realm, proto);
         installIteration(realm, proto);
         installModern(realm, proto);
         installReduce(realm, proto);
         installIterators(realm, proto);
+    }
+
+    /**
+     * Installs the ES2023 methods that build dense copies (ArrayCreate).
+     * <p>
+     * 밀집 복사본을 만드는 ES2023 메서드를 설치한다(ArrayCreate).
+     *
+     * @param realm the installing realm / 설치하는 realm
+     * @param proto Array.prototype / 배열 프로토타입
+     */
+    private static void installCopies(JsRealm realm, JsObject proto) {
+        Support.def(realm, proto, "toReversed", 0, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsObject source = toObject(r, thisValue);
+                double length = Ops.lengthOf(source);
+                JsObject result = Support.arrayCreate(r, length);
+                // 원본은 뒤에서부터 읽고 빈 인덱스에도 undefined를 저장한다.
+                for (double index = 0; index < length; index++) {
+                    Support.createAt(result, index, Support.getAt(source, length - index - 1));
+                    Support.poll(index);
+                }
+                return result;
+            }
+        });
+        Support.def(realm, proto, "toSorted", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsValue comparator = Js.arg(args, 0);
+                if (!comparator.isUndefined()) {
+                    Support.requireCallable(comparator, "comparator");
+                }
+                JsObject source = toObject(r, thisValue);
+                return sortedCopy(r, source, comparator);
+            }
+        });
+        Support.def(realm, proto, "toSpliced", 2, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return splicedCopy(r, toObject(r, thisValue), args);
+            }
+        });
+        Support.def(realm, proto, "with", 2, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsObject source = toObject(r, thisValue);
+                double length = Ops.lengthOf(source);
+                double relative = Ops.toInteger(Js.arg(args, 0));
+                double replacement = relative < 0 ? length + relative : relative;
+                if (replacement < 0 || replacement >= length) {
+                    throw JsException.rangeError("Array index is out of range");
+                }
+                JsObject result = Support.arrayCreate(r, length);
+                JsValue value = Js.arg(args, 1);
+                // 교체할 인덱스는 원본에서 읽지 않는다.
+                for (double index = 0; index < length; index++) {
+                    Support.createAt(result, index, index == replacement ? value : Support.getAt(source, index));
+                    Support.poll(index);
+                }
+                return result;
+            }
+        });
+    }
+
+    /**
+     * Reads through holes and sorts defined values before building a dense result.
+     * <p>
+     * 빈 인덱스도 읽고 정의된 값의 정렬을 마친 뒤 밀집 결과 배열을 만든다.
+     *
+     * @param realm the installing realm / 설치한 realm
+     * @param source the source object / 원본 객체
+     * @param comparator comparison function or undefined / 비교 함수 또는 undefined
+     * @return a sorted copy / 정렬한 복사본
+     */
+    private static JsObject sortedCopy(JsRealm realm, JsObject source, JsValue comparator) {
+        double length = Ops.lengthOf(source);
+        JsObject result = Support.arrayCreate(realm, length);
+        List<JsValue> defined = new ArrayList<JsValue>();
+        // 원본을 인덱스 순서대로 읽고 undefined는 결과의 끝에 채운다.
+        for (double index = 0; index < length; index++) {
+            JsValue value = Support.getAt(source, index);
+            if (!value.isUndefined()) {
+                defined.add(value);
+            }
+            Support.poll(index);
+        }
+        JsValue[] values = defined.toArray(new JsValue[defined.size()]);
+        ArraySorter.sort(values, comparator);
+        // 정의된 값부터 쓰고 나머지 슬롯을 undefined로 채운다.
+        for (double index = 0; index < length; index++) {
+            Support.createAt(result, index, index < values.length ? values[(int) index] : Js.UNDEFINED);
+            Support.poll(index);
+        }
+        return result;
+    }
+
+    /**
+     * Copies the elements before and after the deleted range with the inserted values in between.
+     * <p>
+     * 삭제 범위 앞뒤의 요소를 복사하고 그 사이에 삽입 값을 쓴다.
+     *
+     * @param realm the installing realm / 설치한 realm
+     * @param source the source object / 원본 객체
+     * @param args start, skip count and items / 시작 위치, 건너뛸 수, 삽입할 항목
+     * @return the modified copy / 변경한 복사본
+     */
+    private static JsObject splicedCopy(JsRealm realm, JsObject source, JsValue[] args) {
+        double length = Ops.lengthOf(source);
+        double start = Support.relative(Js.arg(args, 0), length, 0);
+        double removed = spliceDeleteCount(args, length - start);
+        int inserted = Math.max(0, args.length - 2);
+        double newLength = length - removed + inserted;
+        checkLength(newLength);
+        JsObject result = Support.arrayCreate(realm, newLength);
+        double index = 0;
+        // 삭제 구간의 앞을 복사하며 빈 인덱스도 읽는다.
+        for (; index < start; index++) {
+            Support.createAt(result, index, Support.getAt(source, index));
+            Support.poll(index);
+        }
+        // 삽입할 인수를 순서대로 쓴다.
+        for (int item = 0; item < inserted; item++) {
+            Support.createAt(result, index++, args[item + 2]);
+            Support.poll(index);
+        }
+        double from = start + removed;
+        // 삭제 구간을 지난 위치부터 나머지 원본을 복사한다.
+        for (; index < newLength; index++) {
+            Support.createAt(result, index, Support.getAt(source, from++));
+            Support.poll(index);
+        }
+        return result;
     }
 
     /**
@@ -408,15 +537,8 @@ final class ArrayMethods {
         double len = Ops.lengthOf(o);
         double start = Support.relative(Js.arg(args, 0), len, 0);
         int itemCount = Math.max(args.length - 2, 0);
-        double deleteCount;
-        if (args.length == 0) {
-            deleteCount = 0;
-        } else if (args.length == 1) {
-            deleteCount = len - start;
-        } else {
-            deleteCount = Math.min(Math.max(Ops.toInteger(args[1]), 0), len - start);
-        }
-        checkLength(len + itemCount - deleteCount);
+        double deleteCount = spliceDeleteCount(args, len - start);
+        checkLength(len - deleteCount + itemCount);
         JsObject a = ArrayBuiltins.speciesCreate(realm, o, deleteCount);
         // 지워질 요소를 새 배열로 복사한다.
         for (double k = 0; k < deleteCount; k++) {
@@ -463,6 +585,25 @@ final class ArrayMethods {
         }
         Support.setLength(o, len - deleteCount + itemCount);
         return a;
+    }
+
+    /**
+     * Computes the splice count, distinguishing an absent argument from undefined.
+     * <p>
+     * 인수가 생략된 경우와 undefined인 경우를 구분하여 삭제할 수를 계산한다.
+     *
+     * @param args splice or toSpliced arguments / splice 또는 toSpliced의 인수
+     * @param remaining elements at or beyond the start / 시작 위치부터 남은 요소 수
+     * @return elements to remove / 삭제할 요소 수
+     */
+    private static double spliceDeleteCount(JsValue[] args, double remaining) {
+        if (args.length == 0) {
+            return 0;
+        }
+        if (args.length == 1) {
+            return remaining;
+        }
+        return Math.min(Math.max(Ops.toInteger(args[1]), 0), remaining);
     }
 
     /**
@@ -754,12 +895,22 @@ final class ArrayMethods {
         });
         Support.def(realm, proto, "find", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                return find(r, thisValue, args, false);
+                return find(r, thisValue, args, false, false);
             }
         });
         Support.def(realm, proto, "findIndex", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                return find(r, thisValue, args, true);
+                return find(r, thisValue, args, true, false);
+            }
+        });
+        Support.def(realm, proto, "findLast", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return find(r, thisValue, args, false, true);
+            }
+        });
+        Support.def(realm, proto, "findLastIndex", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return find(r, thisValue, args, true, true);
             }
         });
     }
@@ -773,16 +924,18 @@ final class ArrayMethods {
      * @param thisValue the this value / this 값
      * @param args      predicate, thisArg / predicate, thisArg
      * @param index     true for findIndex / findIndex 이면 true
+     * @param reverse   true when searching the last match / 뒤에서부터 검색하면 true
      * @return the element or index / 요소 또는 인덱스
      */
-    private static JsValue find(JsRealm realm, JsValue thisValue, JsValue[] args, boolean index) {
+    private static JsValue find(JsRealm realm, JsValue thisValue, JsValue[] args, boolean index, boolean reverse) {
         JsObject o = toObject(realm, thisValue);
         double len = Ops.lengthOf(o);
         JsValue predicate = Js.arg(args, 0);
         Support.requireCallable(predicate, "predicate");
         JsValue t = Js.arg(args, 1);
-        // 모든 인덱스에서 술어를 호출해 처음 참인 요소를 찾는다.
-        for (double k = 0; k < len; k++) {
+        double step = reverse ? -1 : 1;
+        // 지정된 방향의 모든 인덱스에서 술어를 호출해 처음 참인 요소를 찾는다.
+        for (double k = reverse ? len - 1 : 0; k >= 0 && k < len; k += step) {
             JsValue v = Support.getAt(o, k);
             if (Ops.toBoolean(Ops.call(predicate, t, new JsValue[] { v, Js.num(k), o }))) {
                 return index ? Js.num(k) : v;
@@ -986,8 +1139,9 @@ final class ArrayMethods {
         proto.defineBuiltin(WellKnownSymbols.ITERATOR, values);
         realm.setIntrinsic("%ArrayProto_values%", values);
         JsObject unscopables = new JsObject(null);
-        String[] names = { "copyWithin", "entries", "fill", "find", "findIndex", "keys", "values" };
-        // ES2015 가 정한 일곱 이름을 true 로 표시한다.
+        String[] names = { "at", "copyWithin", "entries", "fill", "find", "findIndex", "findLast", "findLastIndex", "flat", "flatMap",
+                "includes", "keys", "toReversed", "toSorted", "toSpliced", "values" };
+        // ECMA-262가 지정한 순서대로 with 문에서 제외할 이름을 표시한다.
         for (int i = 0; i < names.length; i++) {
             unscopables.createDataProperty(names[i], Js.TRUE);
         }

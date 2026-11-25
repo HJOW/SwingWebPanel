@@ -75,7 +75,8 @@ public class PropertyTableTest {
      * <p>
      * 문서화한 ES2015 이후 Array.prototype 확장.
      */
-    static final String[][] ARRAY_EXTENSIONS = { { "includes", "1" }, { "flat", "0" }, { "flatMap", "1" }, { "at", "1" } };
+    static final String[][] ARRAY_EXTENSIONS = { { "includes", "1" }, { "flat", "0" }, { "flatMap", "1" }, { "at", "1" },
+        { "findLast", "1" }, { "findLastIndex", "1" }, { "toReversed", "0" }, { "toSorted", "1" }, { "toSpliced", "2" }, { "with", "2" } };
 
     /**
      * Creates the suite (required by the runner).

@@ -347,6 +347,61 @@ public class ArrayMethodsTest {
     }
 
     /**
+     * Visits indices from the end, observes holes, and stops at the first match.
+     * <p>
+     * 끝에서부터 인덱스를 순회해 빈 칸도 읽고 처음 일치한 요소에서 멈춘다.
+     */
+    public void testFindLastAndIndex() {
+        String source = "var log=[];var receiver={0:'a',2:'c',length:3};var self={};"
+                + "var index=Array.prototype.findLastIndex.call(receiver,function(x,i,o){"
+                + " log.push([i,String(x),this===self,o===receiver].join(':'));return x===undefined;},self);"
+                + "[index,log.join('/'),[2,3,4].findLast(x=>x%2===0),[].findLastIndex(()=>true)].join('|');";
+        Check.equal("1|2:c:true:true/1:undefined:true:true|4|-1",
+                Env.str(JsRealm.create().evaluateScript(source, "array-find-last.js")), "descending read, callback and failure value");
+    }
+
+    /**
+     * Copies densely, ignores species, and reads only the indices needed by each operation.
+     * <p>
+     * 밀집 배열로 복사하고 species를 조회하지 않으며 연산에 필요한 인덱스만 읽는다.
+     */
+    public void testArrayCopyMethods() {
+        String source = "var proto=Array.prototype;"
+                + "var a=[3,,1,undefined];Object.defineProperty(a,'constructor',{get(){throw 'species';}});"
+                + "var reversed=a.toReversed();var sorted=a.toSorted((x,y)=>x-y);"
+                + "var copied=a.toSpliced();var inserted=a.toSpliced(1,undefined,2);"
+                + "var log=[];var target={0:'x',2:'z',length:3};"
+                + "var proxy=new Proxy(target,{has(){throw 'has';},get(t,k){log.push(k);return t[k];}});"
+                + "var rev=proto.toReversed.call(proxy);var reverseOrder=log.join(',');log.length=0;"
+                + "var modified=proto.with.call(proxy,-2,'y');var replaceOrder=log.join(',');log.length=0;"
+                + "var spliced=proto.toSpliced.call(proxy,1,1,'y');var spliceOrder=log.join(',');log.length=0;"
+                + "var ordered=proto.toSorted.call(proxy);var sortOrder=log.join(',');"
+                + "[reversed.join('/'),sorted.join('/'),Object.keys(reversed).length,Object.keys(sorted).length,"
+                + " Object.keys(copied).length,inserted.join('/'),a.toSpliced(1).join('/'),"
+                + " rev.join('/'),reverseOrder,modified.join('/'),replaceOrder,spliced.join('/'),spliceOrder,"
+                + " ordered.join('/'),sortOrder].join('|');";
+        Check.equal("/1//3|1/3//|4|4|4|3/2//1/|3|z//x|length,2,1,0|x/y/z|length,0,2|x/y/z|length,0,2|x/z/|length,0,1,2",
+                Env.str(JsRealm.create().evaluateScript(source, "array-copy.js")), "dense outputs and observable access order");
+    }
+
+    /**
+     * Checks boundary errors before indexed reads.
+     * <p>
+     * 인덱스 접근 전의 범위 오류를 확인한다.
+     */
+    public void testCopyMethodErrors() {
+        String source = "var proto=Array.prototype,log=[];"
+                + "var source=new Proxy({length:1},{get(t,k){if(k==='length')return t.length;throw 'index';}});"
+                + "try{proto.with.call(source,Infinity,0);}catch(e){log.push(e.name);}"
+                + "try{proto.toSorted.call(source,0);}catch(e){log.push(e.name);}"
+                + "try{proto.toReversed.call({length:4294967296});}catch(e){log.push(e.name);}"
+                + "try{proto.toSpliced.call({length:Number.MAX_SAFE_INTEGER},0,0,1);}catch(e){log.push(e.name);}"
+                + "log.join('|');";
+        Check.equal("RangeError|TypeError|RangeError|TypeError",
+                Env.str(JsRealm.create().evaluateScript(source, "array-copy-errors.js")), "range and type");
+    }
+
+    /**
      * reduce and reduceRight with and without an initial value, holes and errors.
      * <p>
      * 초기값 유무, 구멍, 오류를 포함한 reduce 와 reduceRight.
@@ -530,17 +585,22 @@ public class ArrayMethodsTest {
     }
 
     /**
-     * Array.prototype[@@unscopables] has exactly the ES2015 names.
+     * Array.prototype[@@unscopables] has the names in the ES2026 table.
      * <p>
-     * Array.prototype[@@unscopables] 는 정확히 ES2015 의 이름들만 가진다.
+     * Array.prototype[@@unscopables]는 ES2026 표의 이름을 가진다.
      */
     public void testUnscopables() {
         JsObject u = (JsObject) ap.get(WellKnownSymbols.UNSCOPABLES);
         Check.isNull(u.getPrototypeOf(), "null prototype");
-        List<Object> keys = u.ownKeys();
-        Check.equal(7, keys.size(), "number of names");
-        Check.isTrue(keys.containsAll(Arrays.asList("copyWithin", "entries", "fill", "find", "findIndex", "keys", "values")), "names");
-        Check.isTrue(Ops.toBoolean(u.get("fill")), "values are true");
+        List<String> names = Arrays.asList("at", "copyWithin", "entries", "fill", "find", "findIndex", "findLast", "findLastIndex",
+                "flat", "flatMap", "includes", "keys", "toReversed", "toSorted", "toSpliced", "values");
+        Check.equal(names, u.ownKeys(), "names and definition order");
+        // 목록의 모든 프로퍼티 값이 true인지 검사한다.
+        for (String name : names) {
+            Check.equal(Js.TRUE, u.get(name), name + " is unscopable");
+        }
+        Check.equal("outer", Env.str(JsRealm.create().evaluateScript("var toSorted='outer';with([]){toSorted;}", "unscopables.js")),
+                "with resolves an outer binding");
     }
 
     /**
