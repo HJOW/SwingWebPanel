@@ -16,6 +16,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.num.NumberConversion;
+import org.duckdns.hjow.swingwebpanel.js.text.CharClass;
 import org.duckdns.hjow.swingwebpanel.js.text.JsonSyntaxException;
 import org.duckdns.hjow.swingwebpanel.js.text.JsonText;
 import org.duckdns.hjow.swingwebpanel.js.text.JsonTokenizer;
@@ -108,6 +109,28 @@ public final class JsonBuiltins {
         realm.getGlobalObject().defineBuiltin("JSON", json);
         realm.setIntrinsic("%JSON%", json);
         Support.defineToStringTag(json, "JSON");
+        realm.method(json, "rawJSON", 1, new NativeFunction.Call() {
+            /** Validates and preserves a primitive JSON token. / 원시 JSON 토큰을 검증하고 보존한다. */
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                String source = Ops.toString(Js.arg(args, 0));
+                if (source.length() == 0 || (source.charAt(0) != '-' && !isRawTokenEdge(source.charAt(0)))
+                        || !isRawTokenEdge(source.charAt(source.length() - 1))) {
+                    throw JsException.syntaxError("JSON.rawJSON requires an unpadded primitive JSON token");
+                }
+                try {
+                    JsonTokenizer.validate(source);
+                } catch (JsonSyntaxException e) {
+                    throw JsException.syntaxError(e.getMessage());
+                }
+                return new RawJson(source);
+            }
+        });
+        realm.method(json, "isRawJSON", 1, new NativeFunction.Call() {
+            /** Checks the raw JSON internal brand. / 원문 JSON 내부 브랜드를 검사한다. */
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return Js.bool(Js.arg(args, 0) instanceof RawJson);
+            }
+        });
         realm.method(json, "parse", 2, new NativeFunction.Call() {
             /**
              * JSON.parse(text, reviver).
@@ -146,6 +169,42 @@ public final class JsonBuiltins {
                 return stringify(r, Js.arg(args, 0), Js.arg(args, 1), Js.arg(args, 2));
             }
         });
+    }
+
+    /**
+     * Identifies the common allowed first and last code units of a raw JSON token.
+     * <p>
+     * 원문 JSON 토큰의 처음과 끝에 공통으로 올 수 있는 코드 단위를 판정한다.
+     *
+     * @param ch UTF-16 code unit / UTF-16 코드 단위
+     * @return true for an allowed boundary / 허용하는 경계 문자이면 true
+     */
+    private static boolean isRawTokenEdge(char ch) {
+        return ch == '"' || CharClass.isDecimalDigit(ch) || (ch >= 'a' && ch <= 'z');
+    }
+
+    /**
+     * The frozen, null-prototype object representing a raw JSON token.
+     * <p>
+     * 원문 JSON 토큰을 나타내는 동결된 null 프로토타입 객체.
+     */
+    private static final class RawJson extends JsObject {
+        /** Exact token text. / 토큰 원문. */
+        final String source;
+
+        /**
+         * Brands and freezes the validated token.
+         * <p>
+         * 검증한 토큰에 브랜드를 지정하고 동결한다.
+         *
+         * @param source valid primitive token / 유효한 원시 토큰 원문
+         */
+        RawJson(String source) {
+            super(null);
+            this.source = source;
+            defineData("rawJSON", Js.str(source), false, true, false);
+            preventExtensions();
+        }
     }
 
     /**
@@ -395,8 +454,8 @@ public final class JsonBuiltins {
          */
         String property(String key, JsObject holder) {
             JsValue value = holder.get(key);
-            if (value instanceof JsObject) {
-                JsValue toJson = ((JsObject) value).get("toJSON");
+            if (value instanceof JsObject || value instanceof JsBigInt) {
+                JsValue toJson = Ops.getV(realm, value, "toJSON");
                 if (toJson.isCallable()) {
                     value = Ops.call(toJson, value, new JsValue[] { Js.str(key) });
                 }
@@ -425,6 +484,10 @@ public final class JsonBuiltins {
             }
             if (value instanceof JsBigInt) {
                 throw JsException.typeError("Do not know how to serialize a BigInt");
+            }
+            if (value instanceof RawJson) {
+                // toJSON과 replacer의 결과가 원문 JSON이면 별도 인용이나 숫자 변환 없이 삽입한다.
+                return ((RawJson) value).source;
             }
             if (value instanceof JsObject && !value.isCallable()) {
                 return Ops.isArray(value) ? array((JsObject) value) : object((JsObject) value);

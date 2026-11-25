@@ -196,6 +196,8 @@ public class AttributeTest {
      */
     private void buildJson() {
         method("JSON", "parse", 2);
+        method("JSON", "rawJSON", 1);
+        method("JSON", "isRawJSON", 1);
         method("JSON", "stringify", 3);
     }
 
