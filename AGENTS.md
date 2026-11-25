@@ -896,15 +896,18 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - 브라우저 `StructuredClone`(P20-09), Worker/AudioWorklet, 독립 엔진 `js.embed.JsEngine` 및 `javax.script`(P26)에서 ES2026의 모든 자료형(`Float16Array`, 가변/분리 `ArrayBuffer`, `SharedArrayBuffer`, `Error` cause/AggregateError, JSON 모듈 등)이 일관되게 동작하고 엔진 모듈의 무의존 경계(`engine-boundary`)가 유지되는지 검증한다.
   - `ConformanceTable`(전역·생성자·프로토타입·정적 메서드·접근자·심볼 프로퍼티의 존재, `name`, `length`, 속성 기술자, 프로토타입 사슬)을 ECMA-262 제17판(19~28장 및 부속서 B.2) 전체 목록으로 확장하고 허용 목록(`PENDING`)에 설명 없는 누락이 없게 한다.
   - JDK 6u45에서 엔진 단독 시험 전체, 브라우저 전체 회귀 시험, 예제 smoke, `tools/sourcecheck` 0 위반을 확인한다. `docs/FEATURE_MATRIX.md`(7절 및 13절 재집계), `docs/ARCHITECTURE.md`, `README.md`, `docs/PROGRESS.md`를 갱신한 뒤 P29를 완료 처리한다.
-  - [ ] P29-10-a. 내장 객체 표와 자체 검사기를 제17판 기준으로 갱신하고 발견한 구현 차이를 보완한다.
+  - [x] P29-10-a. 내장 객체 표와 자체 검사기를 제17판 기준으로 갱신하고 발견한 구현 차이를 보완한다.
     - [x] P29-10-a1. 19~22장 및 B.2의 전역, 기본 객체, 숫자·날짜, 텍스트를 대조한다. 함수 이름·길이, 접근자 및 속성 기술자, 별칭 정체성과 프로토타입을 검사한다.
     - [x] P29-10-a2. 23~25장의 인덱스·키 컬렉션과 이진 데이터, Atomics, JSON을 대조한다. 신규·기존 생성자와 각 프로토타입의 전체 속성 표를 검증한다.
-    - [ ] P29-10-a3. 26~28장의 약한 참조, 이터레이터·제너레이터·Promise·Reflect·Proxy를 대조한다. 내부 프로토타입, 심볼과 제약 목록을 검증한다.
+    - [x] P29-10-a3. 26~28장의 약한 참조, 이터레이터·제너레이터·Promise·Reflect·Proxy를 대조한다. 내부 프로토타입, 심볼과 제약 목록을 검증한다.
       - [x] P29-10-a3a. WeakRef·FinalizationRegistry·Promise·Reflect·Proxy의 프로퍼티와 생성자 계층을 대조한다. 선택 또는 확장 프로퍼티는 표에서 근거와 함께 관리한다.
       - [x] P29-10-a3b. Iterator와 헬퍼, Array·TypedArray·String·RegExp·Map·Set 이터레이터의 내부 프로토타입을 대조한다. 같은 프로토타입과 메서드가 공유되어야 하는 수신자를 검사한다.
       - [x] P29-10-a3c. 제너레이터·async 함수·async 제너레이터의 생성자와 프로토타입을 대조한다. Function 계열의 동적 생성, newTarget 및 중단·재개의 실행 결과를 검증한다.
-      - [ ] P29-10-a3d. Async-from-Sync 어댑터를 공용 내장 프로토타입에 연결한다. for await와 yield*가 next를 한 번 읽고 return·throw를 호출 시점에 조회하는지 확인한다.
+      - [x] P29-10-a3d. Async-from-Sync 어댑터를 공용 내장 프로토타입에 연결한다. for await와 yield*가 next를 한 번 읽고 return·throw를 호출 시점에 조회하는지 확인한다.
   - [ ] P29-10-b. 구조화 복제와 독립 엔진 경계를 보완한다. 가변 버퍼·뷰, Float16Array, 공유 버퍼 정책, Error cause·AggregateError, JSON 모듈을 호스트별 정상 진입점과 JSR 223에서 확인한다.
+    - [ ] P29-10-b1. 구조화 복제·전송에서 가변 버퍼의 최대 길이와 형식화 배열·DataView의 길이 추적을 보존한다. 분리·범위 이탈, 전송 전 재진입, 창·Worker·AudioWorklet 메시지를 검증한다.
+    - [ ] P29-10-b2. Error의 cause, AggregateError의 errors, 수신 렐름 프로토타입 및 공유·순환 참조를 구조화 복제에서 검증한다. 잘못된 호스트 객체는 DataCloneError를 확인한다.
+    - [ ] P29-10-b3. 독립 엔진 및 JSR 223의 최신 값과 JSON 모듈 로더 경계를 검증한다. Java 값 변환, 바이트·생명 주기 및 패키지 분리를 점검한다.
   - [ ] P29-10-c. 브라우저 렐름 경계를 대조한다. 전역 `WindowProxy`의 정체성과 반사 연산, 타 렐름 eval이 사용하는 활성 모듈 레코드의 소유 렐름, 이벤트 속성의 중첩 실행, COOP/COEP와 공유 메모리 조건을 확인한다.
   - [ ] P29-10-d. Java 6에서 정본의 Unicode 정규화와 ECMA-402 없는 기본 지역화 동작을 확인한다. Unicode 18 입력, 정규화 형식과 문자열·수치·날짜의 경계를 검증한다.
   - [ ] P29-10-e. JDK 6u45 엔진·브라우저 전체 회귀, 예제 smoke, 엔진 분리, sourcecheck를 실행하고 7절과 13절 및 사용자·구조·진행 문서를 갱신한다.

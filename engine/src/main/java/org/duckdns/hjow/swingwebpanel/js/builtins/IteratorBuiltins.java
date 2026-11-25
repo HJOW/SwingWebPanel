@@ -1,5 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.js.builtins;
 
+import org.duckdns.hjow.swingwebpanel.js.AsyncIteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.BuiltinInstaller;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -194,6 +195,7 @@ public final class IteratorBuiltins implements BuiltinInstaller {
             }
         });
         realm.setIntrinsic("%AsyncIteratorPrototype%", asyncIterator);
+        AsyncIteratorHelper.installPrototype(realm, asyncIterator);
         JsObject proto = new JsObject(asyncIterator);
         JsObject functionPrototype = installFunctionType(realm, "AsyncGeneratorFunction", proto, true, true);
         proto.defineData("constructor", functionPrototype, false, false, true);

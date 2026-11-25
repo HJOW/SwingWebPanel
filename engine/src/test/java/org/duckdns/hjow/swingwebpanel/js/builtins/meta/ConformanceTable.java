@@ -231,6 +231,7 @@ final class ConformanceTable {
         "%SetIteratorPrototype%: fn next=0",
         "%SetIteratorPrototype%: tag @@toStringTag=Set Iterator",
         "%AsyncIteratorPrototype%: fn @@asyncIterator=0",
+        "%AsyncFromSyncIteratorPrototype%: fn next=0 return=0 throw=0",
         "%GeneratorPrototype%: fn next=1 return=1 throw=1",
         "%GeneratorPrototype%: tag @@toStringTag=Generator",
         "%GeneratorPrototype%: rlink constructor=%GeneratorFunction.prototype%",
@@ -293,6 +294,7 @@ final class ConformanceTable {
         "%AsyncGeneratorFunction%: chain %AsyncGeneratorFunction%=Function %AsyncGeneratorFunction.prototype%=Function.prototype",
         "%AsyncGeneratorPrototype%: chain %AsyncGeneratorPrototype%=%AsyncIteratorPrototype%",
         "%AsyncIteratorPrototype%: chain %AsyncIteratorPrototype%=Object.prototype",
+        "%AsyncFromSyncIteratorPrototype%: chain %AsyncFromSyncIteratorPrototype%=%AsyncIteratorPrototype%",
         "%AsyncFunction%: chain %AsyncFunction%=Function %AsyncFunction.prototype%=Function.prototype",
     };
 

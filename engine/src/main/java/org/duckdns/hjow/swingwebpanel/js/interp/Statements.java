@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.js.AsyncIteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
+import org.duckdns.hjow.swingwebpanel.js.IteratorRecord;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
@@ -816,8 +817,8 @@ final class Statements {
     private static final class ForAwaitState {
         /** Base environment. / 기준 환경. */
         Environment base;
-        /** Async iterator. / 비동기 이터레이터. */
-        JsObject iterator;
+        /** Async iterator and its captured next method. / 비동기 이터레이터와 저장한 next 메서드. */
+        IteratorRecord iterator;
         /** Current iteration environment. / 현재 반복 환경. */
         Environment iteration;
         /** Value used by the next async step. / 다음 비동기 단계가 쓸 값. */
@@ -849,7 +850,7 @@ final class Statements {
             }
             state = new ForAwaitState();
             state.base = env;
-            state.iterator = AsyncIteratorHelper.getAsyncIterator(realm, in.ex.eval(n.b, headEnv, ctx));
+            state.iterator = AsyncIteratorHelper.getAsyncIteratorRecord(realm, in.ex.eval(n.b, headEnv, ctx));
             st.o1 = state;
             st.phase = 1;
         }
@@ -858,7 +859,7 @@ final class Statements {
             in.limits.tick();
             if (st.phase == 1) {
                 if (!state.awaiting) {
-                    state.awaitedValue = AsyncIteratorHelper.next(state.iterator);
+                    state.awaitedValue = state.iterator.callNext();
                 }
                 JsValue nextValue = awaitForLoop(state, ctx);
                 if (!(nextValue instanceof JsObject)) {
@@ -943,7 +944,7 @@ final class Statements {
             Completion pending, RuntimeException abrupt) {
         state.pending = pending;
         state.pendingThrow = abrupt;
-        JsValue close = AsyncIteratorHelper.close(state.iterator);
+        JsValue close = AsyncIteratorHelper.close(state.iterator.getIterator());
         if (close == null) {
             if (abrupt != null) {
                 throw abrupt;

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import org.duckdns.hjow.swingwebpanel.js.AsyncIteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
+import org.duckdns.hjow.swingwebpanel.js.IteratorRecord;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsArray;
 import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
@@ -1680,29 +1681,30 @@ final class Expressions {
         if (ctx.function != null && ctx.function.info.async && ctx.function.info.generator) {
             return evalAsyncYieldStar(n, env, ctx, st);
         }
-        JsObject iterator;
+        IteratorRecord delegate;
         int mode;
         JsValue received;
         if (st.phase == 0) {
             JsValue iterable = memo(st, n.a, env, ctx);
-            iterator = IteratorHelper.getIterator(realm, iterable);
-            st.o1 = iterator;
+            delegate = IteratorRecord.from(realm, iterable);
+            st.o1 = delegate;
             mode = GenState.NEXT;
             received = Js.UNDEFINED;
         } else {
-            iterator = (JsObject) st.o1;
+            delegate = (IteratorRecord) st.o1;
             mode = gen.resumeMode;
             received = gen.resumeValue;
         }
+        JsObject iterator = delegate.getIterator();
         // 안쪽 이터레이터가 끝날 때까지 요청을 전달한다.
         while (true) {
             JsValue innerResult;
             if (mode == GenState.NEXT) {
-                innerResult = Ops.call(iterator.get("next"), iterator, new JsValue[] { received });
+                innerResult = delegate.callNext(received);
             } else if (mode == GenState.THROW) {
                 JsValue thr = Ops.getMethod(iterator, "throw");
                 if (thr.isUndefined()) {
-                    IteratorHelper.closeQuietly(iterator);
+                    IteratorHelper.close(iterator);
                     throw JsException.typeError("The iterator does not provide a 'throw' method");
                 }
                 innerResult = Ops.call(thr, iterator, new JsValue[] { received });
@@ -1748,10 +1750,10 @@ final class Expressions {
      */
     private JsValue evalAsyncYieldStar(Node n, Environment env, Ctx ctx, NodeState st) {
         GenState gen = ctx.gen;
-        JsObject iterator = (JsObject) st.o1;
-        if (iterator == null) {
-            iterator = AsyncIteratorHelper.getAsyncIterator(realm, memo(st, n.a, env, ctx));
-            st.o1 = iterator;
+        IteratorRecord delegate = (IteratorRecord) st.o1;
+        if (delegate == null) {
+            delegate = AsyncIteratorHelper.getAsyncIteratorRecord(realm, memo(st, n.a, env, ctx));
+            st.o1 = delegate;
             st.phase = 0;
         }
         int mode;
@@ -1779,7 +1781,8 @@ final class Expressions {
                 received = gen.resumeValue;
                 st.phase = 0;
             }
-            JsValue method;
+            JsObject iterator = delegate.getIterator();
+            JsValue method = null;
             if (mode == GenState.THROW) {
                 method = Ops.getMethod(iterator, "throw");
                 if (method.isUndefined()) {
@@ -1799,10 +1802,8 @@ final class Expressions {
                 if (method.isUndefined()) {
                     throw new GeneratorReturn(received);
                 }
-            } else {
-                method = iterator.get("next");
             }
-            result = Ops.call(method, iterator, new JsValue[] { received });
+            result = mode == GenState.NEXT ? delegate.callNext(received) : Ops.call(method, iterator, new JsValue[] { received });
             st.o2 = Integer.valueOf(mode);
             st.phase = 1;
             gen.suspending = true;

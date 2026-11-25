@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-a3d 이터레이터 기록과 내장 객체 표 완료 (2026-11-26) ===
+현재 작업 번호: P29-10-a3d, P29-10-a3, P29-10-a 완료.
+완료한 내용: Async-from-Sync 어댑터의 공용 내장 프로토타입을 만들고 for-await 및 yield*에서 next를 한 번 읽는다. 19~28장 및 B.2의 현재 표와 명시한 호스트 확장을 검증했다.
+변경 파일: IteratorRecord.java, AsyncIteratorHelper.java, IteratorBuiltins.java, Statements.java, Expressions.java, ConformanceTable.java, ModernAsyncIteratorTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 880건과 내장 표 759개 항목 통과. sourcecheck 0 위반.
+미해결 사항: 구조화 복제와 독립 엔진 경계(P29-10-b1~b3), 렐름·Unicode·최종 회귀.
+다음 작업 번호: P29-10-b1.
+-----------------------------------------------------------------------------------------------
 === P29-10-a3c 함수 종류별 동적 생성자 (2026-11-26) ===
 현재 작업 번호: P29-10-a3c 완료.
 완료한 내용: AsyncFunction과 AsyncGeneratorFunction, AsyncIteratorPrototype을 설치했다. Function 계열의 newTarget과 타 렐름 기본 프로토타입, 비동기 제너레이터 함수별 자체 prototype을 연결했다.
@@ -1066,6 +1074,11 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-a3d 동기·비동기 위임 이터레이터
+
+- 제17판 §27.1.5, for-await 및 yield* 의미에 따라 Async-from-Sync 어댑터는 공용 프로토타입을 상속하고 next를 기록에 저장한다. 순회 중 next가 교체되어도 저장한 메서드를 사용한다. return과 throw는 요청할 때 읽으며 동기 위임 종료의 예외를 보존한다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 880건과 전체 내장 표 759개 항목 통과. 차이 허용 목록은 비어 있고, 자체 프로퍼티 순회에서 문서화한 호스트 확장 세 건의 사유를 검증한다.
 
 ### 2026-11-26 · P29-10-a3c 동적 함수 종류와 비동기 제너레이터
 

@@ -1,5 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.js.interp;
 
+import org.duckdns.hjow.swingwebpanel.js.AsyncIteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
@@ -80,6 +81,54 @@ public class ModernAsyncIteratorTest {
                 "Reflect.construct((async function*(){}).constructor,['yield 1'],foreignTarget);", "local");
         Check.same(foreign.getIntrinsic("%AsyncGeneratorFunction.prototype%"), generated.getPrototypeOf(),
                 "fallback prototype comes from the actual target function's realm");
+    }
+
+    /**
+     * Checks the internal adapter has the realm's shared async-from-sync prototype.
+     * <p>
+     * 내부 어댑터가 렐름의 공용 Async-from-Sync 프로토타입을 쓰는지 확인한다.
+     */
+    public void testAsyncFromSyncPrototype() {
+        JsRealm realm = JsRealm.create();
+        JsObject adapter = AsyncIteratorHelper.getAsyncIterator(realm, realm.newArray());
+        Check.same(realm.getIntrinsic("%AsyncFromSyncIteratorPrototype%"), adapter.getPrototypeOf(), "shared adapter prototype");
+        Check.equal(0, adapter.ownKeys().size(), "adapter state is internal");
+    }
+
+    /**
+     * Checks for-await and async yield* capture next exactly once while retaining live return lookups.
+     * <p>
+     * for-await와 async yield*는 next를 한 번만 저장하고 return은 호출할 때 조회하는지 확인한다.
+     */
+    public void testAsyncIterationCapturesNext() {
+        Scripts.checkInline("function iterable(log){return {[Symbol.asyncIterator](){var index=0;return {"
+                + "get next(){log.push('next');return function(){"
+                + "Object.defineProperty(this,'next',{value(){throw 'unwanted reread';}});"
+                + "return Promise.resolve({value:++index,done:index>2});};},"
+                + "get return(){log.push('close');return function(){return Promise.resolve({done:true});};}"
+                + "};}};} (async()=>{var a=[],b=[];"
+                + "for await(var x of iterable(a)){a.push(x);if(x===2)break;}"
+                + "async function* delegate(){yield* iterable(b);}"
+                + "for await(var y of delegate())b.push(y);"
+                + "t('for await',a.join(),'next,1,2,close');"
+                + "t('async yield star',b.join(),'next,1,2');})();",
+                2);
+    }
+
+    /**
+     * Checks synchronous yield* keeps its next method and propagates a failing close when throw is unavailable.
+     * <p>
+     * 동기 yield*가 next를 보관하고 throw 메서드 없이 close가 실패했을 때 오류를 전파하는지 확인한다.
+     */
+    public void testSynchronousDelegationCapturesNext() {
+        Scripts.checkInline("var gets=0;var source={[Symbol.iterator](){var count=0;return {"
+                + "get next(){++gets;return ()=>({value:++count,done:false});},"
+                + "get return(){return ()=>{throw 'close error';};}};}};"
+                + "function* delegate(){yield* source;}"
+                + "var it=delegate();t('first',it.next().value,1);t('second',it.next().value,2);"
+                + "t('captured getter',gets,1);"
+                + "try{it.throw('original');}catch(e){t('close error wins',e,'close error');}",
+                4);
     }
 
     /**

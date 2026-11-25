@@ -64,6 +64,18 @@ public final class IteratorRecord {
     }
 
     /**
+     * Calls the captured next method, optionally forwarding one value.
+     * <p>
+     * 읽어 둔 next 메서드를 호출하며 필요하면 값 하나를 전달한다.
+     *
+     * @param value the value, or Java null to omit the argument / 전달할 값. 인수 생략이면 Java null
+     * @return the raw result / 원래 반환값
+     */
+    public JsValue callNext(JsValue value) {
+        return value == null ? callNext() : Ops.call(nextMethod, iterator, new JsValue[] { value });
+    }
+
+    /**
      * Advances the iterator and returns its value, or Java null when its done property is true.
      * <p>
      * 이터레이터의 다음 값을 반환한다. done 프로퍼티가 참이면 Java null을 반환한다.
