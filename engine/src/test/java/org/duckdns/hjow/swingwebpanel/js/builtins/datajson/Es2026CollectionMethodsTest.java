@@ -82,6 +82,46 @@ public class Es2026CollectionMethodsTest {
     }
 
     /**
+     * The set predicates close a partially consumed keys iterator and report failures from its return method.
+     * <p>
+     * 집합 조건 검사는 일부만 소비한 키 이터레이터를 닫고 return 메서드의 오류를 전파한다.
+     */
+    public void testSetPredicatesCloseEarly() {
+        String script = "const a=new Set([1,2]);let log='';function fail(f){try{f();return 'missing';}catch(e){return e.name||e;}}"
+                + "function other(v,name,mode){return {size:1,has(){throw 'has';},keys(){log+=name;"
+                + "const it={next(){log+='n';return {value:v,done:false};}, return(){"
+                + "log+=this===it && arguments.length===0?'r':'!';"
+                + "if(mode===1)throw 'return';if(mode===2)return 42;return {done:true};}};return it;}};}"
+                + "const s=a.isSupersetOf(other(3,'S',0));const d=a.isDisjointFrom(other(1,'D',0));"
+                + "const thrown=fail(()=>a.isDisjointFrom(other(2,'T',1)));"
+                + "const type=fail(()=>a.isSupersetOf(other(4,'P',2)));"
+                + "const big={get size(){log+='s';return 3;}, get has(){log+='h';return ()=>true;},"
+                + "get keys(){log+='k';return ()=>{throw 'called';};}};"
+                + "[s,d,thrown,type,a.isSupersetOf(big),log].join('|')";
+        Check.equal("false|false|return|TypeError|false|SnrDnrTnrPnrshk", evaluate(script),
+                "early normal exits close the iterator and preserve any return error");
+    }
+
+    /**
+     * The size checks select live receiver traversal or a keys iterator according to the operation.
+     * <p>
+     * 크기 검사 결과에 따라 연산별로 수신 집합의 현재 키나 상대의 키 이터레이터를 순회한다.
+     */
+    public void testSetPredicateSizesAndLiveMembership() {
+        String script = "const a=new Set([1]);const seen=[];"
+                + "const b={size:3,has(v){seen.push(v);a.add(2);return v===1;},keys(){throw 'keys';}};"
+                + "const subset=a.isSubsetOf(b);"
+                + "const small={size:0,has(){throw 'has';},keys(){throw 'keys';}};"
+                + "const large={size:2,has(v){seen.push(-v);return v===1;},keys(){throw 'keys';}};"
+                + "const c=new Set([1,2,3]);"
+                + "const dynamic={size:1,has(){throw 'has';},keys(){return {next(){c.add(4);return {done:false,value:4};},return(){return {};}};}};"
+                + "[subset,a.isSubsetOf(small),a.isDisjointFrom(large),c.isDisjointFrom(dynamic),seen.join(),"
+                + "a.isSubsetOf(new Set([1,2,3])),a.isSupersetOf(new Map([[2,7]])),a.isDisjointFrom(new Set([4]))].join('|')";
+        Check.equal("false|false|false|false|1,2,-1|true|true|true", evaluate(script),
+                "predicates update membership after observable calls and skip unnecessary methods");
+    }
+
+    /**
      * Evaluates a test script and converts the result to text.
      * <p>
      * 시험 스크립트를 평가한 뒤 결과를 문자열로 바꾼다.

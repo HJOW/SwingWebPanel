@@ -77,4 +77,16 @@ public final class IteratorRecord {
             IteratorHelper.closeQuietly(iterator);
         }
     }
+
+    /**
+     * Closes the live iterator on early normal completion, propagating any return method error.
+     * <p>
+     * 정상적으로 앞서 끝난 경우 진행 중인 이터레이터를 닫고 return 메서드의 오류를 전파한다.
+     */
+    public void close() {
+        if (!done) {
+            done = true;
+            IteratorHelper.close(iterator);
+        }
+    }
 }

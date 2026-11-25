@@ -127,6 +127,88 @@ final class SetOperations {
                 return difference(r, set, new SetRecord(Js.arg(args, 0)));
             }
         });
+        installPredicates(realm, prototype);
+    }
+
+    /**
+     * Installs the boolean predicates of Set.
+     * <p>
+     * 불리언을 반환하는 Set 조건 검사를 설치한다.
+     *
+     * @param realm receiving realm / 설치할 realm
+     * @param prototype Set prototype / Set 프로토타입
+     */
+    private static void installPredicates(JsRealm realm, JsObject prototype) {
+        realm.method(prototype, "isSubsetOf", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
+                SetObject set = CollectionBuiltins.thisSet(receiver, "isSubsetOf");
+                SetRecord other = new SetRecord(Js.arg(args, 0));
+                return Js.bool(set.table.size() <= other.size && matchReceiver(r, set, other, true));
+            }
+        });
+        realm.method(prototype, "isSupersetOf", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
+                SetObject set = CollectionBuiltins.thisSet(receiver, "isSupersetOf");
+                SetRecord other = new SetRecord(Js.arg(args, 0));
+                return Js.bool(set.table.size() >= other.size && matchKeys(r, set, other, true));
+            }
+        });
+        realm.method(prototype, "isDisjointFrom", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
+                SetObject set = CollectionBuiltins.thisSet(receiver, "isDisjointFrom");
+                SetRecord other = new SetRecord(Js.arg(args, 0));
+                return Js.bool(set.table.size() <= other.size ? matchReceiver(r, set, other, false) : matchKeys(r, set, other, false));
+            }
+        });
+    }
+
+    /**
+     * Checks the other operand's has result for each live receiver key.
+     * <p>
+     * 수신 집합의 현재 키마다 상대 피연산자의 has 결과를 검사한다.
+     *
+     * @param realm current realm / 현재 realm
+     * @param set receiver set / 수신 집합
+     * @param other set-like argument / 유사 집합 인수
+     * @param expected membership expected for every key / 모든 키에서 기대하는 포함 여부
+     * @return true when every check matches / 모든 검사 결과가 기대와 같으면 true
+     */
+    private static boolean matchReceiver(JsRealm realm, SetObject set, SetRecord other, boolean expected) {
+        OrderedTable.Cursor cursor = set.table.cursor();
+        OrderedTable.Entry entry;
+        // has가 수신 집합을 늘릴 수 있으므로 현재 키를 순회하고 다른 결과에서 바로 끝낸다.
+        while ((entry = cursor.next()) != null) {
+            realm.getLimits().tick();
+            if (other.contains(entry.key) != expected) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks the live receiver's membership for each key of the other operand.
+     * <p>
+     * 상대 피연산자의 키마다 수신 집합의 현재 포함 여부를 검사한다.
+     *
+     * @param realm current realm / 현재 realm
+     * @param set receiver set / 수신 집합
+     * @param other set-like argument / 유사 집합 인수
+     * @param expected membership expected for every key / 모든 키에서 기대하는 포함 여부
+     * @return true when every check matches / 모든 검사 결과가 기대와 같으면 true
+     */
+    private static boolean matchKeys(JsRealm realm, SetObject set, SetRecord other, boolean expected) {
+        IteratorRecord iterator = other.keyIterator();
+        JsValue key;
+        // 불일치로 조기에 끝낼 때는 상대 이터레이터를 정상적으로 닫는다.
+        while ((key = iterator.stepValue()) != null) {
+            realm.getLimits().tick();
+            if ((set.table.find(key) != null) != expected) {
+                iterator.close();
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

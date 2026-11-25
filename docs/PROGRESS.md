@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-06-c2 Set 포함 관계와 교집합 여부 (2026-11-26) ===
+현재 작업 번호: P29-06-c 완료.
+완료한 내용: isSubsetOf·isSupersetOf·isDisjointFrom은 상대 크기와 연산에 따라 현재 수신 집합 또는 상대의 키를 순회한다. 상대 키 순회를 조기에 끝낼 때 return을 호출하고 해당 오류를 전파한다.
+변경 파일: SetOperations.java, IteratorRecord.java, Es2026CollectionMethodsTest.java, datajson/AttributeTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행) 783건 통과. sourcecheck 0 위반.
+미해결 사항: Map/WeakMap upsert와 Iterator(P29-06-d~e).
+다음 작업 번호: P29-06-d.
+-----------------------------------------------------------------------------------------------
 === P29-06-c1 Set 프로토콜과 집합 연산 (2026-11-26) ===
 현재 작업 번호: P29-06-c1 완료.
 완료한 내용: GetSetRecord로 size, has, keys를 읽고 union·intersection·difference·symmetricDifference를 실행한다. 상대 크기에 따른 순서와 소스 변경을 고려하며 결과는 내장 Set 프로토타입을 사용한다.
@@ -770,6 +778,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-06-c2 Set 조건 검사와 조기 닫기
+
+상대 크기만으로 끝낼 때도 size·has·keys는 확인하는 것을 검증했다. 조기 종료에서 return의 수신 객체, 인수 수, 오류 및 원시 결과 거부를 확인했다.
 
 ### 2026-11-26 · P29-06-c1 Set 결과를 만드는 네 연산
 

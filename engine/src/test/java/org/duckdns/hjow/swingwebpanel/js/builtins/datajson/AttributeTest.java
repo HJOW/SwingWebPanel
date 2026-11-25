@@ -237,6 +237,9 @@ public class AttributeTest {
         method(p, "forEach", 1);
         method(p, "has", 1);
         method(p, "intersection", 1);
+        method(p, "isDisjointFrom", 1);
+        method(p, "isSubsetOf", 1);
+        method(p, "isSupersetOf", 1);
         row(p, "keys", METHOD, "values", 0);
         getter(p, "size");
         method(p, "symmetricDifference", 1);
