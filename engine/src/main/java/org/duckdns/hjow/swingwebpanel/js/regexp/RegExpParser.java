@@ -97,7 +97,7 @@ final class RegExpParser {
     RegExpParser(String src, int flags) {
         this.src = src;
         this.n = src.length();
-        this.unicode = (flags & RegExpFlags.UNICODE) != 0;
+        this.unicode = RegExpFlags.isUnicodeMode(flags);
     }
 
     /**

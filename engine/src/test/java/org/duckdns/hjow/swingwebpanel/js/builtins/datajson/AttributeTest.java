@@ -175,7 +175,7 @@ public class AttributeTest {
         method(p, "test", 1);
         method(p, "toString", 0);
         method(p, "compile", 2);
-        String[] flags = { "hasIndices", "global", "ignoreCase", "multiline", "dotAll", "unicode", "sticky", "flags", "source" };
+        String[] flags = { "hasIndices", "global", "ignoreCase", "multiline", "dotAll", "unicode", "unicodeSets", "sticky", "flags", "source" };
         // 플래그 접근자들을 등록한다.
         for (int i = 0; i < flags.length; i++) {
             getter(p, flags[i]);

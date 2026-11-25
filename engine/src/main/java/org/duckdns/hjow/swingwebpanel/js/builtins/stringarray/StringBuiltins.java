@@ -14,6 +14,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.builtins.datajson.DataAccess;
 import org.duckdns.hjow.swingwebpanel.js.text.CodePoints;
 import org.duckdns.hjow.swingwebpanel.js.text.TextRangeException;
 import org.duckdns.hjow.swingwebpanel.js.text.TextTransform;
@@ -156,7 +157,24 @@ final class StringBuiltins {
         if (!matcher.isUndefined()) {
             return Ops.toBoolean(matcher);
         }
-        return "RegExp".equals(o.className());
+        return DataAccess.isRegExp(o);
+    }
+
+    /**
+     * Requires global matching when the string operation receives an IsRegExp argument.
+     * <p>
+     * 문자열 연산의 인수가 IsRegExp 검사에 해당하면 전역 일치를 요구한다.
+     *
+     * @param value proposed pattern / 패턴 인수
+     * @param method string method name / 문자열 메서드 이름
+     */
+    private static void requireGlobalRegExp(JsValue value, String method) {
+        if (isRegExp(value)) {
+            JsValue flags = Ops.requireObjectCoercible(((JsObject) value).get("flags"));
+            if (Ops.toString(flags).indexOf('g') < 0) {
+                throw JsException.typeError("String.prototype." + method + " called with a non-global RegExp argument");
+            }
+        }
     }
 
     /**
@@ -460,6 +478,8 @@ final class StringBuiltins {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 JsValue o = Ops.requireObjectCoercible(thisValue);
                 JsValue regexp = Js.arg(args, 0);
+                // 전역 검사 후에만 Symbol.matchAll을 얻는다.
+                requireGlobalRegExp(regexp, "matchAll");
                 if (!regexp.isNullOrUndefined()) {
                     JsValue matcher = Ops.getMethod(r, regexp, WellKnownSymbols.MATCH_ALL);
                     if (!matcher.isUndefined()) {
@@ -521,12 +541,7 @@ final class StringBuiltins {
                 JsValue o = Ops.requireObjectCoercible(thisValue);
                 JsValue searchValue = Js.arg(args, 0);
                 JsValue replaceValue = Js.arg(args, 1);
-                if (isRegExp(searchValue)) {
-                    JsValue flags = ((JsObject) searchValue).get("flags");
-                    if (!Ops.toString(flags).contains("g")) {
-                        throw JsException.typeError("String.prototype.replaceAll called with a non-global RegExp argument");
-                    }
-                }
+                requireGlobalRegExp(searchValue, "replaceAll");
                 if (!searchValue.isNullOrUndefined()) {
                     JsValue replacer = Ops.getMethod(r, searchValue, WellKnownSymbols.REPLACE);
                     if (!replacer.isUndefined()) {

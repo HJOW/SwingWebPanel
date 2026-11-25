@@ -2,11 +2,11 @@ package org.duckdns.hjow.swingwebpanel.js.regexp;
 
 /**
  * Bit constants and parsing of regular expression flags. The matcher itself only uses {@link #IGNORE_CASE},
- * {@link #MULTILINE}, {@link #UNICODE} and {@link #DOT_ALL}; {@link #GLOBAL} and {@link #STICKY} are carried for the
+ * {@link #MULTILINE}, {@link #UNICODE}, {@link #UNICODE_SETS} and {@link #DOT_ALL}; {@link #GLOBAL} and {@link #STICKY} are carried for the
  * caller (<code>RegExp.prototype.exec</code> decides where matching starts and whether it may scan forward).
  * {@link #DOT_ALL} (flag s) and {@link #HAS_INDICES} (flag d) are later extensions and are accepted as such.
  * <p>
- * 정규식 플래그의 비트 상수와 해석. 일치 검색기 자체는 {@link #IGNORE_CASE}, {@link #MULTILINE}, {@link #UNICODE}, {@link #DOT_ALL} 만 쓰고
+ * 정규식 플래그의 비트 상수와 해석. 일치 검색기 자체는 {@link #IGNORE_CASE}, {@link #MULTILINE}, {@link #UNICODE}, {@link #UNICODE_SETS}, {@link #DOT_ALL}을 쓰고
  * {@link #GLOBAL}, {@link #STICKY} 는 호출자를 위해 보관한다(<code>RegExp.prototype.exec</code> 가 시작 위치와 앞쪽 탐색 여부를 정한다).
  * {@link #DOT_ALL}(플래그 s)과 {@link #HAS_INDICES}(플래그 d)는 이후 판 확장이며 그렇게 받아들인다.
  */
@@ -61,6 +61,9 @@ public final class RegExpFlags {
      */
     public static final int HAS_INDICES = 64;
 
+    /** Flag v for Unicode Sets matching. / Unicode Sets 일치를 지정하는 v 플래그. */
+    public static final int UNICODE_SETS = 128;
+
     /**
      * Private constructor: static helper class.
      * <p>
@@ -70,9 +73,9 @@ public final class RegExpFlags {
     }
 
     /**
-     * Parses a flags string such as "gi". Each of g, i, m, s, u, y may appear at most once.
+     * Parses flags such as "gi". Every flag may appear once and u and v are mutually exclusive.
      * <p>
-     * "gi" 같은 플래그 문자열을 해석한다. g, i, m, s, u, y 는 각각 최대 한 번만 나올 수 있다.
+     * "gi" 같은 플래그 문자열을 해석한다. 각 플래그는 최대 한 번 나오며 u와 v는 함께 쓸 수 없다.
      *
      * @param flags flags text (null means none) / 플래그 문자열(null 은 없음)
      * @return flag bits / 플래그 비트
@@ -99,6 +102,9 @@ public final class RegExpFlags {
             case 'u':
                 bit = UNICODE;
                 break;
+            case 'v':
+                bit = UNICODE_SETS;
+                break;
             case 'y':
                 bit = STICKY;
                 break;
@@ -111,7 +117,8 @@ public final class RegExpFlags {
             default:
                 throw new RegExpSyntaxException(flags, "Invalid flags supplied to RegExp constructor '" + flags + "'", i);
             }
-            if ((bits & bit) != 0) {
+            // u와 v 중 하나를 읽은 뒤에는 나머지 플래그를 추가할 수 없다.
+            if ((bits & bit) != 0 || (isUnicodeMode(bit) && isUnicodeMode(bits))) {
                 throw new RegExpSyntaxException(flags, "Invalid flags supplied to RegExp constructor '" + flags + "'", i);
             }
             bits |= bit;
@@ -120,15 +127,27 @@ public final class RegExpFlags {
     }
 
     /**
-     * Converts flag bits to the canonical flags text in the order g i m s u y.
+     * Reports whether matching uses whole Unicode code points.
      * <p>
-     * 플래그 비트를 g i m s u y 순서의 표준 플래그 문자열로 바꾼다.
+     * 검색이 전체 유니코드 코드 포인트를 사용하는지 알려 준다.
+     *
+     * @param bits flag bits / 플래그 비트
+     * @return true for either Unicode mode / 유니코드 모드 중 하나면 true
+     */
+    public static boolean isUnicodeMode(int bits) {
+        return (bits & (UNICODE | UNICODE_SETS)) != 0;
+    }
+
+    /**
+     * Converts flag bits to the canonical flags text in the order d g i m s u v y.
+     * <p>
+     * 플래그 비트를 d g i m s u v y 순서의 표준 플래그 문자열로 바꾼다.
      *
      * @param bits flag bits / 플래그 비트
      * @return flags text / 플래그 문자열
      */
     public static String toString(int bits) {
-        StringBuilder sb = new StringBuilder(7);
+        StringBuilder sb = new StringBuilder(8);
         if ((bits & HAS_INDICES) != 0) {
             sb.append('d');
         }
@@ -146,6 +165,9 @@ public final class RegExpFlags {
         }
         if ((bits & UNICODE) != 0) {
             sb.append('u');
+        }
+        if ((bits & UNICODE_SETS) != 0) {
+            sb.append('v');
         }
         if ((bits & STICKY) != 0) {
             sb.append('y');

@@ -134,7 +134,7 @@ public final class RegExpCompiler {
         this.flags = flags;
         this.ignoreCase = (flags & RegExpFlags.IGNORE_CASE) != 0;
         this.multiline = (flags & RegExpFlags.MULTILINE) != 0;
-        this.unicode = (flags & RegExpFlags.UNICODE) != 0;
+        this.unicode = RegExpFlags.isUnicodeMode(flags);
         this.dotAll = (flags & RegExpFlags.DOT_ALL) != 0;
         this.groupCount = groupCount;
         this.nextReg = groupCount + 1;
@@ -151,6 +151,10 @@ public final class RegExpCompiler {
      * @throws RegExpSyntaxException if the pattern is invalid / 패턴이 올바르지 않으면
      */
     public static RegExpProgram compile(String source, int flags) throws RegExpSyntaxException {
+        int unicodeFlags = RegExpFlags.UNICODE | RegExpFlags.UNICODE_SETS;
+        if ((flags & unicodeFlags) == unicodeFlags) {
+            throw new RegExpSyntaxException(source, "Regular expression cannot combine u and v flags", 0);
+        }
         RegExpParser parser = new RegExpParser(source, flags);
         RegExpNode root = parser.parse();
         RegExpCompiler gen = new RegExpCompiler(source, flags, parser.getGroupCount());
@@ -163,7 +167,7 @@ public final class RegExpCompiler {
             names[i] = parser.getGroupNames().get(i);
         }
         int firstChar = -1;
-        boolean unicodeMode = (flags & RegExpFlags.UNICODE) != 0;
+        boolean unicodeMode = RegExpFlags.isUnicodeMode(flags);
         if ((flags & RegExpFlags.IGNORE_CASE) == 0) {
             int lit = firstLiteral(root);
             if (lit >= 0 && lit < 0x10000 && !(unicodeMode && lit >= 0xD800 && lit <= 0xDFFF)) {

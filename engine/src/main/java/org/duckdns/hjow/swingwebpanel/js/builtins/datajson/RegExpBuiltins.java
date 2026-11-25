@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
+import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsArray;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -148,6 +149,7 @@ public final class RegExpBuiltins {
         installAccessors(realm, proto);
         installMethods(realm, proto);
         installSymbolMethods(realm, proto);
+        installStringIterator(realm);
     }
 
     /**
@@ -564,12 +566,13 @@ public final class RegExpBuiltins {
         flagAccessor(realm, proto, "multiline", RegExpFlags.MULTILINE);
         flagAccessor(realm, proto, "dotAll", RegExpFlags.DOT_ALL);
         flagAccessor(realm, proto, "unicode", RegExpFlags.UNICODE);
+        flagAccessor(realm, proto, "unicodeSets", RegExpFlags.UNICODE_SETS);
         flagAccessor(realm, proto, "sticky", RegExpFlags.STICKY);
         realm.getter(proto, "flags", new NativeFunction.Call() {
             /**
-             * Builds the flags text from the individual accessors in the order g, i, m, s, u, y.
+             * Builds the flags text from the individual accessors in the order d, g, i, m, s, u, v, y.
              * <p>
-             * 개별 접근자로 g, i, m, s, u, y 순서의 플래그 문자열을 만든다.
+             * 개별 접근자로 d, g, i, m, s, u, v, y 순서의 플래그 문자열을 만든다.
              *
              * @param r         realm / realm
              * @param thisValue the receiver / 수신 객체
@@ -578,7 +581,7 @@ public final class RegExpBuiltins {
              */
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 JsObject o = Support.requireObject(thisValue, "get RegExp.prototype.flags");
-                StringBuilder sb = new StringBuilder(7);
+                StringBuilder sb = new StringBuilder(8);
                 if (Ops.toBoolean(o.get("hasIndices"))) {
                     sb.append('d');
                 }
@@ -596,6 +599,9 @@ public final class RegExpBuiltins {
                 }
                 if (Ops.toBoolean(o.get("unicode"))) {
                     sb.append('u');
+                }
+                if (Ops.toBoolean(o.get("unicodeSets"))) {
+                    sb.append('v');
                 }
                 if (Ops.toBoolean(o.get("sticky"))) {
                     sb.append('y');
@@ -818,11 +824,11 @@ public final class RegExpBuiltins {
      * @return the result / 결과
      */
     private static JsValue symbolMatch(JsRealm r, JsObject rx, String s) {
-        boolean global = Ops.toBoolean(rx.get("global"));
-        if (!global) {
+        String flags = Ops.toString(rx.get("flags"));
+        if (flags.indexOf('g') < 0) {
             return regExpExec(r, rx, s);
         }
-        boolean fullUnicode = Ops.toBoolean(rx.get("unicode"));
+        boolean fullUnicode = fullUnicode(flags);
         rx.setStrict("lastIndex", Js.num(0));
         JsArray a = r.newArray();
         int n = 0;
@@ -843,51 +849,121 @@ public final class RegExpBuiltins {
     }
 
     /**
-     * RegExp.prototype[Symbol.matchAll] creates a lazy global regular-expression iterator.
+     * RegExp.prototype[Symbol.matchAll] creates a lazy regular-expression iterator.
      * <p>
-     * RegExp.prototype[Symbol.matchAll] 이 느리게 동작하는 전역 정규식 이터레이터를 만든다.
+     * RegExp.prototype[Symbol.matchAll]은 지연 평가하는 정규식 이터레이터를 만든다.
      *
      * @param realm the realm / realm
      * @param rx regular expression / 정규식
      * @param string input string / 입력 문자열
      * @return the iterator / 이터레이터
      */
-    private static JsValue symbolMatchAll(final JsRealm realm, JsObject rx, final String string) {
+    private static JsValue symbolMatchAll(JsRealm realm, JsObject rx, String string) {
         JsObject constructor = Support.speciesConstructor(rx, realm.getIntrinsic("%RegExp%"));
         String flags = Ops.toString(rx.get("flags"));
-        if (flags.indexOf('g') < 0) {
-            throw JsException.typeError("RegExp.prototype[Symbol.matchAll] called with a non-global RegExp");
-        }
-        final JsObject matcher = Ops.construct(constructor, new JsValue[] { rx, Js.str(flags) });
+        JsObject matcher = Ops.construct(constructor, new JsValue[] { rx, Js.str(flags) });
         matcher.setStrict("lastIndex", Js.num(Ops.toLength(rx.get("lastIndex"))));
-        final boolean unicode = Ops.toBoolean(matcher.get("unicode"));
-        final JsObject iterator = realm.newObject();
-        iterator.createDataProperty(WellKnownSymbols.TO_STRING_TAG, Js.str("RegExp String Iterator"));
-        iterator.createDataProperty("next", realm.newFunction("next", 0, new NativeFunction.Call() {
+        return new RegExpStringIterator(realm.getIntrinsic("%RegExpStringIteratorPrototype%"), matcher, string,
+                flags.indexOf('g') >= 0, fullUnicode(flags));
+    }
+
+    /**
+     * Installs the branded RegExp String Iterator under the common Iterator prototype.
+     * <p>
+     * 공통 Iterator 프로토타입 아래에 정규식 문자열 이터레이터 프로토타입을 설치한다.
+     *
+     * @param realm receiving realm / 설치할 realm
+     */
+    private static void installStringIterator(JsRealm realm) {
+        JsObject proto = new JsObject(realm.getIteratorPrototype());
+        realm.setIntrinsic("%RegExpStringIteratorPrototype%", proto);
+        proto.defineData(WellKnownSymbols.TO_STRING_TAG, Js.str("RegExp String Iterator"), false, false, true);
+        realm.method(proto, "next", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                JsValue result = regExpExec(r, matcher, string);
-                JsObject record = r.newObject();
-                if (result.isNull()) {
-                    record.createDataProperty("value", Js.UNDEFINED);
-                    record.createDataProperty("done", Js.TRUE);
-                } else {
-                    record.createDataProperty("value", result);
-                    record.createDataProperty("done", Js.FALSE);
-                    String matched = Ops.toString(((JsObject) result).get("0"));
-                    if (matched.length() == 0) {
-                        double index = Ops.toLength(matcher.get("lastIndex"));
-                        matcher.setStrict("lastIndex", Js.num(advance(string, index, unicode)));
-                    }
+                if (!(thisValue instanceof RegExpStringIterator)) {
+                    throw JsException.typeError("Expected a RegExp String Iterator");
                 }
-                return record;
+                return ((RegExpStringIterator) thisValue).next(r);
             }
-        }));
-        iterator.createDataProperty(WellKnownSymbols.ITERATOR, realm.newFunction("[Symbol.iterator]", 0, new NativeFunction.Call() {
-            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                return iterator;
+        });
+    }
+
+    /**
+     * Keeps a species-created matcher and the flags of a RegExp string iteration.
+     * <p>
+     * species가 만든 검색기와 정규식 문자열 순회 플래그를 보관한다.
+     */
+    private static final class RegExpStringIterator extends JsObject {
+        /** Current matcher or null after completion. / 현재 검색기. 완료 뒤에는 null. */
+        private JsObject matcher;
+
+        /** Captured input string while iteration is active. / 순회 중 사용하는 입력 문자열. */
+        private String input;
+
+        /** Whether the original flags contain g. / 원래 플래그에 g가 있는지 여부. */
+        private final boolean global;
+
+        /** Whether the original flags contain u or v. / 원래 플래그에 u나 v가 있는지 여부. */
+        private final boolean fullUnicode;
+
+        /**
+         * Stores the iterator state.
+         * <p>
+         * 이터레이터 상태를 저장한다.
+         *
+         * @param prototype iterator prototype / 이터레이터 프로토타입
+         * @param matcher species-created matcher / species가 만든 검색기
+         * @param input input string / 입력 문자열
+         * @param global whether to continue after the first match / 첫 일치 뒤에도 계속할지 여부
+         * @param fullUnicode whether to advance by code point / 코드 포인트 단위로 진행할지 여부
+         */
+        RegExpStringIterator(JsObject prototype, JsObject matcher, String input, boolean global, boolean fullUnicode) {
+            super(prototype);
+            this.matcher = matcher;
+            this.input = input;
+            this.global = global;
+            this.fullUnicode = fullUnicode;
+        }
+
+        /**
+         * Finds the next match and advances past an empty match in global mode.
+         * <p>
+         * 다음 일치를 찾고 전역 순회의 빈 일치 다음으로 진행한다.
+         *
+         * @param realm realm for execution and the iterator result / 실행과 결과를 만들 realm
+         * @return next iterator result / 다음 이터레이터 결과
+         */
+        JsObject next(JsRealm realm) {
+            JsObject active = matcher;
+            String string = input;
+            if (active == null) {
+                return IteratorHelper.createResult(realm, Js.UNDEFINED, true);
             }
-        }));
-        return iterator;
+            JsValue result = regExpExec(realm, active, string);
+            // 검색 결과가 없거나 비전역 순회가 첫 값을 찾으면 이후에는 exec를 호출하지 않는다.
+            if (result.isNull() || !global) {
+                matcher = null;
+                input = null;
+                return IteratorHelper.createResult(realm, result.isNull() ? Js.UNDEFINED : result, result.isNull());
+            }
+            if (Ops.toString(((JsObject) result).get("0")).length() == 0) {
+                double index = Ops.toLength(active.get("lastIndex"));
+                active.setStrict("lastIndex", Js.num(advance(string, index, fullUnicode)));
+            }
+            return IteratorHelper.createResult(realm, result, false);
+        }
+    }
+
+    /**
+     * Detects whole-code-point matching from the observable flags property.
+     * <p>
+     * 관찰 가능한 flags 프로퍼티에서 전체 코드 포인트 일치 여부를 찾는다.
+     *
+     * @param flags flag text / 플래그 문자열
+     * @return true for either u or v / u나 v가 있으면 true
+     */
+    private static boolean fullUnicode(String flags) {
+        return flags.indexOf('u') >= 0 || flags.indexOf('v') >= 0;
     }
 
     /**
@@ -905,10 +981,10 @@ public final class RegExpBuiltins {
         int lengthS = s.length();
         boolean functional = replaceValue.isCallable();
         String replacement = functional ? null : Ops.toString(replaceValue);
-        boolean global = Ops.toBoolean(rx.get("global"));
-        boolean fullUnicode = false;
+        String flags = Ops.toString(rx.get("flags"));
+        boolean global = flags.indexOf('g') >= 0;
+        boolean fullUnicode = fullUnicode(flags);
         if (global) {
-            fullUnicode = Ops.toBoolean(rx.get("unicode"));
             rx.setStrict("lastIndex", Js.num(0));
         }
         List<JsObject> results = new ArrayList<JsObject>();
@@ -1095,7 +1171,7 @@ public final class RegExpBuiltins {
     private static JsValue symbolSplit(JsRealm r, JsObject rx, String s, JsValue limit) {
         JsObject c = Support.speciesConstructor(rx, r.getIntrinsic("%RegExp%"));
         String flags = Ops.toString(rx.get("flags"));
-        boolean unicodeMatching = flags.indexOf('u') >= 0;
+        boolean unicodeMatching = fullUnicode(flags);
         String newFlags = flags.indexOf('y') >= 0 ? flags : flags + "y";
         JsObject splitter = Ops.construct(c, new JsValue[] { rx, Js.str(newFlags) });
         JsArray a = r.newArray();

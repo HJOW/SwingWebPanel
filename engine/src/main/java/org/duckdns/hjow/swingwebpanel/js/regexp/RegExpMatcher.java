@@ -209,7 +209,7 @@ final class RegExpMatcher {
         this.code = prog.code;
         this.in = input;
         this.end = input.length();
-        this.unicode = (prog.getFlags() & RegExpFlags.UNICODE) != 0;
+        this.unicode = RegExpFlags.isUnicodeMode(prog.getFlags());
         this.ignoreCase = (prog.getFlags() & RegExpFlags.IGNORE_CASE) != 0;
         this.stepLimit = prog.getStepLimit();
         this.maxEntries = prog.getMaxBacktrackEntries();

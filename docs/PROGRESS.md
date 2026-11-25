@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-07-b1 정규식 Unicode Sets 플래그 (2026-11-26) ===
+현재 작업 번호: P29-07-b1 완료.
+완료한 내용: 생성자와 리터럴이 v를 인식하고 u·v 충돌을 거부한다. unicodeSets 접근자, flags 조회 순서, 검색 및 문자열 메서드의 코드 포인트 이동을 구현했다. String.matchAll의 전역 검사를 Symbol.matchAll 호출보다 먼저 실행한다. 정규식 문자열 이터레이터가 표준 Iterator 프로토타입을 상속하고 종료 후 exec를 호출하지 않게 했다.
+변경 파일: RegExpFlags.java, RegExpCompiler.java, RegExpMatcher.java, RegExpParser.java, RegExpProgram.java, Lexer.java, RegExpBuiltins.java, StringBuiltins.java, AttributeTest.java, Es2026RegExpUnicodeSetsTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 806건 통과. sourcecheck 0 위반.
+미해결 사항: v 클래스 문법·코드 포인트 집합(P29-07-b2)과 문자열 대안(P29-07-b3).
+다음 작업 번호: P29-07-b2.
+-----------------------------------------------------------------------------------------------
 === P29-07-a String UTF-16 정합성 (2026-11-26) ===
 현재 작업 번호: P29-07-a 완료.
 완료한 내용: String.prototype.isWellFormed와 toWellFormed를 설치했다. 완전한 UTF-16 쌍은 유지하고 짝 없는 코드 유닛만 U+FFFD로 바꾼다. 브라우저의 USVString 변환도 같은 코드 경로를 사용한다.
@@ -826,6 +834,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-07-b1 Unicode Sets 플래그와 검색
+
+- ECMA-262 제17판 §22.2.6에 맞춰 프로토콜 메서드가 수신 객체의 flags를 사용하고, g 없이 직접 호출한 `RegExp.prototype[Symbol.matchAll]`이 일치 하나를 반환하게 했다.
+- JDK 6u45로 `mvn -B -o -pl engine test` 806건을 검증했다. 대체 Symbol.species, sticky와 d 인덱스, 빈 일치의 서로게이트 이동, 종료 후 이터레이터와 직접 호출을 확인했다.
+- 다음 작업은 P29-07-b2의 코드 포인트 집합이다.
 
 ### 2026-11-26 · P29-07-a 짝 없는 서로게이트 치환
 

@@ -3,6 +3,8 @@ package org.duckdns.hjow.swingwebpanel.js.parser;
 import java.math.BigInteger;
 import org.duckdns.hjow.swingwebpanel.js.JsChars;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
+import org.duckdns.hjow.swingwebpanel.js.regexp.RegExpFlags;
+import org.duckdns.hjow.swingwebpanel.js.regexp.RegExpSyntaxException;
 
 /**
  * The lexical analyzer (ECMA-262 6th edition clause 11). It converts source text into {@link Token}s on demand:
@@ -1020,13 +1022,11 @@ public final class Lexer {
             throw error("Invalid regular expression flags");
         }
         t.flags = src.substring(flagStart, pos);
-        String known = "dgimsuy";
-        // 알려진 플래그만 허용하고 중복을 금지한다.
-        for (int i = 0; i < t.flags.length(); i++) {
-            char f = t.flags.charAt(i);
-            if (known.indexOf(f) < 0 || t.flags.indexOf(f) != i) {
-                throw error("Invalid regular expression flags", t.line, t.column);
-            }
+        // 생성자와 같은 규칙으로 플래그를 검증하되 리터럴의 소스 위치를 사용한다.
+        try {
+            RegExpFlags.parse(t.flags);
+        } catch (RegExpSyntaxException invalid) {
+            throw error("Invalid regular expression flags", t.line, t.column);
         }
         t.end = pos;
         t.endLine = line;

@@ -484,7 +484,7 @@ public final class RegExpProgram {
             return null;
         }
         RegExpMatcher m = new RegExpMatcher(this, input, cancel);
-        boolean unicode = (flags & RegExpFlags.UNICODE) != 0;
+        boolean unicode = RegExpFlags.isUnicodeMode(flags);
         if (anchored) {
             return i == 0 && m.matchAt(0) ? m.result() : null;
         }
