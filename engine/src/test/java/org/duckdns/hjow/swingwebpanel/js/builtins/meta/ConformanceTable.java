@@ -181,8 +181,9 @@ final class ConformanceTable {
 
         // ---- 26 Reflection
         "Proxy: fn revocable=2",
-        "Reflect: fn apply=3 construct=2 defineProperty=3 deleteProperty=2 enumerate=1 get=2 getOwnPropertyDescriptor=2 getPrototypeOf=1 has=2"
+        "Reflect: fn apply=3 construct=2 defineProperty=3 deleteProperty=2 get=2 getOwnPropertyDescriptor=2 getPrototypeOf=1 has=2"
                 + " isExtensible=1 ownKeys=1 preventExtensions=1 set=3 setPrototypeOf=2",
+        "Reflect: tag @@toStringTag=Reflect",
 
         // ---- prototype chains (6.1.7.4 and the clauses of each built-in)
         "Object.prototype: chain Object.prototype=null",

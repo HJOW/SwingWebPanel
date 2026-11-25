@@ -10,15 +10,14 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
+import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 
 /**
- * Installs the Reflect object (ECMA-262 6th edition 26.1). Every function takes the target object first and throws a TypeError
+ * Installs the Reflect object (ECMA-262 17th edition 28.1). Every function takes the target object first and throws a TypeError
  * if it is not an object; the functions return booleans where the internal methods do, never throwing for ordinary failures.
- * <code>Reflect.enumerate</code> belongs to ES2015 only (later editions removed it) and returns the for-in key iterator.
  * <p>
- * Reflect 객체를 설치한다(ECMA-262 6판 26.1). 모든 함수는 첫 인수로 대상 객체를 받으며 객체가 아니면 TypeError 를 던진다. 내부 메서드가
- * 불리언을 돌려주는 경우 함수도 불리언을 돌려주며 평범한 실패로 예외를 던지지 않는다. <code>Reflect.enumerate</code> 는 ES2015 에만
- * 있고(후속 판이 제거) for-in 키 이터레이터를 돌려준다.
+ * Reflect 객체를 설치한다(ECMA-262 제17판 28.1). 모든 함수는 첫 인수로 대상 객체를 받으며 객체가 아니면 TypeError 를 던진다.
+ * 내부 메서드가 불리언을 돌려주는 경우 함수도 불리언을 돌려준다.
  */
 final class ReflectBuiltins {
 
@@ -62,6 +61,7 @@ final class ReflectBuiltins {
      */
     static void install(JsRealm realm) {
         JsObject reflect = realm.newObject();
+        reflect.defineData(WellKnownSymbols.TO_STRING_TAG, Js.str("Reflect"), false, false, true);
 
         // Reflect.apply(target, thisArgument, argumentsList)
         realm.method(reflect, "apply", 3, new NativeFunction.Call() {
@@ -105,13 +105,6 @@ final class ReflectBuiltins {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 JsObject t = target(Js.arg(args, 0), "deleteProperty");
                 return Js.bool(t.delete(Ops.toPropertyKey(Js.arg(args, 1))));
-            }
-        });
-
-        // Reflect.enumerate(target): ES2015 only
-        realm.method(reflect, "enumerate", 1, new NativeFunction.Call() {
-            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                return EnumerateSupport.enumerate(r, target(Js.arg(args, 0), "enumerate"));
             }
         });
 

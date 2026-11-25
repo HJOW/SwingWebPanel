@@ -91,9 +91,9 @@ public class ReflectTest {
      * 26.1: Reflect 함수의 이름, length, 속성. Reflect 자체는 호출할 수도 생성자일 수도 없다.
      */
     public void testShape() {
-        String[] names = { "apply", "construct", "defineProperty", "deleteProperty", "enumerate", "get", "getOwnPropertyDescriptor", "getPrototypeOf",
+        String[] names = { "apply", "construct", "defineProperty", "deleteProperty", "get", "getOwnPropertyDescriptor", "getPrototypeOf",
             "has", "isExtensible", "ownKeys", "preventExtensions", "set", "setPrototypeOf" };
-        int[] lengths = { 3, 2, 3, 2, 1, 2, 2, 1, 2, 1, 1, 1, 3, 2 };
+        int[] lengths = { 3, 2, 3, 2, 2, 2, 1, 2, 1, 1, 1, 3, 2 };
         // 모든 함수의 이름, length, 프로퍼티 속성을 확인한다.
         for (int i = 0; i < names.length; i++) {
             JsObject f = (JsObject) reflect.get(names[i]);
@@ -104,7 +104,7 @@ public class ReflectTest {
             PropertyDescriptor d = reflect.getOwnProperty(names[i]);
             Check.isTrue(d.isWritableTrue() && d.isConfigurableTrue() && !d.isEnumerableTrue(), names[i] + " attributes");
         }
-        Check.equal(names.length, reflect.ownKeys().size(), "no other properties");
+        Check.equal(names.length + 1, reflect.ownKeys().size(), "13 methods and the toStringTag");
         Check.isFalse(reflect.isCallable(), "Reflect is not callable");
         Check.isFalse(reflect.isConstructor(), "Reflect is not a constructor");
         Check.same(e.realm.getObjectPrototype(), reflect.getPrototypeOf(), "[[Prototype]] is Object.prototype");

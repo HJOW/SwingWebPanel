@@ -194,7 +194,7 @@ public class ScriptLevelMetaTest {
                 "{\"value\":1,\"writable\":true,\"enumerable\":true,\"configurable\":true}|undefined");
         expect("reflect.non-object-target", "var names=['get','ownKeys','getPrototypeOf','has','isExtensible']; names.forEach(function(n){ try{ Reflect[n](1,'a'); print(n+' no'); }"
                 + "catch(e){ print(n+':'+e.name); } });", "get:TypeError|ownKeys:TypeError|getPrototypeOf:TypeError|has:TypeError|isExtensible:TypeError");
-        expect("reflect.enumerate", "var o=Object.create({p:1}); o.q=2; print(Array.from(Reflect.enumerate(o)).join(','));", "q,p");
+        expect("reflect.for-in", "var o=Object.create({p:1}), r=[]; o.q=2; for(var k in o)r.push(k); print(r.join(','));", "q,p");
         expect("reflect.with-proxy", "var log=[]; var p=new Proxy({},{set:function(t,k,v,r){ log.push(k); return Reflect.set(t,k,v,r); },"
                 + "defineProperty:function(t,k,d){ log.push('def:'+k); return Reflect.defineProperty(t,k,d); }}); p.x=1; print(log.join(','));", "x,def:x");
         finish();

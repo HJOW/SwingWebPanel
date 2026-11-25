@@ -14,10 +14,8 @@ import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 
 /**
  * ECMAScript for-in property enumeration and its iterator prototype. The interpreter uses the iterator internally.
- * The ES2015 <code>Reflect.enumerate</code> entry point also exposes an iterator and supports the historical proxy trap.
  * <p>
  * ECMAScript for-in 프로퍼티 열거와 이터레이터 프로토타입. 인터프리터는 이터레이터를 내부에서 사용한다.
- * ES2015의 <code>Reflect.enumerate</code> 진입점은 이터레이터를 노출하며 당시 프록시 트랩도 지원한다.
  */
 public final class EnumerateSupport {
 
@@ -34,23 +32,6 @@ public final class EnumerateSupport {
      * 비공개 생성자: 정적 도우미 클래스이다.
      */
     private EnumerateSupport() {
-    }
-
-    /**
-     * Returns an ES2015 Reflect.enumerate iterator over enumerable string keys. A proxy answers through its
-     * <code>enumerate</code> trap.
-     * <p>
-     * 열거 가능한 문자열 키의 ES2015 Reflect.enumerate 이터레이터를 반환한다. 프록시는 <code>enumerate</code> 트랩으로 답한다.
-     *
-     * @param realm the realm / realm
-     * @param o     the object / 객체
-     * @return the iterator object / 이터레이터 객체
-     */
-    public static JsObject enumerate(JsRealm realm, JsObject o) {
-        if (o instanceof ProxyObject) {
-            return ((ProxyObject) o).enumerate();
-        }
-        return new ForInIterator(realm, o);
     }
 
     /**

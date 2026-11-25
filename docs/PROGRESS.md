@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-09-b 판본 전이 및 Reflect 표면 (2026-11-26) ===
+현재 작업 번호: P29-09-b 완료.
+완료한 내용: ES2016에서 폐기된 Reflect.enumerate와 프록시 enumerate 트랩을 제거했다. Reflect의 13개 메서드와 제17판 toStringTag를 확인했다. 전이 시험에 숫자·공백·배열 길이·함수 기술자·문법, Date·RegExp·정렬을 추가했다.
+변경 파일: ReflectBuiltins.java, EnumerateSupport.java, ProxyObject.java, ReflectTest.java, ProxyTest.java, ScriptLevelMetaTest.java, ConformanceTable.java, EditionTransitionTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 849건 통과. sourcecheck 0 위반.
+미해결 사항: 정규식 Annex B 구문·검색 경계와 뒤쪽 탐색(P29-09-c1~c2), 호스트·구판 검증(P29-09-d~e).
+다음 작업 번호: P29-09-c1.
+-----------------------------------------------------------------------------------------------
 === P29-09-a2 Annex B 호출 대입 대상 (2026-11-26) ===
 현재 작업 번호: P29-09-a 완료.
 완료한 내용: 비엄격 코드의 일반 호출을 일부 대입·증감·반복문 대상으로 파싱한다. 호출을 실행하고 성공하면 우변이나 숫자 변환 전에 ReferenceError를 던진다. 반복 대상의 중단은 값을 다시 소비하지 않으며 오류 뒤 이터레이터를 닫는다.
@@ -962,6 +970,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-09-b 판본 전이
+
+- ECMA-262 제17판 §28.1과 부속서 E·F를 대조했다. 스크립트와 프록시에 남은 ES2015 전용 enumerate를 제거했고 실제 for-in에서 기존 열거 동작을 검증했다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 849건 통과. 이진·8진 변환, U+180E, 배열 길이 변환의 부작용, 조기 오류와 런타임 오류 경계, 현재 기술자를 확인했다.
+- 다음은 P29-09-c1 정규식의 레거시 구문·검색 경계다.
 
 ### 2026-11-26 · P29-09-a2 호출 대입 대상과 P29-09-a 완료
 

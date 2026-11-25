@@ -2,7 +2,6 @@ package org.duckdns.hjow.swingwebpanel.js.builtins.meta;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsArray;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -483,7 +482,7 @@ public class ProxyTest {
             }
         }, new Block() {
             public void run() {
-                p.enumerate();
+                new EnumerateSupport.ForInIterator(e.realm, p).nextKey();
             }
         } };
         // 해제된 프록시에서는 모든 내부 메서드가 TypeError 이다.
@@ -564,65 +563,26 @@ public class ProxyTest {
     }
 
     /**
-     * ES2015 9.5.11 [[Enumerate]]: the enumerate trap supplies the iterator; without a trap the keys are enumerated like for-in
-     * (own keys, then the prototype chain, shadowed and non-enumerable keys skipped); a non-object result is a TypeError.
+     * For-in walks the proxy's current own keys and prototype chain without invoking an obsolete enumerate trap.
      * <p>
-     * ES2015 9.5.11 [[Enumerate]]: enumerate trap 이 이터레이터를 제공하고, trap 이 없으면 for-in 처럼 키를 나열하며(자체 키, 이어서 프로토타입
-     * 체인, 가려진 키와 열거 불가 키는 건너뜀), 객체가 아닌 결과는 TypeError 이다.
+     * for-in은 폐기된 enumerate 트랩을 호출하지 않고 프록시의 현재 자체 키와 프로토타입 체인을 순회한다.
      */
-    public void testEnumerate() {
+    public void testForInEnumeration() {
         JsObject proto = e.obj("inherited", MetaTestSupport.n(1), "shadowed", MetaTestSupport.n(1));
         JsObject target = new JsObject(proto);
         target.createDataProperty("own", MetaTestSupport.n(1));
         target.defineData("hidden", MetaTestSupport.n(1), true, false, true);
         target.defineData("shadowed", MetaTestSupport.n(2), true, false, true);
-        final ProxyObject p = (ProxyObject) proxy(target, e.obj());
-        Check.equal("[own, inherited]", keysOf(p.enumerate()).toString(), "no trap: for-in order");
-        JsObject viaReflect = (JsObject) e.invoke(e.global("Reflect"), "enumerate", p);
-        Check.equal("[own, inherited]", keysOf(viaReflect).toString(), "Reflect.enumerate");
         JsObject handler = e.obj();
-        final JsObject custom = new JsObject(e.realm.getIteratorPrototype());
-        e.realm.method(custom, "next", 0, new NativeFunction.Call() {
-            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                return IteratorHelper.createResult(r, Js.UNDEFINED, true);
-            }
-        });
         handler.createDataProperty("enumerate", e.fn(1, new NativeFunction.Call() {
+            /** Fails if legacy enumeration is consulted. / 예전 열거 트랩을 호출하면 실패한다. */
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                return custom;
+                throw JsException.typeError("obsolete enumerate trap");
             }
         }));
-        final ProxyObject q = (ProxyObject) proxy(target, handler);
-        Check.same(custom, q.enumerate(), "trap result is the iterator");
-        handler.createDataProperty("enumerate", e.fn(1, new NativeFunction.Call() {
-            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                return MetaTestSupport.n(1);
-            }
-        }));
-        MetaTestSupport.typeError(new Block() {
-            public void run() {
-                q.enumerate();
-            }
-        }, "non-object enumerate result");
-    }
-
-    /**
-     * Collects the string keys of a key iterator.
-     * <p>
-     * 키 이터레이터의 문자열 키를 모은다.
-     *
-     * @param it the iterator / 이터레이터
-     * @return the keys / 키 목록
-     */
-    private List<String> keysOf(JsObject it) {
-        List<String> keys = new ArrayList<String>();
-        // 이터레이터가 끝날 때까지 값을 모은다.
-        while (true) {
-            JsObject r = IteratorHelper.step(it);
-            if (r == null) {
-                return keys;
-            }
-            keys.add(Ops.toString(IteratorHelper.value(r)));
-        }
+        e.realm.getGlobalObject().defineBuiltin("enumerationTarget", proxy(target, handler));
+        JsValue result = e.realm.evaluateScript(
+                "var keys='';for(var key in enumerationTarget)keys+=(keys?',':'')+key;keys;", "proxy-for-in.js");
+        Check.equal("own,inherited", Ops.toString(result), "own and inherited keys follow the ordinary for-in rules");
     }
 }

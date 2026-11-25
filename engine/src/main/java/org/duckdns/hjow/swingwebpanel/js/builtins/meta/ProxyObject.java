@@ -735,26 +735,4 @@ public final class ProxyObject extends JsObject {
         return (JsObject) r;
     }
 
-    /**
-     * [[Enumerate]] (ES2015 9.5.11, removed in later editions): calls the <code>enumerate</code> trap, which must return an
-     * object (an iterator); without a trap the keys of the target are enumerated like for-in does.
-     * <p>
-     * [[Enumerate]] (ES2015 9.5.11, 후속 판에서 제거됨): <code>enumerate</code> trap 을 호출하며 객체(이터레이터)를 돌려주어야 한다.
-     * trap 이 없으면 for-in 처럼 대상의 키를 나열한다.
-     *
-     * @return an iterator object over the enumerable string keys / 열거 가능한 문자열 키에 대한 이터레이터 객체
-     */
-    public JsObject enumerate() {
-        JsObject h = liveHandler("enumerate");
-        JsObject t = target;
-        JsValue trap = trap(h, "enumerate");
-        if (trap.isUndefined()) {
-            return EnumerateSupport.enumerate(realm, t);
-        }
-        JsValue r = Ops.call(trap, h, new JsValue[] { t });
-        if (!(r instanceof JsObject)) {
-            throw JsException.typeError("'enumerate' on proxy: trap returned non-object");
-        }
-        return (JsObject) r;
-    }
 }
