@@ -42,8 +42,17 @@ final class ArrayBufferLib {
         }, new NativeFunction.Construct() {
             public JsObject construct(JsRealm r, JsValue[] args, JsObject newTarget) {
                 double length = TypedSupport.toIndex(Js.arg(args, 0), "array buffer length");
+                JsValue options = Js.arg(args, 1);
+                JsValue max = options instanceof JsObject ? ((JsObject) options).get("maxByteLength") : Js.UNDEFINED;
+                double maximum = max.isUndefined() ? -1 : TypedSupport.toIndex(max, "maximum array buffer length");
+                if (maximum >= 0 && length > maximum) {
+                    throw JsException.rangeError("ArrayBuffer length exceeds its maximum");
+                }
                 JsObject p = Ops.getPrototypeFromConstructor(r, newTarget, proto);
-                return new ArrayBufferObject(p, TypedSupport.allocate(length));
+                if (maximum > ArrayBufferObject.MAX_BYTE_LENGTH) {
+                    throw JsException.rangeError("Maximum ArrayBuffer length exceeds the implementation limit");
+                }
+                return new ArrayBufferObject(p, TypedSupport.allocate(length), (int) maximum);
             }
         });
         realm.setIntrinsic("%ArrayBuffer%", ctor);
@@ -65,6 +74,21 @@ final class ArrayBufferLib {
         realm.getter(proto, "byteLength", new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 return Js.num(thisBuffer(thisValue).getByteLength());
+            }
+        });
+        realm.getter(proto, "maxByteLength", new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return Js.num(thisBuffer(thisValue).getMaxByteLength());
+            }
+        });
+        realm.getter(proto, "resizable", new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return Js.bool(thisBuffer(thisValue).isResizable());
+            }
+        });
+        realm.getter(proto, "detached", new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return Js.bool(thisBuffer(thisValue).isDetached());
             }
         });
         realm.method(proto, "slice", 2, new NativeFunction.Call() {
@@ -127,7 +151,11 @@ final class ArrayBufferLib {
         if (buf.isDetached()) {
             throw JsException.typeError("this ArrayBuffer is detached");
         }
-        System.arraycopy(buf.getData(), first, nb.getData(), 0, Math.min(newLen, Math.max(buf.getByteLength() - first, 0)));
+        int copyLength = Math.min(newLen, buf.getByteLength() - first);
+        // 변환 또는 species 호출 중 원본이 줄어들었으면 남은 구간만 복사한다.
+        if (copyLength > 0) {
+            System.arraycopy(buf.getData(), first, nb.getData(), 0, copyLength);
+        }
         return nb;
     }
 }

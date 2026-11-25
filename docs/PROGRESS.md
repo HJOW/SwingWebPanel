@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-04-e1 가변 ArrayBuffer 저장소 (2026-11-26) ===
+현재 작업 번호: P29-04-e1 완료.
+완료한 내용: 최대 길이 옵션과 resizable, maxByteLength, detached 접근자, 바이트를 보존하고 새 구간을 0으로 채우는 재할당을 추가했다.
+변경 파일: ArrayBufferObject.java, ArrayBufferLib.java, BuiltinPropertiesTest.java, Es2026ResizableBufferTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 742건 통과. sourcecheck 0 위반.
+미해결 사항: TypedArray와 DataView의 현재 경계 및 스크립트 resize/transfer 진입점(P29-04-e2~e4).
+다음 작업 번호: P29-04-e2.
+-----------------------------------------------------------------------------------------------
 === P29-04-d IEEE 754 반정밀도 (2026-11-26) ===
 현재 작업 번호: P29-04-d 완료.
 완료한 내용: binary64에서 binary16으로 한 번만 반올림하는 순수 Java 변환을 추가했다. Math.f16round, Float16Array, DataView 접근이 이를 공유한다.
@@ -618,6 +626,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-04-e1 ArrayBuffer 최대 길이와 바이트 저장소
+
+길이와 옵션의 관찰 가능한 변환 순서, 최대 길이 초과, 고정·가변 버퍼 접근자, 축소 후 재확대 시 0 채움과 분리 뒤의 상태를 검증했다. JavaScript 재할당은 두 뷰의 경계를 연결한 뒤 P29-04-e4에서 공개한다.
 
 ### 2026-11-26 · P29-04-d 반정밀도 이진 데이터
 
