@@ -226,25 +226,26 @@ public final class TypedArrays {
     }
 
     /**
-     * Returns the bytes shown by an ArrayBuffer, a typed array or a DataView without copying them.
+     * Returns a live byte window for a non-shared ArrayBuffer, typed array or DataView.
      * <p>
-     * ArrayBuffer, 형식화 배열, DataView 가 보여 주는 바이트를 복사 없이 반환한다.
+     * 공유하지 않는 ArrayBuffer, 형식화 배열, DataView의 바이트 구간을 복사 없이 반환한다.
      *
      * @param v the value / 값
-     * @return the byte window, or null if the value is none of these or its buffer is detached / 바이트 구간. 해당 값이 아니거나 버퍼가 분리되었으면 null
+     * @return the byte window, or null for other values or shared or detached buffers /
+     * 바이트 구간. 이런 객체가 아니거나 버퍼가 공유 또는 분리되었으면 null
      */
     public static ByteView bytesOf(JsValue v) {
         if (v instanceof ArrayBufferObject) {
             ArrayBufferObject b = (ArrayBufferObject) v;
-            return b.isDetached() ? null : new ByteView(b.getData(), 0, b.getByteLength());
+            return b.isShared() || b.isDetached() ? null : new ByteView(b.getData(), 0, b.getByteLength());
         }
         if (v instanceof TypedArrayObject) {
             TypedArrayObject t = (TypedArrayObject) v;
-            return t.isOutOfBounds() ? null : new ByteView(t.getBuffer().getData(), t.getByteOffset(), t.getByteLength());
+            return t.getBuffer().isShared() || t.isOutOfBounds() ? null : new ByteView(t.getBuffer().getData(), t.getByteOffset(), t.getByteLength());
         }
         if (v instanceof DataViewObject) {
             DataViewObject d = (DataViewObject) v;
-            return d.isOutOfBounds() ? null : new ByteView(d.getBuffer().getData(), d.getByteOffset(), d.getByteLength());
+            return d.getBuffer().isShared() || d.isOutOfBounds() ? null : new ByteView(d.getBuffer().getData(), d.getByteOffset(), d.getByteLength());
         }
         return null;
     }

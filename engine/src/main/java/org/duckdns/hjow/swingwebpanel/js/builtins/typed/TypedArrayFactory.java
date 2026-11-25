@@ -107,7 +107,7 @@ final class TypedArrayFactory {
             throw JsException.typeError("Cannot mix BigInt and Number typed arrays");
         }
         if (source.getType() == type) {
-            System.arraycopy(source.getBuffer().getData(), source.getByteOffset(), result.getBuffer().getData(), 0, result.getByteLength());
+            source.getBuffer().copyBytesTo(source.getByteOffset(), result.getBuffer(), 0, result.getByteLength());
         } else {
             // 요소 형식이 다르면 요소마다 Number/BigInt 로 읽어 새 형식으로 바꿔 쓴다.
             for (int i = 0; i < length; i++) {

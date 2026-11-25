@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.js.builtins.typed;
 
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
+import org.duckdns.hjow.swingwebpanel.js.JsValue;
 
 /**
  * An ArrayBuffer object with a fixed length or a specified maximum length. Typed arrays and DataViews refer to its current byte array.
@@ -79,6 +80,147 @@ public class ArrayBufferObject extends JsObject {
     }
 
     /**
+     * Reports whether other agents can access the same storage.
+     * <p>
+     * 다른 에이전트가 같은 저장소에 접근할 수 있는지 알려 준다.
+     *
+     * @return true for shared storage / 공유 저장소이면 true
+     */
+    public boolean isShared() {
+        return false;
+    }
+
+    /**
+     * Reads an element from this buffer.
+     * <p>
+     * 이 버퍼에서 요소를 읽는다.
+     *
+     * @param type element type / 요소 형식
+     * @param offset byte position / 바이트 위치
+     * @param littleEndian whether byte order is little endian / 리틀 엔디언 사용 여부
+     * @return the element value / 요소 값
+     */
+    JsValue readValue(ElementType type, int offset, boolean littleEndian) {
+        return type.readValue(data, offset, littleEndian);
+    }
+
+    /**
+     * Reads an element for a Java caller expecting a double.
+     * <p>
+     * double을 받는 Java 호출자를 위해 요소를 읽는다.
+     *
+     * @param type element type / 요소 형식
+     * @param offset byte position / 바이트 위치
+     * @return the numeric value / 숫자 값
+     */
+    double readNumber(ElementType type, int offset) {
+        return type.read(data, offset, true);
+    }
+
+    /**
+     * Writes an element to this buffer.
+     * <p>
+     * 이 버퍼에 요소를 쓴다.
+     *
+     * @param type element type / 요소 형식
+     * @param offset byte position / 바이트 위치
+     * @param value value to write / 쓸 값
+     * @param littleEndian whether byte order is little endian / 리틀 엔디언 사용 여부
+     */
+    void writeValue(ElementType type, int offset, JsValue value, boolean littleEndian) {
+        type.writeValue(data, offset, value, littleEndian);
+    }
+
+    /**
+     * Writes a double supplied by a Java caller.
+     * <p>
+     * Java 호출자가 넘긴 double을 쓴다.
+     *
+     * @param type element type / 요소 형식
+     * @param offset byte position / 바이트 위치
+     * @param value numeric value / 숫자 값
+     */
+    void writeNumber(ElementType type, int offset, double value) {
+        type.write(data, offset, value, true);
+    }
+
+    /**
+     * Reads an unsigned byte.
+     * <p>
+     * 부호 없는 바이트를 읽는다.
+     *
+     * @param offset byte position / 바이트 위치
+     * @return a value between 0 and 255 / 0에서 255까지의 값
+     */
+    int readByte(int offset) {
+        return data[offset] & 0xff;
+    }
+
+    /**
+     * Writes the low eight bits of a value.
+     * <p>
+     * 값의 하위 8비트를 쓴다.
+     *
+     * @param offset byte position / 바이트 위치
+     * @param value bits to write / 쓸 비트
+     */
+    void writeByte(int offset, int value) {
+        data[offset] = (byte) value;
+    }
+
+    /**
+     * Copies bytes to another range, keeping the byte order intact even if the ranges overlap.
+     * <p>
+     * 다른 구간으로 바이트를 복사한다. 두 구간이 겹쳐도 바이트 순서를 유지한다.
+     *
+     * @param from source offset / 원본 시작 위치
+     * @param target destination buffer / 대상 버퍼
+     * @param to destination offset / 대상 시작 위치
+     * @param count number of bytes / 바이트 수
+     */
+    void copyBytesTo(int from, ArrayBufferObject target, int to, int count) {
+        if (!isShared() && !target.isShared()) {
+            System.arraycopy(data, from, target.data, to, count);
+            return;
+        }
+        if (sharesStorageWith(target) && from < to && to - from < count) {
+            // 대상이 원본의 뒤쪽과 겹치면 끝에서부터 복사한다.
+            for (int i = count - 1; i >= 0; i--) {
+                target.writeByte(to + i, readByte(from + i));
+            }
+        } else {
+            // 겹치지 않거나 대상이 앞에 있으면 처음부터 복사한다.
+            for (int i = 0; i < count; i++) {
+                target.writeByte(to + i, readByte(from + i));
+            }
+        }
+    }
+
+    /**
+     * Returns the storage identity for a buffer shared with other agents.
+     * <p>
+     * 다른 에이전트와 공유하는 버퍼의 저장소 식별 객체를 반환한다.
+     *
+     * @return the shared block or null for ordinary storage / 공유 블록. 일반 저장소이면 null
+     */
+    SharedByteBlock sharedBlock() {
+        return null;
+    }
+
+    /**
+     * Tests whether these buffers refer to identical storage.
+     * <p>
+     * 두 버퍼가 같은 저장소를 가리키는지 검사한다.
+     *
+     * @param other buffer to compare / 비교할 버퍼
+     * @return true if the backing storage is the same / 같은 저장소를 가리키면 true
+     */
+    boolean sharesStorageWith(ArrayBufferObject other) {
+        SharedByteBlock block = sharedBlock();
+        return block != null ? block == other.sharedBlock() : data != null && data == other.data;
+    }
+
+    /**
      * Returns the length in bytes (0 if detached).
      * <p>
      * 바이트 길이를 반환한다(분리되었으면 0).
@@ -119,7 +261,7 @@ public class ArrayBufferObject extends JsObject {
      * @param length new byte length / 새 바이트 길이
      */
     void resizeTo(double length) {
-        if (data == null || !isResizable()) {
+        if (data == null || isShared() || !isResizable()) {
             throw JsException.typeError("ArrayBuffer must be attached and resizable");
         }
         if (length < 0 || length > maximum || length != Math.floor(length)) {

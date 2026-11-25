@@ -74,7 +74,7 @@ final class Uint8Base64 {
      * @param capacity maximum number of bytes to write / 쓸 수 있는 최대 바이트 수
      * @return consumed and written lengths / 소비한 길이와 쓴 길이
      */
-    static DecodeResult decode(JsRealm realm, String input, String alphabet, ChunkMode mode, byte[] bytes, int offset, int capacity) {
+    static DecodeResult decode(JsRealm realm, String input, String alphabet, ChunkMode mode, ArrayBufferObject bytes, int offset, int capacity) {
         int read = 0;
         int written = 0;
         int chunk = 0;
@@ -203,14 +203,14 @@ final class Uint8Base64 {
      * @param chunk packed six-bit digits / 모은 6비트 숫자
      * @param digits digit count / 숫자 수
      */
-    private static void writeChunk(byte[] bytes, int offset, int chunk, int digits) {
+    private static void writeChunk(ArrayBufferObject bytes, int offset, int chunk, int digits) {
         int packed = chunk << (6 * (4 - digits));
-        bytes[offset] = (byte) (packed >>> 16);
+        bytes.writeByte(offset, packed >>> 16);
         if (digits >= 3) {
-            bytes[offset + 1] = (byte) (packed >>> 8);
+            bytes.writeByte(offset + 1, packed >>> 8);
         }
         if (digits == 4) {
-            bytes[offset + 2] = (byte) packed;
+            bytes.writeByte(offset + 2, packed);
         }
     }
 
@@ -227,7 +227,7 @@ final class Uint8Base64 {
      * @param omitPadding true to omit padding / 패딩을 생략하려면 true
      * @return base64 text / base64 텍스트
      */
-    static String encode(JsRealm realm, byte[] bytes, int offset, int length, String alphabet, boolean omitPadding) {
+    static String encode(JsRealm realm, ArrayBufferObject bytes, int offset, int length, String alphabet, boolean omitPadding) {
         int extra = length % 3;
         long chars = 4L * (length / 3) + (extra == 0 ? 0 : omitPadding ? extra + 1 : 4);
         realm.getLimits().checkStringLength(chars);
@@ -235,7 +235,7 @@ final class Uint8Base64 {
         int complete = length - extra;
         // 바이트 세 개를 24비트로 모아 글자 네 개로 쓴다.
         for (int i = 0; i < complete; i += 3) {
-            int packed = ((bytes[offset + i] & 255) << 16) | ((bytes[offset + i + 1] & 255) << 8) | (bytes[offset + i + 2] & 255);
+            int packed = (bytes.readByte(offset + i) << 16) | (bytes.readByte(offset + i + 1) << 8) | bytes.readByte(offset + i + 2);
             output.append(alphabet.charAt(packed >>> 18));
             output.append(alphabet.charAt((packed >>> 12) & 63));
             output.append(alphabet.charAt((packed >>> 6) & 63));
@@ -243,9 +243,9 @@ final class Uint8Base64 {
             Uint8ArrayConversions.poll(realm, i);
         }
         if (extra > 0) {
-            int packed = (bytes[offset + complete] & 255) << 16;
+            int packed = bytes.readByte(offset + complete) << 16;
             if (extra == 2) {
-                packed |= (bytes[offset + complete + 1] & 255) << 8;
+                packed |= bytes.readByte(offset + complete + 1) << 8;
             }
             output.append(alphabet.charAt(packed >>> 18));
             output.append(alphabet.charAt((packed >>> 12) & 63));

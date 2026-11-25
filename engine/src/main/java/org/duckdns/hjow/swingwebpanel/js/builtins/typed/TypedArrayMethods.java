@@ -547,12 +547,12 @@ final class TypedArrayMethods {
                 if (count > 0) {
                     TypedSupport.validate(o);
                     int size = o.getType().getSize();
-                    byte[] data = o.getBuffer().getData();
+                    ArrayBufferObject buffer = o.getBuffer();
                     int base = o.getByteOffset();
                     int available = o.getLength();
                     int n = Math.min(count, Math.min(available - from, available - to));
                     if (n > 0) {
-                        System.arraycopy(data, base + from * size, data, base + to * size, n * size);
+                        buffer.copyBytesTo(base + from * size, buffer, base + to * size, n * size);
                     }
                 }
                 return o;
@@ -627,7 +627,7 @@ final class TypedArrayMethods {
                     int available = Math.min(count, Math.min(o.getLength() - k, a.getLength()));
                     if (available > 0 && a.getType() == o.getType()) {
                         int size = o.getType().getSize();
-                        System.arraycopy(o.getBuffer().getData(), o.getByteOffset() + k * size, a.getBuffer().getData(), a.getByteOffset(), available * size);
+                        o.getBuffer().copyBytesTo(o.getByteOffset() + k * size, a.getBuffer(), a.getByteOffset(), available * size);
                     } else {
                         // 요소 형식이 다르면 요소마다 숫자로 읽어 변환해서 쓴다.
                         for (int n = 0; n < available; n++) {
@@ -675,20 +675,25 @@ final class TypedArrayMethods {
             throw JsException.typeError("Cannot mix BigInt and Number typed arrays");
         }
         int at = (int) offset;
-        if (source.getType() == target.getType()) {
-            int size = source.getType().getSize();
-            System.arraycopy(source.getBuffer().getData(), source.getByteOffset(), target.getBuffer().getData(), target.getByteOffset() + at * size,
-                    srcLength * size);
+        ArrayBufferObject input = source.getBuffer();
+        int sourceOffset = source.getByteOffset();
+        int size = source.getType().getSize();
+        ArrayBufferObject output = target.getBuffer();
+        boolean sameType = source.getType() == target.getType();
+        if (input.sharesStorageWith(output) && (input.isShared() || !sameType)) {
+            // 공유 저장소가 같거나 같은 버퍼의 요소 크기를 변환하면 쓰기 전에 원본 바이트를 복제한다.
+            ArrayBufferObject clone = new ArrayBufferObject(null, TypedSupport.allocate(srcLength * size));
+            input.copyBytesTo(sourceOffset, clone, 0, srcLength * size);
+            input = clone;
+            sourceOffset = 0;
+        }
+        if (sameType) {
+            input.copyBytesTo(sourceOffset, output, target.getByteOffset() + at * size, srcLength * size);
             return;
         }
-        JsValue[] values = new JsValue[srcLength];
-        // 버퍼가 겹쳐도 안전하도록 원본 값을 먼저 모두 읽는다.
+        // 서로 겹치지 않는 원본을 요소별로 읽어 대상 형식으로 변환해 쓴다.
         for (int i = 0; i < srcLength; i++) {
-            values[i] = source.getElementValue(i);
-        }
-        // 읽어 둔 값을 대상 형식으로 변환해 쓴다.
-        for (int i = 0; i < srcLength; i++) {
-            target.setElementValue(at + i, values[i]);
+            target.setElementValue(at + i, input.readValue(source.getType(), sourceOffset + i * size, true));
         }
     }
 

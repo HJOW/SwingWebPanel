@@ -42,7 +42,7 @@ final class Uint8ArrayConversions {
                 String text = requireString(Js.arg(args, 0));
                 int length = hexByteLength(text);
                 TypedArrayObject result = newArray(r, length);
-                decodeHex(r, text, result.getBuffer().getData(), 0, length);
+                decodeHex(r, text, result.getBuffer(), 0, length);
                 return result;
             }
         });
@@ -52,7 +52,7 @@ final class Uint8ArrayConversions {
                 String text = requireString(Js.arg(args, 0));
                 TypedSupport.validate(target);
                 int written = Math.min(hexByteLength(text), target.getLength());
-                decodeHex(r, text, target.getBuffer().getData(), target.getByteOffset(), written);
+                decodeHex(r, text, target.getBuffer(), target.getByteOffset(), written);
                 return result(r, 2 * written, written);
             }
         });
@@ -62,11 +62,11 @@ final class Uint8ArrayConversions {
                 int length = source.getLength();
                 r.getLimits().checkStringLength(2L * length);
                 StringBuilder output = new StringBuilder(2 * length);
-                byte[] bytes = source.getBuffer().getData();
+                ArrayBufferObject bytes = source.getBuffer();
                 int offset = source.getByteOffset();
                 // 각 바이트의 높은 자리와 낮은 자리를 소문자로 출력한다.
                 for (int i = 0; i < length; i++) {
-                    int value = bytes[offset + i] & 255;
+                    int value = bytes.readByte(offset + i);
                     output.append(HEX.charAt(value >>> 4));
                     output.append(HEX.charAt(value & 15));
                     poll(r, i);
@@ -92,10 +92,10 @@ final class Uint8ArrayConversions {
                 JsObject options = options(Js.arg(args, 1));
                 String alphabet = alphabet(options);
                 ChunkMode mode = chunkMode(options);
-                byte[] bytes = TypedSupport.allocate(((input.length() + 3L) / 4L) * 3L);
-                DecodeResult decoded = Uint8Base64.decode(r, input, alphabet, mode, bytes, 0, bytes.length);
+                ArrayBufferObject bytes = new ArrayBufferObject(null, TypedSupport.allocate(((input.length() + 3L) / 4L) * 3L));
+                DecodeResult decoded = Uint8Base64.decode(r, input, alphabet, mode, bytes, 0, bytes.getByteLength());
                 TypedArrayObject output = newArray(r, decoded.written);
-                System.arraycopy(bytes, 0, output.getBuffer().getData(), 0, decoded.written);
+                bytes.copyBytesTo(0, output.getBuffer(), 0, decoded.written);
                 return output;
             }
         });
@@ -107,7 +107,7 @@ final class Uint8ArrayConversions {
                 String alphabet = alphabet(options);
                 ChunkMode mode = chunkMode(options);
                 TypedSupport.validate(target);
-                DecodeResult decoded = Uint8Base64.decode(r, input, alphabet, mode, target.getBuffer().getData(),
+                DecodeResult decoded = Uint8Base64.decode(r, input, alphabet, mode, target.getBuffer(),
                         target.getByteOffset(), target.getLength());
                 return result(r, decoded.read, decoded.written);
             }
@@ -119,7 +119,7 @@ final class Uint8ArrayConversions {
                 String alphabet = alphabet(options);
                 boolean omitPadding = Ops.toBoolean(option(options, "omitPadding"));
                 TypedSupport.validate(source);
-                return Js.str(Uint8Base64.encode(r, source.getBuffer().getData(), source.getByteOffset(), source.getLength(), alphabet, omitPadding));
+                return Js.str(Uint8Base64.encode(r, source.getBuffer(), source.getByteOffset(), source.getLength(), alphabet, omitPadding));
             }
         });
     }
@@ -271,7 +271,7 @@ final class Uint8ArrayConversions {
      * @param offset destination byte offset / 대상 바이트 위치
      * @param count the number of pairs to decode / 디코딩할 문자 쌍의 수
      */
-    private static void decodeHex(JsRealm realm, String text, byte[] bytes, int offset, int count) {
+    private static void decodeHex(JsRealm realm, String text, ArrayBufferObject bytes, int offset, int count) {
         // 대상이 수용할 수 있는 두 글자 묶음만 차례로 검사해 저장한다.
         for (int i = 0; i < count; i++) {
             int high = CharClass.hexValue(text.charAt(2 * i));
@@ -279,7 +279,7 @@ final class Uint8ArrayConversions {
             if (high < 0 || low < 0) {
                 throw JsException.syntaxError("Invalid hexadecimal digit");
             }
-            bytes[offset + i] = (byte) ((high << 4) | low);
+            bytes.writeByte(offset + i, (high << 4) | low);
             poll(realm, i);
         }
     }

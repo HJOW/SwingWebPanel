@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-05-b1 공유 버퍼와 뷰 연결 (2026-11-26) ===
+현재 작업 번호: P29-05-b1 완료.
+완료한 내용: TypedArray, DataView와 Uint8Array Base64·Hex 변환에서 공유 바이트 저장소에 직접 접근한다. 같은 공유 블록을 가리키는 뷰의 set은 원본 범위를 복제하고 copyWithin은 겹치는 방향을 고려한다.
+변경 파일: js/builtins/typed의 ArrayBufferObject, SharedArrayBufferObject, ElementType, ArrayBufferLib, TypedArrayObject, TypedArrayFactory, TypedArrayMethods, TypedArrays, DataViewLib, Uint8ArrayConversions, Uint8Base64 및 SharedByteBlockTest, AGENTS.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 756건 통과. sourcecheck 0 위반.
+미해결 사항: SharedArrayBuffer 전역 설치와 species 검증(P29-05-b2), Atomics 및 브라우저 호스트 정책(P29-05-c~e).
+다음 작업 번호: P29-05-b2.
+-----------------------------------------------------------------------------------------------
 === P29-05-a 공유 바이트 저장소 (2026-11-26) ===
 현재 작업 번호: P29-05-a 완료.
 완료한 내용: Java 6 AtomicLongArray 페이지를 쓰는 공유 바이트 저장소를 구현했다. 한 워드 내 접근은 원자적으로 처리하며 워드 경계를 넘는 비정렬 DataView용 접근은 바이트로 나눈다. 성장 후에도 기존 워드의 객체를 공유한다.
@@ -674,6 +682,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-05-b1 공유 저장소 위에서 뷰 읽기와 쓰기
+
+같은 공유 저장소의 서로 다른 래퍼로 겹치는 범위를 복사하고, 요소 크기가 다른 뷰 사이에서도 원본 바이트가 보존되는 것을 확인했다. DataView는 엔디언에 따라 비정렬 BigInt를 읽고 길이 추적 뷰는 성장한 저장소를 사용한다. Java의 `getData()`는 공유 버퍼의 바이트 사본을 반환한다.
 
 ### 2026-11-26 · P29-05-a 원자적 공유 바이트 저장소
 

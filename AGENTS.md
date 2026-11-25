@@ -812,7 +812,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   구현: `js.builtins.typed.*`, `js.host.structured.*`, `js.worker.*`. 완료 조건: 다중 스레드/Worker 원자성·경합·`wait`/`notify`/`waitAsync`·성장 버퍼·폐기 시 대기 해제 시험이 JDK 6에서 통과한다.
   - [x] P29-05-a. 공유 바이트 저장소를 Java 6 원자 배열로 구현한다. 같은 워드의 서로 다른 크기 접근과 확장 중 기존 바이트 보존을 다중 스레드 시험으로 검증한다.
   - [ ] P29-05-b. `SharedArrayBuffer`의 생성·조회·grow·slice와 TypedArray/DataView 연결을 구현한다. 고정/성장 길이, 공유 범위 복사, 엔디언과 뷰 경계를 검증한다.
-    - [ ] P29-05-b1. `ElementType`, `ArrayBufferObject`와 공유 버퍼에서 공통 요소·바이트 접근을 구현한다. 일반 버퍼와 공유 뷰의 엔디언, 복사, 겹침을 검증한다.
+    - [x] P29-05-b1. `ElementType`, `ArrayBufferObject`와 공유 버퍼에서 공통 요소·바이트 접근을 구현한다. 일반 버퍼와 공유 뷰의 엔디언, 복사, 겹침을 검증한다.
     - [ ] P29-05-b2. `SharedArrayBufferLib`를 설치하고 크기와 병행 성장, slice·species 및 일반 ArrayBuffer 메서드의 거부를 스크립트에서 검증한다.
   - [ ] P29-05-c. `Atomics`의 읽기·쓰기·읽기-수정-쓰기와 isLockFree를 구현한다. 정수·BigInt, 범위와 인수 변환, 스레드 경합을 검증한다.
   - [ ] P29-05-d. `wait`, `notify`, `waitAsync`와 호스트의 차단 허용·취소 처리를 구현한다. 대기열 순서, 무한·유한 대기, 타임아웃과 폐기를 검증한다.

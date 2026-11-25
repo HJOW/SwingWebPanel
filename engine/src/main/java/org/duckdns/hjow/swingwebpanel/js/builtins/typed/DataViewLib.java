@@ -82,7 +82,7 @@ final class DataViewLib {
                     double index = TypedSupport.toIndex(Js.arg(args, 0), "DataView offset");
                     boolean little = Ops.toBoolean(Js.arg(args, 1));
                     int at = checkRange(view, index, type);
-                    return type.readValue(view.getBuffer().getData(), at, little);
+                    return view.getBuffer().readValue(type, at, little);
                 }
             });
             realm.method(proto, "set" + suffix, 2, new NativeFunction.Call() {
@@ -93,7 +93,7 @@ final class DataViewLib {
                     JsValue converted = type.isBigInt() ? Js.bigint(Ops.toBigInt(value)) : Js.num(Ops.toNumber(value));
                     boolean little = Ops.toBoolean(Js.arg(args, 2));
                     int at = checkRange(view, index, type);
-                    type.writeValue(view.getBuffer().getData(), at, converted, little);
+                    view.getBuffer().writeValue(type, at, converted, little);
                     return Js.UNDEFINED;
                 }
             });

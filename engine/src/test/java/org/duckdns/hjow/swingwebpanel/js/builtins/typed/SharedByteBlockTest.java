@@ -4,6 +4,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import org.duckdns.hjow.swingwebpanel.js.ErrorKind;
+import org.duckdns.hjow.swingwebpanel.js.JsRealm;
+import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.testing.Block;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
@@ -13,6 +15,38 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
  * 스레드, 워드 너비, 성장 경계에 걸친 공유 바이트 저장소를 검증한다.
  */
 public class SharedByteBlockTest {
+
+    /**
+     * Checks shared DataView, typed array and encoding methods over the same bytes.
+     * <p>
+     * 같은 바이트에 접근하는 공유 DataView, 형식화 배열, 인코딩 메서드를 검증한다.
+     */
+    public void testViewsAndEncoding() {
+        JsRealm realm = JsRealm.create();
+        SharedByteBlock block = new SharedByteBlock(12);
+        SharedArrayBufferObject buffer = new SharedArrayBufferObject(realm.getObjectPrototype(), block, 24);
+        realm.getGlobalObject().defineBuiltin("shared", buffer);
+        realm.getGlobalObject().defineBuiltin("alias", new SharedArrayBufferObject(realm.getObjectPrototype(), block, 24));
+        String source = "var u=new Uint8Array(shared); var a=new Uint8Array(alias); var fixed=new Uint8Array(shared,0,2);"
+                + "u.setFromHex('01020304'); a.copyWithin(1,0,4); u.set(a.subarray(1,5), 2);"
+                + "const copy = new Uint8Array(u.subarray(0,6));"
+                + "a.setFromBase64('AAEC/w==');"
+                + "var d=new DataView(shared); d.setBigInt64(3,0x102030405060708n);"
+                + "[copy.toHex(),u.slice(0,3).toBase64(),d.getBigInt64(3).toString(16),d.getUint16(3,true)].join('|')";
+        Check.equal("010101020304|AAEC|102030405060708|513", Ops.toString(realm.evaluateScript(source, "shared-views.js")),
+                "overlap with shared storage, decoding and copying preserve the observed bytes");
+        Check.equal("01ff", Ops.toString(realm.evaluateScript("u.setFromHex('0102ff03');"
+                + "new Uint8Array(shared,2,2).set(new Uint16Array(alias,0,2)); u.subarray(2,4).toHex()", "shared-set.js")),
+                "different element types snapshot the overlapping shared byte range");
+        block.grow(16);
+        Check.equal("16,16,2,16,0", Ops.toString(realm.evaluateScript("[u.length,a.length,fixed.length,d.byteLength,u[15]].join()",
+                "shared-grow.js")), "all automatic views reflect growth and the explicit length is preserved");
+        byte[] snapshot = buffer.getData();
+        snapshot[1] = 19;
+        Check.equal(2, buffer.readByte(1), "mutating a host copy cannot change shared bytes");
+        Check.isNull(TypedArrays.bytesOf(buffer), "a shared buffer has no live Java byte window");
+        Check.isNull(TypedArrays.bytesOf(realm.getGlobalObject().get("u")), "a shared view has no live Java byte window");
+    }
 
     /**
      * An unaligned read and write can span pages while preserving the requested byte order.

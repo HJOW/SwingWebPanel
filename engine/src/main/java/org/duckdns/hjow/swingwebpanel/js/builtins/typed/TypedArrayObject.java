@@ -189,7 +189,7 @@ public class TypedArrayObject extends JsObject {
      * @return the element as a number / 숫자로 바꾼 요소
      */
     public double getElement(int index) {
-        return type.read(buffer.getData(), byteOffset + index * type.getSize(), true);
+        return buffer.readNumber(type, byteOffset + index * type.getSize());
     }
 
     /**
@@ -201,7 +201,7 @@ public class TypedArrayObject extends JsObject {
      * @return the Number or BigInt value / Number 또는 BigInt 값
      */
     public JsValue getElementValue(int index) {
-        return type.readValue(buffer.getData(), byteOffset + index * type.getSize(), true);
+        return buffer.readValue(type, byteOffset + index * type.getSize(), true);
     }
 
     /**
@@ -213,7 +213,7 @@ public class TypedArrayObject extends JsObject {
      * @param value the number to store / 저장할 숫자
      */
     public void setElement(int index, double value) {
-        type.write(buffer.getData(), byteOffset + index * type.getSize(), value, true);
+        buffer.writeNumber(type, byteOffset + index * type.getSize(), value);
     }
 
     /**
@@ -318,7 +318,7 @@ public class TypedArrayObject extends JsObject {
         if (!isValidIndex(index)) {
             return false;
         }
-        type.writeValue(buffer.getData(), byteOffset + (int) index * type.getSize(), converted, true);
+        buffer.writeValue(type, byteOffset + (int) index * type.getSize(), converted, true);
         return true;
     }
 

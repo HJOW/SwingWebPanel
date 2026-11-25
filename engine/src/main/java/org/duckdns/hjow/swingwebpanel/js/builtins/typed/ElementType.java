@@ -170,11 +170,7 @@ public enum ElementType {
      * @return Number or BigInt / Number 또는 BigInt
      */
     public JsValue readValue(byte[] data, int offset, boolean littleEndian) {
-        if (!isBigInt()) {
-            return Js.num(read(data, offset, littleEndian));
-        }
-        long bits = readBits(data, offset, 8, littleEndian);
-        return JsBigInt.of(this == BIGINT64 ? BigInteger.valueOf(bits) : unsignedLong(bits));
+        return valueFromBits(readBits(data, offset, size, littleEndian));
     }
 
     /**
@@ -188,11 +184,32 @@ public enum ElementType {
      * @param littleEndian byte order / 바이트 순서
      */
     public void writeValue(byte[] data, int offset, JsValue value, boolean littleEndian) {
-        if (isBigInt()) {
-            writeBits(data, offset, 8, Ops.toBigInt(value).longValue(), littleEndian);
-        } else {
-            write(data, offset, Ops.toNumber(value), littleEndian);
-        }
+        writeBits(data, offset, size, bitsFromValue(value), littleEndian);
+    }
+
+    /**
+     * Decodes the element represented by the low bits of a word.
+     * <p>
+     * 워드의 하위 비트가 나타내는 요소를 디코딩한다.
+     *
+     * @param bits the data bits / 데이터 비트
+     * @return the Number or BigInt value / Number 또는 BigInt 값
+     */
+    JsValue valueFromBits(long bits) {
+        return isBigInt() ? JsBigInt.of(this == BIGINT64 ? BigInteger.valueOf(bits) : unsignedLong(bits))
+                : Js.num(numberFromBits(bits));
+    }
+
+    /**
+     * Converts a JavaScript value to the bits stored for this type.
+     * <p>
+     * JavaScript 값을 이 요소 형식으로 저장할 비트로 변환한다.
+     *
+     * @param value the input value / 입력 값
+     * @return element bits / 요소 비트
+     */
+    long bitsFromValue(JsValue value) {
+        return isBigInt() ? Ops.toBigInt(value).longValue() : bitsFromNumber(Ops.toNumber(value));
     }
 
     /**
@@ -218,28 +235,44 @@ public enum ElementType {
      * @return the value as a JavaScript number / JavaScript 숫자로 바꾼 값
      */
     public double read(byte[] data, int offset, boolean littleEndian) {
+        return numberFromBits(readBits(data, offset, size, littleEndian));
+    }
+
+    /**
+     * Decodes a word as a Java double, converting BigInt for Java callers.
+     * <p>
+     * 워드를 Java double로 디코딩한다. Java 호출자용으로 BigInt도 변환한다.
+     *
+     * @param bits the element bits / 요소 비트
+     * @return the numeric value / 숫자 값
+     */
+    double numberFromBits(long bits) {
         switch (this) {
         case INT8:
-            return data[offset];
+            return (byte) bits;
         case UINT8:
         case UINT8_CLAMPED:
-            return data[offset] & 0xFF;
+            return bits & 0xFFL;
         case INT16:
-            return (short) readBits(data, offset, 2, littleEndian);
+            return (short) bits;
         case UINT16:
-            return (int) (readBits(data, offset, 2, littleEndian) & 0xFFFFL);
+            return bits & 0xFFFFL;
         case INT32:
-            return (int) readBits(data, offset, 4, littleEndian);
+            return (int) bits;
         case UINT32:
-            return readBits(data, offset, 4, littleEndian) & 0xFFFFFFFFL;
+            return bits & 0xFFFFFFFFL;
         case FLOAT16:
-            return Float16.decode((int) readBits(data, offset, 2, littleEndian));
+            return Float16.decode((int) bits);
         case FLOAT32:
-            return Float.intBitsToFloat((int) readBits(data, offset, 4, littleEndian));
+            return Float.intBitsToFloat((int) bits);
         case FLOAT64:
-            return Double.longBitsToDouble(readBits(data, offset, 8, littleEndian));
+            return Double.longBitsToDouble(bits);
+        case BIGINT64:
+            return (double) bits;
+        case BIGUINT64:
+            return unsignedLong(bits).doubleValue();
         default:
-            return ((JsBigInt) readValue(data, offset, littleEndian)).getValue().doubleValue();
+            throw new IllegalStateException(getConstructorName());
         }
     }
 
@@ -254,31 +287,34 @@ public enum ElementType {
      * @param littleEndian true for little endian byte order / 리틀 엔디언이면 true
      */
     public void write(byte[] data, int offset, double value, boolean littleEndian) {
+        writeBits(data, offset, size, bitsFromNumber(value), littleEndian);
+    }
+
+    /**
+     * Encodes a Number according to the selected element format.
+     * <p>
+     * Number를 선택한 요소 형식으로 인코딩한다.
+     *
+     * @param value the numeric value / 숫자 값
+     * @return the encoded bits / 인코딩한 비트
+     */
+    long bitsFromNumber(double value) {
         switch (this) {
         case INT8:
         case UINT8:
-            data[offset] = (byte) Ops.toInt32(value);
-            return;
-        case UINT8_CLAMPED:
-            data[offset] = (byte) clampUint8(value);
-            return;
         case INT16:
         case UINT16:
-            writeBits(data, offset, 2, Ops.toInt32(value), littleEndian);
-            return;
         case INT32:
         case UINT32:
-            writeBits(data, offset, 4, Ops.toInt32(value), littleEndian);
-            return;
+            return Ops.toInt32(value);
+        case UINT8_CLAMPED:
+            return clampUint8(value);
         case FLOAT16:
-            writeBits(data, offset, 2, Float16.encode(value), littleEndian);
-            return;
+            return Float16.encode(value);
         case FLOAT32:
-            writeBits(data, offset, 4, Float.floatToIntBits((float) value), littleEndian);
-            return;
+            return Float.floatToIntBits((float) value);
         case FLOAT64:
-            writeBits(data, offset, 8, Double.doubleToLongBits(value), littleEndian);
-            return;
+            return Double.doubleToLongBits(value);
         default:
             throw new IllegalStateException(getConstructorName() + " requires writeValue");
         }

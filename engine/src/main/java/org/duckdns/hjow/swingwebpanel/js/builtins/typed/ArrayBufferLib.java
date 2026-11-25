@@ -129,7 +129,7 @@ final class ArrayBufferLib {
      * @return the buffer / 버퍼
      */
     private static ArrayBufferObject thisBuffer(JsValue v) {
-        if (!(v instanceof ArrayBufferObject)) {
+        if (!(v instanceof ArrayBufferObject) || ((ArrayBufferObject) v).isShared()) {
             throw JsException.typeError("this is not an ArrayBuffer");
         }
         return (ArrayBufferObject) v;
@@ -185,7 +185,7 @@ final class ArrayBufferLib {
         int newLen = Math.max(fin - first, 0);
         JsObject ctor = TypedSupport.speciesConstructor(buf, realm.getIntrinsic("%ArrayBuffer%"));
         JsObject created = Ops.construct(ctor, new JsValue[] { Js.num(newLen) });
-        if (!(created instanceof ArrayBufferObject)) {
+        if (!(created instanceof ArrayBufferObject) || ((ArrayBufferObject) created).isShared()) {
             throw JsException.typeError("the species constructor did not return an ArrayBuffer");
         }
         ArrayBufferObject nb = (ArrayBufferObject) created;
