@@ -10,6 +10,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsString;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution.ScriptScope;
@@ -145,9 +146,9 @@ final class ModuleRecord {
     private final ProgramInfo info;
 
     /**
-     * The requested modules in the order of {@link ProgramInfo#requestedModules}.
+     * The requested modules in the order of {@link ProgramInfo#moduleRequests}.
      * <p>
-     * {@link ProgramInfo#requestedModules} 순서의 요청 모듈.
+     * {@link ProgramInfo#moduleRequests} 순서의 요청 모듈.
      */
     private final List<ModuleRecord> requested = new ArrayList<ModuleRecord>();
 
@@ -241,8 +242,12 @@ final class ModuleRecord {
         in.modules.put(key, m);
         try {
             // 요청된 모듈을 순서대로 해석해 불러온다.
-            for (int i = 0; i < m.info.requestedModules.size(); i++) {
-                String spec = m.info.requestedModules.get(i);
+            for (ModuleRequest request : m.info.moduleRequests) {
+                String spec = request.getSpecifier();
+                // 속성을 처리할 로더가 연결되기 전에는 속성이 유실되는 요청을 거부한다.
+                if (!request.getAttributes().isEmpty()) {
+                    throw JsException.typeError("Unsupported import attributes for module '" + spec + "'");
+                }
                 if (loader == null) {
                     throw JsException.typeError("Cannot resolve module '" + spec + "': no module loader is configured");
                 }
@@ -257,15 +262,15 @@ final class ModuleRecord {
     }
 
     /**
-     * Finds the requested module for a specifier.
+     * Finds the loaded module associated with an exact request.
      * <p>
-     * 지정자에 해당하는 요청 모듈을 찾는다.
+     * 지정자와 속성이 일치하는 요청의 모듈을 찾는다.
      *
-     * @param specifier the module specifier / 모듈 지정자
+     * @param request the module request / 모듈 요청
      * @return the module / 모듈
      */
-    private ModuleRecord requestedModule(String specifier) {
-        return requested.get(info.requestedModules.indexOf(specifier));
+    private ModuleRecord requestedModule(ModuleRequest request) {
+        return requested.get(info.moduleRequests.indexOf(request));
     }
 
     // ------------------------------------------------------------------ linking
@@ -326,7 +331,7 @@ final class ModuleRecord {
         // 가져온 이름마다 export 를 찾아 바인딩을 연결한다. 네임스페이스 가져오기는 네임스페이스 객체를 넣는다.
         for (int i = 0; i < info.imports.size(); i++) {
             ProgramInfo.ImportEntry ie = info.imports.get(i);
-            ModuleRecord target = requestedModule(ie.moduleRequest);
+            ModuleRecord target = requestedModule(ie.request);
             Binding local = env.own(ie.localName);
             if ("*".equals(ie.importName)) {
                 local.value = target.getNamespace();
@@ -388,7 +393,7 @@ final class ModuleRecord {
             if (name.equals(e.exportName)) {
                 ProgramInfo.ImportEntry imp = importOf(e.localName);
                 if (imp != null && !"*".equals(imp.importName)) {
-                    return requestedModule(imp.moduleRequest).resolveExport(imp.importName, resolveSet);
+                    return requestedModule(imp.request).resolveExport(imp.importName, resolveSet);
                 }
                 return new Resolved(this, e.localName);
             }
@@ -397,7 +402,7 @@ final class ModuleRecord {
         for (int i = 0; i < info.indirectExports.size(); i++) {
             ProgramInfo.ExportEntry e = info.indirectExports.get(i);
             if (name.equals(e.exportName)) {
-                return requestedModule(e.moduleRequest).resolveExport(e.importName, resolveSet);
+                return requestedModule(e.request).resolveExport(e.importName, resolveSet);
             }
         }
         if (name.equals("default")) {
@@ -407,7 +412,7 @@ final class ModuleRecord {
         // export * from 로 가져온 모듈들에서 이름을 찾는다. 서로 다른 결과가 둘이면 모호하다.
         for (int i = 0; i < info.starExports.size(); i++) {
             ProgramInfo.ExportEntry e = info.starExports.get(i);
-            Resolved r = requestedModule(e.moduleRequest).resolveExport(name, resolveSet);
+            Resolved r = requestedModule(e.request).resolveExport(name, resolveSet);
             if (r == AMBIGUOUS) {
                 return AMBIGUOUS;
             }
@@ -463,7 +468,7 @@ final class ModuleRecord {
         }
         // 별표 export 의 이름을 추가한다. default 는 별표로 전달되지 않는다.
         for (int i = 0; i < info.starExports.size(); i++) {
-            List<String> star = requestedModule(info.starExports.get(i).moduleRequest).exportedNames(visited);
+            List<String> star = requestedModule(info.starExports.get(i).request).exportedNames(visited);
             // star export 로 가져온 이름을 모은다.
             for (int k = 0; k < star.size(); k++) {
                 String n = star.get(k);

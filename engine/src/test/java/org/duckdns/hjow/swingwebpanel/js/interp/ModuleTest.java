@@ -170,6 +170,18 @@ public class ModuleTest {
     }
 
     /**
+     * Rejects an unsupported attribute instead of fetching the unqualified request.
+     * <p>
+     * 지원하지 않는 속성을 거부하고 속성 없는 모듈 요청으로 바꾸어 가져오지 않는다.
+     */
+    public void testUnsupportedStaticAttribute() {
+        setUp("root.js", "export * from 'dep.js' with {unknown:'x'};",
+                "dep.js", "export const value = 1;");
+        Check.isTrue(error("root.js").indexOf("import attribute") >= 0, "unsupported import attribute");
+        Check.equal("[root.js]", loader.fetched.toString(), "no dependency fetch");
+    }
+
+    /**
      * Named exports and imports, renaming, and the namespace import.
      * <p>
      * 이름 있는 export 와 import, 이름 바꾸기, 네임스페이스 import.

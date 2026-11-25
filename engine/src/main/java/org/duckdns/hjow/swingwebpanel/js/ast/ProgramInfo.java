@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.js.ast;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 
 /**
  * Information about a whole script or module, stored in the value field of the PROGRAM node: strictness, the goal, the
@@ -24,6 +25,8 @@ public final class ProgramInfo {
          * 모듈 지정자.
          */
         public final String moduleRequest;
+        /** The request including attributes. / 속성을 포함한 요청. */
+        public final ModuleRequest request;
         /**
          * The imported name; "default" for default imports and "*" for namespace imports.
          * <p>
@@ -47,7 +50,35 @@ public final class ProgramInfo {
          * @param localName     local name / 로컬 이름
          */
         public ImportEntry(String moduleRequest, String importName, String localName) {
-            this.moduleRequest = moduleRequest;
+            this(moduleRequest == null ? null : new ModuleRequest(moduleRequest), importName, localName);
+        }
+
+        /**
+         * Creates an entry referring to an attributed module request.
+         * <p>
+         * 속성이 있는 모듈 요청을 가리키는 항목을 만든다.
+         *
+         * @param request requesting specifier and attributes / 요청 지정자와 속성
+         * @param importName imported name / 가져오는 이름
+         * @param localName local binding name / 지역 바인딩 이름
+         * @return import entry / 가져오기 항목
+         */
+        public static ImportEntry forRequest(ModuleRequest request, String importName, String localName) {
+            return new ImportEntry(request, importName, localName);
+        }
+
+        /**
+         * Stores a request and the names it binds.
+         * <p>
+         * 요청과 요청이 바인딩하는 이름을 저장한다.
+         *
+         * @param request module request / 모듈 요청
+         * @param importName imported name / 가져오는 이름
+         * @param localName local binding name / 지역 바인딩 이름
+         */
+        private ImportEntry(ModuleRequest request, String importName, String localName) {
+            this.request = request;
+            this.moduleRequest = request == null ? null : request.getSpecifier();
             this.importName = importName;
             this.localName = localName;
         }
@@ -73,6 +104,8 @@ public final class ProgramInfo {
          * 재내보내기의 모듈 지정자. 아니면 null.
          */
         public final String moduleRequest;
+        /** The re-export request including attributes, or null for a local export. / 속성을 포함한 재내보내기 요청. 지역 내보내기면 null. */
+        public final ModuleRequest request;
         /**
          * The name imported from the other module for re-exports.
          * <p>
@@ -97,8 +130,37 @@ public final class ProgramInfo {
          * @param localName     local name or null / 로컬 이름 또는 null
          */
         public ExportEntry(String exportName, String moduleRequest, String importName, String localName) {
+            this(exportName, moduleRequest == null ? null : new ModuleRequest(moduleRequest), importName, localName);
+        }
+
+        /**
+         * Creates an indirect export with a full module request.
+         * <p>
+         * 전체 모듈 요청을 포함한 간접 내보내기 항목을 만든다.
+         *
+         * @param exportName exported name or null for a star export / 내보내는 이름. 별표 내보내기면 null
+         * @param request re-export request / 재내보내기 요청
+         * @param importName imported name / 가져오는 이름
+         * @return export entry / 내보내기 항목
+         */
+        public static ExportEntry forRequest(String exportName, ModuleRequest request, String importName) {
+            return new ExportEntry(exportName, request, importName, null);
+        }
+
+        /**
+         * Stores local or indirect export data.
+         * <p>
+         * 지역 또는 간접 내보내기 정보를 저장한다.
+         *
+         * @param exportName exported name or null / 내보내는 이름 또는 null
+         * @param request re-export request or null / 재내보내기 요청 또는 null
+         * @param importName imported name or null / 가져오는 이름 또는 null
+         * @param localName local binding name or null / 지역 바인딩 이름 또는 null
+         */
+        private ExportEntry(String exportName, ModuleRequest request, String importName, String localName) {
             this.exportName = exportName;
-            this.moduleRequest = moduleRequest;
+            this.request = request;
+            this.moduleRequest = request == null ? null : request.getSpecifier();
             this.importName = importName;
             this.localName = localName;
         }
@@ -133,11 +195,30 @@ public final class ProgramInfo {
     public String sourceName;
 
     /**
-     * Requested module specifiers in order of first appearance (modules only).
+     * Requested specifiers in order of first appearance. Kept for clients reading the original parser model.
      * <p>
-     * 처음 나타난 순서의 요청 모듈 지정자(모듈 전용).
+     * 처음 나타난 순서의 요청 지정자. 기존 파서 모델을 읽는 호출자용이다.
      */
     public final List<String> requestedModules = new ArrayList<String>();
+
+    /** Unique module requests in first appearance order. / 처음 나타난 순서의 고유 모듈 요청. */
+    public final List<ModuleRequest> moduleRequests = new ArrayList<ModuleRequest>();
+
+    /**
+     * Records a request in both the full and specifier-only views.
+     * <p>
+     * 전체 모듈 요청 목록과 지정자만의 목록에 요청을 기록한다.
+     *
+     * @param request parsed module request / 파싱한 모듈 요청
+     */
+    public void addModuleRequest(ModuleRequest request) {
+        if (!moduleRequests.contains(request)) {
+            moduleRequests.add(request);
+        }
+        if (!requestedModules.contains(request.getSpecifier())) {
+            requestedModules.add(request.getSpecifier());
+        }
+    }
 
     /**
      * Import entries (modules only).

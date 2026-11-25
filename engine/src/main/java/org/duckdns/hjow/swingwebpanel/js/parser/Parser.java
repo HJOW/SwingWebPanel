@@ -1,11 +1,14 @@
 package org.duckdns.hjow.swingwebpanel.js.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsString;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo;
 import org.duckdns.hjow.swingwebpanel.js.ast.Node;
 import org.duckdns.hjow.swingwebpanel.js.ast.NodeType;
@@ -1126,21 +1129,63 @@ public final class Parser extends ExpressionParser {
     // ------------------------------------------------------------------ modules
 
     /**
-     * Requires that the current token is a string literal and returns the module specifier.
+     * Parses a module specifier and its optional WithClause.
      * <p>
-     * 현재 토큰이 문자열 리터럴인지 확인하고 모듈 지정자를 반환한다.
+     * 모듈 지정자와 선택적인 WithClause를 파싱한다.
      *
-     * @return the specifier / 지정자
+     * @return the module request / 모듈 요청
      */
-    private String parseModuleSpecifier() {
+    private ModuleRequest parseModuleRequest() {
+        String specifier = parseModuleString();
+        ModuleRequest request;
+        if (isN("with")) {
+            next();
+            expectP("{");
+            Map<String, String> attributes = new HashMap<String, String>();
+            // 문자열 또는 식별자 이름으로 된 속성 키와 문자열 값을 차례로 읽는다.
+            while (!isP("}")) {
+                Token key = tok;
+                if (key.type == TokenType.STRING) {
+                    parseModuleString();
+                } else if (key.type == TokenType.NAME) {
+                    next();
+                } else {
+                    throw unexpected(key);
+                }
+                expectP(":");
+                String value = parseModuleString();
+                if (attributes.put(key.value, value) != null) {
+                    throw error("Duplicate import attribute '" + key.value + "'", key);
+                }
+                if (!isP("}")) {
+                    expectP(",");
+                }
+            }
+            expectP("}");
+            request = new ModuleRequest(specifier, attributes);
+        } else {
+            request = new ModuleRequest(specifier);
+        }
+        pinfo.addModuleRequest(request);
+        return request;
+    }
+
+    /**
+     * Consumes a string literal for a module specifier or attribute.
+     * <p>
+     * 모듈 지정자나 속성에 쓰는 문자열 리터럴을 읽는다.
+     *
+     * @return decoded literal / 해석한 리터럴
+     */
+    private String parseModuleString() {
         if (tok.type != TokenType.STRING) {
             throw unexpected(tok);
         }
+        if (tok.legacyOctal) {
+            throw error("Legacy octal escape is not allowed in a module string", tok);
+        }
         String s = tok.value;
         next();
-        if (!pinfo.requestedModules.contains(s)) {
-            pinfo.requestedModules.add(s);
-        }
         return s;
     }
 
@@ -1159,7 +1204,7 @@ public final class Parser extends ExpressionParser {
         next();
         Node n = mk(NodeType.IMPORT, t);
         if (tok.type == TokenType.STRING) {
-            n.name = parseModuleSpecifier();
+            n.name = parseModuleRequest().getSpecifier();
             consumeSemicolon();
             return done(n);
         }
@@ -1182,11 +1227,11 @@ public final class Parser extends ExpressionParser {
             throw unexpected(tok);
         }
         next();
-        String spec = parseModuleSpecifier();
+        ModuleRequest request = parseModuleRequest();
         for (int i = 0; i < bindings.size(); i++) { // 가져오기 바인딩을 항목으로 기록한다.
-            pinfo.imports.add(new ProgramInfo.ImportEntry(spec, bindings.get(i)[0], bindings.get(i)[1]));
+            pinfo.imports.add(ProgramInfo.ImportEntry.forRequest(request, bindings.get(i)[0], bindings.get(i)[1]));
         }
-        n.name = spec;
+        n.name = request.getSpecifier();
         consumeSemicolon();
         return done(n);
     }
@@ -1285,10 +1330,10 @@ public final class Parser extends ExpressionParser {
                     throw unexpected(tok);
                 }
                 next();
-                String spec = parseModuleSpecifier();
+                ModuleRequest request = parseModuleRequest();
                 addExportName(exported.value, exported);
-                pinfo.indirectExports.add(new ProgramInfo.ExportEntry(exported.value, spec, "*", null));
-                n.name = spec;
+                pinfo.indirectExports.add(ProgramInfo.ExportEntry.forRequest(exported.value, request, "*"));
+                n.name = request.getSpecifier();
                 n.op = 3;
                 consumeSemicolon();
                 return done(n);
@@ -1297,9 +1342,9 @@ public final class Parser extends ExpressionParser {
                 throw unexpected(tok);
             }
             next();
-            String spec = parseModuleSpecifier();
-            pinfo.starExports.add(new ProgramInfo.ExportEntry(null, spec, "*", null));
-            n.name = spec;
+            ModuleRequest request = parseModuleRequest();
+            pinfo.starExports.add(ProgramInfo.ExportEntry.forRequest(null, request, "*"));
+            n.name = request.getSpecifier();
             n.op = 3;
             consumeSemicolon();
             return done(n);
@@ -1399,12 +1444,12 @@ public final class Parser extends ExpressionParser {
         expectP("}");
         if (isN("from")) {
             next();
-            String spec = parseModuleSpecifier();
-            n.name = spec;
+            ModuleRequest request = parseModuleRequest();
+            n.name = request.getSpecifier();
             n.op = 3;
             for (int i = 0; i < items.size(); i++) { // 다시 내보내기 항목을 기록한다.
                 addExportName(items.get(i)[1].value, items.get(i)[1]);
-                pinfo.indirectExports.add(new ProgramInfo.ExportEntry(items.get(i)[1].value, spec, items.get(i)[0].value, null));
+                pinfo.indirectExports.add(ProgramInfo.ExportEntry.forRequest(items.get(i)[1].value, request, items.get(i)[0].value));
             }
         } else {
             n.op = 2;

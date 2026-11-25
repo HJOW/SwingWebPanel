@@ -1,11 +1,15 @@
 package org.duckdns.hjow.swingwebpanel.js.parser;
 
+import org.duckdns.hjow.swingwebpanel.js.ErrorKind;
+import org.duckdns.hjow.swingwebpanel.js.JsException;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.ast.AstDump;
 import org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo;
 import org.duckdns.hjow.swingwebpanel.js.ast.Node;
 import org.duckdns.hjow.swingwebpanel.js.ast.NodeType;
 import org.duckdns.hjow.swingwebpanel.js.ast.ProgramInfo;
 import org.duckdns.hjow.swingwebpanel.js.ast.ScopeInfo;
+import org.duckdns.hjow.swingwebpanel.testing.Block;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
@@ -312,6 +316,54 @@ public class ParserStatementTest {
         Node dflt = Parser.parseModule("export default 1 + 2;", "m.js");
         Check.equal("(program (export (+ 1 2)))", AstDump.dump(dflt), "default expression export");
         Check.isTrue(dflt.list[0].flag, "marked as an expression");
+    }
+
+    /**
+     * Static imports and re-exports preserve attributes and compare decoded requests.
+     * <p>
+     * 정적 가져오기와 재내보내기는 속성을 보존하고 디코딩한 요청을 비교한다.
+     */
+    public void testModuleAttributes() {
+        Node parsed = Parser.parseModule("import 'm' with {type:'json', 'mode':'x',};"
+                + "import data, {x} from 'm'\nwith {'mode':'x', 't\\u0079pe':'json'};"
+                + "export {x as y} from 'm' with {type:'other'};"
+                + "export * as ns from 'm' with {default:'namespace'};"
+                + "export * from 'm' with {};"
+                + "import 'm';", "m.js");
+        ProgramInfo info = (ProgramInfo) parsed.value;
+        Check.equal(4, info.moduleRequests.size(), "deduplicate equivalent requests");
+        ModuleRequest first = info.moduleRequests.get(0);
+        Check.equal("json", first.getAttributes().get("type"), "string value");
+        Check.equal(first, info.imports.get(0).request, "default import");
+        Check.equal(first, info.imports.get(1).request, "named import");
+        Check.equal("other", info.indirectExports.get(0).request.getAttributes().get("type"), "indirect export");
+        Check.equal("namespace", info.indirectExports.get(1).request.getAttributes().get("default"), "namespace export");
+        Check.equal(new ModuleRequest("m"), info.starExports.get(0).request, "empty attribute list");
+    }
+
+    /**
+     * Duplicate decoded keys and invalid clauses fail during module parsing.
+     * <p>
+     * 디코딩하면 같은 키나 잘못된 속성 절은 모듈 파싱 중 오류가 된다.
+     */
+    public void testModuleAttributeErrors() {
+        String[] invalid = {
+            "import 'm' with {type:'json', 't\\u0079pe':'json'};",
+            "import 'm' with {type:json};",
+            "export * from 'm' with {1:'json'};",
+            "import 'm' with {type:'\\141'};",
+            "import 'm' w\\u0069th {type:'json'};",
+            "import 'm' with {,};"
+        };
+        // 각 잘못된 절이 파싱 중 SyntaxError를 내는지 확인한다.
+        for (final String source : invalid) {
+            JsException ex = (JsException) Check.throwsException(JsException.class, new Block() {
+                public void run() {
+                    Parser.parseModule(source, "m.js");
+                }
+            }, source);
+            Check.equal(ErrorKind.SYNTAX_ERROR, ex.getKind(), source);
+        }
     }
 
     /**
