@@ -1,7 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.js.builtins.datajson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsArray;
 import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
@@ -144,14 +147,13 @@ public final class JsonBuiltins {
              */
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 String text = Ops.toString(Js.arg(args, 0));
-                JsValue unfiltered = parse(r, text);
                 JsValue reviver = Js.arg(args, 1);
                 if (reviver.isCallable()) {
-                    JsObject root = r.newObject();
-                    root.createDataProperty("", unfiltered);
-                    return internalize(root, "", reviver, 0);
+                    SourceReviver source = new SourceReviver(r, text, reviver);
+                    parse(r, text, source);
+                    return source.run();
                 }
-                return unfiltered;
+                return parse(r, text);
             }
         });
         realm.method(json, "stringify", 3, new NativeFunction.Call() {
@@ -233,6 +235,20 @@ public final class JsonBuiltins {
      * @return the value / 값
      */
     public static JsValue parse(JsRealm r, String text) {
+        return parse(r, text, null);
+    }
+
+    /**
+     * Parses JSON with optional source records for reviver callbacks.
+     * <p>
+     * JSON을 파싱하고 필요한 경우 reviver 콜백용 원문 기록을 저장한다.
+     *
+     * @param r realm / realm
+     * @param text JSON text / JSON 텍스트
+     * @param source optional source tracker / 선택적인 원문 추적기
+     * @return parsed value / 파싱한 값
+     */
+    private static JsValue parse(JsRealm r, String text, SourceReviver source) {
         JsonTokenizer t = new JsonTokenizer(text);
         List<JsObject> containers = new ArrayList<JsObject>();
         List<String> keys = new ArrayList<String>();
@@ -311,12 +327,23 @@ public final class JsonBuiltins {
                 // 완성된 값을 바깥 컨테이너에 넣거나, 최상위이면 결과로 삼는다.
                 if (containers.isEmpty()) {
                     result = value;
+                    if (source != null) {
+                        source.record(null, "", value, t);
+                    }
                 } else {
                     JsObject top = containers.get(containers.size() - 1);
                     if (top instanceof JsArray) {
-                        ((JsArray) top).add(value);
+                        JsArray array = (JsArray) top;
+                        if (source != null) {
+                            source.record(top, String.valueOf(array.getLength()), value, t);
+                        }
+                        array.add(value);
                     } else {
-                        top.createDataProperty(keys.get(keys.size() - 1), value);
+                        String key = keys.get(keys.size() - 1);
+                        if (source != null) {
+                            source.record(top, key, value, t);
+                        }
+                        top.createDataProperty(key, value);
                     }
                 }
                 state = AFTER_VALUE;
@@ -325,40 +352,167 @@ public final class JsonBuiltins {
     }
 
     /**
-     * InternalizeJSONProperty (ECMA-262 24.3.1.1): applies the reviver bottom-up.
+     * Preserves a parsed value and, for primitives, its original source range.
      * <p>
-     * InternalizeJSONProperty (ECMA-262 24.3.1.1): reviver 를 아래에서 위로 적용한다.
-     *
-     * @param holder  the object holding the property / 프로퍼티를 가진 객체
-     * @param name    the property name / 프로퍼티 이름
-     * @param reviver the reviver function / reviver 함수
-     * @param depth   current depth / 현재 깊이
-     * @return the revived value / 변환된 값
+     * 파싱한 값과 원시 값인 경우 원문의 범위를 보존한다.
      */
-    private static JsValue internalize(JsObject holder, String name, JsValue reviver, int depth) {
-        if (depth > MAX_DEPTH) {
-            throw JsException.rangeError("Maximum call stack size exceeded");
+    private static final class ParsedValue {
+        /** Original ECMAScript value. / 원래 ECMAScript 값. */
+        final JsValue value;
+
+        /** Start offset for primitive values. / 원시 값의 시작 위치. */
+        final int start;
+
+        /** Exclusive end offset for primitive values. / 원시 값의 마지막 다음 위치. */
+        final int end;
+
+        /**
+         * Records a value and the token range.
+         * <p>
+         * 값과 토큰 범위를 기록한다.
+         *
+         * @param value parsed value / 파싱한 값
+         * @param tokenizer tokenizer at the completed value / 값 읽기를 마친 토큰화기
+         */
+        ParsedValue(JsValue value, JsonTokenizer tokenizer) {
+            this.value = value;
+            this.start = value instanceof JsObject ? -1 : tokenizer.getTokenStart();
+            this.end = value instanceof JsObject ? -1 : tokenizer.getTokenEnd();
         }
-        JsValue val = holder.get(name);
-        if (val instanceof JsObject) {
-            JsObject o = (JsObject) val;
-            if (Ops.isArray(val)) {
-                double len = Ops.toLength(o.get("length"));
-                // 배열의 각 요소를 먼저 변환하고, undefined 이면 삭제한다.
-                for (double i = 0; i < len; i++) {
-                    String p = String.valueOf((long) i);
-                    replace(o, p, internalize(o, p, reviver, depth + 1));
-                }
-            } else {
-                List<String> keys = Ops.enumerableOwnKeys(o);
-                // 객체의 열거 가능한 자체 키마다 같은 방식으로 변환한다.
-                for (int i = 0; i < keys.size(); i++) {
-                    String p = keys.get(i);
-                    replace(o, p, internalize(o, p, reviver, depth + 1));
+    }
+
+    /**
+     * Collects source records during parsing and invokes the reviver from children to parents.
+     * <p>
+     * 파싱 중 원문 기록을 모으고 자식에서 부모 순서로 reviver를 호출한다.
+     */
+    private static final class SourceReviver {
+        /** Realm that supplies the context objects. / context 객체를 만드는 realm. */
+        private final JsRealm realm;
+
+        /** Original JSON text. / JSON 원문. */
+        private final String text;
+
+        /** Callback supplied to JSON.parse. / JSON.parse에 전달한 콜백. */
+        private final JsValue callback;
+
+        /** Original child records by container identity and property key. / 컨테이너의 동일성과 프로퍼티 키별 원래 자식 기록. */
+        private final Map<JsObject, Map<String, ParsedValue>> records = new IdentityHashMap<JsObject, Map<String, ParsedValue>>();
+
+        /** Parsed root, including its source range when it is a primitive. / 원시 값이면 원문 범위를 포함하는 최상위 파싱 결과. */
+        private ParsedValue root;
+
+        /**
+         * Starts source tracking for one parse call.
+         * <p>
+         * 파싱 호출 하나의 원문 추적을 시작한다.
+         *
+         * @param realm the operating realm / 실행 realm
+         * @param text original JSON text / JSON 원문
+         * @param callback reviver function / reviver 함수
+         */
+        SourceReviver(JsRealm realm, String text, JsValue callback) {
+            this.realm = realm;
+            this.text = text;
+            this.callback = callback;
+        }
+
+        /**
+         * Records a root or child value as soon as its parsing completes.
+         * <p>
+         * 최상위 값 또는 자식 값의 파싱이 끝났을 때 해당 값을 기록한다.
+         *
+         * @param holder parent container, or null for the root / 부모 컨테이너, 최상위이면 null
+         * @param name property key / 프로퍼티 키
+         * @param value original parsed value / 원래 파싱한 값
+         * @param tokenizer current tokenizer / 현재 토큰화기
+         */
+        void record(JsObject holder, String name, JsValue value, JsonTokenizer tokenizer) {
+            ParsedValue parsed = new ParsedValue(value, tokenizer);
+            if (holder == null) {
+                root = parsed;
+                return;
+            }
+            Map<String, ParsedValue> children = records.get(holder);
+            if (children == null) {
+                children = new HashMap<String, ParsedValue>();
+                records.put(holder, children);
+            }
+            // 중복 키에서는 마지막에 파싱한 값과 원문 위치를 남긴다.
+            children.put(name, parsed);
+        }
+
+        /**
+         * Runs the callback walk using a synthetic root holder.
+         * <p>
+         * 내부 최상위 컨테이너로부터 콜백 순회를 실행한다.
+         *
+         * @return revived root / 변환된 최상위 값
+         */
+        JsValue run() {
+            JsObject holder = realm.newObject();
+            holder.createDataProperty("", root.value);
+            return internalize(holder, "", root, 0);
+        }
+
+        /**
+         * Applies InternalizeJSONProperty to the current value and its children.
+         * <p>
+         * 현재 값과 자식들에 InternalizeJSONProperty를 적용한다.
+         *
+         * @param holder object holding the property / 프로퍼티를 가진 객체
+         * @param name property key / 프로퍼티 키
+         * @param parsed original record, or null / 원래의 기록 또는 null
+         * @param depth current nesting depth / 현재의 중첩 깊이
+         * @return revived value / 변환된 값
+         */
+        private JsValue internalize(JsObject holder, String name, ParsedValue parsed, int depth) {
+            if (depth > MAX_DEPTH) {
+                throw JsException.rangeError("Maximum call stack size exceeded");
+            }
+            realm.getLimits().tick();
+            JsValue val = holder.get(name);
+            JsObject context = realm.newObject();
+            boolean original = parsed != null && Ops.sameValue(parsed.value, val);
+            if (original && parsed.start >= 0) {
+                // Java 6의 substring이 큰 입력 배열을 보존하지 않도록 토큰 부분만 복사한다.
+                context.createDataProperty("source", Js.str(new String(text.substring(parsed.start, parsed.end))));
+            }
+            if (val instanceof JsObject) {
+                JsObject object = (JsObject) val;
+                // 콜백이 컨테이너를 다른 값으로 바꿨으면 그 자식의 원문 기록도 사용하지 않는다.
+                Map<String, ParsedValue> children = original ? records.get(object) : null;
+                if (Ops.isArray(val)) {
+                    long len = (long) Ops.toLength(object.get("length"));
+                    // 최초 길이까지 현재 요소들을 자식 순서로 변환한다.
+                    for (long i = 0L; i < len; i++) {
+                        reviveChild(object, String.valueOf(i), children, depth);
+                    }
+                } else {
+                    List<String> keys = Ops.enumerableOwnKeys(object);
+                    // 처음 수집한 자체 열거 키 순서대로 현재 값을 변환한다.
+                    for (String key : keys) {
+                        reviveChild(object, key, children, depth);
+                    }
                 }
             }
+            return Ops.call(callback, holder, new JsValue[] { Js.str(name), val, context });
         }
-        return Ops.call(reviver, holder, new JsValue[] { Js.str(name), val });
+
+        /**
+         * Internalizes a child property and applies its callback result.
+         * <p>
+         * 자식 프로퍼티를 변환하고 콜백 결과를 반영한다.
+         *
+         * @param holder the child container / 자식 값의 컨테이너
+         * @param key child key / 자식 키
+         * @param children original child records, or null / 원래 자식 기록 또는 null
+         * @param depth parent nesting depth / 부모의 중첩 깊이
+         */
+        private void reviveChild(JsObject holder, String key, Map<String, ParsedValue> children, int depth) {
+            ParsedValue parsed = children == null ? null : children.get(key);
+            replace(holder, key, internalize(holder, key, parsed, depth + 1));
+        }
     }
 
     /**

@@ -157,6 +157,17 @@ public final class JsonTokenizer {
     }
 
     /**
+     * Returns the exclusive end offset of the current token.
+     * <p>
+     * 현재 토큰의 끝 다음 위치를 반환한다.
+     *
+     * @return exclusive offset / 끝 다음 위치
+     */
+    public int getTokenEnd() {
+        return pos;
+    }
+
+    /**
      * Returns the decoded string of the current STRING token.
      * <p>
      * 현재 STRING 토큰의 해독한 문자열을 반환한다.

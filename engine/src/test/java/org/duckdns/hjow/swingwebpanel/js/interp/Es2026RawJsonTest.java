@@ -68,4 +68,61 @@ public class Es2026RawJsonTest {
                 + "|to:a,raw:true,big:0:bigint|{\"x\":\"normal\"}|[false,null,\"quoted\"]",
                 Scripts.eval(script), "raw serialization uses the value after the ordinary JSON hooks");
     }
+
+    /**
+     * Checks exact source ranges, duplicate keys, contexts and nested primitive conversions.
+     * <p>
+     * 정확한 원문 범위, 중복 키, context 객체 및 중첩 원시 값 변환을 확인한다.
+     */
+    public void testReviverPrimitiveSources() {
+        String script = "const bs=String.fromCharCode(92),quoted='\"'+bs+'u0061'+bs+'/\"', rows=[], contexts=[];"
+                + "const text=' {\"n\": 9007199254740993, \"t\": '+quoted+', \"p\": [-0,true,null], \"dup\":1,\"dup\":4.00e0 } ';"
+                + "const value=JSON.parse(text,function(k,v,c){"
+                + "rows.push(k+':'+(Object.hasOwn(c,'source')?c.source:'-'));contexts.push(c);"
+                + "if(k==='n')return BigInt(c.source);return v;});"
+                + "const d=Object.getOwnPropertyDescriptor(contexts[0],'source');"
+                + "const root=JSON.parse(' \\n -0 \\t ',function(k,v,c){return [k,Object.is(v,-0),c.source,arguments.length].join(':');});"
+                + "[rows.join(';')==='n:9007199254740993;t:'+quoted+';0:-0;1:true;2:null;p:-;dup:4.00e0;:-',"
+                + "value.n===9007199254740993n,value.t==='a/',value.dup===4,Object.is(value.p[0],-0),"
+                + "contexts.every(c=>Object.getPrototypeOf(c)===Object.prototype),new Set(contexts).size===contexts.length,"
+                + "d.enumerable,d.writable,d.configurable,root].join('|')";
+        Check.equal("true|true|true|true|true|true|true|true|true|true|:true:-0:3",
+                Scripts.eval(script), "reviver contexts cover the original token and preserve callback argument order");
+    }
+
+    /**
+     * Checks live object traversal with replaced values, changed array elements, and SameValue comparisons.
+     * <p>
+     * 값 교체, 배열 요소 변경 및 SameValue 비교를 포함한 현재 객체 순회를 확인한다.
+     */
+    public void testReviverContextsAfterSiblingMutation() {
+        String script = "const seen=[],input='{\"start\":0,\"num\":2.00,\"zero\":-0,\"obj\":{\"child\":9},"
+                + "\"arr\":[0,1,2],\"same\":1.10,\"removed\":7,\"fixed\":8}';"
+                + "const result=JSON.parse(input,function(k,v,c){"
+                + "seen.push(k+':'+(Object.hasOwn(c,'source')?c.source:'-'));"
+                + "if(k==='start'){this.num=3;this.zero=0;this.obj={child:9};this.same=1.1;"
+                + "delete this.removed;Object.defineProperty(this,'fixed',{configurable:false});}"
+                + "if(k==='0'&&Array.isArray(this)){this[1]=1;this[2]='changed';this[3]=4;}"
+                + "if(k==='fixed')return undefined;return v;});"
+                + "[seen.join(';'),result.arr.join(),result.same,result.fixed,'removed'in result].join('|')";
+        Check.equal("start:0;num:-;zero:-;child:-;obj:-;0:0;1:1;2:-;arr:-;same:1.10;removed:-;fixed:8;:-"
+                + "|0,1,changed,4|1.1|8|false", Scripts.eval(script),
+                "changed values omit source and unchanged primitives retain their original spelling");
+    }
+
+    /**
+     * Checks that reviver parsing is reentrant and contexts remain ordinary independent objects.
+     * <p>
+     * reviver의 파싱 재진입과 context 객체의 독립성을 검사한다.
+     */
+    public void testReviverReentry() {
+        String script = "const rows=[];"
+                + "const value=JSON.parse('{\"a\":1.00,\"b\":2.0}',function(k,v,c){"
+                + "if(k==='a'){rows.push(JSON.parse('3e0',(_,n,inner)=>inner.source));"
+                + "rows.push(c.source);c.source='changed';return v;}"
+                + "if(k==='b')rows.push(c.source);else rows.push(Object.keys(c).join());return v;});"
+                + "[rows.join('/'),value.a,value.b,JSON.parse('4',{}),JSON.stringify(value)].join('|')";
+        Check.equal("3e0/1.00/2.0/|1|2|4|{\"a\":1,\"b\":2}", Scripts.eval(script),
+                "nested parses and context changes do not leak source between callbacks");
+    }
 }
