@@ -1,5 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.js.builtins.typed;
 
+import java.math.BigInteger;
+import org.duckdns.hjow.swingwebpanel.js.Js;
+import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
+import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 
 /**
@@ -77,7 +81,21 @@ public enum ElementType {
      * <p>
      * Float64Array: IEEE 754 배정밀도 숫자.
      */
-    FLOAT64("Float64Array", 8);
+    FLOAT64("Float64Array", 8),
+
+    /**
+     * BigInt64Array: signed 64 bit integers.
+     * <p>
+     * BigInt64Array: 부호 있는 64비트 정수.
+     */
+    BIGINT64("BigInt64Array", 8),
+
+    /**
+     * BigUint64Array: unsigned 64 bit integers.
+     * <p>
+     * BigUint64Array: 부호 없는 64비트 정수.
+     */
+    BIGUINT64("BigUint64Array", 8);
 
     /**
      * Name of the constructor, for example "Int8Array" (also the value of the [[TypedArrayName]] slot).
@@ -129,6 +147,65 @@ public enum ElementType {
     }
 
     /**
+     * Tells whether this element type stores BigInt values.
+     * <p>
+     * 이 요소 형식이 BigInt 값을 저장하는지 알려 준다.
+     *
+     * @return true for BigInt elements / BigInt 요소이면 true
+     */
+    public boolean isBigInt() {
+        return this == BIGINT64 || this == BIGUINT64;
+    }
+
+    /**
+     * Reads one element as a JavaScript value.
+     * <p>
+     * 요소 하나를 JavaScript 값으로 읽는다.
+     *
+     * @param data bytes / 바이트
+     * @param offset first byte / 첫 바이트
+     * @param littleEndian byte order / 바이트 순서
+     * @return Number or BigInt / Number 또는 BigInt
+     */
+    public JsValue readValue(byte[] data, int offset, boolean littleEndian) {
+        if (!isBigInt()) {
+            return Js.num(read(data, offset, littleEndian));
+        }
+        long bits = readBits(data, offset, 8, littleEndian);
+        return JsBigInt.of(this == BIGINT64 ? BigInteger.valueOf(bits) : unsignedLong(bits));
+    }
+
+    /**
+     * Converts and writes one JavaScript value.
+     * <p>
+     * JavaScript 값 하나를 변환해 쓴다.
+     *
+     * @param data bytes / 바이트
+     * @param offset first byte / 첫 바이트
+     * @param value value to store / 저장할 값
+     * @param littleEndian byte order / 바이트 순서
+     */
+    public void writeValue(byte[] data, int offset, JsValue value, boolean littleEndian) {
+        if (isBigInt()) {
+            writeBits(data, offset, 8, Ops.toBigInt(value).longValue(), littleEndian);
+        } else {
+            write(data, offset, Ops.toNumber(value), littleEndian);
+        }
+    }
+
+    /**
+     * Turns a signed Java long bit pattern into an unsigned 64-bit integer.
+     * <p>
+     * Java long 의 부호 있는 비트 패턴을 부호 없는 64비트 정수로 바꾼다.
+     */
+    private static BigInteger unsignedLong(long bits) {
+        if (bits >= 0) {
+            return BigInteger.valueOf(bits);
+        }
+        return BigInteger.valueOf(bits & Long.MAX_VALUE).setBit(63);
+    }
+
+    /**
      * Reads one element from a byte array.
      * <p>
      * 바이트 배열에서 요소 하나를 읽는다.
@@ -155,8 +232,10 @@ public enum ElementType {
             return readBits(data, offset, 4, littleEndian) & 0xFFFFFFFFL;
         case FLOAT32:
             return Float.intBitsToFloat((int) readBits(data, offset, 4, littleEndian));
-        default:
+        case FLOAT64:
             return Double.longBitsToDouble(readBits(data, offset, 8, littleEndian));
+        default:
+            return ((JsBigInt) readValue(data, offset, littleEndian)).getValue().doubleValue();
         }
     }
 
@@ -190,9 +269,11 @@ public enum ElementType {
         case FLOAT32:
             writeBits(data, offset, 4, Float.floatToIntBits((float) value), littleEndian);
             return;
-        default:
+        case FLOAT64:
             writeBits(data, offset, 8, Double.doubleToLongBits(value), littleEndian);
             return;
+        default:
+            throw new IllegalStateException(getConstructorName() + " requires writeValue");
         }
     }
 

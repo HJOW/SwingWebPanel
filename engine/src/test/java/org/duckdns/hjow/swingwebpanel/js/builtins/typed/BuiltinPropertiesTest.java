@@ -189,7 +189,7 @@ public class BuiltinPropertiesTest {
         function("DataView", ctor, "DataView", 3, true);
         keys("DataView", ctor, new String[] { "length", "name", "prototype" }, 0);
         data("DataView.prototype", ctor, "prototype", "");
-        String[] suffixes = { "Int8", "Uint8", "Int16", "Uint16", "Int32", "Uint32", "Float32", "Float64" };
+        String[] suffixes = { "Int8", "Uint8", "Int16", "Uint16", "Int32", "Uint32", "Float32", "Float64", "BigInt64", "BigUint64" };
         List<String> expected = new ArrayList<String>(Arrays.asList("constructor", "buffer", "byteLength", "byteOffset"));
         // 형식마다 getXxx(length 1), setXxx(length 2) 를 점검한다.
         for (int i = 0; i < suffixes.length; i++) {

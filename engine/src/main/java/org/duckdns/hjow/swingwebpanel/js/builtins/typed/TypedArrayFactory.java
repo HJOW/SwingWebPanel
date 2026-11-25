@@ -11,10 +11,10 @@ import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 
 /**
- * The behavior of the nine concrete typed array constructors (ECMA-262 6th edition, 22.2.4): no arguments, a length, another typed array, an
+ * The behavior of the eleven concrete typed array constructors (ECMA-262 2022, 23.2.5): no arguments, a length, another typed array, an
  * ArrayBuffer with offset and length, and an iterable or array-like object.
  * <p>
- * 아홉 개 구체 형식화 배열 생성자의 동작(ECMA-262 6판, 22.2.4): 인수 없음, 길이, 다른 형식화 배열, 위치와 길이를 가진 ArrayBuffer,
+ * 열한 개 구체 형식화 배열 생성자의 동작(ECMA-262 2022, 23.2.5): 인수 없음, 길이, 다른 형식화 배열, 위치와 길이를 가진 ArrayBuffer,
  * 반복 가능 객체 또는 유사 배열 객체.
  */
 final class TypedArrayFactory {
@@ -99,9 +99,9 @@ final class TypedArrayFactory {
         if (source.getType() == type) {
             System.arraycopy(source.getBuffer().getData(), source.getByteOffset(), buffer.getData(), 0, (int) byteLength);
         } else {
-            // 요소 형식이 다르면 요소마다 숫자로 읽어 새 형식으로 바꿔 쓴다.
+            // 요소 형식이 다르면 요소마다 Number/BigInt 로 읽어 새 형식으로 바꿔 쓴다.
             for (int i = 0; i < length; i++) {
-                result.setElement(i, source.getElement(i));
+                result.setElementValue(i, source.getElementValue(i));
             }
         }
         return result;

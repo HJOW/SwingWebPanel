@@ -13,12 +13,12 @@ import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 
 /**
  * Installs the abstract <code>%TypedArray%</code> intrinsic (its static methods <code>from</code> and <code>of</code>, <code>[Symbol.species]</code>
- * and its prototype) and the nine concrete typed array constructors (ECMA-262 6th edition, 22.2). <code>%TypedArray%</code> is not a global; it is
+ * and its prototype) and the eleven concrete typed array constructors (ECMA-262 2022, 23.2). <code>%TypedArray%</code> is not a global; it is
  * reachable as the prototype of the concrete constructors. Registers the intrinsics <code>%TypedArray%</code>, <code>%TypedArrayPrototype%</code>,
  * <code>%Int8Array%</code>, <code>%Int8ArrayPrototype%</code> and so on.
  * <p>
- * 추상 내장 객체 <code>%TypedArray%</code>(정적 메서드 <code>from</code>, <code>of</code>, <code>[Symbol.species]</code>, 프로토타입)와 아홉 개 구체 형식화 배열
- * 생성자를 설치한다(ECMA-262 6판, 22.2). <code>%TypedArray%</code> 는 전역이 아니며 구체 생성자의 프로토타입으로 접근한다.
+ * 추상 내장 객체 <code>%TypedArray%</code>(정적 메서드 <code>from</code>, <code>of</code>, <code>[Symbol.species]</code>, 프로토타입)와 열한 개 구체 형식화 배열
+ * 생성자를 설치한다(ECMA-262 2022, 23.2). <code>%TypedArray%</code> 는 전역이 아니며 구체 생성자의 프로토타입으로 접근한다.
  * 내장 객체 <code>%TypedArray%</code>, <code>%TypedArrayPrototype%</code>, <code>%Int8Array%</code>, <code>%Int8ArrayPrototype%</code> 등을 등록한다.
  */
 final class TypedArrayLib {

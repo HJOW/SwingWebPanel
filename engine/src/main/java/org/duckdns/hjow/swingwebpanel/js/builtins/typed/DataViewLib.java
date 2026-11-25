@@ -69,7 +69,7 @@ final class DataViewLib {
             }
         });
         ElementType[] types = { ElementType.INT8, ElementType.UINT8, ElementType.INT16, ElementType.UINT16, ElementType.INT32, ElementType.UINT32,
-            ElementType.FLOAT32, ElementType.FLOAT64 };
+            ElementType.FLOAT32, ElementType.FLOAT64, ElementType.BIGINT64, ElementType.BIGUINT64 };
         // 형식마다 getXxx / setXxx 메서드를 정의한다.
         for (int i = 0; i < types.length; i++) {
             final ElementType type = types[i];
@@ -80,17 +80,18 @@ final class DataViewLib {
                     double index = TypedSupport.toIndex(Js.arg(args, 0), "DataView offset");
                     boolean little = Ops.toBoolean(Js.arg(args, 1));
                     int at = checkRange(view, index, type);
-                    return Js.num(type.read(view.getBuffer().getData(), at, little));
+                    return type.readValue(view.getBuffer().getData(), at, little);
                 }
             });
             realm.method(proto, "set" + suffix, 2, new NativeFunction.Call() {
                 public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                     DataViewObject view = thisView(thisValue);
                     double index = TypedSupport.toIndex(Js.arg(args, 0), "DataView offset");
-                    double number = Ops.toNumber(Js.arg(args, 1));
+                    JsValue value = Js.arg(args, 1);
+                    JsValue converted = type.isBigInt() ? Js.bigint(Ops.toBigInt(value)) : Js.num(Ops.toNumber(value));
                     boolean little = Ops.toBoolean(Js.arg(args, 2));
                     int at = checkRange(view, index, type);
-                    type.write(view.getBuffer().getData(), at, number, little);
+                    type.writeValue(view.getBuffer().getData(), at, converted, little);
                     return Js.UNDEFINED;
                 }
             });

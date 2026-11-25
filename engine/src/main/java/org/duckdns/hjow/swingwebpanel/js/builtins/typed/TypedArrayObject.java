@@ -3,6 +3,7 @@ package org.duckdns.hjow.swingwebpanel.js.builtins.typed;
 import java.util.ArrayList;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.js.Js;
+import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
@@ -152,6 +153,18 @@ public class TypedArrayObject extends JsObject {
     }
 
     /**
+     * Reads an element without losing BigInt precision.
+     * <p>
+     * BigInt 정밀도를 잃지 않고 요소를 읽는다.
+     *
+     * @param index index / 인덱스
+     * @return the Number or BigInt value / Number 또는 BigInt 값
+     */
+    public JsValue getElementValue(int index) {
+        return type.readValue(buffer.getData(), byteOffset + index * type.getSize(), true);
+    }
+
+    /**
      * Converts a number to the element type and stores it at a valid index.
      * <p>
      * 숫자를 요소 형식으로 바꾸어 올바른 인덱스에 저장한다.
@@ -161,6 +174,30 @@ public class TypedArrayObject extends JsObject {
      */
     public void setElement(int index, double value) {
         type.write(buffer.getData(), byteOffset + index * type.getSize(), value, true);
+    }
+
+    /**
+     * Converts and writes a Number or BigInt according to this array's element type.
+     * <p>
+     * 이 배열의 요소 형식에 따라 Number 또는 BigInt 를 변환해 쓴다.
+     *
+     * @param index index / 인덱스
+     * @param value value / 값
+     */
+    public void setElementValue(int index, JsValue value) {
+        type.writeValue(buffer.getData(), byteOffset + index * type.getSize(), value, true);
+    }
+
+    /**
+     * Converts a value once for repeated writes such as typed-array fill.
+     * <p>
+     * 형식화 배열 fill 처럼 반복해서 쓰는 경우에 값을 한 번만 변환한다.
+     *
+     * @param value the value / 값
+     * @return Number or BigInt primitive / Number 또는 BigInt 원시값
+     */
+    public JsValue convertElement(JsValue value) {
+        return type.isBigInt() ? JsBigInt.of(Ops.toBigInt(value)) : Js.num(Ops.toNumber(value));
     }
 
     /**
@@ -223,7 +260,7 @@ public class TypedArrayObject extends JsObject {
         if (!isValidIndex(index)) {
             return Js.UNDEFINED;
         }
-        return Js.num(getElement((int) index));
+        return getElementValue((int) index);
     }
 
     /**
@@ -237,11 +274,11 @@ public class TypedArrayObject extends JsObject {
      * @return true if the element was stored / 저장되었으면 true
      */
     public boolean setIndexed(double index, JsValue value) {
-        double num = Ops.toNumber(value);
+        JsValue converted = convertElement(value);
         if (!isValidIndex(index)) {
             return false;
         }
-        setElement((int) index, num);
+        setElementValue((int) index, converted);
         return true;
     }
 
@@ -260,7 +297,7 @@ public class TypedArrayObject extends JsObject {
                 if (!isValidIndex(n.doubleValue())) {
                     return null;
                 }
-                return Property.data(Js.num(getElement((int) n.doubleValue())), true, true, false);
+                return Property.data(getElementValue((int) n.doubleValue()), true, true, false);
             }
         }
         return super.getOwnPropertySlot(key);

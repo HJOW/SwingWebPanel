@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-04-b BigInt 형식화 배열과 DataView (2026-11-25) ===
+현재 작업 번호: P28-04-b 완료.
+완료한 내용: BigInt64Array/BigUint64Array, 64비트 감싸기·엔디언·형식 변환, DataView get/setBigInt64/get/setBigUint64와 모든 typed-array 메서드의 BigInt 보존을 구현했다.
+변경 파일: engine/src/main/java/.../js/builtins/typed/{ElementType,TypedArrayObject,TypedArrayMethods,TypedArrayFactory,TypedArrayIterator,DataViewLib,TypedArrayLib,package-info}, BigIntTypedArrayTest, BuiltinPropertiesTest, AGENTS.md/이 문서.
+검증 결과: BigIntTypedArrayTest 4건과 형식화 배열·DataView 전체 86건 JRE 6u45 통과. sourcecheck 0 위반.
+미해결 사항: JSON/구조화 복제/Java 변환(P28-04-c), 전체 문서·회귀(P28-04-d).
+다음 작업 번호: P28-04-c.
+-----------------------------------------------------------------------------------------------
 === P28-04-a BigInt 원시값·연산·내장 객체 (2026-11-25) ===
 현재 작업 번호: P28-04-a 완료.
 완료한 내용: JsBigInt/JsType.BIGINT, typeof, ToNumeric/ToBigInt, 산술·비트·시프트·비교·갱신 연산, BigInt 래퍼와 BigInt()/asIntN/asUintN/toString/valueOf를 구현했다.

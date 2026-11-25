@@ -142,7 +142,7 @@ final class TypedArrayIterator extends JsObject {
         if (kind == KEYS) {
             return IteratorHelper.createResult(realm, Js.num(i), false);
         }
-        JsValue element = Js.num(a.getElement(i));
+        JsValue element = a.getElementValue(i);
         if (kind == VALUES) {
             return IteratorHelper.createResult(realm, element, false);
         }

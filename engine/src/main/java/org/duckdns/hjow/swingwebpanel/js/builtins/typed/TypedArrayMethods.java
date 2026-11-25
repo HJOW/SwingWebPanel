@@ -3,6 +3,8 @@ package org.duckdns.hjow.swingwebpanel.js.builtins.typed;
 import java.util.ArrayList;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.js.Js;
+import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
+import org.duckdns.hjow.swingwebpanel.js.JsNumber;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
@@ -30,7 +32,7 @@ final class TypedArrayMethods {
      * <p>
      * 정렬을 위해 숫자 두 개를 비교한다.
      */
-    private interface NumberOrder {
+    private interface ValueOrder {
         /**
          * Compares two numbers.
          * <p>
@@ -40,7 +42,7 @@ final class TypedArrayMethods {
          * @param y second number / 두 번째 숫자
          * @return negative, zero or positive / 음수, 0, 양수
          */
-        int compare(double x, double y);
+        int compare(JsValue x, JsValue y);
     }
 
     /**
@@ -76,7 +78,7 @@ final class TypedArrayMethods {
      * @return the element / 요소
      */
     private static JsValue elem(TypedArrayObject o, int k) {
-        return k < o.getLength() ? Js.num(o.getElement(k)) : Js.UNDEFINED;
+        return k < o.getLength() ? o.getElementValue(k) : Js.UNDEFINED;
     }
 
     /**
@@ -356,7 +358,7 @@ final class TypedArrayMethods {
                 JsValue target = Js.arg(args, 0);
                 // 엄격한 동등 비교로 처음 일치하는 위치를 찾는다.
                 for (; k < len; k++) {
-                    if (k < o.getLength() && Ops.strictEquals(target, Js.num(o.getElement(k)))) {
+                    if (k < o.getLength() && Ops.strictEquals(target, o.getElementValue(k))) {
                         return Js.num(k);
                     }
                 }
@@ -375,7 +377,7 @@ final class TypedArrayMethods {
                 JsValue target = Js.arg(args, 0);
                 // 뒤에서부터 엄격한 동등 비교로 처음 일치하는 위치를 찾는다.
                 for (; k >= 0; k--) {
-                    if (k < o.getLength() && Ops.strictEquals(target, Js.num(o.getElement(k)))) {
+                    if (k < o.getLength() && Ops.strictEquals(target, o.getElementValue(k))) {
                         return Js.num(k);
                     }
                 }
@@ -395,7 +397,7 @@ final class TypedArrayMethods {
                         sb.append(sep);
                     }
                     if (k < o.getLength()) {
-                        sb.append(Ops.toString(Js.num(o.getElement(k))));
+                        sb.append(Ops.toString(o.getElementValue(k)));
                     }
                 }
                 return Js.str(sb.toString());
@@ -449,13 +451,13 @@ final class TypedArrayMethods {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 TypedArrayObject o = TypedSupport.validate(thisValue);
                 int len = o.getLength();
-                double value = Ops.toNumber(Js.arg(args, 0));
+                JsValue value = o.convertElement(Js.arg(args, 0));
                 int k = TypedSupport.relative(Js.arg(args, 1), len, 0);
                 int fin = TypedSupport.relative(Js.arg(args, 2), len, len);
                 int end = Math.min(fin, o.getLength());
                 // 구간의 모든 요소를 같은 값으로 채운다.
                 for (; k < end; k++) {
-                    o.setElement(k, value);
+                    o.setElementValue(k, value);
                 }
                 return o;
             }
@@ -466,9 +468,9 @@ final class TypedArrayMethods {
                 int len = o.getLength();
                 // 양 끝에서 안쪽으로 요소를 맞바꾼다.
                 for (int lower = 0, upper = len - 1; lower < upper; lower++, upper--) {
-                    double a = o.getElement(lower);
-                    o.setElement(lower, o.getElement(upper));
-                    o.setElement(upper, a);
+                    JsValue a = o.getElementValue(lower);
+                    o.setElementValue(lower, o.getElementValue(upper));
+                    o.setElementValue(upper, a);
                 }
                 return o;
             }
@@ -481,22 +483,22 @@ final class TypedArrayMethods {
                 }
                 TypedArrayObject o = TypedSupport.validate(thisValue);
                 int len = o.getLength();
-                double[] values = new double[len];
+                JsValue[] values = new JsValue[len];
                 // 정렬할 값을 먼저 모두 읽는다.
                 for (int i = 0; i < len; i++) {
-                    values[i] = o.getElement(i);
+                    values[i] = o.getElementValue(i);
                 }
-                NumberOrder order;
+                ValueOrder order;
                 if (cmp.isUndefined()) {
-                    order = new NumberOrder() {
-                        public int compare(double x, double y) {
-                            return defaultOrder(x, y);
+                    order = new ValueOrder() {
+                        public int compare(JsValue x, JsValue y) {
+                            return defaultElementOrder(x, y);
                         }
                     };
                 } else {
-                    order = new NumberOrder() {
-                        public int compare(double x, double y) {
-                            double v = Ops.toNumber(Ops.call(cmp, Js.UNDEFINED, new JsValue[] { Js.num(x), Js.num(y) }));
+                    order = new ValueOrder() {
+                        public int compare(JsValue x, JsValue y) {
+                            double v = Ops.toNumber(Ops.call(cmp, Js.UNDEFINED, new JsValue[] { x, y }));
                             return v != v ? 0 : (v < 0 ? -1 : (v > 0 ? 1 : 0));
                         }
                     };
@@ -505,7 +507,7 @@ final class TypedArrayMethods {
                 int end = Math.min(len, o.getLength());
                 // 정렬한 값을 다시 쓴다. 콜백이 배열을 줄였다면 남은 부분만 쓴다.
                 for (int i = 0; i < end; i++) {
-                    o.setElement(i, values[i]);
+                    o.setElementValue(i, values[i]);
                 }
                 return o;
             }
@@ -579,7 +581,7 @@ final class TypedArrayMethods {
                     } else {
                         // 요소 형식이 다르면 요소마다 숫자로 읽어 변환해서 쓴다.
                         for (int n = 0; n < available; n++) {
-                            a.setElement(n, o.getElement(k + n));
+                            a.setElementValue(n, o.getElementValue(k + n));
                         }
                     }
                 }
@@ -623,14 +625,14 @@ final class TypedArrayMethods {
                     srcLength * size);
             return;
         }
-        double[] values = new double[srcLength];
+        JsValue[] values = new JsValue[srcLength];
         // 버퍼가 겹쳐도 안전하도록 원본 값을 먼저 모두 읽는다.
         for (int i = 0; i < srcLength; i++) {
-            values[i] = source.getElement(i);
+            values[i] = source.getElementValue(i);
         }
         // 읽어 둔 값을 대상 형식으로 변환해 쓴다.
         for (int i = 0; i < srcLength; i++) {
-            target.setElement(at + i, values[i]);
+            target.setElementValue(at + i, values[i]);
         }
     }
 
@@ -693,18 +695,34 @@ final class TypedArrayMethods {
     }
 
     /**
+     * Applies the typed-array default numeric sort to Number or BigInt values.
+     * <p>
+     * Number 또는 BigInt 값에 형식화 배열의 기본 수치 정렬을 적용한다.
+     *
+     * @param x first value / 첫 값
+     * @param y second value / 둘째 값
+     * @return negative, zero or positive / 음수, 0, 양수
+     */
+    static int defaultElementOrder(JsValue x, JsValue y) {
+        if (x instanceof JsBigInt && y instanceof JsBigInt) {
+            return ((JsBigInt) x).getValue().compareTo(((JsBigInt) y).getValue());
+        }
+        return defaultOrder(((JsNumber) x).getValue(), ((JsNumber) y).getValue());
+    }
+
+    /**
      * A stable bottom-up merge sort. It never throws because of an inconsistent comparison (unlike some library sorts), and exceptions of
      * the comparison function simply propagate.
      * <p>
      * 안정적인 상향식 병합 정렬. 일관성 없는 비교 때문에 예외를 던지지 않으며(일부 라이브러리 정렬과 다름) 비교 함수의 예외는 그대로 전파된다.
      *
-     * @param a     the numbers, sorted in place / 숫자들(제자리 정렬)
+     * @param a     the values, sorted in place / 값들(제자리 정렬)
      * @param order the comparison / 비교
      */
-    private static void mergeSort(double[] a, NumberOrder order) {
+    private static void mergeSort(JsValue[] a, ValueOrder order) {
         int n = a.length;
-        double[] src = a;
-        double[] dst = new double[n];
+        JsValue[] src = a;
+        JsValue[] dst = new JsValue[n];
         // 병합 구간 폭을 1, 2, 4... 로 늘려 가며 두 구간씩 합친다.
         for (int width = 1; width < n; width *= 2) {
             for (int lo = 0; lo < n; lo += 2 * width) {
@@ -721,7 +739,7 @@ final class TypedArrayMethods {
                     }
                 }
             }
-            double[] t = src;
+            JsValue[] t = src;
             src = dst;
             dst = t;
         }
