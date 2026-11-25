@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-d2 ECMA-262 기본 지역화 (2026-11-26) ===
+현재 작업 번호: P29-10-d2 및 P29-10-d 완료.
+완료한 내용: localeCompare가 피연산자를 순서대로 문자열로 변환한 뒤 Unicode 18 NFC를 적용한다. Intl 전역 부재와 String·Object·Number·BigInt·Date·Array·TypedArray의 기본 지역화, 예약 인수 생략, 수신 객체와 원소 접근 오류 순서를 대조했다.
+변경 파일: StringBuiltins.java, LocaleFallbackTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45의 Maven 엔진 회귀 LocaleFallbackTest 3건 통과. Unicode 공식 자료 시험은 P29-10-d1에 기록했다. sourcecheck 0 위반.
+미해결 사항: 엔진·브라우저 전체 회귀와 문서 최종 대조(P29-10-e).
+다음 작업 번호: P29-10-e.
+-----------------------------------------------------------------------------------------------
 === P29-10-d1 Unicode 18 정규화 (2026-11-26) ===
 현재 작업 번호: P29-10-d1 완료.
 완료한 내용: Unicode 18.0.0의 정준·호환 분해, 결합 문자 재정렬, 재조합과 제외 규칙, 한글 음절, 네 정규화 형식과 UTF-16 경계를 엔진에 구현했다. Unicode 18.0.0 UAX #15 개정 58과 공식 NormalizationTest.txt를 2026-11-26에 tools/webfetch 및 JRE 25로 확인했다. 공식 시험 자료 SHA-256은 25A50D816764B04ABFB4A646D3EB2B2A803284C3873D9A06757B94FE4513DDE3이고 생성한 Java 표의 SHA-256은 D634CD7B7B0F66C60BCCFD9AC26278B21E580705D65F130708154F3D67E29814이다.

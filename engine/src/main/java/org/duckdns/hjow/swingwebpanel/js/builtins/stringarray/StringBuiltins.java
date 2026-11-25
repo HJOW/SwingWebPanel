@@ -26,8 +26,8 @@ import org.duckdns.hjow.swingwebpanel.js.text.TextTransform;
  * <code>@@split</code> methods of the argument when it has them, so they work with the RegExp built-in or any other object that implements the
  * protocol; for a plain string argument they work on the string itself.
  * <p>
- * Documented choices: <code>localeCompare</code> uses the root locale collator of the JRE (canonical decomposition, tertiary strength) so that its
- * result does not depend on the machine's locale; <code>toLocaleLowerCase/UpperCase</code> are the locale independent conversions. Extensions
+ * <code>localeCompare</code> normalizes both operands with Unicode 18 NFC before comparing them using the JRE root collator (canonical
+ * decomposition, tertiary strength). <code>toLocaleLowerCase/UpperCase</code> use the default Unicode case conversions. Extensions
  * beyond ES2015 that real pages use are installed by {@link #installExtensions(JsRealm, JsObject)}: <code>trimStart</code>, <code>trimEnd</code>,
  * <code>trimLeft</code>, <code>trimRight</code>, <code>padStart</code>, <code>padEnd</code>.
  * <p>
@@ -36,8 +36,8 @@ import org.duckdns.hjow.swingwebpanel.js.text.TextTransform;
  * 인수가 <code>@@match</code>, <code>@@replace</code>, <code>@@search</code>, <code>@@split</code> 메서드를 가지면 거기에 위임하므로 RegExp 내장 객체나
  * 같은 프로토콜을 구현한 다른 객체와 함께 동작하고, 단순 문자열 인수이면 문자열 자체를 대상으로 동작한다.
  * <p>
- * 문서화한 선택: <code>localeCompare</code> 는 기계의 로케일에 따라 결과가 달라지지 않도록 JRE 의 루트 로케일 콜레이터(정규 분해, 제3 강도)를 쓴다.
- * <code>toLocaleLowerCase/UpperCase</code> 는 로케일에 독립적인 변환이다. 실제 페이지가 쓰는 ES2015 이후 확장은
+ * <code>localeCompare</code> 는 두 값을 Unicode 18 NFC로 정규화한 뒤 JRE 루트 로케일 콜레이터(정준 분해, 제3 강도)로 비교한다.
+ * <code>toLocaleLowerCase/UpperCase</code> 는 Unicode 기본 대소문자 변환을 쓴다. 실제 페이지가 쓰는 ES2015 이후 확장은
  * {@link #installExtensions(JsRealm, JsObject)} 가 설치한다: <code>trimStart</code>, <code>trimEnd</code>, <code>trimLeft</code>,
  * <code>trimRight</code>, <code>padStart</code>, <code>padEnd</code>.
  */
@@ -441,6 +441,12 @@ final class StringBuiltins {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 String s = thisString(thisValue, "localeCompare");
                 String that = Ops.toString(Js.arg(args, 0));
+                try {
+                    s = TextTransform.normalize(s, null);
+                    that = TextTransform.normalize(that, null);
+                } catch (TextRangeException e) {
+                    throw JsException.rangeError(e.getMessage());
+                }
                 Collator c = Collator.getInstance(Locale.ROOT);
                 c.setDecomposition(Collator.CANONICAL_DECOMPOSITION);
                 c.setStrength(Collator.TERTIARY);
