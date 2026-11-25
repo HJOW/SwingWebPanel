@@ -232,11 +232,15 @@ public class AttributeTest {
         method(p, "add", 1);
         method(p, "clear", 0);
         method(p, "delete", 1);
+        method(p, "difference", 1);
         method(p, "entries", 0);
         method(p, "forEach", 1);
         method(p, "has", 1);
+        method(p, "intersection", 1);
         row(p, "keys", METHOD, "values", 0);
         getter(p, "size");
+        method(p, "symmetricDifference", 1);
+        method(p, "union", 1);
         method(p, "values", 0);
         row(p, WellKnownSymbols.ITERATOR, METHOD, "values", 0);
         row("Set", WellKnownSymbols.SPECIES, GETTER, "get [Symbol.species]", 0);

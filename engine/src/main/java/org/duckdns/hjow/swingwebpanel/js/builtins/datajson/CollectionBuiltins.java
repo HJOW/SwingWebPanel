@@ -430,7 +430,7 @@ final class CollectionBuiltins {
      * @param name method name for the message / 메시지용 메서드 이름
      * @return the set / Set
      */
-    private static SetObject thisSet(JsValue v, String name) {
+    static SetObject thisSet(JsValue v, String name) {
         if (!(v instanceof SetObject)) {
             throw JsException.typeError("Method Set.prototype." + name + " called on incompatible receiver " + JsException.describe(v));
         }
@@ -728,6 +728,7 @@ final class CollectionBuiltins {
             }
         });
         Support.defineSpecies(realm, ctor);
+        SetOperations.install(realm, proto);
         realm.method(proto, "add", 1, new NativeFunction.Call() {
             /**
              * Adds a value.

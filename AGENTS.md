@@ -834,7 +834,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - [x] P29-06-a. `Ops.canBeHeldWeakly`, `CollectionBuiltins`, `WeakReferenceBuiltins`, `JsRealm`에 약한 키·대상·토큰 규칙을 적용한다. 비등록·등록·well-known Symbol의 각 메서드 결과, WeakRef의 현재 작업 보관, Java 6 수거 뒤 정리와 해제를 검증한다.
   - [x] P29-06-b. `Object.groupBy`, `Map.groupBy`의 공통 그룹 순회를 구현한다. 순서, 프로퍼티 키, 음의 0과 NaN, 콜백·키 변환 예외 후 이터레이터 닫기를 검증한다.
   - [ ] P29-06-c. `CollectionBuiltins`와 `OrderedTable`을 사용해 Set 프로토콜과 7개 집합 연산을 구현한다. 크기 분기, 이터레이터 닫기, 실행 중 원본 변경과 순서를 검증한다.
-    - [ ] P29-06-c1. `SetOperations`의 GetSetRecord와 결과 Set을 생성하는 4개 연산을 구현한다. 상대 크기, getter·keys의 관찰 순서, 중복 키, 순회 중 삽입·삭제, 내장 Set 결과를 검증한다.
+    - [x] P29-06-c1. `SetOperations`의 GetSetRecord와 결과 Set을 생성하는 4개 연산을 구현한다. 상대 크기, getter·keys의 관찰 순서, 중복 키, 순회 중 삽입·삭제, 내장 Set 결과를 검증한다.
     - [ ] P29-06-c2. `SetOperations`의 집합 조건 검사 3개 연산과 `IteratorRecord`의 정상 닫기를 구현한다. 조기 반환이 상대 이터레이터의 return을 호출하는지, 원본 변경에 따른 멤버 판정과 크기 기반 분기를 검증한다.
   - [ ] P29-06-d. Map/WeakMap upsert를 구현한다. 원래 값이 undefined인 키, 콜백 중 콜렉션 변경, 제로 정규화와 약한 키 검사를 검증한다.
   - [ ] P29-06-e. `IteratorBuiltins`와 `IteratorHelper`의 전역 Iterator, 래핑, 지연·즉시 소비 및 concat을 구현한다. 서브클래싱, 작업 순서, 닫기·오류 전파, 기술자를 검증한다.

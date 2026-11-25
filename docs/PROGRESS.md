@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-06-c1 Set 프로토콜과 집합 연산 (2026-11-26) ===
+현재 작업 번호: P29-06-c1 완료.
+완료한 내용: GetSetRecord로 size, has, keys를 읽고 union·intersection·difference·symmetricDifference를 실행한다. 상대 크기에 따른 순서와 소스 변경을 고려하며 결과는 내장 Set 프로토타입을 사용한다.
+변경 파일: SetOperations.java, CollectionBuiltins.java, Es2026CollectionMethodsTest.java, datajson/AttributeTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행) 781건 통과. sourcecheck 0 위반.
+미해결 사항: 조기 닫기를 포함한 집합 조건 검사 3종(P29-06-c2), Map/WeakMap upsert와 Iterator(P29-06-d~e).
+다음 작업 번호: P29-06-c2.
+-----------------------------------------------------------------------------------------------
 === P29-06-b Object.groupBy 및 Map.groupBy (2026-11-26) ===
 현재 작업 번호: P29-06-b 완료.
 완료한 내용: 공통 GroupBy 순회로 객체 프로퍼티 키와 Map 키를 그룹화한다. 객체 결과는 null 프로토타입이고 Map 결과는 내장 Map 프로토타입을 사용한다. 캡처한 next로 순회하고 콜백이나 키 변환이 실패하면 이터레이터를 닫는다.
@@ -762,6 +770,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-06-c1 Set 결과를 만드는 네 연산
+
+Map과 임의 set-like 객체를 인수로 사용했다. size의 변환 및 has·keys와 next의 조회 순서, 살아 있는 집합에서 삭제·재삽입, 차집합의 복사 시점, 대칭차집합의 중복 키를 확인했다.
 
 ### 2026-11-26 · P29-06-b GroupBy 공통 순회
 
