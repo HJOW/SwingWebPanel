@@ -86,6 +86,8 @@ public class MessagingApiTest {
         Check.equal("true:true", run("(c.a !== src.a) + ':' + (c.a[1].b === src.a[1].b)"), "the copy is separate but equal");
         Check.equal("DataCloneError:25", errorOf("structuredClone(function () {})"), "a function");
         Check.equal("DataCloneError:25", errorOf("structuredClone({ s: Symbol('x') })"), "a symbol");
+        Check.equal("DataCloneError:25", errorOf("structuredClone(new Error('node',{cause:document.createElement('div')}))"),
+                "an unserializable host object in an error cause");
         Check.equal("TypeError:undefined", errorOf("structuredClone()"), "no argument");
         Check.equal("8:0:true", run("var buf = new ArrayBuffer(8); var moved = structuredClone(buf, { transfer: [buf] });"
                 + " moved.byteLength + ':' + buf.byteLength + ':' + (moved instanceof ArrayBuffer)"), "transfer detaches the source");

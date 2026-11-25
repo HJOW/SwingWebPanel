@@ -293,6 +293,12 @@ public final class StructuredClone {
          */
         String text3;
 
+        /** The serialized own cause of an error, or Java null if absent. / 오류의 자체 cause를 직렬화한 값. 없으면 Java null. */
+        Object cause;
+
+        /** The serialized own errors of an AggregateError, or Java null if absent. / AggregateError의 자체 errors를 직렬화한 값. 없으면 Java null. */
+        Object errors;
+
         /**
          * The bytes of an ArrayBuffer.
          * <p>
@@ -805,6 +811,8 @@ public final class StructuredClone {
                 push(new MapFrame(DataAccess.mapEntries(o), c));
             } else if (c.kind == SET) {
                 push(new SetFrame(DataAccess.setValues(o), c));
+            } else if (c.kind == ERROR) {
+                push(new ErrorFrame(o, c));
             }
             return id;
         }
@@ -1001,6 +1009,70 @@ public final class StructuredClone {
                 charge(2L * c.text3.length());
             }
             return c;
+        }
+
+        /**
+         * Serializes an error's accompanying data after recording the source object's identity.
+         * <p>
+         * 원본 오류의 정체성을 등록한 뒤 함께 전달할 데이터를 직렬화한다.
+         */
+        private final class ErrorFrame implements Frame {
+            /** The original error. / 원본 오류. */
+            private final JsObject source;
+
+            /** The serialized record. / 직렬화 기록. */
+            private final Cell cell;
+
+            /** The next field, in the order cause, errors, done. / 다음 단계. cause, errors, 완료 순이다. */
+            private int field;
+
+            /**
+             * Creates a pending frame for the error's optional fields.
+             * <p>
+             * 오류의 선택 필드를 처리할 작업을 만든다.
+             *
+             * @param source the original error / 원본 오류
+             * @param cell the error record / 오류 기록
+             */
+            ErrorFrame(JsObject source, Cell cell) {
+                this.source = source;
+                this.cell = cell;
+            }
+
+            /**
+             * Serializes one accompanying field and lets any newly found object finish before proceeding.
+             * <p>
+             * 부가 필드 하나를 직렬화하며 새 객체를 발견하면 그 객체의 처리를 먼저 끝낸다.
+             *
+             * @return true when both fields were handled / 두 필드를 처리했으면 true
+             */
+            public boolean step() {
+                // 각 값을 읽을 때 다른 작업이 추가될 수 있으므로 마지막 호출에서만 완료한다.
+                if (field == 0) {
+                    field++;
+                    cell.cause = ownData("cause");
+                    return false;
+                }
+                if (field == 1 && ErrorKind.AGGREGATE_ERROR.getErrorName().equals(cell.text)) {
+                    field++;
+                    cell.errors = ownData("errors");
+                    return false;
+                }
+                return true;
+            }
+
+            /**
+             * Serializes an own data property without invoking a getter.
+             * <p>
+             * getter를 호출하지 않고 자체 데이터 프로퍼티를 직렬화한다.
+             *
+             * @param key the field name / 필드 이름
+             * @return encoded data, or Java null if the field is absent / 직렬화한 데이터. 필드가 없으면 Java null
+             */
+            private Object ownData(String key) {
+                PropertyDescriptor desc = source.getOwnProperty(key);
+                return desc == null || desc.isAccessor() ? null : value(desc.value);
+            }
         }
 
         /**
@@ -1474,9 +1546,9 @@ public final class StructuredClone {
         }
 
         /**
-         * Fills the contents of an Array, an ordinary object, a Map or a Set.
+         * Fills the outgoing references of a cloned object after every object has been created.
          * <p>
-         * Array, 일반 객체, Map, Set 의 내용을 채운다.
+         * 객체를 모두 생성한 뒤 복제된 객체의 참조를 채운다.
          *
          * @param c the cell / 칸
          * @param o the object of the cell / 칸의 객체
@@ -1499,6 +1571,14 @@ public final class StructuredClone {
                 // 저장된 순서대로 추가한다.
                 for (int i = 0; i < c.values.size(); i++) {
                     DataAccess.setAdd(o, resolve(c.values.get(i)));
+                }
+            } else if (c.kind == ERROR) {
+                // 표준 Error 생성자가 사용하는 속성으로 원인과 집계 목록을 연결한다.
+                if (c.cause != null) {
+                    o.defineOwnProperty("cause", PropertyDescriptor.data(resolve(c.cause), true, false, true));
+                }
+                if (c.errors != null) {
+                    o.defineOwnProperty("errors", PropertyDescriptor.data(resolve(c.errors), true, false, true));
                 }
             }
         }

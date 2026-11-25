@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-b2 오류 객체의 구조화 복제 (2026-11-26) ===
+현재 작업 번호: P29-10-b2 완료.
+완료한 내용: Error.cause와 AggregateError.errors의 자체 데이터 값, 공유·순환 참조와 수신 렐름의 오류 프로토타입을 보존한다.
+변경 파일: StructuredClone.java, StructuredCloneTest.java, MessagingApiTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45에서 StructuredCloneTest 21건, MessagingApiTest 7건, DomExceptionIsErrorTest 2건 통과. sourcecheck 0 위반.
+미해결 사항: 독립 엔진과 JSR 223 경계(P29-10-b3), 렐름·Unicode·최종 회귀.
+다음 작업 번호: P29-10-b3.
+-----------------------------------------------------------------------------------------------
 === P29-10-b1 가변 버퍼와 뷰의 구조화 복제 (2026-11-26) ===
 현재 작업 번호: P29-10-b1 완료.
 완료한 내용: 가변 버퍼의 최대 길이와 Float16Array·DataView의 고정 및 자동 길이를 복원한다. 전송에서는 getter 실행 뒤 저장소를 읽고 전체 전송 목록을 재검사한 뒤 분리한다.
@@ -1082,6 +1090,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-b2 오류 원인과 집계 목록의 구조화 복제
+
+- [WHATWG HTML LS §2.7](https://html.spec.whatwg.org/multipage/structured-data.html) 2026-11-25 11:33:23 GMT 판의 오류 부가 데이터 범위에 근거했다. AggregateError 유형의 복원은 이 프로젝트의 기존 확장을 유지한다. 비교 실행한 V8 14.6(Node 26.13)은 이 입력을 Error로 복원하고 cause를 보존한다.
+- 오류를 먼저 등록하고 원인과 집계 목록을 같은 그래프로 처리한다. 접근자와 상속된 필드는 직렬화에서 건너뛰고 자체 값 undefined는 보존한다. 원인에 복제 불가능한 DOM 노드가 들어 있으면 DataCloneError를 던진다.
+- `mvn -B -o -pl browser -am test -Dtest.filter=StructuredCloneTest`와 별도 JDK 6u45 TestRunner로 관련 30건을 검증했다.
 
 ### 2026-11-26 · P29-10-b1 가변 버퍼의 구조화 복제와 전송
 

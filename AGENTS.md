@@ -906,7 +906,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
       - [x] P29-10-a3d. Async-from-Sync 어댑터를 공용 내장 프로토타입에 연결한다. for await와 yield*가 next를 한 번 읽고 return·throw를 호출 시점에 조회하는지 확인한다.
   - [ ] P29-10-b. 구조화 복제와 독립 엔진 경계를 보완한다. 가변 버퍼·뷰, Float16Array, 공유 버퍼 정책, Error cause·AggregateError, JSON 모듈을 호스트별 정상 진입점과 JSR 223에서 확인한다.
     - [x] P29-10-b1. 구조화 복제·전송에서 가변 버퍼의 최대 길이와 형식화 배열·DataView의 길이 추적을 보존한다. 분리·범위 이탈, 전송 전 재진입, 창·Worker·AudioWorklet 메시지를 검증한다.
-    - [ ] P29-10-b2. Error의 cause, AggregateError의 errors, 수신 렐름 프로토타입 및 공유·순환 참조를 구조화 복제에서 검증한다. 잘못된 호스트 객체는 DataCloneError를 확인한다.
+    - [x] P29-10-b2. Error의 cause, AggregateError의 errors, 수신 렐름 프로토타입 및 공유·순환 참조를 구조화 복제에서 검증한다. 잘못된 호스트 객체는 DataCloneError를 확인한다.
     - [ ] P29-10-b3. 독립 엔진 및 JSR 223의 최신 값과 JSON 모듈 로더 경계를 검증한다. Java 값 변환, 바이트·생명 주기 및 패키지 분리를 점검한다.
   - [ ] P29-10-c. 브라우저 렐름 경계를 대조한다. 전역 `WindowProxy`의 정체성과 반사 연산, 타 렐름 eval이 사용하는 활성 모듈 레코드의 소유 렐름, 이벤트 속성의 중첩 실행, COOP/COEP와 공유 메모리 조건을 확인한다.
   - [ ] P29-10-d. Java 6에서 정본의 Unicode 정규화와 ECMA-402 없는 기본 지역화 동작을 확인한다. Unicode 18 입력, 정규화 형식과 문자열·수치·날짜의 경계를 검증한다.

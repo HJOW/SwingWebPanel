@@ -358,6 +358,37 @@ public class StructuredCloneTest {
     }
 
     /**
+     * Clones native error prototypes and the identities shared by causes and aggregate lists.
+     * <p>
+     * 기본 오류의 프로토타입과 원인·집계 목록이 공유하는 객체 정체성을 복제한다.
+     */
+    public void testErrorCauseAndAggregateGraph() {
+        clone("(()=>{let item={};let inner=new TypeError('inner',{cause:item});"
+                + "let outer=new AggregateError([inner,item],'outer',{cause:inner});item.back=outer;"
+                + "return {outer,item,list:outer.errors};})()");
+        expect("let e=v.outer;[Object.getPrototypeOf(e)===AggregateError.prototype,Error.isError(e),"
+                + "Object.getPrototypeOf(e.cause)===TypeError.prototype,Error.isError(e.cause),"
+                + "e.errors===v.list,e.errors[0]===e.cause,e.errors[1]===v.item,e.cause.cause===v.item,"
+                + "v.item.back===e,e.message,e.cause.message].join()", "true,true,true,true,true,true,true,true,true,outer,inner");
+        expect("['cause','errors'].map(k=>{let p=Object.getOwnPropertyDescriptor(v.outer,k);"
+                + "return [p.writable,p.enumerable,p.configurable].join('/');}).join()", "true/false/true,true/false/true");
+    }
+
+    /**
+     * Distinguishes an undefined own data value from an accessor or an inherited error field.
+     * <p>
+     * 자체 데이터 값 undefined를 접근자 속성이나 상속된 오류 필드와 구별한다.
+     */
+    public void testErrorCausePresence() {
+        clone("(()=>{let a=new Error('a',{cause:undefined}),b=new Error('b'),c=new AggregateError([]);"
+                + "Object.setPrototypeOf(b,{cause:1});"
+                + "Object.defineProperty(c,'cause',{get(){throw 'cause getter';}});"
+                + "Object.defineProperty(c,'errors',{get(){throw 'errors getter';}});return [a,b,c];})()");
+        expect("[Object.hasOwn(v[0],'cause'),Object.hasOwn(v[1],'cause'),Object.hasOwn(v[2],'cause'),"
+                + "Object.hasOwn(v[2],'errors'),v[0].cause===undefined].join()", "true,false,false,false,true");
+    }
+
+    /**
      * Functions, symbols, Proxy objects, WeakMap, Promise and objects that contain them cannot be cloned.
      * <p>
      * 함수, 심볼, Proxy, WeakMap, Promise 와 그것을 담은 객체는 복제할 수 없다.
@@ -365,7 +396,8 @@ public class StructuredCloneTest {
     public void testNotCloneable() {
         String[] bad = { "function () {}", "(x) => x", "Symbol('s')", "new Proxy({}, {})", "new WeakMap()", "new WeakSet()", "Promise.resolve(1)",
             "({ f: function () {} })", "[1, [2, Symbol.iterator]]", "new Map([[1, function () {}]])", "(function () { return arguments; })()",
-            "Object(Symbol('w'))", "[].values()", "new Map().entries()" };
+            "Object(Symbol('w'))", "[].values()", "new Map().entries()",
+            "new Error('bad',{cause:()=>{}})", "new AggregateError([Symbol()])" };
         // 복제할 수 없는 값마다 DataCloneError 에 해당하는 예외가 나야 한다.
         for (int i = 0; i < bad.length; i++) {
             final JsValue v = from.evaluateScript("(" + bad[i] + ")", "bad");
