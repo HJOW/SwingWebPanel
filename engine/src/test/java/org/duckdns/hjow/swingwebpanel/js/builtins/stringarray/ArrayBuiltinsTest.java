@@ -13,6 +13,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.interp.Scripts;
 import org.duckdns.hjow.swingwebpanel.testing.Block;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
@@ -23,6 +24,63 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
  * Array 생성자, <code>Array.isArray</code>, <code>Array.of</code>, <code>Array.from</code>, species 처리 시험(ECMA-262 6판 22.1.1, 22.1.2, 9.4.2.3).
  */
 public class ArrayBuiltinsTest {
+
+    /**
+     * Awaits each synchronous iterator value and mapped result before requesting the next element.
+     * <p>
+     * 동기 이터레이터의 값과 매핑 결과를 기다린 뒤 다음 요소를 요청한다.
+     */
+    public void testFromAsyncSyncIteration() {
+        Scripts.checkInline("const log=[];const receiver={add:10};"
+                + "const iterable={[Symbol.iterator](){log.push('iterator');let i=0;return {next(){"
+                + " log.push('next'+i);return i===2?{done:true}:{value:Promise.resolve(++i)};}};}};"
+                + "function Out(){log.push('ctor'+arguments.length);}"
+                + "const result=Array.fromAsync.call(Out,iterable,async function(value,index){"
+                + " log.push('map'+index+':'+value);await 0;log.push('res'+index);return value+this.add;},receiver);"
+                + "t('synchronous start',log.join(','),'iterator,ctor0,next0');"
+                + "result.then(out=>{t('constructor',out instanceof Out,true);"
+                + "t('items',[out[0],out[1],out.length].join(','),'11,12,2');"
+                + "t('await order',log.join(','),'iterator,ctor0,next0,map0:1,res0,next1,map1:2,res1,next2');});", 4);
+    }
+
+    /**
+     * Prefers async iteration and awaits array-like elements, preserving raw async iterator values.
+     * <p>
+     * 비동기 이터레이터를 우선하며 그 값은 그대로 보존하고 유사 배열 요소는 기다린다.
+     */
+    public void testFromAsyncAsyncAndArrayLike() {
+        Scripts.checkInline("const promised=Promise.resolve(6);"
+                + "const source={get [Symbol.iterator](){throw 'sync';},[Symbol.asyncIterator](){let i=0;"
+                + "return {async next(){return i++?{done:true}:{value:promised};}};}};"
+                + "Array.fromAsync(source).then(a=>t('raw async iterator value',a[0]===promised,true));"
+                + "const log=[];const like={get length(){log.push('length');return 2;},"
+                + " get 0(){log.push('zero');return promised;}};"
+                + "function Out(size){log.push('new'+size);}"
+                + "Array.fromAsync.call(Out,like,(x,i)=>{log.push('map'+i);return x===undefined?'hole':x;})"
+                + ".then(a=>{t('array-like',[a[0],a[1],a.length].join(','),'6,hole,2');"
+                + "t('construct and read order',log.join(','),'length,new2,zero,map0,map1');});", 3);
+    }
+
+    /**
+     * Waits for return on an output or mapper error and preserves the original failure.
+     * <p>
+     * 결과를 정의하거나 매핑하던 중 오류가 생기면 return을 기다리고 원래 오류를 전달한다.
+     */
+    public void testFromAsyncClosesOnMapperAndOutputFailure() {
+        Scripts.checkInline("const log=[];function source(fail){return {[Symbol.asyncIterator](){return {"
+                + " next(){if(fail)throw 'next-error';return {value:1};},"
+                + " return(){log.push('return');return {then(ok,bad){log.push('await-close');bad('close-error');}};}};}};}"
+                + "(async()=>{try{await Array.fromAsync(source(false),()=>Promise.reject('mapper-error'));}"
+                + " catch(e){t('original mapper failure',e,'mapper-error');}"
+                + " t('close awaited',log.join(','),'return,await-close');log.length=0;"
+                + " try{await Array.fromAsync.call(function(){return Object.preventExtensions({});},source(false));}"
+                + " catch(e){t('define failure',e.name,'TypeError');}"
+                + " t('output is closed',log.join(','),'return,await-close');log.length=0;"
+                + " try{await Array.fromAsync(source(true));}catch(e){t('next failure',e,'next-error');}"
+                + " t('next failure does not close',log.length,0);"
+                + " try{await Array.fromAsync({get [Symbol.asyncIterator](){throw 'iterator';}},42);}"
+                + " catch(e){t('mapper is checked first',e.name,'TypeError');}})();", 7);
+    }
 
     /**
      * Test environment.

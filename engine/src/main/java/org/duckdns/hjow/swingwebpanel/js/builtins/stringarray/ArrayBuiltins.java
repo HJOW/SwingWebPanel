@@ -15,12 +15,12 @@ import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 
 /**
  * The Array constructor and its static functions (ECMA-262 6th edition 22.1.1 and 22.1.2): <code>Array(...)</code> in call and construct form,
- * <code>Array.from</code>, <code>Array.of</code>, <code>Array.isArray</code> and the <code>@@species</code> getter, plus ArraySpeciesCreate
+ * <code>Array.from</code>, <code>Array.fromAsync</code>, <code>Array.of</code>, <code>Array.isArray</code> and the <code>@@species</code> getter, plus ArraySpeciesCreate
  * (9.4.2.3) that the prototype methods use. The array exotic object itself (<code>length</code> semantics, sparse storage) is the core
  * <code>JsArray</code>.
  * <p>
  * Array 생성자와 정적 함수(ECMA-262 6판 22.1.1, 22.1.2): 호출/생성 두 형태의 <code>Array(...)</code>, <code>Array.from</code>,
- * <code>Array.of</code>, <code>Array.isArray</code>, <code>@@species</code> getter 와, 프로토타입 메서드가 쓰는 ArraySpeciesCreate(9.4.2.3).
+ * <code>Array.fromAsync</code>, <code>Array.of</code>, <code>Array.isArray</code>, <code>@@species</code> getter와 프로토타입 메서드가 쓰는 ArraySpeciesCreate(9.4.2.3).
  * 배열 이국적 객체 자체(<code>length</code> 의미, 희소 저장)는 코어의 <code>JsArray</code> 이다.
  */
 final class ArrayBuiltins {
@@ -77,6 +77,11 @@ final class ArrayBuiltins {
         Support.def(realm, array, "from", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 return from(r, thisValue, args);
+            }
+        });
+        Support.def(realm, array, "fromAsync", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return ArrayFromAsync.start(r, thisValue, args);
             }
         });
         realm.getter(array, WellKnownSymbols.SPECIES, new NativeFunction.Call() {

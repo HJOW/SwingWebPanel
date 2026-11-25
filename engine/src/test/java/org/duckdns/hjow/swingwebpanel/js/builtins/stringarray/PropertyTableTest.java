@@ -255,9 +255,10 @@ public class PropertyTableTest {
         checkFunction(array, "isArray", "isArray", 1, "Array.isArray");
         checkFunction(array, "of", "of", 0, "Array.of");
         checkFunction(array, "from", "from", 1, "Array.from");
+        checkFunction(array, "fromAsync", "fromAsync", 1, "Array.fromAsync");
         Set<String> sKeys = new HashSet<String>(Arrays.asList("length", "name", "prototype", "fromCharCode", "fromCodePoint", "raw"));
         Check.equal(sKeys, stringKeys(string), "exact keys of String");
-        Set<String> aKeys = new HashSet<String>(Arrays.asList("length", "name", "prototype", "isArray", "of", "from"));
+        Set<String> aKeys = new HashSet<String>(Arrays.asList("length", "name", "prototype", "isArray", "of", "from", "fromAsync"));
         Check.equal(aKeys, stringKeys(array), "exact keys of Array");
         PropertyDescriptor species = array.getOwnProperty(WellKnownSymbols.SPECIES);
         Check.isTrue(species.isAccessor() && !species.isEnumerableTrue() && species.isConfigurableTrue(), "Array[@@species] is a configurable accessor");

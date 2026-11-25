@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-04-c2 Array.fromAsync 순차 소비 (2026-11-26) ===
+현재 작업 번호: P29-04-c 완료.
+완료한 내용: 비동기·동기 이터레이터와 유사 배열을 입력으로 받는다. 규격에 따라 필요한 값과 매퍼를 기다리고 결과를 쓴 뒤 다음 요소를 요청한다. 생성자 this와 오류 발생 시 iterator.return의 대기 및 원래 거부 이유를 검증했다.
+변경 파일: ArrayBuiltins.java, ArrayFromAsync.java, ArrayBuiltinsTest.java, PropertyTableTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 737건 통과. sourcecheck 0 위반.
+미해결 사항: Float16, 가변 ArrayBuffer 및 Uint8Array 인코딩(P29-04-d~f).
+다음 작업 번호: P29-04-d.
+-----------------------------------------------------------------------------------------------
 === P29-04-c1 내장 Promise 대기와 동기 이터레이터 변환 (2026-11-26) ===
 현재 작업 번호: P29-04-c1 완료.
 완료한 내용: await는 intrinsic PromiseResolve와 PerformPromiseThen을 호출한다. 비동기 래퍼의 동기 next 메서드를 한 번 읽고 done 뒤에 value를 읽으며, 이행 전 값이 거부되면 열린 이터레이터를 닫고 원래 오류를 전달한다.
@@ -602,6 +610,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-04-c2 비동기 배열 생성
+
+동기 이터레이터와 유사 배열의 값 대기, 실제 비동기 이터레이터의 원래 value 전달, 비동기 매퍼 순서와 사용자 생성자를 확인했다. 매핑·쓰기 실패는 return을 기다린 뒤 원래 오류를 전달하며 next 호출 실패는 다시 닫지 않는 경계도 검증했다.
 
 ### 2026-11-26 · P29-04-c1 Array.fromAsync 기반 연산
 
