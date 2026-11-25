@@ -46,6 +46,18 @@ public final class UnicodeProperties {
     }
 
     /**
+     * Recognizes an unqualified General_Category value or alias.
+     * <p>
+     * 접두어 없는 일반 범주 값 또는 그 별칭을 확인한다.
+     *
+     * @param name property expression / 속성 표현식
+     * @return whether the expression names a category without a property prefix / 속성 접두어 없이 일반 범주를 지정하는지 여부
+     */
+    public static boolean isBareGeneralCategory(String name) {
+        return PROPERTIES.containsKey("gc=" + name);
+    }
+
+    /**
      * Tests ID_Start in the generated Unicode data.
      * <p>
      * 생성한 유니코드 데이터에서 ID_Start를 검사한다.

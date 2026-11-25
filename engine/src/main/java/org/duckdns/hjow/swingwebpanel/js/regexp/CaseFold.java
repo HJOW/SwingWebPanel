@@ -168,6 +168,34 @@ final class CaseFold {
     }
 
     /**
+     * Expands only those equivalence classes whose canonical member is already present.
+     * This represents a raw set matched against canonical input without folding the set.
+     * <p>
+     * 집합에 정규형 문자가 들어 있는 대소문자 묶음만 확장한다.
+     * 원본 집합을 접지 않고 정규형 입력으로 검사하는 의미를 나타낸다.
+     *
+     * @param set normalized raw set / 정규화한 원본 집합
+     * @return equivalent set suitable for matching raw input / 원본 입력을 검사할 수 있는 동치 집합
+     */
+    static RegExpCharSet expandCanonicalMembers(RegExpCharSet set) {
+        RegExpCharSet included = new RegExpCharSet();
+        RegExpCharSet excluded = new RegExpCharSet();
+        // 묶음의 정규형이 들어 있는지에 따라 묶음 전체를 추가하거나 빼도록 기록한다.
+        for (Map.Entry<Integer, int[]> entry : FullUnicode.GROUPS.entrySet()) {
+            RegExpCharSet destination = set.contains(entry.getKey().intValue()) ? included : excluded;
+            // 같은 정규형을 가진 모든 문자를 하나의 묶음으로 처리한다.
+            for (int cp : entry.getValue()) {
+                destination.addChar(cp);
+            }
+        }
+        excluded.normalize();
+        RegExpCharSet result = set.subtract(excluded);
+        result.addAll(included);
+        result.normalize();
+        return result;
+    }
+
+    /**
      * Adds a nonidentity mapping to an inverse group.
      * <p>
      * 원본과 결과가 다른 매핑을 역방향 묶음에 추가한다.

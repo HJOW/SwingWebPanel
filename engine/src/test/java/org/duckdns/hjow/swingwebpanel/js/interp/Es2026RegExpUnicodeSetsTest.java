@@ -130,8 +130,24 @@ public class Es2026RegExpUnicodeSetsTest {
                 + "/[[A-Z]&&[kK]]/iv.test(kelvin),/[^[K]]/iv.test(kelvin), /[^\\p{Lu}]/iv.test('a'),"
                 + "/[\\w&&[^a-z0-9_]]/iv.test(kelvin), /\\W/iv.test(kelvin), /\\W/iu.test(kelvin),"
                 + "new RegExp('['+capital+'&&'+small+']','iv').test(capital)].join()";
-        Check.equal("true,false,false,false,true,true,true,false,false,true,false,false,false,false,false,true",
+        Check.equal("true,false,true,false,true,false,true,false,false,true,false,true,false,false,false,true",
                 evaluate(script), "folding for ranges, properties, complements, word escapes, and supplementary code points");
+    }
+
+    /**
+     * Checks raw category shorthand with canonical input in the Unicode Sets mode.
+     * <p>
+     * Unicode Sets 모드에서 정규형 입력에 일반 범주 축약형을 적용하는지 확인한다.
+     */
+    public void testGeneralCategoryShorthandUsesRawSet() {
+        String script = "const cherokee='\\uAB70';"
+                + "[/\\p{Lu}/iv.test('A'),/\\p{gc=Lu}/iv.test('A'),"
+                + "/\\p{Ll}/iv.test('A'),/\\p{Lu}/iv.test(cherokee),/\\p{Ll}/iv.test(cherokee),"
+                + "/\\p{General_Category=Lowercase_Letter}/iv.test(cherokee),"
+                + "/[\\p{gc=Lu}--\\p{Lu}]/iv.test('A'),/[\\p{gc=Lu}--\\p{Lu}]/iv.test(cherokee),"
+                + "/\\p{Lu}/iu.test('a'),/\\p{Lu}/v.test('A')].join();";
+        Check.equal("false,true,true,true,false,true,true,false,true,true",
+                evaluate(script), "ECMA-262 17 treats shorthand categories as raw sets in v+i");
     }
 
     /**

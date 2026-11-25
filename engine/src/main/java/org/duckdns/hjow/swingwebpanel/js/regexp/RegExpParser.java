@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.duckdns.hjow.swingwebpanel.js.text.CharClass;
+import org.duckdns.hjow.swingwebpanel.js.text.UnicodeProperties;
 
 /**
  * Recursive descent parser for ECMAScript 2015 regular expression patterns (ECMA-262 21.2.1) including the Annex B.1.4
@@ -828,9 +829,10 @@ final class RegExpParser {
             throw error("Invalid property name " + name, at);
         }
         pos = end + 1;
-        // v에서는 속성의 대소문자 동치 집합을 만든 뒤 집합 연산과 여집합에 사용한다.
+        // v+i에서 일반 범주 축약형은 원본 집합에 정규형이 있는지 확인한다. 나머지 속성은 먼저 접는다.
         if (unicodeSets && ignoresCase()) {
-            set = CaseFold.closeUnicodeSet(set);
+            set = UnicodeProperties.isBareGeneralCategory(name)
+                    ? CaseFold.expandCanonicalMembers(set) : CaseFold.closeUnicodeSet(set);
         }
         return complement ? set.complement(0x10FFFF) : set;
     }
