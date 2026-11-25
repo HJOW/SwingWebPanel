@@ -51,8 +51,8 @@ final class RegExpParser {
     /** Whether Unicode Sets grammar applies. / Unicode Sets 문법 사용 여부. */
     private final boolean unicodeSets;
 
-    /** Whether character comparison ignores case. / 문자 비교에서 대소문자 무시 여부. */
-    private final boolean ignoreCase;
+    /** Effective flags of the current pattern scope. / 현재 패턴 범위에 적용할 플래그. */
+    private int activeFlags;
 
     /**
      * Current read offset.
@@ -109,7 +109,7 @@ final class RegExpParser {
         this.n = src.length();
         this.unicode = RegExpFlags.isUnicodeMode(flags);
         this.unicodeSets = (flags & RegExpFlags.UNICODE_SETS) != 0;
-        this.ignoreCase = (flags & RegExpFlags.IGNORE_CASE) != 0;
+        this.activeFlags = flags;
     }
 
     /**
@@ -570,7 +570,8 @@ final class RegExpParser {
             names.add(name);
             node = RegExpNode.of(RegExpNode.GROUP, index, parseDisjunction());
         } else if (pos < n && src.charAt(pos) == '?') {
-            throw error("Invalid group", pos);
+            pos++;
+            node = parseModifiedGroup(open);
         } else {
             int index = ++groupCounter;
             names.add(null);
@@ -581,6 +582,73 @@ final class RegExpParser {
         }
         pos++;
         return node;
+    }
+
+    /**
+     * Reads an inline modifier group after the question mark.
+     * <p>
+     * 물음표 다음의 인라인 수정자 그룹을 읽는다.
+     *
+     * @param open opening parenthesis offset / 여는 괄호 위치
+     * @return group node with the effective flags / 적용할 플래그가 있는 그룹 노드
+     * @throws RegExpSyntaxException on invalid or duplicate modifiers / 잘못되거나 중복된 수정자이면
+     */
+    private RegExpNode parseModifiedGroup(int open) throws RegExpSyntaxException {
+        int added = 0;
+        int removed = 0;
+        boolean removing = false;
+        // 콜론까지 수정자를 읽는다. '-' 뒤의 수정자는 해제 목록에 들어간다.
+        while (pos < n && src.charAt(pos) != ':') {
+            char ch = src.charAt(pos++);
+            if (ch == '-' && !removing) {
+                removing = true;
+                continue;
+            }
+            int bit;
+            switch (ch) {
+            case 'i':
+                bit = RegExpFlags.IGNORE_CASE;
+                break;
+            case 'm':
+                bit = RegExpFlags.MULTILINE;
+                break;
+            case 's':
+                bit = RegExpFlags.DOT_ALL;
+                break;
+            default:
+                throw error("Invalid group modifier", pos - 1);
+            }
+            if (((added | removed) & bit) != 0) {
+                throw error("Duplicate group modifier", pos - 1);
+            }
+            if (removing) {
+                removed |= bit;
+            } else {
+                added |= bit;
+            }
+        }
+        if (pos == n || (added | removed) == 0) {
+            throw error("Invalid group modifier", open);
+        }
+        pos++;
+        int outerFlags = activeFlags;
+        activeFlags = (activeFlags | added) & ~removed;
+        try {
+            return RegExpNode.of(RegExpNode.MODIFIED, activeFlags, parseDisjunction());
+        } finally {
+            activeFlags = outerFlags;
+        }
+    }
+
+    /**
+     * Checks case folding in the current pattern scope.
+     * <p>
+     * 현재 패턴 범위에서 대소문자 접기를 적용하는지 확인한다.
+     *
+     * @return true if i applies here / 여기서 i가 적용되면 true
+     */
+    private boolean ignoresCase() {
+        return (activeFlags & RegExpFlags.IGNORE_CASE) != 0;
     }
 
     /**
@@ -722,7 +790,7 @@ final class RegExpParser {
         case 'W':
             set = RegExpCharSet.word();
             // WordCharacters는 u와 v 모두에서 여집합을 구하기 전에 접기 동치 문자를 포함한다.
-            if (unicode && ignoreCase) {
+            if (unicode && ignoresCase()) {
                 set = CaseFold.closeUnicodeSet(set);
             }
             break;
@@ -761,7 +829,7 @@ final class RegExpParser {
         }
         pos = end + 1;
         // v에서는 속성의 대소문자 동치 집합을 만든 뒤 집합 연산과 여집합에 사용한다.
-        if (unicodeSets && ignoreCase) {
+        if (unicodeSets && ignoresCase()) {
             set = CaseFold.closeUnicodeSet(set);
         }
         return complement ? set.complement(0x10FFFF) : set;
@@ -1064,7 +1132,7 @@ final class RegExpParser {
                 while (pos < n && src.charAt(pos) != ']') {
                     addUnicodeUnionPart(set, parseUnicodeSetOperand());
                 }
-                set.finishCharacters(ignoreCase);
+                set.finishCharacters(ignoresCase());
             }
         }
         if (pos >= n || src.charAt(pos) != ']') {
@@ -1132,7 +1200,7 @@ final class RegExpParser {
         }
         RegExpCharSet result = new RegExpCharSet();
         result.addChar(atom.ch);
-        if (ignoreCase) {
+        if (ignoresCase()) {
             // 한 문자의 동치 묶음은 전체 접기 표를 훑지 않고 얻는다.
             for (int equivalent : CaseFold.equivalents(atom.ch, true)) {
                 result.addChar(equivalent);
@@ -1211,13 +1279,13 @@ final class RegExpParser {
                 pos++;
                 set.addSequence(sequence);
                 if (next == '}') {
-                    set.finishCharacters(ignoreCase);
+                    set.finishCharacters(ignoresCase());
                     return set;
                 }
                 sequence = new ArrayList<Integer>();
             } else {
                 int ch = parseUnicodeSetCharacter();
-                sequence.add(Integer.valueOf(ignoreCase ? CaseFold.canonicalize(ch, true) : ch));
+                sequence.add(Integer.valueOf(ignoresCase() ? CaseFold.canonicalize(ch, true) : ch));
             }
         }
         throw error("Unterminated Unicode set string", pos);

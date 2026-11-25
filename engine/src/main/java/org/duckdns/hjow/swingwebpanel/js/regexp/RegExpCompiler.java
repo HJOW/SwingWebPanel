@@ -36,40 +36,11 @@ public final class RegExpCompiler {
      */
     private static final int MAX_CODE_SIZE = 4000000;
 
-    /**
-     * True if the i flag is set.
-     * <p>
-     * i 플래그가 있으면 true.
-     */
-    private final boolean ignoreCase;
-
-    /**
-     * True if the m flag is set.
-     * <p>
-     * m 플래그가 있으면 true.
-     */
-    private final boolean multiline;
-
-    /**
-     * True if the u flag is set.
-     * <p>
-     * u 플래그가 있으면 true.
-     */
+    /** Effective Unicode matching mode. / 적용할 유니코드 일치 모드. */
     private final boolean unicode;
 
-    /**
-     * True if the s flag is set.
-     * <p>
-     * s 플래그가 있으면 true.
-     */
-    private final boolean dotAll;
-
-    /**
-     * Flag bits passed to subprograms.
-     * <p>
-     * 하위 프로그램에 넘기는 플래그 비트.
-     */
-    private final int flags;
+    /** Effective flags for the code currently being generated. / 현재 생성 중인 코드에 적용하는 플래그. */
+    private int activeFlags;
 
     /**
      * The pattern text, used for error messages.
@@ -131,11 +102,8 @@ public final class RegExpCompiler {
      */
     private RegExpCompiler(String source, int flags, int groupCount) {
         this.source = source;
-        this.flags = flags;
-        this.ignoreCase = (flags & RegExpFlags.IGNORE_CASE) != 0;
-        this.multiline = (flags & RegExpFlags.MULTILINE) != 0;
+        this.activeFlags = flags;
         this.unicode = RegExpFlags.isUnicodeMode(flags);
-        this.dotAll = (flags & RegExpFlags.DOT_ALL) != 0;
         this.groupCount = groupCount;
         this.nextReg = groupCount + 1;
     }
@@ -307,14 +275,14 @@ public final class RegExpCompiler {
         case RegExpNode.EMPTY:
             break;
         case RegExpNode.CHAR:
-            emit(RegExpProgram.OP_CHAR);
-            emit(ignoreCase ? CaseFold.canonicalize(n.value, unicode) : n.value);
+            emit(comparison(RegExpProgram.OP_CHAR));
+            emit(canonicalLiteral(n.value));
             break;
         case RegExpNode.ANY:
-            emit(dotAll ? RegExpProgram.OP_ANY_ALL : RegExpProgram.OP_ANY);
+            emit((activeFlags & RegExpFlags.DOT_ALL) != 0 ? RegExpProgram.OP_ANY_ALL : RegExpProgram.OP_ANY);
             break;
         case RegExpNode.SET:
-            emit(RegExpProgram.OP_SET);
+            emit(comparison(RegExpProgram.OP_SET));
             emit(addSet(n.set));
             break;
         case RegExpNode.SEQ:
@@ -337,12 +305,19 @@ public final class RegExpCompiler {
                 gen(n.child);
             }
             break;
+        case RegExpNode.MODIFIED: {
+            int outerFlags = activeFlags;
+            activeFlags = n.value;
+            gen(n.child);
+            activeFlags = outerFlags;
+            break;
+        }
         case RegExpNode.BACKREF:
             if (n.referenceGroups == null) {
-                emit(RegExpProgram.OP_BACKREF);
+                emit(comparison(RegExpProgram.OP_BACKREF));
                 emit(n.value);
             } else {
-                emit(RegExpProgram.OP_BACKREF_ALTERNATIVES);
+                emit(comparison(RegExpProgram.OP_BACKREF_ALTERNATIVES));
                 emit(n.referenceGroups.length);
                 // 대안 중 참여한 캡처를 검색기가 고를 수 있도록 번호들을 기록한다.
                 for (int group : n.referenceGroups) {
@@ -377,6 +352,30 @@ public final class RegExpCompiler {
     }
 
     /**
+     * Encodes case folding on a comparison instruction so no mutable mode is needed during backtracking.
+     * <p>
+     * 역추적 중에 가변 플래그 상태가 필요 없도록 비교 명령에 대소문자 접기 비트를 기록한다.
+     *
+     * @param operation operation code / 명령 코드
+     * @return instruction with its case mode / 대소문자 모드를 포함한 명령
+     */
+    private int comparison(int operation) {
+        return (activeFlags & RegExpFlags.IGNORE_CASE) == 0 ? operation : operation | RegExpProgram.CASE_FOLD;
+    }
+
+    /**
+     * Converts a literal to the comparison form in the current scope.
+     * <p>
+     * 리터럴을 현재 범위의 비교 형식으로 바꾼다.
+     *
+     * @param literal character to match / 일치시킬 문자
+     * @return literal or its case-folded form / 리터럴 또는 대소문자를 접은 값
+     */
+    private int canonicalLiteral(int literal) {
+        return (activeFlags & RegExpFlags.IGNORE_CASE) == 0 ? literal : CaseFold.canonicalize(literal, unicode);
+    }
+
+    /**
      * Adds a character class to the table and returns its index.
      * <p>
      * 문자 클래스를 표에 추가하고 번호를 반환한다.
@@ -399,16 +398,16 @@ public final class RegExpCompiler {
     private void genAssertion(RegExpNode n) {
         switch (n.value) {
         case RegExpNode.BOL:
-            emit(multiline ? RegExpProgram.OP_BOL_M : RegExpProgram.OP_BOL);
+            emit((activeFlags & RegExpFlags.MULTILINE) != 0 ? RegExpProgram.OP_BOL_M : RegExpProgram.OP_BOL);
             break;
         case RegExpNode.EOL:
-            emit(multiline ? RegExpProgram.OP_EOL_M : RegExpProgram.OP_EOL);
+            emit((activeFlags & RegExpFlags.MULTILINE) != 0 ? RegExpProgram.OP_EOL_M : RegExpProgram.OP_EOL);
             break;
         case RegExpNode.WORD_BOUNDARY:
-            emit(RegExpProgram.OP_WORD_B);
+            emit(comparison(RegExpProgram.OP_WORD_B));
             break;
         default:
-            emit(RegExpProgram.OP_NOT_WORD_B);
+            emit(comparison(RegExpProgram.OP_NOT_WORD_B));
             break;
         }
     }
@@ -480,14 +479,14 @@ public final class RegExpCompiler {
             int arg = 0;
             if (atom.type == RegExpNode.CHAR) {
                 kind = RegExpProgram.KIND_CHAR;
-                arg = ignoreCase ? CaseFold.canonicalize(atom.value, unicode) : atom.value;
+                arg = canonicalLiteral(atom.value);
             } else if (atom.type == RegExpNode.ANY) {
-                kind = dotAll ? RegExpProgram.KIND_ANY_ALL : RegExpProgram.KIND_ANY;
+                kind = (activeFlags & RegExpFlags.DOT_ALL) != 0 ? RegExpProgram.KIND_ANY_ALL : RegExpProgram.KIND_ANY;
             } else {
                 kind = RegExpProgram.KIND_SET;
                 arg = addSet(atom.set);
             }
-            emit(RegExpProgram.OP_REPEAT);
+            emit(comparison(RegExpProgram.OP_REPEAT));
             emit(kind);
             emit(arg);
             emit(n.min);
@@ -562,14 +561,14 @@ public final class RegExpCompiler {
      * @return subprogram index / 하위 프로그램 번호
      */
     private int compileLookbehind(RegExpNode body) {
-        RegExpCompiler gen = new RegExpCompiler(source, flags, groupCount);
+        RegExpCompiler gen = new RegExpCompiler(source, activeFlags, groupCount);
         try {
             gen.generate(body);
         } catch (RegExpSyntaxException e) {
             throw new IllegalStateException(e.getMessage());
         }
         gen.emit(RegExpProgram.OP_MATCH);
-        RegExpProgram program = new RegExpProgram(source, flags, groupCount, Arrays.copyOf(gen.code, gen.len),
+        RegExpProgram program = new RegExpProgram(source, activeFlags, groupCount, Arrays.copyOf(gen.code, gen.len),
                 gen.sets.toArray(new RegExpCharSet[gen.sets.size()]), gen.nextReg, new String[groupCount + 1], -1, false,
                 gen.lookbehinds.toArray(new RegExpProgram[gen.lookbehinds.size()]));
         lookbehinds.add(program);

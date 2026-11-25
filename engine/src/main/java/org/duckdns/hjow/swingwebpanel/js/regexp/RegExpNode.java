@@ -96,6 +96,9 @@ final class RegExpNode {
      */
     static final int REPEAT = 10;
 
+    /** Noncapturing group with inline flags in value. / value에 인라인 플래그를 저장한 비캡처 그룹. */
+    static final int MODIFIED = 12;
+
     /**
      * Assertion kind: start of input or line (^).
      * <p>
@@ -139,9 +142,9 @@ final class RegExpNode {
     final int type;
 
     /**
-     * Type specific number: character, capture index, back reference index, assertion kind or negative flag.
+     * Type specific number: character, capture index, back reference index, assertion kind, or flags.
      * <p>
-     * 종류에 따른 숫자: 문자, 캡처 번호, 역참조 번호, 단언 종류, 부정 여부.
+     * 종류에 따른 숫자: 문자, 캡처 번호, 역참조 번호, 단언 종류 또는 플래그.
      */
     int value;
 
@@ -306,6 +309,7 @@ final class RegExpNode {
             return best;
         }
         case GROUP:
+        case MODIFIED:
             return child.minLength();
         case REPEAT:
             return (int) Math.min((long) min * child.minLength(), Integer.MAX_VALUE);

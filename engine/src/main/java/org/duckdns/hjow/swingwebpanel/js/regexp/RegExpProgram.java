@@ -219,6 +219,9 @@ public final class RegExpProgram {
     /** Named backreference: operand count followed by capture numbers. / 이름 역참조의 그룹 개수와 캡처 번호 목록. */
     static final int OP_BACKREF_ALTERNATIVES = 25;
 
+    /** Instruction bit for case folding in the current scope. / 현재 범위에서 대소문자 접기를 적용하는 명령 비트. */
+    static final int CASE_FOLD = 1 << 8;
+
     /**
      * Atom kind: literal character.
      * <p>

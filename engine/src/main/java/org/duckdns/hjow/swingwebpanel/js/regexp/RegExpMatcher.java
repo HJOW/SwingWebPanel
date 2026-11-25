@@ -105,18 +105,11 @@ final class RegExpMatcher {
     private final int end;
 
     /**
-     * True if the u flag is set.
+     * True if either Unicode flag is set.
      * <p>
-     * u 플래그가 있으면 true.
+     * 유니코드 플래그 u와 v 가운데 하나가 있으면 true.
      */
     private final boolean unicode;
-
-    /**
-     * True if the i flag is set.
-     * <p>
-     * i 플래그가 있으면 true.
-     */
-    private final boolean ignoreCase;
 
     /**
      * Step budget.
@@ -210,7 +203,6 @@ final class RegExpMatcher {
         this.in = input;
         this.end = input.length();
         this.unicode = RegExpFlags.isUnicodeMode(prog.getFlags());
-        this.ignoreCase = (prog.getFlags() & RegExpFlags.IGNORE_CASE) != 0;
         this.stepLimit = prog.getStepLimit();
         this.maxEntries = prog.getMaxBacktrackEntries();
         this.cancel = cancel;
@@ -329,14 +321,18 @@ final class RegExpMatcher {
     }
 
     /**
-     * Tests the word characters used by \b: ASCII letters, digits and underscore.
+     * Tests the word characters used by \b, including Unicode case equivalents in a folded scope.
      * <p>
-     * \b 가 쓰는 단어 문자인지 검사한다: ASCII 글자, 숫자, 밑줄.
+     * \b가 사용하는 단어 문자인지 검사한다. 유니코드 대소문자 접기 범위에서는 동치 문자도 포함한다.
      *
      * @param c character / 문자
+     * @param ignoreCase whether the assertion folds case / 단언에서 대소문자 접기 적용 여부
      * @return true for a word character / 단어 문자이면 true
      */
-    private static boolean isWord(int c) {
+    private boolean isWord(int c, boolean ignoreCase) {
+        if (unicode && ignoreCase) {
+            c = CaseFold.canonicalize(c, true);
+        }
         return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
     }
 
@@ -347,9 +343,10 @@ final class RegExpMatcher {
      *
      * @param set class / 클래스
      * @param c   character / 문자
+     * @param ignoreCase whether this class comparison ignores case / 이 클래스에서 대소문자 무시 여부
      * @return true if the class matches / 클래스가 일치하면 true
      */
-    private boolean setMatches(RegExpCharSet set, int c) {
+    private boolean setMatches(RegExpCharSet set, int c, boolean ignoreCase) {
         boolean found = set.contains(c);
         if (!found && ignoreCase) {
             if (!unicode && c < 128) {
@@ -379,9 +376,10 @@ final class RegExpMatcher {
      * @param kind atom kind (KIND_ constants of {@link RegExpProgram}) / 원자 종류({@link RegExpProgram} 의 KIND_ 상수)
      * @param arg  character or class index / 문자 또는 클래스 번호
      * @param p    position / 위치
+     * @param ignoreCase whether the atom ignores case / 원자에서 대소문자 무시 여부
      * @return position after the atom, or -1 if it does not match / 원자 뒤의 위치. 일치하지 않으면 -1
      */
-    private int matchAtom(int kind, int arg, int p) {
+    private int matchAtom(int kind, int arg, int p, boolean ignoreCase) {
         if (p >= end) {
             return -1;
         }
@@ -395,7 +393,7 @@ final class RegExpMatcher {
         case RegExpProgram.KIND_ANY_ALL:
             return next;
         default:
-            return setMatches(prog.sets[arg], c) ? next : -1;
+            return setMatches(prog.sets[arg], c, ignoreCase) ? next : -1;
         }
     }
 
@@ -454,7 +452,7 @@ final class RegExpMatcher {
                 int at = stack[sp + 1];
                 int cur = stack[sp + 2];
                 int count = stack[sp + 3];
-                int np = matchAtom(code[at + 1], code[at + 2], cur);
+                int np = matchAtom(code[at + 1], code[at + 2], cur, (code[at] & RegExpProgram.CASE_FOLD) != 0);
                 if (np >= 0) {
                     steps++;
                     if (count + 1 < code[at + 4]) {
@@ -534,7 +532,9 @@ final class RegExpMatcher {
                 checkLimits();
             }
             boolean ok = true;
-            switch (code[pc]) {
+            int operation = code[pc] & ~RegExpProgram.CASE_FOLD;
+            boolean ignoreCase = (code[pc] & RegExpProgram.CASE_FOLD) != 0;
+            switch (operation) {
             case RegExpProgram.OP_MATCH:
                 if (requiredEnd < 0 || pos == requiredEnd) {
                     caps[1] = pos;
@@ -543,7 +543,7 @@ final class RegExpMatcher {
                 ok = false;
                 break;
             case RegExpProgram.OP_CHAR: {
-                int np = matchAtom(RegExpProgram.KIND_CHAR, code[pc + 1], pos);
+                int np = matchAtom(RegExpProgram.KIND_CHAR, code[pc + 1], pos, ignoreCase);
                 if (np < 0) {
                     ok = false;
                 } else {
@@ -553,7 +553,7 @@ final class RegExpMatcher {
                 break;
             }
             case RegExpProgram.OP_ANY: {
-                int np = matchAtom(RegExpProgram.KIND_ANY, 0, pos);
+                int np = matchAtom(RegExpProgram.KIND_ANY, 0, pos, false);
                 if (np < 0) {
                     ok = false;
                 } else {
@@ -563,7 +563,7 @@ final class RegExpMatcher {
                 break;
             }
             case RegExpProgram.OP_ANY_ALL: {
-                int np = matchAtom(RegExpProgram.KIND_ANY_ALL, 0, pos);
+                int np = matchAtom(RegExpProgram.KIND_ANY_ALL, 0, pos, false);
                 if (np < 0) {
                     ok = false;
                 } else {
@@ -573,7 +573,7 @@ final class RegExpMatcher {
                 break;
             }
             case RegExpProgram.OP_SET: {
-                int np = matchAtom(RegExpProgram.KIND_SET, code[pc + 1], pos);
+                int np = matchAtom(RegExpProgram.KIND_SET, code[pc + 1], pos, ignoreCase);
                 if (np < 0) {
                     ok = false;
                 } else {
@@ -638,10 +638,10 @@ final class RegExpMatcher {
                 break;
             case RegExpProgram.OP_WORD_B:
             case RegExpProgram.OP_NOT_WORD_B: {
-                boolean a = pos > 0 && isWord(in.charAt(pos - 1));
-                boolean b = pos < end && isWord(in.charAt(pos));
+                boolean a = pos > 0 && isWord(charAt(stepBack(pos, 0)), ignoreCase);
+                boolean b = pos < end && isWord(charAt(pos), ignoreCase);
                 boolean boundary = a != b;
-                if (boundary == (code[pc] == RegExpProgram.OP_WORD_B)) {
+                if (boundary == (operation == RegExpProgram.OP_WORD_B)) {
                     pc++;
                 } else {
                     ok = false;
@@ -649,7 +649,7 @@ final class RegExpMatcher {
                 break;
             }
             case RegExpProgram.OP_BACKREF: {
-                int np = matchBackReference(code[pc + 1]);
+                int np = matchBackReference(code[pc + 1], ignoreCase);
                 if (np < 0) {
                     ok = false;
                 } else {
@@ -660,7 +660,7 @@ final class RegExpMatcher {
             }
             case RegExpProgram.OP_BACKREF_ALTERNATIVES: {
                 int nextPc = pc + 2 + code[pc + 1];
-                int np = matchAlternativeBackReference(pc + 2, nextPc);
+                int np = matchAlternativeBackReference(pc + 2, nextPc, ignoreCase);
                 if (np < 0) {
                     ok = false;
                 } else {
@@ -729,7 +729,7 @@ final class RegExpMatcher {
                 break;
             }
             case RegExpProgram.OP_REPEAT:
-                ok = executeRepeat();
+                ok = executeRepeat(ignoreCase);
                 break;
             default:
                 throw new IllegalStateException("bad instruction " + code[pc]);
@@ -775,9 +775,10 @@ final class RegExpMatcher {
      * <p>
      * 단일 문자 반복 명령을 실행한다.
      *
+     * @param ignoreCase whether the repeated atom ignores case / 반복하는 원자에서 대소문자 무시 여부
      * @return false if the repeat cannot match / 반복이 일치할 수 없으면 false
      */
-    private boolean executeRepeat() {
+    private boolean executeRepeat(boolean ignoreCase) {
         int kind = code[pc + 1];
         int arg = code[pc + 2];
         int min = code[pc + 3];
@@ -787,7 +788,7 @@ final class RegExpMatcher {
         int count = 0;
         // 먼저 최소 횟수만큼은 반드시 일치해야 한다.
         while (count < min) {
-            int np = matchAtom(kind, arg, p);
+            int np = matchAtom(kind, arg, p, ignoreCase);
             if (np < 0) {
                 return false;
             }
@@ -800,7 +801,7 @@ final class RegExpMatcher {
             long before = steps;
             // 가능한 만큼 최대한 많이 소비하고, 돌려줄 수 있도록 항목을 남긴다.
             while (count < max) {
-                int np = matchAtom(kind, arg, p);
+                int np = matchAtom(kind, arg, p, ignoreCase);
                 if (np < 0) {
                     break;
                 }
@@ -828,9 +829,10 @@ final class RegExpMatcher {
      * 현재 위치에서 역참조를 일치시킨다.
      *
      * @param g group number / 그룹 번호
+     * @param ignoreCase whether the reference ignores case / 역참조에서 대소문자 무시 여부
      * @return position after the match, or -1 / 일치 뒤의 위치. 실패하면 -1
      */
-    private int matchBackReference(int g) {
+    private int matchBackReference(int g, boolean ignoreCase) {
         int s = caps[2 * g];
         int e = caps[2 * g + 1];
         if (s < 0 || e < 0) {
@@ -868,14 +870,15 @@ final class RegExpMatcher {
      *
      * @param from first group operand in the code / 명령의 첫 그룹 피연산자 위치
      * @param to end of group operands / 그룹 피연산자 끝 위치
+     * @param ignoreCase whether the reference ignores case / 역참조에서 대소문자 무시 여부
      * @return new position or -1 on mismatch / 새 위치 또는 불일치 시 -1
      */
-    private int matchAlternativeBackReference(int from, int to) {
+    private int matchAlternativeBackReference(int from, int to, boolean ignoreCase) {
         // 문법으로 함께 참여할 수 없는 그룹들 가운데 완료한 캡처를 찾는다.
         for (int i = from; i < to; i++) {
             int group = code[i];
             if (caps[2 * group] >= 0 && caps[2 * group + 1] >= 0) {
-                return matchBackReference(group);
+                return matchBackReference(group, ignoreCase);
             }
         }
         return pos;
