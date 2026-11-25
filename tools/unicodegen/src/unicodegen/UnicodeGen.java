@@ -64,6 +64,15 @@ public final class UnicodeGen {
     /** Simple case folding entries. / 단순 대소문자 접기 매핑. */
     private final Map<Integer, String> simpleFold = new TreeMap<Integer, String>();
 
+    /** Nonzero canonical combining classes by code point. / 코드 포인트별 0이 아닌 정준 결합 클래스. */
+    private final Map<Integer, String> combiningClasses = new TreeMap<Integer, String>();
+
+    /** Direct decomposition mappings, with ! marking compatibility tags. / 직접 분해 매핑. !은 호환 태그를 나타낸다. */
+    private final Map<Integer, String> decompositions = new TreeMap<Integer, String>();
+
+    /** Code points that canonical composition must not produce. / 정준 재조합에서 생성하면 안 되는 코드 포인트. */
+    private final BitSet compositionExclusions = new BitSet(LIMIT);
+
     /** Creates one generator. / 생성기 하나를 만든다. */
     private UnicodeGen() {
     }
@@ -243,6 +252,18 @@ public final class UnicodeGen {
                 }
                 addMapping(upperCase, cp, fields[12]);
                 addMapping(lowerCase, cp, fields[13]);
+                int combining = Integer.parseInt(fields[3]);
+                if (combining != 0) {
+                    // 결합 클래스가 0이 아닌 범위만 정규화용 표에 넣는다.
+                    for (int member = first; member <= cp; member++) {
+                        combiningClasses.put(Integer.valueOf(member), Integer.toHexString(combining));
+                    }
+                }
+                String decomp = fields[5];
+                if (decomp.length() > 0) {
+                    // 호환 유형 태그는 켜짐 여부만 필요하다.
+                    decompositions.put(Integer.valueOf(cp), decomp.startsWith("<") ? "!" + decomp.substring(decomp.indexOf('>') + 1).trim() : decomp);
+                }
                 first = -1;
             }
             if (first >= 0) {
@@ -342,13 +363,19 @@ public final class UnicodeGen {
             // 이름과 범위를 읽는다. 이진 파일에 섞인 열거형 속성은 제외한다.
             while ((line = in.readLine()) != null) {
                 String[] fields = fields(line);
-                if (fields.length < 2 || (prefix.length() == 0 && !BINARY.contains(fields[1]))) {
+                if (fields.length < 2) {
+                    continue;
+                }
+                boolean compositionExclusion = prefix.length() == 0 && "Full_Composition_Exclusion".equals(fields[1]);
+                if (!compositionExclusion && prefix.length() == 0 && !BINARY.contains(fields[1])) {
                     continue;
                 }
                 int dot = fields[0].indexOf("..");
                 int first = Integer.parseInt(dot < 0 ? fields[0] : fields[0].substring(0, dot), 16);
                 int end = dot < 0 ? first + 1 : Integer.parseInt(fields[0].substring(dot + 2), 16) + 1;
-                if (prefix.length() == 0) {
+                if (compositionExclusion) {
+                    compositionExclusions.set(first, end);
+                } else if (prefix.length() == 0) {
                     bits(fields[1]).set(first, end);
                 } else {
                     if ("scx=".equals(prefix)) {
@@ -504,6 +531,9 @@ public final class UnicodeGen {
         appendMappings(source, "UPPER_CASE", upperCase);
         appendMappings(source, "LOWER_CASE", lowerCase);
         appendMappings(source, "SIMPLE_FOLD", simpleFold);
+        appendMappings(source, "COMBINING_CLASS", combiningClasses);
+        appendMappings(source, "DECOMPOSITION", decompositions);
+        appendMappings(source, "COMPOSITION", compositions());
         source.append("\n    /** Static data holder. / 정적 자료 보관 클래스. */\n    private UnicodePropertyData() { }\n}\n");
         OutputStream out = new FileOutputStream(output);
         try {
@@ -514,16 +544,37 @@ public final class UnicodeGen {
     }
 
     /**
-     * Emits a sorted array of hexadecimal case mapping rows.
+     * Keeps the two-part canonical decompositions that can be inverted by NFC or NFKC.
      * <p>
-     * 16진수 대소문자 매핑 행을 정렬한 배열을 출력한다.
+     * NFC 또는 NFKC가 역으로 재조합할 수 있는 두 항목 정준 분해를 남긴다.
+     *
+     * @return the eligible composed characters and pairs / 재조합할 수 있는 문자와 분해 쌍
+     */
+    private Map<Integer, String> compositions() {
+        Map<Integer, String> result = new TreeMap<Integer, String>();
+        // 호환 매핑, 단일 분해, 조합 제외 코드는 재조합 대상으로 사용하지 않는다.
+        for (Map.Entry<Integer, String> entry : decompositions.entrySet()) {
+            String mapping = entry.getValue();
+            int space = mapping.indexOf(' ');
+            if (mapping.charAt(0) != '!' && space >= 0 && mapping.indexOf(' ', space + 1) < 0
+                    && !compositionExclusions.get(entry.getKey().intValue())) {
+                result.put(entry.getKey(), mapping);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Emits a sorted array of hexadecimal Unicode mapping rows.
+     * <p>
+     * 16진수 유니코드 매핑 행을 정렬한 배열을 출력한다.
      *
      * @param source Java source builder / Java 소스 작성기
      * @param name generated field name / 생성 필드 이름
      * @param mappings Unicode mapping table / 유니코드 매핑 표
      */
     private static void appendMappings(StringBuilder source, String name, Map<Integer, String> mappings) {
-        source.append("\n    /** Unicode case mappings. / 유니코드 대소문자 매핑. */\n");
+        source.append("\n    /** Unicode mapping rows. / 유니코드 매핑 행. */\n");
         source.append("    static final String[] ").append(name).append(" = {\n");
         List<String> rows = new ArrayList<String>();
         // 코드 포인트 하나에 대응하는 코드 포인트 열을 쓴다.

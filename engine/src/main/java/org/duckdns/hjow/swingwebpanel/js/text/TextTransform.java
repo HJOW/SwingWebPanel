@@ -1,15 +1,14 @@
 package org.duckdns.hjow.swingwebpanel.js.text;
 
-import java.text.Normalizer;
 import java.util.Locale;
 
 /**
  * String transformations used by <code>String.prototype</code>: normalize, toUpperCase/toLowerCase (and the locale
  * variants), trim, repeat. Default case conversion uses the generated full Unicode mappings.
- * Explicit Java locales and normalization use the running JRE. All methods are static and thread-safe.
+ * Normalization uses the generated Unicode 18 data. Explicit Java locales use the running JRE.
  * <p>
  * <code>String.prototype</code> 이 쓰는 문자열 변환: normalize, toUpperCase/toLowerCase(와 로캘 변형), trim, repeat.
- * 기본 대소문자 변환은 생성한 전체 유니코드 매핑을 쓴다. 명시적 Java 로케일과 정규화는 실행 중인 JRE에 따른다.
+ * 기본 대소문자 변환과 정규화는 생성한 Unicode 18 자료를 쓴다. 명시적 Java 로케일은 실행 중인 JRE에 따른다.
  * 모든 메서드는 정적이며 스레드 안전하다.
  */
 public final class TextTransform {
@@ -40,19 +39,19 @@ public final class TextTransform {
      * @throws TextRangeException if the form is not one of the four names / form 이 네 이름 중 하나가 아니면
      */
     public static String normalize(String s, String form) {
-        Normalizer.Form f;
         if (form == null || "NFC".equals(form)) {
-            f = Normalizer.Form.NFC;
-        } else if ("NFD".equals(form)) {
-            f = Normalizer.Form.NFD;
-        } else if ("NFKC".equals(form)) {
-            f = Normalizer.Form.NFKC;
-        } else if ("NFKD".equals(form)) {
-            f = Normalizer.Form.NFKD;
-        } else {
-            throw new TextRangeException("The normalization form should be one of NFC, NFD, NFKC, NFKD.");
+            return UnicodeNormalization.normalize(s, false, true);
         }
-        return Normalizer.normalize(s, f);
+        if ("NFD".equals(form)) {
+            return UnicodeNormalization.normalize(s, false, false);
+        }
+        if ("NFKC".equals(form)) {
+            return UnicodeNormalization.normalize(s, true, true);
+        }
+        if ("NFKD".equals(form)) {
+            return UnicodeNormalization.normalize(s, true, false);
+        }
+        throw new TextRangeException("The normalization form should be one of NFC, NFD, NFKC, NFKD.");
     }
 
     /**

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-d1 Unicode 18 정규화 (2026-11-26) ===
+현재 작업 번호: P29-10-d1 완료.
+완료한 내용: Unicode 18.0.0의 정준·호환 분해, 결합 문자 재정렬, 재조합과 제외 규칙, 한글 음절, 네 정규화 형식과 UTF-16 경계를 엔진에 구현했다. Unicode 18.0.0 UAX #15 개정 58과 공식 NormalizationTest.txt를 2026-11-26에 tools/webfetch 및 JRE 25로 확인했다. 공식 시험 자료 SHA-256은 25A50D816764B04ABFB4A646D3EB2B2A803284C3873D9A06757B94FE4513DDE3이고 생성한 Java 표의 SHA-256은 D634CD7B7B0F66C60BCCFD9AC26278B21E580705D65F130708154F3D67E29814이다.
+변경 파일: UnicodeGen.java, UnicodePropertyData.java, UnicodeNormalization.java, TextTransform.java, UnicodeNormalizationTest.java, tools/unicodegen/AGENTS.md, tools/unicodegen/README.md, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45에서 UnicodeGen 재생성 결과 일치, 엔진 887건 및 Unicode 공식 자료의 20,171행과 단독 입력에서 변화가 없어야 하는 1,096,958 코드 포인트의 네 정규화 형식 통과. sourcecheck 0 위반.
+미해결 사항: Intl 없는 기본 지역화와 전체 회귀(P29-10-d2~e).
+다음 작업 번호: P29-10-d2.
+-----------------------------------------------------------------------------------------------
 === P29-10-c3c 호스트의 격리 권한과 공유 메모리 (2026-11-26) ===
 현재 작업 번호: P29-10-c3c, P29-10-c3 및 P29-10-c 완료.
 완료한 내용: COOP·COEP 및 Permissions-Policy로 창·프레임·Worker의 격리 권한을 정한다. 격리된 창·Worker·AudioWorklet에서 공유 메모리를 쓰고, 다른 오리진이나 격리 권한이 없는 렐름으로는 구조화 복제를 거부한다.
