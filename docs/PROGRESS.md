@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-08-a Promise.withResolvers 및 Promise.try (2026-11-26) ===
+현재 작업 번호: P29-08-a 완료.
+완료한 내용: 두 정적 메서드가 기존 NewPromiseCapability를 이용한다. withResolvers는 promise와 해결 함수 세트를 반환한다. try는 인수를 전달해 콜백을 즉시 호출하고 반환이나 예외로 생성된 promise를 해결하거나 거부한다.
+변경 파일: PromiseBuiltins.java, Es2026PromiseErrorMathTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 823건 통과. 앞 P29-07의 브라우저 확인 mvn -B -o -pl browser -am test -Dtest.filter=StructuredCloneTest 16건 통과. sourcecheck 0 위반.
+미해결 사항: 오류 내부 브랜드, 정밀 합산, JSON, Date(P29-08-b~e).
+다음 작업 번호: P29-08-b.
+-----------------------------------------------------------------------------------------------
 === P29-08 작업 분해 (2026-11-26) ===
 현재 작업 번호: P29-08-a 시작.
 완료한 내용: Promise, Error 브랜드, Math 정밀 합산, JSON 원문·reviver, 오프셋·Date를 독립적으로 검증할 하위 작업과 완료 조건을 정했다.
@@ -882,6 +890,11 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-08-a Promise 정적 메서드
+
+- ECMA-262 제17판 §27.2.4.8~9대로 capability를 먼저 생성한다. 반환한 thenable을 받아들이고 콜백의 오류를 거부로 전달한다. 사용자 해결 함수의 오류는 직접 전파된다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 823건, P29-07 후속 브라우저 StructuredCloneTest 16건을 검증했다. 다음은 P29-08-b다.
 
 ### 2026-11-26 · P29-08 하위 작업 계획
 

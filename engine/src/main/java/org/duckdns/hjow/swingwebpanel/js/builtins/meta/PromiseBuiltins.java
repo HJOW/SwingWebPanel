@@ -1,6 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.builtins.meta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.Js;
@@ -440,6 +441,34 @@ final class PromiseBuiltins {
         realm.method(ctor, "resolve", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 return resolveWith(r, thisValue, Js.arg(args, 0));
+            }
+        });
+        realm.method(ctor, "withResolvers", 0, new NativeFunction.Call() {
+            /** Returns the new promise and its resolving functions. / 새 promise와 해결 함수들을 반환한다. */
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                PromiseCapability capability = newCapability(r, thisValue);
+                JsObject result = r.newObject();
+                result.createDataProperty("promise", capability.getPromise());
+                result.createDataProperty("resolve", capability.getResolveFunction());
+                result.createDataProperty("reject", capability.getRejectFunction());
+                return result;
+            }
+        });
+        realm.method(ctor, "try", 1, new NativeFunction.Call() {
+            /** Calls the callback immediately and settles the new promise from its completion. / 콜백을 즉시 호출하고 완료 값을 새 promise에 전달한다. */
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                PromiseCapability capability = newCapability(r, thisValue);
+                JsValue[] callbackArgs = args.length > 1 ? Arrays.copyOfRange(args, 1, args.length) : Js.NO_ARGS;
+                JsValue result;
+                try {
+                    result = Ops.call(Js.arg(args, 0), Js.UNDEFINED, callbackArgs);
+                } catch (JsException called) {
+                    // 콜백의 예외를 거부 이유로 넘긴다. 해결 함수 자체의 예외는 호출자에게 전파한다.
+                    capability.reject(called.getValue(r));
+                    return capability.getPromise();
+                }
+                capability.resolve(result);
+                return capability.getPromise();
             }
         });
         // get Promise[@@species] (25.4.4.6)
