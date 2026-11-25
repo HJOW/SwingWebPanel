@@ -12,91 +12,91 @@ public final class WellKnownSymbols {
      * <p>
      * 잘 알려진 심볼 Symbol.hasInstance 를 나타낸다.
      */
-    public static final JsSymbol HAS_INSTANCE = new JsSymbol("Symbol.hasInstance");
+    public static final JsSymbol HAS_INSTANCE = new JsSymbol("Symbol.hasInstance", true);
 
     /**
      * The well-known symbol Symbol.isConcatSpreadable.
      * <p>
      * 잘 알려진 심볼 Symbol.isConcatSpreadable 를 나타낸다.
      */
-    public static final JsSymbol IS_CONCAT_SPREADABLE = new JsSymbol("Symbol.isConcatSpreadable");
+    public static final JsSymbol IS_CONCAT_SPREADABLE = new JsSymbol("Symbol.isConcatSpreadable", true);
 
     /**
      * The well-known symbol Symbol.iterator.
      * <p>
      * 잘 알려진 심볼 Symbol.iterator 를 나타낸다.
      */
-    public static final JsSymbol ITERATOR = new JsSymbol("Symbol.iterator");
+    public static final JsSymbol ITERATOR = new JsSymbol("Symbol.iterator", true);
 
     /**
      * The well-known symbol Symbol.asyncIterator.
      * <p>
      * 잘 알려진 심볼 Symbol.asyncIterator.
      */
-    public static final JsSymbol ASYNC_ITERATOR = new JsSymbol("Symbol.asyncIterator");
+    public static final JsSymbol ASYNC_ITERATOR = new JsSymbol("Symbol.asyncIterator", true);
 
     /**
      * The well-known symbol Symbol.match.
      * <p>
      * 잘 알려진 심볼 Symbol.match 를 나타낸다.
      */
-    public static final JsSymbol MATCH = new JsSymbol("Symbol.match");
+    public static final JsSymbol MATCH = new JsSymbol("Symbol.match", true);
 
     /**
      * The well-known symbol Symbol.matchAll.
      * <p>
      * 잘 알려진 심볼 Symbol.matchAll.
      */
-    public static final JsSymbol MATCH_ALL = new JsSymbol("Symbol.matchAll");
+    public static final JsSymbol MATCH_ALL = new JsSymbol("Symbol.matchAll", true);
 
     /**
      * The well-known symbol Symbol.replace.
      * <p>
      * 잘 알려진 심볼 Symbol.replace 를 나타낸다.
      */
-    public static final JsSymbol REPLACE = new JsSymbol("Symbol.replace");
+    public static final JsSymbol REPLACE = new JsSymbol("Symbol.replace", true);
 
     /**
      * The well-known symbol Symbol.search.
      * <p>
      * 잘 알려진 심볼 Symbol.search 를 나타낸다.
      */
-    public static final JsSymbol SEARCH = new JsSymbol("Symbol.search");
+    public static final JsSymbol SEARCH = new JsSymbol("Symbol.search", true);
 
     /**
      * The well-known symbol Symbol.species.
      * <p>
      * 잘 알려진 심볼 Symbol.species 를 나타낸다.
      */
-    public static final JsSymbol SPECIES = new JsSymbol("Symbol.species");
+    public static final JsSymbol SPECIES = new JsSymbol("Symbol.species", true);
 
     /**
      * The well-known symbol Symbol.split.
      * <p>
      * 잘 알려진 심볼 Symbol.split 를 나타낸다.
      */
-    public static final JsSymbol SPLIT = new JsSymbol("Symbol.split");
+    public static final JsSymbol SPLIT = new JsSymbol("Symbol.split", true);
 
     /**
      * The well-known symbol Symbol.toPrimitive.
      * <p>
      * 잘 알려진 심볼 Symbol.toPrimitive 를 나타낸다.
      */
-    public static final JsSymbol TO_PRIMITIVE = new JsSymbol("Symbol.toPrimitive");
+    public static final JsSymbol TO_PRIMITIVE = new JsSymbol("Symbol.toPrimitive", true);
 
     /**
      * The well-known symbol Symbol.toStringTag.
      * <p>
      * 잘 알려진 심볼 Symbol.toStringTag 를 나타낸다.
      */
-    public static final JsSymbol TO_STRING_TAG = new JsSymbol("Symbol.toStringTag");
+    public static final JsSymbol TO_STRING_TAG = new JsSymbol("Symbol.toStringTag", true);
 
     /**
      * The well-known symbol Symbol.unscopables.
      * <p>
      * 잘 알려진 심볼 Symbol.unscopables 를 나타낸다.
      */
-    public static final JsSymbol UNSCOPABLES = new JsSymbol("Symbol.unscopables");
+    public static final JsSymbol UNSCOPABLES = new JsSymbol("Symbol.unscopables", true);
 
     /**
      * Private constructor: constants holder.

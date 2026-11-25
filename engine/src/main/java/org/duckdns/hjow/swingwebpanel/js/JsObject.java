@@ -32,7 +32,7 @@ import java.util.List;
  * {@link #defineBuiltin(Object, JsValue)}, {@link #defineData(Object, JsValue, boolean, boolean, boolean)},
  * {@link #defineAccessor(Object, JsObject, JsObject, boolean, boolean)}, {@link #createDataProperty(Object, JsValue)}.
  */
-public class JsObject extends JsValue {
+public class JsObject extends JsWeakKey {
 
     /**
      * The [[Prototype]] internal slot (null for none).

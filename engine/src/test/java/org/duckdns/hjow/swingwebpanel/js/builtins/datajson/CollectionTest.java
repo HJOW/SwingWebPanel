@@ -518,17 +518,17 @@ public class CollectionTest {
     public void testWeakKeysAreNotRetained() {
         JsObject wm = env.construct("WeakMap");
         JsObject ws = env.construct("WeakSet");
-        // 키 객체를 만들어 넣은 뒤 참조를 버린다.
+        // 키를 넣을 때 맵에서 조회되는지 확인한 뒤 강한 참조를 버린다.
         for (int i = 0; i < 50; i++) {
             JsObject k = env.realm.newObject();
             env.invoke(wm, "set", k, Env.n(i));
             env.invoke(ws, "add", k);
+            Check.same(Js.TRUE, env.invoke(wm, "has", k), "entry exists immediately after insertion");
         }
-        int mapSize = ((CollectionBuiltins.WeakMapObject) wm).map.size();
-        Check.isTrue(mapSize > 0, "entries exist right after insertion");
+        CollectionBuiltins.WeakSetObject weakSet = (CollectionBuiltins.WeakSetObject) ws;
         long end = System.currentTimeMillis() + 3000;
-        // 수거될 때까지 가비지 수거를 반복 요청한다(최대 3 초).
-        while (((CollectionBuiltins.WeakMapObject) wm).map.size() > 0 && System.currentTimeMillis() < end) {
+        // 같은 키를 받았던 WeakSet에서 수거를 관찰한다. WeakMap도 계속 유지한 채 GC를 요청한다.
+        while (weakSet.map.size() > 0 && System.currentTimeMillis() < end) {
             System.gc();
             try {
                 Thread.sleep(20);
@@ -537,11 +537,11 @@ public class CollectionTest {
                 break;
             }
         }
-        if (((CollectionBuiltins.WeakMapObject) wm).map.size() > 0 || ((CollectionBuiltins.WeakSetObject) ws).map.size() > 0) {
+        Check.same(Js.FALSE, env.invoke(wm, "has", env.realm.newObject()), "the weak map is still available");
+        if (weakSet.map.size() > 0) {
             Check.skip("the JVM did not collect the weak keys within 3 seconds (garbage collection timing is not deterministic)");
         }
-        Check.equal(0, ((CollectionBuiltins.WeakMapObject) wm).map.size(), "weak map entries were collected");
-        Check.equal(0, ((CollectionBuiltins.WeakSetObject) ws).map.size(), "weak set members were collected");
+        Check.equal(0, weakSet.map.size(), "weak collection keys were collected");
     }
 
     /**

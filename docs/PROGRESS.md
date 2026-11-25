@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-06-a 비등록 Symbol 약한 참조 (2026-11-26) ===
+현재 작업 번호: P29-06-a 완료.
+완료한 내용: 비등록 및 well-known Symbol을 WeakMap·WeakSet·WeakRef·FinalizationRegistry에 연결했다. WeakMap의 키를 순환 참조하는 값도 수거되고, well-known 심볼을 키로 사용하는 맵과 값도 수거된다. WeakRef 생성과 역참조는 현재 작업의 체크포인트까지 대상을 유지한다.
+변경 파일: Ops.java, JsWeakKey.java, JsObject.java, JsSymbol.java, WellKnownSymbols.java, JsRealm.java, CollectionBuiltins.java, WeakReferenceBuiltins.java, Es2026WeakSymbolTest.java, CollectionTest.java, Es2022BuiltinsTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행) 774건 통과. sourcecheck 0 위반. 기존 GC 검사는 다음 GC 전에 앞 작업의 체크포인트를 실행하도록 보완했다.
+미해결 사항: GroupBy·Set·Upsert·Iterator(P29-06-b~e). 살아 있는 일반 키에 붙은 값의 만료 항목 제거는 해당 키의 약한 연관표 사용 시점에 지연될 수 있다.
+다음 작업 번호: P29-06-b.
+-----------------------------------------------------------------------------------------------
 === P29-05-e3-b Canvas·Web Audio 공유 경계와 공유 메모리 완료 (2026-11-26) ===
 현재 작업 번호: P29-05 완료.
 완료한 내용: Canvas ImageData 및 Web Audio의 복사·분석·디코딩에서 공유·가변 저장소가 잘못 들어오는 경우를 각 IDL 타입에 맞게 거부한다. 공유 버퍼와 Atomics, 브라우저에서의 정책과 대기 종료까지 하위 시험을 완료했다.
@@ -746,6 +754,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-06-a 약한 심볼 키와 정리
+
+동일한 설명을 가진 다른 심볼, 등록 심볼, 엔진 공용 심볼, 정리 등록과 해제 토큰을 검사했다. 덜 접근하는 WeakMap 값이 자기 키를 참조해도 키의 약한 참조가 해제됐으며, 공용 심볼 키가 버려진 맵을 참조 경로로 유지하지 않는 것을 JRE 6 GC로 확인했다.
 
 ### 2026-11-26 · P29-05-e3-b Canvas와 Web Audio의 저장소 검증
 

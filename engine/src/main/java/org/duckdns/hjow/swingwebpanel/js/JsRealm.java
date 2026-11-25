@@ -145,11 +145,11 @@ public class JsRealm {
     private volatile Executor externalJobExecutor;
 
     /**
-     * Objects returned by WeakRef.deref during the current task.
+     * WeakRef targets kept alive through construction and dereferencing in the current task.
      * <p>
-     * 현재 작업에서 WeakRef.deref 가 돌려준 객체.
+     * 현재 작업에서 WeakRef를 만들거나 역참조할 때 살아 있게 유지하는 대상.
      */
-    private final List<JsObject> weakKeepAlive = new ArrayList<JsObject>();
+    private final List<JsValue> weakKeepAlive = new ArrayList<JsValue>();
 
     /**
      * The module loader hook (null if not set).
@@ -848,8 +848,19 @@ public class JsRealm {
      *
      * @param target the target / 대상
      */
-    public void keepWeaklyHeld(JsObject target) {
+    public void keepWeaklyHeld(JsValue target) {
         weakKeepAlive.add(target);
+    }
+
+    /**
+     * Keeps an object target alive until the end of the current task.
+     * <p>
+     * 현재 작업이 끝날 때까지 객체 대상을 살아 있게 유지한다.
+     *
+     * @param target the target object / 대상 객체
+     */
+    public void keepWeaklyHeld(JsObject target) {
+        keepWeaklyHeld((JsValue) target);
     }
 
     /**

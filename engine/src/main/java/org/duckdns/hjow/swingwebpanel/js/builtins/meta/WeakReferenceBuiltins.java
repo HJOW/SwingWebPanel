@@ -60,10 +60,10 @@ public final class WeakReferenceBuiltins {
         }, new NativeFunction.Construct() {
             public JsObject construct(JsRealm r, JsValue[] args, JsObject newTarget) {
                 JsValue target = Js.arg(args, 0);
-                if (!(target instanceof JsObject)) {
+                if (!Ops.canBeHeldWeakly(target)) {
                     throw JsException.typeError("Invalid WeakRef target");
                 }
-                return new WeakRefObject(Ops.getPrototypeFromConstructor(r, newTarget, weakPrototype), (JsObject) target, r);
+                return new WeakRefObject(Ops.getPrototypeFromConstructor(r, newTarget, weakPrototype), target, r);
             }
         });
         weakConstructor.defineData("prototype", weakPrototype, false, false, false);
@@ -186,7 +186,7 @@ public final class WeakReferenceBuiltins {
          * <p>
          * 약한 대상.
          */
-        private final WeakReference<JsObject> target;
+        private final WeakReference<JsValue> target;
 
         /**
          * Creates a WeakRef instance.
@@ -197,9 +197,10 @@ public final class WeakReferenceBuiltins {
          * @param value target / 대상
          * @param realm realm / realm
          */
-        WeakRefObject(JsObject prototype, JsObject value, JsRealm realm) {
+        WeakRefObject(JsObject prototype, JsValue value, JsRealm realm) {
             super(prototype);
-            target = new WeakReference<JsObject>(value);
+            target = new WeakReference<JsValue>(value);
+            realm.keepWeaklyHeld(value);
         }
 
         /**
@@ -211,7 +212,7 @@ public final class WeakReferenceBuiltins {
          * @return target or undefined / 대상 또는 undefined
          */
         JsValue deref(JsRealm realm) {
-            JsObject value = target.get();
+            JsValue value = target.get();
             if (value == null) {
                 return Js.UNDEFINED;
             }
@@ -225,7 +226,7 @@ public final class WeakReferenceBuiltins {
      * <p>
      * 대상 수거 뒤 큐에 들어가는 FinalizationRegistry 등록.
      */
-    private static final class RegistrationReference extends WeakReference<JsObject> {
+    private static final class RegistrationReference extends WeakReference<JsValue> {
         /**
          * Registration state.
          * <p>
@@ -242,7 +243,7 @@ public final class WeakReferenceBuiltins {
          * @param queue queue / 큐
          * @param value cell / 등록 상태
          */
-        RegistrationReference(JsObject target, ReferenceQueue<JsObject> queue, Cell value) {
+        RegistrationReference(JsValue target, ReferenceQueue<JsValue> queue, Cell value) {
             super(target, queue);
             cell = value;
         }
@@ -271,7 +272,7 @@ public final class WeakReferenceBuiltins {
          * <p>
          * 약한 등록 해제 토큰.
          */
-        WeakReference<JsObject> unregisterToken;
+        WeakReference<JsValue> unregisterToken;
         /**
          * Whether a cleanup has been queued.
          * <p>
@@ -309,7 +310,7 @@ public final class WeakReferenceBuiltins {
          * <p>
          * 수거된 대상 큐.
          */
-        private final ReferenceQueue<JsObject> queue = new ReferenceQueue<JsObject>();
+        private final ReferenceQueue<JsValue> queue = new ReferenceQueue<JsValue>();
         /**
          * Registered cells.
          * <p>
@@ -342,23 +343,23 @@ public final class WeakReferenceBuiltins {
          * @param token unregister token / 등록 해제 토큰
          */
         void register(JsValue target, JsValue holdings, JsValue token) {
-            if (!(target instanceof JsObject)) {
-                throw JsException.typeError("FinalizationRegistry target must be an object");
+            if (!Ops.canBeHeldWeakly(target)) {
+                throw JsException.typeError("Invalid FinalizationRegistry target");
             }
             if (Ops.sameValue(target, holdings)) {
                 throw JsException.typeError("FinalizationRegistry target and holdings must not be the same");
             }
-            WeakReference<JsObject> weakToken = null;
+            WeakReference<JsValue> weakToken = null;
             if (!token.isUndefined()) {
-                if (!(token instanceof JsObject)) {
-                    throw JsException.typeError("FinalizationRegistry unregisterToken must be an object");
+                if (!Ops.canBeHeldWeakly(token)) {
+                    throw JsException.typeError("Invalid FinalizationRegistry unregisterToken");
                 }
-                weakToken = new WeakReference<JsObject>((JsObject) token);
+                weakToken = new WeakReference<JsValue>(token);
             }
             Cell cell = new Cell();
             cell.holdings = holdings;
             cell.unregisterToken = weakToken;
-            cell.target = new RegistrationReference((JsObject) target, queue, cell);
+            cell.target = new RegistrationReference(target, queue, cell);
             cells.add(cell);
         }
 
@@ -371,8 +372,8 @@ public final class WeakReferenceBuiltins {
          * @return true if anything was removed / 하나라도 제거했으면 true
          */
         boolean unregister(JsValue token) {
-            if (!(token instanceof JsObject)) {
-                throw JsException.typeError("FinalizationRegistry unregisterToken must be an object");
+            if (!Ops.canBeHeldWeakly(token)) {
+                throw JsException.typeError("Invalid FinalizationRegistry unregisterToken");
             }
             boolean removed = false;
             // 같은 약한 토큰으로 등록된 셀을 모두 찾아 제거한다.

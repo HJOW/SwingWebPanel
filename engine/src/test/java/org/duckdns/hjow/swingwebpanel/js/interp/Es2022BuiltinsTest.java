@@ -152,6 +152,8 @@ public final class Es2022BuiltinsTest {
         boolean collected = false;
         // GC 시점을 보장하지 않으므로 짧은 간격으로 여러 번 확인한다.
         for (int i = 0; i < 24; i++) {
+            // 앞 작업의 WeakRef 생성·역참조가 유지하던 객체를 먼저 해제한다.
+            realm.runJobs();
             System.gc();
             try {
                 Thread.sleep(20);

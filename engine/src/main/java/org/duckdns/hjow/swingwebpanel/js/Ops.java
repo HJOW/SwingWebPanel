@@ -650,6 +650,18 @@ public final class Ops {
     }
 
     /**
+     * CanBeHeldWeakly (ECMA-262 §9.13): objects and symbols outside the global symbol registry are eligible.
+     * <p>
+     * CanBeHeldWeakly (ECMA-262 §9.13): 객체와 전역 레지스트리에 등록되지 않은 심볼을 약하게 참조할 수 있다.
+     *
+     * @param value ECMAScript value / ECMAScript 값
+     * @return true for an eligible weak reference target / 약한 참조의 대상이 될 수 있으면 true
+     */
+    public static boolean canBeHeldWeakly(JsValue value) {
+        return value instanceof JsObject || (value instanceof JsSymbol && ((JsSymbol) value).getRegistryKey() == null);
+    }
+
+    /**
      * SameValue (7.2.9): like === but NaN equals NaN and +0 differs from -0 (Object.is).
      * <p>
      * SameValue (7.2.9): === 와 비슷하지만 NaN 은 NaN 과 같고 +0 과 -0 은 다르다(Object.is).

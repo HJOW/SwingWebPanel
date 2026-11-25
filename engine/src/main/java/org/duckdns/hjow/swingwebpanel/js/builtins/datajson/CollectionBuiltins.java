@@ -1,12 +1,15 @@
 package org.duckdns.hjow.swingwebpanel.js.builtins.datajson;
 
+import java.util.IdentityHashMap;
 import java.util.WeakHashMap;
 import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
+import org.duckdns.hjow.swingwebpanel.js.JsSymbol;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
+import org.duckdns.hjow.swingwebpanel.js.JsWeakKey;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
@@ -14,18 +17,12 @@ import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 /**
  * The keyed collections <code>Map</code>, <code>Set</code>, <code>WeakMap</code> and <code>WeakSet</code> (ECMA-262 6th edition 23) with
  * their iterators. Map and Set keep their entries in an {@link OrderedTable} (SameValueZero keys, insertion order, correct behavior when
- * entries are added or removed during iteration). WeakMap and WeakSet accept only objects as keys and hold them through weak references, so
- * they never keep a key alive.
- * <p>
- * Known limitation of the weak collections: the value of a WeakMap entry is held strongly. A value that (directly or indirectly) refers to its
- * own key therefore keeps that key alive, whereas the specification's ephemeron semantics would allow collecting both.
+ * entries are added or removed during iteration). WeakMap and WeakSet accept objects and non-registered symbols.
+ * WeakMap associations for collectable keys live with their keys, including when an associated value refers back to the key.
  * <p>
  * 키로 구분하는 컬렉션 <code>Map</code>, <code>Set</code>, <code>WeakMap</code>, <code>WeakSet</code>(ECMA-262 6판 23)과 그 이터레이터.
  * Map 과 Set 은 항목을 {@link OrderedTable}(SameValueZero 키, 삽입 순서, 순회 중 항목을 추가/삭제해도 올바른 동작)에 보관한다.
- * WeakMap 과 WeakSet 은 키로 객체만 받고 약한 참조로 보관하므로 키를 붙잡지 않는다.
- * <p>
- * 약한 컬렉션의 알려진 한계: WeakMap 항목의 값은 강하게 보관된다. 값이 (직접 또는 간접으로) 자기 키를 참조하면 그 키가 살아 있게 되며,
- * 규격의 ephemeron 의미라면 둘 다 수거할 수 있다.
+ * WeakMap과 WeakSet은 객체와 비등록 심볼을 받는다. 수거 가능한 WeakMap 키에 값을 붙여 값이 키를 참조하는 경우에도 키를 수거할 수 있다.
  */
 final class CollectionBuiltins {
 
@@ -129,11 +126,14 @@ final class CollectionBuiltins {
      */
     static final class WeakMapObject extends JsObject {
         /**
-         * Entries keyed by weakly held objects (identity comparison).
+         * Private identity used to look up this map's associations on each key.
          * <p>
-         * 약하게 보관하는 객체를 키로 하는 항목들(동일성 비교).
+         * 각 키에서 이 맵의 항목을 찾을 비공개 식별자.
          */
-        final WeakHashMap<JsObject, JsValue> map = new WeakHashMap<JsObject, JsValue>();
+        private final Object token = new Object();
+
+        /** Entries whose symbol keys are already rooted for the lifetime of the engine. / 엔진 수명 동안 유지되는 심볼 키의 항목. */
+        private IdentityHashMap<JsValue, JsValue> permanentEntries;
 
         /**
          * Creates a weak map object.
@@ -144,6 +144,68 @@ final class CollectionBuiltins {
          */
         WeakMapObject(JsObject proto) {
             super(proto);
+        }
+
+        /**
+         * Looks up an entry without retaining its key.
+         * <p>
+         * 키를 유지하지 않고 연결된 값을 찾는다.
+         *
+         * @param key lookup key / 조회할 키
+         * @return the entry value or Java null if absent or ineligible / 항목 값. 항목이 없거나 키를 쓸 수 없으면 Java null
+         */
+        JsValue get(JsValue key) {
+            if (isPermanentSymbol(key)) {
+                return permanentEntries == null ? null : permanentEntries.get(key);
+            }
+            return Ops.canBeHeldWeakly(key) ? ((JsWeakKey) key).getWeakAssociation(token) : null;
+        }
+
+        /**
+         * Writes an entry for a previously validated key.
+         * <p>
+         * 이미 검사한 키의 항목을 기록한다.
+         *
+         * @param key the validated key / 검사한 키
+         * @param value the entry value / 항목 값
+         */
+        void put(JsWeakKey key, JsValue value) {
+            // 엔진 공용 심볼에 값을 붙이면 값이 참조하는 맵과 realm이 살아 있게 된다.
+            if (isPermanentSymbol(key)) {
+                if (permanentEntries == null) {
+                    permanentEntries = new IdentityHashMap<JsValue, JsValue>();
+                }
+                permanentEntries.put(key, value);
+            } else {
+                key.putWeakAssociation(token, value);
+            }
+        }
+
+        /**
+         * Removes the entry of the supplied key.
+         * <p>
+         * 주어진 키의 항목을 제거한다.
+         *
+         * @param key key to remove / 제거할 키
+         * @return true when an entry was removed / 항목을 제거했으면 true
+         */
+        boolean remove(JsValue key) {
+            if (isPermanentSymbol(key)) {
+                return permanentEntries != null && permanentEntries.remove(key) != null;
+            }
+            return Ops.canBeHeldWeakly(key) && ((JsWeakKey) key).removeWeakAssociation(token) != null;
+        }
+
+        /**
+         * Checks if the key is a globally rooted, non-registered well-known symbol.
+         * <p>
+         * 키가 엔진 전체에서 유지되며 레지스트리에 등록되지 않은 well-known 심볼인지 확인한다.
+         *
+         * @param key candidate key / 후보 키
+         * @return true for a well-known symbol / well-known 심볼이면 true
+         */
+        private static boolean isPermanentSymbol(JsValue key) {
+            return key instanceof JsSymbol && ((JsSymbol) key).isWellKnown();
         }
 
         /**
@@ -169,7 +231,7 @@ final class CollectionBuiltins {
          * <p>
          * 약하게 보관하는 구성원(동일성 비교).
          */
-        final WeakHashMap<JsObject, Boolean> map = new WeakHashMap<JsObject, Boolean>();
+        final WeakHashMap<JsValue, Boolean> map = new WeakHashMap<JsValue, Boolean>();
 
         /**
          * Creates a weak set object.
@@ -805,19 +867,19 @@ final class CollectionBuiltins {
     }
 
     /**
-     * Requires an object as key of a weak collection.
+     * Requires a value that can be held weakly as a collection key.
      * <p>
-     * 약한 컬렉션의 키가 객체여야 함을 확인한다.
+     * 약한 컬렉션의 키로 약하게 참조할 수 있는 값을 요구한다.
      *
      * @param v    the key / 키
      * @param what "weak map" or "weak set" for the message / 메시지용 "weak map" 또는 "weak set"
-     * @return the key object / 키 객체
+     * @return the eligible weak key / 사용할 수 있는 약한 키
      */
-    private static JsObject weakKey(JsValue v, String what) {
-        if (!(v instanceof JsObject)) {
+    private static JsWeakKey weakKey(JsValue v, String what) {
+        if (!Ops.canBeHeldWeakly(v)) {
             throw JsException.typeError("Invalid value used " + (what.equals("weak map") ? "as weak map key" : "in weak set"));
         }
-        return (JsObject) v;
+        return (JsWeakKey) v;
     }
 
     /**
@@ -892,7 +954,7 @@ final class CollectionBuiltins {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 WeakMapObject m = thisWeakMap(thisValue, "delete");
                 JsValue k = Js.arg(args, 0);
-                return Js.bool(k instanceof JsObject && m.map.remove(k) != null);
+                return Js.bool(m.remove(k));
             }
         });
         realm.method(proto, "get", 1, new NativeFunction.Call() {
@@ -909,7 +971,7 @@ final class CollectionBuiltins {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 WeakMapObject m = thisWeakMap(thisValue, "get");
                 JsValue k = Js.arg(args, 0);
-                JsValue v = k instanceof JsObject ? m.map.get(k) : null;
+                JsValue v = m.get(k);
                 return v == null ? Js.UNDEFINED : v;
             }
         });
@@ -927,7 +989,7 @@ final class CollectionBuiltins {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 WeakMapObject m = thisWeakMap(thisValue, "has");
                 JsValue k = Js.arg(args, 0);
-                return Js.bool(k instanceof JsObject && m.map.containsKey(k));
+                return Js.bool(m.get(k) != null);
             }
         });
         realm.method(proto, "set", 2, new NativeFunction.Call() {
@@ -943,7 +1005,7 @@ final class CollectionBuiltins {
              */
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 WeakMapObject m = thisWeakMap(thisValue, "set");
-                m.map.put(weakKey(Js.arg(args, 0), "weak map"), Js.arg(args, 1));
+                m.put(weakKey(Js.arg(args, 0), "weak map"), Js.arg(args, 1));
                 return thisValue;
             }
         });
@@ -1007,7 +1069,7 @@ final class CollectionBuiltins {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 WeakSetObject s = thisWeakSet(thisValue, "delete");
                 JsValue k = Js.arg(args, 0);
-                return Js.bool(k instanceof JsObject && s.map.remove(k) != null);
+                return Js.bool(Ops.canBeHeldWeakly(k) && s.map.remove(k) != null);
             }
         });
         realm.method(proto, "has", 1, new NativeFunction.Call() {
@@ -1024,7 +1086,7 @@ final class CollectionBuiltins {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 WeakSetObject s = thisWeakSet(thisValue, "has");
                 JsValue k = Js.arg(args, 0);
-                return Js.bool(k instanceof JsObject && s.map.containsKey(k));
+                return Js.bool(Ops.canBeHeldWeakly(k) && s.map.containsKey(k));
             }
         });
         Support.defineToStringTag(proto, "WeakSet");
