@@ -42,9 +42,7 @@ final class ArrayBufferLib {
         }, new NativeFunction.Construct() {
             public JsObject construct(JsRealm r, JsValue[] args, JsObject newTarget) {
                 double length = TypedSupport.toIndex(Js.arg(args, 0), "array buffer length");
-                JsValue options = Js.arg(args, 1);
-                JsValue max = options instanceof JsObject ? ((JsObject) options).get("maxByteLength") : Js.UNDEFINED;
-                double maximum = max.isUndefined() ? -1 : TypedSupport.toIndex(max, "maximum array buffer length");
+                double maximum = TypedSupport.maxByteLengthOption(Js.arg(args, 1));
                 if (maximum >= 0 && length > maximum) {
                     throw JsException.rangeError("ArrayBuffer length exceeds its maximum");
                 }

@@ -59,6 +59,19 @@ final class TypedSupport {
     }
 
     /**
+     * Reads the maximum byte length option on a buffer constructor.
+     * <p>
+     * 버퍼 생성자에 전달된 최대 바이트 길이 옵션을 읽는다.
+     *
+     * @param options the constructor's options argument / 생성자 옵션 인수
+     * @return a maximum length or -1 if it was omitted / 최대 길이. 생략하면 -1
+     */
+    static double maxByteLengthOption(JsValue options) {
+        JsValue maximum = options instanceof JsObject ? ((JsObject) options).get("maxByteLength") : Js.UNDEFINED;
+        return maximum.isUndefined() ? -1 : toIndex(maximum, "maximum array buffer length");
+    }
+
+    /**
      * Converts a relative index argument (negative counts from the end) into an absolute position clamped to 0..len.
      * <p>
      * 상대 인덱스 인수(음수는 끝에서부터 센다)를 0..len 으로 제한한 절대 위치로 바꾼다.

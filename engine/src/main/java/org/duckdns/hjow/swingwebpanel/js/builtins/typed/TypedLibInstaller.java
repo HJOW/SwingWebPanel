@@ -31,11 +31,11 @@ public class TypedLibInstaller implements BuiltinInstaller {
     }
 
     /**
-     * Installs ArrayBuffer, DataView, %TypedArray% and the nine typed array constructors, and registers their intrinsics
+     * Installs ArrayBuffer, SharedArrayBuffer, DataView, %TypedArray% and concrete typed array constructors, and registers their intrinsics
      * (<code>%ArrayBuffer%</code>, <code>%DataView%</code>, <code>%TypedArray%</code>, <code>%Int8Array%</code> ... with the matching
      * <code>...Prototype%</code> objects).
      * <p>
-     * ArrayBuffer, DataView, %TypedArray%, 아홉 개의 형식화 배열 생성자를 설치하고 내장 객체
+     * ArrayBuffer, SharedArrayBuffer, DataView, %TypedArray% 및 구체 형식화 배열 생성자를 설치하고 내장 객체
      * (<code>%ArrayBuffer%</code>, <code>%DataView%</code>, <code>%TypedArray%</code>, <code>%Int8Array%</code> 등과 대응하는
      * <code>...Prototype%</code>)를 등록한다.
      *
@@ -43,6 +43,7 @@ public class TypedLibInstaller implements BuiltinInstaller {
      */
     public void install(JsRealm realm) {
         ArrayBufferLib.install(realm);
+        SharedArrayBufferLib.install(realm);
         DataViewLib.install(realm);
         TypedArrayLib.install(realm);
     }

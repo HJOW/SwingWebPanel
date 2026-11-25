@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-05-b2 SharedArrayBuffer 생성자와 성장 (2026-11-26) ===
+현재 작업 번호: P29-05-b 완료.
+완료한 내용: SharedArrayBuffer의 고정·성장 가능 생성자, byteLength, maxByteLength, growable, grow, slice와 species·toStringTag를 설치했다. 서로 다른 래퍼가 같은 블록을 참조할 때 species가 복사 대상으로 반환하면 거부한다.
+변경 파일: SharedArrayBufferLib.java, ArrayBufferLib.java, TypedLibInstaller.java, TypedSupport.java, Es2026SharedMemoryTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 760건 통과. sourcecheck 0 위반.
+미해결 사항: Atomics 연산과 대기(P29-05-c~d), 브라우저 구조화 복제와 호스트 경계(P29-05-e). 여러 realm의 생성자가 원시 prototype을 반환하는 공통 기본 프로토타입 조회는 P29-10에서 대조한다.
+다음 작업 번호: P29-05-c.
+-----------------------------------------------------------------------------------------------
 === P29-05-b1 공유 버퍼와 뷰 연결 (2026-11-26) ===
 현재 작업 번호: P29-05-b1 완료.
 완료한 내용: TypedArray, DataView와 Uint8Array Base64·Hex 변환에서 공유 바이트 저장소에 직접 접근한다. 같은 공유 블록을 가리키는 뷰의 set은 원본 범위를 복제하고 copyWithin은 겹치는 방향을 고려한다.
@@ -682,6 +690,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-05-b2 공유 버퍼 생성자와 병행 grow
+
+ECMA-262 제17판 §25.2에 맞춰 고정 길이와 성장 가능 길이의 속성, 인수 변환 순서, 일반 ArrayBuffer와의 구분, slice의 저장소 검사를 확인했다. 한 공유 블록을 사용하는 두 realm에서 8192바이트와 16384바이트로 경합하며 키웠을 때 최종 길이와 기존·신규 바이트를 검증했다.
 
 ### 2026-11-26 · P29-05-b1 공유 저장소 위에서 뷰 읽기와 쓰기
 
