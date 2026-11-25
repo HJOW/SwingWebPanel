@@ -124,6 +124,34 @@ public class FrameWindowTest {
     }
 
     /**
+     * Verifies a same-origin window transfers a resizable buffer and its length-tracking views back to the parent.
+     * <p>
+     * 같은 오리진 창이 부모에게 가변 버퍼와 길이 추적 뷰를 돌려주는지 확인한다.
+     *
+     * @throws Exception on page or test server failure / 페이지 또는 시험 서버 실패
+     */
+    public void testResizableBufferBetweenWindows() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        SwingWebPanel panel = FrameTestSupport.newPanel(400, 300);
+        try {
+            String inner = "<script>addEventListener('message',e=>{const d=e.data;d.buf.resize(6);"
+                    + "parent.postMessage(d,e.origin,[d.buf]);});</script>";
+            serve(panel, server, "<!doctype html><iframe id=f srcdoc=\"" + attr(inner) + "\"></iframe>"
+                    + "<script>addEventListener('message',e=>{const d=e.data;d.buf.resize(8);"
+                    + "sessionStorage.setItem('resizable-window',[d.buf.resizable,d.buf.maxByteLength,d.values.length,"
+                    + "d.view.byteLength,d.values[0],d.values.buffer===d.buf&&d.view.buffer===d.buf].join());});"
+                    + "window.onload=()=>{const b=new ArrayBuffer(2,{maxByteLength:8}),a=new Float16Array(b);a[0]=1.5;"
+                    + "document.getElementById('f').contentWindow.postMessage({buf:b,values:a,view:new DataView(b)},location.origin,[b]);"
+                    + "sessionStorage.setItem('window-detached',String(b.detached));};</script>");
+            FrameTestSupport.awaitStored(panel, "resizable-window", "true,8,4,8,1.5,true");
+            FrameTestSupport.awaitStored(panel, "window-detached", "true");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
      * Checks the same frame reference before and after matching and nonmatching origin navigations.
      * <p>
      * 같은 프레임 참조를 유지한 채 같은 오리진과 다른 오리진으로 이동했을 때를 확인한다.

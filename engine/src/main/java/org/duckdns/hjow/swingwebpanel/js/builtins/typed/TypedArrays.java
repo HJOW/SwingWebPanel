@@ -114,10 +114,27 @@ public final class TypedArrays {
      * @return the buffer object / 버퍼 객체
      */
     public static ArrayBufferObject newArrayBuffer(JsRealm realm, byte[] data) {
+        return newArrayBuffer(realm, data, -1);
+    }
+
+    /**
+     * Wraps bytes in an ArrayBuffer with a fixed or resizable limit, as used by structured deserialization.
+     * <p>
+     * 구조화 역직렬화에서처럼 고정 길이 또는 가변 상한을 가진 ArrayBuffer에 바이트를 감싼다.
+     *
+     * @param realm the receiving realm / 수신 렐름
+     * @param data backing bytes, not null / 저장 바이트. null 불가
+     * @param maximum maximum byte length, or -1 for fixed length / 최대 바이트 길이. 고정 길이이면 -1
+     * @return the buffer / 버퍼
+     */
+    public static ArrayBufferObject newArrayBuffer(JsRealm realm, byte[] data, int maximum) {
         if (data == null) {
             throw new IllegalArgumentException("data must not be null");
         }
-        return TypedSupport.newBuffer(realm, data);
+        if (maximum < -1 || (maximum >= 0 && (maximum < data.length || maximum > ArrayBufferObject.MAX_BYTE_LENGTH))) {
+            throw new IllegalArgumentException("invalid maximum buffer length");
+        }
+        return TypedSupport.newBuffer(realm, data, maximum);
     }
 
     /**

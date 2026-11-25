@@ -40,6 +40,7 @@ public class AudioWorkletMessagingTest {
             + "        this.port.postMessage({type: 'options', text: [o.numberOfInputs, o.numberOfOutputs, o.outputChannelCount ? o.outputChannelCount.join('|') : '-', JSON.stringify(p.a), p.m.get(1), p.d.getTime(),\n"
             + "          typeof o.parameterData, Object.keys(o).sort().join('|')].join(';')});\n" + "      }\n"
             + "      else if (d.type === 'bytes') { let s = 0; const v = new Uint8Array(d.buf); for (let i = 0; i < v.length; i++) s += v[i]; this.port.postMessage({type: 'bytes', sum: s, length: d.buf.byteLength}); }\n"
+            + "      else if (d.type === 'resizable') { d.buf.resize(6); d.values[1]=3.5; this.port.postMessage(d,[d.buf]); }\n"
             + "      else if (d.type === 'count') { this.port.postMessage({type: 'count', n: this.n, same: e instanceof MessageEvent, origin: e.origin, source: String(e.source)}); }\n"
             + "      else if (d.type === 'echo') { this.port.postMessage({type: 'echo', n: d.n}); }\n" + "    };\n" + "  }\n" + "  process(inputs, outputs) {\n"
             + "    if (this.report) this.port.postMessage({type: 'frame', frame: currentFrame});\n" + "    const o = outputs[0][0];\n" + "    for (let i = 0; i < o.length; i++) o[i] = this.gain;\n"
@@ -86,6 +87,26 @@ public class AudioWorkletMessagingTest {
     private static void render(WorkletPage p) {
         p.run("var out = null; ctx.startRendering().then(function (b) { out = b; });");
         p.waitFor("out !== null", 30000, "the rendering");
+    }
+
+    /**
+     * Checks a resizable transfer and its Float16 view through an offline processor's MessagePort.
+     * <p>
+     * 오프라인 프로세서의 MessagePort에서 가변 버퍼와 Float16 뷰의 전달을 확인한다.
+     */
+    public void testResizableTransferInOfflineWorklet() {
+        WorkletPage p = echoPage("new OfflineAudioContext(1,128,8000)", "{numberOfInputs:0}");
+        try {
+            Check.equal("true", p.run("var b=new ArrayBuffer(2,{maxByteLength:8}),a=new Float16Array(b);a[0]=1.5;"
+                    + "node.port.postMessage({type:'resizable',buf:b,values:a},[b]);b.detached"), "source buffer detaches");
+            render(p);
+            p.waitFor("msgs.length>0", 20000, "the transferred view returns");
+            Check.equal("true,8,4,1.5,3.5,true", p.run("var d=msgs[0];d.buf.resize(8);"
+                    + "[d.buf.resizable,d.buf.maxByteLength,d.values.length,d.values[0],d.values[1],d.values.buffer===d.buf].join()"),
+                    "maximum length, Float16 bytes, and tracking survive both transfers");
+        } finally {
+            p.fixture.scripts.dispose();
+        }
     }
 
     /**

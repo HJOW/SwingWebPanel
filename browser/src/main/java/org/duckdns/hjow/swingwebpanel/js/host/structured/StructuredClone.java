@@ -300,6 +300,9 @@ public final class StructuredClone {
          */
         byte[] bytes;
 
+        /** The resizable limit of a cloned buffer, or -1 for a fixed buffer. / 복제한 가변 버퍼의 상한. 고정 버퍼이면 -1. */
+        int maxByteLength = -1;
+
         /**
          * The payload of a transferred object or a shared buffer reference.
          * <p>
@@ -329,9 +332,9 @@ public final class StructuredClone {
         int offset;
 
         /**
-         * The element count of a typed array or the byte length of a DataView.
+         * The element count of a typed array or the byte length of a DataView, or -1 for length tracking.
          * <p>
-         * 형식화 배열의 요소 수 또는 DataView 의 바이트 길이.
+         * 형식화 배열의 요소 수 또는 DataView의 바이트 길이. 길이를 추적하면 -1.
          */
         int length;
 
@@ -891,25 +894,25 @@ public final class StructuredClone {
             }
             if (o instanceof TypedArrayObject) {
                 TypedArrayObject t = (TypedArrayObject) o;
-                if (t.getBuffer().isDetached()) {
-                    throw new StructuredCloneException("An ArrayBuffer is detached and could not be cloned.");
+                if (t.isOutOfBounds()) {
+                    throw new StructuredCloneException("A typed array is outside its buffer and could not be cloned.");
                 }
                 Cell c = new Cell(TYPED);
                 c.text = t.getType().getConstructorName();
                 c.bufferRef = ref(t.getBuffer()).intValue();
                 c.offset = t.getByteOffset();
-                c.length = t.getBuffer().isShared() && t.isLengthTracking() ? -1 : t.getLength();
+                c.length = t.isLengthTracking() ? -1 : t.getLength();
                 return c;
             }
             if (o instanceof DataViewObject) {
                 DataViewObject d = (DataViewObject) o;
-                if (d.getBuffer().isDetached()) {
-                    throw new StructuredCloneException("An ArrayBuffer is detached and could not be cloned.");
+                if (d.isOutOfBounds()) {
+                    throw new StructuredCloneException("A DataView is outside its buffer and could not be cloned.");
                 }
                 Cell c = new Cell(VIEW);
                 c.bufferRef = ref(d.getBuffer()).intValue();
                 c.offset = d.getByteOffset();
-                c.length = d.getBuffer().isShared() && d.isLengthTracking() ? -1 : d.getByteLength();
+                c.length = d.isLengthTracking() ? -1 : d.getByteLength();
                 return c;
             }
             if (o instanceof DomExceptionObjects.Value) {
@@ -955,9 +958,13 @@ public final class StructuredClone {
                 throw new StructuredCloneException("An ArrayBuffer is detached and could not be cloned.");
             }
             Cell c = new Cell(BUFFER);
-            byte[] data = b.getData();
-            charge(data.length);
-            c.bytes = transfer.containsKey(b) ? data : data.clone();
+            // 전달 대상은 getter 실행이 끝난 뒤 실제로 옮길 바이트를 채운다.
+            if (!transfer.containsKey(b)) {
+                byte[] data = b.getData();
+                charge(data.length);
+                c.bytes = data.clone();
+                c.maxByteLength = b.isResizable() ? b.getMaxByteLength() : -1;
+            }
             return c;
         }
 
@@ -1026,7 +1033,18 @@ public final class StructuredClone {
                 ref(handledList.get(i));
             }
             run();
-            // 직렬화가 성공했으므로 전달한 버퍼의 원본을 분리한다.
+            // getter가 바꾼 버퍼 상태와 한도를 모두 검사한 뒤에만 전달을 확정한다.
+            for (int i = 0; i < transferList.size(); i++) {
+                ArrayBufferObject buffer = transferList.get(i);
+                if (buffer.isDetached()) {
+                    throw new StructuredCloneException("An ArrayBuffer was detached before transfer.");
+                }
+                Cell c = cells.get(memory.get(buffer).intValue());
+                c.bytes = buffer.getData();
+                charge(c.bytes.length);
+                c.maxByteLength = buffer.isResizable() ? buffer.getMaxByteLength() : -1;
+            }
+            // 모든 전달 대상이 유효하면 원본 버퍼를 분리한다.
             for (int i = 0; i < transferList.size(); i++) {
                 transferList.get(i).detach();
             }
@@ -1392,7 +1410,7 @@ public final class StructuredClone {
             case SET:
                 return DataAccess.newSet(realm);
             case BUFFER:
-                return TypedArrays.newArrayBuffer(realm, c.bytes.clone());
+                return TypedArrays.newArrayBuffer(realm, c.bytes.clone(), c.maxByteLength);
             case SHARED_BUFFER:
                 return ((SharedBufferReference) c.payload).wrap(realm);
             case DOM_EXCEPTION:
@@ -1448,7 +1466,8 @@ public final class StructuredClone {
             // 생성자 이름이 같은 요소 형식을 찾는다.
             for (int i = 0; i < types.length; i++) {
                 if (types[i].getConstructorName().equals(c.text)) {
-                    return TypedArrays.newTypedArray(realm, types[i], b, c.offset, c.length);
+                    JsObject prototype = realm.getIntrinsic("%" + c.text + "Prototype%");
+                    return new TypedArrayObject(prototype, types[i], b, c.offset, c.length);
                 }
             }
             throw new IllegalStateException("unknown typed array " + c.text);

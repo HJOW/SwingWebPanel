@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-b1 가변 버퍼와 뷰의 구조화 복제 (2026-11-26) ===
+현재 작업 번호: P29-10-b1 완료.
+완료한 내용: 가변 버퍼의 최대 길이와 Float16Array·DataView의 고정 및 자동 길이를 복원한다. 전송에서는 getter 실행 뒤 저장소를 읽고 전체 전송 목록을 재검사한 뒤 분리한다.
+변경 파일: StructuredClone.java, TypedSupport.java, TypedArrays.java, StructuredCloneTest.java, FrameWindowTest.java, WorkerMessagingTest.java, AudioWorkletMessagingTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45에서 Maven StructuredCloneTest 19건과 별도 TestRunner 실행 FrameWindowTest 11건, WorkerMessagingTest 8건, AudioWorkletMessagingTest 9건 통과. sourcecheck 0 위반.
+미해결 사항: 오류 객체 복제와 독립 엔진 경계(P29-10-b2~b3), 렐름·Unicode·최종 회귀.
+다음 작업 번호: P29-10-b2.
+-----------------------------------------------------------------------------------------------
 === P29-10-a3d 이터레이터 기록과 내장 객체 표 완료 (2026-11-26) ===
 현재 작업 번호: P29-10-a3d, P29-10-a3, P29-10-a 완료.
 완료한 내용: Async-from-Sync 어댑터의 공용 내장 프로토타입을 만들고 for-await 및 yield*에서 next를 한 번 읽는다. 19~28장 및 B.2의 현재 표와 명시한 호스트 확장을 검증했다.
@@ -1074,6 +1082,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-b1 가변 버퍼의 구조화 복제와 전송
+
+- [WHATWG HTML Living Standard §2.7](https://html.spec.whatwg.org/multipage/structured-data.html) 2026-11-25 11:33:23 GMT 판을 2026-11-26에 `tools/webfetch`로 조회했다.
+- 가변 버퍼와 정적 버퍼의 구분, 뷰의 자동 길이, 같은 저장소를 공유하는 참조를 보존한다. 직렬화 getter가 전송 버퍼를 축소하면 전송 시점의 바이트와 최대 길이를 사용한다. 수신 측에서 크기를 다시 늘리면 뷰를 사용할 수 있다.
+- `mvn -B -o -pl browser -am test -Dtest.filter=StructuredCloneTest` 및 JDK 6u45 `TestRunner --scan target/test-classes --filter <이름>`으로 브라우저 시험 47건을 통과했다.
 
 ### 2026-11-26 · P29-10-a3d 동기·비동기 위임 이터레이터
 

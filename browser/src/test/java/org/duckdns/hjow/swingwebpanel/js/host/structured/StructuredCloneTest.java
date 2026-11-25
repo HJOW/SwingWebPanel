@@ -96,6 +96,79 @@ public class StructuredCloneTest {
     }
 
     /**
+     * Checks that cloning a resizable buffer preserves aliasing, a Float16 view and its length-tracking behavior.
+     * <p>
+     * 가변 버퍼 복제에서 참조 공유, Float16 뷰와 길이 추적 동작을 보존하는지 확인한다.
+     */
+    public void testResizableBufferAndViews() {
+        clone("(()=>{const b=new ArrayBuffer(6,{maxByteLength:12}),a=new Float16Array(b,2),"
+                + "fixed=new Float16Array(b,2,1),data=new DataView(b,2);a[0]=1.5;return {b,a,fixed,data};})()");
+        expect("[v.b.resizable,v.b.maxByteLength,v.a instanceof Float16Array,v.a.buffer===v.b,"
+                + "v.data.buffer===v.b,v.fixed.buffer===v.b,v.a[0]].join()", "true,12,true,true,true,true,1.5");
+        expect("v.b.resize(10);[v.a.length,v.fixed.length,v.data.byteLength,v.a[0]].join()", "4,1,8,1.5");
+        expect("v.b.resize(0);v.b.resize(2);[v.a.length,v.data.byteLength].join()", "0,0");
+    }
+
+    /**
+     * Verifies the transfer reads the new backing store after serialization getters run.
+     * <p>
+     * 직렬화에서 getter를 실행한 뒤 전달할 저장소를 읽는지 확인한다.
+     */
+    public void testResizableTransferAfterGetter() {
+        from.evaluateScript("var b=new ArrayBuffer(4,{maxByteLength:8});var a=new Float16Array(b,2,1);"
+                + "var payload={b,a,get shrink(){b.resize(2);return true;}};", "make");
+        List<JsObject> transfer = new ArrayList<JsObject>();
+        transfer.add((JsObject) from.getGlobalObject().get("b"));
+        ClonedValue clone = StructuredClone.serialize(from, from.getGlobalObject().get("payload"),
+                StructuredClone.DEFAULT_MAX_BYTES, transfer);
+        to.getGlobalObject().set("v", StructuredClone.deserialize(to, clone));
+        Check.equal("true", run(from, "b.detached"), "the source is detached after transfer");
+        expect("[v.b.resizable,v.b.byteLength,v.b.maxByteLength,v.a.length,v.a.buffer===v.b].join()", "true,2,8,0,true");
+        expect("v.b.resize(4);[v.a.length,v.a.byteOffset,v.a[0]].join()", "1,2,0");
+    }
+
+    /**
+     * Rejects views outside their buffers and revalidates transfer items after reentrant serialization.
+     * <p>
+     * 버퍼 범위를 벗어난 뷰를 거부하고 getter가 실행된 뒤 전달 항목을 다시 검증한다.
+     */
+    public void testResizableCloneInvalidBoundsAndTransfer() {
+        from.evaluateScript("var b=new ArrayBuffer(8,{maxByteLength:16});"
+                + "var a=new Float16Array(b,4,1), view=new DataView(b,4,1);b.resize(2);"
+                + "var first=new ArrayBuffer(2),last=new ArrayBuffer(2,{maxByteLength:4});"
+                + "var payload={first,last,get detach(){last.transfer();return 0;}};", "make");
+        final JsObject globals = from.getGlobalObject();
+        final String[] names = { "a", "view" };
+        // 형식화 배열과 DataView가 범위를 벗어났을 때 모두 복제를 거부한다.
+        for (final String name : names) {
+            Check.throwsException(StructuredCloneException.class, new Block() {
+                /**
+                 * Attempts to serialize an out-of-bounds view.
+                 * <p>
+                 * 버퍼 범위를 벗어난 뷰를 직렬화한다.
+                 */
+                public void run() {
+                    StructuredClone.serialize(from, globals.get(name));
+                }
+            }, "view out of bounds: " + name);
+        }
+        final List<JsObject> transfer = new ArrayList<JsObject>();
+        transfer.add((JsObject) globals.get("first"));
+        transfer.add((JsObject) globals.get("last"));
+        Check.throwsException(StructuredCloneException.class, new Block() {
+            /**
+             * Attempts a transfer after a getter detached one item.
+             * <p>
+             * getter가 항목 하나를 분리한 뒤 전달을 시도한다.
+             */
+            public void run() {
+                StructuredClone.serialize(from, globals.get("payload"), StructuredClone.DEFAULT_MAX_BYTES, transfer);
+            }
+        }, "detachment during traversal rejects the transfer");
+        Check.equal("false,true", run(from, "[first.detached,last.detached].join()"), "the remaining buffer is preserved");
+    }
+
+    /**
      * Primitives keep their values, including negative zero, NaN, lone surrogates and Korean text.
      * <p>
      * 원시 값은 음의 0, NaN, 외톨이 서로게이트, 한글을 포함해 값을 유지한다.

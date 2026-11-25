@@ -220,11 +220,25 @@ final class TypedSupport {
      * @return the buffer object / 버퍼 객체
      */
     static ArrayBufferObject newBuffer(JsRealm realm, byte[] data) {
+        return newBuffer(realm, data, -1);
+    }
+
+    /**
+     * Wraps the bytes in a buffer with the supplied maximum length.
+     * <p>
+     * 지정한 최대 길이로 바이트를 버퍼에 감싼다.
+     *
+     * @param realm the realm / 렐름
+     * @param data the backing bytes / 저장 바이트
+     * @param maximum maximum length, or -1 for fixed length / 최대 길이. 고정 길이이면 -1
+     * @return the buffer / 버퍼
+     */
+    static ArrayBufferObject newBuffer(JsRealm realm, byte[] data, int maximum) {
         JsObject proto = realm.getIntrinsic("%ArrayBufferPrototype%");
         if (proto == null) {
             throw new IllegalStateException("TypedLibInstaller has not been installed in this realm");
         }
-        return new ArrayBufferObject(proto, data);
+        return new ArrayBufferObject(proto, data, maximum);
     }
 
     /**

@@ -72,6 +72,38 @@ public class WorkerMessagingTest {
     }
 
     /**
+     * Checks a resizable buffer with fixed and length-tracking views on both sides of a worker transfer.
+     * <p>
+     * Worker 양쪽에서 고정 길이 뷰와 길이 추적 뷰가 있는 가변 버퍼를 전달한다.
+     *
+     * @throws Exception on page or worker failure / 페이지 또는 Worker 실패
+     */
+    public void testResizableBufferTransferRoundTrip() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        SwingWebPanel panel = WorkerTestSupport.newPanel();
+        try {
+            server.routeFixed("/rab.js", WorkerTestSupport.js("onmessage=e=>{const d=e.data;d.buf.resize(10);"
+                    + "d.meta=[d.buf.maxByteLength,d.array.length,d.fixed.length,d.view.byteLength].join();"
+                    + "d.array[1]=3.5;postMessage(d,[d.buf]);};"));
+            server.routeFixed("/page", TestHttpServer.Response.html(WorkerTestSupport.page(
+                    "const b=new ArrayBuffer(4,{maxByteLength:12}),a=new Float16Array(b,2);a[0]=1.5;"
+                    + "const w=new Worker('/rab.js');w.onmessage=e=>{const d=e.data;d.buf.resize(12);"
+                    + "put('resizable',d.meta+'|'+[d.buf.resizable,d.array.length,d.fixed.length,d.view.byteLength,"
+                    + "d.array[0],d.array[1],d.array.buffer===d.view.buffer].join());};"
+                    + "w.postMessage({buf:b,array:a,fixed:new Float16Array(b,2,1),view:new DataView(b,2)},[b]);"
+                    + "put('resizableDetached',b.detached);")));
+            server.start();
+            panel.setPage(server.url("/page"));
+            Check.equal("12,4,1,8|true,5,1,10,1.5,3.5,true", WorkerTestSupport.await(panel, "resizable"),
+                    "both realms preserve resizable metadata and buffer aliasing");
+            Check.equal("true", WorkerTestSupport.await(panel, "resizableDetached"), "worker transfer detaches the source");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
      * A message with every kind of value that the structured clone supports makes the round trip; the page cannot change what the worker
      * received by changing the original afterwards, and a transferred ArrayBuffer is detached at once, arrives with its bytes and comes back.
      * <p>
