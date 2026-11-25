@@ -57,6 +57,55 @@ public final class Es2022RegExpTest {
     }
 
     /**
+     * Checks Unicode 18 identifiers and the same code points in regular expression property escapes.
+     * <p>
+     * 유니코드 18 식별자와 정규식 속성 이스케이프에서 같은 코드 포인트를 확인한다.
+     */
+    public void testUnicode18Identifiers() {
+        String armenian = String.valueOf((char) 0x0558);
+        String jurchen = new String(Character.toChars(0x18E00));
+        String combining = String.valueOf((char) 0x05C8);
+        Check.equal("42", Scripts.eval("var " + armenian + combining + "=40; var " + jurchen
+                + "=2; " + armenian + "\\u05C8+\\u{18E00}"), "literal and escaped identifier segments");
+        Check.equal("true,true,false,true,true", Scripts.eval("var a='\\u0558', b='\\u05C8', c='\\u{18E00}';"
+                + " [/\\p{ID_Start}/u.test(a),/\\p{ID_Continue}/u.test(b),/\\p{ID_Start}/u.test(b),"
+                + " /\\p{Script=Jurchen}/u.test(c),/\\p{sc=Jurc}/u.test(c)].join()"), "same identifier classes and supplementary script");
+        Check.equal("SyntaxError", Scripts.eval("try{eval('var \\u05C8a=1')}catch(e){e.name}"), "a combining mark cannot start an identifier");
+    }
+
+    /**
+     * Checks exact aliases, default category and script values, and Script_Extensions overrides.
+     * <p>
+     * 별칭의 정확한 철자, 범주와 스크립트의 기본값, Script_Extensions 대체를 확인한다.
+     */
+    public void testUnicode18PropertyAliases() {
+        Check.equal("true,true,false,true", Scripts.eval(
+                "var a='\\u30FC'; [/\\p{sc=Zyyy}/u.test(a),/\\p{scx=Kana}/u.test(a),"
+                + " /\\p{scx=Zyyy}/u.test(a),/\\p{Script_Extensions=Katakana}/u.test('\\u30AB')].join()"),
+                "Script_Extensions overrides explicit Common and defaults to Script elsewhere");
+        Check.equal("true,true,true,true,true,true", Scripts.eval("var u='\\u0378';"
+                + " [/\\p{Cn}/u.test(u),/\\p{gc=Other}/u.test(u),/\\p{sc=Unknown}/u.test(u),"
+                + " /\\P{Assigned}/u.test(u),/\\p{Bidi_M}/u.test('('),/\\p{CWKCF}/u.test('A')].join()"),
+                "unassigned classification and derived binary properties");
+        Check.equal("SyntaxError,SyntaxError,SyntaxError,SyntaxError,SyntaxError,SyntaxError,SyntaxError,SyntaxError",
+                Scripts.eval("['script=Greek','Sc=Grek','Uppercase Letter','Greek','WhiteSpace','Hyphen','Emoji_Component','RI']"
+                + ".map(function(name){try{new RegExp('\\\\p{'+name+'}','u');return 'accepted';}catch(e){return e.name;}}).join()"),
+                "invalid variants, non-ECMAScript binary properties, and excluded emoji properties");
+    }
+
+    /**
+     * Checks ECMAScript white space independently of Unicode's binary White_Space property.
+     * <p>
+     * ECMAScript 공백과 유니코드 이진 속성 White_Space를 구분해 확인한다.
+     */
+    public void testUnicode18WhiteSpace() {
+        Check.equal("1,1,false,false,true,false,true,SyntaxError", Scripts.eval("var v='\\u180E', n='\\u0085', b='\\uFEFF';"
+                + " var result=[v.trim().length,n.trim().length,/\\s/u.test(v),/\\s/u.test(n),"
+                + " /\\p{White_Space}/u.test(n),/\\p{White_Space}/u.test(b),/\\s/u.test(b)];"
+                + " try{eval(v+'42')}catch(e){result.push(e.name)} result.join()"), "white space across lexer, trim and RegExp");
+    }
+
+    /**
      * Checks String.matchAll and RegExp[Symbol.matchAll] iteration and empty matches.
      * <p>
      * String.matchAll 과 RegExp[Symbol.matchAll] 반복과 빈 일치를 검사한다.

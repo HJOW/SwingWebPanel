@@ -763,7 +763,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - [x] P29-02-e. `ArrayMethods`에서 희소·상속 배열의 수집·정렬·쓰기·삭제 순서, 비교 함수와 프록시 예외 경계를 JDK 6에서 검증한다.
   - [x] P29-02-f. `JsRealm`, 현재 문서의 브라우저 창·Worker·AudioWorklet의 `globalThis` 동일성과 프로퍼티 기술자를 각 실행 환경의 JDK 6 시험으로 검증한다.
   - [ ] P29-02-g. `CharClass`, 정규식 속성 표와 `tools/unicodegen`에서 최신 UCD 판본을 사용한다. 새 식별자, U+180E, 비이모지 속성 및 이모지 속성 거부를 JDK 6에서 검증하고 JAR 크기를 측정한다.
-    - [ ] P29-02-g1. `tools/unicodegen`의 Unicode 18.0.0 입력과 공유 표를 엔진에 연결한다. 새 식별자와 공백 분류, 정확한 속성 별칭, Script_Extensions 기본값과 대체 범위, 생성 파일 재현 및 JAR 크기를 JDK 6에서 검증한다.
+    - [x] P29-02-g1. `tools/unicodegen`의 Unicode 18.0.0 입력과 공유 표를 엔진에 연결한다. 새 식별자와 공백 분류, 정확한 속성 별칭, Script_Extensions 기본값과 대체 범위, 생성 파일 재현 및 JAR 크기를 JDK 6에서 검증한다.
     - [ ] P29-02-g2. Unicode 판본 영향을 받는 정규식 식별자와 대소문자 데이터의 소비 지점을 대조한다. 엔진이 JRE 6의 문자 데이터에 기대는 경계를 확인하고 새 코드 포인트와 Annex B 차이를 검증한다.
   - [ ] P29-02-h. `FrameApi`, 브라우징 문맥과 `JsRealm`에서 이동 전후 WindowProxy와 `globalThis`의 동일성을 검증한다. 이전부터 창을 가리키던 부모의 참조가 같은 오리진의 새 문서를 보고, 오리진이 바뀌면 같은 참조에 접근 제한이 적용되는지 JDK 6의 실제 프레임 이동으로 확인한다.
 - [ ] P29-03. ES2023~ES2025 어휘·구문·모듈 확장(Hashbang, Import Attributes, JSON 모듈)을 구현한다.

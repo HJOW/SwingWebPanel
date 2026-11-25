@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-02-g1 Unicode 18.0.0 공통 분류와 정규식 속성 (2026-11-26) ===
+현재 작업 번호: P29-02-g1 완료.
+완료한 내용: UCD 18.0.0에서 생성한 표를 렉서와 정규식에 연결했다. 정확한 이름과 별칭, Unassigned/Unknown, Script_Extensions 기본값과 대체 범위, 이모지 속성 거부를 검증했다. 동일한 속성의 별칭에 범위 데이터를 공유하도록 생성했다.
+변경 파일: JsChars.java, CharClass.java, UnicodeProperties.java, UnicodePropertyData.java, RegExpCharSet.java, LICENSE-unicode.txt, Es2022RegExpTest.java, tools/unicodegen, AGENTS.md, docs/FEATURE_MATRIX.md, docs/ARCHITECTURE.md, docs/progress/es2026.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 713건 통과, 실패 0건, 건너뜀 0건. UnicodeGen을 JDK 6u45로 두 번 실행해 같은 SHA-256을 확인했다. 독립 엔진 JAR은 1,102,629에서 1,082,342바이트로 줄었다. sourcecheck 0 위반.
+미해결 사항: P29-02-g2 대소문자 데이터, P29-02-h WindowProxy, P29-03~10.
+다음 작업 번호: P29-02-g2.
+-----------------------------------------------------------------------------------------------
 === P29-02-f 실행 환경별 globalThis 기술자 (2026-11-26) ===
 현재 작업 번호: P29-02-f 완료. P29-02-h에서 이동을 가로지르는 WindowProxy를 추적한다.
 완료한 내용: 독립 엔진, 일반 페이지, 같은 오리진 iframe, 전용·공유 Worker, AudioWorklet의 globalThis 값과 기술자를 검증했다. 독립 엔진에서 globalThis 대입과 삭제 뒤에도 스크립트 최상위 this가 유지되는지 확인했다.
@@ -482,6 +490,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-02-g1 Unicode 18.0.0
+
+식별자와 공백, 정규식 속성의 기준을 하나의 Unicode 18.0.0 표로 옮겼다. JDK 6u45 엔진 회귀와 재생성 결과, 출처는 현재 상태 및 [ES2026 진행 문서](progress/es2026.md)에 기록했다.
 
 ### 2026-11-26 · P29-02-f globalThis 기술자
 

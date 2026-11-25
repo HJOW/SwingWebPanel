@@ -4,17 +4,12 @@ package org.duckdns.hjow.swingwebpanel.js.text;
  * Character classification used by the ECMAScript lexer, regular expressions and string conversions:
  * WhiteSpace, LineTerminator, decimal/hex digits and the ID_Start / ID_Continue identifier classes.
  * <p>
- * Unicode data comes from {@link Character}. JRE 6 ships Unicode 4.0 character data, so characters added in later
- * Unicode versions are classified as unassigned (not identifier characters). U+180E (MONGOLIAN VOWEL SEPARATOR) was a
- * space separator (Zs) in Unicode 4.0 but is a format character since Unicode 6.3; modern engines do not treat it as
- * white space, so this class excludes it explicitly. All methods are static, stateless and thread-safe.
+ * Identifier and space separator data is shared with regular expressions through {@link UnicodeProperties}.
  * <p>
  * ECMAScript 렉서, 정규식, 문자열 변환에서 쓰는 문자 분류: WhiteSpace, LineTerminator, 10진/16진 숫자,
  * ID_Start / ID_Continue 식별자 분류.
  * <p>
- * 유니코드 정보는 {@link Character} 에서 얻는다. JRE 6 의 문자 정보는 유니코드 4.0 이므로 이후 버전에 추가된 문자는
- * 미할당 문자로 분류되어 식별자 문자가 아니다. U+180E(몽골 모음 구분자)는 유니코드 4.0 에서 공백(Zs)이었으나 6.3 부터 서식 문자이고
- * 최신 엔진은 공백으로 보지 않으므로 이 클래스는 명시적으로 제외한다. 모든 메서드는 정적이며 상태가 없고 스레드 안전하다.
+ * 식별자와 공백 구분자 데이터는 {@link UnicodeProperties}를 통해 정규식과 공유한다.
  */
 public final class CharClass {
 
@@ -48,10 +43,7 @@ public final class CharClass {
         default:
             break;
         }
-        if (c < 0x80 || c == 0x180E) {
-            return false;
-        }
-        return Character.getType(c) == Character.SPACE_SEPARATOR;
+        return c >= 0x80 && UnicodeProperties.isSpaceSeparator(c);
     }
 
     /**
@@ -135,10 +127,9 @@ public final class CharClass {
     }
 
     /**
-     * Tests Unicode ID_Start: letters (Lu, Ll, Lt, Lm, Lo), letter numbers (Nl) and Other_ID_Start
-     * (U+2118, U+212E, U+309B, U+309C).
+     * Tests the Unicode ID_Start derived property.
      * <p>
-     * 유니코드 ID_Start 인지 검사한다: 글자(Lu, Ll, Lt, Lm, Lo), 글자 숫자(Nl), Other_ID_Start(U+2118, U+212E, U+309B, U+309C).
+     * 유니코드 파생 속성 ID_Start인지 검사한다.
      *
      * @param cp code point / 코드 포인트
      * @return true if ID_Start / ID_Start 이면 true
@@ -147,24 +138,13 @@ public final class CharClass {
         if (cp < 0x80) {
             return (cp >= 'a' && cp <= 'z') || (cp >= 'A' && cp <= 'Z');
         }
-        switch (Character.getType(cp)) {
-        case Character.UPPERCASE_LETTER:
-        case Character.LOWERCASE_LETTER:
-        case Character.TITLECASE_LETTER:
-        case Character.MODIFIER_LETTER:
-        case Character.OTHER_LETTER:
-        case Character.LETTER_NUMBER:
-            return true;
-        default:
-            return cp == 0x2118 || cp == 0x212E || cp == 0x309B || cp == 0x309C;
-        }
+        return UnicodeProperties.isIdStart(cp);
     }
 
     /**
-     * Tests Unicode ID_Continue: ID_Start plus Mn, Mc, Nd, Pc and Other_ID_Continue
-     * (U+00B7, U+0387, U+1369-U+1371, U+19DA).
+     * Tests the Unicode ID_Continue derived property.
      * <p>
-     * 유니코드 ID_Continue 인지 검사한다: ID_Start 와 Mn, Mc, Nd, Pc, Other_ID_Continue(U+00B7, U+0387, U+1369-U+1371, U+19DA).
+     * 유니코드 파생 속성 ID_Continue인지 검사한다.
      *
      * @param cp code point / 코드 포인트
      * @return true if ID_Continue / ID_Continue 이면 true
@@ -173,18 +153,7 @@ public final class CharClass {
         if (cp < 0x80) {
             return (cp >= 'a' && cp <= 'z') || (cp >= 'A' && cp <= 'Z') || (cp >= '0' && cp <= '9') || cp == '_';
         }
-        if (isIdStart(cp)) {
-            return true;
-        }
-        switch (Character.getType(cp)) {
-        case Character.NON_SPACING_MARK:
-        case Character.COMBINING_SPACING_MARK:
-        case Character.DECIMAL_DIGIT_NUMBER:
-        case Character.CONNECTOR_PUNCTUATION:
-            return true;
-        default:
-            return cp == 0x00B7 || cp == 0x0387 || (cp >= 0x1369 && cp <= 0x1371) || cp == 0x19DA;
-        }
+        return UnicodeProperties.isIdContinue(cp);
     }
 
     /**
