@@ -11,6 +11,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsArray;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
+import org.duckdns.hjow.swingwebpanel.js.JsString;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
@@ -22,6 +23,7 @@ import org.duckdns.hjow.swingwebpanel.js.regexp.RegExpFlags;
 import org.duckdns.hjow.swingwebpanel.js.regexp.RegExpLimitException;
 import org.duckdns.hjow.swingwebpanel.js.regexp.RegExpProgram;
 import org.duckdns.hjow.swingwebpanel.js.regexp.RegExpSyntaxException;
+import org.duckdns.hjow.swingwebpanel.js.text.CharClass;
 
 /**
  * The built-in <code>RegExp</code> constructor and <code>RegExp.prototype</code> (ECMA-262 6th edition 21.2) on top of the regular expression
@@ -146,10 +148,108 @@ public final class RegExpBuiltins {
             }
         });
         Support.defineSpecies(realm, ctor);
+        realm.method(ctor, "escape", 1, new NativeFunction.Call() {
+            /** Escapes a primitive string for use in a pattern. / 패턴에 넣을 원시 문자열을 이스케이프한다. */
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsValue value = Js.arg(args, 0);
+                if (!(value instanceof JsString)) {
+                    throw JsException.typeError("RegExp.escape requires a string");
+                }
+                return Js.str(escapePattern(((JsString) value).getValue()));
+            }
+        });
         installAccessors(realm, proto);
         installMethods(realm, proto);
         installSymbolMethods(realm, proto);
         installStringIterator(realm);
+    }
+
+    /**
+     * Escapes literal pattern text with distinct rules for a leading ASCII letter or digit.
+     * <p>
+     * 리터럴 패턴 텍스트를 이스케이프하고 선두 ASCII 영숫자에 별도 규칙을 적용한다.
+     *
+     * @param text text to match literally / 리터럴로 일치시킬 텍스트
+     * @return escaped pattern text / 이스케이프한 패턴 텍스트
+     */
+    private static String escapePattern(String text) {
+        StringBuilder out = new StringBuilder(text.length());
+        // 정상 서로게이트 쌍은 하나의 코드 포인트로, 짝 없는 코드 단위는 각각 처리한다.
+        for (int i = 0; i < text.length();) {
+            int cp = text.codePointAt(i);
+            if (i == 0 && CharClass.digitValue(cp, 36) >= 0) {
+                // 앞에 있는 제어 또는 십진 이스케이프가 첫 글자를 소비하지 않도록 한다.
+                appendHexEscape(out, cp, 'x');
+            } else {
+                appendEscapedCodePoint(out, cp);
+            }
+            i += Character.charCount(cp);
+        }
+        return out.toString();
+    }
+
+    /**
+     * Appends EncodeForRegExpEscape of one code point.
+     * <p>
+     * 코드 포인트 하나에 EncodeForRegExpEscape를 적용해 추가한다.
+     *
+     * @param out output buffer / 출력 버퍼
+     * @param cp code point or unpaired surrogate / 코드 포인트 또는 짝 없는 서로게이트
+     */
+    private static void appendEscapedCodePoint(StringBuilder out, int cp) {
+        if ("^$\\.*+?()[]{}|/".indexOf(cp) >= 0) {
+            out.append('\\').append((char) cp);
+            return;
+        }
+        switch (cp) {
+        case '\t':
+            out.append("\\t");
+            return;
+        case '\n':
+            out.append("\\n");
+            return;
+        case 0x0B:
+            out.append("\\v");
+            return;
+        case '\f':
+            out.append("\\f");
+            return;
+        case '\r':
+            out.append("\\r");
+            return;
+        default:
+            break;
+        }
+        if (",-=<>#&!%:;@~'`\"".indexOf(cp) >= 0 || CharClass.isWhiteSpaceOrLineTerminator(cp)
+                || (cp >= 0xD800 && cp <= 0xDFFF)) {
+            if (cp <= 0xFF) {
+                appendHexEscape(out, cp, 'x');
+            } else {
+                // 넓은 코드 포인트는 UTF-16 코드 단위마다 고정 길이 이스케이프를 쓴다.
+                for (char unit : Character.toChars(cp)) {
+                    appendHexEscape(out, unit, 'u');
+                }
+            }
+        } else {
+            out.appendCodePoint(cp);
+        }
+    }
+
+    /**
+     * Appends a fixed-width lowercase hexadecimal regular expression escape.
+     * <p>
+     * 고정 길이 소문자 16진수 정규식 이스케이프를 추가한다.
+     *
+     * @param out output buffer / 출력 버퍼
+     * @param number byte or UTF-16 code unit / 바이트 값 또는 UTF-16 코드 단위
+     * @param prefix x for two digits or u for four / 두 자리는 x, 네 자리는 u
+     */
+    private static void appendHexEscape(StringBuilder out, int number, char prefix) {
+        out.append('\\').append(prefix);
+        // 상위 자리부터 기록하여 필요한 선행 0을 유지한다.
+        for (int shift = (prefix == 'x' ? 4 : 12); shift >= 0; shift -= 4) {
+            out.append(Character.forDigit((number >>> shift) & 15, 16));
+        }
     }
 
     /**

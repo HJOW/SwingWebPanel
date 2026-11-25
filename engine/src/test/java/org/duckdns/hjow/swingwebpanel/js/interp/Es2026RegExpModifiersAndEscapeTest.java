@@ -66,6 +66,49 @@ public class Es2026RegExpModifiersAndEscapeTest {
     }
 
     /**
+     * Verifies the exact spelling of the leading, syntax, punctuation, and whitespace escapes.
+     * <p>
+     * 선두 문자, 정규식 구문 문자, 구두점 및 공백의 정확한 이스케이프 표기를 검증한다.
+     */
+    public void testEscapeText() {
+        String script = "const p=String.fromCharCode(44,45,61,60,62,35,38,33,37,58,59,64,126,39,96,34);"
+                + "const s=String.fromCharCode(94,36,92,46,42,43,63,40,41,91,93,123,125,124,47);"
+                + "const spaces=String.fromCharCode(9,10,11,12,13,32,160,0x1680,0x2028,0x2029,0xFEFF);"
+                + "const supplementary=String.fromCodePoint(0x1D11E);"
+                + "[RegExp.escape(''),RegExp.escape('foo-bar'),RegExp.escape('123'),RegExp.escape('.a'),"
+                + "RegExp.escape('한a')==='한a',RegExp.escape('_'),RegExp.escape(p),RegExp.escape(s),"
+                + "RegExp.escape(spaces),RegExp.escape(supplementary)===supplementary,"
+                + "RegExp.escape(String.fromCharCode(0,8,0x85,0x180E))===String.fromCharCode(0,8,0x85,0x180E),"
+                + "RegExp.escape(String.fromCharCode(0xD800,65,0xDC00))].join('!')";
+        Check.equal("!\\x66oo\\x2dbar!\\x3123!\\.a!true!_!"
+                + "\\x2c\\x2d\\x3d\\x3c\\x3e\\x23\\x26\\x21\\x25\\x3a\\x3b\\x40\\x7e\\x27\\x60\\x22!"
+                + "\\^\\$\\\\\\.\\*\\+\\?\\(\\)\\[\\]\\{\\}\\|\\/!"
+                + "\\t\\n\\v\\f\\r\\x20\\xa0\\u1680\\u2028\\u2029\\ufeff!true!true!\\ud800A\\udc00",
+                evaluate(script), "RegExp.escape produces exact lowercase escapes");
+    }
+
+    /**
+     * Verifies primitive-only arguments and round trips through constructors and literals.
+     * <p>
+     * 원시 문자열 인수 제한과 생성자·리터럴 왕복을 검증한다.
+     */
+    public void testEscapeRoundTrip() {
+        String script = "let coercions=0;"
+                + "function fails(value){try{RegExp.escape(value);return false;}catch(e){return e.name==='TypeError';}}"
+                + "const sample='1a/.*-[#]\\\\'+String.fromCharCode(0,10,0xD800,65,0xDC00)"
+                + "+String.fromCodePoint(0x1D11E), escaped=RegExp.escape.call(null,sample);"
+                + "const bs=String.fromCharCode(92), d=Object.getOwnPropertyDescriptor(RegExp,'escape');"
+                + "[[undefined,null,1,1n,true,Symbol(),new String('x'),{toString(){coercions++;return 'x';}}].every(fails),coercions,"
+                + "d.value.name,d.value.length,d.writable,d.enumerable,d.configurable,"
+                + "['','u','v'].every(mode=>new RegExp('^'+escaped+'$',mode).test(sample)"
+                + "&&Function('return /^'+escaped+'$/'+mode)().test(sample)),"
+                + "new RegExp('^(a)'+bs+'1'+RegExp.escape('2')+'$','u').test('aa2'),"
+                + "new RegExp('^'+bs+'0'+RegExp.escape('1')+'$','v').test(String.fromCharCode(0)+'1')].join()";
+        Check.equal("true,0,escape,1,true,false,true,true,true,true", evaluate(script),
+                "regular expression source can be embedded safely in ordinary, Unicode and Unicode Sets patterns");
+    }
+
+    /**
      * Evaluates a test in its own realm.
      * <p>
      * 독립 realm에서 시험 코드를 실행한다.

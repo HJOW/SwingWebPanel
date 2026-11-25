@@ -842,7 +842,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-06-e2. `IteratorEagerMethods`에서 reduce, toArray, forEach, some, every, find를 설치한다. 단락, 빈 이터레이터, 다음 메서드 캡처와 오류 시 닫기를 검증한다.
     - [x] P29-06-e3. `IteratorLazyMethods`와 공통 helper 프로토타입에서 map, filter, take, drop을 설치한다. 평가 지연, 0·무한·음수 한계, 시작 전 return, 재진입과 중단을 검증한다.
     - [x] P29-06-e4. flatMap과 Iterator.concat에서 현재 안쪽 이터레이터와 바깥 이터레이터의 수명과 순서를 관리한다. 접근자 평가·실제 열기 시점, 내부·외부 닫기 순서, 오류 우선순위를 검증한다.
-- [ ] P29-07. ES2024~ES2026 문자열·정규식(`isWellFormed`/`toWellFormed`, `v` 플래그, 중복 이름 그룹, 인라인 수정자, `RegExp.escape`)을 구현한다.
+- [x] P29-07. ES2024~ES2026 문자열·정규식(`isWellFormed`/`toWellFormed`, `v` 플래그, 중복 이름 그룹, 인라인 수정자, `RegExp.escape`)을 구현한다.
   - 유니코드 정합 문자열(ES2024): `String.prototype.isWellFormed()`와 `toWellFormed()`(고립 상위/하위 서로게이트 판정 및 `U+FFFD` 치환)를 구현한다.
   - 정규식 `v`(`unicodeSets`) 플래그(ES2024, `22.2`): `RegExp.prototype.unicodeSets` 접근자, `u`·`v` 동시 지정 조기 `SyntaxError`, 중첩 문자 클래스(`[...]`), 집합 교집합(`&&`)·차집합(`--`), 문자열 리터럴 대안(`\q{abc|d}`), 다중 문자 집합 매칭 우선순위, `v` 모드의 예약 구두점 이스케이프 규칙·단순 대소문자 폴딩(`MaybeSimpleCaseFolding`)·문자 보완 집합(`CharacterComplement`)을 구현한다(Emoji 문자열 속성은 `EXC-15` 정책과의 관계를 문서화하고 일관되게 처리).
   - 정규식 중복 이름 캡처 그룹(ES2025): 서로 다른 대안 분기(`(?<x>a)|(?<x>b)`)에서 같은 그룹 이름을 허용하고 같은 분기 내 중복은 조기 `SyntaxError`로 유지하며(`MightBothParticipate`), `exec().groups`, `indices.groups`, 역참조 `\k<x>`, `$<x>` 치환이 일치한 분기의 캡처 값을 사용하게 한다.
@@ -856,7 +856,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-07-b3. `\q{...}`와 문자·문자열 집합의 결합 및 매칭을 구현한다. 긴 대안 우선과 백트래킹, 빈 대안·보완 제한과 EXC-15의 속성 거부를 검증한다.
   - [x] P29-07-c. 서로 배타적인 대안의 중복 캡처 이름을 허용한다. 동일 분기 조기 오류, 이름 역참조와 치환, 결과의 groups와 indices를 검증한다.
   - [x] P29-07-d. i·m·s 인라인 패턴 수정자를 구현한다. 플래그 조기 오류, 중첩 변경·복원, 범위와 백트래킹을 검증한다.
-  - [ ] P29-07-e. RegExp.escape를 구현한다. 타입, 첫 문자, 구문 및 예약 구두점, 제어·공백·서로게이트와 리터럴 왕복을 검증한다.
+  - [x] P29-07-e. RegExp.escape를 구현한다. 타입, 첫 문자, 구문 및 예약 구두점, 제어·공백·서로게이트와 리터럴 왕복을 검증한다.
 - [ ] P29-08. ES2024~ES2026 Promise·Error·Math·JSON·Date 확장을 구현한다.
   - Promise 확장: `Promise.withResolvers()`(ES2024, 서브클래스 `NewPromiseCapability(this)` 지원), `Promise.try(callback, ...args)`(ES2025, 동기 반환·동기 throw·thenable 반환 모두 Promise로 귀결, 서브클래스 지원).
   - Error 확장(ES2026, `20.5.2.1`): `Error.isError(arg)` — 프로토타입 체인이 아닌 내부 오류 브랜드(`[[ErrorData]]`) 존재 여부를 판정하여 교차 realm `Error`는 `true`, `Object.create(Error.prototype)` 및 일반 객체·원시값·Proxy는 `false`를 반환한다(브라우저 `DOMException`에 대한 명세 요구도 함께 검증).

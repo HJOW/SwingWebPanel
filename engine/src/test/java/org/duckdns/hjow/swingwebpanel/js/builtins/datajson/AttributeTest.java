@@ -170,6 +170,7 @@ public class AttributeTest {
      * RegExp 행을 구성한다.
      */
     private void buildRegExp() {
+        method("RegExp", "escape", 1);
         String p = "RegExp.prototype";
         method(p, "exec", 1);
         method(p, "test", 1);
