@@ -386,6 +386,8 @@ public class LexerTest {
         Token r2 = cls.rescanRegExp(cls.next());
         Check.equal("[/\\]]\\/", r2.value, "slash in a class and escaped slash do not end the literal");
         Check.equal("y", r2.flags, "flag y");
+        Lexer indices = new Lexer("/a/d", "t");
+        Check.equal("d", indices.rescanRegExp(indices.next()).flags, "indices flag is lexically valid");
         Lexer eq = new Lexer("/=a/", "t");
         Token t1 = eq.next();
         Check.isTrue(t1.isPunct("/="), "/= is lexed as an operator first");

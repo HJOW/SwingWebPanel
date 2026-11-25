@@ -388,25 +388,25 @@ P28의 기준 판본은 **ECMA-262 제13판, ECMAScript 2022, June 2022**이다(
 
 | 기능 ID | 판본 | 요구사항 | 구현 클래스 | 검증 사례 | 상태 | 게임 |
 | --- | --- | --- | --- | --- | --- | --- |
-| ESX-EXP | ES2016 | 지수 연산자 `**`, 지수 대입 `**=` | (P28-02/03) | - | 미구현(구문 오류) | 199 |
-| ESX-TRAILING | ES2017 | 함수 매개변수·호출 인수 목록의 마지막 쉼표 | `js.parser.*` | (P28-02) | 판정 필요 | 관찰 안 됨 |
-| ESX-ASYNC | ES2017 | async 함수·화살표·메서드, `await`, Promise 재개 순서 | (P28-02/03) | - | 미구현(구문 오류) | async 26, await 34 |
+| ESX-EXP | ES2016 | 지수 연산자 `**`, 지수 대입 `**=` | `js.parser.Lexer`, `ExpressionParser`, `ast.Op` | `js.parser.ParserExpressionTest`, `tools/netstormparse` | 부분 구현: P28-02 문법(우결합, 단항 좌변 조기 오류)과 Netstorm 파싱 검증 완료, 실제 거듭제곱 실행 의미는 P28-03 | 199 |
+| ESX-TRAILING | ES2017 | 함수 매개변수·호출 인수 목록의 마지막 쉼표 | `js.parser.*` | `ParserExpressionTest`, `ParserStatementTest` | 검증 완료 | 관찰 안 됨 |
+| ESX-ASYNC | ES2017 | async 함수·화살표·메서드, `await`, Promise 재개 순서 | `js.parser.ExpressionParser`, `Parser`, `ast.FunctionInfo` | `ParserExpressionTest`, `ParserStatementTest`, `tools/netstormparse` | 부분 구현: P28-02 문법과 단항 위치 await, async IIFE, module top-level await 검증 완료; Promise 재개 실행 의미는 P28-03 | async 26, await 34 |
 | ESX-SHARED | ES2017 | `SharedArrayBuffer`, `Atomics`, View 연동 | (P28-05) | - | 미구현 | 없음 |
-| ESX-ASYNCITER | ES2018 | async 제너레이터, `for await`, AsyncIterator/AsyncFromSyncIterator, `Symbol.asyncIterator` | (P28-02/03/05) | - | 미구현(구문 오류) | 없음 |
-| ESX-OBJREST | ES2018 | 객체 spread `{...x}`, 객체 rest, CopyDataProperties 평가 순서 | (P28-02/03) | - | 미구현(구문 오류) | spread 513 |
+| ESX-ASYNCITER | ES2018 | async 제너레이터, `for await`, AsyncIterator/AsyncFromSyncIterator, `Symbol.asyncIterator` | `js.parser.*` | `ParserStatementTest`, `tools/netstormparse` | 부분 구현: async generator와 `for await` 문법 완료; 요청 큐·AsyncIterator 실행 의미는 P28-03 | 없음 |
+| ESX-OBJREST | ES2018 | 객체 spread `{...x}`, 객체 rest, CopyDataProperties 평가 순서 | `js.parser.ExpressionParser` | `ParserExpressionTest`, `ParserStatementTest`, `tools/netstormparse` | 부분 구현: 리터럴·대입·바인딩 문법과 rest-last 조기 오류 완료; CopyDataProperties 실행 의미는 P28-03 | spread 513 |
 | ESX-PROMISE-FINALLY | ES2018 | `Promise.prototype.finally` | (P28-05) | - | 미구현 | 없음 |
 | ESX-REGEXP-2018 | ES2018 | `s` 플래그, 이름 있는 캡처, 후방 탐색, Unicode 속성 이스케이프 `\p{}`/`\P{}` | `js.regexp.*` | - | 부분 구현: `s`와 이름 있는 캡처 구문은 받으나 `groups`와 `$<name>`이 없음, 나머지는 구문 오류 | `groups` 2, 원본 소스의 `\p{}`는 없음 확인 |
 | ESX-SYNTAX-2018 | ES2018 | 태그가 있는 템플릿 리터럴에서 잘못된 이스케이프의 cooked 값이 `undefined`가 되는 규칙(tagged template revision)과 관련 조기 오류 | `js.parser.*`, `js.interp.*` | (P28-02/03) | 판정 필요 | 관찰 안 됨 |
-| ESX-CATCH | ES2019 | optional catch binding `catch {}` | (P28-02) | - | 미구현(구문 오류) | 8 |
+| ESX-CATCH | ES2019 | optional catch binding `catch {}` | `js.parser.Parser` | `ParserStatementTest` | 부분 구현: null 바인딩 TRY AST와 스코프 문법 검증 완료; 실행기 경로 재검증은 P28-03 | 8 |
 | ESX-SEMANTICS-2019 | ES2019/2021 | U+2028/U+2029를 문자열 리터럴에 허용하는 JSON superset 문법, 안정적인 `Array#sort`(ES2021의 정밀한 정렬 순서 포함), `JSON.stringify`의 well-formed UTF-16, `Function#toString`의 원문/표준 자리표시자 | `js.parser.*`, `js.builtins.*` | (P28-02/05) | 부분 구현/판정 필요 | 사용 여부 미관찰 |
-| ESX-CHAIN | ES2020 | optional chaining `?.`, nullish `??`와 단락 평가·괄호 조기 오류 | (P28-02/03) | - | 미구현(구문 오류) | `?.` 1,985, `??` 714 |
-| ESX-BIGINT | ES2020 | BigInt 원시값·모든 진법 리터럴, 연산/변환, `BigInt`, `asIntN/asUintN`, `BigInt64Array/BigUint64Array`, `DataView` BigInt 접근 | (P28-04) | - | 미구현 | 리터럴 129, `BigInt` 307, `asIntN` 83, `asUintN` 44, get/setBigUint64 각 14 |
-| ESX-IMPORT | ES2020 | 동적 `import()`, `import.meta`, `export * as name from` | (P28-02/03) | - | 미구현(구문 오류) | 없음 |
+| ESX-CHAIN | ES2020 | optional chaining `?.`, nullish `??`와 단락 평가·괄호 조기 오류 | `js.parser.ExpressionParser`, `ast.OPTIONAL_CHAIN`, `ast.Op` | `ParserExpressionTest`, `tools/netstormparse` | 부분 구현: 문법·체인 범위 AST·혼합 조기 오류 검증 완료; 단락 실행 의미는 P28-03 | `?.` 1,985, `??` 714 |
+| ESX-BIGINT | ES2020 | BigInt 원시값·모든 진법 리터럴, 연산/변환, `BigInt`, `asIntN/asUintN`, `BigInt64Array/BigUint64Array`, `DataView` BigInt 접근 | `js.parser.Lexer`, `Token` | `LexerTest`, `ParserExpressionTest`, `tools/netstormparse` | 부분 구현: 2/8/10/16진 리터럴·숫자 구분자 문법과 정확한 `BigInteger` AST 보존 완료; 원시값/연산/내장 객체는 P28-04 | 리터럴 129, `BigInt` 307, `asIntN` 83, `asUintN` 44, get/setBigUint64 각 14 |
+| ESX-IMPORT | ES2020 | 동적 `import()`, `import.meta`, `export * as name from` | `js.parser.ExpressionParser`, `Parser`, `ast.NodeType` | `ParserStatementTest`, `tools/netstormparse` | 부분 구현: AST·모듈 표·정적 재내보내기와 1,059개 외부 모듈 문법 검증 완료; 로딩/Promise 실행은 P28-03 | 없음 |
 | ESX-GLOBALTHIS | ES2020 | `globalThis` | (기존) | `js.builtins.*`의 2026-11-24 판정 | 부분 구현 | 16 |
-| ESX-LOGASSIGN | ES2021 | `\|\|=`, `&&=`, `??=`과 단락된 참조·대입 | (P28-02/03) | - | 미구현(구문 오류) | 102 |
-| ESX-NUMSEP | ES2021 | 숫자 구분자 `_`(decimal/binary/octal/hex, BigInt) | (P28-02) | - | 미구현(구문 오류) | 원본 소스 2 |
-| ESX-TOPAWAIT | ES2022 | 모듈 최상위 `await`와 모듈 평가 비동기 순환 | (P28-02/03) | - | 미구현 | 없음 |
-| ESX-CLASS | ES2022 | public/private/static 필드, private 메서드·접근자, static 블록, `#x in obj`, PrivateEnvironment/brand 검사 | (P28-02/03) | - | 미구현(구문 오류, 게임의 첫 오류 위치) | public 필드 2,053, private 필드 3,797, static 필드 2, static 블록 5, private 메서드·접근자 1,570, private 이름 사용 30,294 |
+| ESX-LOGASSIGN | ES2021 | `\|\|=`, `&&=`, `??=`과 단락된 참조·대입 | `js.parser.ExpressionParser`, `ast.Op` | `ParserExpressionTest`, `tools/netstormparse` | 부분 구현: 대상·연산자 문법 검증 완료; 한 번만 참조하고 대입을 생략하는 실행 의미는 P28-03 | 102 |
+| ESX-NUMSEP | ES2021 | 숫자 구분자 `_`(decimal/binary/octal/hex, BigInt) | `js.parser.Lexer` | `LexerTest`, `ParserExpressionTest`, `tools/netstormparse` | 검증 완료(문법): 위치/진법 오류와 BigInt 조합을 P28-02에서 검증 | 원본 소스 2 |
+| ESX-TOPAWAIT | ES2022 | 모듈 최상위 `await`와 모듈 평가 비동기 순환 | `js.parser.Parser`, `ExpressionParser` | `ParserStatementTest`, `tools/netstormparse` | 부분 구현: Script/Module 목표와 `for await` 문법 완료; 비동기 모듈 평가는 P28-03 | 없음 |
+| ESX-CLASS | ES2022 | public/private/static 필드, private 메서드·접근자, static 블록, `#x in obj`, PrivateEnvironment/brand 검사 | `js.parser.ExpressionParser`, `ParserBase`, `ast.NodeType` | `ParserStatementTest`, `EarlyErrorTest`, `tools/netstormparse` | 부분 구현: P28-02 문법·private 선언/참조 조기 오류와 외부 번들 파싱 완료; 필드 정의 순서/brand/초기화 실행은 P28-03 | public 필드 2,053, private 필드 3,797, static 필드 2, static 블록 5, private 메서드·접근자 1,570, private 이름 사용 30,294 |
 | ESX-B-OBJ | ES2017~2022 | `Object.entries/values/getOwnPropertyDescriptors/fromEntries/hasOwn` | (P28-05) | - | 미구현 | 각각 15/6/0/4/9 |
 | ESX-B-ARR | ES2016~2022 | `Array.prototype.includes/flat/flatMap/at`, `%TypedArray%.prototype.at` | `js.builtins.stringarray.ArrayMethods`(includes) | - | 부분 구현 | includes 144, flat 0, flatMap 1, `at` 총 42(소유 객체는 P28-05에서 판정) |
 | ESX-B-STR | ES2017~2022 | `padStart/padEnd/trimStart/trimEnd/replaceAll/matchAll/at` | `js.builtins.stringarray.StringBuiltins`(pad/trim) | - | 부분 구현 | padStart 22, padEnd 3, trimStart/trimEnd 0, replaceAll 3, matchAll 0, `at`는 ESX-B-ARR과 합산 42 |
@@ -414,7 +414,7 @@ P28의 기준 판본은 **ECMA-262 제13판, ECMAScript 2022, June 2022**이다(
 | ESX-B-SYM | ES2018/2019 | `Symbol.asyncIterator`, `Symbol.prototype.description` | (P28-05) | - | 미구현 | `description` 36, asyncIterator 미관찰 |
 | ESX-B-WEAK | ES2021 | `WeakRef`, `FinalizationRegistry` | (P28-05) | - | 미구현 | `WeakRef` 7, FinalizationRegistry 0 |
 | ESX-B-ERR | ES2022 | Error `cause` 옵션 | (P28-05) | - | 미구현 | 원본 소스 1 |
-| ESX-RE-INDICES | ES2022 | 정규식 `d` 플래그, `hasIndices`, `RegExpExec` 결과의 `indices`/그룹 인덱스 | (P28-05) | - | 미구현(구문 오류) | 원본 소스 9, 번들에는 없음 |
+| ESX-RE-INDICES | ES2022 | 정규식 `d` 플래그, `hasIndices`, `RegExpExec` 결과의 `indices`/그룹 인덱스 | `js.parser.Lexer` | `LexerTest`, `tools/netstormparse` | 부분 구현: `/d` 리터럴 문법과 외부 원본 9곳 파싱 완료; `hasIndices`/실제 `indices`는 P28-05 | 원본 소스 9, 번들에는 없음 |
 
 P28 대상 밖(ES2023 이후)은 아래처럼 분리한다. 이 목록은 당면 ES2022 완료 판정에 포함하지 않으며, 필요하면 이후 계획에서 상세 행으로 승격한다.
 

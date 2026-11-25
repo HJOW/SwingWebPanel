@@ -57,7 +57,7 @@ public final class Op {
     public static final int LOGAND = 22;
     /** Logical or (||). / 논리 OR(||). */
     public static final int LOGOR = 23;
-    /** Exponentiation (**). / 거듭제곱(**). */
+    /** Exponentiation operator (**). / 거듭제곱 연산자(**). */
     public static final int EXP = 24;
     /** Nullish coalescing (??). / nullish 병합(??). */
     public static final int COALESCE = 25;

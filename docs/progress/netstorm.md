@@ -116,3 +116,41 @@ P28-01에서 확인해 정정한 사실은 다음과 같다.
 2. 이름 있는 정규식 캡처는 구문만 받고, `exec()` 결과의 `groups`와 치환의 `$<name>`은 구현되어 있지 않다.
 3. `Array`/`String`/`%TypedArray%`의 `at`은 ES2022 기능이며 번들에서 42회 사용된다. Netstorm 판정기에서 봤던 `findLast`와 `toSorted`는 ES2023 이후이므로 P28의 ES2022 완료 판정에는 포함하지 않는다.
 4. ES2023 이후 기능은 `ESX-OUT-2023+`로 별도 기록했다.
+
+## 9. P28-02-f 실제 번들·모듈 파싱 (2026-11-25)
+
+`tools/netstormparse`를 추가해 JDK 6u45에서 외부 경로
+`D:\Workspace\git\NetstormReborn\webpj\www`를 직접 검사했다. 도구는 다음을 제품 외부 자산을
+저장소에 복사하지 않고 수행한다.
+
+1. `dist/netstorm.bundle.js`를 Script 목표로 파싱한다.
+2. `debug.html`의 inline `<script type=module>` 본문을 Module 목표로 파싱한다.
+3. `dist` 밖의 모든 `.js`를 Module 목표로 파싱한다.
+4. 각 `ProgramInfo.requestedModules`의 상대 static import가 루트 안의 실제 파일과 연결되는지 검사한다.
+
+결과는 다음과 같다.
+
+| 항목 | 2026-11-25 현재 값 |
+| --- | ---: |
+| webpack 번들 | 3,283,377 UTF-16 코드 단위 |
+| `debug.html` inline module | 1개 |
+| 원본 `.js` module | 1,059개 |
+| 검사한 상대 static import | 2,486건 |
+| syntax error | 0 |
+| missing module | 0 |
+
+2026-11-24 기록의 원본 모듈 수 1,057개는 그 시점의 외부 프로젝트 스냅샷이다. 현재 트리에 두 파일이
+추가되어 P28-02-f 실제 검증 수는 1,059개가 됐다.
+
+첫 실행은 세 종류의 실제 결함을 찾았다.
+
+- `await`가 `||`/`??` 같은 이항 연산자의 오른쪽 단항 식으로 나올 때 AssignmentExpression 분기에서만
+  처리하던 문제: `parseUnary`에서도 AwaitExpression을 받게 고쳤다.
+- `return await async function buildKoreanSupport(...) {...}(...)`의 async 함수 식 IIFE가
+  AssignmentExpression fast path 때문에 호출 꼬리를 건너뛰던 문제: async 함수 식을 PrimaryExpression
+  공통 경로로 보내 고쳤다.
+- 원본 모듈의 9개 정규식에 있는 `/d` 플래그가 Lexer의 알려진 플래그 목록에 없던 문제:
+  P28-02에서는 플래그 문법만 받아들이고 `hasIndices`/`indices` 결과는 P28-05에서 구현한다고 구분했다.
+
+파서 회귀는 `engine\test.bat --filter js.parser`로 JDK 6u45에서 40 passed, 0 failed, 0 skipped이다.
+이 결과는 구문 파싱만의 근거이며 실행 의미·DOM·렌더링·오디오 게임 구동이 완료됐다는 뜻은 아니다.

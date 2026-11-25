@@ -11,13 +11,13 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
-=== P28-02 파서 하위 작업 분해 (2026-11-25) ===
-현재 작업 번호: P28-02-e 완료.
-완료한 내용: P28-02-a~d에 이어 public/private/static/computed class field, private 메서드·getter/setter, static initialization block과 `#x in obj`를 추가했다. private 선언은 클래스별 환경과 바깥 클래스 체인에서 지연 해석하며, 중복/미선언/static 충돌/`delete private`/필드 초기화의 arguments를 조기 오류로 처리한다.
-변경 파일: AGENTS.md(P28-02-e 완료), engine/src/main/java/.../ast/{Node,NodeType,Op,AstDump}.java, parser/{Lexer,Token,TokenType,ParserBase,Parser,ExpressionParser}.java, parser 시험, 이 문서.
-검증 결과: `engine\test.bat --filter js.parser` JDK 6u45 40 passed/0 failed/0 skipped. 제품 컴파일도 source/target 1.6으로 통과.
-미해결 사항: BigInt 실행 의미는 P28-04; P28-02-f(Netstorm bundle/module 파싱) 미완료.
-다음 작업 번호: P28-02-f.
+=== P28-02 ES2016~ES2022 파서 완료 (2026-11-25) ===
+현재 작업 번호: P28-02 완료(P28-02-a~f).
+완료한 내용: P28-02-a~e의 문법 구현을 마쳤고 P28-02-f용 Java 6 도구 `tools/netstormparse`를 추가했다. 외부 Netstorm 번들 3,283,377 UTF-16 문자, `debug.html` inline module 1개, 현재 원본 모듈 1,059개, static import 2,486건을 자체 파서로 구문 오류 0·missing module 0으로 확인했다. 계획 당시 1,057개에서 원본이 두 파일 늘어난 현재 개수를 기록한다. 외부 검증 중 단항 위치의 await, await 뒤 async function IIFE 호출, 정규식 `/d` 플래그 어휘 인식의 실제 파서 결함을 고쳤다.
+변경 파일: AGENTS.md(P28-02/f 완료), engine/src/main/java/.../ast·parser, engine/src/test/java/.../parser, tools/netstormparse/{AGENTS,README,build/run,src}, docs/ARCHITECTURE.md, docs/FEATURE_MATRIX.md, docs/progress/netstorm.md, 이 문서.
+검증 결과: `engine\test.bat --filter js.parser` JDK 6u45 40 passed/0 failed/0 skipped. `tools/netstormparse/run.bat D:\Workspace\git\NetstormReborn\webpj\www` JRE 6u45 syntax-errors 0, missing-modules 0. 제품과 도구 모두 Java 6 source/target 컴파일.
+미해결 사항: 파서는 완료되었지만 async/optional chain/class field/BigInt 등의 실행 의미는 P28-03~05, 정규식 `/d`의 indices 결과는 P28-05이다.
+다음 작업 번호: P28-03.
 -----------------------------------------------------------------------------------------------
 === P28-01 ECMAScript 2022 기준 판본과 대상 목록 확정 (2026-11-25) ===
 현재 작업 번호: P28-01 완료.

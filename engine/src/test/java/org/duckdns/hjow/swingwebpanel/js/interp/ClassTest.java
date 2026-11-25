@@ -41,7 +41,6 @@ public class ClassTest {
             "class A { m() { super(); } }",
             "function f() { super.x; }",
             "class { }",
-            "class A { x = 1; }",
             "class A { m() { var a; let a; } }",
             "class let { }",
             "class A { static static() {} get get() {} } class A { }",

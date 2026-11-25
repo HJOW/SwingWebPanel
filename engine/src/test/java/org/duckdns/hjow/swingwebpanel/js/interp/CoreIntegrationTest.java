@@ -62,17 +62,17 @@ public class CoreIntegrationTest {
     }
 
     /**
-     * The lexer accepts the flags g, i, m, s, u and y once each and rejects unknown or repeated flags.
+     * The lexer accepts the flags d, g, i, m, s, u and y once each and rejects unknown or repeated flags.
      * <p>
-     * 렉서는 플래그 g, i, m, s, u, y 를 한 번씩 받아들이고 알 수 없거나 반복된 플래그는 거부한다.
+     * 렉서는 플래그 d, g, i, m, s, u, y 를 한 번씩 받아들이고 알 수 없거나 반복된 플래그는 거부한다.
      */
     public void testRegExpFlagsInLiterals() {
-        String[] good = { "/a/g", "/a/i", "/a/m", "/a/s", "/a/u", "/a/y", "/a/gimsuy", "/a/sg" };
+        String[] good = { "/a/d", "/a/g", "/a/i", "/a/m", "/a/s", "/a/u", "/a/y", "/a/dgimsuy", "/a/sg" };
         // 허용되는 플래그 조합이 파싱되는지 확인한다.
         for (int i = 0; i < good.length; i++) {
             Check.notNull(Parser.parseScript(good[i] + ";", "t.js"), "parses " + good[i]);
         }
-        String[] bad = { "/a/gg", "/a/ss", "/a/x", "/a/gx", "/a/d" };
+        String[] bad = { "/a/gg", "/a/ss", "/a/x", "/a/gx", "/a/dd" };
         // 거부되어야 하는 플래그를 확인한다.
         for (int i = 0; i < bad.length; i++) {
             final String src = bad[i] + ";";

@@ -127,6 +127,12 @@ public class ParserExpressionTest {
                 "async function expression");
         Check.equal("(async-function* _ () (block (expr (yield (await 1)))))", e("(async function* () { yield await 1 })"),
                 "async generator expression");
+        Check.equal("(async-function f () (block (expr (|| a (await b)))))",
+                e("(async function f() { a || await b })"), "await is a unary expression operand");
+        Check.equal("(await (call (async-function _ (x) (block)) 1))",
+                AstDump.dump(Parser.parseScript("async function f() { return await (async function(x) {})(1); }",
+                        "t.js").list[0].b.fn.body.list[0].a),
+                "await accepts an async function expression as its unary operand");
         Check.equal("(object (method m (async-method m () (block (expr (await x)))))"
                 + " (method g (async-function* g () (block (expr (yield (await x)))))))",
                 e("({async m() { await x }, async *g() { yield await x }})"), "async object methods");

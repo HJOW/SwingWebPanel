@@ -147,6 +147,7 @@ bat 는 MS949(현재는 ASCII 만 사용), sh/java/md 는 UTF-8 이다.
 | `tools/uicheck` | 실제 Swing 창(JFrame+JScrollPane+SwingWebPanel 또는 예제 창)을 띄우고 단계(열기/스크롤/클릭/뒤·앞/새로고침/폐기)를 실행하며 `java.awt.Robot` 으로 실제 화면 스크린샷을 저장(P09-08-b-2, P22-10). 기본은 AWT 이벤트 큐로 클릭하고 `--realmouse` 는 OS 마우스를 쓴다. 사용법은 `tools/uicheck/AGENTS.md`, `README.md`, 결과는 `docs/progress/uicheck.md` |
 | `tools/brotlidict` | RFC 7932 부록 A/B 의 텍스트에서 Brotli 정적 사전(122,784바이트)·변환 표·문맥 조회표를 읽고 RFC 가 적은 CRC-32 와 대조한 뒤 `media.font.BrotliData` 를 생성(P10-08-e) | `tools/brotlidict/AGENTS.md`, `README.md` |
 | `tools/hrtfgen` | MIT KEMAR compact 자료(`tools/webfetch` 로 받은 `compact.zip`)를 귀마다 최소 위상 커널 + 지연으로 바꿔 제품 자원 `media/webaudio/dsp/kemar-compact.hrtf` 를 생성(P25 A2). 저자 표기 조건과 원본 URL·조회일은 도구 문서와 README 에 있음 | `tools/hrtfgen/AGENTS.md`, `README.md` |
+| `tools/netstormparse` | 외부 NetstormReborn 경로의 webpack 번들, `debug.html` inline module, `dist` 밖 모든 ES 모듈과 상대 static import를 JDK 6의 자체 JavaScript 파서로 검사한다(P28-02-f). 자산은 저장소에 복사하지 않는다 | `tools/netstormparse/AGENTS.md`, `README.md` |
 
 (도구가 추가되면 이 표에 갱신한다.)
 

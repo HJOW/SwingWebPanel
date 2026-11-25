@@ -208,6 +208,7 @@ abstract class ExpressionParser extends ParserBase {
             PrivateUse use = privateUses.get(i);
             boolean found = false;
             PrivateEnvironment env = use.environment;
+            // 바깥 private 환경을 따라 올라가며 같은 이름을 찾는다.
             while (env != null) {
                 if (env.names.containsKey(use.name)) {
                     found = true;
@@ -300,9 +301,6 @@ abstract class ExpressionParser extends ParserBase {
         }
         if (isN("async") && !peek().newlineBefore) {
             Token n = peek();
-            if (n.isName("function")) {
-                return parseFunctionExpression(true);
-            }
             if (n.type == TokenType.NAME && !isReservedWord(n.value) && peek(2).isPunct("=>") && !peek(2).newlineBefore) {
                 return parseAsyncIdentifierArrow(noIn);
             }
@@ -779,6 +777,9 @@ abstract class ExpressionParser extends ParserBase {
      */
     private Node parseUnary() {
         Token t = tok;
+        if (canAwait() && isN("await")) {
+            return parseAwait();
+        }
         int op = 0;
         if (t.type == TokenType.PUNCT) {
             String v = t.value;
@@ -1168,6 +1169,9 @@ abstract class ExpressionParser extends ParserBase {
     private Node parsePrimaryName(Token t) {
         if (!t.escaped) {
             String v = t.value;
+            if (v.equals("async") && !peek().newlineBefore && peek().isName("function")) {
+                return parseFunctionExpression(true);
+            }
             if (v.equals("import")) {
                 Token next = peek();
                 if (next.isPunct("(")) {

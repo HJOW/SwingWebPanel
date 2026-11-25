@@ -622,6 +622,7 @@ public final class Lexer {
                 throw error("Numeric separators are not allowed in a legacy octal literal");
             }
             boolean octal = true;
+            // 앞의 0이 있는 숫자가 8진수 숫자로만 구성됐는지 확인한다.
             for (int i = 0; i < integerDigits.length(); i++) {
                 if (integerDigits.charAt(i) > '7') {
                     octal = false;
@@ -1011,7 +1012,7 @@ public final class Lexer {
             throw error("Invalid regular expression flags");
         }
         t.flags = src.substring(flagStart, pos);
-        String known = "gimsuy";
+        String known = "dgimsuy";
         // 알려진 플래그만 허용하고 중복을 금지한다.
         for (int i = 0; i < t.flags.length(); i++) {
             char f = t.flags.charAt(i);
