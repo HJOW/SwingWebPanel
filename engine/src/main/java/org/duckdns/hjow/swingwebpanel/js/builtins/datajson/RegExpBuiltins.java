@@ -411,7 +411,10 @@ public final class RegExpBuiltins {
             throw limitError(e);
         }
         if (m == null) {
-            setLastIndex(x, 0);
+            // lastIndex를 검색에 사용한 경우에만 실패한 위치를 초기화한다.
+            if (global || sticky) {
+                setLastIndex(x, 0);
+            }
             return Js.NULL;
         }
         if (global || sticky) {

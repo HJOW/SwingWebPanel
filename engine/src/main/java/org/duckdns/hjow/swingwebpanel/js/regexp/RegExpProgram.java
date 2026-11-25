@@ -491,6 +491,7 @@ public final class RegExpProgram {
         }
         RegExpMatcher m = new RegExpMatcher(this, input, cancel);
         boolean unicode = RegExpFlags.isUnicodeMode(flags);
+        i = matchStart(input, i, unicode);
         if (anchored) {
             return i == 0 && m.matchAt(0) ? m.result() : null;
         }
@@ -512,9 +513,9 @@ public final class RegExpProgram {
     }
 
     /**
-     * Tries to match exactly at an index (the sticky flag behavior).
+     * Tries to match at the character containing a code-unit index (the sticky flag behavior).
      * <p>
-     * 정확히 그 위치에서 일치하는지 시도한다(고정 플래그 동작).
+     * 코드 단위 위치를 포함하는 문자에서 일치하는지 시도한다(고정 플래그 동작).
      *
      * @param input string / 문자열
      * @param index index where the match must start / 일치가 시작해야 하는 위치
@@ -541,7 +542,26 @@ public final class RegExpProgram {
             return null;
         }
         RegExpMatcher m = new RegExpMatcher(this, input, cancel);
-        return m.matchAt(index) ? m.result() : null;
+        int start = matchStart(input, index, RegExpFlags.isUnicodeMode(flags));
+        return m.matchAt(start) ? m.result() : null;
+    }
+
+    /**
+     * Finds the start of the matcher character that contains a requested code unit.
+     * <p>
+     * 요청된 코드 단위를 포함하는 검색 문자의 시작 위치를 찾는다.
+     *
+     * @param input the string to match / 검색할 문자열
+     * @param index nonnegative code-unit offset / 음수가 아닌 코드 단위 위치
+     * @param unicode whether to match whole code points / 전체 코드 포인트 일치 여부
+     * @return start of the character, or the unchanged end position / 문자 시작 위치 또는 그대로 유지한 문자열 끝
+     */
+    private static int matchStart(String input, int index, boolean unicode) {
+        if (unicode && index > 0 && index < input.length() && Character.isLowSurrogate(input.charAt(index))
+                && Character.isHighSurrogate(input.charAt(index - 1))) {
+            return index - 1;
+        }
+        return index;
     }
 
     /**

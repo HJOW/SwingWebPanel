@@ -123,4 +123,70 @@ public class AnnexB17ConformanceTest {
         Check.equal("ReferenceError:next,call:argument,close", Scripts.output(script),
                 "await resumes the call and IteratorClose precedes the catch");
     }
+
+    /**
+     * Checks Annex B regexp grammar and the named group restriction on identity escapes.
+     * <p>
+     * 부속서 B 정규식 문법과 이름 있는 그룹이 있는 identity escape의 제한을 확인한다.
+     */
+    public void testLegacyRegExpGrammar() {
+        String script = "const bs=String.fromCharCode(92);"
+                + "function invalid(p,flags){try{new RegExp(p,flags);return false;}catch(e){return e.name==='SyntaxError';}}"
+                + "const named='(?<n>a)['+bs+'k]';"
+                + "[/\\141/.test('a'),/[\\c0]/.test(String.fromCharCode(16)),/[\\d-a]/.test('-'),"
+                + "/(?=a)?a/.test('a'),/\\p{Letter}/.test('p{Letter}'),/[\\k]/.test('k'),"
+                + "invalid(bs+'141','u'),invalid('['+bs+'d-a]','u'),invalid('(?=a)?a','u'),"
+                + "invalid('(?<=a)?',''),invalid(named,''),"
+                + "(function(){try{Function('return /'+named+'/');return false;}catch(e){return e.name==='SyntaxError';}})()].join()";
+        Check.equal("true,true,true,true,true,true,true,true,true,true,true,true", Scripts.eval(script),
+                "legacy escapes and quantified lookaheads are restricted to their specified contexts");
+    }
+
+    /**
+     * Checks that global and sticky matching update lastIndex, while ordinary matching preserves it.
+     * <p>
+     * 전역·고정 검색의 lastIndex 갱신과 일반 검색의 lastIndex 보존을 확인한다.
+     */
+    public void testRegExpLastIndexFailures() {
+        String script = "let coerced=0;const ordinary=/x/, global=/x/g, sticky=/x/y, frozen=/x/;"
+                + "const index={valueOf(){coerced++;return 9;}};ordinary.lastIndex=index;"
+                + "global.lastIndex=2;sticky.lastIndex=1;Object.defineProperty(frozen,'lastIndex',{writable:false});"
+                + "const a=ordinary.exec('a'),b=ordinary.exec('x'),c=global.exec('a'),d=sticky.exec('xa');"
+                + "[a===null,b.index,ordinary.lastIndex===index,coerced,c===null,global.lastIndex,d===null,"
+                + "sticky.lastIndex,frozen.exec('a')===null].join('|')";
+        Check.equal("true|0|true|2|true|0|true|0|true", Scripts.eval(script),
+                "lastIndex coercion does not force a write for ordinary matching");
+    }
+
+    /**
+     * Checks match and capture offsets when lastIndex points into a supplementary character.
+     * <p>
+     * lastIndex가 보충 문자 내부를 가리킬 때의 일치·캡처 위치를 검증한다.
+     */
+    public void testRegExpUnicodeLastIndexBoundary() {
+        String script = "const cp=String.fromCodePoint(0x1D11E), input=cp+'x';"
+                + "function result(flags){const r=new RegExp('(.)',flags);r.lastIndex=1;const m=r.exec(input);"
+                + "return [m.index,m[0].length,m[1].length,m.indices[0].join(),r.lastIndex].join(':');}"
+                + "const r=/x/gu;r.lastIndex=1;const after=r.exec(input);"
+                + "[result('dy'),result('dyu'),result('dyv'),result('dgu'),result('dgv'),after.index,r.lastIndex].join('|')";
+        Check.equal("1:1:1:1,2:2|0:2:2:0,2:2|0:2:2:0,2:2|0:2:2:0,2:2|0:2:2:0,2:2|2|3",
+                Scripts.eval(script), "Unicode matching starts at the containing code point");
+    }
+
+    /**
+     * Verifies that Annex B compile uses the original source and flags of a real RegExp.
+     * <p>
+     * 부속서 B compile이 실제 RegExp의 원래 원문과 플래그를 쓰는지 확인한다.
+     */
+    public void testRegExpCompileReinitializes() {
+        String script = "const r=/old/y,p=/[[ab]--b]/v;r.lastIndex=2;"
+                + "Object.defineProperty(p,'source',{get(){throw 'source override';}});"
+                + "const same=r.compile(p)===r;"
+                + "function error(f){try{f();return 'none';}catch(e){return e.name;}}"
+                + "[same,r.flags,r.source,r.lastIndex,r.test('a'),r.test('b'),"
+                + "error(()=>r.compile(p,'v')),error(()=>RegExp.prototype.compile.call({})),"
+                + "error(()=>r.compile('a','uv')),r.flags].join('|')";
+        Check.equal("true|v|[[ab]--b]|0|true|false|TypeError|TypeError|SyntaxError|v", Scripts.eval(script),
+                "compile reinitializes branded regular expressions with the validated original pattern");
+    }
 }

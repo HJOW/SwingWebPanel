@@ -1368,6 +1368,10 @@ final class RegExpParser {
             a.ch = 0x08;
             return a;
         }
+        // 이름 있는 그룹이 있는 패턴의 클래스에서는 \k를 단순 문자로 해석할 수 없다.
+        if (e == 'k' && hasNamed) {
+            throw error("Invalid named capture escape inside character class", pos);
+        }
         if (e >= '0' && e <= '9') {
             if (unicode) {
                 if (e == '0' && !(pos + 1 < n && src.charAt(pos + 1) >= '0' && src.charAt(pos + 1) <= '9')) {
