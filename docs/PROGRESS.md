@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-c3b COEP·CORP 리소스 및 캐시 정책 (2026-11-26) ===
+현재 작업 번호: P29-10-c3b 완료.
+완료한 내용: 리소스 소비 전 COEP·CORP를 검사한다. credentialless 교차 구간에서 자격 증명 및 Set-Cookie를 생략하며 캐시를 시작 오리진별로 나눈다. 프레임 응답을 검사하고 srcdoc·빈 프레임은 부모의 삽입 정책을 물려받는다.
+변경 파일: ResourceRequest.java, ResourceFetcher.java, HttpFetcher.java, HttpCache.java, CrossOriginPolicy.java, PublicSuffixList.java 및 원본 데이터, FailureKind.java, ErrorPageBuilder.java, PageResources.java, PageRuntime.java, PageWebRequests.java, PagePresentation.java, FrameContext.java, NetworkPageLoader.java, OriginPolicyTest.java, CrossOriginIsolationTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, README.md, 이 문서.
+검증 결과: JDK 6u45 CrossOriginIsolationTest 3건, OriginPolicyTest 8건, HttpCacheTest 17건, CorsPreflightTest 9건, FrameNavigationTest 11건, WebRequestApiTest 15건 통과. 최종 FTP 분기는 변경 클래스를 JDK 6으로 재컴파일한 뒤 OriginPolicyTest로 확인했다. JAR의 Public Suffix List 포함과 sourcecheck 0 위반을 확인했다.
+미해결 사항: 창·Worker·AudioWorklet의 격리 권한과 공유 메모리 범위(P29-10-c3c), Unicode·최종 회귀.
+다음 작업 번호: P29-10-c3c.
+-----------------------------------------------------------------------------------------------
 === P29-10-c3a 최종 응답의 격리 정책 메타데이터 (2026-11-26) ===
 현재 작업 번호: P29-10-c3a 완료.
 완료한 내용: 최종 HTTP 응답의 COOP와 COEP 구조화 토큰을 파싱하고, 신뢰 가능한 오리진에서만 문서·스크립트 응답 정보와 이력에 전달한다. isSecureContext가 파싱된 호스트와 스킴으로 루프백을 확인한다.
@@ -1130,6 +1138,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-c3b 교차 오리진 리소스 제한과 credentialless
+
+- [WHATWG Fetch §3.7](https://fetch.spec.whatwg.org/#cross-origin-resource-policy-header) 2026-11-20 13:36:47 GMT 판의 CORP 판정과 HTML §7.1.4의 프레임 응답 조건을 적용했다. CORS 응답은 기존 검사를 유지한다. 304는 캐시 헤더 병합 뒤 검사한다.
+- [Public Suffix List](https://publicsuffix.org/list/public_suffix_list.dat) 2026-11-25_16-42-05_UTC판(`b859dc136777a7efd40c38fbf27a673a45ee31cf`, SHA-256 `ea25e3e99ba3732764294e1a3cc1e4e339a0dc73c21eac886d2ce0c7d9cc768b`)을 2026-11-26에 `tools/webfetch`로 조회했다. ICANN 및 민간 규칙과 MPL 2.0 고지를 포함한 원본을 JAR에 싣는다.
+- 실제 HTTP 요청에서 CORP가 없는 캐시된 스크립트의 차단, 명시적 CORP 및 CORS 허용, 프레임 탐색과 credentialless 리디렉션·캐시를 검증했다.
 
 ### 2026-11-26 · P29-10-c3a COOP·COEP 응답 메타데이터와 신뢰 가능한 오리진
 

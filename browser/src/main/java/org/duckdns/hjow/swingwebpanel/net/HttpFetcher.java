@@ -788,7 +788,7 @@ public class HttpFetcher {
         conn.setRequestProperty("Accept", acceptFor(req.getPurpose()));
         conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
         boolean sameOrigin = Origin.of(st.current).isSameOrigin(st.firstOrigin);
-        boolean forwardSensitive = sameOrigin && !st.downgraded;
+        boolean forwardSensitive = sameOrigin && !st.downgraded && !CrossOriginPolicy.omitsCredentials(req, st.current);
         RequestHeaders extra = req.getExtraHeaders();
         if (extra != null) {
             // 추가 헤더를 하나씩 적용하되 관리 대상 헤더와 (조건에 따라) 민감한 헤더는 건너뛴다.
@@ -918,7 +918,7 @@ public class HttpFetcher {
      */
     private static boolean credentialsFor(State st) {
         ResourceRequest r = st.req;
-        if (!r.isSendCredentials()) {
+        if (!r.isSendCredentials() || CrossOriginPolicy.omitsCredentials(r, st.current)) {
             return false;
         }
         if (!r.isSameOriginCredentialsOnly()) {
@@ -1037,6 +1037,11 @@ public class HttpFetcher {
             for (int i = 0; i < e.getValue().size(); i++) {
                 res.addHeader(e.getKey(), e.getValue().get(i));
             }
+        }
+        // 304는 캐시 헤더와 병합한 뒤 검사한다. 다른 응답은 본문이나 처리기 호출 전에 판정한다.
+        if (status != 304 && !CrossOriginPolicy.permits(st.req, res)) {
+            fail(st, FailureKind.BLOCKED_EMBEDDER_POLICY, "Blocked by cross-origin embedder or resource policy");
+            return false;
         }
         ContentType ct = ContentType.parse(res.getHeader("Content-Type"));
         res.setContentType(ct.getMime(), ct.getCharset());

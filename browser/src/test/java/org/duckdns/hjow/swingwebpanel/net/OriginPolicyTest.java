@@ -84,6 +84,36 @@ public class OriginPolicyTest {
     }
 
     /**
+     * Checks CORP same-site with public and private suffix rules and the scheme condition.
+     * <p>
+     * 공용·민간 접미사 규칙과 스킴 조건으로 CORP 동일 사이트를 검사한다.
+     */
+    public void testResourcePolicySameSite() {
+        ResourceRequest request = new ResourceRequest("https://static.example.co.uk/script.js")
+                .setInitiator(Origin.of("https://shop.example.co.uk/"))
+                .setPurpose(RequestPurpose.SCRIPT).setEmbedderPolicy(CrossOriginPolicy.Embedder.REQUIRE_CORP);
+        ResourceResponse response = new ResourceResponse(request.getUrl());
+        response.setFinalUrl(request.getUrl());
+        response.addHeader("Cross-Origin-Resource-Policy", "same-site");
+        Check.isTrue(CrossOriginPolicy.permits(request, response), "sibling hosts under the same registrable domain");
+        request.setInitiator(Origin.of("http://shop.example.co.uk/"));
+        Check.isFalse(CrossOriginPolicy.permits(request, response), "an HTTP site cannot rely on same-site to embed HTTPS");
+        request.setInitiator(Origin.of("https://shop.other.co.uk/"));
+        Check.isFalse(CrossOriginPolicy.permits(request, response), "different registrable domains under one public suffix");
+        response.setFinalUrl("https://app-one.github.io/script.js");
+        request.setInitiator(Origin.of("https://app-two.github.io/"));
+        Check.isFalse(CrossOriginPolicy.permits(request, response), "different private-suffix tenants are separate sites");
+        response.setFinalUrl("https://static.city.kawasaki.jp/script.js");
+        request.setInitiator(Origin.of("https://shop.city.kawasaki.jp/"));
+        Check.isTrue(CrossOriginPolicy.permits(request, response), "a public-suffix wildcard exception");
+
+        ResourceFetcher fetcher = new ResourceFetcher(DefaultSslConfigurer.INSTANCE, FetchLimits.DEFAULT, getClass().getClassLoader());
+        ResourceResponse ftp = fetcher.fetch(new ResourceRequest("ftp://unreachable.invalid/script.js").setInitiator(request.getInitiator())
+                .setPurpose(RequestPurpose.SCRIPT).setEmbedderPolicy(CrossOriginPolicy.Embedder.REQUIRE_CORP));
+        Check.equal(FailureKind.BLOCKED_EMBEDDER_POLICY, ftp.getFailureKind(), "FTP cannot supply the HTTP opt-in header");
+    }
+
+    /**
      * Class path documents share one origin; special and blocked addresses have opaque origins that equal nothing.
      * <p>
      * 클래스패스 문서는 오리진 하나를 공유하고, 특수/차단 주소는 어떤 것과도 같지 않은 불투명 오리진을 가진다.

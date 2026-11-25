@@ -1035,6 +1035,7 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         resources.throwIfCancelled();
         ResourceRequest request = new ResourceRequest(url).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                 .setCookies(cookies).setCancelToken(resources).setReferrer(pageUrl).setInitiator(Origin.of(pageUrl))
+                .setEmbedderPolicy(context.crossOriginPolicy.getEmbedder())
                 .setPurpose(RequestPurpose.SCRIPT)
                 .setCacheMode(context.force ? ResourceRequest.CacheMode.FORCE_RELOAD : ResourceRequest.CacheMode.DEFAULT);
         ResourceResponse response = fetcher.fetch(request);

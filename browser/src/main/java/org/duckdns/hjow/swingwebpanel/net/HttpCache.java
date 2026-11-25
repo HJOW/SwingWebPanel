@@ -184,6 +184,8 @@ public final class HttpCache {
          * 요청 당시 그 요청 헤더의 값(없으면 null).
          */
         final List<String> varyValues;
+        /** Credentialless partition selected by the initiating origin. / 시작 오리진이 선택한 credentialless 캐시 분기. */
+        final String credentialPartition;
         /**
          * Time the request was sent.
          * <p>
@@ -212,10 +214,12 @@ public final class HttpCache {
          * @param response   the response to copy / 복사할 응답
          * @param varyNames  Vary header names / Vary 헤더 이름
          * @param varyValues Vary header values / Vary 헤더 값
+         * @param credentialsPartition the credentialless partition / credentialless 캐시 분기
          * @param start      request time / 요청 시각
          * @param end        response time / 응답 시각
          */
-        Entry(String key, ResourceResponse response, List<String> varyNames, List<String> varyValues, long start, long end) {
+        Entry(String key, ResourceResponse response, List<String> varyNames, List<String> varyValues, String credentialsPartition,
+                long start, long end) {
             this.key = key;
             this.finalUrl = response.getFinalUrl();
             this.status = response.getStatus();
@@ -232,6 +236,7 @@ public final class HttpCache {
             this.charset = response.getCharset();
             this.varyNames = varyNames;
             this.varyValues = varyValues;
+            this.credentialPartition = credentialsPartition;
             this.requestTime = start;
             this.responseTime = end;
             this.cc = CacheControl.parse(headers.get("cache-control"));
@@ -537,11 +542,16 @@ public final class HttpCache {
      * 이미 메모리에 있는 응답(저장본, 또는 조건부 요청에 대한 바뀐 응답)에 대해 본문 처리기가 결정하게 한다. 처리기는 거부할 수 있고(전송 중
      * 거부와 같은 실패로 보고), 본문을 스트림으로 가져가거나 메모리에 남겨 둘 수 있다.
      *
+     * @param req the request used for policy checks / 정책을 검사할 요청
      * @param handler body handler or null / 본문 처리기 또는 null
      * @param r       the response / 응답
      * @return the response to return to the caller / 호출자에게 돌려줄 응답
      */
-    private static ResourceResponse applyHandler(ResponseHandler handler, ResourceResponse r) {
+    private static ResourceResponse applyHandler(ResourceRequest req, ResponseHandler handler, ResourceResponse r) {
+        // 다른 정책에서 저장한 응답도 현재 문서의 정책을 통과해야 한다.
+        if (r.getFailureKind() == FailureKind.NONE && !CrossOriginPolicy.permits(req, r)) {
+            return CrossOriginPolicy.blocked(r);
+        }
         if (handler == null || r.getFailureKind() != FailureKind.NONE || r.getStatus() >= 400) {
             return r;
         }
@@ -614,7 +624,7 @@ public final class HttpCache {
                 hits++;
                 hit = toResponse(entry, req.getUrl(), now, false);
             }
-            return applyHandler(handler, hit);
+            return applyHandler(req, handler, hit);
         }
         String etag;
         String lastModified;
@@ -643,10 +653,10 @@ public final class HttpCache {
                 merge(entry, response, start, end);
                 confirmed = toResponse(entry, req.getUrl(), end, true);
             }
-            return applyHandler(handler, confirmed);
+            return applyHandler(req, handler, confirmed);
         }
         store(key, req, response, start, end);
-        return applyHandler(handler, response);
+        return applyHandler(req, handler, response);
     }
 
     /**
@@ -723,9 +733,10 @@ public final class HttpCache {
         if (list == null) {
             return null;
         }
+        String partition = CrossOriginPolicy.cachePartition(req);
         // 변형마다 Vary 로 고른 요청 헤더가 지금 요청과 같은지 비교한다.
         for (Entry e : list) {
-            boolean same = true;
+            boolean same = partition.equals(e.credentialPartition);
             // Vary 로 고른 헤더가 모두 같은지 차례로 비교한다.
             for (int i = 0; i < e.varyNames.size() && same; i++) {
                 String now = requestHeader(req, e.varyNames.get(i));
@@ -792,7 +803,8 @@ public final class HttpCache {
                 }
             }
         }
-        Entry e = new Entry(key, resp, varyNames, varyValues, start, end);
+        String partition = CrossOriginPolicy.cachePartition(req);
+        Entry e = new Entry(key, resp, varyNames, varyValues, partition, start, end);
         synchronized (this) {
             // clean의 취소 후 도착한 응답이 비운 캐시를 다시 채우지 못하게 한다.
             if (req.getCancelToken().isCancelled()) {
@@ -806,7 +818,7 @@ public final class HttpCache {
             // 같은 Vary 값을 가진 이전 변형은 새 응답으로 바꾼다.
             for (Iterator<Entry> it = list.iterator(); it.hasNext();) {
                 Entry old = it.next();
-                if (old.varyNames.equals(varyNames) && old.varyValues.equals(varyValues)) {
+                if (partition.equals(old.credentialPartition) && old.varyNames.equals(varyNames) && old.varyValues.equals(varyValues)) {
                     it.remove();
                     lru.remove(old);
                     usedBytes -= old.size();

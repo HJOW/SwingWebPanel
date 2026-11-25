@@ -1,5 +1,8 @@
 package org.duckdns.hjow.swingwebpanel.core;
 
+import java.util.Collections;
+import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
+import org.duckdns.hjow.swingwebpanel.core.frames.FrameTestSupport;
 import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource;
@@ -10,7 +13,13 @@ import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 import org.duckdns.hjow.swingwebpanel.net.DefaultSslConfigurer;
 import org.duckdns.hjow.swingwebpanel.net.FetchLimits;
+import org.duckdns.hjow.swingwebpanel.net.HttpCache;
+import org.duckdns.hjow.swingwebpanel.net.Origin;
+import org.duckdns.hjow.swingwebpanel.net.RequestHeaders;
+import org.duckdns.hjow.swingwebpanel.net.RequestPurpose;
 import org.duckdns.hjow.swingwebpanel.net.ResourceFetcher;
+import org.duckdns.hjow.swingwebpanel.net.ResourceRequest;
+import org.duckdns.hjow.swingwebpanel.net.ResourceResponse;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 import org.duckdns.hjow.swingwebpanel.testing.TestHttpServer;
 
@@ -20,6 +29,103 @@ import org.duckdns.hjow.swingwebpanel.testing.TestHttpServer;
  * 컴포넌트의 HTTP, 파싱, 스크립트 로드 경로를 통한 교차 오리진 응답 정책 시험.
  */
 public class CrossOriginIsolationTest {
+    /**
+     * Enforces the policy for cached scripts, allowed CORS scripts and child frame navigations.
+     * <p>
+     * 캐시된 스크립트, CORS로 허용된 스크립트, 하위 프레임 이동에 정책을 적용한다.
+     *
+     * @throws Exception on setup or request failure / 환경 구성이나 요청 실패 시
+     */
+    public void testRequireCorpDocumentsAndResources() throws Exception {
+        TestHttpServer site = new TestHttpServer();
+        TestHttpServer external = new TestHttpServer();
+        SwingWebPanel panel = FrameTestSupport.newPanel(400, 300);
+        try {
+            external.routeFixed("/cached.js", TestHttpServer.Response.ok("text/javascript", "window.fromCache='ran';")
+                    .header("Cache-Control", "public, max-age=600"));
+            external.routeFixed("/corp.js", TestHttpServer.Response.ok("text/javascript", "window.withCorp='allowed';")
+                    .header("Cross-Origin-Resource-Policy", "cross-origin"));
+            external.routeFixed("/cors.js", TestHttpServer.Response.ok("text/javascript", "window.withCors='allowed';")
+                    .header("Access-Control-Allow-Origin", "*"));
+            external.routeFixed("/embedded", TestHttpServer.Response.html("<script>parent.postMessage('embedded','*');</script>")
+                    .header("Cross-Origin-Embedder-Policy", "require-corp").header("Cross-Origin-Resource-Policy", "cross-origin"));
+            external.start();
+            site.routeFixed("/plain", TestHttpServer.Response.html("<script src='" + external.url("/cached.js") + "'></script>"
+                    + "<script>sessionStorage.setItem('unrestricted',String(window.fromCache));</script>"));
+            site.routeFixed("/bare-frame", TestHttpServer.Response.html("<script>window.frameValue='unexpected';</script>"));
+            site.routeFixed("/isolated-frame", TestHttpServer.Response.html("<script>window.frameValue='allowed';</script>")
+                    .header("Cross-Origin-Embedder-Policy", "require-corp"));
+            site.routeFixed("/isolated", TestHttpServer.Response.html(
+                    "<script>onmessage=e=>sessionStorage.setItem('from-frame',e.data);</script>"
+                    + "<script src='" + external.url("/cached.js") + "'></script>"
+                    + "<script src='" + external.url("/corp.js") + "'></script>"
+                    + "<script type=module src='" + external.url("/cors.js") + "'></script>"
+                    + "<iframe src='/bare-frame'></iframe><iframe src='/isolated-frame'></iframe>"
+                    + "<iframe src='" + external.url("/embedded") + "'></iframe>"
+                    + "<script>window.onload=()=>sessionStorage.setItem('policy-result',[typeof fromCache,withCorp,withCors,"
+                    + "typeof frames[0].frameValue,frames[1].frameValue].join());</script>")
+                    .header("Cross-Origin-Opener-Policy", "same-origin")
+                    .header("Cross-Origin-Embedder-Policy", "require-corp"));
+            site.start();
+            panel.setPage(site.url("/plain"));
+            FrameTestSupport.awaitStored(panel, "unrestricted", "ran");
+            panel.setPage(site.url("/isolated"));
+            FrameTestSupport.awaitStored(panel, "policy-result", "undefined,allowed,allowed,undefined,allowed");
+            FrameTestSupport.awaitStored(panel, "from-frame", "embedded");
+        } finally {
+            panel.dispose();
+            external.stop();
+            site.stop();
+        }
+    }
+
+    /**
+     * Separates credentialless cache variants and omits credentials at every cross-origin hop.
+     * <p>
+     * credentialless 캐시 변형을 분리하고 교차 오리진 구간마다 자격 증명을 생략한다.
+     *
+     * @throws Exception on setup or request failure / 환경 구성이나 요청 실패 시
+     */
+    public void testCredentiallessRedirectAndCache() throws Exception {
+        TestHttpServer site = new TestHttpServer();
+        TestHttpServer external = new TestHttpServer();
+        ResourceFetcher fetcher = new ResourceFetcher(DefaultSslConfigurer.INSTANCE, FetchLimits.DEFAULT, getClass().getClassLoader());
+        fetcher.setCache(new HttpCache());
+        CookieStore cookies = new CookieStore();
+        try {
+            external.routeFixed("/asset", TestHttpServer.Response.ok("text/javascript", "/* asset */")
+                    .header("Cache-Control", "public, max-age=600").header("Set-Cookie", "new=from-response; Path=/"));
+            external.start();
+            site.routeFixed("/hop", new TestHttpServer.Response(302).header("Location", external.url("/asset")));
+            site.start();
+            cookies.storeFromResponse(external.url("/asset"), Collections.singletonList("session=private; Path=/"));
+            RequestHeaders extra = new RequestHeaders();
+            extra.addAll(Collections.singletonMap("Authorization", "Basic dGVzdDp0ZXN0"));
+            ResourceRequest request = new ResourceRequest(external.url("/asset")).setExtraHeaders(extra).setCookies(cookies)
+                    .setInitiator(Origin.of(site.url("/doc"))).setPurpose(RequestPurpose.SCRIPT);
+            Check.isFalse(fetcher.fetch(request).isError(), "the unrestricted resource is cached");
+            Check.isTrue(external.requests().get(0).header("Cookie").indexOf("session=private") >= 0, "ordinary request sends cookies");
+            cookies.clear();
+            cookies.storeFromResponse(external.url("/asset"), Collections.singletonList("session=private; Path=/"));
+            request.setEmbedderPolicy(CrossOriginPolicy.Embedder.CREDENTIALLESS);
+            Check.isFalse(fetcher.fetch(request).isError(), "credentialless no-CORS resource loads without a CORP header");
+            Check.equal(2, external.requests().size(), "credentialless does not use the credentialed cache entry");
+            Check.isNull(external.requests().get(1).header("Cookie"), "credentialless omits outgoing cookies");
+            Check.isNull(external.requests().get(1).header("Authorization"), "credentialless omits explicit authorization");
+            Check.equal("session=private", cookies.getCookieHeader(external.url("/asset")), "credentialless ignores Set-Cookie");
+            ResourceResponse hit = fetcher.fetch(request);
+            Check.isTrue(hit.isFromCache(), "the credentialless partition has its own reusable response");
+            ResourceRequest redirect = new ResourceRequest(site.url("/hop")).setCookies(cookies).setInitiator(Origin.of(site.url("/doc")))
+                    .setPurpose(RequestPurpose.SCRIPT).setEmbedderPolicy(CrossOriginPolicy.Embedder.CREDENTIALLESS);
+            Check.isFalse(fetcher.fetch(redirect).isError(), "a cross-origin redirect also loads without credentials");
+            Check.isNull(external.requests().get(2).header("Cookie"), "the redirect's cross-origin hop omits cookies");
+            Check.isTrue(site.requests().get(0).header("Cookie").indexOf("session=private") >= 0, "the same-origin hop retains cookies");
+        } finally {
+            external.stop();
+            site.stop();
+        }
+    }
+
     /**
      * Uses the final response's policy for documents and classic and module script responses.
      * <p>

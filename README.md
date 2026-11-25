@@ -302,6 +302,8 @@ Invocable inv = (Invocable) engine;                  // Compilable 도 구현
 
 ## License
 
+The bundled Public Suffix List is distributed under the Mozilla Public License 2.0. Its original notice and revision are preserved in the data file. [Public Suffix List](https://publicsuffix.org/list/)
+
 Copyright 2026 HJOW
 
 Licensed under the Apache License, Version 2.0 (the "License");

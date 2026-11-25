@@ -177,6 +177,11 @@ public final class ResourceFetcher {
         case HTTPS:
             return fetchHttp(req, handler);
         case FTP:
+            // FTP 응답은 HTTP 삽입 정책 헤더를 제공할 수 없다.
+            ResourceResponse ftpResponse = new ResourceResponse(url);
+            if (!CrossOriginPolicy.permits(req, ftpResponse)) {
+                return CrossOriginPolicy.blocked(ftpResponse);
+            }
             return ftp.fetch(req, handler);
         case CLASSPATH:
             Origin initiator = req.getInitiator();

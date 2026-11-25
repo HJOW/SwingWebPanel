@@ -27,6 +27,8 @@ public enum FailureKind {
      * 허용되지 않은 스킴. 어디에도 연결하지 않았다.
      */
     BLOCKED_SCHEME,
+    /** A cross-origin resource or frame was blocked by response policy. / 응답 정책이 교차 오리진 리소스나 프레임을 차단했다. */
+    BLOCKED_EMBEDDER_POLICY,
     /**
      * The host name could not be resolved.
      * <p>

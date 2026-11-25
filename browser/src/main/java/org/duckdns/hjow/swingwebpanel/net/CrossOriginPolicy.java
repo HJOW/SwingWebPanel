@@ -118,4 +118,113 @@ public final class CrossOriginPolicy {
     public Embedder getEmbedder() {
         return embedder;
     }
+
+    /**
+     * Creates the inherited embedder state of a locally created child document.
+     * <p>
+     * 로컬에서 만든 하위 문서가 물려받을 삽입 정책을 만든다.
+     *
+     * @param policy the parent document's embedder policy / 부모 문서의 삽입 정책
+     * @return the inherited response settings / 물려받은 응답 설정
+     */
+    public static CrossOriginPolicy inheritedEmbedder(Embedder policy) {
+        return policy == Embedder.UNSAFE_NONE ? NONE : new CrossOriginPolicy(null, policy);
+    }
+
+    /**
+     * Tells whether the fetch is a no-CORS subresource load.
+     * <p>
+     * CORS를 쓰지 않는 하위 리소스 요청인지 확인한다.
+     *
+     * @param purpose the request's destination / 요청 대상 종류
+     * @return true for no-CORS subresources / CORS 없는 하위 리소스이면 true
+     */
+    private static boolean isNoCorsSubresource(RequestPurpose purpose) {
+        return !OriginPolicy.requiresCors(purpose) && purpose != RequestPurpose.WORKER_MODULE
+                && purpose != RequestPurpose.DOCUMENT && purpose != RequestPurpose.FRAME && purpose != RequestPurpose.DOWNLOAD;
+    }
+
+    /**
+     * Returns the cache partition for a potentially credentialless no-CORS request.
+     * <p>
+     * 자격 증명을 생략할 수 있는 no-cors 요청의 캐시 분기를 반환한다.
+     *
+     * @param request the resource request / 리소스 요청
+     * @return the credentialless initiator, or the empty default partition / credentialless 시작 오리진 또는 빈 기본 분기
+     */
+    static String cachePartition(ResourceRequest request) {
+        Origin origin = request.getInitiator();
+        if (origin == null || request.getEmbedderPolicy() != Embedder.CREDENTIALLESS || !isNoCorsSubresource(request.getPurpose())) {
+            return "";
+        }
+        return origin.serialize();
+    }
+
+    /**
+     * Determines whether a credentialless request strips credentials on this particular HTTP hop.
+     * <p>
+     * 현재 HTTP 구간에서 credentialless 요청의 자격 증명을 생략해야 하는지 확인한다.
+     *
+     * @param request the resource request / 리소스 요청
+     * @param url the current hop URL after redirects / 리디렉션을 적용한 현재 구간 주소
+     * @return true if credentials must be omitted / 자격 증명을 생략해야 하면 true
+     */
+    static boolean omitsCredentials(ResourceRequest request, String url) {
+        return cachePartition(request).length() != 0 && !request.getInitiator().isSameOrigin(Origin.of(url));
+    }
+
+    /**
+     * Applies the Fetch CORP decision and HTML child navigation embedder inheritance check.
+     * <p>
+     * Fetch의 CORP 판정과 HTML 하위 이동의 삽입 정책 상속 검사를 적용한다.
+     *
+     * @param request the initiating request / 시작 요청
+     * @param response the received response / 받은 응답
+     * @return true when the response may be delivered / 응답을 전달할 수 있으면 true
+     */
+    static boolean permits(ResourceRequest request, ResourceResponse response) {
+        Origin initiator = request.embedderOrigin();
+        Embedder policy = request.getEmbedderPolicy();
+        boolean frame = request.getPurpose() == RequestPurpose.FRAME;
+        if (initiator == null || (frame ? policy == Embedder.UNSAFE_NONE : !isNoCorsSubresource(request.getPurpose()))) {
+            return true;
+        }
+        // 격리를 요구하는 부모 아래에서는 자식 응답도 격리 가능한 삽입 정책을 명시해야 한다.
+        if (frame && from(response).getEmbedder() == Embedder.UNSAFE_NONE) {
+            return false;
+        }
+        String url = response.getFinalUrl();
+        Origin target = Origin.of(url);
+        if (initiator.isSameOrigin(target)) {
+            return true;
+        }
+        List<String> headers = response.getHeaders("Cross-Origin-Resource-Policy");
+        String corp = headers.size() == 1 ? headers.get(0).trim() : "";
+        if ("cross-origin".equals(corp)) {
+            return true;
+        }
+        if ("same-origin".equals(corp)) {
+            return false;
+        }
+        if ("same-site".equals(corp)) {
+            return ("https".equals(initiator.getScheme()) || !"https".equals(target.getScheme()))
+                    && PublicSuffixList.sameSite(initiator, target);
+        }
+        return policy == Embedder.UNSAFE_NONE || (policy == Embedder.CREDENTIALLESS && !frame && omitsCredentials(request, url));
+    }
+
+    /**
+     * Builds a policy failure without exposing the blocked response body.
+     * <p>
+     * 차단한 응답의 본문을 노출하지 않는 정책 실패를 만든다.
+     *
+     * @param source the blocked response / 차단한 응답
+     * @return a failure containing only the request and final addresses / 요청과 최종 주소만 담은 실패
+     */
+    static ResourceResponse blocked(ResourceResponse source) {
+        ResourceResponse result = ResourceResponse.failure(source.getRequestUrl(), FailureKind.BLOCKED_EMBEDDER_POLICY,
+                "Blocked by cross-origin embedder or resource policy");
+        result.setFinalUrl(source.getFinalUrl());
+        return result;
+    }
 }

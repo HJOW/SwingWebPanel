@@ -420,10 +420,11 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
             String credentials = request.getCredentials();
             boolean include = WebRequest.CREDENTIALS_INCLUDE.equals(credentials);
             boolean omit = WebRequest.CREDENTIALS_OMIT.equals(credentials);
-            boolean noCorsCross = WebRequest.MODE_NO_CORS.equals(request.getMode()) && !same;
+            boolean noCors = WebRequest.MODE_NO_CORS.equals(request.getMode());
             ResourceRequest rr = new ResourceRequest(url).setMethod(request.getMethod()).setUserAgent(context.userAgent).setExtraHeaders(extra)
                     .setCookies(cookies).setCancelToken(token).setInitiator(initiator)
-                    .setPurpose(noCorsCross ? RequestPurpose.OTHER : RequestPurpose.XHR).setSendCredentials(!omit)
+                    .setEmbedderPolicy(context.crossOriginPolicy.getEmbedder())
+                    .setPurpose(noCors ? RequestPurpose.OTHER : RequestPurpose.XHR).setSendCredentials(!omit)
                     .setSameOriginCredentialsOnly(!omit && !include).setCorsAuthorHeaders(corsDeciding(author));
             if (request.getBody() != null) {
                 rr.setBody(request.getBody(), request.getBodyType());

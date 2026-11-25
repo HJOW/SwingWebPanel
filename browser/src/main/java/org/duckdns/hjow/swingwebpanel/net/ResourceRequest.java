@@ -106,6 +106,10 @@ public final class ResourceRequest {
      * 요청 목적.
      */
     private RequestPurpose purpose = RequestPurpose.OTHER;
+    /** Embedder policy of the initiator. / 시작 문서의 삽입 정책. */
+    private CrossOriginPolicy.Embedder embedderPolicy = CrossOriginPolicy.Embedder.UNSAFE_NONE;
+    /** The container's origin when this navigates a child frame. / 하위 프레임을 이동할 때 컨테이너의 오리진. */
+    private Origin embedderOrigin;
     /**
      * Cancellation token.
      * <p>
@@ -196,6 +200,8 @@ public final class ResourceRequest {
         c.cookies = cookies;
         c.cacheMode = cacheMode;
         c.purpose = purpose;
+        c.embedderPolicy = embedderPolicy;
+        c.embedderOrigin = embedderOrigin;
         c.cancelToken = cancelToken;
         c.referrer = referrer;
         c.initiator = initiator;
@@ -393,6 +399,54 @@ public final class ResourceRequest {
      */
     public RequestPurpose getPurpose() {
         return purpose;
+    }
+
+    /**
+     * Returns the effective embedder policy of the requester.
+     * <p>
+     * 요청자가 적용하는 삽입 정책을 반환한다.
+     *
+     * @return the policy / 정책
+     */
+    public CrossOriginPolicy.Embedder getEmbedderPolicy() {
+        return embedderPolicy;
+    }
+
+    /**
+     * Sets the initiator's policy for resource access and credential processing.
+     * <p>
+     * 리소스 접근과 자격 증명 처리에 적용할 시작 문서의 정책을 설정한다.
+     *
+     * @param policy the initiator's embedder policy / 시작 문서의 삽입 정책
+     * @return this request / 이 요청
+     */
+    public ResourceRequest setEmbedderPolicy(CrossOriginPolicy.Embedder policy) {
+        embedderPolicy = policy == null ? CrossOriginPolicy.Embedder.UNSAFE_NONE : policy;
+        return this;
+    }
+
+    /**
+     * Returns the origin used in a CORP decision, including the container origin of a frame navigation.
+     * <p>
+     * 프레임 이동이면 컨테이너 오리진을 포함하여 CORP 판정에 사용할 오리진을 반환한다.
+     *
+     * @return the policy origin or null / 정책 오리진 또는 null
+     */
+    Origin embedderOrigin() {
+        return embedderOrigin == null ? initiator : embedderOrigin;
+    }
+
+    /**
+     * Sets the embedding document's origin for a child navigation.
+     * <p>
+     * 하위 이동에 적용할 컨테이너 문서의 오리진을 설정한다.
+     *
+     * @param origin the container's origin / 컨테이너의 오리진
+     * @return this request / 이 요청
+     */
+    public ResourceRequest setEmbedderOrigin(Origin origin) {
+        embedderOrigin = origin;
+        return this;
     }
 
     /**

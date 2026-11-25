@@ -18,6 +18,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.PageScripts;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.CancelledException;
+import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 import org.duckdns.hjow.swingwebpanel.render.FramePicture;
 import org.duckdns.hjow.swingwebpanel.render.FrameScroll;
 import org.duckdns.hjow.swingwebpanel.render.RenderedPage;
@@ -356,9 +357,11 @@ final class FrameContext implements BrowsingContext {
         if (problem != null) {
             commitLater(gen, errorSnapshot(url, problem), request);
         } else if (kind == KIND_SRCDOC) {
-            commitLater(gen, PageSnapshot.loaded(FrameUrls.ABOUT_SRCDOC, srcdoc, "text/html", base, 200), request);
+            commitLater(gen, PageSnapshot.loaded(FrameUrls.ABOUT_SRCDOC, srcdoc, "text/html", base, 200)
+                    .withCrossOriginPolicy(CrossOriginPolicy.inheritedEmbedder(owner.presentation.embedderPolicy())), request);
         } else if (kind == KIND_BLANK) {
-            commit(gen, PageSnapshot.loaded(FrameUrls.ABOUT_BLANK, "", "text/html", base, 200), request);
+            commit(gen, PageSnapshot.loaded(FrameUrls.ABOUT_BLANK, "", "text/html", base, 200)
+                    .withCrossOriginPolicy(CrossOriginPolicy.inheritedEmbedder(owner.presentation.embedderPolicy())), request);
         } else if (!tree.session.submitRead(new Runnable() {
             /** Reads the document on a loader thread. / 읽기 스레드에서 문서를 읽는다. */
             public void run() {

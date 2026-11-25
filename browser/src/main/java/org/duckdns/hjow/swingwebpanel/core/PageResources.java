@@ -445,6 +445,7 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
             }
             ResourceRequest request = new ResourceRequest(url).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                     .setCookies(cookies).setCancelToken(cancel).setReferrer(pageUrl).setInitiator(Origin.of(pageUrl))
+                    .setEmbedderPolicy(context.crossOriginPolicy.getEmbedder())
                     .setPurpose(font ? RequestPurpose.FONT : (stylesheet ? RequestPurpose.STYLESHEET : RequestPurpose.IMAGE))
                     .setCacheMode(context.force ? ResourceRequest.CacheMode.FORCE_RELOAD : ResourceRequest.CacheMode.DEFAULT);
             // 웹 글꼴은 항상 anonymous CORS 모드이다: 교차 오리진 요청에는 자격 증명(쿠키)을 보내지 않는다.
@@ -684,6 +685,7 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
                 try {
                     ResourceRequest request = new ResourceRequest(absoluteUrl).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                             .setCookies(cookies).setCancelToken(token).setReferrer(pageUrl).setInitiator(Origin.of(pageUrl))
+                            .setEmbedderPolicy(context.crossOriginPolicy.getEmbedder())
                             .setPurpose(RequestPurpose.AUDIO)
                             .setCacheMode(context.force ? ResourceRequest.CacheMode.FORCE_RELOAD : ResourceRequest.CacheMode.DEFAULT);
                     // 받는 쪽이 진행 상황도 원하면 전송 중에 도착한 바이트 수를 알려 준다(취소되었거나 페이지가 닫혔으면 알리지 않는다).

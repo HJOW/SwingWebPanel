@@ -13,6 +13,7 @@ import org.duckdns.hjow.swingwebpanel.html.DecodedText;
 import org.duckdns.hjow.swingwebpanel.html.EncodingSniffer;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
+import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.net.FailureKind;
 import org.duckdns.hjow.swingwebpanel.net.HttpCache;
 import org.duckdns.hjow.swingwebpanel.net.ProgressListener;
@@ -161,6 +162,11 @@ public final class NetworkPageLoader implements PageLoader, CacheOwner {
                         request.report("Loading " + url, percent);
                     }
                 });
+        FrameContext frame = request.getFrame();
+        if (frame != null) {
+            req.setPurpose(RequestPurpose.FRAME).setEmbedderOrigin(Origin.of(frame.owner.document.getOriginUrl()))
+                    .setEmbedderPolicy(frame.owner.presentation.embedderPolicy());
+        }
         applyPost(req, request.getPost());
         ResourceResponse response = fetcher.fetch(req, new ResponseHandler() {
             /**

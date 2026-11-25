@@ -171,6 +171,7 @@ public final class ErrorPageBuilder {
         case FTP_FAILURE:
             return failure(ErrorKind.FTP_FAILURE, url, detail);
         case CORS:
+        case BLOCKED_EMBEDDER_POLICY:
             return failure(ErrorKind.CORS, url, detail);
         default:
             return failure(ErrorKind.LOAD_FAILED, url, detail);

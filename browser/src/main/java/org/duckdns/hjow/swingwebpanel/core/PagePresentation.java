@@ -32,6 +32,7 @@ import org.duckdns.hjow.swingwebpanel.dom.MutationRecord;
 import org.duckdns.hjow.swingwebpanel.js.host.MediaRequestSource;
 import org.duckdns.hjow.swingwebpanel.layout.LayoutBox;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
+import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.ResourceFetcher;
 import org.duckdns.hjow.swingwebpanel.render.PageRenderer;
@@ -49,6 +50,8 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
     private Document document;
     /** Single resource state shared across ownership handoff. / 소유권 인계 전후 공유하는 단일 리소스 상태. */
     private final PageResources resources;
+    /** The parent embedder policy for frames of this document. / 이 문서의 프레임에 적용할 부모 삽입 정책. */
+    private final CrossOriginPolicy.Embedder embedderPolicy;
     /** Parser ownership barrier. / 파서 소유권 장벽. */
     private final CountDownLatch parsed = new CountDownLatch(1);
     /** Resource-driven stylesheet recollection. / 리소스로 인한 스타일시트 재수집 표시. */
@@ -100,6 +103,7 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
      * @param workers resource executor / 리소스 실행기 */
     PagePresentation(Document document, PageRequestContext context, ResourceFetcher fetcher, CookieStore cookies, Executor workers) {
         this.document = document;
+        embedderPolicy = context.crossOriginPolicy.getEmbedder();
         resources = new PageResources(fetcher, cookies, document.getOriginUrl(), context, workers, this);
         fonts = new WebFontSet(new WebFontSet.TimedLoader() {
             /**
@@ -723,6 +727,17 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
      */
     FrameSet frameSet() {
         return frameSet;
+    }
+
+    /**
+     * Returns the embedder policy a child frame's response must satisfy.
+     * <p>
+     * 자식 프레임의 응답이 충족해야 하는 삽입 정책을 반환한다.
+     *
+     * @return the document's policy / 문서의 정책
+     */
+    CrossOriginPolicy.Embedder embedderPolicy() {
+        return embedderPolicy;
     }
 
     /**
