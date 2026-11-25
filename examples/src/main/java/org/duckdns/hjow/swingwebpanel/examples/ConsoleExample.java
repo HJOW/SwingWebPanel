@@ -23,14 +23,14 @@ import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
  * promise, and a text area below that lists every {@link ConsoleEvent} the registered {@link ConsoleListener} gets. The listener is called
  * on the event dispatch thread, so it may touch Swing components directly. Closing the window calls {@link SwingWebPanel#dispose()},
  * which also removes the console listener. Run it with <code>examples/run.sh ConsoleExample</code>; with <code>--smoke</code> the page logs
- * by itself, the window closes after one second and the program prints a one-line result (used for automatic checks).
+ * by itself, and the window closes after both events arrive or a timeout, printing a one-line result.
  * <p>
  * 호스트 응용이 페이지의 <code>console</code> 객체 출력을 받는 방법을 보여 준다: 단추가 <code>console.log</code>, <code>console.warn</code>,
  * <code>console.error</code> 를 호출하거나 예외를 던지거나 promise 를 거부하는 페이지가 있는 <code>SwingWebPanel</code>, 그리고 등록한
  * {@link ConsoleListener} 가 받은 모든 {@link ConsoleEvent} 를 나열하는 아래쪽 텍스트 영역. 리스너는 이벤트 디스패치 스레드에서 호출되므로 Swing
  * 컴포넌트를 바로 만져도 된다. 창을 닫으면 {@link SwingWebPanel#dispose()} 를 호출하며 콘솔 리스너도 함께 제거된다.
- * <code>examples/run.sh ConsoleExample</code> 로 실행하며, <code>--smoke</code> 를 주면 페이지가 스스로 로그를 쓰고 창이 1초 뒤 닫히며 한 줄
- * 결과를 출력한다(자동 확인용).
+ * <code>examples/run.sh ConsoleExample</code> 로 실행하며, <code>--smoke</code> 를 주면 페이지가 스스로 로그를 쓴다.
+ * 두 이벤트를 받거나 제한 시간이 지나면 창을 닫고 한 줄 결과를 출력한다.
  */
 public final class ConsoleExample {
 
@@ -141,7 +141,8 @@ public final class ConsoleExample {
         frame.setVisible(true);
         panel.setContent(PAGE, "text/html");
         if (smoke) {
-            Timer t = new Timer(1000, new ActionListener() {
+            final long deadline = System.nanoTime() + 20000000000L;
+            Timer t = new Timer(100, new ActionListener() {
                 /**
                  * Reports what the listener got and ends the smoke run.
                  * <p>
@@ -150,13 +151,19 @@ public final class ConsoleExample {
                  * @param e timer event / 타이머 이벤트
                  */
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("smoke OK consoleEvents=" + count[0] + " listeners=" + panel.getConsoleListeners().length);
+                    boolean ready = count[0] >= 2;
+                    // 페이지와 리스너의 비동기 작업이 모두 끝날 때까지 기다린다.
+                    if (!ready && System.nanoTime() - deadline < 0L) {
+                        return;
+                    }
+                    ((Timer) e.getSource()).stop();
+                    System.out.println("smoke " + (ready ? "OK" : "FAILED") + " consoleEvents=" + count[0]
+                            + " listeners=" + panel.getConsoleListeners().length);
                     panel.dispose();
                     frame.dispose();
-                    System.exit(count[0] >= 2 ? 0 : 1);
+                    System.exit(ready ? 0 : 1);
                 }
             });
-            t.setRepeats(false);
             t.start();
         }
     }

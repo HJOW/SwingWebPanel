@@ -24,12 +24,12 @@ import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
  * Minimal browser window: a <code>SwingWebPanel</code> wrapped in a <code>JScrollPane</code>, an address field, back/forward/refresh
  * buttons, a progress bar and a status line. It shows how the component is used and how it is released: closing the window calls
  * {@link SwingWebPanel#dispose()}. Run it with <code>examples/run.sh BlankPageExample</code>; with the argument <code>--smoke</code>
- * the window closes itself after one second and the program prints a one-line result (used for automatic checks).
+ * the window closes after the page finishes loading or a timeout, and the program prints a one-line result.
  * <p>
  * 최소한의 브라우저 창: <code>JScrollPane</code> 으로 감싼 <code>SwingWebPanel</code>, 주소 입력란, 뒤로/앞으로/새로고침 버튼,
  * 진행 막대, 상태 줄. 컴포넌트를 쓰는 방법과 해제하는 방법을 보여 준다: 창을 닫으면 {@link SwingWebPanel#dispose()} 를 호출한다.
- * <code>examples/run.sh BlankPageExample</code> 로 실행하며, <code>--smoke</code> 인수를 주면 창이 1초 뒤 스스로 닫히고
- * 한 줄 결과를 출력한다(자동 확인용).
+ * <code>examples/run.sh BlankPageExample</code> 로 실행하며, <code>--smoke</code> 인수를 주면 페이지 로드 완료 또는 제한 시간 뒤
+ * 창을 닫고 한 줄 결과를 출력한다.
  */
 public final class BlankPageExample {
 
@@ -210,7 +210,9 @@ public final class BlankPageExample {
             panel.setContent("<h1>Hello</h1>", "text/html");
         }
         if (smoke) {
-            Timer t = new Timer(1000, new ActionListener() {
+            final long deadline = System.nanoTime() + 20000000000L;
+            final boolean blankTarget = "about:blank".equals(start);
+            Timer t = new Timer(100, new ActionListener() {
                 /**
                  * Reports the state and ends the smoke run.
                  * <p>
@@ -219,14 +221,20 @@ public final class BlankPageExample {
                  * @param e timer event / 타이머 이벤트
                  */
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("smoke OK page=" + panel.getPage() + " status=" + panel.getStatusText()
+                    String page = panel.getPage();
+                    boolean ready = panel.getProgress() == 100 && (blankTarget || !"about:blank".equals(page));
+                    // 초기 빈 페이지를 결과로 보고하지 않고 실제 이동 또는 제한 시간을 기다린다.
+                    if (!ready && System.nanoTime() - deadline < 0L) {
+                        return;
+                    }
+                    ((Timer) e.getSource()).stop();
+                    System.out.println("smoke " + (ready ? "OK" : "FAILED") + " page=" + page + " status=" + panel.getStatusText()
                             + " progress=" + panel.getProgress() + " histories=" + panel.getHistories());
                     panel.dispose();
                     frame.dispose();
-                    System.exit(0);
+                    System.exit(ready ? 0 : 1);
                 }
             });
-            t.setRepeats(false);
             t.start();
         }
     }
