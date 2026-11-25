@@ -5,8 +5,11 @@ import org.duckdns.hjow.swingwebpanel.js.IteratorRecord;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
+import org.duckdns.hjow.swingwebpanel.js.JsRealm;
+import org.duckdns.hjow.swingwebpanel.js.JsString;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 
 /**
  * Common validation and callback cleanup for the Iterator prototype methods.
@@ -52,6 +55,28 @@ final class IteratorMethodSupport {
             throw JsException.typeError("Iterator callback is not callable");
         }
         return new IteratorRecord(iterator);
+    }
+
+    /**
+     * Gets an iterator directly or through Symbol.iterator, with optional support for string primitives.
+     * <p>
+     * 객체를 직접 이터레이터로 읽거나 Symbol.iterator를 호출한다. 필요에 따라 원시 문자열을 허용한다.
+     *
+     * @param realm current realm / 현재 realm
+     * @param value object to flatten / 펼칠 객체
+     * @param allowString whether a string primitive is allowed / 원시 문자열 허용 여부
+     * @return an iterator record / 이터레이터 기록
+     */
+    static IteratorRecord flattenable(JsRealm realm, JsValue value, boolean allowString) {
+        if (!(value instanceof JsObject) && !(allowString && value instanceof JsString)) {
+            throw JsException.typeError("Expected an iterator or iterable object");
+        }
+        JsValue method = Ops.getMethod(realm, value, WellKnownSymbols.ITERATOR);
+        if (method.isUndefined()) {
+            // 문자열에 @@iterator가 없으면 그 문자열 자체를 이터레이터로 사용할 수 없다.
+            return new IteratorRecord(requireObject(value));
+        }
+        return new IteratorRecord(IteratorHelper.getIteratorFromMethod(value, method));
     }
 
     /**

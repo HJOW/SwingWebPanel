@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-06-e4 flatMap·concat 및 컬렉션과 Iterator 완료 (2026-11-26) ===
+현재 작업 번호: P29-06 완료.
+완료한 내용: flatMap은 바깥 값을 매핑해 내부 이터레이터를 순차 진행한다. Iterator.concat은 입력의 이터레이션 메서드를 즉시 읽고 각 이터레이터를 필요한 시점에 연다. 내부·외부 이터레이터의 조기 닫기와 오류 우선순위를 검증했다.
+변경 파일: IteratorCompositeMethods.java, IteratorConstructor.java, IteratorMethodSupport.java, Es2026IteratorTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행) 800건 통과. sourcecheck 0 위반.
+미해결 사항: P29-07 문자열·정규식의 제17판 잔여 항목 및 이후 P29-08~10.
+다음 작업 번호: P29-07-a.
+-----------------------------------------------------------------------------------------------
 === P29-06-e3 Iterator 단일 원본 지연 헬퍼 (2026-11-26) ===
 현재 작업 번호: P29-06-e3 완료.
 완료한 내용: 공통 Iterator Helper 프로토타입에서 map, filter, take, drop을 지연 실행한다. 시작 전·중단 후 return을 처리하고 실행 중 재진입을 거부한다. drop은 건너뛰는 요소의 value를 읽지 않는다.
@@ -810,6 +818,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-06-e4 여러 원본을 잇는 Iterator
+
+flatMap에서 직접 이터레이터와 iterable을 사용하고, 내부 순회 실패나 조기 종료로 내부·외부를 닫는 순서와 처음 발생한 예외를 확인했다. concat에서는 @@iterator getter를 먼저 읽고 입력이 필요할 때만 호출하며, 열지 않은 입력에 return을 호출하지 않는 것을 검증했다.
 
 ### 2026-11-26 · P29-06-e3 이터레이터 헬퍼 중단 상태
 

@@ -210,6 +210,76 @@ public class Es2026IteratorTest {
     }
 
     /**
+     * flatMap opens only the inner iterator it needs and advances its mapper index once per outer value.
+     * <p>
+     * flatMap은 필요한 안쪽 이터레이터만 열고 바깥 값마다 매퍼 인덱스를 한 번 증가시킨다.
+     */
+    public void testFlatMapOpensInnerValuesLazily() {
+        String script = "let log='';const h=Iterator.from([1,2,3]).flatMap((v,i)=>{log+=i;"
+                + "if(v===1){let done=false;return {next(){if(done)return {done:true};done=true;return {value:10,done:false};}};}"
+                + "if(v===2)return [];return [30,31];});"
+                + "const before=log, first=h.next().value, after=log, rest=h.toArray().join();"
+                + "[before,first,after,rest,log,h.next().done,Iterator.prototype.flatMap.length].join('|')";
+        Check.equal("|10|0|30,31|012|true|1", evaluate(JsRealm.create(), script), "flattening accepts direct and iterable inner objects");
+    }
+
+    /**
+     * Closes inner and outer iterators in order and keeps the first error from normal closing.
+     * <p>
+     * 안쪽과 바깥쪽 이터레이터를 차례로 닫고 정상 종료 중 처음 난 오류를 유지한다.
+     */
+    public void testFlatMapCloseOrderAndErrors() {
+        String script = "let log='';function fail(f){try{f();return 'missing';}catch(e){return e.name||e;}}"
+                + "const p=Iterator.prototype;"
+                + "function outer(failClose){return {next(){return {value:1,done:false};},"
+                + "return(){log+='O';if(failClose)throw 'outer';return {};}};}"
+                + "const h=p.flatMap.call(outer(true),()=>({next(){return {value:3,done:false};},return(){log+='I';throw 'inner';}}));"
+                + "const value=h.next().value, closing=fail(()=>h.return());"
+                + "const broken=p.flatMap.call(outer(true),()=>({next(){throw 'step';},return(){log+='bad';}}));"
+                + "const step=fail(()=>broken.next());"
+                + "const primitive=p.flatMap.call(outer(false),()=> 'string');const invalid=fail(()=>primitive.next());"
+                + "const unstarted=p.flatMap.call(outer(false),()=>{log+='bad';return [];});unstarted.return();"
+                + "[value,closing,h.next().done,step,broken.next().done,invalid,unstarted.next().done,log].join('|')";
+        Check.equal("3|inner|true|step|true|TypeError|true|IOOOO", evaluate(JsRealm.create(), script),
+                "early return closes both sources, whereas an inner step error closes only the outer source");
+    }
+
+    /**
+     * Iterator.concat captures all methods eagerly and opens each iterable when its turn arrives.
+     * <p>
+     * Iterator.concat은 메서드를 미리 확보하고 차례가 되면 각 반복 가능한 입력을 연다.
+     */
+    public void testConcatCapturesMethodsAndOpensOnlyNeededSources() {
+        String script = "let log='';function input(n){return {get [Symbol.iterator](){log+='g'+n;return function(){log+='o'+n;"
+                + "let done=false;return {next(){if(done)return {done:true};done=true;return {done:false,value:n};},"
+                + "return(){log+='r'+n;return {};}};};}};}"
+                + "const a=input(1), b=input(2), c=input(3), h=Iterator.concat(a,b,c), captured=log;"
+                + "Object.defineProperty(b,Symbol.iterator,{value(){throw 'changed';}});"
+                + "const first=h.next().value, firstLog=log, second=h.next().value, stopped=h.return(7);"
+                + "[captured,first,firstLog,second,stopped.done,stopped.value===undefined,h.next().done,log,"
+                + "Iterator.concat.name,Iterator.concat.length,Object.prototype.toString.call(h)].join('|')";
+        Check.equal("g1g2g3|1|g1g2g3o1|2|true|true|true|g1g2g3o1o2r2|concat|0|[object Iterator Helper]",
+                evaluate(JsRealm.create(), script), "unopened iterators are neither acquired nor closed");
+    }
+
+    /**
+     * Concat rejects non-iterables at creation and does not run the captured methods until resumed.
+     * <p>
+     * concat은 만들 때 반복 불가능한 입력을 거부하고 재개할 때까지 읽어 둔 메서드를 실행하지 않는다.
+     */
+    public void testConcatInputValidationAndEmptySources() {
+        String script = "let trace='';function fail(f){try{f();return 'missing';}catch(e){return e.name;}}"
+                + "const a={get [Symbol.iterator](){trace+='g';return ()=>{trace+='o';return 5;};}};"
+                + "const stopped=Iterator.concat(a);stopped.return();"
+                + "const type=fail(()=>Iterator.concat(a,'x'));const missing=fail(()=>Iterator.concat({next(){}}));"
+                + "const late=Iterator.concat(a);const opened=fail(()=>late.next());"
+                + "[Iterator.concat().next().done,Iterator.concat([],new Set([2]),[],[3,4]).toArray().join(),"
+                + "type,missing,opened,late.next().done,trace].join('|')";
+        Check.equal("true|2,3,4|TypeError|TypeError|TypeError|true|gggo", evaluate(JsRealm.create(), script),
+                "concat defers iterator-result validation and skips empty inputs");
+    }
+
+    /**
      * Runs a script in the given realm and converts the result for assertions.
      * <p>
      * 주어진 realm에서 스크립트를 실행하고 검증에 쓸 문자열로 바꾼다.

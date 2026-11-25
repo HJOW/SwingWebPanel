@@ -6,7 +6,6 @@ import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
-import org.duckdns.hjow.swingwebpanel.js.JsString;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
@@ -92,27 +91,14 @@ final class IteratorConstructor {
         });
         realm.method(constructor, "from", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
-                JsValue input = Js.arg(args, 0);
-                if (!(input instanceof JsObject) && !(input instanceof JsString)) {
-                    throw JsException.typeError("Iterator.from expects an object or string");
-                }
-                JsValue method = Ops.getMethod(r, input, WellKnownSymbols.ITERATOR);
-                JsObject iterator;
-                if (method.isUndefined()) {
-                    // 문자열은 @@iterator가 사라지면 그 자체를 이터레이터로 사용할 수 없다.
-                    if (!(input instanceof JsObject)) {
-                        throw JsException.typeError("Expected an iterator object");
-                    }
-                    iterator = (JsObject) input;
-                } else {
-                    iterator = IteratorHelper.getIteratorFromMethod(input, method);
-                }
-                IteratorRecord record = new IteratorRecord(iterator);
+                IteratorRecord record = IteratorMethodSupport.flattenable(r, Js.arg(args, 0), true);
+                JsObject iterator = record.getIterator();
                 return Ops.ordinaryHasInstance(constructor, iterator) ? iterator : new WrappedIterator(wrapper, record);
             }
         });
         IteratorEagerMethods.install(realm, prototype);
         IteratorLazyMethods.install(realm, prototype);
+        IteratorCompositeMethods.install(realm, constructor, prototype);
     }
 
     /**
