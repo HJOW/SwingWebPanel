@@ -531,6 +531,7 @@ final class CollectionBuiltins {
             }
         });
         Support.defineSpecies(realm, ctor);
+        GroupByBuiltins.installMap(realm, ctor);
         realm.method(proto, "clear", 0, new NativeFunction.Call() {
             /**
              * Removes all entries.

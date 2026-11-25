@@ -217,6 +217,7 @@ public class AttributeTest {
         method(p, "values", 0);
         row(p, WellKnownSymbols.ITERATOR, METHOD, "entries", 0);
         row("Map", WellKnownSymbols.SPECIES, GETTER, "get [Symbol.species]", 0);
+        method("Map", "groupBy", 2);
         method("%MapIteratorPrototype%", "next", 0);
         method("%SetIteratorPrototype%", "next", 0);
     }

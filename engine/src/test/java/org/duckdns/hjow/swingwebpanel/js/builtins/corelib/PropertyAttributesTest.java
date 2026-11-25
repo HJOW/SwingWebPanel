@@ -32,7 +32,7 @@ public class PropertyAttributesTest {
      * 소유 객체별 기대하는 함수 프로퍼티: 첫 항목은 소유 객체의 경로, 나머지는 "이름:length"(심볼 키 함수는 "@@hasInstance" 형식).
      */
     private static final String[][] TABLE = {
-        { "Object", "assign:2", "create:2", "defineProperties:2", "defineProperty:3", "freeze:1", "getOwnPropertyDescriptor:2",
+        { "Object", "assign:2", "create:2", "defineProperties:2", "defineProperty:3", "freeze:1", "groupBy:2", "getOwnPropertyDescriptor:2",
             "entries:1", "fromEntries:1", "getOwnPropertyDescriptors:1", "getOwnPropertyNames:1", "getOwnPropertySymbols:1", "getPrototypeOf:1",
             "hasOwn:2", "is:2", "isExtensible:1", "isFrozen:1", "isSealed:1", "keys:1", "preventExtensions:1", "seal:1",
             "setPrototypeOf:2", "values:1" },

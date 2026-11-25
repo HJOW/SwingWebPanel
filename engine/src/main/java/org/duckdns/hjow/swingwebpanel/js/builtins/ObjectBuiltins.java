@@ -16,6 +16,7 @@ import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.builtins.datajson.GroupByBuiltins;
 
 /**
  * The Object constructor, its static functions and Object.prototype (ECMA-262 6th edition 19.1), including the Annex B
@@ -65,6 +66,7 @@ final class ObjectBuiltins implements BuiltinInstaller {
         realm.getGlobalObject().defineBuiltin("Object", ctor);
         realm.setIntrinsic("%Object%", ctor);
         installStatics(realm, ctor);
+        GroupByBuiltins.installObject(realm, ctor);
         installPrototype(realm, proto);
     }
 

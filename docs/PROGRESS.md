@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-06-b Object.groupBy 및 Map.groupBy (2026-11-26) ===
+현재 작업 번호: P29-06-b 완료.
+완료한 내용: 공통 GroupBy 순회로 객체 프로퍼티 키와 Map 키를 그룹화한다. 객체 결과는 null 프로토타입이고 Map 결과는 내장 Map 프로토타입을 사용한다. 캡처한 next로 순회하고 콜백이나 키 변환이 실패하면 이터레이터를 닫는다.
+변경 파일: IteratorRecord.java, GroupByBuiltins.java, ObjectBuiltins.java, ObjectLib.java, CollectionBuiltins.java, Es2026GroupByTest.java, PropertyAttributesTest.java, datajson/AttributeTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행) 777건 통과. sourcecheck 0 위반. 기본 Object 설치와 CoreLib 교체 설치, 데이터 라이브러리 단독 설치의 속성 시험을 확인했다.
+미해결 사항: Set 집합 연산, Map/WeakMap upsert, Iterator(P29-06-c~e).
+다음 작업 번호: P29-06-c1.
+-----------------------------------------------------------------------------------------------
 === P29-06-a 비등록 Symbol 약한 참조 (2026-11-26) ===
 현재 작업 번호: P29-06-a 완료.
 완료한 내용: 비등록 및 well-known Symbol을 WeakMap·WeakSet·WeakRef·FinalizationRegistry에 연결했다. WeakMap의 키를 순환 참조하는 값도 수거되고, well-known 심볼을 키로 사용하는 맵과 값도 수거된다. WeakRef 생성과 역참조는 현재 작업의 체크포인트까지 대상을 유지한다.
@@ -754,6 +762,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-06-b GroupBy 공통 순회
+
+문자열·심볼·숫자 키와 `__proto__`, NaN·음의 0·객체 동일성, 최초 등장 순서를 확인했다. next의 getter를 한 번만 평가하고, 콜백과 키 변환의 원래 예외를 유지하며 순회를 닫는 것을 검증했다.
 
 ### 2026-11-26 · P29-06-a 약한 심볼 키와 정리
 

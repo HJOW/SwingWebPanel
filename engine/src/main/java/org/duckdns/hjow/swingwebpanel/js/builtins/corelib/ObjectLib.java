@@ -14,6 +14,7 @@ import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.builtins.datajson.GroupByBuiltins;
 import org.duckdns.hjow.swingwebpanel.js.builtins.DescriptorOps;
 
 /**
@@ -63,6 +64,7 @@ final class ObjectLib {
             }
         }, proto, null);
         installStatics(realm, self[0]);
+        GroupByBuiltins.installObject(realm, self[0]);
         installPrototype(realm, proto);
         installAnnexB(realm, proto);
     }
