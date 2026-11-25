@@ -44,6 +44,31 @@ public class AudioWorkletModulesTest {
     }
 
     /**
+     * Checks that an idle AudioWorklet rejects a synchronous wait and still runs an async timeout job.
+     * <p>
+     * 유휴 AudioWorklet에서 동기 대기를 거부하고 비동기 타임아웃 작업을 실행하는지 확인한다.
+     */
+    public void testAtomicsWaitPolicyAndTimeout() {
+        WorkletPage p = new WorkletPage();
+        try {
+            p.module("atomics.js", "const a=new Int32Array(new SharedArrayBuffer(4));"
+                    + "try{Atomics.wait(a,0,0,0);console.log('missing');}catch(e){console.log(e.name);}"
+                    + "Atomics.waitAsync(a,0,0,20).value.then(v=>console.log(v));");
+            p.run("var ctx=new OfflineAudioContext(1,128,8000);");
+            Check.equal("ok", add(p, "ctx", "'atomics.js'"), "the worklet module loads");
+            long deadline = System.currentTimeMillis() + 10000;
+            // 새 worklet 스크립트나 렌더링 없이 큐의 시간 초과 작업이 콘솔에 도달할 때까지 기다린다.
+            while (!p.console().contains("log: timed-out") && System.currentTimeMillis() < deadline) {
+                p.pumpFor(5);
+            }
+            Check.isTrue(p.console().contains("log: TypeError"), "audio worklet agent cannot suspend");
+            Check.isTrue(p.console().contains("log: timed-out"), "idle audio worklet processed the external timeout job");
+        } finally {
+            p.fixture.scripts.dispose();
+        }
+    }
+
+    /**
      * Adds a module and waits for the promise to settle; the result is <code>ok</code> or the name of the error in the variable <code>result</code>.
      * <p>
      * 모듈을 추가하고 프라미스가 확정될 때까지 기다린다. 결과는 변수 <code>result</code> 에 <code>ok</code> 또는 오류 이름으로 둔다.

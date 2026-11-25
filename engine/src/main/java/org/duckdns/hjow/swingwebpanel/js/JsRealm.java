@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
 
 /**
  * A realm (ECMA-262 6th edition 8.2): a global object together with a complete, independent set of built-in objects.
@@ -139,6 +140,9 @@ public class JsRealm {
 
     /** Whether a script on this agent may block in Atomics.wait. / 이 에이전트에서 Atomics.wait로 차단할 수 있는지 여부. */
     private boolean atomicsWaitAllowed = true;
+
+    /** Host task scheduler for jobs from other agents and timers. / 외부 에이전트와 타이머의 작업을 받는 호스트 스케줄러. */
+    private volatile Executor externalJobExecutor;
 
     /**
      * Objects returned by WeakRef.deref during the current task.
@@ -791,9 +795,28 @@ public class JsRealm {
      * @param job work to execute on this agent / 이 에이전트에서 실행할 작업
      */
     public void enqueueExternalJob(Runnable job) {
-        if (!limits.isCancelled()) {
-            jobQueue.enqueue(job);
+        if (limits.isCancelled()) {
+            return;
         }
+        Executor executor = externalJobExecutor;
+        if (executor == null) {
+            jobQueue.enqueue(job);
+        } else {
+            executor.execute(job);
+        }
+    }
+
+    /**
+     * Connects jobs from other agents or timers to the host's task queue.
+     * The executor must accept submissions from any thread and run them as tasks of this realm.
+     * <p>
+     * 다른 에이전트나 타이머의 작업을 호스트 작업 큐에 연결한다.
+     * 실행기는 어느 스레드에서나 요청을 받아 이 realm의 작업으로 실행해야 한다.
+     *
+     * @param executor realm task scheduler, or null to use the job queue / realm 작업 스케줄러. 작업 큐를 쓰려면 null
+     */
+    public void setExternalJobExecutor(Executor executor) {
+        externalJobExecutor = executor;
     }
 
     /**

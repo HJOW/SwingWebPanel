@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -511,6 +512,12 @@ final class WorkerScope implements ScriptContext {
     private void buildRealm() {
         JsRealm r = JsRealm.create();
         realm = r;
+        r.setAtomicsWaitAllowed(true);
+        r.setExternalJobExecutor(new Executor() {
+            public void execute(Runnable job) {
+                schedule(job, 0);
+            }
+        });
         r.getLimits().setMaxTimeMillis(env.getTaskTimeLimitMillis());
         installModuleLoader(r);
         r.setConsole(new ConsoleRecordHook() {

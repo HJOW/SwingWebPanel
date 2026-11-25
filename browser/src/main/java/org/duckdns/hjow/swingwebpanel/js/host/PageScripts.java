@@ -8,6 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.locks.ReentrantLock;
 import org.duckdns.hjow.swingwebpanel.dom.Document;
 import org.duckdns.hjow.swingwebpanel.dom.DomException;
@@ -481,6 +483,8 @@ public final class PageScripts {
         this.document = document;
         this.env = env;
         this.realm = JsRealm.create(WindowProxy.forContext(env.getBrowsingContext()));
+        realm.setAtomicsWaitAllowed(false);
+        installExternalJobExecutor(env.getScheduler());
         synchronized (BY_REALM) {
             BY_REALM.put(realm, new WeakReference<PageScripts>(this));
         }
@@ -1155,6 +1159,38 @@ public final class PageScripts {
             clearEntry(outermost);
             lock.unlock();
         }
+    }
+
+    /**
+     * Delivers jobs from other agents on the document queue even when it would otherwise be idle.
+     * <p>
+     * 문서 큐가 비어 있을 때도 다른 에이전트에서 온 작업을 문서 큐에서 실행한다.
+     *
+     * @param scheduler document scheduler or null for manually driven realms / 문서 스케줄러. 수동으로 실행하면 null
+     */
+    private void installExternalJobExecutor(final Scheduler scheduler) {
+        if (scheduler == null) {
+            return;
+        }
+        realm.setExternalJobExecutor(new Executor() {
+            public void execute(final Runnable job) {
+                if (!disposed) {
+                    try {
+                        scheduler.post(new Runnable() {
+                            /** Runs the job as a document task. / 작업을 문서 작업으로 실행한다. */
+                            public void run() {
+                                runTask(job);
+                            }
+                        }, 0);
+                    } catch (RejectedExecutionException e) {
+                        // 문서 스케줄러 종료와 경합한 작업은 실행할 수 없다.
+                        if (!disposed) {
+                            throw e;
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /**

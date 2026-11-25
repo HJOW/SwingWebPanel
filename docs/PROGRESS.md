@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-05-d2 브라우저 에이전트의 Atomics 대기 정책 (2026-11-26) ===
+현재 작업 번호: P29-05-d 완료.
+완료한 내용: 문서와 AudioWorklet에서 동기 대기를 거부하고 Worker에서는 허용한다. 유휴 문서·Worker·AudioWorklet은 외부 작업을 통해 waitAsync 시간 초과를 실행한다.
+변경 파일: JsRealm.java, PageScripts.java, WorkerScope.java, WorkletScope.java, WorkerAtomicsHostTest.java, AudioWorkletModulesTest.java, AGENTS.md, 이 문서.
+검증 결과: mvn -B -o -pl browser -am test -Dtest.filter=Atomics에서 JDK 6u45 엔진 10건·브라우저 3건 통과. 같은 JRE의 TestRunner --scan target/test-classes --filter Worker 54건 및 --filter AudioWorklet 64건 통과(두 경우 -Xms256m -Xmx512m -XX:MaxPermSize=256m). sourcecheck 0 위반.
+미해결 사항: 브라우저 공유 버퍼 구조화 복제와 호스트 경계(P29-05-e).
+다음 작업 번호: P29-05-e1.
+-----------------------------------------------------------------------------------------------
 === P29-05-d1 Atomics 대기와 통지 (2026-11-26) ===
 현재 작업 번호: P29-05-d1 완료.
 완료한 내용: 공유 바이트 위치별 FIFO 대기열에서 wait, waitAsync, notify를 구현했다. 시간 초과는 대기 에이전트의 작업에서 처리하고 실행 제한 취소 시 동기·비동기 대기 및 예약 타이머를 제거한다.
@@ -706,6 +714,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-05-d2 문서·Worker·AudioWorklet 작업 큐
+
+로컬 HTTP 문서와 Worker에서 차단 규칙 및 유휴 이벤트 루프의 시간 초과 전달을 확인했다. 오프라인 AudioWorklet에서도 렌더링을 시작하지 않고 비동기 시간 초과 결과가 전달됐다.
 
 ### 2026-11-26 · P29-05-d1 바이트 위치별 Atomics 대기열
 

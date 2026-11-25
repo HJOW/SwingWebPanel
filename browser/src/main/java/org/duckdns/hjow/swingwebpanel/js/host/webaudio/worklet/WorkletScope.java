@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.LinkedList;
@@ -761,8 +762,27 @@ public final class WorkletScope {
      * @param task the work / 작업
      */
     private void enqueueRealmTask(Runnable task) {
+        enqueueRealmTask(task, null);
+    }
+
+    /**
+     * Queues a realm task with a microtask fallback for external completions when the task queue is full.
+     * <p>
+     * realm 작업을 예약한다. 작업 큐가 가득 찼을 때 외부 완료 작업은 마이크로태스크 큐로 넘긴다.
+     *
+     * @param task the work / 작업
+     * @param externalRealm the realm of an external job, or null for ordinary messages / 외부 작업의 realm. 일반 메시지는 null
+     */
+    private void enqueueRealmTask(Runnable task, JsRealm externalRealm) {
         synchronized (queueLock) {
-            if (disposed || realmTasks.size() >= WorkletLimits.MAX_PENDING_TASKS) {
+            if (disposed) {
+                return;
+            }
+            if (realmTasks.size() >= WorkletLimits.MAX_PENDING_TASKS) {
+                // 예약한 외부 완료는 이미 대기 중인 realm 작업의 검사점에 넘겨 잃어버리지 않는다.
+                if (externalRealm != null) {
+                    externalRealm.enqueueJob(task);
+                }
                 return;
             }
             realmTasks.add(task);
@@ -1088,8 +1108,14 @@ public final class WorkletScope {
         if (realm != null) {
             return;
         }
-        JsRealm r = JsRealm.create();
+        final JsRealm r = JsRealm.create();
         r.setDynamicImportEnabled(false);
+        r.setAtomicsWaitAllowed(false);
+        r.setExternalJobExecutor(new Executor() {
+            public void execute(Runnable job) {
+                enqueueRealmTask(job, r);
+            }
+        });
         DomBridge b = new DomBridge(r);
         realm = r;
         bridge = b;
