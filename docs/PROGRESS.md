@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-a3b 이터레이터 내장 객체와 공용 next (2026-11-26) ===
+현재 작업 번호: P29-10-a3b 완료.
+완료한 내용: Iterator, 헬퍼, 내장 이터레이터의 메서드·태그·상속을 표에 추가했다. 배열과 형식화 배열은 같은 ArrayIteratorPrototype과 next를 사용한다.
+변경 파일: IteratorBuiltins.java, ArrayIteratorObject.java, TypedArrayLib.java, TypedArrayMethods.java, TypedArrayIterator.java(제거), BuiltinPropertiesTest.java, TypedArrayScriptTest.java, ConformanceTable.java, MetaConformanceTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 874건과 현재 표 732개 항목 통과. sourcecheck 0 위반.
+미해결 사항: 제너레이터와 async 함수용 동적 생성자의 상속 및 실행(P29-10-a3c).
+다음 작업 번호: P29-10-a3c.
+-----------------------------------------------------------------------------------------------
 === P29-10-a3a 약한 참조와 Promise·반사 표 (2026-11-26) ===
 현재 작업 번호: P29-10-a3a 완료.
 완료한 내용: WeakRef·FinalizationRegistry의 태그와 계층, Promise.try/withResolvers, Reflect·Proxy의 제17판 표를 대조했다. 호스트 확장 세 건과 근거를 표준 항목과 함께 점검한다.
@@ -1050,6 +1058,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-a3b 이터레이터 프로토타입
+
+- 제17판 §23.1.5 및 §23.2.3의 배열·형식화 배열 이터레이터를 하나의 구현으로 통합했다. 서로의 next를 사용할 수 있으며, 형식화 배열에 덮어쓴 length 대신 현재 뷰 경계를 확인한다. 축소 때문에 일시적으로 접근할 수 없으면 TypeError가 발생하고 재성장 후 같은 인덱스에서 재개한다.
+- Iterator, 헬퍼, 래퍼, String·RegExp·Map·Set 이터레이터의 자체 속성과 상속을 표에 추가했다. 표에 없는 프로퍼티는 문서화한 세 확장을 제외하고 실패로 기록한다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 874건, 현재 내장 표 732개 항목 통과.
 
 ### 2026-11-26 · P29-10-a3a 약한 참조, Promise, Reflect, Proxy
 

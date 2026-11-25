@@ -43,7 +43,7 @@ final class ConformanceTable {
         "global: fn eval=1 isFinite=1 isNaN=1 parseFloat=1 parseInt=2 decodeURI=1 decodeURIComponent=1 encodeURI=1 encodeURIComponent=1 escape=1 unescape=1",
         "global: ctor Object=1 Function=1 Boolean=1 Symbol=0 Error=1 EvalError=1 RangeError=1 ReferenceError=1 SyntaxError=1 TypeError=1 URIError=1"
                 + " AggregateError=2 Number=1 BigInt=1 String=1 RegExp=2 Date=7 Array=1 Map=0 Set=0 WeakMap=0 WeakSet=0 ArrayBuffer=1 DataView=3 Promise=1"
-                + " WeakRef=1 FinalizationRegistry=1 SharedArrayBuffer=1"
+                + " WeakRef=1 FinalizationRegistry=1 SharedArrayBuffer=1 Iterator=0"
                 + " Int8Array=3 Uint8Array=3 Uint8ClampedArray=3 Int16Array=3 Uint16Array=3 Int32Array=3 Uint32Array=3"
                 + " Float16Array=3 Float32Array=3 Float64Array=3 BigInt64Array=3 BigUint64Array=3",
         "global: ctor0 Proxy=2",
@@ -209,13 +209,26 @@ final class ConformanceTable {
         "FinalizationRegistry.prototype: tag @@toStringTag=FinalizationRegistry",
 
         // ---- 27 Control Abstraction Objects
+        "Iterator: fn concat=0 from=1",
+        "%IteratorPrototype%: accessor constructor @@toStringTag",
+        "%IteratorPrototype%: fn @@iterator=0 drop=1 every=1 filter=1 find=1 flatMap=1 forEach=1 map=1 reduce=1 some=1 take=1 toArray=0",
+        "%WrapForValidIteratorPrototype%: fn next=0 return=0",
+        "%IteratorHelperPrototype%: fn next=0 return=0",
+        "%IteratorHelperPrototype%: tag @@toStringTag=Iterator Helper",
         "Promise: fn all=1 allSettled=1 any=1 race=1 reject=1 resolve=1 try=1 withResolvers=0",
         "Promise: getter @@species",
         "Promise.prototype: fn catch=1 finally=1 then=2",
         "Promise.prototype: tag @@toStringTag=Promise",
-        "%IteratorPrototype%: fn @@iterator=0",
         "%ArrayIteratorPrototype%: fn next=0",
         "%ArrayIteratorPrototype%: tag @@toStringTag=Array Iterator",
+        "%StringIteratorPrototype%: fn next=0",
+        "%StringIteratorPrototype%: tag @@toStringTag=String Iterator",
+        "%RegExpStringIteratorPrototype%: fn next=0",
+        "%RegExpStringIteratorPrototype%: tag @@toStringTag=RegExp String Iterator",
+        "%MapIteratorPrototype%: fn next=0",
+        "%MapIteratorPrototype%: tag @@toStringTag=Map Iterator",
+        "%SetIteratorPrototype%: fn next=0",
+        "%SetIteratorPrototype%: tag @@toStringTag=Set Iterator",
         "%GeneratorPrototype%: fn next=1 return=1 throw=1",
         "%GeneratorPrototype%: tag @@toStringTag=Generator",
         "%GeneratorFunction.prototype%: tag @@toStringTag=GeneratorFunction",
@@ -235,7 +248,7 @@ final class ConformanceTable {
                 + " Promise.prototype=Object.prototype ArrayBuffer.prototype=Object.prototype SharedArrayBuffer.prototype=Object.prototype"
                 + " DataView.prototype=Object.prototype WeakMap.prototype=Object.prototype WeakSet.prototype=Object.prototype"
                 + " WeakRef.prototype=Object.prototype FinalizationRegistry.prototype=Object.prototype"
-                + " %TypedArray%.prototype=Object.prototype",
+                + " %TypedArray%.prototype=Object.prototype %IteratorPrototype%=Object.prototype",
         "global: chain EvalError.prototype=Error.prototype RangeError.prototype=Error.prototype ReferenceError.prototype=Error.prototype"
                 + " SyntaxError.prototype=Error.prototype TypeError.prototype=Error.prototype URIError.prototype=Error.prototype"
                 + " AggregateError.prototype=Error.prototype",
@@ -245,7 +258,8 @@ final class ConformanceTable {
                 + " Date=Function.prototype String=Function.prototype RegExp=Function.prototype"
                 + " Promise=Function.prototype Proxy=Function.prototype Map=Function.prototype Set=Function.prototype"
                 + " WeakMap=Function.prototype WeakSet=Function.prototype ArrayBuffer=Function.prototype SharedArrayBuffer=Function.prototype"
-                + " DataView=Function.prototype %TypedArray%=Function.prototype WeakRef=Function.prototype FinalizationRegistry=Function.prototype",
+                + " DataView=Function.prototype %TypedArray%=Function.prototype WeakRef=Function.prototype FinalizationRegistry=Function.prototype"
+                + " Iterator=Function.prototype",
         "global: chain Int8Array=%TypedArray% Uint8Array=%TypedArray% Uint8ClampedArray=%TypedArray% Int16Array=%TypedArray% Uint16Array=%TypedArray%"
                 + " Int32Array=%TypedArray% Uint32Array=%TypedArray% Float16Array=%TypedArray% Float32Array=%TypedArray%"
                 + " Float64Array=%TypedArray% BigInt64Array=%TypedArray% BigUint64Array=%TypedArray%"
@@ -257,6 +271,12 @@ final class ConformanceTable {
                 + " BigInt64Array.prototype=%TypedArray%.prototype BigUint64Array.prototype=%TypedArray%.prototype",
         "global: chain Math=Object.prototype JSON=Object.prototype Reflect=Object.prototype Atomics=Object.prototype",
         "%ArrayIteratorPrototype%: chain %ArrayIteratorPrototype%=%IteratorPrototype%",
+        "%StringIteratorPrototype%: chain %StringIteratorPrototype%=%IteratorPrototype%",
+        "%RegExpStringIteratorPrototype%: chain %RegExpStringIteratorPrototype%=%IteratorPrototype%",
+        "%MapIteratorPrototype%: chain %MapIteratorPrototype%=%IteratorPrototype%",
+        "%SetIteratorPrototype%: chain %SetIteratorPrototype%=%IteratorPrototype%",
+        "%IteratorHelperPrototype%: chain %IteratorHelperPrototype%=%IteratorPrototype%",
+        "%WrapForValidIteratorPrototype%: chain %WrapForValidIteratorPrototype%=%IteratorPrototype%",
     };
 
     /**

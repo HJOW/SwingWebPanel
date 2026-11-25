@@ -13,6 +13,7 @@ import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.builtins.stringarray.ArrayIteratorObject;
 
 /**
  * The methods and accessors of <code>%TypedArray%.prototype</code> (ECMA-262 6th edition, 22.2.3): buffer, byteLength, byteOffset, length and the
@@ -200,17 +201,17 @@ final class TypedArrayMethods {
         });
         realm.method(proto, "entries", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                return TypedArrayIterator.create(r, TypedSupport.validate(thisValue), TypedArrayIterator.ENTRIES);
+                return ArrayIteratorObject.create(r, TypedSupport.validate(thisValue), ArrayIteratorObject.ENTRIES);
             }
         });
         realm.method(proto, "keys", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                return TypedArrayIterator.create(r, TypedSupport.validate(thisValue), TypedArrayIterator.KEYS);
+                return ArrayIteratorObject.create(r, TypedSupport.validate(thisValue), ArrayIteratorObject.KEYS);
             }
         });
         NativeFunction values = realm.method(proto, "values", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                return TypedArrayIterator.create(r, TypedSupport.validate(thisValue), TypedArrayIterator.VALUES);
+                return ArrayIteratorObject.create(r, TypedSupport.validate(thisValue), ArrayIteratorObject.VALUES);
             }
         });
         proto.defineBuiltin(WellKnownSymbols.ITERATOR, values);

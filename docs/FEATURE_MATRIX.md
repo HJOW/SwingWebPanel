@@ -366,7 +366,7 @@
 | ES-B-MAP | 23 / 24 | `Map Set WeakMap WeakSet` | `js.builtins.datajson.CollectionTest` | 검증 완료 |
 | ES-B-BUF | 24.1-2 / 25.1·25.3 | `ArrayBuffer`, `DataView` | `js.builtins.typed.ArrayBufferTest`, `js.builtins.typed.DataViewTest` | 검증 완료 |
 | ES-B-JSON | 24.3 / 25.5 | `JSON`(parse/stringify, reviver/replacer, 순환 오류) | `js.builtins.datajson.JsonTest` | 검증 완료 |
-| ES-B-ITER | 25.1 / 27.1 | `%IteratorPrototype%`, 이터레이터/제너레이터 프로토콜 객체 | `js.IteratorHelperTest` | 검증 완료 |
+| ES-B-ITER | 25.1 / 27.1 | `%IteratorPrototype%`, 이터레이터/제너레이터 프로토콜 객체 | `IteratorHelperTest`, `MetaConformanceTest`, `TypedArrayScriptTest` | 검증 완료. P29-10-a3b에서 Array와 TypedArray의 공용 이터레이터 및 내장 이터레이터·헬퍼의 상속을 확인했다. |
 | ES-B-PROM | 25.4 / 27.2 | `Promise`(`all race resolve reject then catch`), microtask 큐 | `js.builtins.meta.PromiseTest` | 검증 완료 |
 | ES-B-REFL | 26.1 / 28.1 | `Reflect` | `js.builtins.meta.ReflectTest` | 검증 완료(제17판 표면: 13개 메서드와 `Symbol.toStringTag`, ES2016에서 폐기한 `enumerate` 제거) |
 | ES-B-PROXY | 26.2 / 28.2 | `Proxy`(13개 trap과 불변 조건), `Proxy.revocable` | `js.builtins.meta.ProxyTest`, `js.builtins.meta.ProxyInvariantTest` | 검증 완료 |

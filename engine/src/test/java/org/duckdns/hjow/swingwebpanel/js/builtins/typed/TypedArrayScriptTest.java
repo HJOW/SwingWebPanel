@@ -88,6 +88,27 @@ public class TypedArrayScriptTest {
     }
 
     /**
+     * Verifies shared iterator methods and typed-array validation after resizing.
+     * <p>
+     * 공용 이터레이터 메서드와 길이 변경 뒤의 형식화 배열 검증을 확인한다.
+     */
+    public void testArrayIteratorSharesTypedArrayPrototype() {
+        check("true,true,3,11,0:3,Array Iterator",
+                "var a=[11].values(), t=new Uint8Array([3,4]), b=t.values(), entries=t.entries();"
+                + "var p=Object.getPrototypeOf(a), next=p.next;"
+                + "[p===Object.getPrototypeOf(b),next===Object.getPrototypeOf(entries).next,"
+                + "next.call(b).value,next.call(a).value,next.call(entries).value.join(':'),"
+                + "p[Symbol.toStringTag]].join()");
+        check("5,TypeError,9,true,true",
+                "var b=new ArrayBuffer(2,{maxByteLength:4}), typed=new Uint8Array(b,0,2);"
+                + "typed[0]=5;Object.defineProperty(typed,'length',{value:100});"
+                + "var i=Array.prototype.values.call(typed), start=i.next().value, error;"
+                + "b.resize(1);try{i.next();}catch(e){error=e.name;}"
+                + "b.resize(2);typed[1]=9;var next=i.next().value, done=i.next().done;"
+                + "b.resize(4);[start,error,next,done,i.next().done].join()");
+    }
+
+    /**
      * The constructors exist, convert values and print as expected.
      * <p>
      * 생성자가 있고 값을 변환하며 기대대로 출력된다.

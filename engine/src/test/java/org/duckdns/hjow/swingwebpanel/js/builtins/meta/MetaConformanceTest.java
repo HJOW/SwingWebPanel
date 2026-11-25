@@ -435,11 +435,9 @@ public class MetaConformanceTest {
     }
 
     /**
-     * Lists unaccounted own properties while comparing the realm against the seventeenth edition.
-     * Also verifies that each recorded host extension is still exposed and rejects Java bridge names.
+     * Requires each own property to be part of the table, intrinsic metadata, or a documented extension.
      * <p>
-     * realm을 제17판과 대조하면서 표에 없는 자체 프로퍼티를 나열한다.
-     * 기록한 호스트 확장이 공개되어 있는지도 확인하고 Java 연결 이름을 거부한다.
+     * 모든 자체 프로퍼티가 표, 내장 메타데이터 또는 문서화한 확장에 속하는지 확인한다.
      */
     public void testPropertiesBeyondTheTable() {
         Map<String, Set<String>> named = new LinkedHashMap<String, Set<String>>();
@@ -467,13 +465,12 @@ public class MetaConformanceTest {
                 set.add(eq >= 0 ? parts[j].substring(0, eq) : parts[j]);
             }
         }
-        List<String> suspicious = new ArrayList<String>();
+        List<String> unexpected = new ArrayList<String>();
         Map<String, String> extensions = new LinkedHashMap<String, String>();
         // 허용한 확장을 프로퍼티 경로로 색인한다.
         for (String[] extension : EXTENSIONS) {
             extensions.put(extension[0], extension[1]);
         }
-        int total = 0;
         // 경로마다 객체의 자체 키 가운데 표에 없는 것을 찾는다.
         for (Map.Entry<String, Set<String>> entry : named.entrySet()) {
             JsValue h;
@@ -485,7 +482,6 @@ public class MetaConformanceTest {
             if (!(h instanceof JsObject)) {
                 continue;
             }
-            List<String> extras = new ArrayList<String>();
             List<Object> keys = ((JsObject) h).ownKeys();
             // 객체의 자체 키를 하나씩 표와 대조한다.
             for (int i = 0; i < keys.size(); i++) {
@@ -500,19 +496,11 @@ public class MetaConformanceTest {
                     System.out.println("  [host extension] " + path + ": " + reason);
                     continue;
                 }
-                extras.add(n);
-                if (n.indexOf('$') >= 0 || n.startsWith("java") || n.startsWith("Java")) {
-                    suspicious.add(path);
-                }
-            }
-            if (!extras.isEmpty()) {
-                total += extras.size();
-                System.out.println("  beyond the table: " + entry.getKey() + " -> " + extras);
+                unexpected.add(path);
             }
         }
-        System.out.println("own properties outside the ECMA-262 table and host extensions: " + total);
         Check.isTrue(extensions.isEmpty(), "every recorded host extension is present: " + extensions.keySet());
-        Check.isTrue(suspicious.isEmpty(), "no host or Java bridge names: " + suspicious);
+        Check.isTrue(unexpected.isEmpty(), "unexpected own properties: " + unexpected);
     }
 
     // ------------------------------------------------------------------ table walking
@@ -841,6 +829,15 @@ public class MetaConformanceTest {
         PropertyDescriptor back = ((JsObject) proto.value).getOwnProperty("constructor");
         if (back == null) {
             throw Problem.wrong(name + ".prototype has no constructor property");
+        }
+        // Iterator는 하위 객체가 덮어쓸 수 있는 생성자 접근자를 명시한다.
+        if ("Iterator".equals(name)) {
+            expectAccessor(back, "Iterator.prototype.constructor", "get constructor", "get");
+            expectAccessor(back, "Iterator.prototype.constructor", "set constructor", "set");
+            if (Ops.call(back.get, proto.value, Js.NO_ARGS) != ctor) {
+                throw Problem.wrong("Iterator.prototype.constructor getter must return Iterator");
+            }
+            return;
         }
         expectData(back, name + ".prototype.constructor", true, false, true);
         if (!Ops.sameValue(back.value, ctor)) {

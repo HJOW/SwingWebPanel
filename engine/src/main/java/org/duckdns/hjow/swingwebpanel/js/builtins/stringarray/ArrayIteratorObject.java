@@ -10,18 +10,14 @@ import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrayObject;
 
 /**
  * An Array Iterator object (ECMA-262 6th edition 22.1.5): it walks the indexed elements of any array-like object and yields keys, values or
- * [key, value] pairs. {@link #create(JsRealm, JsObject, int)} is public so that other built-ins with array-like semantics (typed arrays,
- * arguments objects) can create iterators with the same prototype <code>%ArrayIteratorPrototype%</code>. The prototype is created and registered
- * under that intrinsic name by {@link StringArrayInstaller}; an object created by it is the only kind of object that the prototype's
- * <code>next</code> accepts.
+ * [key, value] pairs. Arrays, typed arrays and arguments objects share the same <code>%ArrayIteratorPrototype%</code>.
  * <p>
  * Array Iterator 객체(ECMA-262 6판 22.1.5): 임의의 유사 배열 객체의 인덱스 요소를 걸으며 키, 값, [키, 값] 쌍을 돌려준다.
- * {@link #create(JsRealm, JsObject, int)} 는 public 이므로 유사 배열 의미를 가진 다른 내장 객체(타입 배열, arguments 객체)도 같은 프로토타입
- * <code>%ArrayIteratorPrototype%</code> 의 이터레이터를 만들 수 있다. 프로토타입은 {@link StringArrayInstaller} 가 만들어 그 내장 객체
- * 이름으로 등록하며, 프로토타입의 <code>next</code> 는 이 클래스로 만든 객체만 받아들인다.
+ * 배열, 형식화 배열, arguments 객체가 같은 <code>%ArrayIteratorPrototype%</code>을 공유한다.
  */
 public final class ArrayIteratorObject extends JsObject {
 
@@ -115,16 +111,16 @@ public final class ArrayIteratorObject extends JsObject {
     }
 
     /**
-     * Installs <code>%ArrayIteratorPrototype%</code> with its <code>next</code> method and <code>@@toStringTag</code>. An existing
-     * prototype of the same intrinsic name (from a minimal core implementation) is replaced, because the iterator objects created by this
-     * class are only understood by the prototype defined here.
+     * Installs the shared <code>%ArrayIteratorPrototype%</code> if the realm has not yet created it.
      * <p>
-     * <code>next</code> 메서드와 <code>@@toStringTag</code> 를 가진 <code>%ArrayIteratorPrototype%</code> 을 설치한다. 같은 이름의 기존
-     * 프로토타입(코어의 최소 구현)은 교체한다. 이 클래스가 만든 이터레이터 객체는 여기서 정의한 프로토타입만 이해하기 때문이다.
+     * 렐름에 아직 없으면 공용 <code>%ArrayIteratorPrototype%</code>을 설치한다.
      *
      * @param realm the realm / realm
      */
-    static void install(JsRealm realm) {
+    public static void install(JsRealm realm) {
+        if (realm.getIntrinsic(PROTOTYPE_NAME) != null) {
+            return;
+        }
         JsObject proto = new JsObject(realm.getIteratorPrototype());
         Support.def(realm, proto, "next", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
@@ -150,7 +146,17 @@ public final class ArrayIteratorObject extends JsObject {
         if (target == null) {
             return IteratorHelper.createResult(realm, Js.UNDEFINED, true);
         }
-        double len = Ops.lengthOf(target);
+        double len;
+        // 형식화 배열은 length 프로퍼티 대신 현재 버퍼와 뷰의 내부 길이를 확인한다.
+        if (target instanceof TypedArrayObject) {
+            TypedArrayObject typed = (TypedArrayObject) target;
+            if (typed.isOutOfBounds()) {
+                throw JsException.typeError("TypedArray iterator is outside its buffer");
+            }
+            len = typed.getLength();
+        } else {
+            len = Ops.lengthOf(target);
+        }
         if (index >= len) {
             target = null;
             return IteratorHelper.createResult(realm, Js.UNDEFINED, true);

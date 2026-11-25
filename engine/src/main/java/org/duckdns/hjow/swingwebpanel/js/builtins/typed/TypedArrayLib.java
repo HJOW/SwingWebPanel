@@ -10,6 +10,7 @@ import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.builtins.stringarray.ArrayIteratorObject;
 
 /**
  * Installs the abstract <code>%TypedArray%</code> intrinsic (its static methods <code>from</code> and <code>of</code>, <code>[Symbol.species]</code>
@@ -39,7 +40,7 @@ final class TypedArrayLib {
      * @param realm the realm / realm
      */
     static void install(JsRealm realm) {
-        TypedArrayIterator.install(realm);
+        ArrayIteratorObject.install(realm);
         JsObject proto = new JsObject(realm.getObjectPrototype());
         NativeFunction abstractCtor = new NativeFunction(realm, "TypedArray", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {

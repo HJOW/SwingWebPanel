@@ -297,7 +297,7 @@ public class BuiltinPropertiesTest {
      * 형식화 배열이 쓰는 이터레이터 프로토타입.
      */
     public void testIteratorPrototype() {
-        JsObject proto = realm.getIntrinsic("%TypedArrayIteratorPrototype%");
+        JsObject proto = realm.getIntrinsic("%ArrayIteratorPrototype%");
         Check.same(realm.getIteratorPrototype(), proto.getPrototypeOf(), "inherits %IteratorPrototype%");
         keys("iterator prototype", proto, new String[] { "next" }, 1);
         method("iterator.next", proto, "next", "next", 0);

@@ -1,19 +1,15 @@
 package org.duckdns.hjow.swingwebpanel.js.builtins;
 
 import org.duckdns.hjow.swingwebpanel.js.BuiltinInstaller;
-import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.Js;
-import org.duckdns.hjow.swingwebpanel.js.JsArray;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
-import org.duckdns.hjow.swingwebpanel.js.JsNumber;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsString;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
-import org.duckdns.hjow.swingwebpanel.js.Ops;
-import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.builtins.stringarray.ArrayIteratorObject;
 import org.duckdns.hjow.swingwebpanel.js.interp.GeneratorObject;
 import org.duckdns.hjow.swingwebpanel.js.interp.AsyncGeneratorObject;
 
@@ -51,47 +47,6 @@ public final class IteratorBuiltins implements BuiltinInstaller {
     public static final int ENTRIES = 2;
 
     /**
-     * An Array Iterator instance (CreateArrayIterator): iterates the indices of an array-like object.
-     * <p>
-     * 배열 이터레이터 인스턴스(CreateArrayIterator): 유사 배열 객체의 인덱스를 순회한다.
-     */
-    private static final class ArrayIteratorObject extends JsObject {
-        /**
-         * The iterated object, or null when finished.
-         * <p>
-         * 순회하는 객체. 끝났으면 null.
-         */
-        JsObject target;
-        /**
-         * The next index.
-         * <p>
-         * 다음 인덱스.
-         */
-        int index;
-        /**
-         * One of {@link IteratorBuiltins#KEYS}, {@link IteratorBuiltins#VALUES}, {@link IteratorBuiltins#ENTRIES}.
-         * <p>
-         * {@link IteratorBuiltins#KEYS}, {@link IteratorBuiltins#VALUES}, {@link IteratorBuiltins#ENTRIES} 중 하나.
-         */
-        final int kind;
-
-        /**
-         * Creates the iterator.
-         * <p>
-         * 이터레이터를 만든다.
-         *
-         * @param proto  the prototype / 프로토타입
-         * @param target the iterated object / 순회할 객체
-         * @param kind   the kind / 종류
-         */
-        ArrayIteratorObject(JsObject proto, JsObject target, int kind) {
-            super(proto);
-            this.target = target;
-            this.kind = kind;
-        }
-    }
-
-    /**
      * Creates the installer.
      * <p>
      * 설치기를 만든다.
@@ -110,7 +65,7 @@ public final class IteratorBuiltins implements BuiltinInstaller {
      * @return the iterator / 이터레이터
      */
     public static JsObject createArrayIterator(JsRealm realm, JsObject target, int kind) {
-        return new ArrayIteratorObject(realm.getIntrinsic("%ArrayIteratorPrototype%"), target, kind);
+        return ArrayIteratorObject.create(realm, target, kind);
     }
 
     /**
@@ -122,38 +77,7 @@ public final class IteratorBuiltins implements BuiltinInstaller {
      */
     public void install(final JsRealm realm) {
         IteratorConstructor.install(realm);
-        JsObject arrayIterProto = new JsObject(realm.getIteratorPrototype());
-        realm.setIntrinsic("%ArrayIteratorPrototype%", arrayIterProto);
-        realm.method(arrayIterProto, "next", 0, new NativeFunction.Call() {
-            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                if (!(thisValue instanceof ArrayIteratorObject)) {
-                    throw JsException.typeError("next method called on incompatible receiver " + JsException.describe(thisValue));
-                }
-                ArrayIteratorObject it = (ArrayIteratorObject) thisValue;
-                if (it.target == null) {
-                    return IteratorHelper.createResult(r, Js.UNDEFINED, true);
-                }
-                double len = it.target instanceof JsArray ? ((JsArray) it.target).getLength() : Ops.lengthOf(it.target);
-                int i = it.index;
-                if (i >= len) {
-                    it.target = null;
-                    return IteratorHelper.createResult(r, Js.UNDEFINED, true);
-                }
-                it.index = i + 1;
-                if (it.kind == KEYS) {
-                    return IteratorHelper.createResult(r, JsNumber.of(i), false);
-                }
-                JsValue v = it.target.get(PropertyKeys.fromIndex(i));
-                if (it.kind == VALUES) {
-                    return IteratorHelper.createResult(r, v, false);
-                }
-                JsArray pair = r.newArray();
-                pair.add(JsNumber.of(i));
-                pair.add(v);
-                return IteratorHelper.createResult(r, pair, false);
-            }
-        });
-        arrayIterProto.defineData(WellKnownSymbols.TO_STRING_TAG, JsString.of("Array Iterator"), false, false, true);
+        ArrayIteratorObject.install(realm);
 
         installGenerators(realm);
         installAsyncGenerators(realm);
