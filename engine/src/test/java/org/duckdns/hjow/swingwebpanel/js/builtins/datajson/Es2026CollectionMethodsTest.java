@@ -122,6 +122,47 @@ public class Es2026CollectionMethodsTest {
     }
 
     /**
+     * Computed Map insertion canonicalizes its argument and uses the insertion position chosen during the callback.
+     * <p>
+     * Map의 계산 삽입은 콜백 인수를 정규화하고 콜백 실행 중 정해진 삽입 위치를 사용한다.
+     */
+    public void testMapUpsertAndCallbackMutation() {
+        String script = "const m=new Map([[1,undefined],[NaN,6]]);const log=[];"
+                + "function fail(f){try{f();return 'missing';}catch(e){return e.name||e;}}"
+                + "const existing=m.getOrInsert(1,8)===undefined;"
+                + "const existingComputed=m.getOrInsertComputed(NaN,()=>{throw 'must not call';});"
+                + "const computed=m.getOrInsertComputed(-0,function(k){'use strict';"
+                + "log.push(this===undefined,Object.is(k,0),arguments.length);"
+                + "m.set('before',2);m.set(k,'from callback');m.set('after',3);return 'final';});"
+                + "const failure=fail(()=>m.getOrInsertComputed('x',()=>{m.set('side',8);throw 'from callback';}));"
+                + "[existing,existingComputed,computed,m.get(-0),Array.from(m.keys()).join(),log.join(),"
+                + "fail(()=>m.getOrInsertComputed(NaN,7)),failure,m.has('x'),m.get('side'),"
+                + "Map.prototype.getOrInsert.length,Map.prototype.getOrInsertComputed.length].join('|')";
+        Check.equal("true|6|final|final|1,NaN,before,0,after,side|true,true,1|TypeError|from callback|false|8|2|2",
+                evaluate(script), "upsert preserves positions and user effects, with positive zero in the callback");
+    }
+
+    /**
+     * WeakMap accepts weak symbol keys, validates before lookup and overwrites a reentrant insertion with the computed result.
+     * <p>
+     * WeakMap은 약한 심볼 키를 지원하며 조회 전에 검사하고 재진입 삽입을 계산 결과로 바꾼다.
+     */
+    public void testWeakMapUpsertKeyAndCallbackOrder() {
+        String script = "const m=new WeakMap(), held=Symbol('held'), known=Symbol.iterator, bad=Symbol.for('bad-upsert');"
+                + "const trace=[];function fail(f){try{f();return 'missing';}catch(e){return e.message;}}"
+                + "const first=m.getOrInsert(held,undefined), existing=m.getOrInsert(held,8);"
+                + "const computed=m.getOrInsertComputed(known,function(k){'use strict';trace.push(k===known,this===undefined);"
+                + "m.getOrInsert(k,9);return 11;});"
+                + "const keyError=fail(()=>m.getOrInsertComputed(bad,0));"
+                + "const callbackError=fail(()=>m.getOrInsertComputed(known,0));"
+                + "[first===undefined,existing===undefined,m.has(held),computed,m.get(known),trace.join(),"
+                + "keyError.indexOf('weak map key')>=0,callbackError.indexOf('callback')>=0,"
+                + "WeakMap.prototype.getOrInsert.length,WeakMap.prototype.getOrInsertComputed.length].join('|')";
+        Check.equal("true|true|true|11|11|true,true|true|true|2|2", evaluate(script),
+                "WeakMap upserts keep identity and prioritize weak key validation");
+    }
+
+    /**
      * Evaluates a test script and converts the result to text.
      * <p>
      * 시험 스크립트를 평가한 뒤 결과를 문자열로 바꾼다.

@@ -414,7 +414,7 @@ final class CollectionBuiltins {
      * @param name method name for the message / 메시지용 메서드 이름
      * @return the map / Map
      */
-    private static MapObject thisMap(JsValue v, String name) {
+    static MapObject thisMap(JsValue v, String name) {
         if (!(v instanceof MapObject)) {
             throw JsException.typeError("Method Map.prototype." + name + " called on incompatible receiver " + JsException.describe(v));
         }
@@ -532,6 +532,7 @@ final class CollectionBuiltins {
         });
         Support.defineSpecies(realm, ctor);
         GroupByBuiltins.installMap(realm, ctor);
+        MapUpserts.installMap(realm, proto);
         realm.method(proto, "clear", 0, new NativeFunction.Call() {
             /**
              * Removes all entries.
@@ -877,7 +878,7 @@ final class CollectionBuiltins {
      * @param what "weak map" or "weak set" for the message / 메시지용 "weak map" 또는 "weak set"
      * @return the eligible weak key / 사용할 수 있는 약한 키
      */
-    private static JsWeakKey weakKey(JsValue v, String what) {
+    static JsWeakKey weakKey(JsValue v, String what) {
         if (!Ops.canBeHeldWeakly(v)) {
             throw JsException.typeError("Invalid value used " + (what.equals("weak map") ? "as weak map key" : "in weak set"));
         }
@@ -893,7 +894,7 @@ final class CollectionBuiltins {
      * @param name method name for the message / 메시지용 메서드 이름
      * @return the weak map / WeakMap
      */
-    private static WeakMapObject thisWeakMap(JsValue v, String name) {
+    static WeakMapObject thisWeakMap(JsValue v, String name) {
         if (!(v instanceof WeakMapObject)) {
             throw JsException.typeError("Method WeakMap.prototype." + name + " called on incompatible receiver " + JsException.describe(v));
         }
@@ -942,6 +943,7 @@ final class CollectionBuiltins {
                 return m;
             }
         });
+        MapUpserts.installWeakMap(realm, proto);
         realm.method(proto, "delete", 1, new NativeFunction.Call() {
             /**
              * Removes the entry of a key object.

@@ -836,8 +836,12 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - [x] P29-06-c. `CollectionBuiltins`와 `OrderedTable`을 사용해 Set 프로토콜과 7개 집합 연산을 구현한다. 크기 분기, 이터레이터 닫기, 실행 중 원본 변경과 순서를 검증한다.
     - [x] P29-06-c1. `SetOperations`의 GetSetRecord와 결과 Set을 생성하는 4개 연산을 구현한다. 상대 크기, getter·keys의 관찰 순서, 중복 키, 순회 중 삽입·삭제, 내장 Set 결과를 검증한다.
     - [x] P29-06-c2. `SetOperations`의 집합 조건 검사 3개 연산과 `IteratorRecord`의 정상 닫기를 구현한다. 조기 반환이 상대 이터레이터의 return을 호출하는지, 원본 변경에 따른 멤버 판정과 크기 기반 분기를 검증한다.
-  - [ ] P29-06-d. Map/WeakMap upsert를 구현한다. 원래 값이 undefined인 키, 콜백 중 콜렉션 변경, 제로 정규화와 약한 키 검사를 검증한다.
+  - [x] P29-06-d. Map/WeakMap upsert를 구현한다. 원래 값이 undefined인 키, 콜백 중 콜렉션 변경, 제로 정규화와 약한 키 검사를 검증한다.
   - [ ] P29-06-e. `IteratorBuiltins`와 `IteratorHelper`의 전역 Iterator, 래핑, 지연·즉시 소비 및 concat을 구현한다. 서브클래싱, 작업 순서, 닫기·오류 전파, 기술자를 검증한다.
+    - [ ] P29-06-e1. `IteratorConstructor`와 `IteratorRecord`를 사용해 전역 Iterator와 from, 래퍼 next·return, 프로토타입 접근자를 설치한다. 직접 생성 거부, 서브클래싱, 기존 이터레이터 동일성과 기술자를 검증한다.
+    - [ ] P29-06-e2. `IteratorEagerMethods`에서 reduce, toArray, forEach, some, every, find를 설치한다. 단락, 빈 이터레이터, 다음 메서드 캡처와 오류 시 닫기를 검증한다.
+    - [ ] P29-06-e3. `IteratorLazyMethods`와 공통 helper 프로토타입에서 map, filter, take, drop을 설치한다. 평가 지연, 0·무한·음수 한계, 시작 전 return, 재진입과 중단을 검증한다.
+    - [ ] P29-06-e4. flatMap과 Iterator.concat에서 현재 안쪽 이터레이터와 바깥 이터레이터의 수명과 순서를 관리한다. 접근자 평가·실제 열기 시점, 내부·외부 닫기 순서, 오류 우선순위를 검증한다.
 - [ ] P29-07. ES2024~ES2026 문자열·정규식(`isWellFormed`/`toWellFormed`, `v` 플래그, 중복 이름 그룹, 인라인 수정자, `RegExp.escape`)을 구현한다.
   - 유니코드 정합 문자열(ES2024): `String.prototype.isWellFormed()`와 `toWellFormed()`(고립 상위/하위 서로게이트 판정 및 `U+FFFD` 치환)를 구현한다.
   - 정규식 `v`(`unicodeSets`) 플래그(ES2024, `22.2`): `RegExp.prototype.unicodeSets` 접근자, `u`·`v` 동시 지정 조기 `SyntaxError`, 중첩 문자 클래스(`[...]`), 집합 교집합(`&&`)·차집합(`--`), 문자열 리터럴 대안(`\q{abc|d}`), 다중 문자 집합 매칭 우선순위, `v` 모드의 예약 구두점 이스케이프 규칙·단순 대소문자 폴딩(`MaybeSimpleCaseFolding`)·문자 보완 집합(`CharacterComplement`)을 구현한다(Emoji 문자열 속성은 `EXC-15` 정책과의 관계를 문서화하고 일관되게 처리).

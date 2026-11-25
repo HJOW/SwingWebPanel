@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-06-d Map·WeakMap getOrInsert (2026-11-26) ===
+현재 작업 번호: P29-06-d 완료.
+완료한 내용: Map과 WeakMap에 getOrInsert, getOrInsertComputed를 설치했다. 기존 undefined와 항목 없음을 구분하고, 콜백 중 재삽입한 키의 위치를 유지하면서 계산 결과를 저장한다.
+변경 파일: MapUpserts.java, CollectionBuiltins.java, OrderedTable.java, Es2026CollectionMethodsTest.java, datajson/AttributeTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행) 785건 통과. sourcecheck 0 위반.
+미해결 사항: 전역 Iterator와 래핑, 지연·즉시 소비 헬퍼(P29-06-e).
+다음 작업 번호: P29-06-e1.
+-----------------------------------------------------------------------------------------------
 === P29-06-c2 Set 포함 관계와 교집합 여부 (2026-11-26) ===
 현재 작업 번호: P29-06-c 완료.
 완료한 내용: isSubsetOf·isSupersetOf·isDisjointFrom은 상대 크기와 연산에 따라 현재 수신 집합 또는 상대의 키를 순회한다. 상대 키 순회를 조기에 끝낼 때 return을 호출하고 해당 오류를 전파한다.
@@ -778,6 +786,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-06-d 키가 없을 때 계산·삽입
+
+삽입 콜백이 받은 양의 0과 undefined this, 콜백 중 재삽입 후 기존 순서 보존, 콜백 예외 뒤 부수 효과와 잘못된 약한 키의 검사 순서를 확인했다.
 
 ### 2026-11-26 · P29-06-c2 Set 조건 검사와 조기 닫기
 

@@ -189,13 +189,21 @@ final class OrderedTable {
             e.value = value;
             return;
         }
-        JsValue k = key;
-        if (k instanceof JsNumber && ((JsNumber) k).getValue() == 0) {
-            k = Js.num(0);
-        }
-        e = new Entry(k, value);
+        e = new Entry(canonicalKey(key), value);
         index.put(n, e);
         list.add(e);
+    }
+
+    /**
+     * Converts negative zero to the canonical collection key.
+     * <p>
+     * 음의 0을 정규 컬렉션 키로 바꾼다.
+     *
+     * @param key collection key / 컬렉션 키
+     * @return key with zero canonicalized / 0을 정규화한 키
+     */
+    static JsValue canonicalKey(JsValue key) {
+        return key instanceof JsNumber && ((JsNumber) key).getValue() == 0 ? Js.num(0) : key;
     }
 
     /**

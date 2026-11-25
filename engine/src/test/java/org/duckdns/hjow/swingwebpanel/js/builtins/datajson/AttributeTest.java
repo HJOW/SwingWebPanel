@@ -210,6 +210,8 @@ public class AttributeTest {
         method(p, "entries", 0);
         method(p, "forEach", 1);
         method(p, "get", 1);
+        method(p, "getOrInsert", 2);
+        method(p, "getOrInsertComputed", 2);
         method(p, "has", 1);
         method(p, "keys", 0);
         method(p, "set", 2);
@@ -257,6 +259,8 @@ public class AttributeTest {
     private void buildWeak() {
         method("WeakMap.prototype", "delete", 1);
         method("WeakMap.prototype", "get", 1);
+        method("WeakMap.prototype", "getOrInsert", 2);
+        method("WeakMap.prototype", "getOrInsertComputed", 2);
         method("WeakMap.prototype", "has", 1);
         method("WeakMap.prototype", "set", 2);
         method("WeakSet.prototype", "add", 1);
