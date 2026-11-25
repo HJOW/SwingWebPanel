@@ -879,7 +879,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - 부속서 E·F에 명시된 구판 대비 표준 변경 사항(예: `ToNumber("0b10")`, `U+180E` 비공백, 함수 `length` configurable, `Object.keys` 등의 원시값 `ToObject` 강제 변환)은 최신 정본인 ES2026 의미를 따름을 시험과 문서로 고정한다.
   구현: `js.parser.*`, `js.interp.*`, `js.builtins.meta.LegacyBuiltins*`, 호환성 회귀 시험. 완료 조건: 구판(ES3/ES5)·부속서 B·판본 전이 적합성 시험 묶음이 JDK 6에서 통과한다.
   - [ ] P29-09-a. `js.parser`와 `js.interp`의 Annex B 문법과 평가를 보완한다.
-    - [ ] P29-09-a1. B.3.5의 비엄격 for-in var 초기화식을 허용한다. 초기화·우변 평가 순서, 단일 평가, null/undefined, 중단과 재개, 엄격 코드와 잘못된 선언의 조기 오류를 검증한다.
+    - [x] P29-09-a1. B.3.5의 비엄격 for-in var 초기화식을 허용한다. 초기화·우변 평가 순서, 단일 평가, null/undefined, 중단과 재개, 엄격 코드와 잘못된 선언의 조기 오류를 검증한다.
     - [ ] P29-09-a2. B.3.9의 함수 호출 대입 대상에 대한 구문과 런타임 ReferenceError를 연결한다. 대입·복합 대입·증감, 호출 부작용, 예외 순서와 엄격 코드의 조기 오류를 검증한다.
   - [ ] P29-09-b. `ReflectBuiltins`에서 최신 판본에 없는 Reflect.enumerate를 제거하고 `EditionTransitionTest`에서 Annex E·F의 숫자 변환, 공백, 공개 프로퍼티, Date·RegExp 프로토타입 동작을 검증한다.
   - [ ] P29-09-c. `js.regexp`에서 B.1.2의 느슨한 문법과 이후 판본의 정규식 동작을 검증한다.

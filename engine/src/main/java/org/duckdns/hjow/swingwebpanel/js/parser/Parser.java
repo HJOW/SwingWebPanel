@@ -742,7 +742,10 @@ public final class Parser extends ExpressionParser {
                 int kind = isVar ? Op.VAR : (isConst ? Op.CONST : Op.LET);
                 Node decl = parseVarDeclarations(kind, true, true);
                 if ((isN("of") || isN("in")) && decl.list.length == 1) {
-                    if (decl.list[0].b != null) {
+                    Node declarator = decl.list[0];
+                    // 부속서 B.3.5는 비엄격 for-in의 단일 var 식별자에만 초기화식을 허용한다.
+                    boolean legacyInitializer = isVar && !fc.strict && isN("in") && declarator.a.type == NodeType.IDENT;
+                    if (declarator.b != null && !legacyInitializer) {
                         throw error("for-in/of loop variable declaration may not have an initializer.");
                     }
                     left = decl;

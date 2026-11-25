@@ -34,6 +34,9 @@ import org.duckdns.hjow.swingwebpanel.js.builtins.meta.EnumerateSupport.ForInIte
  */
 final class Statements {
 
+    /** Phase evaluating a for-in source after its legacy initializer. / 레거시 초기화식 이후 for-in의 원본을 평가하는 단계. */
+    private static final int FOR_IN_AFTER_INITIALIZER = 3;
+
     /**
      * The interpreter.
      * <p>
@@ -640,6 +643,32 @@ final class Statements {
     }
 
     /**
+     * Evaluates the one-time var initializer in an Annex B.3.5 for-in head.
+     * <p>
+     * 부속서 B.3.5 for-in의 var 초기화식을 한 번 평가한다.
+     *
+     * @param declaration single var declarator / var 선언자 하나
+     * @param env current environment / 현재 환경
+     * @param ctx current context / 현재 문맥
+     * @param st suspension state, if any / 중단 상태, 또는 null
+     */
+    private void initializeForInVariable(Node declaration, Environment env, Ctx ctx, NodeState st) {
+        String name = declaration.a.name;
+        Reference target = st == null ? null : (Reference) st.o1;
+        if (target == null) {
+            // 초기화식에서 바인딩을 변경하거나 중단해도 먼저 결정한 참조에 쓰도록 보존한다.
+            target = Reference.identifier(in.ex, env, name, ctx.strict);
+            if (st != null) {
+                st.o1 = target;
+            }
+        }
+        Node initializer = declaration.b;
+        JsValue value = in.ex.isAnonymous(initializer) ? in.ex.evalNamed(initializer, name, env, ctx)
+                : in.ex.eval(initializer, env, ctx);
+        target.putValue(value);
+    }
+
+    /**
      * Executes for-in and for-of loops (ForIn/OfHeadEvaluation and ForIn/OfBodyEvaluation).
      * <p>
      * for-in 과 for-of 반복문을 실행한다(ForIn/OfHeadEvaluation, ForIn/OfBodyEvaluation).
@@ -657,7 +686,16 @@ final class Statements {
         Environment iterEnv = env;
         int phase = st != null ? st.phase : 0;
         JsValue v = st != null && st.o3 != null ? (JsValue) st.o3 : Js.UNDEFINED;
-        if (phase == 0) {
+        if (phase == 0 && !isOf && n.a.type == NodeType.VAR_DECL && n.a.list[0].b != null) {
+            initializeForInVariable(n.a.list[0], env, ctx, st);
+            // 우변에서 중단되어도 초기화식은 한 번만 실행한다.
+            phase = FOR_IN_AFTER_INITIALIZER;
+            if (st != null) {
+                st.o1 = null;
+                st.phase = phase;
+            }
+        }
+        if (phase == 0 || phase == FOR_IN_AFTER_INITIALIZER) {
             Environment headEnv = env;
             if (n.scope != null) {
                 headEnv = new Environment(env);
