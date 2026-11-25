@@ -53,7 +53,7 @@ public class EarlyErrorTest {
         "({a = 1})", "x = {__proto__: 1, __proto__: 2}", "[...a, b] = c", "[...a,] = b", "[...a = 1] = c", "([a]) = 1", "({a}) = 1",
         "({a: 1} = 1)", "[a + 1] = b", "for ([a + 1] of b);", "for (let x = 1 of y);", "for (var x = 1 of y);", "for (var i, j of x);",
         // 대입 대상
-        "1 = 2", "'a' = 1", "this = 1", "a + b = c", "++1", "(a, b) = 1", "[a, b]++", "f() = 1", "typeof a = 1", "a++ = 1",
+        "1 = 2", "'a' = 1", "this = 1", "a + b = c", "++1", "(a, b) = 1", "[a, b]++", "'use strict'; f() = 1", "typeof a = 1", "a++ = 1",
         // 문장 형태
         "if (1) class C {}", "if (1) let [a] = b;", "switch (a) { default: default: }", "try {}", "throw\n1", "do x; while (1) y; )",
         "for (;)", "for (a;b)", "label: class A {}", "while (1) let [a] = 1;",

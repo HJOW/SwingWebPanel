@@ -37,6 +37,9 @@ final class Statements {
     /** Phase evaluating a for-in source after its legacy initializer. / 레거시 초기화식 이후 for-in의 원본을 평가하는 단계. */
     private static final int FOR_IN_AFTER_INITIALIZER = 3;
 
+    /** Phase evaluating a legacy call target for a fetched loop value. / 꺼낸 반복 값의 레거시 호출 대상을 평가하는 단계. */
+    private static final int FOR_CALL_TARGET = 4;
+
     /**
      * The interpreter.
      * <p>
@@ -717,7 +720,7 @@ final class Statements {
             phase = 1;
         } else {
             source = (JsObject) st.o1;
-            if (phase == 2) {
+            if (phase == 2 || phase == FOR_CALL_TARGET) {
                 iterEnv = (Environment) st.o2;
             }
         }
@@ -725,25 +728,32 @@ final class Statements {
         // 값을 하나 꺼내 바인딩하고(1) 본문을 실행하는(2) 과정을 반복한다.
         while (true) {
             in.limits.tick();
-            if (phase == 1) {
-                JsValue item;
-                if (isOf) {
-                    JsObject r = IteratorHelper.step(source);
-                    if (r == null) {
-                        return Completion.normal(v);
+            if (phase == 1 || phase == FOR_CALL_TARGET) {
+                JsValue item = Js.UNDEFINED;
+                if (phase == 1) {
+                    if (isOf) {
+                        JsObject r = IteratorHelper.step(source);
+                        if (r == null) {
+                            return Completion.normal(v);
+                        }
+                        item = IteratorHelper.value(r);
+                    } else {
+                        String key = ((ForInIterator) source).nextKey();
+                        if (key == null) {
+                            return Completion.normal(v);
+                        }
+                        item = JsString.of(key);
                     }
-                    item = IteratorHelper.value(r);
-                } else {
-                    String key = ((ForInIterator) source).nextKey();
-                    if (key == null) {
-                        return Completion.normal(v);
+                    iterEnv = env;
+                    if (n.scope != null) {
+                        iterEnv = new Environment(env);
+                        in.declareLexicals(n.scope, iterEnv);
                     }
-                    item = JsString.of(key);
-                }
-                iterEnv = env;
-                if (n.scope != null) {
-                    iterEnv = new Environment(env);
-                    in.declareLexicals(n.scope, iterEnv);
+                    // 잘못된 호출 대상에서 중단하면 새 반복 값을 꺼내지 않고 그 호출을 재개한다.
+                    if (st != null && n.a.type == NodeType.CALL) {
+                        st.phase = FOR_CALL_TARGET;
+                        st.o2 = iterEnv;
+                    }
                 }
                 try {
                     bindLoopVariable(n.a, item, iterEnv, ctx);
@@ -752,6 +762,11 @@ final class Statements {
                         IteratorHelper.closeQuietly(source);
                     }
                     throw e;
+                } catch (GeneratorReturn g) {
+                    if (isOf) {
+                        IteratorHelper.close(source);
+                    }
+                    throw g;
                 }
                 phase = 2;
                 if (st != null) {
@@ -859,11 +874,25 @@ final class Statements {
                     in.declareLexicals(n.scope, state.iteration);
                 }
                 try {
-                    bindLoopVariable(n.a, IteratorHelper.value(result), state.iteration, ctx);
+                    JsValue value = IteratorHelper.value(result);
+                    if (n.a.type == NodeType.CALL) {
+                        st.phase = FOR_CALL_TARGET;
+                    } else {
+                        bindLoopVariable(n.a, value, state.iteration, ctx);
+                        st.phase = 2;
+                    }
                 } catch (RuntimeException e) {
                     return beginAsyncClose(state, n, st, ctx, labels, null, e);
                 }
-                st.phase = 2;
+            }
+            if (st.phase == FOR_CALL_TARGET) {
+                try {
+                    throw in.ex.callAssignmentError(n.a, state.iteration, ctx);
+                } catch (JsException e) {
+                    return beginAsyncClose(state, n, st, ctx, labels, null, e);
+                } catch (GeneratorReturn e) {
+                    return beginAsyncClose(state, n, st, ctx, labels, null, e);
+                }
             }
             if (st.phase == 2) {
                 Completion c;
@@ -960,6 +989,8 @@ final class Statements {
         if (left.type == NodeType.VAR_DECL) {
             Node target = left.list[0].a;
             in.pat.bind(target, value, env, ctx, left.op == Op.VAR ? Patterns.ASSIGN : Patterns.INIT);
+        } else if (left.type == NodeType.CALL) {
+            throw in.ex.callAssignmentError(left, env, ctx);
         } else {
             in.pat.bind(left, value, env, ctx, Patterns.ASSIGN);
         }

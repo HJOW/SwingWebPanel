@@ -340,7 +340,9 @@ abstract class ExpressionParser extends ParserBase {
                 target = toAssignmentTarget(left);
                 coverError = null;
             } else {
-                checkSimpleTarget(left, "Invalid left-hand side in assignment");
+                if (!isLegacyCallTarget(left) || op == Op.LOGAND || op == Op.LOGOR || op == Op.COALESCE) {
+                    checkSimpleTarget(left, "Invalid left-hand side in assignment");
+                }
                 target = left;
                 if (coverError != null) {
                     throw error(coverMessage, coverError);
@@ -492,6 +494,18 @@ abstract class ExpressionParser extends ParserBase {
             return;
         }
         throw error(msg, n);
+    }
+
+    /**
+     * Identifies an ordinary non-strict call that Annex B.3.9 allows as a runtime-invalid target.
+     * <p>
+     * 부속서 B.3.9가 런타임 오류 대상으로 허용하는 일반 비엄격 호출을 판정한다.
+     *
+     * @param node potential assignment target / 대입 대상 후보
+     * @return true if the call uses the legacy rule / 레거시 규칙을 적용하면 true
+     */
+    protected final boolean isLegacyCallTarget(Node node) {
+        return !fc.strict && node.type == NodeType.CALL && !node.optional && node.a.type != NodeType.SUPER;
     }
 
     /**
@@ -796,7 +810,9 @@ abstract class ExpressionParser extends ParserBase {
             } else if (v.equals("++") || v.equals("--")) {
                 next();
                 Node operand = parseUnary();
-                checkSimpleTarget(operand, "Invalid left-hand side expression in prefix operation");
+                if (!isLegacyCallTarget(operand)) {
+                    checkSimpleTarget(operand, "Invalid left-hand side expression in prefix operation");
+                }
                 Node n = mk(NodeType.UPDATE, t);
                 n.op = v.equals("++") ? Op.INC : Op.DEC;
                 n.flag = true;
@@ -831,7 +847,9 @@ abstract class ExpressionParser extends ParserBase {
         }
         Node e = parseLeftHandSide();
         if ((isP("++") || isP("--")) && !tok.newlineBefore) {
-            checkSimpleTarget(e, "Invalid left-hand side expression in postfix operation");
+            if (!isLegacyCallTarget(e)) {
+                checkSimpleTarget(e, "Invalid left-hand side expression in postfix operation");
+            }
             Node n = mk(NodeType.UPDATE, t);
             n.op = tok.value.equals("++") ? Op.INC : Op.DEC;
             n.a = e;

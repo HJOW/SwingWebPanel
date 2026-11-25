@@ -814,13 +814,16 @@ final class Expressions {
      * 식별자나 멤버 표현식을 읽거나 쓰지 않고 {@link Reference} 로 평가한다(ES2015 12.1.6 ResolveBinding, 12.3.2 프로퍼티 접근자).
      * 하위 식과 환경 조회는 제너레이터를 위해 저장한다.
      *
-     * @param t   the IDENT or MEMBER node / IDENT 또는 MEMBER 노드
+     * @param t   identifier, member, or legacy call target / 식별자, 멤버 또는 레거시 호출 대상 노드
      * @param env the environment / 환경
      * @param ctx the context / 문맥
      * @param st  the node state or null / 노드 상태 또는 null
      * @return the reference / 참조
      */
     Reference evalReference(Node t, Environment env, Ctx ctx, NodeState st) {
+        if (t.type == NodeType.CALL) {
+            throw callAssignmentError(t, env, ctx);
+        }
         if (t.type == NodeType.IDENT) {
             Environment e;
             if (replay(st)) {
@@ -850,6 +853,21 @@ final class Expressions {
     }
 
     /**
+     * Evaluates an Annex B.3.9 call before reporting that it cannot be assigned to.
+     * <p>
+     * 부속서 B.3.9의 호출을 평가한 뒤 대입할 수 없는 대상 오류를 반환한다.
+     *
+     * @param target ordinary call used as a target / 대입 대상으로 사용한 일반 호출
+     * @param env current environment / 현재 환경
+     * @param ctx executing context / 실행 문맥
+     * @return the ReferenceError after a successful call / 호출 성공 이후의 ReferenceError
+     */
+    JsException callAssignmentError(Node target, Environment env, Ctx ctx) {
+        eval(target, env, ctx);
+        return JsException.referenceError("Invalid left-hand side in assignment");
+    }
+
+    /**
      * Evaluates assignment and compound assignment.
      * <p>
      * 대입과 복합 대입을 평가한다.
@@ -863,7 +881,7 @@ final class Expressions {
     private JsValue evalAssign(Node n, Environment env, Ctx ctx, NodeState st) {
         Node target = n.a;
         int op = n.op;
-        if (target.type == NodeType.IDENT || target.type == NodeType.MEMBER) {
+        if (target.type == NodeType.IDENT || target.type == NodeType.MEMBER || target.type == NodeType.CALL) {
             // 대상을 Reference 로 평가한 뒤 (복합 대입이면 GetValue), 오른쪽을 평가하고 PutValue 한다.
             Reference ref = evalReference(target, env, ctx, st);
             JsValue value;

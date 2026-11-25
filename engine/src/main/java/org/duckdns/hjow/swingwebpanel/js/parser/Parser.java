@@ -761,7 +761,9 @@ public final class Parser extends ExpressionParser {
                     if ((e.type == NodeType.ARRAY || e.type == NodeType.OBJECT) && !e.paren) {
                         left = toAssignmentTarget(e);
                     } else {
-                        checkSimpleTarget(e, "Invalid left-hand side in for-loop");
+                        if (!isLegacyCallTarget(e)) {
+                            checkSimpleTarget(e, "Invalid left-hand side in for-loop");
+                        }
                         left = e;
                     }
                     coverError = savedCover;

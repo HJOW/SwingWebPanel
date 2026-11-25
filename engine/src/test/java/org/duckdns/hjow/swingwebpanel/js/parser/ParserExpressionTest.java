@@ -304,7 +304,7 @@ public class ParserExpressionTest {
         bad("[...a = 1] = c");
         bad("([a]) = 1");
         bad("({a}) = 1");
-        bad("f() = 1");
+        bad("[f()] = [1]");
         bad("a ? b : c = d => ");
         bad("x = {__proto__: a, __proto__: b}");
     }

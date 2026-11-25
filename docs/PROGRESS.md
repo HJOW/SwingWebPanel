@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-09-a2 Annex B 호출 대입 대상 (2026-11-26) ===
+현재 작업 번호: P29-09-a 완료.
+완료한 내용: 비엄격 코드의 일반 호출을 일부 대입·증감·반복문 대상으로 파싱한다. 호출을 실행하고 성공하면 우변이나 숫자 변환 전에 ReferenceError를 던진다. 반복 대상의 중단은 값을 다시 소비하지 않으며 오류 뒤 이터레이터를 닫는다.
+변경 파일: ExpressionParser.java, Parser.java, Expressions.java, Statements.java, AnnexB17ConformanceTest.java, EarlyErrorTest.java, ParserExpressionTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 845건 통과. sourcecheck 0 위반.
+미해결 사항: 판본 전이와 Reflect.enumerate(P29-09-b), 정규식 및 호스트 호환 대조(P29-09-c~e).
+다음 작업 번호: P29-09-b.
+-----------------------------------------------------------------------------------------------
 === P29-09-a1 Annex B for-in var 초기화 (2026-11-26) ===
 현재 작업 번호: P29-09-a1 완료.
 완료한 내용: 비엄격 for-in의 단일 var 식별자 초기화식을 허용한다. 바인딩을 먼저 결정해 초기화하고 우변을 평가한다. 제너레이터 중단 후에도 초기화와 바인딩 해석이 중복되지 않는다.
@@ -954,6 +962,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-09-a2 호출 대입 대상과 P29-09-a 완료
+
+- 비엄격 코드의 대입·증감·for-in/of/await에서만 B.3.9 런타임 검사를 적용한다. 엄격 코드, 논리 대입, 선택적 체인과 구조 분해는 조기 오류다.
+- 제17판 §14.7.5.7의 반복문은 호출 평가 완결 직후 ReferenceError를 직접 던지므로 호출 실패의 원래 오류와 IteratorClose가 생략된다. TC39 편집본(https://tc39.es/ecma262/multipage/ecmascript-language-statements-and-declarations.html, 2026-11-25 Last-Modified, 2026-11-26 조회, JRE 25)에서도 같은 순서를 확인했다. Web 호환을 위해 V8 14.6.202.34와 같이 원래 호출 오류를 보존하고 이터레이터 닫기를 실행한다.
+- JDK 6u45로 `mvn -B -o -pl engine test` 845건 통과. 제너레이터·비동기 중단 뒤 호출 및 닫기, 호출의 부작용과 우변 평가 순서를 검증했다. 다음은 P29-09-b다.
 
 ### 2026-11-26 · P29-09-a1 비엄격 for-in 초기화식
 
