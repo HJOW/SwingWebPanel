@@ -20,6 +20,44 @@ public final class Es2022BuiltinsTest {
     }
 
     /**
+     * Checks the order of length, presence, read, compare, write and delete operations on a sparse proxy.
+     * <p>
+     * 희소 프록시에서 길이·존재 검사·읽기·비교·쓰기·삭제 순서를 확인한다.
+     */
+    public void testSortIndexedPropertyOrder() {
+        Check.equal("length,h0,g0,h1,h2,g2,h3,g3,h4,compare,s0,s1,s2,d3,d4|1,3,undefined,false",
+                Scripts.eval("var log=[], o=Object.create({2:undefined}); o.length=5; o[0]=3; o[3]=1;"
+                + " var p=new Proxy(o,{get(t,k){log.push(k==='length'?k:'g'+k);return t[k];},"
+                + " has(t,k){log.push('h'+k);return k in t;},set(t,k,v){log.push('s'+k);t[k]=v;return true;},"
+                + " deleteProperty(t,k){log.push('d'+k);return delete t[k];}});"
+                + " Array.prototype.sort.call(p,function(a,b){log.push('compare');return a-b;});"
+                + " log.join()+'|'+o[0]+','+o[1]+','+o[2]+','+(3 in o)"),
+                "gather inherited values first, then sort, write and delete every trailing index");
+    }
+
+    /**
+     * Checks that abrupt completion stops at the current sort phase and keeps already visible side effects.
+     * <p>
+     * 예외가 발생한 단계에서 정렬이 멈추며 이미 발생한 부작용은 유지되는지 확인한다.
+     */
+    public void testSortAbruptCompletion() {
+        Check.equal("stop|3,7,2", Scripts.eval("var a=[3,1,2];"
+                + " try{a.sort(function(){a[1]=7;throw 'stop';});}catch(e){e+'|'+a.join();}"),
+                "a throwing callback retains its mutation but prevents sort writeback");
+        Check.equal("convert|0", Scripts.eval("var reads=0, writes=0, a=[];"
+                + " function item(n){return {toString(){if(++reads===5)throw 'convert';return String(n);}};}"
+                + " a.push(item(4),item(2),item(3),item(1));"
+                + " var p=new Proxy(a,{set(t,k,v){writes++;t[k]=v;return true;}});"
+                + " try{Array.prototype.sort.call(p);'completed';}catch(e){e+'|'+writes;}"),
+                "default string conversion runs in each comparison and stops on error");
+        Check.equal("TypeError|s0,d1|7", Scripts.eval("var log=[], o={length:4,3:7};"
+                + " var p=new Proxy(o,{set(t,k,v){log.push('s'+k);t[k]=v;return true;},"
+                + " deleteProperty(t,k){log.push('d'+k);return false;}});"
+                + " try{Array.prototype.sort.call(p);}catch(e){e.name+'|'+log.join()+'|'+o[0];}"),
+                "a rejected deletion of an absent key aborts after prior writes");
+    }
+
+    /**
      * Checks Object entries, values, descriptors, fromEntries and hasOwn.
      * <p>
      * Object 의 entries, values, descriptors, fromEntries, hasOwn 을 검사한다.

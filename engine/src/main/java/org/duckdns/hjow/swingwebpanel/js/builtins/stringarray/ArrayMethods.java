@@ -466,9 +466,9 @@ final class ArrayMethods {
     }
 
     /**
-     * Array.prototype.sort (22.1.3.24): present elements are sorted (undefined last), holes are moved to the end and deleted.
+     * Array.prototype.sort: collects and sorts present values, writes them with undefined last, then deletes the remaining indices.
      * <p>
-     * Array.prototype.sort(22.1.3.24): 있는 요소를 정렬하고(undefined 는 맨 뒤), 구멍은 끝으로 모아 지운다.
+     * Array.prototype.sort: 있는 값을 모아 정렬하고 undefined를 끝에 써 넣은 뒤 나머지 인덱스를 삭제한다.
      *
      * @param o         the object / 객체
      * @param compareFn comparison function or undefined / 비교 함수 또는 undefined
@@ -496,16 +496,16 @@ final class ArrayMethods {
         // 정렬된 값, undefined, 그리고 남은 구멍 순으로 다시 쓴다.
         for (int i = 0; i < values.length; i++) {
             Support.setAt(o, index++, values[i]);
+            Support.poll(index);
         }
         // 정렬된 값 뒤에 undefined 를 개수만큼 쓴다.
         for (int i = 0; i < undefinedCount; i++) {
             Support.setAt(o, index++, Js.UNDEFINED);
+            Support.poll(index);
         }
-        // 남은 칸 중 실제로 있는 요소를 지워 구멍으로 만든다.
+        // 빈 칸도 삭제 연산을 호출하여 프록시가 같은 순서로 트랩을 받게 한다.
         for (; index < len; index++) {
-            if (Support.hasAt(o, index)) {
-                Support.deleteAt(o, index);
-            }
+            Support.deleteAt(o, index);
             Support.poll(index);
         }
         return o;
