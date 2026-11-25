@@ -29,12 +29,30 @@ public class JavaBrowser extends JFrame {
 ```
 Java 6 이상 버전을 모두 지원합니다.
     
-우리 프로젝트에서는 AI를 적극 사용하여 개발하고 있습니다.
+Maven 을 통한 의존성 주입이 가능합니다.    
+SwingWebPanel 컴포넌트 사용 시 다음 사항을 dependencies 에 넣습니다.
+```xml
+<dependency>
+    <groupId>org.duckdns.hjow</groupId>
+    <artifactId>swingwebpanel</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+만약 Swing 컴포넌트가 아닌 스크립트 엔진으로만 사용한다면 다음과 같이 사용하면 됩니다.
+```xml
+<dependency>
+    <groupId>org.duckdns.hjow</groupId>
+    <artifactId>swingwebpanel-js</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
     
 오픈소스 라이센스에 따라, 이 컴포넌트를 사용함에 따른 결과는 사용자 책임입니다.    
 프로젝트 특성상 보안 취약점 이슈가 자주 발생할 수 있으므로,    
 되도록이면 자체 개발한 홈페이지 혹은 프로젝트 내장 웹페이지 출력 용도로만 사용하는 것을 권장합니다.
-
+    
+우리 프로젝트에서는 AI를 적극 사용하여 개발하고 있습니다.
+    
 ## 소개 (AI 작성)
 
 Java Swing 에서 쓰는 웹 브라우저 컴포넌트입니다. HTML 파서, CSS 처리기, 레이아웃/렌더링 엔진, JavaScript 엔진(ES2015 대상), DOM, 이미지/오디오 디코더, HTTP/HTTPS/FTP 요청 계층을
