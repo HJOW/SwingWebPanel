@@ -1,5 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.js.interp;
 
+import org.duckdns.hjow.swingwebpanel.js.JsObject;
+import org.duckdns.hjow.swingwebpanel.js.JsRealm;
+import org.duckdns.hjow.swingwebpanel.testing.Check;
+
 /**
  * Execution tests for async generators and for-await-of (plan item P28-03-d).
  * <p>
@@ -29,6 +33,53 @@ public class ModernAsyncIteratorTest {
      * 스위트를 만든다.
      */
     public ModernAsyncIteratorTest() {
+    }
+
+    /**
+     * Checks dynamic async function construction and the own prototypes of async generator functions.
+     * <p>
+     * 동적 비동기 함수 생성과 비동기 제너레이터 함수의 자체 프로토타입을 확인한다.
+     */
+    public void testDynamicAsyncFunctionKinds() {
+        Scripts.checkInline("var A=(async()=>{}).constructor,G=(async function*(){}).constructor;"
+                + "var add=new A('x','return (await x)+1;');"
+                + "t('async function prototype',Object.getPrototypeOf(add),A.prototype);"
+                + "t('async owns no prototype',Object.hasOwn(add,'prototype'),false);"
+                + "t('async tag',Object.prototype.toString.call(add),'[object AsyncFunction]');"
+                + "terr('await parameter',()=>new A('x=await 0','return x;'),'SyntaxError');"
+                + "add(Promise.resolve(4)).then(v=>t('await result',v,5));"
+                + "var make=new G('x','yield await x;return 9;'),iter=make(Promise.resolve(7));"
+                + "t('own result prototype',Object.getPrototypeOf(iter),make.prototype);"
+                + "t('shared result prototype',Object.getPrototypeOf(make.prototype),G.prototype.prototype);"
+                + "t('only async iteration',typeof iter[Symbol.iterator],'undefined');"
+                + "t('async iterator identity',iter[Symbol.asyncIterator](),iter);"
+                + "var receiver={};t('generic asyncIterator',iter[Symbol.asyncIterator].call(receiver),receiver);"
+                + "iter.next().then(r=>t('yielded',r.value+':'+r.done,'7:false'))"
+                + ".then(()=>iter.next()).then(r=>t('completed',r.value+':'+r.done,'9:true'));",
+                12);
+    }
+
+    /**
+     * Checks explicit new targets and the default prototypes of foreign bound or proxied constructors.
+     * <p>
+     * 명시적 newTarget과 다른 렐름에 있는 바인딩·프록시 생성자의 기본 프로토타입을 확인한다.
+     */
+    public void testDynamicFunctionNewTarget() {
+        Scripts.checkInline("var A=(async function(){}).constructor,G=(function*(){}).constructor;"
+                + "function Target(){};Target.prototype={};"
+                + "t('Function target',Object.getPrototypeOf(Reflect.construct(Function,['return 1'],Target)),Target.prototype);"
+                + "t('GeneratorFunction target',Object.getPrototypeOf(Reflect.construct(G,['yield 1'],Target)),Target.prototype);"
+                + "class Sub extends A{};"
+                + "var af=new Sub('return 2;');t('derived constructor target',Object.getPrototypeOf(af),Sub.prototype);"
+                + "af().then(v=>t('derived async body',v,2));",
+                4);
+        JsRealm local = JsRealm.create();
+        JsRealm foreign = JsRealm.create();
+        local.getGlobalObject().defineBuiltin("foreignTarget", foreign.evaluateScript("new Proxy((function(){}).bind(null),{});", "other"));
+        JsObject generated = (JsObject) local.evaluateScript(
+                "Reflect.construct((async function*(){}).constructor,['yield 1'],foreignTarget);", "local");
+        Check.same(foreign.getIntrinsic("%AsyncGeneratorFunction.prototype%"), generated.getPrototypeOf(),
+                "fallback prototype comes from the actual target function's realm");
     }
 
     /**

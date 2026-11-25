@@ -15,7 +15,8 @@ import java.util.List;
  * (read-only data), <code>tag</code> (@@toStringTag string), <code>val</code> (writable data), <code>obj</code> (object valued data),
  * <code>rfn</code> (function, read-only but configurable), <code>lfn</code> (function with all attributes false), <code>accessor</code> (getter and setter),
  * <code>robj</code> (object valued, read-only, configurable), <code>size</code> (writable numeric data with fixed attributes),
- * <code>link</code> (<code>a=b</code>: the property a is the same value as the path b), <code>chain</code> (<code>a=b</code>:
+ * <code>link</code> and <code>rlink</code> (<code>a=b</code>: the property a is the same value as the path b, writable or read-only),
+ * <code>chain</code> (<code>a=b</code>:
  * the prototype of a is b), <code>poison</code> (a restricted accessor whose two functions are %ThrowTypeError%).
  * <p>
  * ECMA-262 제17판 19~28장과 부속서 B.2에 따른 ECMAScript 내장 프로퍼티 표.
@@ -229,9 +230,19 @@ final class ConformanceTable {
         "%MapIteratorPrototype%: tag @@toStringTag=Map Iterator",
         "%SetIteratorPrototype%: fn next=0",
         "%SetIteratorPrototype%: tag @@toStringTag=Set Iterator",
+        "%AsyncIteratorPrototype%: fn @@asyncIterator=0",
         "%GeneratorPrototype%: fn next=1 return=1 throw=1",
         "%GeneratorPrototype%: tag @@toStringTag=Generator",
+        "%GeneratorPrototype%: rlink constructor=%GeneratorFunction.prototype%",
         "%GeneratorFunction.prototype%: tag @@toStringTag=GeneratorFunction",
+        "%GeneratorFunction.prototype%: rlink constructor=%GeneratorFunction% prototype=%GeneratorPrototype%",
+        "%AsyncGeneratorPrototype%: fn next=1 return=1 throw=1",
+        "%AsyncGeneratorPrototype%: tag @@toStringTag=AsyncGenerator",
+        "%AsyncGeneratorPrototype%: rlink constructor=%AsyncGeneratorFunction.prototype%",
+        "%AsyncGeneratorFunction.prototype%: tag @@toStringTag=AsyncGeneratorFunction",
+        "%AsyncGeneratorFunction.prototype%: rlink constructor=%AsyncGeneratorFunction% prototype=%AsyncGeneratorPrototype%",
+        "%AsyncFunction.prototype%: tag @@toStringTag=AsyncFunction",
+        "%AsyncFunction.prototype%: rlink constructor=%AsyncFunction%",
 
         // ---- 28 Reflection
         "Proxy: fn revocable=2",
@@ -277,6 +288,12 @@ final class ConformanceTable {
         "%SetIteratorPrototype%: chain %SetIteratorPrototype%=%IteratorPrototype%",
         "%IteratorHelperPrototype%: chain %IteratorHelperPrototype%=%IteratorPrototype%",
         "%WrapForValidIteratorPrototype%: chain %WrapForValidIteratorPrototype%=%IteratorPrototype%",
+        "%GeneratorFunction%: chain %GeneratorFunction%=Function %GeneratorFunction.prototype%=Function.prototype",
+        "%GeneratorPrototype%: chain %GeneratorPrototype%=%IteratorPrototype%",
+        "%AsyncGeneratorFunction%: chain %AsyncGeneratorFunction%=Function %AsyncGeneratorFunction.prototype%=Function.prototype",
+        "%AsyncGeneratorPrototype%: chain %AsyncGeneratorPrototype%=%AsyncIteratorPrototype%",
+        "%AsyncIteratorPrototype%: chain %AsyncIteratorPrototype%=Object.prototype",
+        "%AsyncFunction%: chain %AsyncFunction%=Function %AsyncFunction.prototype%=Function.prototype",
     };
 
     /**

@@ -102,7 +102,8 @@ public final class AsyncGeneratorObject extends JsObject {
      * @return object / 객체
      */
     static JsObject create(Interpreter in, ScriptFunction function, Ctx ctx) {
-        JsObject proto = in.realm.getIntrinsic("%AsyncGeneratorPrototype%");
+        JsValue value = function.get("prototype");
+        JsObject proto = value instanceof JsObject ? (JsObject) value : in.realm.getIntrinsic("%AsyncGeneratorPrototype%");
         return new AsyncGeneratorObject(proto == null ? in.realm.newObject() : proto, in, function, ctx);
     }
 

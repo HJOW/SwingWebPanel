@@ -50,7 +50,7 @@ final class FunctionBuiltins implements BuiltinInstaller {
         };
         NativeFunction ctor = new NativeFunction(realm, "Function", 1, call, new NativeFunction.Construct() {
             public JsObject construct(JsRealm r, JsValue[] args, JsObject newTarget) {
-                return r.getInterpreter().createDynamicFunction(args, false);
+                return r.getInterpreter().createDynamicFunction(args, false, false, newTarget);
             }
         });
         ctor.defineData("prototype", proto, false, false, false);

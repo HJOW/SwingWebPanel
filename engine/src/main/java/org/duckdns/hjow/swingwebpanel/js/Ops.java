@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.ProxyObject;
 
 /**
  * The abstract operations of ECMA-262 6th edition clauses 7.1 (type conversion), 7.2 (testing and comparison) and 7.3
@@ -928,6 +929,47 @@ public final class Ops {
         }
         JsValue p = newTarget.get("prototype");
         return p instanceof JsObject ? (JsObject) p : fallback;
+    }
+
+    /**
+     * Looks up a constructor's prototype, with an intrinsic from the constructor's realm as the fallback.
+     * <p>
+     * 생성자의 프로토타입을 조회한다. 기본값으로는 생성자 렐름의 내장 객체를 사용한다.
+     *
+     * @param realm the current realm / 현재 렐름
+     * @param newTarget the constructor / 생성자
+     * @param fallbackIntrinsic the name of the default prototype / 기본 프로토타입 내장 이름
+     * @return the prototype / 프로토타입
+     */
+    public static JsObject getIntrinsicPrototypeFromConstructor(JsRealm realm, JsObject newTarget, String fallbackIntrinsic) {
+        JsValue proto = newTarget.get("prototype");
+        return proto instanceof JsObject ? (JsObject) proto : functionRealm(realm, newTarget).getIntrinsic(fallbackIntrinsic);
+    }
+
+    /**
+     * Finds the realm of a function, following a bound target or an active proxy target.
+     * <p>
+     * 바인딩 대상 또는 해제되지 않은 프록시 대상을 따라 함수의 렐름을 찾는다.
+     *
+     * @param current the caller's realm / 호출자 렐름
+     * @param function the function / 함수
+     * @return the function's realm / 함수의 렐름
+     */
+    private static JsRealm functionRealm(JsRealm current, JsObject function) {
+        JsObject target = function;
+        // 바인딩과 프록시는 함수가 정의된 실제 렐름까지 따라간다.
+        for (;;) {
+            if (target instanceof BoundFunction) {
+                target = ((BoundFunction) target).getTarget();
+            } else if (target instanceof ProxyObject) {
+                target = ((ProxyObject) target).getProxyTarget();
+                if (target == null) {
+                    throw JsException.typeError("Cannot get the realm of a revoked proxy");
+                }
+            } else {
+                return target instanceof JsFunction ? ((JsFunction) target).getRealm() : current;
+            }
+        }
     }
 
     /**

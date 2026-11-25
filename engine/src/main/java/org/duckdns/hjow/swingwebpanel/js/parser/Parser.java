@@ -190,19 +190,35 @@ public final class Parser extends ExpressionParser {
      * @return the FUNCTION node (its FunctionInfo source text is the full function text) / FUNCTION 노드(FunctionInfo 의 소스 텍스트가 전체 함수 텍스트)
      */
     public static Node parseFunctionConstructor(String params, String body, boolean generator, String sourceName) {
-        String star = generator ? "*" : "";
-        String paramCheck = "function" + star + " anonymous(" + params + "\n) {}";
+        return parseFunctionConstructor(params, body, generator, false, sourceName);
+    }
+
+    /**
+     * Parses a dynamic function with separate parameter and body validation for its function kind.
+     * <p>
+     * 함수 종류에 따라 매개변수와 본문을 각각 검증한 후 동적 함수를 파싱한다.
+     *
+     * @param params the formal parameter source / 매개변수 원문
+     * @param body the body source / 본문 원문
+     * @param generator whether yield is enabled in the body / 본문의 yield 사용 여부
+     * @param async whether await is enabled in the body / 본문의 await 사용 여부
+     * @param sourceName the diagnostics label / 오류 위치 이름
+     * @return the parsed function / 파싱한 함수
+     */
+    public static Node parseFunctionConstructor(String params, String body, boolean generator, boolean async, String sourceName) {
+        String prefix = (async ? "async function" : "function") + (generator ? "*" : "");
+        String paramCheck = prefix + " anonymous(" + params + "\n) {}";
         Node pc = parseScript(paramCheck, sourceName);
         if (pc.list.length != 1 || pc.list[0].type != NodeType.FUNCTION_DECL || pc.list[0].b.fn.end != paramCheck.length()
                 || pc.list[0].b.fn.body.list.length != 0) {
             throw JsException.syntaxError("Invalid function parameters", sourceName, 1, 1);
         }
-        String bodyCheck = "function" + star + " anonymous(\n) {\n" + body + "\n}";
+        String bodyCheck = prefix + " anonymous(\n) {\n" + body + "\n}";
         Node bc = parseScript(bodyCheck, sourceName);
         if (bc.list.length != 1 || bc.list[0].type != NodeType.FUNCTION_DECL || bc.list[0].b.fn.end != bodyCheck.length()) {
             throw JsException.syntaxError("Invalid function body", sourceName, 1, 1);
         }
-        String text = "function" + star + " anonymous(" + params + "\n) {\n" + body + "\n}";
+        String text = prefix + " anonymous(" + params + "\n) {\n" + body + "\n}";
         Node prog = parseScript("(" + text + ")", sourceName);
         Node fn = prog.list[0].a;
         fn.fn.start = 1;

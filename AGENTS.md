@@ -902,7 +902,8 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [ ] P29-10-a3. 26~28장의 약한 참조, 이터레이터·제너레이터·Promise·Reflect·Proxy를 대조한다. 내부 프로토타입, 심볼과 제약 목록을 검증한다.
       - [x] P29-10-a3a. WeakRef·FinalizationRegistry·Promise·Reflect·Proxy의 프로퍼티와 생성자 계층을 대조한다. 선택 또는 확장 프로퍼티는 표에서 근거와 함께 관리한다.
       - [x] P29-10-a3b. Iterator와 헬퍼, Array·TypedArray·String·RegExp·Map·Set 이터레이터의 내부 프로토타입을 대조한다. 같은 프로토타입과 메서드가 공유되어야 하는 수신자를 검사한다.
-      - [ ] P29-10-a3c. 제너레이터·async 함수·async 제너레이터의 생성자와 프로토타입을 대조한다. Function 계열의 동적 생성, newTarget 및 중단·재개의 실행 결과를 검증한다.
+      - [x] P29-10-a3c. 제너레이터·async 함수·async 제너레이터의 생성자와 프로토타입을 대조한다. Function 계열의 동적 생성, newTarget 및 중단·재개의 실행 결과를 검증한다.
+      - [ ] P29-10-a3d. Async-from-Sync 어댑터를 공용 내장 프로토타입에 연결한다. for await와 yield*가 next를 한 번 읽고 return·throw를 호출 시점에 조회하는지 확인한다.
   - [ ] P29-10-b. 구조화 복제와 독립 엔진 경계를 보완한다. 가변 버퍼·뷰, Float16Array, 공유 버퍼 정책, Error cause·AggregateError, JSON 모듈을 호스트별 정상 진입점과 JSR 223에서 확인한다.
   - [ ] P29-10-c. 브라우저 렐름 경계를 대조한다. 전역 `WindowProxy`의 정체성과 반사 연산, 타 렐름 eval이 사용하는 활성 모듈 레코드의 소유 렐름, 이벤트 속성의 중첩 실행, COOP/COEP와 공유 메모리 조건을 확인한다.
   - [ ] P29-10-d. Java 6에서 정본의 Unicode 정규화와 ECMA-402 없는 기본 지역화 동작을 확인한다. Unicode 18 입력, 정규화 형식과 문자열·수치·날짜의 경계를 검증한다.

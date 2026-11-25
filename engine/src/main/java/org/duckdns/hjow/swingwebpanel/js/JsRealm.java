@@ -232,6 +232,8 @@ public class JsRealm {
                 return Js.UNDEFINED;
             }
         }, null);
+        setIntrinsic("%Object.prototype%", objectPrototype);
+        setIntrinsic("%Function.prototype%", functionPrototype);
         arrayPrototype = new JsArray(objectPrototype);
         stringPrototype = new JsStringObject(objectPrototype, "");
         numberPrototype = new JsPrimitiveObject(objectPrototype, JsNumber.ZERO, "Number");

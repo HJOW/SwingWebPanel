@@ -80,6 +80,7 @@ public final class IteratorBuiltins implements BuiltinInstaller {
         ArrayIteratorObject.install(realm);
 
         installGenerators(realm);
+        installFunctionType(realm, "AsyncFunction", null, false, true);
         installAsyncGenerators(realm);
     }
 
@@ -92,21 +93,7 @@ public final class IteratorBuiltins implements BuiltinInstaller {
      */
     private void installGenerators(JsRealm realm) {
         JsObject genProto = new JsObject(realm.getIteratorPrototype());
-        JsObject genFnProto = new JsObject(realm.getFunctionPrototype());
-        NativeFunction genFnCtor = new NativeFunction(realm, realm.getIntrinsic("%Function%"), "GeneratorFunction", 1,
-                new NativeFunction.Call() {
-                    public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                        return r.getInterpreter().createDynamicFunction(args, true);
-                    }
-                }, new NativeFunction.Construct() {
-                    public JsObject construct(JsRealm r, JsValue[] args, JsObject newTarget) {
-                        return r.getInterpreter().createDynamicFunction(args, true);
-                    }
-                });
-        genFnCtor.defineData("prototype", genFnProto, false, false, false);
-        genFnProto.defineData("constructor", genFnCtor, false, false, true);
-        genFnProto.defineData("prototype", genProto, false, false, true);
-        genFnProto.defineData(WellKnownSymbols.TO_STRING_TAG, JsString.of("GeneratorFunction"), false, false, true);
+        JsObject genFnProto = installFunctionType(realm, "GeneratorFunction", genProto, true, false);
         genProto.defineData("constructor", genFnProto, false, false, true);
         genProto.defineData(WellKnownSymbols.TO_STRING_TAG, JsString.of("Generator"), false, false, true);
         realm.method(genProto, "next", 1, new NativeFunction.Call() {
@@ -124,9 +111,62 @@ public final class IteratorBuiltins implements BuiltinInstaller {
                 return generator(thisValue, "throw").resume(GeneratorObject.THROW, Js.arg(args, 0));
             }
         });
-        realm.setIntrinsic("%GeneratorFunction%", genFnCtor);
-        realm.setIntrinsic("%GeneratorFunction.prototype%", genFnProto);
         realm.setIntrinsic("%GeneratorPrototype%", genProto);
+    }
+
+    /**
+     * Installs a generator or async function constructor and its function-prototype object.
+     * <p>
+     * 제너레이터 또는 비동기 함수 생성자와 함수 프로토타입 객체를 설치한다.
+     *
+     * @param realm the receiving realm / 설치할 렐름
+     * @param name the constructor's name / 생성자 이름
+     * @param resultPrototype generator result prototype, or null / 제너레이터 결과 프로토타입 또는 null
+     * @param generator whether the parser uses a generator body / 제너레이터 본문 파싱 여부
+     * @param async whether the parser uses an async body / 비동기 본문 파싱 여부
+     * @return the function prototype / 함수 프로토타입
+     */
+    private JsObject installFunctionType(JsRealm realm, String name, JsObject resultPrototype, final boolean generator,
+            final boolean async) {
+        JsObject prototype = new JsObject(realm.getFunctionPrototype());
+        NativeFunction ctor = new NativeFunction(realm, realm.getIntrinsic("%Function%"), name, 1, new NativeFunction.Call() {
+            /**
+             * Creates a dynamic function using the default prototype.
+             * <p>
+             * 기본 프로토타입으로 동적 함수를 만든다.
+             *
+             * @param r the realm / 렐름
+             * @param receiver the receiver / 수신자
+             * @param args the parameter and body sources / 매개변수와 본문 원문
+             * @return the dynamic function / 동적 함수
+             */
+            public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
+                return r.getInterpreter().createDynamicFunction(args, generator, async, null);
+            }
+        }, new NativeFunction.Construct() {
+            /**
+             * Creates a dynamic function using the given new target.
+             * <p>
+             * 지정한 newTarget으로 동적 함수를 만든다.
+             *
+             * @param r the realm / 렐름
+             * @param args the parameter and body sources / 매개변수와 본문 원문
+             * @param newTarget the new target / 새 대상
+             * @return the dynamic function / 동적 함수
+             */
+            public JsObject construct(JsRealm r, JsValue[] args, JsObject newTarget) {
+                return r.getInterpreter().createDynamicFunction(args, generator, async, newTarget);
+            }
+        });
+        ctor.defineData("prototype", prototype, false, false, false);
+        prototype.defineData("constructor", ctor, false, false, true);
+        if (resultPrototype != null) {
+            prototype.defineData("prototype", resultPrototype, false, false, true);
+        }
+        prototype.defineData(WellKnownSymbols.TO_STRING_TAG, JsString.of(name), false, false, true);
+        realm.setIntrinsic("%" + name + "%", ctor);
+        realm.setIntrinsic("%" + name + ".prototype%", prototype);
+        return prototype;
     }
 
     /**
@@ -137,7 +177,26 @@ public final class IteratorBuiltins implements BuiltinInstaller {
      * @param realm realm / realm
      */
     private void installAsyncGenerators(JsRealm realm) {
-        JsObject proto = new JsObject(realm.getIteratorPrototype());
+        JsObject asyncIterator = new JsObject(realm.getObjectPrototype());
+        realm.method(asyncIterator, WellKnownSymbols.ASYNC_ITERATOR, 0, new NativeFunction.Call() {
+            /**
+             * Returns any receiver unchanged so async iterators are iterable.
+             * <p>
+             * 비동기 이터레이터를 순회할 수 있도록 수신자를 그대로 반환한다.
+             *
+             * @param r the realm / 렐름
+             * @param receiver the receiver / 수신자
+             * @param args ignored arguments / 사용하지 않는 인수
+             * @return the receiver / 수신자
+             */
+            public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
+                return receiver;
+            }
+        });
+        realm.setIntrinsic("%AsyncIteratorPrototype%", asyncIterator);
+        JsObject proto = new JsObject(asyncIterator);
+        JsObject functionPrototype = installFunctionType(realm, "AsyncGeneratorFunction", proto, true, true);
+        proto.defineData("constructor", functionPrototype, false, false, true);
         proto.defineData(WellKnownSymbols.TO_STRING_TAG, JsString.of("AsyncGenerator"), false, false, true);
         realm.method(proto, "next", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
@@ -154,13 +213,6 @@ public final class IteratorBuiltins implements BuiltinInstaller {
                 return asyncGenerator(thisValue, "throw").request(AsyncGeneratorObject.THROW, Js.arg(args, 0));
             }
         });
-        proto.defineData(WellKnownSymbols.ASYNC_ITERATOR, new NativeFunction(realm, "[Symbol.asyncIterator]", 0,
-                new NativeFunction.Call() {
-                    public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                        asyncGenerator(thisValue, "Symbol.asyncIterator");
-                        return thisValue;
-                    }
-                }), false, false, true);
         realm.setIntrinsic("%AsyncGeneratorPrototype%", proto);
     }
 

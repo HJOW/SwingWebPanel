@@ -229,7 +229,7 @@ public class MetaConformanceTest {
      * 표 자체의 형식이 올바르다: 알려진 종류, 항목 존재, id 유일, 허용 목록 행이 완전함.
      */
     public void testTableIsWellFormed() {
-        String known = " ctor ctor0 fn getter const tag val obj rfn lfn accessor robj size link chain poison ";
+        String known = " ctor ctor0 fn getter const tag val obj rfn lfn accessor robj size link rlink chain poison ";
         Set<String> ids = new HashSet<String>();
         List<String> lines = ConformanceTable.lines();
         // 표의 모든 줄을 읽어 종류와 항목의 형식, id 중복을 검사한다.
@@ -246,7 +246,8 @@ public class MetaConformanceTest {
             // 한 줄의 항목을 하나씩 검사한다.
             for (int j = 0; j < parts.length; j++) {
                 Check.isTrue(parts[j].length() > 0, "no empty item in: " + line);
-                boolean needsEquals = "link".equals(kind) || "chain".equals(kind) || "tag".equals(kind) || "size".equals(kind);
+                boolean needsEquals = "link".equals(kind) || "rlink".equals(kind) || "chain".equals(kind)
+                        || "tag".equals(kind) || "size".equals(kind);
                 Check.isTrue(!needsEquals || parts[j].indexOf('=') > 0, "item '" + parts[j] + "' needs '=' in: " + line);
                 String id = itemId(line.substring(0, colon), kind, parts[j]);
                 Check.isTrue(ids.add(id), "entry id is unique: " + id);
@@ -323,6 +324,26 @@ public class MetaConformanceTest {
             PropertyDescriptor descriptor = unscopables.getOwnProperty(name);
             expectData(descriptor, name, true, true, true);
             Check.equal(Js.TRUE, descriptor.value, "the descriptor hides " + name + " in with");
+        }
+    }
+
+    /**
+     * Checks the inaccessible-by-name constructors of generator and async function objects.
+     * <p>
+     * 제너레이터와 비동기 함수 객체의 전역 이름 없는 생성자를 확인한다.
+     */
+    public void testFunctionKindConstructorMetadata() {
+        String[] names = { "GeneratorFunction", "AsyncFunction", "AsyncGeneratorFunction" };
+        // 함수 종류마다 내부 생성자와 그 prototype 프로퍼티의 기술자를 확인한다.
+        for (String name : names) {
+            String key = "%" + name + "%";
+            JsObject ctor = expectFunction(realm.getIntrinsic(key), key, true);
+            expectNameLength(ctor, key, name, "1");
+            PropertyDescriptor proto = ctor.getOwnProperty("prototype");
+            expectData(proto, key + ".prototype", false, false, false);
+            Check.same(realm.getIntrinsic("%" + name + ".prototype%"), proto.value, "registered function kind prototype");
+            Check.isFalse(proto.value.isCallable(), "the function kind prototype is an ordinary object");
+            Check.isNull(global.getOwnProperty(name), "function kind constructor has no global binding");
         }
     }
 
@@ -798,8 +819,8 @@ public class MetaConformanceTest {
             if (!(d.value instanceof JsString) || !arg.equals(((JsString) d.value).getValue())) {
                 throw Problem.wrong(name + " is " + d.value + " but must be \"" + arg + "\"");
             }
-        } else if ("link".equals(kind)) {
-            expectData(d, name, true, false, true);
+        } else if ("link".equals(kind) || "rlink".equals(kind)) {
+            expectData(d, name, "link".equals(kind), false, true);
             JsValue target = resolve(arg);
             if (!Ops.sameValue(d.value, target)) {
                 throw Problem.wrong(name + " is not the same function object as " + arg);

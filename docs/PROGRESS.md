@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-a3c 함수 종류별 동적 생성자 (2026-11-26) ===
+현재 작업 번호: P29-10-a3c 완료.
+완료한 내용: AsyncFunction과 AsyncGeneratorFunction, AsyncIteratorPrototype을 설치했다. Function 계열의 newTarget과 타 렐름 기본 프로토타입, 비동기 제너레이터 함수별 자체 prototype을 연결했다.
+변경 파일: JsRealm.java, Ops.java, FunctionBuiltins.java, IteratorBuiltins.java, AsyncGeneratorObject.java, Interpreter.java, ScriptFunction.java, Parser.java, ConformanceTable.java, MetaConformanceTest.java, ModernAsyncIteratorTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 877건과 현재 표 755개 항목 통과. sourcecheck 0 위반.
+미해결 사항: Async-from-Sync 내장 프로토타입과 for await/yield*의 next 기록(P29-10-a3d).
+다음 작업 번호: P29-10-a3d.
+-----------------------------------------------------------------------------------------------
 === P29-10-a3b 이터레이터 내장 객체와 공용 next (2026-11-26) ===
 현재 작업 번호: P29-10-a3b 완료.
 완료한 내용: Iterator, 헬퍼, 내장 이터레이터의 메서드·태그·상속을 표에 추가했다. 배열과 형식화 배열은 같은 ArrayIteratorPrototype과 next를 사용한다.
@@ -1058,6 +1066,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-a3c 동적 함수 종류와 비동기 제너레이터
+
+- 제17판 §20.2.1.1.1·§27.3~27.7에 따라 GeneratorFunction, AsyncFunction, AsyncGeneratorFunction의 동적 매개변수와 본문을 구분하고 newTarget의 프로토타입을 적용했다. 바인딩·프록시 대상의 렐름에서 기본 프로토타입을 조회한다.
+- 비동기 제너레이터는 함수별 prototype을 상속하며 공용 AsyncIteratorPrototype의 @@asyncIterator를 사용한다. 프로토타입과 생성자 태그·기술자, await·yield, 동적 생성과 파라미터 조기 오류를 검증했다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 877건과 현재 내장 표 755개 항목 통과.
 
 ### 2026-11-26 · P29-10-a3b 이터레이터 프로토타입
 

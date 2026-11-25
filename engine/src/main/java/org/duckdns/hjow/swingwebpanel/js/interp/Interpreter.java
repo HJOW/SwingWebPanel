@@ -521,12 +521,25 @@ public final class Interpreter {
      */
     ScriptFunction createClosure(Node fnNode, Environment env, String nameHint) {
         FunctionInfo info = fnNode.fn;
-        JsObject proto = realm.getFunctionPrototype();
-        if (info.generator && realm.getIntrinsic("%GeneratorFunction.prototype%") != null) {
-            proto = realm.getIntrinsic("%GeneratorFunction.prototype%");
-        }
+        JsObject proto = realm.getIntrinsic(functionPrototypeName(info.generator, info.async));
         String name = info.name.length() > 0 ? info.name : (nameHint != null ? nameHint : "");
-        return new ScriptFunction(this, realm, proto, info, env, name);
+        return new ScriptFunction(this, realm, proto == null ? realm.getFunctionPrototype() : proto, info, env, name);
+    }
+
+    /**
+     * Returns the name of a function kind's default prototype intrinsic.
+     * <p>
+     * 각 함수 종류의 기본 프로토타입 내장 이름을 반환한다.
+     *
+     * @param generator whether the function yields / 함수의 yield 지원 여부
+     * @param async whether the function is asynchronous / 비동기 함수 여부
+     * @return the intrinsic name / 내장 이름
+     */
+    private static String functionPrototypeName(boolean generator, boolean async) {
+        if (async) {
+            return generator ? "%AsyncGeneratorFunction.prototype%" : "%AsyncFunction.prototype%";
+        }
+        return generator ? "%GeneratorFunction.prototype%" : "%Function.prototype%";
     }
 
     /**
@@ -1121,6 +1134,21 @@ public final class Interpreter {
      * @return the function / 함수
      */
     public JsObject createDynamicFunction(JsValue[] args, boolean generator) {
+        return createDynamicFunction(args, generator, false, null);
+    }
+
+    /**
+     * Creates a dynamic function of any supported function kind using the given new target.
+     * <p>
+     * 지정한 newTarget으로 지원하는 종류의 동적 함수를 만든다.
+     *
+     * @param args constructor arguments / 생성자 인수
+     * @param generator whether the function yields / 함수의 yield 지원 여부
+     * @param async whether the function is asynchronous / 비동기 함수 여부
+     * @param newTarget explicit new target, or null for the default prototype / 명시적인 newTarget. 기본 프로토타입을 쓰면 null
+     * @return the dynamic function / 동적 함수
+     */
+    public JsObject createDynamicFunction(JsValue[] args, boolean generator, boolean async, JsObject newTarget) {
         StringBuilder params = new StringBuilder();
         // 마지막 인수 앞의 인수를 쉼표로 이어 매개변수 목록을 만든다.
         for (int i = 0; i + 1 < args.length; i++) {
@@ -1130,8 +1158,12 @@ public final class Interpreter {
             params.append(Ops.toString(args[i]));
         }
         String body = args.length == 0 ? "" : Ops.toString(args[args.length - 1]);
-        Node fn = Parser.parseFunctionConstructor(params.toString(), body, generator, "anonymous");
-        return createClosure(fn, globalEnv, "anonymous");
+        Node fn = Parser.parseFunctionConstructor(params.toString(), body, generator, async, "anonymous");
+        if (newTarget == null) {
+            return createClosure(fn, globalEnv, "anonymous");
+        }
+        JsObject proto = Ops.getIntrinsicPrototypeFromConstructor(realm, newTarget, functionPrototypeName(generator, async));
+        return new ScriptFunction(this, realm, proto, fn.fn, globalEnv, "anonymous");
     }
 
     /**

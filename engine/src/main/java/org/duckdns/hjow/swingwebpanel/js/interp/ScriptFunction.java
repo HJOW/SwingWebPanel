@@ -101,7 +101,7 @@ public final class ScriptFunction extends JsFunction {
         // 모듈의 최상위 함수 선언은 해당 모듈을 실행하기 전 링크 단계에서도 만들어진다.
         scriptSource = scope.module == null ? RealmExecution.currentScriptSource() : scope.module.key;
         defineNameAndLength(name, info.length);
-        protoMaterialized = info.arrow || info.async || (info.method && !info.classConstructor && !info.generator);
+        protoMaterialized = info.arrow || (!info.generator && (info.async || (info.method && !info.classConstructor)));
     }
 
     /**
@@ -205,7 +205,8 @@ public final class ScriptFunction extends JsFunction {
     private void materializePrototype() {
         protoMaterialized = true;
         if (info.generator) {
-            JsObject gp = new JsObject(realm.getIntrinsic("%GeneratorPrototype%"));
+            String intrinsic = info.async ? "%AsyncGeneratorPrototype%" : "%GeneratorPrototype%";
+            JsObject gp = new JsObject(realm.getIntrinsic(intrinsic));
             super.defineOwnProperty("prototype", PropertyDescriptor.data(gp, true, false, false));
         } else if (isConstructor()) {
             JsObject p = realm.newObject();
