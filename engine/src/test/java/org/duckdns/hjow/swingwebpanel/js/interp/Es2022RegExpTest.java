@@ -41,6 +41,39 @@ public final class Es2022RegExpTest {
     }
 
     /**
+     * Checks repetition order and disjunction priority inside lookbehind.
+     * <p>
+     * 뒤쪽 탐색에서 반복 평가 순서와 대안의 우선순위를 확인한다.
+     */
+    public void testReverseLookbehindPriority() {
+        Check.equal("a,bc,0,1,1,3", Scripts.eval("var m=/(?<=([ab]+)([bc]+))$/d.exec('abc');"
+                + "[m[1],m[2],m.indices[1],m.indices[2]].join()"), "rightmost capture is greedy first");
+        Check.equal("a,ba,a,ab,2,4", Scripts.eval("var m=/(?<=a([ab]+))c/d.exec('baabc');"
+                + "[/(?<=(a|ba))c/.exec('bac')[1],/(?<=(ba|a))c/.exec('bac')[1],"
+                + "/(?<=(a+?))b/.exec('aaab')[1],m[1],m.indices[1]].join()"),
+                "alternatives retain source priority and repetitions can backtrack toward the start position");
+    }
+
+    /**
+     * Checks capture and reference semantics in nested assertions and supplementary text.
+     * <p>
+     * 중첩 단언과 보충 문자에서 캡처와 역참조 동작을 확인한다.
+     */
+    public void testReverseLookbehindCapturesAndReferences() {
+        Check.equal("a,false,a,4,2,4,2,0,2", Scripts.eval(
+                "var r=/(?<=\\1(.))x/diu.exec('\\u{10400}\\u{10428}x');"
+                + "var s=/(?<=(.))x/du.exec('\\u{1D11E}x');"
+                + "[/(?<=\\1(a))b/.exec('aab')[1],/(?<=\\1(a))b/.test('ab'),"
+                + "/(?<=(a)\\1)b/.exec('ab')[1],r.index,r.indices[1],s.index,s.indices[1]].join()"),
+                "backward references use captured code points and report UTF-16 positions");
+        Check.equal("b,1,2,true,,,a,false", Scripts.eval("var m=/(?<=a(?=(b)))b/d.exec('ab');"
+                + "[m[1],m.indices[1],/(?<=(?<=a)b)c/.test('abc'),"
+                + "/(?<!(a))b/d.exec('b')[1],/(?:(?<=(a))xz|x)/d.exec('ax')[1],"
+                + "/(?<n>a)(?<=a)\\k<n>/d.exec('aa').groups.n,/^(.)\\1/u.test('\\uD800\\uD800\\uDC00')].join()"),
+                "inner direction is local, captured slots roll back, and forward references respect scalar boundaries");
+    }
+
+    /**
      * Checks Unicode property escapes for categories, binary properties and scripts.
      * <p>
      * 범주, 이진 속성, script 의 유니코드 속성 escape 를 검사한다.

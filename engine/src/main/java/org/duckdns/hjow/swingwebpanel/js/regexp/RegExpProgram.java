@@ -210,11 +210,11 @@ public final class RegExpProgram {
     static final int OP_REPEAT = 23;
 
     /**
-     * Instruction: lookbehind, operands: negative flag and subprogram index.
+     * Instruction: assertion with a separate matcher, operands: negative flag and subprogram index.
      * <p>
-     * 명령: 뒤쪽 탐색. 피연산자: 부정 여부와 하위 프로그램 번호.
+     * 명령: 별도 검색기를 쓰는 단언. 피연산자: 부정 여부와 하위 프로그램 번호.
      */
-    static final int OP_LOOK_BEHIND = 24;
+    static final int OP_LOOK_SUB = 24;
 
     /** Named backreference: operand count followed by capture numbers. / 이름 역참조의 그룹 개수와 캡처 번호 목록. */
     static final int OP_BACKREF_ALTERNATIVES = 25;
@@ -264,6 +264,9 @@ public final class RegExpProgram {
      */
     private final int flags;
 
+    /** Whether the program consumes input backwards. / 프로그램이 입력을 역방향으로 읽는지 여부. */
+    final boolean backwards;
+
     /**
      * Number of capturing groups.
      * <p>
@@ -286,11 +289,11 @@ public final class RegExpProgram {
     final RegExpCharSet[] sets;
 
     /**
-     * Subprograms of lookbehind assertions.
+     * Subprograms for assertions compiled in a different or backwards direction.
      * <p>
-     * 뒤쪽 탐색 단언의 하위 프로그램.
+     * 방향을 바꾸거나 역방향으로 실행하는 단언의 하위 프로그램.
      */
-    final RegExpProgram[] lookbehinds;
+    final RegExpProgram[] assertions;
 
     /**
      * Number of registers needed by the matcher.
@@ -348,9 +351,11 @@ public final class RegExpProgram {
      * @param groupNames    group names / 그룹 이름
      * @param firstChar     literal first character or -1 / 리터럴 첫 문자 또는 -1
      * @param anchored      whether anchored at the start / 시작에 고정되었는지
+     * @param backwards     whether to consume in reverse / 역방향으로 소비하는지
+     * @param assertions    assertion subprograms / 단언 하위 프로그램
      */
     RegExpProgram(String source, int flags, int groupCount, int[] code, RegExpCharSet[] sets, int registerCount, String[] groupNames,
-            int firstChar, boolean anchored, RegExpProgram[] lookbehinds) {
+            int firstChar, boolean anchored, boolean backwards, RegExpProgram[] assertions) {
         this.source = source;
         this.flags = flags;
         this.groupCount = groupCount;
@@ -360,7 +365,8 @@ public final class RegExpProgram {
         this.groupNames = groupNames;
         this.firstChar = firstChar;
         this.anchored = anchored;
-        this.lookbehinds = lookbehinds;
+        this.backwards = backwards;
+        this.assertions = assertions;
     }
 
     /**
@@ -564,23 +570,4 @@ public final class RegExpProgram {
         return index;
     }
 
-    /**
-     * Matches at a start position and requires the match to end at the requested index.
-     * <p>
-     * 시작 위치에서 일치하되 지정 위치에서 끝나야 한다.
-     *
-     * @param input input string / 입력 문자열
-     * @param start start index / 시작 위치
-     * @param expectedEnd expected end / 필요한 끝 위치
-     * @param cancel cancellation hook / 취소 훅
-     * @param inherited preceding captures / 이전에 일치한 캡처들
-     * @return captures or null / 캡처 또는 null
-     */
-    int[] matchAtEnding(String input, int start, int expectedEnd, RegExpCancel cancel, int[] inherited) {
-        if (start < 0 || start > input.length() || expectedEnd < start || expectedEnd > input.length()) {
-            return null;
-        }
-        RegExpMatcher m = new RegExpMatcher(this, input, cancel);
-        return m.matchAtEnding(start, expectedEnd, inherited) ? m.result() : null;
-    }
 }

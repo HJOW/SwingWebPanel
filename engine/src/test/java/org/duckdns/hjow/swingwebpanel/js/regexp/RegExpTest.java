@@ -525,6 +525,18 @@ public class RegExpTest {
             }
         }, "cancel hook");
         Check.isTrue(cancelled.isCancelled(), "cancellation flag");
+        final RegExpProgram assertion = RegExpCompiler.compile("(?<=a+)b", "");
+        assertion.setStepLimit(20L);
+        Check.throwsException(RegExpLimitException.class, new Block() {
+            /**
+             * The reverse repetition consumes the parent matcher's step budget.
+             * <p>
+             * 역방향 반복은 상위 검색기의 단계 한도를 소비한다.
+             */
+            public void run() {
+                assertion.matchAt(input, input.length() - 1);
+            }
+        }, "step limit covers reverse assertion repetition");
         final RegExpProgram loop = RegExpCompiler.compile("(?:ab)*c", "");
         loop.setMaxBacktrackEntries(1000);
         final StringBuilder big = new StringBuilder();

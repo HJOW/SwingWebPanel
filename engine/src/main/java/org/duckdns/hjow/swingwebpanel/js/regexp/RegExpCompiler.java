@@ -39,6 +39,9 @@ public final class RegExpCompiler {
     /** Effective Unicode matching mode. / 적용할 유니코드 일치 모드. */
     private final boolean unicode;
 
+    /** Whether the emitted program runs backwards. / 생성한 프로그램을 역방향으로 실행하는지 여부. */
+    private final boolean backwards;
+
     /** Effective flags for the code currently being generated. / 현재 생성 중인 코드에 적용하는 플래그. */
     private int activeFlags;
 
@@ -78,11 +81,11 @@ public final class RegExpCompiler {
     private final List<RegExpCharSet> sets = new ArrayList<RegExpCharSet>();
 
     /**
-     * Compiled lookbehind bodies.
+     * Compiled assertion bodies.
      * <p>
-     * 컴파일한 뒤쪽 탐색 본문.
+     * 컴파일한 단언 본문.
      */
-    private final List<RegExpProgram> lookbehinds = new ArrayList<RegExpProgram>();
+    private final List<RegExpProgram> assertions = new ArrayList<RegExpProgram>();
 
     /**
      * Next free register index for loops.
@@ -99,11 +102,13 @@ public final class RegExpCompiler {
      * @param source     pattern text / 패턴 문자열
      * @param flags      flag bits / 플래그 비트
      * @param groupCount number of capturing groups / 캡처 그룹 수
+     * @param backwards whether to emit a backwards program / 역방향 프로그램을 생성하는지
      */
-    private RegExpCompiler(String source, int flags, int groupCount) {
+    private RegExpCompiler(String source, int flags, int groupCount, boolean backwards) {
         this.source = source;
         this.activeFlags = flags;
         this.unicode = RegExpFlags.isUnicodeMode(flags);
+        this.backwards = backwards;
         this.groupCount = groupCount;
         this.nextReg = groupCount + 1;
     }
@@ -125,7 +130,7 @@ public final class RegExpCompiler {
         }
         RegExpParser parser = new RegExpParser(source, flags);
         RegExpNode root = parser.parse();
-        RegExpCompiler gen = new RegExpCompiler(source, flags, parser.getGroupCount());
+        RegExpCompiler gen = new RegExpCompiler(source, flags, parser.getGroupCount(), false);
         gen.generate(root);
         gen.emit(RegExpProgram.OP_MATCH);
         RegExpCharSet[] setArray = gen.sets.toArray(new RegExpCharSet[gen.sets.size()]);
@@ -144,7 +149,7 @@ public final class RegExpCompiler {
         }
         boolean anchored = (flags & RegExpFlags.MULTILINE) == 0 && isAnchored(root);
         return new RegExpProgram(source, flags, parser.getGroupCount(), Arrays.copyOf(gen.code, gen.len), setArray, gen.nextReg,
-                names, firstChar, anchored, gen.lookbehinds.toArray(new RegExpProgram[gen.lookbehinds.size()]));
+                names, firstChar, anchored, false, gen.assertions.toArray(new RegExpProgram[gen.assertions.size()]));
     }
 
     /**
@@ -286,9 +291,10 @@ public final class RegExpCompiler {
             emit(addSet(n.set));
             break;
         case RegExpNode.SEQ:
-            // 연결은 자식 코드를 순서대로 이어 붙인다.
-            for (int i = 0; i < n.children.size(); i++) {
-                gen(n.children.get(i));
+            int count = n.children.size();
+            // 역방향에서만 연결의 순서를 뒤집는다. 대안은 원래 우선순위를 유지한다.
+            for (int i = 0; i < count; i++) {
+                gen(n.children.get(backwards ? count - 1 - i : i));
             }
             break;
         case RegExpNode.ALT:
@@ -329,6 +335,12 @@ public final class RegExpCompiler {
             genAssertion(n);
             break;
         case RegExpNode.LOOK: {
+            if (backwards) {
+                emit(RegExpProgram.OP_LOOK_SUB);
+                emit(n.value);
+                emit(compileAssertion(n.child, false));
+                break;
+            }
             emit(RegExpProgram.OP_LOOK_START);
             emit(n.value);
             int contSlot = emit(0);
@@ -339,9 +351,9 @@ public final class RegExpCompiler {
             break;
         }
         case RegExpNode.LOOK_BEHIND:
-            emit(RegExpProgram.OP_LOOK_BEHIND);
+            emit(RegExpProgram.OP_LOOK_SUB);
             emit(n.value);
-            emit(compileLookbehind(n.child));
+            emit(compileAssertion(n.child, true));
             break;
         case RegExpNode.REPEAT:
             genRepeat(n);
@@ -553,15 +565,16 @@ public final class RegExpCompiler {
     }
 
     /**
-     * Compiles a lookbehind body as an independent matcher with the same capture numbering and flags.
+     * Compiles an assertion in its required direction with the same capture numbering and flags.
      * <p>
-     * 같은 캡처 번호와 플래그로 뒤쪽 탐색 본문을 독립 일치 검색기로 컴파일한다.
+     * 같은 캡처 번호와 플래그로 단언의 본문을 요구된 방향의 검색기로 컴파일한다.
      *
      * @param body assertion body / 단언 본문
+     * @param reverse whether the assertion consumes backwards / 단언이 역방향으로 소비하는지
      * @return subprogram index / 하위 프로그램 번호
      */
-    private int compileLookbehind(RegExpNode body) {
-        RegExpCompiler gen = new RegExpCompiler(source, activeFlags, groupCount);
+    private int compileAssertion(RegExpNode body, boolean reverse) {
+        RegExpCompiler gen = new RegExpCompiler(source, activeFlags, groupCount, reverse);
         try {
             gen.generate(body);
         } catch (RegExpSyntaxException e) {
@@ -570,8 +583,8 @@ public final class RegExpCompiler {
         gen.emit(RegExpProgram.OP_MATCH);
         RegExpProgram program = new RegExpProgram(source, activeFlags, groupCount, Arrays.copyOf(gen.code, gen.len),
                 gen.sets.toArray(new RegExpCharSet[gen.sets.size()]), gen.nextReg, new String[groupCount + 1], -1, false,
-                gen.lookbehinds.toArray(new RegExpProgram[gen.lookbehinds.size()]));
-        lookbehinds.add(program);
-        return lookbehinds.size() - 1;
+                reverse, gen.assertions.toArray(new RegExpProgram[gen.assertions.size()]));
+        assertions.add(program);
+        return assertions.size() - 1;
     }
 }

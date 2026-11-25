@@ -182,13 +182,6 @@ final class RegExpMatcher {
     private int pos;
 
     /**
-     * Required end position, or -1 for an ordinary match.
-     * <p>
-     * 필요한 끝 위치. 일반 일치이면 -1.
-     */
-    private int requiredEnd = -1;
-
-    /**
      * Creates a matcher for one execution.
      * <p>
      * 실행 한 번을 위한 일치 검색기를 만든다.
@@ -198,13 +191,28 @@ final class RegExpMatcher {
      * @param cancel cancellation hook or null / 취소 훅 또는 null
      */
     RegExpMatcher(RegExpProgram prog, String input, RegExpCancel cancel) {
+        this(prog, input, cancel, prog.getStepLimit(), prog.getMaxBacktrackEntries());
+    }
+
+    /**
+     * Creates a matcher using the limits of the enclosing execution.
+     * <p>
+     * 바깥 실행의 제한을 사용하는 검색기를 만든다.
+     *
+     * @param prog compiled program / 컴파일한 프로그램
+     * @param input input string / 입력 문자열
+     * @param cancel cancellation hook / 취소 훅
+     * @param stepLimit maximum combined steps / 합산한 최대 단계 수
+     * @param maxEntries maximum stack entries / 최대 스택 항목 수
+     */
+    private RegExpMatcher(RegExpProgram prog, String input, RegExpCancel cancel, long stepLimit, int maxEntries) {
         this.prog = prog;
         this.code = prog.code;
         this.in = input;
         this.end = input.length();
         this.unicode = RegExpFlags.isUnicodeMode(prog.getFlags());
-        this.stepLimit = prog.getStepLimit();
-        this.maxEntries = prog.getMaxBacktrackEntries();
+        this.stepLimit = stepLimit;
+        this.maxEntries = maxEntries;
         this.cancel = cancel;
         this.caps = new int[2 * (prog.groupCount() + 1)];
         this.regs = new int[prog.registerCount];
@@ -232,6 +240,18 @@ final class RegExpMatcher {
         }
         if (cancel != null && cancel.isCancelled()) {
             throw new RegExpLimitException("Regular expression match cancelled", true);
+        }
+    }
+
+    /**
+     * Charges work to this match and polls the cancellation hook at its interval.
+     * <p>
+     * 현재 검색의 작업량을 차감하고 정해진 간격마다 취소 훅을 확인한다.
+     */
+    private void countStep() {
+        steps++;
+        if (steps > stepLimit || (steps & CANCEL_MASK) == 0) {
+            checkLimits();
         }
     }
 
@@ -380,11 +400,12 @@ final class RegExpMatcher {
      * @return position after the atom, or -1 if it does not match / 원자 뒤의 위치. 일치하지 않으면 -1
      */
     private int matchAtom(int kind, int arg, int p, boolean ignoreCase) {
-        if (p >= end) {
+        if (prog.backwards ? p <= 0 : p >= end) {
             return -1;
         }
-        int c = charAt(p);
-        int next = p + (c > 0xFFFF ? 2 : 1);
+        int at = prog.backwards ? stepBack(p, 0) : p;
+        int c = charAt(at);
+        int next = prog.backwards ? at : p + (c > 0xFFFF ? 2 : 1);
         switch (kind) {
         case RegExpProgram.KIND_CHAR:
             return (ignoreCase ? CaseFold.canonicalize(c, unicode) : c) == arg ? next : -1;
@@ -424,7 +445,7 @@ final class RegExpMatcher {
         // 스택 맨 위부터 되돌림 기록은 적용하고, 재개할 수 있는 항목을 만나면 멈춘다.
         while (sp > 0) {
             sp -= 4;
-            steps++;
+            countStep();
             switch (stack[sp]) {
             case BT_BR:
                 pc = stack[sp + 1];
@@ -439,8 +460,10 @@ final class RegExpMatcher {
             case BT_GREEDY: {
                 int cont = stack[sp + 1];
                 int minPos = stack[sp + 2];
-                int np = stepBack(stack[sp + 3], minPos);
-                if (np > minPos) {
+                int current = stack[sp + 3];
+                // 탐욕 반복에서 문자를 돌려줄 때는 실행 방향의 반대로 한 문자 이동한다.
+                int np = prog.backwards ? current + (charAt(current) > 0xFFFF ? 2 : 1) : stepBack(current, minPos);
+                if (np != minPos) {
                     stack[sp + 3] = np;
                     sp += 4;
                 }
@@ -454,7 +477,7 @@ final class RegExpMatcher {
                 int count = stack[sp + 3];
                 int np = matchAtom(code[at + 1], code[at + 2], cur, (code[at] & RegExpProgram.CASE_FOLD) != 0);
                 if (np >= 0) {
-                    steps++;
+                    countStep();
                     if (count + 1 < code[at + 4]) {
                         push(BT_LAZY, at, np, count + 1);
                     }
@@ -486,29 +509,13 @@ final class RegExpMatcher {
      * @throws RegExpLimitException if a resource limit is exceeded / 자원 제한을 넘으면
      */
     boolean matchAt(int start) {
-        requiredEnd = -1;
         return run(start, null);
     }
 
     /**
-     * Tries to match and backtracks until the successful path ends exactly at the requested position.
+     * Executes a match in the direction specified by its program.
      * <p>
-     * 성공 경로가 요청한 위치에서 정확히 끝날 때까지 역추적한다.
-     *
-     * @param start start position / 시작 위치
-     * @param end required end / 필요한 끝 위치
-     * @param inherited preceding captures / 이전에 일치한 캡처들
-     * @return true if matched / 일치하면 true
-     */
-    boolean matchAtEnding(int start, int end, int[] inherited) {
-        requiredEnd = end;
-        return run(start, inherited);
-    }
-
-    /**
-     * Executes a match after its end constraint has been selected.
-     * <p>
-     * 끝 조건을 정한 뒤 일치를 실행한다.
+     * 프로그램에 지정한 방향으로 일치를 실행한다.
      *
      * @param start start position / 시작 위치
      * @param inherited preceding captures, or null at the top level / 이전에 일치한 캡처들, 최상위 실행은 null
@@ -524,24 +531,17 @@ final class RegExpMatcher {
         sp = 0;
         pc = 0;
         pos = start;
-        caps[0] = start;
         // 명령을 하나씩 실행한다. 실패하면 역추적하여 다음 대안에서 이어 간다.
         while (true) {
-            steps++;
-            if (steps > stepLimit || (steps & CANCEL_MASK) == 0) {
-                checkLimits();
-            }
+            countStep();
             boolean ok = true;
             int operation = code[pc] & ~RegExpProgram.CASE_FOLD;
             boolean ignoreCase = (code[pc] & RegExpProgram.CASE_FOLD) != 0;
             switch (operation) {
             case RegExpProgram.OP_MATCH:
-                if (requiredEnd < 0 || pos == requiredEnd) {
-                    caps[1] = pos;
-                    return true;
-                }
-                ok = false;
-                break;
+                caps[0] = Math.min(start, pos);
+                caps[1] = Math.max(start, pos);
+                return true;
             case RegExpProgram.OP_CHAR: {
                 int np = matchAtom(RegExpProgram.KIND_CHAR, code[pc + 1], pos, ignoreCase);
                 if (np < 0) {
@@ -595,8 +595,8 @@ final class RegExpMatcher {
                 break;
             case RegExpProgram.OP_GROUP_END: {
                 int g = code[pc + 1];
-                setCap(2 * g, regs[g]);
-                setCap(2 * g + 1, pos);
+                setCap(2 * g, Math.min(regs[g], pos));
+                setCap(2 * g + 1, Math.max(regs[g], pos));
                 pc += 2;
                 break;
             }
@@ -682,8 +682,8 @@ final class RegExpMatcher {
                     ok = false;
                 }
                 break;
-            case RegExpProgram.OP_LOOK_BEHIND:
-                if (executeLookbehind(code[pc + 1] == 1, prog.lookbehinds[code[pc + 2]])) {
+            case RegExpProgram.OP_LOOK_SUB:
+                if (executeAssertion(code[pc + 1] == 1, prog.assertions[code[pc + 2]])) {
                     pc += 3;
                 } else {
                     ok = false;
@@ -741,33 +741,26 @@ final class RegExpMatcher {
     }
 
     /**
-     * Executes one lookbehind assertion and copies its captures on success.
+     * Executes an isolated assertion and publishes captures from a successful positive assertion.
      * <p>
-     * 뒤쪽 탐색 단언 하나를 실행하고 성공하면 캡처를 복사한다.
+     * 별도 단언을 실행하고 긍정 단언이 성공하면 캡처를 반영한다.
      *
-     * @param negative true for negative lookbehind / 부정 뒤쪽 탐색이면 true
+     * @param negative whether this is a negative assertion / 부정 단언이면 true
      * @param body compiled assertion body / 컴파일된 단언 본문
      * @return assertion result / 단언 결과
      */
-    private boolean executeLookbehind(boolean negative, RegExpProgram body) {
-        // 가능한 시작점마다 본문이 현재 위치에서 정확히 끝나는지 검사한다.
-        for (int start = 0; start <= pos; ) {
-            int[] found = body.matchAtEnding(in, start, pos, cancel, caps);
-            if (found != null) {
-                if (negative) {
-                    return false;
-                }
-                // 성공한 본문의 캡처 위치를 바깥 일치에 역추적 가능하게 복사한다.
-                for (int i = 2; i < found.length && i < caps.length; i++) {
-                    setCap(i, found[i]);
-                }
-                return true;
+    private boolean executeAssertion(boolean negative, RegExpProgram body) {
+        RegExpMatcher nested = new RegExpMatcher(body, in, cancel, stepLimit, maxEntries);
+        nested.steps = steps;
+        boolean success = nested.run(pos, caps);
+        steps = nested.steps;
+        if (success && !negative) {
+            // 성공한 캡처만 원래 검색기에 복사하여 바깥의 역추적에서도 되돌릴 수 있게 한다.
+            for (int i = 2; i < caps.length; i++) {
+                setCap(i, nested.caps[i]);
             }
-            boolean pair = unicode && start + 1 < end && Character.isHighSurrogate(in.charAt(start))
-                    && Character.isLowSurrogate(in.charAt(start + 1));
-            start += pair ? 2 : 1;
         }
-        return negative;
+        return success != negative;
     }
 
     /**
@@ -794,11 +787,10 @@ final class RegExpMatcher {
             }
             p = np;
             count++;
+            countStep();
         }
-        steps += count;
         int minPos = p;
         if (greedy) {
-            long before = steps;
             // 가능한 만큼 최대한 많이 소비하고, 돌려줄 수 있도록 항목을 남긴다.
             while (count < max) {
                 int np = matchAtom(kind, arg, p, ignoreCase);
@@ -807,12 +799,9 @@ final class RegExpMatcher {
                 }
                 p = np;
                 count++;
-                steps++;
+                countStep();
             }
-            if (steps - before > 0 && steps > stepLimit) {
-                checkLimits();
-            }
-            if (p > minPos) {
+            if (p != minPos) {
                 push(BT_GREEDY, pc + 6, minPos, p);
             }
         } else if (max > min) {
@@ -839,26 +828,33 @@ final class RegExpMatcher {
             return pos;
         }
         int len = e - s;
-        if (!ignoreCase) {
-            if (pos + len > end || !in.regionMatches(s, in, pos, len)) {
+        boolean backwards = prog.backwards;
+        if (!ignoreCase && !unicode) {
+            int at = backwards ? pos - len : pos;
+            if (at < 0 || len > end - at || !in.regionMatches(s, in, at, len)) {
                 return -1;
             }
-            return pos + len;
+            return backwards ? at : at + len;
         }
-        int a = s;
+        int a = backwards ? e : s;
+        int stop = backwards ? s : e;
         int b = pos;
-        // 캡처된 문자열과 현재 입력을 정규형으로 바꿔 문자 단위로 비교한다.
-        while (a < e) {
-            if (b >= end) {
+        // 실행 방향에 맞춰 캡처와 입력의 전체 문자를 비교한다.
+        while (a != stop) {
+            countStep();
+            if (backwards ? b <= 0 : b >= end) {
                 return -1;
             }
-            int c1 = charAt(a);
-            int c2 = charAt(b);
-            if (CaseFold.canonicalize(c1, unicode) != CaseFold.canonicalize(c2, unicode)) {
+            int aa = backwards ? stepBack(a, s) : a;
+            int bb = backwards ? stepBack(b, 0) : b;
+            int c1 = charAt(aa);
+            int c2 = charAt(bb);
+            boolean equal = ignoreCase ? CaseFold.canonicalize(c1, unicode) == CaseFold.canonicalize(c2, unicode) : c1 == c2;
+            if (!equal) {
                 return -1;
             }
-            a += c1 > 0xFFFF ? 2 : 1;
-            b += c2 > 0xFFFF ? 2 : 1;
+            a = backwards ? aa : aa + (c1 > 0xFFFF ? 2 : 1);
+            b = backwards ? bb : bb + (c2 > 0xFFFF ? 2 : 1);
         }
         return b;
     }
