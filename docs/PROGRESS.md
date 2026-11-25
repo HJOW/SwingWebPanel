@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-06-e1 전역 Iterator와 from (2026-11-26) ===
+현재 작업 번호: P29-06-e1 완료.
+완료한 내용: 기존 IteratorPrototype에 추상 Iterator 생성자와 접근자를 설치했다. Iterator.from은 next를 캡처한 뒤 기존 표준 이터레이터 객체를 그대로 반환하거나 수신 realm의 래퍼로 감싼다.
+변경 파일: IteratorConstructor.java, IteratorBuiltins.java, IteratorRecord.java, JsRealm.java, Es2026IteratorTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행) 789건 통과. sourcecheck 0 위반.
+미해결 사항: 소비·지연 헬퍼와 concat(P29-06-e2~e4).
+다음 작업 번호: P29-06-e2.
+-----------------------------------------------------------------------------------------------
 === P29-06-d Map·WeakMap getOrInsert (2026-11-26) ===
 현재 작업 번호: P29-06-d 완료.
 완료한 내용: Map과 WeakMap에 getOrInsert, getOrInsertComputed를 설치했다. 기존 undefined와 항목 없음을 구분하고, 콜백 중 재삽입한 키의 위치를 유지하면서 계산 결과를 저장한다.
@@ -786,6 +794,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-06-e1 기존 프로토타입 위의 Iterator
+
+생성자 직접 호출 및 직접 생성 거부, 서브클래싱, 배열·제너레이터 이터레이터의 동일성, 다른 realm 이터레이터의 래핑을 검증했다. 래퍼가 next를 처음에만 읽고 return을 호출할 때 확인하는 점과 프로토타입 접근자의 수신자별 쓰기도 대조했다.
 
 ### 2026-11-26 · P29-06-d 키가 없을 때 계산·삽입
 

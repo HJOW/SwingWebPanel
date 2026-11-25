@@ -838,7 +838,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-06-c2. `SetOperations`의 집합 조건 검사 3개 연산과 `IteratorRecord`의 정상 닫기를 구현한다. 조기 반환이 상대 이터레이터의 return을 호출하는지, 원본 변경에 따른 멤버 판정과 크기 기반 분기를 검증한다.
   - [x] P29-06-d. Map/WeakMap upsert를 구현한다. 원래 값이 undefined인 키, 콜백 중 콜렉션 변경, 제로 정규화와 약한 키 검사를 검증한다.
   - [ ] P29-06-e. `IteratorBuiltins`와 `IteratorHelper`의 전역 Iterator, 래핑, 지연·즉시 소비 및 concat을 구현한다. 서브클래싱, 작업 순서, 닫기·오류 전파, 기술자를 검증한다.
-    - [ ] P29-06-e1. `IteratorConstructor`와 `IteratorRecord`를 사용해 전역 Iterator와 from, 래퍼 next·return, 프로토타입 접근자를 설치한다. 직접 생성 거부, 서브클래싱, 기존 이터레이터 동일성과 기술자를 검증한다.
+    - [x] P29-06-e1. `IteratorConstructor`와 `IteratorRecord`를 사용해 전역 Iterator와 from, 래퍼 next·return, 프로토타입 접근자를 설치한다. 직접 생성 거부, 서브클래싱, 기존 이터레이터 동일성과 기술자를 검증한다.
     - [ ] P29-06-e2. `IteratorEagerMethods`에서 reduce, toArray, forEach, some, every, find를 설치한다. 단락, 빈 이터레이터, 다음 메서드 캡처와 오류 시 닫기를 검증한다.
     - [ ] P29-06-e3. `IteratorLazyMethods`와 공통 helper 프로토타입에서 map, filter, take, drop을 설치한다. 평가 지연, 0·무한·음수 한계, 시작 전 return, 재진입과 중단을 검증한다.
     - [ ] P29-06-e4. flatMap과 Iterator.concat에서 현재 안쪽 이터레이터와 바깥 이터레이터의 수명과 순서를 관리한다. 접근자 평가·실제 열기 시점, 내부·외부 닫기 순서, 오류 우선순위를 검증한다.

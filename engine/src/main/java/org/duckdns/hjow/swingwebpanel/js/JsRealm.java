@@ -350,10 +350,10 @@ public class JsRealm {
     private volatile NamedGlobals namedGlobals;
 
     /**
-     * Returns %IteratorPrototype%, the common ancestor of all iterator prototypes (it only has a [Symbol.iterator] method
-     * that returns this). Also registered as the intrinsic "%IteratorPrototype%".
+     * Returns the common ancestor of all iterator prototypes and the standard Iterator.prototype.
+     * Also registered as the intrinsic "%IteratorPrototype%".
      * <p>
-     * %IteratorPrototype% 을 반환한다. 모든 이터레이터 프로토타입의 공통 조상이며 this 를 돌려주는 [Symbol.iterator] 메서드만 가진다.
+     * 모든 이터레이터 프로토타입의 공통 조상이자 표준 Iterator.prototype을 반환한다.
      * 내장 객체 "%IteratorPrototype%" 으로도 등록되어 있다.
      *
      * @return the iterator prototype / 이터레이터 프로토타입

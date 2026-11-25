@@ -121,6 +121,7 @@ public final class IteratorBuiltins implements BuiltinInstaller {
      * @param realm the realm / realm
      */
     public void install(final JsRealm realm) {
+        IteratorConstructor.install(realm);
         JsObject arrayIterProto = new JsObject(realm.getIteratorPrototype());
         realm.setIntrinsic("%ArrayIteratorPrototype%", arrayIterProto);
         realm.method(arrayIterProto, "next", 0, new NativeFunction.Call() {

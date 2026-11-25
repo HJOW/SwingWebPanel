@@ -42,6 +42,28 @@ public final class IteratorRecord {
     }
 
     /**
+     * Returns the iterator on which to call the captured methods.
+     * <p>
+     * 읽어 둔 메서드를 호출할 이터레이터를 반환한다.
+     *
+     * @return the original iterator / 원래 이터레이터
+     */
+    public JsObject getIterator() {
+        return iterator;
+    }
+
+    /**
+     * Calls the captured next method with no arguments and forwards its raw result.
+     * <p>
+     * 읽어 둔 next 메서드를 인수 없이 호출하고 원래 반환값을 전달한다.
+     *
+     * @return the raw result of calling next / next를 호출한 원래 반환값
+     */
+    public JsValue callNext() {
+        return Ops.call(nextMethod, iterator, Js.NO_ARGS);
+    }
+
+    /**
      * Advances the iterator and returns its value, or Java null when its done property is true.
      * <p>
      * 이터레이터의 다음 값을 반환한다. done 프로퍼티가 참이면 Java null을 반환한다.
