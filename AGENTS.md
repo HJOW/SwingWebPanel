@@ -865,7 +865,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - Date·시간대 오프셋 문자열 규격(ES2026, `21.4`·부속서 A.7): 시간대 오프셋 문자열 형식(`±HH:MM`, 초/소수점 등 규격 A.7)과 `Date.parse`/시간대 처리 규칙을 ES2026 본문과 대조·보완한다.
   구현: `js.builtins.meta.PromiseBuiltins`, `js.builtins.corelib.{ErrorLib,MathLib}`, `js.builtins.datajson.{JsonBuiltins,DateBuiltins}`, `js.date.*`, `js.text.*`. 완료 조건: 각 기능의 정밀도·경계·오류·이터레이터 정리 시험이 JDK 6에서 통과한다.
   - [x] P29-08-a. `PromiseBuiltins`에서 NewPromiseCapability를 사용해 withResolvers 및 try를 제공한다. 일반·하위·사용자 생성자, 반환·throw·thenable, 함수 호출 순서와 기술자를 검증한다.
-  - [ ] P29-08-b. `ErrorLib`, 기본 `ErrorBuiltins`, 브라우저 `DomExceptionObjects`에서 오류 내부 브랜드를 연결한다. 다른 realm, 원시값, 프로토타입 변조, 모방 객체, 프록시 및 Web IDL DOMException을 검증한다.
+  - [x] P29-08-b. `ErrorLib`, 기본 `ErrorBuiltins`, 브라우저 `DomExceptionObjects`에서 오류 내부 브랜드를 연결한다. 다른 realm, 원시값, 프로토타입 변조, 모방 객체, 프록시 및 Web IDL DOMException을 검증한다.
   - [ ] P29-08-c. `MathLib`와 수치 연산 계층에 sumPrecise를 추가한다. 반올림·상쇄·오버플로우, 부호 있는 0, 비유한 값, 오류 시 이터레이터 닫기와 실행 제한을 검증한다.
   - [ ] P29-08-d. `JsonBuiltins`와 JSON 텍스트 파서에서 원문 JSON 및 reviver 문맥을 구현한다.
     - [ ] P29-08-d1. rawJSON, isRawJSON, stringify에 내부 브랜드와 토큰 원문 출력을 연결한다. 단일 원시 토큰과 구문 오류, 프로토타입·동결 상태, replacer·toJSON 호출 순서를 검증한다.

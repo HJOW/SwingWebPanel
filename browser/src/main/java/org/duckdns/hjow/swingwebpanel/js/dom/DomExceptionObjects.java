@@ -1,7 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.js.dom;
 
+import org.duckdns.hjow.swingwebpanel.js.ErrorKind;
 import org.duckdns.hjow.swingwebpanel.js.Js;
+import org.duckdns.hjow.swingwebpanel.js.JsErrorObject;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
+import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 
 /**
  * Creates the JavaScript <code>DOMException</code> objects (name, message and the legacy numeric code). They inherit from the
@@ -12,6 +15,9 @@ import org.duckdns.hjow.swingwebpanel.js.JsObject;
  * <code>Error.prototype</code> 을 상속하므로 <code>e instanceof Error</code> 와 <code>e instanceof DOMException</code> 이 모두 참이다.
  */
 public final class DomExceptionObjects {
+
+    /** Intrinsic prototype used when deserializing into a different realm. / 다른 realm에서 역직렬화할 때 쓰는 내장 프로토타입. */
+    static final String PROTOTYPE_INTRINSIC = "%DOMException.prototype%";
 
     /**
      * Names of the legacy error codes, indexed by code (index 0 unused).
@@ -72,12 +78,74 @@ public final class DomExceptionObjects {
      * @return the object / 객체
      */
     public static JsObject create(DomBridge bridge, String name, String message) {
-        DomBridge.InterfaceInfo info = bridge.getInterface("DOMException");
-        JsObject proto = info != null ? info.getPrototype() : bridge.getRealm().getErrorPrototype(org.duckdns.hjow.swingwebpanel.js.ErrorKind.ERROR);
-        JsObject e = new JsObject(proto);
-        e.defineData("message", Js.str(message == null ? "" : message), true, false, true);
-        e.defineData("name", Js.str(name), true, false, true);
-        e.defineData("code", Js.num(codeOf(name)), true, false, true);
-        return e;
+        return create(bridge.getRealm(), name, message);
+    }
+
+    /**
+     * Creates a branded DOMException with the target realm's intrinsic prototype.
+     * <p>
+     * 대상 realm의 내장 프로토타입을 사용하는 내부 브랜드가 있는 DOMException을 만든다.
+     *
+     * @param realm owning realm / 객체의 realm
+     * @param name exception name / 예외 이름
+     * @param message exception message / 예외 메시지
+     * @return DOMException / DOMException 객체
+     */
+    public static Value create(JsRealm realm, String name, String message) {
+        JsObject proto = realm.getIntrinsic(PROTOTYPE_INTRINSIC);
+        return new Value(proto == null ? realm.getErrorPrototype(ErrorKind.ERROR) : proto, name, message == null ? "" : message);
+    }
+
+    /**
+     * DOMException with the ErrorData brand and its serializable Web IDL values.
+     * <p>
+     * ErrorData 브랜드와 직렬화할 Web IDL 값을 가진 DOMException.
+     */
+    public static final class Value extends JsErrorObject {
+        /** Stored exception name. / 저장한 예외 이름. */
+        private final String domName;
+
+        /** Stored exception message. / 저장한 예외 메시지. */
+        private final String domMessage;
+
+        /**
+         * Creates the exception and its script-facing fields.
+         * <p>
+         * 예외와 스크립트에서 사용할 프로퍼티를 만든다.
+         *
+         * @param proto realm prototype / realm 프로토타입
+         * @param name exception name / 예외 이름
+         * @param message normalized message / 정규화한 메시지
+         */
+        private Value(JsObject proto, String name, String message) {
+            super(proto);
+            domName = name;
+            domMessage = message;
+            defineData("message", Js.str(message), true, false, true);
+            defineData("name", Js.str(name), true, false, true);
+            defineData("code", Js.num(codeOf(name)), true, false, true);
+        }
+
+        /**
+         * Returns the stored exception name for serialization.
+         * <p>
+         * 직렬화에 쓸 저장된 예외 이름을 반환한다.
+         *
+         * @return name / 이름
+         */
+        public String getDomName() {
+            return domName;
+        }
+
+        /**
+         * Returns the stored exception message for serialization.
+         * <p>
+         * 직렬화에 쓸 저장된 예외 메시지를 반환한다.
+         *
+         * @return message / 메시지
+         */
+        public String getDomMessage() {
+            return domMessage;
+        }
     }
 }

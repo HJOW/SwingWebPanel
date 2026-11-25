@@ -1,5 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.interp;
 
+import org.duckdns.hjow.swingwebpanel.js.JsRealm;
+import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
@@ -69,5 +71,30 @@ public class Es2026PromiseErrorMathTest {
         Check.equal("true|true|true|resolve failure|reject failure|TypeError|TypeError|"
                 + "new,new,call,resolve:3:true,new,throw,reject:reason:true", Scripts.eval(script),
                 "generic constructors are checked before calling the callback and cannot hide resolving errors");
+    }
+
+    /**
+     * Checks ErrorData across realms and prototype changes without consulting proxies or emulated errors.
+     * <p>
+     * realm과 프로토타입 변경을 넘어 ErrorData가 유지되고 프록시나 모방 오류를 조회하지 않는지 검사한다.
+     */
+    public void testErrorIsErrorBrand() {
+        JsRealm foreign = JsRealm.create();
+        JsRealm realm = JsRealm.create();
+        realm.getGlobalObject().defineBuiltin("foreign", foreign.evaluateScript("new RangeError('foreign')", "other realm"));
+        String script = "let observed=0;const native=new TypeError('native'), tagged={[Symbol.toStringTag]:'Error'};"
+                + "const fake=Object.create(Error.prototype), revoked=Proxy.revocable(native,{}); revoked.revoke();"
+                + "const p=new Proxy(native,{get(){observed++;throw 'get';},getPrototypeOf(){observed++;throw 'prototype';}});"
+                + "class Sub extends Error{}"
+                + "const frame=new Sub();Object.setPrototypeOf(frame,null);"
+                + "const descriptor=Object.getOwnPropertyDescriptor(Error,'isError');"
+                + "const internal=(()=>{try{null.x;}catch(e){return e;}})();"
+                + "[foreign instanceof Error, Error.isError(foreign),Error.isError(frame),"
+                + "Error.isError(internal),Error.isError(new AggregateError([])),Error.isError(Error('called')),"
+                + "[null,undefined,1,'error',true,1n,Symbol(),Error,Error.prototype,fake,tagged,p,revoked.proxy].every(x=>!Error.isError(x)),"
+                + "observed,descriptor.value.name,descriptor.value.length,descriptor.writable,descriptor.enumerable,"
+                + "descriptor.configurable,Error.isError.call(null,native)].join('|')";
+        Check.equal("false|true|true|true|true|true|true|0|isError|1|true|false|true|true",
+                Ops.toString(realm.evaluateScript(script, "error-brand.js")), "Error.isError observes only the internal error brand");
     }
 }

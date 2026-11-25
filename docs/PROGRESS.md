@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-08-b Error.isError 및 DOMException 브랜드 (2026-11-26) ===
+현재 작업 번호: P29-08-b 완료.
+완료한 내용: Error.isError가 내부 ErrorData 여부를 판정한다. Web IDL DOMException의 오류 브랜드를 연결하고 구조화 복제에서 Web IDL 이름과 메시지, 수신 realm의 프로토타입을 복원한다.
+변경 파일: ErrorBuiltins.java, ErrorLib.java, DomExceptionObjects.java, DomInterfaces.java, StructuredClone.java, Es2026PromiseErrorMathTest.java, DomExceptionIsErrorTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 824건 통과. mvn -B -o -pl browser -am test -Dtest.filter=DomExceptionIsErrorTest 2건, 별도 JRE 6 TestRunner DomBindingTest 8건과 StructuredCloneTest 16건 통과. sourcecheck 0 위반.
+미해결 사항: Math.sumPrecise, JSON, Date(P29-08-c~e).
+다음 작업 번호: P29-08-c.
+-----------------------------------------------------------------------------------------------
 === P29-08-a Promise.withResolvers 및 Promise.try (2026-11-26) ===
 현재 작업 번호: P29-08-a 완료.
 완료한 내용: 두 정적 메서드가 기존 NewPromiseCapability를 이용한다. withResolvers는 promise와 해결 함수 세트를 반환한다. try는 인수를 전달해 콜백을 즉시 호출하고 반환이나 예외로 생성된 promise를 해결하거나 거부한다.
@@ -890,6 +898,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-08-b 오류 내부 브랜드
+
+- ECMA-262 제17판 §20.5.2.1과 Web IDL §3.14의 내부 슬롯을 기준으로 두 Error 설치 경로 및 브라우저 DOMException을 연결했다.
+- JDK 6u45에서 다른 realm, 프록시·철회된 프록시, 프로토타입 제거, DOM에서 발생한 오류와 구조화 복제의 수신자 프로토타입을 검증했다. 엔진 824건, 관련 브라우저 26건이 통과했다.
+- 다음 작업은 P29-08-c의 Math.sumPrecise다.
 
 ### 2026-11-26 · P29-08-a Promise 정적 메서드
 

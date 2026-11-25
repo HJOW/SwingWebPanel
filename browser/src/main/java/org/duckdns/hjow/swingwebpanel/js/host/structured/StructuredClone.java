@@ -27,6 +27,7 @@ import org.duckdns.hjow.swingwebpanel.js.builtins.typed.ElementType;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.SharedBufferReference;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrayObject;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrays;
+import org.duckdns.hjow.swingwebpanel.js.dom.DomExceptionObjects;
 
 /**
  * The structured clone algorithm of the HTML Standard (<code>StructuredSerialize</code> and <code>StructuredDeserialize</code>, section
@@ -195,6 +196,9 @@ public final class StructuredClone {
 
     /** Cell kind for a SharedArrayBuffer reference. / SharedArrayBuffer 참조를 담는 칸의 종류. */
     static final int SHARED_BUFFER = 16;
+
+    /** Cell kind holding the serialized DOMException name and message. / DOMException 이름과 메시지를 담는 칸의 종류. */
+    static final int DOM_EXCEPTION = 17;
 
     /**
      * The hook through which objects other than ArrayBuffers (for example a <code>MessagePort</code>) are put in a transfer list. The
@@ -908,6 +912,14 @@ public final class StructuredClone {
                 c.length = d.getBuffer().isShared() && d.isLengthTracking() ? -1 : d.getByteLength();
                 return c;
             }
+            if (o instanceof DomExceptionObjects.Value) {
+                DomExceptionObjects.Value exception = (DomExceptionObjects.Value) o;
+                Cell c = new Cell(DOM_EXCEPTION);
+                c.text = exception.getDomName();
+                c.text2 = exception.getDomMessage();
+                charge(2L * (c.text.length() + (long) c.text2.length()));
+                return c;
+            }
             if (o instanceof JsErrorObject) {
                 return errorCell(o);
             }
@@ -1383,6 +1395,8 @@ public final class StructuredClone {
                 return TypedArrays.newArrayBuffer(realm, c.bytes.clone());
             case SHARED_BUFFER:
                 return ((SharedBufferReference) c.payload).wrap(realm);
+            case DOM_EXCEPTION:
+                return DomExceptionObjects.create(realm, c.text, c.text2);
             case TRANSFERRED:
                 if (handler == null) {
                     throw new IllegalStateException("A transferred object needs a transfer handler");

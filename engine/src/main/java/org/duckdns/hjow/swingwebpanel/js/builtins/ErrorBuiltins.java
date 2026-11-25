@@ -69,6 +69,12 @@ final class ErrorBuiltins implements BuiltinInstaller {
                 errorCtor = ctor;
             }
         }
+        realm.method(errorCtor, "isError", 1, new NativeFunction.Call() {
+            /** Tests the internal error data brand. / 오류 데이터의 내부 브랜드를 검사한다. */
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return Js.bool(Js.arg(args, 0) instanceof JsErrorObject);
+            }
+        });
         realm.method(realm.getErrorPrototype(ErrorKind.ERROR), "toString", 0, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 if (!(thisValue instanceof JsObject)) {

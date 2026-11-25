@@ -368,6 +368,7 @@ public final class DomInterfaces {
         final JsRealm realm = bridge.getRealm();
         DomBridge.InterfaceInfo info = bridge.defineInterface("DOMException", null, Object.class, new String[0]);
         info.getPrototype().setPrototypeOf(realm.getErrorPrototype(org.duckdns.hjow.swingwebpanel.js.ErrorKind.ERROR));
+        realm.setIntrinsic(DomExceptionObjects.PROTOTYPE_INTRINSIC, info.getPrototype());
         String[] names = DomExceptionObjects.legacyNames();
         // 예전 오류 코드를 INDEX_SIZE_ERR 같은 상수 이름으로 만들어 설치한다.
         for (int i = 1; i < names.length; i++) {
