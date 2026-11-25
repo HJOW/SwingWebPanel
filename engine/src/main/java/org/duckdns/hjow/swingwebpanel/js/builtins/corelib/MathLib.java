@@ -1,6 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.js.builtins.corelib;
 
+import org.duckdns.hjow.swingwebpanel.js.IteratorRecord;
 import org.duckdns.hjow.swingwebpanel.js.Js;
+import org.duckdns.hjow.swingwebpanel.js.JsException;
+import org.duckdns.hjow.swingwebpanel.js.JsNumber;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsString;
@@ -10,6 +13,7 @@ import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 import org.duckdns.hjow.swingwebpanel.js.num.Float16;
+import org.duckdns.hjow.swingwebpanel.js.num.PreciseSum;
 
 /**
  * Installs the <code>Math</code> object (ECMA-262 6th edition 20.2): the eight constants, all thirty-five functions including the ES2015
@@ -337,6 +341,12 @@ final class MathLib {
                 return Js.num(hypot(v));
             }
         });
+        realm.method(math, "sumPrecise", 1, new NativeFunction.Call() {
+            /** Sums the numbers from a synchronous iterable. / 동기 이터러블의 숫자를 합산한다. */
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return Js.num(sumPrecise(r, Js.arg(args, 0)));
+            }
+        });
         realm.method(math, "imul", 2, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 int a = Ops.toInt32(Js.arg(args, 0));
@@ -575,6 +585,37 @@ final class MathLib {
             return Double.NEGATIVE_INFINITY;
         }
         return 0.5 * Math.log1p(2 * x / (1 - x));
+    }
+
+    /**
+     * Reads every number and closes the iterator before reporting an invalid input.
+     * <p>
+     * 숫자 값을 끝까지 읽고 잘못된 입력을 만나면 오류를 전파하기 전에 이터레이터를 닫는다.
+     *
+     * @param realm the executing realm / 실행 realm
+     * @param items the input iterable / 입력 이터러블
+     * @return the once-rounded sum / 한 번 반올림한 합
+     */
+    private static double sumPrecise(JsRealm realm, JsValue items) {
+        IteratorRecord iterator = IteratorRecord.from(realm, Ops.requireObjectCoercible(items));
+        PreciseSum sum = new PreciseSum();
+        long count = 0L;
+        JsValue next;
+        // NaN이나 무한대를 만난 뒤에도 남은 입력을 순회하며 각 값의 타입을 확인한다.
+        while ((next = iterator.stepValue()) != null) {
+            realm.getLimits().tick();
+            if (count >= (long) Ops.MAX_SAFE_INTEGER) {
+                iterator.closeOnError();
+                throw JsException.rangeError("Too many values in Math.sumPrecise");
+            }
+            if (!(next instanceof JsNumber)) {
+                iterator.closeOnError();
+                throw JsException.typeError("Math.sumPrecise requires an iterable of numbers");
+            }
+            sum.add(((JsNumber) next).getValue());
+            count++;
+        }
+        return sum.value();
     }
 
     /**

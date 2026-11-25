@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.js.interp;
 
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
@@ -96,5 +97,62 @@ public class Es2026PromiseErrorMathTest {
                 + "descriptor.configurable,Error.isError.call(null,native)].join('|')";
         Check.equal("false|true|true|true|true|true|true|0|isError|1|true|false|true|true",
                 Ops.toString(realm.evaluateScript(script, "error-brand.js")), "Error.isError observes only the internal error brand");
+    }
+
+    /**
+     * Checks exact accumulation, subnormal values, and final rounding at both ties and overflow.
+     * <p>
+     * 정확한 누적, 비정규 수, 중간값과 오버플로우에서의 최종 반올림을 확인한다.
+     */
+    public void testSumPreciseRounding() {
+        String script = "const sum=Math.sumPrecise,max=Number.MAX_VALUE,min=Number.MIN_VALUE,half=2**-53,ulp=2**-52;"
+                + "[sum([1e30,1,-1e30])===1,sum([max,max,-max])===max,sum([max,min,-max])===min,"
+                + "sum([-max,-min,max])===-min,sum([min,min])===2*min,sum([1,half])===1,"
+                + "sum([1+ulp,half])===1+2*ulp,sum([1,half,min])===1+ulp,sum([1,half,-min])===1,"
+                + "sum([max,2**970])===Infinity,sum([-max,-(2**970)])===-Infinity,"
+                + "sum([max,2**969])===max,sum([2,4,-6])===0,Math.sumPrecise.length,Math.sumPrecise.name].join()";
+        Check.equal("true,true,true,true,true,true,true,true,true,true,true,true,true,1,sumPrecise",
+                Scripts.eval(script), "finite nonzero values are accumulated exactly and rounded once");
+    }
+
+    /**
+     * Checks signed zero, nonfinite values, element validation, and iterator closing behavior.
+     * <p>
+     * 부호 있는 0, 비유한 값, 원소 검사 및 이터레이터 닫기 동작을 검증한다.
+     */
+    public void testSumPreciseSpecialValuesAndClosing() {
+        String script = "const sum=Math.sumPrecise;let calls=0,closes=0,coercions=0,nextCloses=0;"
+                + "const wrong={valueOf(){coercions++;return 3;}};"
+                + "const bad={[Symbol.iterator](){return this;},next(){calls++;return {value:calls===1?NaN:wrong};},"
+                + "return(){closes++;throw 'ignore this';}};"
+                + "const nextError={[Symbol.iterator](){return this;},next(){return {get value(){throw 'value failure';}};},"
+                + "return(){nextCloses++;return {};}};"
+                + "function fails(items){try{sum(items);return 'none';}catch(e){return e.name===undefined?e:e.name;}}"
+                + "[Object.is(sum([]),-0),Object.is(sum([-0,-0]),-0),Object.is(sum([-0,0]),0),Object.is(sum([1,-1]),0),"
+                + "sum([Infinity,Infinity,1])===Infinity,sum([-Infinity,1])===-Infinity,"
+                + "Number.isNaN(sum([Infinity,-Infinity])),Number.isNaN(sum([NaN,1])),"
+                + "fails(bad),calls,closes,coercions,fails(nextError),nextCloses,"
+                + "[null,undefined,36,[1n],[new Number(2)],[true],['3'],new Array(1)].every(x=>fails(x)==='TypeError'),"
+                + "sum(new Float64Array([3,4]))].join('|')";
+        Check.equal("true|true|true|true|true|true|true|true|TypeError|2|1|0|value failure|0|true|7",
+                Scripts.eval(script), "iteration and validation continue after a nonfinite value");
+    }
+
+    /**
+     * Verifies that native iteration contributes to the realm's step limit.
+     * <p>
+     * 내장 이터레이션도 realm의 실행 단계 제한에 반영되는지 검증한다.
+     */
+    public void testSumPreciseExecutionLimit() {
+        JsRealm realm = JsRealm.create();
+        realm.evaluateScript("var items = new Float64Array(500);", "sum-setup.js");
+        realm.getLimits().setMaxSteps(50L);
+        Check.equal("3", Ops.toString(realm.evaluateScript("Math.sumPrecise([3]);", "sum-control.js")), "small sum fits the budget");
+        try {
+            realm.evaluateScript("Math.sumPrecise(items);", "sum-limits.js");
+            Check.fail("large typed array should exceed the step limit");
+        } catch (ScriptAbortedException e) {
+            Check.equal(ScriptAbortedException.Reason.STEP_LIMIT, e.getReason(), "per-element native work is charged");
+        }
     }
 }

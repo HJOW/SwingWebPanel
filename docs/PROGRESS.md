@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-08-c Math.sumPrecise (2026-11-26) ===
+현재 작업 번호: P29-08-c 완료.
+완료한 내용: 입력을 binary64 최소 비정규 단위의 정수로 누적한 뒤 짝수 쪽 중간값 규칙으로 한 번만 반올림한다. NaN, 무한대와 음의 0을 판정하고 비숫자 원소 오류에서 이터레이터를 닫으며 원소마다 실행 한도를 차감한다.
+변경 파일: MathLib.java, PreciseSum.java, Es2026PromiseErrorMathTest.java, PropertyAttributesTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 827건 통과. sourcecheck 0 위반.
+미해결 사항: JSON 원문·reviver 및 Date·오프셋(P29-08-d~e).
+다음 작업 번호: P29-08-d1.
+-----------------------------------------------------------------------------------------------
 === P29-08-b Error.isError 및 DOMException 브랜드 (2026-11-26) ===
 현재 작업 번호: P29-08-b 완료.
 완료한 내용: Error.isError가 내부 ErrorData 여부를 판정한다. Web IDL DOMException의 오류 브랜드를 연결하고 구조화 복제에서 Web IDL 이름과 메시지, 수신 realm의 프로토타입을 복원한다.
@@ -898,6 +906,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-08-c Math.sumPrecise
+
+- ECMA-262 제17판 §21.3.2.34의 이터레이션과 합산을 구현했다. 상쇄, 작은 비정규 수, 중간값, 최대 유한 값과 무한대의 경계를 검증했다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 827건 통과. NaN 뒤에도 입력 검사를 계속하고, 호출자 오류와 이터레이터 자체 오류에서 닫기 동작이 달라짐을 확인했다.
+- 다음 작업은 원문 JSON 값 P29-08-d1이다.
 
 ### 2026-11-26 · P29-08-b 오류 내부 브랜드
 
