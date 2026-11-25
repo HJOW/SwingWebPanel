@@ -1052,38 +1052,6 @@ public final class Interpreter {
     }
 
     /**
-     * Collects the keys of for-in enumeration (EnumerateObjectProperties): enumerable string keys of the object and its
-     * prototype chain without duplicates; keys shadowed by non-enumerable own properties are skipped.
-     * <p>
-     * for-in 열거의 키를 모은다(EnumerateObjectProperties): 객체와 프로토타입 체인의 열거 가능한 문자열 키를 중복 없이 모은다.
-     * 열거 불가 자체 프로퍼티에 가려진 키는 건너뛴다.
-     *
-     * @param obj the object / 객체
-     * @return the keys / 키
-     */
-    List<String> forInKeys(JsObject obj) {
-        List<String> out = new ArrayList<String>();
-        java.util.HashSet<String> seen = new java.util.HashSet<String>();
-        JsObject cur = obj;
-        // 프로토타입 체인을 따라가며 이미 본 이름은 건너뛴다.
-        while (cur != null) {
-            for (Object k : cur.ownKeys()) {
-                if (k instanceof String) {
-                    String s = (String) k;
-                    if (seen.add(s)) {
-                        Property p = cur.getOwnPropertySlot(s);
-                        if (p != null && p.enumerable) {
-                            out.add(s);
-                        }
-                    }
-                }
-            }
-            cur = cur.getPrototypeOf();
-        }
-        return out;
-    }
-
-    /**
      * Returns a short text of a value for error messages without running script code.
      * <p>
      * 스크립트 코드를 실행하지 않고 오류 메시지용 값 설명을 반환한다.

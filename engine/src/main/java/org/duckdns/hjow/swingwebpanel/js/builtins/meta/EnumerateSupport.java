@@ -3,6 +3,7 @@ package org.duckdns.hjow.swingwebpanel.js.builtins.meta;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.duckdns.hjow.swingwebpanel.js.ExecutionLimits;
 import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -12,14 +13,11 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 
 /**
- * The [[Enumerate]] internal method of ordinary objects in ECMA-262 6th edition (9.1.11) and the for-in iterator object it
- * returns (13.7.5.9 %ForInIteratorPrototype%). It lists the enumerable string keys of an object and then of its prototype chain,
- * skipping keys that were already seen (even when the earlier property was not enumerable) and keys that were deleted while
- * iterating. The interpreter may use it for for-in over any object, <code>Reflect.enumerate</code> returns the same iterator.
+ * ECMAScript for-in property enumeration and its iterator prototype. The interpreter uses the iterator internally.
+ * The ES2015 <code>Reflect.enumerate</code> entry point also exposes an iterator and supports the historical proxy trap.
  * <p>
- * ECMA-262 6판의 일반 객체 [[Enumerate]] 내부 메서드(9.1.11)와 그것이 돌려주는 for-in 이터레이터 객체(13.7.5.9
- * %ForInIteratorPrototype%). 객체와 그 프로토타입 체인의 열거 가능한 문자열 키를 나열하되, 이미 본 키(앞의 프로퍼티가 열거 불가여도)와
- * 순회 중 삭제된 키는 건너뛴다. 인터프리터가 모든 객체의 for-in 에 쓸 수 있고 <code>Reflect.enumerate</code> 도 같은 이터레이터를 돌려준다.
+ * ECMAScript for-in 프로퍼티 열거와 이터레이터 프로토타입. 인터프리터는 이터레이터를 내부에서 사용한다.
+ * ES2015의 <code>Reflect.enumerate</code> 진입점은 이터레이터를 노출하며 당시 프록시 트랩도 지원한다.
  */
 public final class EnumerateSupport {
 
@@ -39,10 +37,10 @@ public final class EnumerateSupport {
     }
 
     /**
-     * Returns an iterator over the enumerable string keys of an object and its prototype chain. A proxy answers through its
+     * Returns an ES2015 Reflect.enumerate iterator over enumerable string keys. A proxy answers through its
      * <code>enumerate</code> trap.
      * <p>
-     * 객체와 프로토타입 체인의 열거 가능한 문자열 키에 대한 이터레이터를 반환한다. 프록시는 <code>enumerate</code> trap 으로 답한다.
+     * 열거 가능한 문자열 키의 ES2015 Reflect.enumerate 이터레이터를 반환한다. 프록시는 <code>enumerate</code> 트랩으로 답한다.
      *
      * @param realm the realm / realm
      * @param o     the object / 객체
@@ -52,7 +50,7 @@ public final class EnumerateSupport {
         if (o instanceof ProxyObject) {
             return ((ProxyObject) o).enumerate();
         }
-        return new ForInIterator(forInPrototype(realm), o);
+        return new ForInIterator(realm, o);
     }
 
     /**
@@ -90,7 +88,14 @@ public final class EnumerateSupport {
      * <p>
      * for-in 이터레이터 객체: 프로토타입 체인을 느리게 따라가며 모든 키를 소유 객체에 다시 확인한다.
      */
-    private static final class ForInIterator extends JsObject {
+    public static final class ForInIterator extends JsObject {
+        /**
+         * Execution budget checked for each candidate property or prototype.
+         * <p>
+         * 프로퍼티 후보 또는 프로토타입마다 확인하는 실행 제한.
+         */
+        private final ExecutionLimits limits;
+
         /**
          * The object whose keys are being listed now.
          * <p>
@@ -124,11 +129,12 @@ public final class EnumerateSupport {
          * <p>
          * 이터레이터를 만든다.
          *
-         * @param proto %ForInIteratorPrototype% / %ForInIteratorPrototype%
+         * @param realm the iterator's realm / 이터레이터의 realm
          * @param start the object to enumerate / 열거할 객체
          */
-        ForInIterator(JsObject proto, JsObject start) {
-            super(proto);
+        public ForInIterator(JsRealm realm, JsObject start) {
+            super(forInPrototype(realm));
+            this.limits = realm.getLimits();
             this.current = start;
         }
 
@@ -139,9 +145,10 @@ public final class EnumerateSupport {
          *
          * @return the key, or null at the end / 키. 끝이면 null
          */
-        String nextKey() {
+        public String nextKey() {
             // 키가 나올 때까지, 또는 프로토타입 체인이 끝날 때까지 계속 찾는다.
             while (current != null) {
+                limits.tick();
                 if (keys == null) {
                     keys = current.ownKeys();
                     index = 0;

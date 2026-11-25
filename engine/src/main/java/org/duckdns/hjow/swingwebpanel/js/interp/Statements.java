@@ -15,6 +15,7 @@ import org.duckdns.hjow.swingwebpanel.js.ast.Node;
 import org.duckdns.hjow.swingwebpanel.js.ast.NodeType;
 import org.duckdns.hjow.swingwebpanel.js.ast.Op;
 import org.duckdns.hjow.swingwebpanel.js.ast.ScopeInfo;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.EnumerateSupport.ForInIterator;
 
 /**
  * Executes statements (ECMA-262 6th edition clauses 13 and 14) and produces explicit {@link Completion} records: normal, break,
@@ -639,45 +640,6 @@ final class Statements {
     }
 
     /**
-     * The state of a for-in enumeration.
-     * <p>
-     * for-in 열거의 상태.
-     */
-    private static final class ForInState {
-        /**
-         * The object being enumerated.
-         * <p>
-         * 열거 중인 객체.
-         */
-        final JsObject object;
-        /**
-         * The snapshot of keys.
-         * <p>
-         * 키 스냅샷.
-         */
-        final List<String> keys;
-        /**
-         * The next key index.
-         * <p>
-         * 다음 키 인덱스.
-         */
-        int next;
-
-        /**
-         * Creates the state.
-         * <p>
-         * 상태를 만든다.
-         *
-         * @param object the object / 객체
-         * @param keys   the keys / 키
-         */
-        ForInState(JsObject object, List<String> keys) {
-            this.object = object;
-            this.keys = keys;
-        }
-    }
-
-    /**
      * Executes for-in and for-of loops (ForIn/OfHeadEvaluation and ForIn/OfBodyEvaluation).
      * <p>
      * for-in 과 for-of 반복문을 실행한다(ForIn/OfHeadEvaluation, ForIn/OfBodyEvaluation).
@@ -691,7 +653,7 @@ final class Statements {
      */
     private Completion execForInOf(Node n, Environment env, Ctx ctx, NodeState st, List<String> labels) {
         boolean isOf = n.type == NodeType.FOR_OF;
-        Object source;
+        JsObject source;
         Environment iterEnv = env;
         int phase = st != null ? st.phase : 0;
         JsValue v = st != null && st.o3 != null ? (JsValue) st.o3 : Js.UNDEFINED;
@@ -708,8 +670,7 @@ final class Statements {
                 if (rhs.isNullOrUndefined()) {
                     return Completion.normal(Js.UNDEFINED);
                 }
-                JsObject o = Ops.toObject(realm, rhs);
-                source = new ForInState(o, in.forInKeys(o));
+                source = new ForInIterator(realm, Ops.toObject(realm, rhs));
             }
             if (st != null) {
                 st.o1 = source;
@@ -717,7 +678,7 @@ final class Statements {
             }
             phase = 1;
         } else {
-            source = st.o1;
+            source = (JsObject) st.o1;
             if (phase == 2) {
                 iterEnv = (Environment) st.o2;
             }
@@ -729,22 +690,13 @@ final class Statements {
             if (phase == 1) {
                 JsValue item;
                 if (isOf) {
-                    JsObject r = IteratorHelper.step((JsObject) source);
+                    JsObject r = IteratorHelper.step(source);
                     if (r == null) {
                         return Completion.normal(v);
                     }
                     item = IteratorHelper.value(r);
                 } else {
-                    ForInState fs = (ForInState) source;
-                    String key = null;
-                    // 이미 지워진 키는 건너뛴다.
-                    while (fs.next < fs.keys.size()) {
-                        String k = fs.keys.get(fs.next++);
-                        if (fs.object.hasProperty(k)) {
-                            key = k;
-                            break;
-                        }
-                    }
+                    String key = ((ForInIterator) source).nextKey();
                     if (key == null) {
                         return Completion.normal(v);
                     }
@@ -759,7 +711,7 @@ final class Statements {
                     bindLoopVariable(n.a, item, iterEnv, ctx);
                 } catch (JsException e) {
                     if (isOf) {
-                        IteratorHelper.closeQuietly((JsObject) source);
+                        IteratorHelper.closeQuietly(source);
                     }
                     throw e;
                 }
@@ -774,12 +726,12 @@ final class Statements {
                 c = exec(n.d, iterEnv, ctx);
             } catch (JsException e) {
                 if (isOf) {
-                    IteratorHelper.closeQuietly((JsObject) source);
+                    IteratorHelper.closeQuietly(source);
                 }
                 throw e;
             } catch (GeneratorReturn g) {
                 if (isOf) {
-                    IteratorHelper.closeQuietly((JsObject) source);
+                    IteratorHelper.closeQuietly(source);
                 }
                 throw g;
             }
@@ -796,7 +748,7 @@ final class Statements {
             int act = bodyAction(c, labels);
             if (act != 0) {
                 if (isOf) {
-                    IteratorHelper.close((JsObject) source);
+                    IteratorHelper.close(source);
                 }
                 return act == 1 ? Completion.normal(v) : Completion.updateEmpty(c, v);
             }
