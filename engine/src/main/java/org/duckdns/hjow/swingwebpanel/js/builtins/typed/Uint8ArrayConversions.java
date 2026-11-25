@@ -7,7 +7,10 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsString;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
+import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.text.CharClass;
+import org.duckdns.hjow.swingwebpanel.js.builtins.typed.Uint8Base64.ChunkMode;
+import org.duckdns.hjow.swingwebpanel.js.builtins.typed.Uint8Base64.DecodeResult;
 
 /**
  * Text encodings on the Uint8Array constructor and its concrete prototype.
@@ -33,6 +36,7 @@ final class Uint8ArrayConversions {
      * @param proto Uint8Array prototype / Uint8Array 프로토타입
      */
     static void install(JsRealm realm, JsObject ctor, JsObject proto) {
+        installBase64(realm, ctor, proto);
         realm.method(ctor, "fromHex", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
                 String text = requireString(Js.arg(args, 0));
@@ -70,6 +74,132 @@ final class Uint8ArrayConversions {
                 return Js.str(output.toString());
             }
         });
+    }
+
+    /**
+     * Installs the Base64 codecs with option evaluation before reading the buffer bounds.
+     * <p>
+     * 버퍼 경계를 읽기 전에 옵션을 평가하는 Base64 변환 메서드를 설치한다.
+     *
+     * @param realm the realm / realm
+     * @param ctor Uint8Array constructor / Uint8Array 생성자
+     * @param proto Uint8Array prototype / Uint8Array 프로토타입
+     */
+    private static void installBase64(JsRealm realm, JsObject ctor, JsObject proto) {
+        realm.method(ctor, "fromBase64", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
+                String input = requireString(Js.arg(args, 0));
+                JsObject options = options(Js.arg(args, 1));
+                String alphabet = alphabet(options);
+                ChunkMode mode = chunkMode(options);
+                byte[] bytes = TypedSupport.allocate(((input.length() + 3L) / 4L) * 3L);
+                DecodeResult decoded = Uint8Base64.decode(r, input, alphabet, mode, bytes, 0, bytes.length);
+                TypedArrayObject output = newArray(r, decoded.written);
+                System.arraycopy(bytes, 0, output.getBuffer().getData(), 0, decoded.written);
+                return output;
+            }
+        });
+        realm.method(proto, "setFromBase64", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
+                TypedArrayObject target = requireUint8(receiver);
+                String input = requireString(Js.arg(args, 0));
+                JsObject options = options(Js.arg(args, 1));
+                String alphabet = alphabet(options);
+                ChunkMode mode = chunkMode(options);
+                TypedSupport.validate(target);
+                DecodeResult decoded = Uint8Base64.decode(r, input, alphabet, mode, target.getBuffer().getData(),
+                        target.getByteOffset(), target.getLength());
+                return result(r, decoded.read, decoded.written);
+            }
+        });
+        realm.method(proto, "toBase64", 0, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
+                TypedArrayObject source = requireUint8(receiver);
+                JsObject options = options(Js.arg(args, 0));
+                String alphabet = alphabet(options);
+                boolean omitPadding = Ops.toBoolean(option(options, "omitPadding"));
+                TypedSupport.validate(source);
+                return Js.str(Uint8Base64.encode(r, source.getBuffer().getData(), source.getByteOffset(), source.getLength(), alphabet, omitPadding));
+            }
+        });
+    }
+
+    /**
+     * Accepts an options object or omitted options.
+     * <p>
+     * 옵션 객체 또는 생략된 옵션을 받는다.
+     *
+     * @param value options argument / 옵션 인수
+     * @return the options or null for omitted options / 옵션. 생략하면 null
+     */
+    private static JsObject options(JsValue value) {
+        if (value.isUndefined()) {
+            return null;
+        }
+        if (!(value instanceof JsObject)) {
+            throw JsException.typeError("Base64 options must be an object");
+        }
+        return (JsObject) value;
+    }
+
+    /**
+     * Reads the named option, defaulting to undefined.
+     * <p>
+     * 지정한 옵션을 읽는다. 기본값은 undefined다.
+     *
+     * @param options the options object or null / 옵션 객체 또는 null
+     * @param name the option name / 옵션 이름
+     * @return the property value or undefined / 프로퍼티 값 또는 undefined
+     */
+    private static JsValue option(JsObject options, String name) {
+        return options == null ? Js.UNDEFINED : options.get(name);
+    }
+
+    /**
+     * Reads the base64 or base64url alphabet selector.
+     * <p>
+     * base64 또는 base64url을 선택하는 옵션을 읽는다.
+     *
+     * @param options the options / 옵션
+     * @return the selected encoding alphabet / 선택한 인코딩 알파벳
+     */
+    private static String alphabet(JsObject options) {
+        JsValue value = option(options, "alphabet");
+        if (value.isUndefined() || (value instanceof JsString && "base64".equals(((JsString) value).getValue()))) {
+            return Uint8Base64.STANDARD;
+        }
+        if (value instanceof JsString && "base64url".equals(((JsString) value).getValue())) {
+            return Uint8Base64.URL;
+        }
+        throw JsException.typeError("Invalid base64 alphabet");
+    }
+
+    /**
+     * Reads the final chunk policy for a decoder.
+     * <p>
+     * 디코더의 마지막 묶음 처리 옵션을 읽는다.
+     *
+     * @param options the options / 옵션
+     * @return final chunk policy / 마지막 묶음 처리 방법
+     */
+    private static ChunkMode chunkMode(JsObject options) {
+        JsValue value = option(options, "lastChunkHandling");
+        if (value.isUndefined()) {
+            return ChunkMode.LOOSE;
+        }
+        if (value instanceof JsString) {
+            String mode = ((JsString) value).getValue();
+            if ("loose".equals(mode)) {
+                return ChunkMode.LOOSE;
+            }
+            if ("strict".equals(mode)) {
+                return ChunkMode.STRICT;
+            }
+            if ("stop-before-partial".equals(mode)) {
+                return ChunkMode.STOP_BEFORE_PARTIAL;
+            }
+        }
+        throw JsException.typeError("Invalid lastChunkHandling");
     }
 
     /**
@@ -179,7 +309,7 @@ final class Uint8ArrayConversions {
      * @param realm realm / realm
      * @param index loop position / 반복 위치
      */
-    private static void poll(JsRealm realm, int index) {
+    static void poll(JsRealm realm, int index) {
         if ((index & 4095) == 0) {
             realm.getLimits().poll();
         }

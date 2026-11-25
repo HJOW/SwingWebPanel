@@ -783,7 +783,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-03-e1. `PageRuntime`, `PageScripts`의 문서 모듈 요청에 타입을 전달한다. 정적·동적 JSON 가져오기에서 UTF-8, MIME과 CORS, 같은 URL의 타입별 캐시 분리를 `ModuleScriptHttpTest`에서 검증한다.
     - [x] P29-03-e2. `WorkerScope`와 Worker 설정에 모듈 로더를 연결한다. Worker 메시지로 받은 JSON 값, 기존 스크립트와 오리진 검사를 실제 HTTP 시험에서 대조한다.
     - [x] P29-03-e3. `ModuleGraphFetcher`와 `WorkletScope`의 선취득 키에 타입을 포함한다. JSON 의존성에서 등록된 프로세서의 값, MIME 오류, 기존 AudioWorklet 시험을 검증한다.
-- [ ] P29-04. ES2023~ES2026 배열·형식화 배열·이진 데이터(`Float16Array`, `Uint8Array` Base64/Hex, 가변 `ArrayBuffer`)를 구현한다.
+- [x] P29-04. ES2023~ES2026 배열·형식화 배열·이진 데이터(`Float16Array`, `Uint8Array` Base64/Hex, 가변 `ArrayBuffer`)를 구현한다.
   - 복사 기반 배열 변경과 역방향 탐색(ES2023): `Array.prototype`의 `findLast`, `findLastIndex`, `toReversed`, `toSorted`, `toSpliced`, `with`(희소 배열 빈 슬롯을 `undefined`로 채우고 `@@unscopables`는 §23.1.3.41의 이름을 따름) 및 `%TypedArray%.prototype`의 `findLast`, `findLastIndex`, `toReversed`, `toSorted`, `with`(species를 보지 않는 `TypedArrayCreateSameType` 적용).
   - 비동기 배열 생성(ES2026, `23.1.2.2`): `Array.fromAsync(items [, mapper [, thisArg]])` — async iterable·sync iterable·array-like 입력의 순차 소비, 입력 종류에 따른 값의 `await`와 매퍼 결과 대기, 매핑·쓰기 오류 시 열린 이터레이터 닫기(`IfAbruptCloseAsyncIterator`), 생성자 `this` 처리.
   - 반정밀도 부동소수점(ES2025): 순수 Java IEEE 754 binary16 변환기(짝수 방향 반올림 ties-to-even, 비정규수, 부호 있는 0, 무한대, NaN 비트 보존)로 `Math.f16round(x)`, `Float16Array`, `DataView.prototype.getFloat16(byteOffset [, littleEndian])`·`setFloat16(byteOffset, value [, littleEndian])`을 구현한다.
@@ -801,9 +801,9 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-04-e2. `TypedArrayObject`, 생성자와 메서드에 자동 길이와 경계 이탈을 반영한다. 축소·확대, 경계 복구, 콜백과 형식화 배열의 복사·쓰기 순서를 검증한다.
     - [x] P29-04-e3. `DataViewObject`, 생성자 및 접근자에서 버퍼의 현재 경계를 사용한다. 자동·고정 길이, 엔디언, 값 변환 중 축소·분리와 결과 오류를 검증한다.
     - [x] P29-04-e4. `ArrayBuffer.prototype`의 resize와 transfer 2종을 연결한다. 범위 실패, 재할당의 0 채움, 전송 성공 뒤 분리와 기존 뷰의 동작을 스크립트에서 검증한다.
-  - [ ] P29-04-f. `Uint8Array`의 Base64·Hex 변환을 추가한다. 알파벳, 패딩, 접두부 처리, 버퍼 길이·분리 경계 및 read/written을 JDK 6에서 검증한다.
+  - [x] P29-04-f. `Uint8Array`의 Base64·Hex 변환을 추가한다. 알파벳, 패딩, 접두부 처리, 버퍼 길이·분리 경계 및 read/written을 JDK 6에서 검증한다.
     - [x] P29-04-f1. `Uint8ArrayConversions`를 등록하고 Hex 3종을 구현한다. 입력·출력 형식, 제한 길이, 불완전 입력, 오류 전 접두부 저장, 분리·가변 버퍼를 시험한다.
-    - [ ] P29-04-f2. Base64 3종을 구현한다. 알파벳, ASCII 공백, 패딩, 마지막 조각 처리, 출력 범위와 관찰 가능한 옵션 접근을 시험한다.
+    - [x] P29-04-f2. Base64 3종을 구현한다. 알파벳, ASCII 공백, 패딩, 마지막 조각 처리, 출력 범위와 관찰 가능한 옵션 접근을 시험한다.
 - [ ] P29-05. `SharedArrayBuffer`와 `Atomics`(ES2017·ES2024, `25.2`·`25.4`·`29`)를 구현한다.
   - `SharedArrayBuffer` 생성자(`{ maxByteLength }` 성장 옵션 포함), `byteLength`, `maxByteLength`, `growable`, `grow(newLength)`(축소 금지·원자적 확장), `slice`, `@@species`/`@@toStringTag`를 구현한다.
   - Java 6 표준 공개 API(`java.util.concurrent.atomic`, 모니터/잠금 등 — `sun.misc.Unsafe` 및 네이티브 코드 금지)만으로 공유 바이트 블록과 8/16/32/64비트 정수 `TypedArray`(`Int8`~`Uint32`, `BigInt64`/`BigUint64`)에 대한 원자적 읽기·쓰기·산술·비트·교환 연산(`Atomics.load`, `store`, `add`, `sub`, `and`, `or`, `xor`, `exchange`, `compareExchange`, `isLockFree`)을 구현한다.

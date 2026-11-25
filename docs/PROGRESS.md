@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-04-f2 Uint8Array Base64 변환 (2026-11-26) ===
+현재 작업 번호: P29-04 완료.
+완료한 내용: fromBase64, toBase64와 setFromBase64를 설치했다. 두 알파벳과 패딩, 마지막 조각 정책, read/written, 옵션 접근 중 버퍼 크기와 분리 상태를 검증했다.
+변경 파일: Uint8Base64.java, Uint8ArrayConversions.java, Es2026Uint8Base64HexTest.java, BuiltinPropertiesTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 753건 통과. sourcecheck 0 위반.
+미해결 사항: SharedArrayBuffer와 Atomics(P29-05), 이후 P29-06~10. 호스트 경계와 기존 실제 장치·실시간 검증은 해당 항목에 남아 있다.
+다음 작업 번호: P29-05.
+-----------------------------------------------------------------------------------------------
 === P29-04-f1 Uint8Array Hex 변환 (2026-11-26) ===
 현재 작업 번호: P29-04-f1 완료.
 완료한 내용: fromHex, toHex, setFromHex를 Uint8Array에 설치했다. 두 문자씩 검증하며 있는 바이트만 소비한다. 오류 전에 완성한 접두부, read/written, 뷰 오프셋 및 가변·분리 버퍼를 확인했다.
@@ -658,6 +666,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-04-f2 Base64 변환과 배열 단계 검증
+
+RFC 4648 예시, base64url, 공백 건너뛰기, 정규 패딩과 사용하지 않는 비트, 용량이 부족한 묶음의 처리, 오류 뒤 앞부분의 바이트를 검증했다. 옵션 getter에서 크기를 바꾸거나 분리하는 경우 경계를 다시 읽는 것도 확인했다.
 
 ### 2026-11-26 · P29-04-f1 16진 문자열 변환
 

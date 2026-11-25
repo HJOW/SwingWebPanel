@@ -271,11 +271,14 @@ public class BuiltinPropertiesTest {
             data(name + ".prototype", ctor, "prototype", "");
             data(name + ".BYTES_PER_ELEMENT", ctor, "BYTES_PER_ELEMENT", "");
             if (types[i] == ElementType.UINT8) {
-                keys(name, ctor, new String[] { "length", "name", "prototype", "BYTES_PER_ELEMENT", "fromHex" }, 0);
-                keys(name + ".prototype", proto, new String[] { "constructor", "BYTES_PER_ELEMENT", "toHex", "setFromHex" }, 0);
+                keys(name, ctor, new String[] { "length", "name", "prototype", "BYTES_PER_ELEMENT", "fromHex", "fromBase64" }, 0);
+                keys(name + ".prototype", proto, new String[] { "constructor", "BYTES_PER_ELEMENT", "toHex", "setFromHex", "toBase64", "setFromBase64" }, 0);
                 method("Uint8Array.fromHex", ctor, "fromHex", "fromHex", 1);
                 method("Uint8Array.prototype.toHex", proto, "toHex", "toHex", 0);
                 method("Uint8Array.prototype.setFromHex", proto, "setFromHex", "setFromHex", 1);
+                method("Uint8Array.fromBase64", ctor, "fromBase64", "fromBase64", 1);
+                method("Uint8Array.prototype.toBase64", proto, "toBase64", "toBase64", 0);
+                method("Uint8Array.prototype.setFromBase64", proto, "setFromBase64", "setFromBase64", 1);
             } else {
                 keys(name, ctor, new String[] { "length", "name", "prototype", "BYTES_PER_ELEMENT" }, 0);
                 keys(name + ".prototype", proto, new String[] { "constructor", "BYTES_PER_ELEMENT" }, 0);
