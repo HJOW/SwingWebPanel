@@ -86,6 +86,17 @@ public abstract class JsValue {
     }
 
     /**
+     * Reports the Annex B [[IsHTMLDDA]] slot. Only the browser's legacy document collection provides it.
+     * <p>
+     * 부속서 B의 [[IsHTMLDDA]] 슬롯 보유 여부를 반환한다. 브라우저의 레거시 문서 컬렉션만 이 슬롯을 제공한다.
+     *
+     * @return true for the legacy document collection / 레거시 문서 컬렉션이면 true
+     */
+    public boolean hasIsHtmlDda() {
+        return false;
+    }
+
+    /**
      * Returns the result of the <code>typeof</code> operator for this value.
      * <p>
      * 이 값에 <code>typeof</code> 연산자를 적용한 결과를 반환한다.
@@ -109,6 +120,10 @@ public abstract class JsValue {
         case SYMBOL:
             return "symbol";
         default:
+            // HTMLAllCollection의 typeof 결과는 호출 가능 여부보다 내부 슬롯을 우선한다.
+            if (hasIsHtmlDda()) {
+                return "undefined";
+            }
             return isCallable() ? "function" : "object";
         }
     }

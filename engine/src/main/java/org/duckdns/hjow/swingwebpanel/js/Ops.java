@@ -131,7 +131,7 @@ public final class Ops {
             return ((JsBoolean) v).getValue();
         }
         if (v instanceof JsObject) {
-            return true;
+            return !v.hasIsHtmlDda();
         }
         if (v instanceof JsNumber) {
             double d = ((JsNumber) v).getValue();
@@ -579,6 +579,10 @@ public final class Ops {
             return strictEquals(a, b);
         }
         if (a.isNullOrUndefined() && b.isNullOrUndefined()) {
+            return true;
+        }
+        // 부속서 B의 레거시 컬렉션은 느슨한 비교에서 null과 undefined에만 이 예외를 적용한다.
+        if ((a.isNullOrUndefined() && b.hasIsHtmlDda()) || (b.isNullOrUndefined() && a.hasIsHtmlDda())) {
             return true;
         }
         if (a instanceof JsNumber && b instanceof JsString) {

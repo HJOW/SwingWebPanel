@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-09-d1 레거시 HTMLAllCollection (2026-11-26) ===
+현재 작업 번호: P29-09-d1 완료.
+완료한 내용: document.all에 라이브 컬렉션, 호출, 순서 있는 인덱스와 이름을 연결했다. [[IsHTMLDDA]]를 가진 객체에만 boolean, 느슨한 동등, typeof 예외를 적용한다.
+변경 파일: JsValue.java, Ops.java, AllElements.java, Document.java, DocumentExtras.java, DomInterfaces.java, HtmlAllCollectionObject.java, HtmlAllCollectionTest.java, AnnexB17ConformanceTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, docs/progress/es2026.md, 이 문서.
+검증 결과: JDK 6u45 엔진 전체 856건, HtmlAllCollectionTest 2건, DomBindingTest 8건 통과. sourcecheck 0 위반.
+미해결 사항: private 요소 호스트 제한과 Promise 작업 콜백(P29-09-d2~d3), 구판 통합(P29-09-e).
+다음 작업 번호: P29-09-d2.
+-----------------------------------------------------------------------------------------------
 === P29-09-c2 정규식 뒤쪽 탐색 (2026-11-26) ===
 현재 작업 번호: P29-09-c2 및 P29-09-c 완료.
 완료한 내용: 뒤쪽 탐색을 현재 위치부터 역방향으로 실행한다. 대안 우선순위를 유지하며 캡처, 역참조, 중첩 단언과 공유 실행 한도를 적용한다.
@@ -986,6 +994,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-09-d1 HTMLAllCollection과 [[IsHTMLDDA]]
+
+- ECMA-262 제17판 B.3.6, WHATWG HTML §2.6.4.1, Web IDL §3.9를 기준으로 브라우저의 기존 일반 컬렉션 래퍼를 바꿨다. `document.all`은 호출과 인덱스·이름 조회를 지원하고, 같은 이름이 여러 번 나타나면 라이브 HTMLCollection을 반환한다. 정체성, 열거 여부, DOM 변경 후 조회, 프록시와 독립 엔진의 동작을 검증했다.
+- HTML Living Standard 원문은 `https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#htmlallcollection` (Last-Modified 2026-11-25, 조회 2026-11-26, JRE 25 `tools/webfetch`)에서 확인했다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 856건, `mvn -B -o -pl browser -am test -Dtest.filter=HtmlAllCollectionTest` 2건, TestRunner의 DomBindingTest 8건 통과.
 
 ### 2026-11-26 · P29-09-c2 정규식 뒤쪽 탐색
 

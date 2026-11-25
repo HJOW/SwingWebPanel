@@ -321,6 +321,8 @@ public final class DomInterfaces {
             return "NodeList";
         } else if (o instanceof org.duckdns.hjow.swingwebpanel.dom.PropertiesCollection) {
             return "HTMLPropertiesCollection";
+        } else if (o instanceof org.duckdns.hjow.swingwebpanel.dom.AllElements) {
+            return "HTMLAllCollection";
         } else if (o instanceof ElementCollection) {
             return "HTMLCollection";
         } else if (o instanceof NamedAttributeMap) {
@@ -1241,6 +1243,7 @@ public final class DomInterfaces {
                 return ((ElementCollection) t).namedItem(n);
             }
         });
+        HtmlAllCollectionObject.install(bridge);
         DomBridge.InterfaceInfo nm = bridge.defineInterface("NamedNodeMap", null, NamedAttributeMap.class, new String[] { "a:length",
             "m:item(int)", "m:getNamedItem(String)", "m:getNamedItemNS(String?,String)", "m:setNamedItem(Attr)",
             "m:removeNamedItem(String)" });

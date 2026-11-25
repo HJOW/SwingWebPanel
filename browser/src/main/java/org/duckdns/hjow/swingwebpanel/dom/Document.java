@@ -124,6 +124,9 @@ public class Document extends Node {
      */
     private long mutationVersion;
 
+    /** The stable legacy collection, created on first access. / 첫 조회에서 생성하는 동일한 레거시 컬렉션. */
+    private AllElements allElements;
+
     /**
      * Listeners of DOM changes (copied on write).
      * <p>
@@ -1183,6 +1186,20 @@ public class Document extends Node {
             idIndexVersion = mutationVersion;
         }
         return idIndex.get(id);
+    }
+
+    /**
+     * Returns the live legacy collection of every element in this document.
+     * <p>
+     * 문서의 모든 요소를 담은 라이브 레거시 컬렉션을 반환한다.
+     *
+     * @return the legacy collection for this document / 이 문서의 레거시 컬렉션
+     */
+    public AllElements getAll() {
+        if (allElements == null) {
+            allElements = new AllElements(this);
+        }
+        return allElements;
     }
 
     /**

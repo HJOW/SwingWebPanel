@@ -10,6 +10,17 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
 public class AnnexB17ConformanceTest {
 
     /**
+     * Checks that an independent realm has ordinary objects and no HTML collection.
+     * <p>
+     * 독립 렐름의 객체가 일반 객체이며 HTML 컬렉션이 없는지 확인한다.
+     */
+    public void testIndependentRealmHasNoHtmlDda() {
+        Check.equal("undefined,undefined,object,true,false,false", Scripts.eval(
+                "var o={}; [typeof document,typeof HTMLAllCollection,typeof o,Boolean(o),o==null,o==undefined].join()"),
+                "the standalone engine creates no HTMLDDA objects");
+    }
+
+    /**
      * Checks one-time initialization, ordering, and binding name inference in sloppy for-in.
      * <p>
      * 비엄격 for-in의 한 번만 하는 초기화, 평가 순서 및 바인딩 이름 추론을 확인한다.

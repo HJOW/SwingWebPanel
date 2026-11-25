@@ -280,7 +280,7 @@ public final class DocumentExtras {
              * @return the collection / 컬렉션
              */
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
-                return bridge.toJs(ElementCollections.byTagName(doc(self), "*"));
+                return bridge.toJs(doc(self).getAll());
             }
         }, null);
         accessor(bridge, proto, "activeElement", new NativeFunction.Call() {
