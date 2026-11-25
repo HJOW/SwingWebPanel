@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-c3a 최종 응답의 격리 정책 메타데이터 (2026-11-26) ===
+현재 작업 번호: P29-10-c3a 완료.
+완료한 내용: 최종 HTTP 응답의 COOP와 COEP 구조화 토큰을 파싱하고, 신뢰 가능한 오리진에서만 문서·스크립트 응답 정보와 이력에 전달한다. isSecureContext가 파싱된 호스트와 스킴으로 루프백을 확인한다.
+변경 파일: Origin.java, CrossOriginPolicy.java, NetworkPageLoader.java, PageSnapshot.java, PageRequestContext.java, ParsingPageLoader.java, PageRuntime.java, ScriptText.java, ScriptSource.java, WindowGlobals.java, OriginPolicyTest.java, CrossOriginIsolationTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45 CrossOriginIsolationTest 1건, OriginPolicyTest 7건 통과. sourcecheck 0 위반.
+미해결 사항: COEP·CORP 요청 적용 및 호스트별 격리·공유 메모리(P29-10-c3b~c3c), Unicode·최종 회귀.
+다음 작업 번호: P29-10-c3b.
+-----------------------------------------------------------------------------------------------
 === P29-10-c2b 최상위 WindowProxy의 이동 수명 (2026-11-26) ===
 현재 작업 번호: P29-10-c2b와 P29-10-c2 완료.
 완료한 내용: 컴포넌트마다 최상위 브라우징 문맥을 하나 할당한다. 파싱하는 스크립트에는 자신의 전역을 제공하고, 다른 호출에는 확정 문서를 제공한다.
@@ -1122,6 +1130,11 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-c3a COOP·COEP 응답 메타데이터와 신뢰 가능한 오리진
+
+- [WHATWG HTML Living Standard §7.1.3~7.1.4](https://html.spec.whatwg.org/multipage/browsers.html) 2026-11-25 11:33:24 GMT 판과 [W3C Secure Contexts §3.1](https://www.w3.org/TR/secure-contexts/#is-origin-trustworthy) 2023-11-10 판을 2026-11-26에 `tools/webfetch`로 조회했다.
+- 구조화 헤더의 토큰과 선택 매개변수를 검사하고 중복 헤더, 목록, 따옴표로 감싼 정책 값은 기본 정책으로 처리한다. 최종 문서 및 일반·모듈 스크립트의 리디렉션과 루프백을 확인했다.
 
 ### 2026-11-26 · P29-10-c2b 이동 전후 최상위 WindowProxy 정체성
 

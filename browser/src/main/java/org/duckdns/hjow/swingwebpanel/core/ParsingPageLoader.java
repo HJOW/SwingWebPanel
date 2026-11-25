@@ -96,7 +96,7 @@ public final class ParsingPageLoader implements PageLoader, CacheOwner {
      * @return the snapshot with a document (unchanged if the type has none) / 문서가 붙은 스냅샷(문서가 없는 형식이면 그대로)
      */
     PageSnapshot attachFrame(PageSnapshot snapshot, NavigationRequest request) {
-        return attach(snapshot, request.isJavascriptEnabled(), new PageRequestContext(request), services, request);
+        return attach(snapshot, request.isJavascriptEnabled(), new PageRequestContext(request, snapshot.getCrossOriginPolicy()), services, request);
     }
 
     /**
@@ -124,7 +124,8 @@ public final class ParsingPageLoader implements PageLoader, CacheOwner {
      */
     public PageSnapshot load(NavigationRequest request) throws Exception {
         PageSnapshot snapshot = delegate.load(request);
-        PageSnapshot result = attach(snapshot, request.isJavascriptEnabled(), new PageRequestContext(request), services, request);
+        PageSnapshot result = attach(snapshot, request.isJavascriptEnabled(), new PageRequestContext(request, snapshot.getCrossOriginPolicy()), services,
+                request);
         if (request.getCancelToken().isCancelled()) {
             result.dispose();
             request.getCancelToken().throwIfCancelled();
@@ -173,7 +174,7 @@ public final class ParsingPageLoader implements PageLoader, CacheOwner {
      * @return the snapshot with a document, or the same snapshot if its type is not handled / 문서가 붙은 스냅샷. 처리하지 않는 형식이면 같은 스냅샷
      */
     static PageSnapshot attach(PageSnapshot snapshot, boolean scripting) {
-        return attach(snapshot, scripting, new PageRequestContext(null), null, null);
+        return attach(snapshot, scripting, new PageRequestContext(null, snapshot.getCrossOriginPolicy()), null, null);
     }
 
     /**

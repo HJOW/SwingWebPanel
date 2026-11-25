@@ -1,6 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.core;
 
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
+import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 import org.duckdns.hjow.swingwebpanel.net.SchemePolicy;
 
 /**
@@ -105,6 +106,9 @@ public final class PageSnapshot {
      */
     private final String encoding;
 
+    /** The final response's opener and embedder policies. / 최종 응답의 opener 및 삽입 정책. */
+    private final CrossOriginPolicy crossOriginPolicy;
+
     /**
      * The form submission that made this page, or null for a page that was loaded by a plain request. It is kept with the history entry so that
      * a history move shows the stored source and a refresh asks the user before the form is sent again.
@@ -140,7 +144,8 @@ public final class PageSnapshot {
      */
     private PageSnapshot(String url, String content, String mimeType, String baseUrl, PageKind kind, String title,
             int statusCode, PageDocument document) {
-        this(url, content, mimeType, baseUrl, kind, title, statusCode, document, DOCUMENT_IDS.incrementAndGet(), "UTF-8", null);
+        this(url, content, mimeType, baseUrl, kind, title, statusCode, document, DOCUMENT_IDS.incrementAndGet(), "UTF-8", null,
+                CrossOriginPolicy.NONE);
     }
 
     /**
@@ -159,12 +164,14 @@ public final class PageSnapshot {
      * @param documentId identifier of the document / 문서 식별자
      * @param encoding   name of the decoding character encoding / 디코딩한 문자 인코딩 이름
      * @param post       the form submission that made the page or null / 페이지를 만든 폼 제출 또는 null
+     * @param policy     the final response's policies / 최종 응답의 정책
      */
     private PageSnapshot(String url, String content, String mimeType, String baseUrl, PageKind kind, String title,
-            int statusCode, PageDocument document, long documentId, String encoding, PostData post) {
+            int statusCode, PageDocument document, long documentId, String encoding, PostData post, CrossOriginPolicy policy) {
         this.post = post;
         this.documentId = documentId;
         this.encoding = encoding;
+        this.crossOriginPolicy = policy;
         this.url = url;
         this.content = content;
         this.mimeType = mimeType;
@@ -239,7 +246,7 @@ public final class PageSnapshot {
      * @return the new snapshot / 새 스냅샷
      */
     public PageSnapshot withDocument(PageDocument doc) {
-        return carry(new PageSnapshot(url, content, mimeType, baseUrl, kind, title, statusCode, doc, documentId, encoding, post));
+        return carry(new PageSnapshot(url, content, mimeType, baseUrl, kind, title, statusCode, doc, documentId, encoding, post, crossOriginPolicy));
     }
 
     /**
@@ -252,7 +259,7 @@ public final class PageSnapshot {
      */
     public PageSnapshot withEncoding(String name) {
         return carry(new PageSnapshot(url, content, mimeType, baseUrl, kind, title, statusCode, document, documentId,
-                name == null || name.length() == 0 ? "UTF-8" : name, post));
+                name == null || name.length() == 0 ? "UTF-8" : name, post, crossOriginPolicy));
     }
 
     /**
@@ -267,6 +274,30 @@ public final class PageSnapshot {
     }
 
     /**
+     * Returns a copy with the policy sent by the final response.
+     * <p>
+     * 최종 응답이 제공한 정책을 담은 복사본을 반환한다.
+     *
+     * @param policy the response policy / 응답 정책
+     * @return a copy, or this snapshot when unchanged / 복사본. 변경 사항이 없으면 이 스냅샷
+     */
+    PageSnapshot withCrossOriginPolicy(CrossOriginPolicy policy) {
+        return policy == crossOriginPolicy ? this : carry(new PageSnapshot(url, content, mimeType, baseUrl, kind, title, statusCode,
+                document, documentId, encoding, post, policy));
+    }
+
+    /**
+     * Returns the document's parsed response policies.
+     * <p>
+     * 문서 응답에서 읽은 정책을 반환한다.
+     *
+     * @return the policy / 정책
+     */
+    CrossOriginPolicy getCrossOriginPolicy() {
+        return crossOriginPolicy;
+    }
+
+    /**
      * Returns a copy of this snapshot that remembers the form submission that made the page. A history move then shows the stored source
      * instead of sending the form again, and a refresh sends it again only after the user agreed.
      * <p>
@@ -277,7 +308,7 @@ public final class PageSnapshot {
      * @return the copy / 복사본
      */
     public PageSnapshot withPost(PostData data) {
-        return carry(new PageSnapshot(url, content, mimeType, baseUrl, kind, title, statusCode, document, documentId, encoding, data));
+        return carry(new PageSnapshot(url, content, mimeType, baseUrl, kind, title, statusCode, document, documentId, encoding, data, crossOriginPolicy));
     }
 
     /**
@@ -299,7 +330,8 @@ public final class PageSnapshot {
      * @return the new snapshot / 새 스냅샷
      */
     public PageSnapshot withoutDocument() {
-        return document == null ? this : carry(new PageSnapshot(url, content, mimeType, baseUrl, kind, title, statusCode, null, documentId, encoding, post));
+        return document == null ? this : carry(new PageSnapshot(url, content, mimeType, baseUrl, kind, title, statusCode, null, documentId, encoding,
+                post, crossOriginPolicy));
     }
 
     /**
@@ -311,7 +343,8 @@ public final class PageSnapshot {
      * @return the new snapshot / 새 스냅샷
      */
     public PageSnapshot withTitle(String newTitle) {
-        return carry(new PageSnapshot(url, content, mimeType, baseUrl, kind, newTitle == null ? "" : newTitle, statusCode, document, documentId, encoding, post));
+        return carry(new PageSnapshot(url, content, mimeType, baseUrl, kind, newTitle == null ? "" : newTitle, statusCode, document, documentId,
+                encoding, post, crossOriginPolicy));
     }
 
     /**

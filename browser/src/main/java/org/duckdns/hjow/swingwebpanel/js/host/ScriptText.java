@@ -1,5 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.host;
 
+import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
+
 /**
  * The text of a fetched script together with the URL that finally served it. The final URL differs from the requested one after a
  * redirect, and relative specifiers inside a module resolve against it (the module's base URL), while the module keeps the requested URL
@@ -24,6 +26,9 @@ public final class ScriptText {
      */
     private final String url;
 
+    /** The final response policy used for worker entry scripts. / 워커 진입 스크립트에 쓰는 최종 응답 정책. */
+    private final CrossOriginPolicy crossOriginPolicy;
+
     /**
      * Creates the value.
      * <p>
@@ -33,11 +38,25 @@ public final class ScriptText {
      * @param url  the final URL, not null / 최종 URL(null 불가)
      */
     public ScriptText(String text, String url) {
+        this(text, url, CrossOriginPolicy.NONE);
+    }
+
+    /**
+     * Creates a script response with the final origin policies.
+     * <p>
+     * 최종 오리진 정책을 담은 스크립트 응답을 만든다.
+     *
+     * @param text the source text / 원문
+     * @param url the final URL / 최종 URL
+     * @param policy the response policy / 응답 정책
+     */
+    public ScriptText(String text, String url, CrossOriginPolicy policy) {
         if (text == null || url == null) {
             throw new IllegalArgumentException("text and url must not be null");
         }
         this.text = text;
         this.url = url;
+        this.crossOriginPolicy = policy;
     }
 
     /**
@@ -60,5 +79,16 @@ public final class ScriptText {
      */
     public String getUrl() {
         return url;
+    }
+
+    /**
+     * Returns the parsed policy from the final response headers.
+     * <p>
+     * 최종 응답 헤더에서 파싱한 정책을 반환한다.
+     *
+     * @return the policy / 정책
+     */
+    public CrossOriginPolicy getCrossOriginPolicy() {
+        return crossOriginPolicy;
     }
 }

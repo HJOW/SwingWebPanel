@@ -96,6 +96,50 @@ public final class Origin {
     }
 
     /**
+     * Tells whether this supported origin is potentially trustworthy under Secure Contexts.
+     * <p>
+     * 지원 오리진이 Secure Contexts에서 잠재적으로 신뢰 가능한지 확인한다.
+     *
+     * @return true for HTTPS or HTTP loopback origins / HTTPS 또는 HTTP 루프백 오리진이면 true
+     */
+    public boolean isPotentiallyTrustworthy() {
+        if (host == null || host.length() == 0) {
+            return false;
+        }
+        if ("https".equals(scheme)) {
+            return true;
+        }
+        if (!"http".equals(scheme)) {
+            return false;
+        }
+        String name = host.endsWith(".") ? host.substring(0, host.length() - 1) : host;
+        if ("localhost".equals(name) || name.endsWith(".localhost")) {
+            return true;
+        }
+        if (name.startsWith("[") && name.endsWith("]")) {
+            try {
+                // 대괄호 주소는 DNS 이름이 될 수 없다. IPv6에서는 ::1만 루프백이다.
+                java.net.InetAddress address = java.net.InetAddress.getByName(name);
+                return address instanceof java.net.Inet6Address && address.isLoopbackAddress();
+            } catch (java.net.UnknownHostException invalid) {
+                return false;
+            }
+        }
+        // 숫자로만 구성된 127/8 주소를 판별한다. 127로 시작하는 DNS 이름은 제외한다.
+        if (!name.matches("127(?:\\.[0-9]{1,3}){3}")) {
+            return false;
+        }
+        String[] parts = name.split("\\.");
+        // 나머지 IPv4 옥텟마다 값 범위를 검사한다.
+        for (int i = 1; i < parts.length; i++) {
+            if (Integer.parseInt(parts[i]) > 255) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Returns the scheme, or null for opaque origins.
      * <p>
      * 스킴을 돌려준다. 불투명 오리진이면 null.

@@ -424,15 +424,7 @@ final class WindowGlobals {
              * @return the flag / 플래그
              */
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
-                Origin o = origin();
-                if (o.isOpaque()) {
-                    return Js.bool(false);
-                }
-                String text = o.serialize().toLowerCase();
-                boolean https = text.startsWith("https://");
-                boolean loopback = text.startsWith("http://localhost") || text.startsWith("http://127.") || text.startsWith("http://[::1]")
-                        || text.indexOf(".localhost") > 0 && text.startsWith("http://");
-                return Js.bool(https || loopback);
+                return Js.bool(origin().isPotentiallyTrustworthy());
             }
         });
         g.defineData("status", Js.str(""), true, true, true);

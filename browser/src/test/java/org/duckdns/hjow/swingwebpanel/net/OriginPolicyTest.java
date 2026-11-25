@@ -39,6 +39,51 @@ public class OriginPolicyTest {
     }
 
     /**
+     * Checks trustworthy hosts using the parsed host and scheme.
+     * <p>
+     * 파싱한 호스트와 스킴으로 신뢰 가능한 호스트를 확인한다.
+     */
+    public void testPotentiallyTrustworthyOrigins() {
+        String[] trusted = { "https://example.test", "http://localhost:8080", "http://tools.localhost.",
+            "http://127.12.34.56", "http://[::1]", "http://[0:0:0:0:0:0:0:1]" };
+        // HTTPS와 표준 루프백 표현을 확인한다.
+        for (int i = 0; i < trusted.length; i++) {
+            Check.isTrue(Origin.of(trusted[i]).isPotentiallyTrustworthy(), trusted[i]);
+        }
+        String[] untrusted = { "http://localhost.example.test", "http://127.example.test", "http://tools.localhost.evil.test",
+            "http://127.100.10.256", "http://[::2]", "http://[::ffff:127.0.0.1]", "ftp://localhost", "classpath://isolated.html", "about:text" };
+        // 루프백처럼 보이는 DNS 이름과 다른 스킴은 신뢰하지 않는다.
+        for (int i = 0; i < untrusted.length; i++) {
+            Check.isFalse(Origin.of(untrusted[i]).isPotentiallyTrustworthy(), untrusted[i]);
+        }
+    }
+
+    /**
+     * Obtains only valid enforcement tokens from potentially trustworthy responses.
+     * <p>
+     * 잠재적으로 신뢰 가능한 응답에서 올바른 적용 토큰만 사용한다.
+     */
+    public void testCrossOriginHeaderItems() {
+        ResourceResponse response = new ResourceResponse("http://localhost/page");
+        response.setFinalUrl("http://localhost/page");
+        response.addHeader("Cross-Origin-Opener-Policy", "same-origin; report-to=\"reports, production\"");
+        response.addHeader("Cross-Origin-Embedder-Policy", "require-corp; opt=?0");
+        CrossOriginPolicy policy = CrossOriginPolicy.from(response);
+        Check.equal("same-origin", policy.getOpener(), "a token with a valid quoted parameter");
+        Check.equal(CrossOriginPolicy.Embedder.REQUIRE_CORP, policy.getEmbedder(), "a token with an optional boolean parameter");
+        response.addHeader("Cross-Origin-Embedder-Policy", "credentialless");
+        Check.equal(CrossOriginPolicy.Embedder.UNSAFE_NONE, CrossOriginPolicy.from(response).getEmbedder(), "duplicate field lines are not one item");
+        response.setFinalUrl("http://insecure.test/page");
+        Check.same(CrossOriginPolicy.NONE, CrossOriginPolicy.from(response), "the final response's insecure origin prevents opt-in");
+
+        ResourceResponse invalid = new ResourceResponse("https://example.test");
+        invalid.setFinalUrl("https://example.test");
+        invalid.addHeader("Cross-Origin-Opener-Policy", "same-origin, unsafe-none");
+        invalid.addHeader("Cross-Origin-Embedder-Policy", "\"require-corp\"");
+        Check.same(CrossOriginPolicy.NONE, CrossOriginPolicy.from(invalid), "a list or quoted policy is invalid");
+    }
+
+    /**
      * Class path documents share one origin; special and blocked addresses have opaque origins that equal nothing.
      * <p>
      * 클래스패스 문서는 오리진 하나를 공유하고, 특수/차단 주소는 어떤 것과도 같지 않은 불투명 오리진을 가진다.

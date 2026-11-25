@@ -12,6 +12,24 @@ import java.io.IOException;
 public interface ScriptSource {
 
     /**
+     * A host source that supplies response metadata for classic scripts.
+     * <p>
+     * 일반 스크립트의 응답 정보도 제공하는 호스트 공급원.
+     */
+    interface WithResponse extends ScriptSource {
+        /**
+         * Fetches a classic script with its final URL and response policy.
+         * <p>
+         * 최종 URL과 응답 정책을 담아 일반 스크립트를 가져온다.
+         *
+         * @param url the requested URL / 요청한 URL
+         * @return the fetched script / 읽은 스크립트
+         * @throws IOException if the request fails / 요청 실패 시
+         */
+        ScriptText fetchScript(String url) throws IOException;
+    }
+
+    /**
      * Fetches the text of a script.
      * <p>
      * 스크립트의 텍스트를 가져온다.

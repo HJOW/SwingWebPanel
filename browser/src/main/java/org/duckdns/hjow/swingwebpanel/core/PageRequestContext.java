@@ -1,5 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.core;
 
+import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 import org.duckdns.hjow.swingwebpanel.net.RequestHeaders;
 
 /**
@@ -14,6 +15,8 @@ final class PageRequestContext {
     private final RequestHeaders headers;
     /** Bypasses caches for every resource in this navigation. / 이 이동의 모든 리소스에서 캐시를 우회한다. */
     final boolean force;
+    /** The policies of the document issuing subresource requests. / 하위 리소스를 요청하는 문서의 정책. */
+    final CrossOriginPolicy crossOriginPolicy;
 
     /**
      * Captures settings, using defaults for documents attached by standalone tests or custom loaders.
@@ -21,9 +24,22 @@ final class PageRequestContext {
      * @param request navigation request, or null / 이동 요청 또는 null
      */
     PageRequestContext(NavigationRequest request) {
+        this(request, CrossOriginPolicy.NONE);
+    }
+
+    /**
+     * Captures request settings and the committed response policies.
+     * <p>
+     * 요청 설정과 확정 응답의 정책을 복사한다.
+     *
+     * @param request navigation request or null / 이동 요청 또는 null
+     * @param policy the parsed response policy / 응답에서 읽은 정책
+     */
+    PageRequestContext(NavigationRequest request, CrossOriginPolicy policy) {
         userAgent = request == null ? BrowserSession.DEFAULT_USER_AGENT : request.getUserAgent();
         headers = request == null ? new RequestHeaders() : request.getHeaders().copy();
         force = request != null && request.isForce();
+        crossOriginPolicy = policy;
     }
 
     /** Returns a copy so request construction cannot mutate this context. / 요청 구성이 문맥을 바꾸지 않도록 복사본을 반환한다.

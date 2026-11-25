@@ -12,6 +12,7 @@ import org.duckdns.hjow.swingwebpanel.content.xhtml.XmlText;
 import org.duckdns.hjow.swingwebpanel.html.DecodedText;
 import org.duckdns.hjow.swingwebpanel.html.EncodingSniffer;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
+import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 import org.duckdns.hjow.swingwebpanel.net.FailureKind;
 import org.duckdns.hjow.swingwebpanel.net.HttpCache;
 import org.duckdns.hjow.swingwebpanel.net.ProgressListener;
@@ -187,7 +188,7 @@ public final class NetworkPageLoader implements PageLoader, CacheOwner {
         if (download[0] != null) {
             throw download[0];
         }
-        PageSnapshot loaded = toSnapshot(url, response);
+        PageSnapshot loaded = toSnapshot(url, response).withCrossOriginPolicy(CrossOriginPolicy.from(response));
         // 리디렉션을 거치지 않은 응답만 폼 제출이 만든 페이지로 기억한다. 리디렉션 뒤의 페이지는 일반 GET 페이지이다.
         if (request.getPost() != null && response.getRedirects().isEmpty() && response.getFailureKind() == FailureKind.NONE) {
             loaded = loaded.withPost(request.getPost());
@@ -207,7 +208,8 @@ public final class NetworkPageLoader implements PageLoader, CacheOwner {
         PageSnapshot page = stored.getKind() == PageKind.ERROR
                 ? PageSnapshot.error(stored.getUrl(), stored.getContent(), stored.getMimeType(), stored.getStatusCode())
                 : PageSnapshot.loaded(stored.getUrl(), stored.getContent(), stored.getMimeType(), stored.getBaseUrl(), stored.getStatusCode());
-        return page.withEncoding(stored.getEncoding()).withTitle(stored.getTitle()).withPost(stored.getPost());
+        return page.withEncoding(stored.getEncoding()).withTitle(stored.getTitle()).withPost(stored.getPost())
+                .withCrossOriginPolicy(stored.getCrossOriginPolicy());
     }
 
     /**

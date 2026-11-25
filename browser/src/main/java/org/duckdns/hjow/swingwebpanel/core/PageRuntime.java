@@ -27,6 +27,7 @@ import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
+import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.net.OriginPolicy;
 import org.duckdns.hjow.swingwebpanel.net.RequestPurpose;
@@ -45,7 +46,7 @@ import org.duckdns.hjow.swingwebpanel.storage.SessionStorage;
  * <p>페이지별 스크립트 호스트. 파싱 중에는 로더가 소유하고 확정 뒤에는 문서 큐에서 작업한다. 취소는 기다리지 않고 영구 적용되며
  * JavaScript를 다시 켜도 새 페이지가 필요하다. 이동 요청·이력 스냅샷을 보관하지 않고 해제 작업자만 실행 중인 스크립트 잠금을 기다린다.
  */
-final class PageRuntime extends HostEnvironment implements ModuleScriptSource.WithAttributes, CancelToken.Hook {
+final class PageRuntime extends HostEnvironment implements ModuleScriptSource.WithAttributes, ScriptSource.WithResponse, CancelToken.Hook {
     /** Owning component state. / 소유 컴포넌트 상태. */
     private final BrowserSession session;
     /** Component view with document-queue query hooks. / 문서 큐 조회 훅이 있는 컴포넌트 뷰. */
@@ -1018,6 +1019,19 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
      * @throws IOException on cancellation, policy failure or response error / 취소·정책 실패·응답 오류 시
      */
     public String fetch(String url) throws IOException {
+        return fetchScript(url).getText();
+    }
+
+    /**
+     * Fetches a classic script with the policy of the final response.
+     * <p>
+     * 일반 스크립트와 최종 응답의 정책을 가져온다.
+     *
+     * @param url absolute script URL / 절대 스크립트 URL
+     * @return the decoded script with its response settings / 디코딩한 스크립트와 응답 설정
+     * @throws IOException on request failure / 요청 실패 시
+     */
+    public ScriptText fetchScript(String url) throws IOException {
         resources.throwIfCancelled();
         ResourceRequest request = new ResourceRequest(url).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                 .setCookies(cookies).setCancelToken(resources).setReferrer(pageUrl).setInitiator(Origin.of(pageUrl))
@@ -1028,7 +1042,9 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         if (response.isError()) {
             throw new IOException(response.getStatus() + " " + response.getFailureMessage());
         }
-        return decode(response.getBody(), response.getCharset(), scripts.getDocument().getCharacterSet());
+        String text = decode(response.getBody(), response.getCharset(), scripts.getDocument().getCharacterSet());
+        String finalUrl = response.getFinalUrl() == null ? url : response.getFinalUrl();
+        return new ScriptText(text, finalUrl, CrossOriginPolicy.from(response));
     }
 
     /**
@@ -1090,7 +1106,7 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         if (text.length() > 0 && text.charAt(0) == (char) 0xfeff) {
             text = text.substring(1);
         }
-        return new ScriptText(text, finalUrl);
+        return new ScriptText(text, finalUrl, CrossOriginPolicy.from(response));
     }
 
     /**
