@@ -70,8 +70,10 @@ public class ArrayBufferObject extends JsObject {
 
     /**
      * Returns the current backing bytes or null if detached. Resize replaces the backing array.
+     * A shared buffer returns an independent copy of the bytes.
      * <p>
      * 현재 저장 바이트를 반환한다. 분리되었으면 null이고, 크기를 바꾸면 새 바이트 배열을 쓴다.
+     * 공유 버퍼는 현재 바이트의 사본을 반환한다.
      *
      * @return the bytes or null / 바이트 또는 null
      */

@@ -10,6 +10,8 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.builtins.typed.ArrayBufferObject;
+import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrays;
 
 /**
  * Small helpers that all web API installers share: defining interfaces (constructor, prototype, <code>Symbol.toStringTag</code>), binding
@@ -24,6 +26,29 @@ import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
  * 않고 여기서 만든 함수만 보인다.
  */
 final class Natives {
+
+    /**
+     * Selects and validates a BufferSource or AllowSharedBufferSource union member.
+     * A shared buffer object has no matching member in BufferSource, whereas its typed views do.
+     * <p>
+     * BufferSource 또는 AllowSharedBufferSource 합집합에서 맞는 타입을 골라 검사한다.
+     * BufferSource에서는 공유 버퍼 객체 자체에 대응하는 타입이 없고, 뷰는 타입을 고른 다음 공유 여부를 검사한다.
+     *
+     * @param value the candidate value / 후보 값
+     * @param allowShared whether to use AllowSharedBufferSource / AllowSharedBufferSource 사용 여부
+     * @return true if a buffer source type was selected / 버퍼 소스 타입을 골랐으면 true
+     */
+    static boolean bufferSource(JsValue value, boolean allowShared) {
+        ArrayBufferObject buffer = TypedArrays.bufferOf(value);
+        if (buffer == null || (!allowShared && value instanceof ArrayBufferObject && buffer.isShared())) {
+            return false;
+        }
+        // 두 합집합에 AllowResizable은 없으며 BufferSource의 뷰에는 AllowShared도 없다.
+        if (buffer.isResizable() || (!allowShared && buffer.isShared())) {
+            throw JsException.typeError("Buffer source has shared or resizable storage that the API does not accept.");
+        }
+        return true;
+    }
 
     /**
      * The result of {@link #defineClass}: the interface object and its prototype.

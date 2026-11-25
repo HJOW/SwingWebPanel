@@ -225,6 +225,49 @@ public class WebTypesTest {
     }
 
     /**
+     * Checks shared fixed-length storage, observable option conversion and invalid Encoding API buffer types.
+     * <p>
+     * 고정 길이 공유 저장소, 관찰 가능한 옵션 변환, Encoding API의 잘못된 버퍼 타입을 확인한다.
+     */
+    public void testTextEncodingWithSharedMemory() {
+        WebFixture f = new WebFixture();
+        String source = "function fail(f){try{f();return 'missing';}catch(e){return e.name;}}"
+                + "var b=new SharedArrayBuffer(6), small=new SharedArrayBuffer(1);"
+                + "var dst=new Uint8Array(b,1,4), te=new TextEncoder(), td=new TextDecoder();"
+                + "var r=te.encodeInto('€AA',dst); var u=new Uint8Array(small); u[0]=65;"
+                + "var d=td.decode(new DataView(b,1,4));"
+                + "var opts={get stream(){Atomics.store(u,0,90);return false;}};"
+                + "var grown=new SharedArrayBuffer(4,{maxByteLength:8}), growview=new Uint8Array(grown,0,4);"
+                + "var ordinary=new ArrayBuffer(4), detached=new Uint8Array(ordinary); ordinary.transfer();"
+                + "var empty=te.encodeInto('a',detached);"
+                + "[r.read,r.written,new Uint8Array(b).toHex(),d,td.decode(small,opts),"
+                + "fail(()=>td.decode(grown)),fail(()=>td.decode(growview)),fail(()=>te.encodeInto('a',growview)),"
+                + "fail(()=>te.encodeInto('a',new Uint8ClampedArray(4))),td.decode(detached).length,empty.read,empty.written].join('|')";
+        Check.equal("2|4|00e282ac4100|€A|Z|TypeError|TypeError|TypeError|TypeError|0|0|0", f.js(source),
+                "Encoding accepts fixed shared buffers and accesses their actual bytes");
+    }
+
+    /**
+     * Checks the Web IDL union conversion for raw shared buffers and rejection of shared views and resizable buffers.
+     * <p>
+     * 공유 버퍼 자체의 Web IDL 합집합 변환과 공유 뷰 및 가변 버퍼 거부를 확인한다.
+     */
+    public void testSharedMemoryBufferSourceBoundaries() {
+        WebFixture f = new WebFixture();
+        String source = "function fail(f){try{f();return 'missing';}catch(e){return e.name;}}"
+                + "var b=new SharedArrayBuffer(4), u=new Uint8Array(b), d=new DataView(b), r=new ArrayBuffer(4,{maxByteLength:8});"
+                + "b.toString=()=> 'raw-tag';"
+                + "var xhr=new XMLHttpRequest();xhr.open('POST','http://example.test/shared');"
+                + "[new Blob([b]).size,new Response(b).headers.get('content-type'),"
+                + "fail(()=>new Blob([u])),fail(()=>new Blob([r])),fail(()=>new Response(d)),"
+                + "fail(()=>new Request('http://example.test/shared',{method:'POST',body:u})),fail(()=>xhr.send(u)),"
+                + "fail(()=>crypto.getRandomValues(u)),fail(()=>crypto.getRandomValues(new Uint8Array(r))),"
+                + "fail(()=>crypto.getRandomValues(new Float16Array(1)))].join('|')";
+        Check.equal("7|text/plain;charset=UTF-8|TypeError|TypeError|TypeError|TypeError|TypeError|TypeError|TypeError|TypeMismatchError",
+                f.js(source), "raw shared values use the string union member and ineligible binary views are rejected");
+    }
+
+    /**
      * FileReader: the four read methods, the events and their order, aborting between the tasks, and the exceptions.
      * <p>
      * FileReader: 읽기 메서드 넷, 이벤트와 그 순서, 작업 사이의 중단, 예외.

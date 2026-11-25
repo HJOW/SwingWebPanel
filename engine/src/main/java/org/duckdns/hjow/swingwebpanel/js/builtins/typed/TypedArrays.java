@@ -77,7 +77,7 @@ public final class TypedArrays {
      * @return true for ArrayBuffers / ArrayBuffer 이면 true
      */
     public static boolean isArrayBuffer(JsValue v) {
-        return v instanceof ArrayBufferObject;
+        return v instanceof ArrayBufferObject && !((ArrayBufferObject) v).isShared();
     }
 
     /**
@@ -249,5 +249,63 @@ public final class TypedArrays {
             return d.getBuffer().isShared() || d.isOutOfBounds() ? null : new ByteView(d.getBuffer().getData(), d.getByteOffset(), d.getByteLength());
         }
         return null;
+    }
+
+    /**
+     * Finds the underlying buffer of an ArrayBuffer, a SharedArrayBuffer, a DataView or a typed array.
+     * <p>
+     * ArrayBuffer, SharedArrayBuffer, DataView 또는 형식화 배열의 기반 버퍼를 찾는다.
+     *
+     * @param value value to inspect / 검사할 값
+     * @return the buffer or null for other values / 기반 버퍼. 다른 값이면 null
+     */
+    public static ArrayBufferObject bufferOf(JsValue value) {
+        if (value instanceof ArrayBufferObject) {
+            return (ArrayBufferObject) value;
+        }
+        if (value instanceof TypedArrayObject) {
+            return ((TypedArrayObject) value).getBuffer();
+        }
+        if (value instanceof DataViewObject) {
+            return ((DataViewObject) value).getBuffer();
+        }
+        return null;
+    }
+
+    /**
+     * Copies the current visible bytes from a buffer or view, including shared storage.
+     * Check the calling API's buffer type rules before taking the copy.
+     * <p>
+     * 버퍼나 뷰에서 현재 접근 가능한 바이트를 복사한다. 공유 저장소도 읽을 수 있다.
+     * 복사 전에 호출 API의 버퍼 형식 규칙을 검사한다.
+     *
+     * @param value the buffer or view / 버퍼 또는 뷰
+     * @return copied bytes, empty for detached or out-of-bounds storage, or null for other values /
+     * 복사한 바이트. 분리 또는 범위 이탈이면 빈 배열, 다른 값이면 null
+     */
+    public static byte[] copyBytes(JsValue value) {
+        ArrayBufferObject buffer = bufferOf(value);
+        if (buffer == null) {
+            return null;
+        }
+        int length;
+        int offset = 0;
+        if (value instanceof TypedArrayObject) {
+            TypedArrayObject typed = (TypedArrayObject) value;
+            length = typed.getByteLength();
+            offset = typed.getByteOffset();
+        } else if (value instanceof DataViewObject) {
+            DataViewObject view = (DataViewObject) value;
+            length = view.getByteLength();
+            offset = view.getByteOffset();
+        } else {
+            length = buffer.getByteLength();
+        }
+        byte[] bytes = TypedSupport.allocate(length);
+        // 분리되거나 범위를 벗어난 뷰는 복사할 바이트가 없다.
+        if (length > 0) {
+            buffer.copyBytesTo(offset, new ArrayBufferObject(null, bytes), 0, length);
+        }
+        return bytes;
     }
 }

@@ -210,9 +210,11 @@ final class BlobApi {
                 out.write(d, 0, d.length);
                 continue;
             }
-            TypedArrays.ByteView view = TypedArrays.bytesOf(p);
-            if (view != null) {
-                out.write(view.array, view.offset, view.length);
+            if (Natives.bufferSource(p, false)) {
+                TypedArrays.ByteView view = TypedArrays.bytesOf(p);
+                if (view != null) {
+                    out.write(view.array, view.offset, view.length);
+                }
                 continue;
             }
             String s = Natives.usv(Ops.toString(p));

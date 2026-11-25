@@ -13,7 +13,6 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
-import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrays;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomBridge;
 import org.duckdns.hjow.swingwebpanel.js.dom.HostObject;
 
@@ -333,7 +332,7 @@ final class XhrApi {
             } else {
                 data = bodies.extract(body);
                 text = !(body instanceof BlobApi.BlobObject) && !(body instanceof FormDataApi.FormDataObject)
-                        && TypedArrays.bytesOf(body) == null;
+                        && !Natives.bufferSource(body, false);
             }
         }
         x.send(data, text);

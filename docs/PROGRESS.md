@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-05-e3-a 공유 가능한 Web IDL 바이트 입력 (2026-11-26) ===
+현재 작업 번호: P29-05-e3-a 완료.
+완료한 내용: TextEncoder의 공유 Uint8Array 쓰기와 TextDecoder의 공유 버퍼·뷰 읽기를 추가했다. Encode/Decode의 IDL에는 AllowResizable이 없어 성장·가변 버퍼를 거부한다. Blob과 Fetch/XHR 바디의 합집합에서 공유 뷰는 TypeError이고 공유 버퍼 객체는 문자열 항목으로 변환된다. Crypto는 고정·비공유 뷰를 검증한다.
+변경 파일: TypedArrays.java, ArrayBufferObject.java, Natives.java, EncodingApi.java, BlobApi.java, BodyApi.java, XhrApi.java, LegacyWebApi.java, WebTypesTest.java, AGENTS.md, 이 문서.
+검증 결과: mvn -B -o -pl browser -am test -Dtest.filter=WebTypesTest에서 JDK 6u45 브라우저 12건 통과. sourcecheck 0 위반.
+미해결 사항: Web Audio와 Canvas의 IDL 바이트 경계(P29-05-e3-b). P29-05-e2 이후 JRE 6 확장 재실행에서 FrameWindow 9건, StructuredClone 22건, AudioWorkletMessaging 8건이 통과했고 Worker 55건은 통과했으나 기존 testTerminateStopsAnEndlessLoopAndSilencesTheWorker가 60초를 넘겼다. 종료 대기 해제 신설 사례는 통과했다.
+다음 작업 번호: P29-05-e3-b.
+-----------------------------------------------------------------------------------------------
 === P29-05-e2 브라우저 메시징 공유 메모리 연결 (2026-11-26) ===
 현재 작업 번호: P29-05-e2 완료.
 완료한 내용: 컴포넌트별 클러스터 토큰과 문서의 유효 오리진을 Window, Worker와 AudioWorklet에 지정했다. Window, Worker, MessagePort, BroadcastChannel과 AudioWorklet 옵션·포트에서 같은 범위의 버퍼가 원본 바이트를 공유하고, 수신 범위가 다르면 messageerror가 발생한다.
@@ -730,6 +738,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-05-e3-a Encoding과 웹 바디의 공유 입력
+
+공유 뷰의 대상 바이트에 UTF-8을 기록하고 TextDecoder 옵션 getter가 바꾼 바이트를 읽는 사례를 확인했다. Web IDL 합집합의 공유 버퍼 객체와 형식화 뷰 분기는 일반 웹 요청·Blob·Crypto 시험으로 확인했다.
+
+`tools/webfetch/run.bat`로 JRE 25에서 2026-11-26에 확인한 기준은 [Encoding Living Standard](https://encoding.spec.whatwg.org/) 2026-11-20, [Web IDL Living Standard](https://webidl.spec.whatwg.org/) 2026-11-14, [Fetch Living Standard](https://fetch.spec.whatwg.org/) 2026-11-20, [File API 편집자 초안](https://w3c.github.io/FileAPI/) 2026-11-22, [Web Cryptography 편집자 초안](https://w3c.github.io/webcrypto/) 2026-10-22 수정본이다.
 
 ### 2026-11-26 · P29-05-e2 브라우저에서 공유 버퍼 왕복
 

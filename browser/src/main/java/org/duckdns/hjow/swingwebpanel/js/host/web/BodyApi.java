@@ -117,11 +117,8 @@ final class BodyApi {
             BlobApi.BlobObject b = (BlobApi.BlobObject) v;
             return new BodyData(b.data, b.type.length() == 0 ? null : b.type);
         }
-        TypedArrays.ByteView view = TypedArrays.bytesOf(v);
-        if (view != null) {
-            byte[] copy = new byte[view.length];
-            System.arraycopy(view.array, view.offset, copy, 0, view.length);
-            return new BodyData(copy, null);
+        if (Natives.bufferSource(v, false)) {
+            return new BodyData(TypedArrays.copyBytes(v), null);
         }
         if (v instanceof FormDataApi.FormDataObject) {
             String boundary = api.forms.newBoundary();

@@ -18,6 +18,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.builtins.typed.ArrayBufferObject;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.ElementType;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrayObject;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrays;
@@ -228,12 +229,21 @@ final class LegacyWebApi {
                     throw JsException.typeError("Failed to execute 'getRandomValues' on 'Crypto': 1 argument required, but only 0 present.");
                 }
                 JsValue a = args[0];
-                boolean integers = TypedArrays.isTypedArray(a) && ((TypedArrayObject) a).getType() != ElementType.FLOAT32
-                        && ((TypedArrayObject) a).getType() != ElementType.FLOAT64;
+                if (TypedArrays.isTypedArray(a) || TypedArrays.isDataView(a)) {
+                    ArrayBufferObject buffer = TypedArrays.bufferOf(a);
+                    if (buffer.isShared() || buffer.isResizable()) {
+                        throw JsException.typeError("Failed to execute 'getRandomValues' on 'Crypto': the view must have fixed, non-shared storage.");
+                    }
+                }
+                ElementType type = a instanceof TypedArrayObject ? ((TypedArrayObject) a).getType() : null;
+                boolean integers = type != null && type != ElementType.FLOAT16 && type != ElementType.FLOAT32 && type != ElementType.FLOAT64;
                 if (!integers) {
                     throw bridge.domError(new DomException("TypeMismatchError", (short) 17, "The data argument must be an integer-type TypedArray."));
                 }
                 TypedArrays.ByteView view = TypedArrays.bytesOf(a);
+                if (view == null) {
+                    return a;
+                }
                 if (view.length > 65536) {
                     throw bridge.domError(new DomException("QuotaExceededError", (short) 22, "The ArrayBufferView's byte length (" + view.length
                         + ") exceeds the number of bytes of entropy available via this API (65536)."));

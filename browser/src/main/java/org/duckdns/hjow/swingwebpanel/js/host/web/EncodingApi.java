@@ -14,6 +14,8 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.builtins.typed.ElementType;
+import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrayObject;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrays;
 
 /**
@@ -218,20 +220,31 @@ final class EncodingApi {
         Natives.self(self, EncoderObject.class);
         Natives.requireArgs(args, 2, "encodeInto", "TextEncoder");
         String s = Natives.usv(args[0]);
-        TypedArrays.ByteView view = args[1] instanceof org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrayObject ? TypedArrays.bytesOf(args[1]) : null;
-        if (view == null) {
+        JsValue target = args[1];
+        if (!(target instanceof TypedArrayObject) || ((TypedArrayObject) target).getType() != ElementType.UINT8) {
             throw JsException.typeError("Failed to execute 'encodeInto' on 'TextEncoder': parameter 2 is not of type 'Uint8Array'.");
         }
+        Natives.bufferSource(target, true);
+        TypedArrayObject destination = (TypedArrayObject) target;
+        int capacity = destination.getLength();
+        TypedArrays.ByteView view = TypedArrays.bytesOf(destination);
         int read = 0;
         int written = 0;
         // 코드 포인트를 하나씩 인코딩하여 남은 공간에 완전히 들어갈 때까지만 쓴다.
         while (read < s.length()) {
             int cp = s.codePointAt(read);
             byte[] b = Encodings.utf8(new String(Character.toChars(cp)));
-            if (written + b.length > view.length) {
+            if (b.length > capacity - written) {
                 break;
             }
-            System.arraycopy(b, 0, view.array, view.offset + written, b.length);
+            if (view != null) {
+                System.arraycopy(b, 0, view.array, view.offset + written, b.length);
+            } else {
+                // 공유 저장소는 뷰의 각 바이트에 원자 저장을 사용한다.
+                for (int i = 0; i < b.length; i++) {
+                    destination.setElement(written + i, b[i] & 255);
+                }
+            }
             written += b.length;
             read += Character.charCount(cp);
         }
@@ -291,19 +304,14 @@ final class EncodingApi {
      */
     JsValue decode(JsValue self, JsValue[] args) {
         DecoderObject d = Natives.self(self, DecoderObject.class);
-        byte[] bytes = new byte[0];
         JsValue input = Js.arg(args, 0);
-        if (!input.isUndefined()) {
-            TypedArrays.ByteView v = TypedArrays.bytesOf(input);
-            if (v == null) {
-                throw JsException.typeError("Failed to execute 'decode' on 'TextDecoder': The provided value is not of type '(ArrayBuffer or "
-                        + "ArrayBufferView)'.");
-            }
-            bytes = new byte[v.length];
-            System.arraycopy(v.array, v.offset, bytes, 0, v.length);
+        if (!input.isUndefined() && !Natives.bufferSource(input, true)) {
+            throw JsException.typeError("Failed to execute 'decode' on 'TextDecoder': The provided value is not an AllowSharedBufferSource.");
         }
         JsValue opts = Js.arg(args, 1);
         boolean stream = opts.isObject() && Ops.toBoolean(((JsObject) opts).get("stream"));
+        // 옵션 변환이 끝난 뒤 실제 바이트를 복사하므로 옵션 getter에서 바뀐 데이터도 보인다.
+        byte[] bytes = input.isUndefined() ? new byte[0] : TypedArrays.copyBytes(input);
         String text = decodeBytes(d, bytes, stream);
         // BOM 은 스트림의 맨 앞에서 한 번만 걷어 낸다(ignoreBOM 이면 그대로 둔다).
         if (!d.started && text.length() > 0) {
