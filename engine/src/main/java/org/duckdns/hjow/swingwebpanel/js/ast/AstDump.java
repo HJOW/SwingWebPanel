@@ -226,7 +226,11 @@ public final class AstDump {
             return;
         case NodeType.FUNCTION: {
             FunctionInfo f = n.fn;
-            sb.append(f.arrow ? "(arrow" : f.generator ? "(function*" : f.method ? "(method" : "(function");
+            if (f.async) {
+                sb.append(f.arrow ? "(async-arrow" : f.generator ? "(async-function*" : f.method ? "(async-method" : "(async-function");
+            } else {
+                sb.append(f.arrow ? "(arrow" : f.generator ? "(function*" : f.method ? "(method" : "(function");
+            }
             if (!f.arrow) {
                 sb.append(' ').append(f.name.length() == 0 ? "_" : f.name);
             }
@@ -335,6 +339,11 @@ public final class AstDump {
             child(n.a, sb);
             sb.append(')');
             return;
+        case NodeType.AWAIT:
+            sb.append("(await");
+            child(n.a, sb);
+            sb.append(')');
+            return;
         case NodeType.ARRAY_PATTERN:
             sb.append("(arrpat");
             writeList(n.list, sb);
@@ -423,7 +432,7 @@ public final class AstDump {
             return;
         case NodeType.FOR_IN:
         case NodeType.FOR_OF:
-            sb.append(n.type == NodeType.FOR_IN ? "(for-in" : "(for-of");
+            sb.append(n.type == NodeType.FOR_IN ? "(for-in" : n.flag ? "(for-await" : "(for-of");
             child(n.a, sb);
             child(n.b, sb);
             child(n.d, sb);

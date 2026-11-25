@@ -12,12 +12,12 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 
 ```text
 === P28-02 파서 하위 작업 분해 (2026-11-25) ===
-현재 작업 번호: P28-02-b 완료.
-완료한 내용: P28-02-a의 숫자/BigInt/지수 문법에 이어 P28-02-b에서 `?.` 선택적 접근·호출의 단락 범위를 `OPTIONAL_CHAIN` AST로 보존했고, `??`와 논리 대입 `??=`/`&&=`/`||=`를 추가했다. 괄호 없는 `??`와 `&&`/`||` 혼합, 선택적 체인의 대입/갱신/tag template, `new` 와의 잘못된 결합을 조기 오류로 처리했다.
-변경 파일: AGENTS.md(P28-02-b 완료), engine/src/main/java/.../ast/{Node,NodeType,Op,AstDump}.java, parser/ExpressionParser.java, parser 시험, 이 문서.
+현재 작업 번호: P28-02-c 완료.
+완료한 내용: P28-02-a/b에 이어 async 함수·화살표·메서드·제너레이터, `await`, 모듈 최상위 await, `for await` 문법을 추가했다. `FunctionInfo.async`, `FuncCtx.async`, `AWAIT` AST와 async 메서드/생성자 제한, 매개변수의 await 조기 오류, 줄바꿈 제한을 구현했다.
+변경 파일: AGENTS.md(P28-02-c 완료), engine/src/main/java/.../ast/{FunctionInfo,NodeType,AstDump}.java, parser/{ParserBase,Parser,ExpressionParser}.java, parser 시험, 이 문서.
 검증 결과: `engine\test.bat --filter js.parser` JDK 6u45 39 passed/0 failed/0 skipped. 제품 컴파일도 source/target 1.6으로 통과.
-미해결 사항: BigInt 실행 의미는 P28-04; P28-02-c~f 미구현.
-다음 작업 번호: P28-02-c.
+미해결 사항: BigInt 실행 의미는 P28-04; P28-02-d~f 미구현.
+다음 작업 번호: P28-02-d.
 -----------------------------------------------------------------------------------------------
 === P28-01 ECMAScript 2022 기준 판본과 대상 목록 확정 (2026-11-25) ===
 현재 작업 번호: P28-01 완료.

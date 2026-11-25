@@ -62,7 +62,7 @@ public class EarlyErrorTest {
         // 예약어
         "var if", "var class = 1", "var enum", "var null", "var true", "var \\u0069f", "\\u0069f (a) b", "({ if })", "({ if = 1 } = x)",
         // ES2015 에 없는 문법: 무시하지 않고 오류로 보고한다
-        "async function f() {}", "class A { x = 1 }", "class A { #x }", "({...a})",
+        "class A { x = 1 }", "class A { #x }", "({...a})",
         "import('x')", "f(a, ...)", "class A { static { } }",
     };
 

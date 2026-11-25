@@ -333,6 +333,9 @@ public final class Parser extends ExpressionParser {
             if (v.equals("function")) {
                 return parseFunctionDeclaration();
             }
+            if (v.equals("async") && !peek().newlineBefore && peek().isName("function")) {
+                return parseFunctionDeclaration(false, true);
+            }
             if (v.equals("class")) {
                 return parseClassDeclaration();
             }
@@ -704,6 +707,11 @@ public final class Parser extends ExpressionParser {
     private Node parseFor(Object unused) {
         Token t = tok;
         next();
+        boolean forAwait = false;
+        if (isN("await") && (fc.async || (moduleGoal && !fc.inFunction))) {
+            forAwait = true;
+            next();
+        }
         expectP("(");
         Scope loopScope = pushScope(SCOPE_BLOCK);
         Node init = null;
@@ -762,14 +770,21 @@ public final class Parser extends ExpressionParser {
         }
         if (left != null) {
             boolean isOf = isN("of");
+            if (forAwait && !isOf) {
+                throw error("for-await requires an 'of' clause", tok);
+            }
             next();
             Node n = mk(isOf ? NodeType.FOR_OF : NodeType.FOR_IN, t);
+            n.flag = forAwait;
             n.a = left;
             n.b = isOf ? parseAssignment(false) : parseExpression(false);
             expectP(")");
             n.d = parseLoopBody();
             n.scope = blockScopeInfo(popScope());
             return done(n);
+        }
+        if (forAwait) {
+            throw error("for-await requires a binding and an 'of' clause", tok);
         }
         expectP(";");
         Node n = mk(NodeType.FOR, t);
@@ -998,7 +1013,7 @@ public final class Parser extends ExpressionParser {
      * @return the FUNCTION_DECL node / FUNCTION_DECL 노드
      */
     private Node parseFunctionDeclaration() {
-        return parseFunctionDeclaration(false);
+        return parseFunctionDeclaration(false, false);
     }
 
     /**
@@ -1010,15 +1025,38 @@ public final class Parser extends ExpressionParser {
      * @return the FUNCTION_DECL node / FUNCTION_DECL 노드
      */
     private Node parseFunctionDeclaration(boolean allowAnonymous) {
+        return parseFunctionDeclaration(allowAnonymous, false);
+    }
+
+    /**
+     * Parses a normal or async function declaration.
+     * <p>
+     * 일반 또는 async 함수 선언을 파싱한다.
+     *
+     * @param allowAnonymous true for an export default anonymous function / 익명 export default 함수이면 true
+     * @param async          true for an async declaration / async 선언이면 true
+     * @return the FUNCTION_DECL node / FUNCTION_DECL 노드
+     */
+    private Node parseFunctionDeclaration(boolean allowAnonymous, boolean async) {
         Token start = tok;
+        if (async) {
+            next();
+            if (!isN("function")) {
+                throw unexpected(tok);
+            }
+        }
         next();
         boolean gen = eatP("*");
         FunctionInfo info = new FunctionInfo();
         info.generator = gen;
+        info.async = async;
         Token nameTok = null;
         String bindingName;
         if (tok.type == TokenType.NAME && !isP("(")) {
             nameTok = tok;
+            if (async && nameTok.value.equals("await")) {
+                throw error("Unexpected reserved word 'await' in an async function name", nameTok);
+            }
             checkBindingName(nameTok);
             info.name = nameTok.value;
             bindingName = nameTok.value;
@@ -1033,6 +1071,7 @@ public final class Parser extends ExpressionParser {
         ctx.parent = fc;
         ctx.strict = fc.strict;
         ctx.generator = gen;
+        ctx.async = async;
         ctx.inFunction = true;
         ctx.allowNewTarget = true;
         Node fn = parseFunctionTail(start, info, ctx, nameTok);
@@ -1254,6 +1293,9 @@ public final class Parser extends ExpressionParser {
             if (isN("function")) {
                 n.a = parseFunctionDeclaration(true);
                 pinfo.localExports.add(new ProgramInfo.ExportEntry("default", null, null, n.a.a.name));
+            } else if (isN("async") && !peek().newlineBefore && peek().isName("function")) {
+                n.a = parseFunctionDeclaration(true, true);
+                pinfo.localExports.add(new ProgramInfo.ExportEntry("default", null, null, n.a.a.name));
             } else if (isN("class")) {
                 n.a = parseClassDeclaration(true);
                 pinfo.localExports.add(new ProgramInfo.ExportEntry("default", null, null, n.a.a.name));
@@ -1282,6 +1324,11 @@ public final class Parser extends ExpressionParser {
         } else if (isN("function")) {
             Token nt = peek();
             n.a = parseFunctionDeclaration(false);
+            addExportName(n.a.a.name, nt);
+            pinfo.localExports.add(new ProgramInfo.ExportEntry(n.a.a.name, null, null, n.a.a.name));
+        } else if (isN("async") && !peek().newlineBefore && peek().isName("function")) {
+            Token nt = peek(2);
+            n.a = parseFunctionDeclaration(false, true);
             addExportName(n.a.a.name, nt);
             pinfo.localExports.add(new ProgramInfo.ExportEntry(n.a.a.name, null, null, n.a.a.name));
         } else if (isN("class")) {

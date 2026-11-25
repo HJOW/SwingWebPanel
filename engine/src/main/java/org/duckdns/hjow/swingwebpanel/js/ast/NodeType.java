@@ -73,6 +73,8 @@ public final class NodeType {
     public static final int YIELD = 26;
     /** Optional chain; a = the complete optional member/call expression. / optional chain. a 는 전체 선택적 멤버/호출 식. */
     public static final int OPTIONAL_CHAIN = 27;
+    /** Await expression; a = UnaryExpression operand. / await 식. a 는 단항 피연산자. */
+    public static final int AWAIT = 28;
 
     // ---------------------------------------------------------------- patterns
 

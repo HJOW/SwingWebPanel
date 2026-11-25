@@ -270,6 +270,12 @@ abstract class ParserBase {
          */
         boolean generator;
         /**
+         * True inside async functions and async generators (await is an operator).
+         * <p>
+         * async 함수와 async 제너레이터 안이면 true(await 는 연산자).
+         */
+        boolean async;
+        /**
          * True for arrow functions.
          * <p>
          * 화살표 함수이면 true.
@@ -457,8 +463,24 @@ abstract class ParserBase {
      * @return the following token / 다음 토큰
      */
     protected Token peek() {
+        return peek(1);
+    }
+
+    /**
+     * Returns a token a selected distance ahead without consuming anything.
+     * <p>
+     * 지정한 거리 앞의 토큰을 소비하지 않고 반환한다.
+     *
+     * @param distance number of tokens after the current token (at least 1) / 현재 토큰 뒤 거리(1 이상)
+     * @return the lookahead token / 미리 본 토큰
+     */
+    protected Token peek(int distance) {
         Lexer.State s = lexer.saveState();
-        Token t = lexer.next();
+        Token t = tok;
+        // 현재 토큰 뒤에서 요청한 거리만큼 토큰을 읽는다.
+        for (int i = 0; i < distance; i++) {
+            t = lexer.next();
+        }
         lexer.restoreState(s);
         return t;
     }
@@ -704,8 +726,8 @@ abstract class ParserBase {
         } else if (v.equals("yield") && fc.generator) {
             throw error("Unexpected identifier 'yield' in a generator", t);
         }
-        if (moduleGoal && v.equals("await")) {
-            throw error("Unexpected reserved word 'await' in a module", t);
+        if ((moduleGoal || fc.async) && v.equals("await")) {
+            throw error("Unexpected reserved word 'await' in this context", t);
         }
     }
 

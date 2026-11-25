@@ -112,8 +112,26 @@ abstract class ExpressionParser extends ParserBase {
      * @return the node / 노드
      */
     protected Node parseAssignmentCover(boolean noIn, boolean allowCover) {
+        if (canAwait() && isN("await")) {
+            return parseAwait();
+        }
         if (fc.generator && isN("yield")) {
             return parseYield(noIn);
+        }
+        if (isN("async") && !peek().newlineBefore) {
+            Token n = peek();
+            if (n.isName("function")) {
+                return parseFunctionExpression(true);
+            }
+            if (n.type == TokenType.NAME && !isReservedWord(n.value) && peek(2).isPunct("=>") && !peek(2).newlineBefore) {
+                return parseAsyncIdentifierArrow(noIn);
+            }
+            if (n.isPunct("(")) {
+                Node arrow = tryParseAsyncArrow(noIn);
+                if (arrow != null) {
+                    return arrow;
+                }
+            }
         }
         if (tok.type == TokenType.NAME && !isReservedWord(tok.value)) {
             Token n = peek();
@@ -169,6 +187,34 @@ abstract class ExpressionParser extends ParserBase {
             coverMessage = savedMsg;
         }
         return left;
+    }
+
+    /**
+     * Returns true where await is a keyword: an async function or the top level of a module.
+     * <p>
+     * await 가 키워드인 곳(async 함수 또는 모듈 최상위)이면 true.
+     */
+    private boolean canAwait() {
+        return fc.async || (moduleGoal && !fc.inFunction);
+    }
+
+    /**
+     * Parses an AwaitExpression.
+     * <p>
+     * AwaitExpression 을 파싱한다.
+     *
+     * @return the AWAIT node / AWAIT 노드
+     */
+    private Node parseAwait() {
+        if (fc.inParams) {
+            throw error("'await' is not allowed in a formal parameter list");
+        }
+        Token t = tok;
+        next();
+        Node n = mk(NodeType.AWAIT, t);
+        n.a = parseUnary();
+        n.end = n.a.end;
+        return n;
     }
 
     /**
@@ -1160,12 +1206,17 @@ abstract class ExpressionParser extends ParserBase {
     private Node parseObjectProperty() {
         Token start = tok;
         Node prop = mk(NodeType.PROPERTY, start);
+        boolean async = false;
+        if (isN("async") && !peek().newlineBefore && (peek().isPunct("*") || startsPropertyName(peek()))) {
+            async = true;
+            next();
+        }
         if (isP("*")) {
             next();
             prop.a = parsePropertyName();
             prop.flag = keyComputed;
             prop.op = Op.PROP_METHOD;
-            prop.b = parseMethodFunction(start, prop, true, false, false, false, false);
+            prop.b = parseMethodFunction(start, prop, true, false, false, false, false, async);
             return done(prop);
         }
         if (tok.type == TokenType.NAME && !tok.escaped && (tok.value.equals("get") || tok.value.equals("set")) && startsPropertyName(peek())) {
@@ -1174,7 +1225,7 @@ abstract class ExpressionParser extends ParserBase {
             prop.a = parsePropertyName();
             prop.flag = keyComputed;
             prop.op = getter ? Op.PROP_GET : Op.PROP_SET;
-            prop.b = parseMethodFunction(start, prop, false, getter, !getter, false, false);
+            prop.b = parseMethodFunction(start, prop, false, getter, !getter, false, false, false);
             return done(prop);
         }
         Token keyTok = tok;
@@ -1182,7 +1233,7 @@ abstract class ExpressionParser extends ParserBase {
         prop.flag = keyComputed;
         if (isP("(")) {
             prop.op = Op.PROP_METHOD;
-            prop.b = parseMethodFunction(start, prop, false, false, false, false, false);
+            prop.b = parseMethodFunction(start, prop, false, false, false, false, false, async);
             return done(prop);
         }
         if (isP(":")) {
@@ -1520,11 +1571,12 @@ abstract class ExpressionParser extends ParserBase {
      * @param generator true for generators / 제너레이터이면 true
      * @return the context / 문맥
      */
-    private FuncCtx newFunctionCtx(boolean generator) {
+    private FuncCtx newFunctionCtx(boolean generator, boolean async) {
         FuncCtx c = new FuncCtx();
         c.parent = fc;
         c.strict = fc.strict;
         c.generator = generator;
+        c.async = async;
         c.inFunction = true;
         c.allowNewTarget = true;
         return c;
@@ -1538,12 +1590,31 @@ abstract class ExpressionParser extends ParserBase {
      * @return the FUNCTION node / FUNCTION 노드
      */
     protected final Node parseFunctionExpression() {
+        return parseFunctionExpression(false);
+    }
+
+    /**
+     * Parses a normal or async function expression.
+     * <p>
+     * 일반 또는 async 함수 표현식을 파싱한다.
+     *
+     * @param async true for an AsyncFunctionExpression / AsyncFunctionExpression 이면 true
+     * @return the FUNCTION node / FUNCTION 노드
+     */
+    private Node parseFunctionExpression(boolean async) {
         Token start = tok;
+        if (async) {
+            next();
+            if (!isN("function")) {
+                throw unexpected(tok);
+            }
+        }
         next();
         boolean gen = eatP("*");
-        FuncCtx ctx = newFunctionCtx(gen);
+        FuncCtx ctx = newFunctionCtx(gen, async);
         FunctionInfo info = new FunctionInfo();
         info.generator = gen;
+        info.async = async;
         Token nameTok = null;
         if (tok.type == TokenType.NAME) {
             nameTok = tok;
@@ -1796,12 +1867,13 @@ abstract class ExpressionParser extends ParserBase {
      * @return the FUNCTION node / FUNCTION 노드
      */
     protected final Node parseMethodFunction(Token start, Node member, boolean generator, boolean getter, boolean setter,
-            boolean classCtor, boolean derived) {
-        FuncCtx ctx = newFunctionCtx(generator);
+            boolean classCtor, boolean derived, boolean async) {
+        FuncCtx ctx = newFunctionCtx(generator, async);
         ctx.allowSuperProp = true;
         ctx.allowSuperCall = classCtor && derived;
         FunctionInfo info = new FunctionInfo();
         info.generator = generator;
+        info.async = async;
         info.method = true;
         info.classConstructor = classCtor;
         info.derived = classCtor && derived;
@@ -1826,28 +1898,62 @@ abstract class ExpressionParser extends ParserBase {
      * @return the FUNCTION node / FUNCTION 노드
      */
     private Node parseIdentifierArrow(boolean noIn) {
+        return parseIdentifierArrow(noIn, false);
+    }
+
+    /**
+     * Parses an identifier arrow or its async form.
+     * <p>
+     * 식별자 화살표나 그 async 형태를 파싱한다.
+     *
+     * @param noIn true to forbid in / in 을 금지하려면 true
+     * @param async true for an async arrow / async 화살표이면 true
+     * @return the FUNCTION node / FUNCTION 노드
+     */
+    private Node parseIdentifierArrow(boolean noIn, boolean async) {
         Token start = tok;
         FuncCtx savedFc = fc;
         Scope savedScope = scope;
         FuncCtx ctx = newArrowCtx();
+        ctx.async = async;
         fc = ctx;
         Scope fs = new Scope(savedScope, SCOPE_FUNCTION);
         scope = fs;
         ctx.funcScope = fs;
         FunctionInfo info = new FunctionInfo();
         info.arrow = true;
+        info.async = async;
         initInfo(info);
         info.start = start.start;
-        checkBindingName(start);
+        Token paramToken = start;
+        if (async) {
+            next();
+            paramToken = tok;
+            if (paramToken.type != TokenType.NAME || isReservedWord(paramToken.value) || paramToken.newlineBefore) {
+                throw unexpected(paramToken);
+            }
+            checkBindingName(paramToken);
+        } else {
+            checkBindingName(start);
+        }
         List<Node> params = new ArrayList<Node>();
-        Node id = mk(NodeType.IDENT, start);
-        id.name = start.value;
-        id.end = start.end;
+        Node id = mk(NodeType.IDENT, paramToken);
+        id.name = paramToken.value;
+        id.end = paramToken.end;
         params.add(id);
-        fs.params.add(start.value);
+        fs.params.add(paramToken.value);
         next();
         setParams(info, params);
         return finishArrow(start, info, ctx, fs, savedFc, savedScope, noIn);
+    }
+
+    /**
+     * Parses the async identifier-arrow entry form.
+     * <p>
+     * async 식별자 화살표 진입 형태를 파싱한다.
+     */
+    private Node parseAsyncIdentifierArrow(boolean noIn) {
+        return parseIdentifierArrow(noIn, true);
     }
 
     /**
@@ -1903,6 +2009,63 @@ abstract class ExpressionParser extends ParserBase {
         info.start = start.start;
         boolean committed = false;
         try {
+            ctx.inParams = true;
+            parseFormalParameters(info);
+            ctx.inParams = false;
+            if (isP("=>") && !tok.newlineBefore) {
+                committed = true;
+            }
+        } catch (JsException e) {
+            committed = false;
+        }
+        if (!committed) {
+            lexer.restoreState(ls);
+            tok = savedTok;
+            prev = savedPrev;
+            fc = savedFc;
+            scope = savedScope;
+            coverError = savedCover;
+            coverMessage = savedMsg;
+            return null;
+        }
+        return finishArrow(start, info, ctx, fs, savedFc, savedScope, noIn);
+    }
+
+    /**
+     * Tries to parse an async parenthesized arrow function.
+     * <p>
+     * 괄호 매개변수가 있는 async 화살표 함수 파싱을 시도한다.
+     *
+     * @param noIn true to forbid in / in 을 금지하려면 true
+     * @return the FUNCTION node or null / FUNCTION 노드 또는 null
+     */
+    private Node tryParseAsyncArrow(boolean noIn) {
+        Token start = tok;
+        Token afterAsync = peek();
+        if (afterAsync.newlineBefore || !afterAsync.isPunct("(")) {
+            return null;
+        }
+        Lexer.State ls = lexer.saveState();
+        Token savedTok = tok;
+        Token savedPrev = prev;
+        FuncCtx savedFc = fc;
+        Scope savedScope = scope;
+        Token savedCover = coverError;
+        String savedMsg = coverMessage;
+        FuncCtx ctx = newArrowCtx();
+        ctx.async = true;
+        fc = ctx;
+        Scope fs = new Scope(savedScope, SCOPE_FUNCTION);
+        scope = fs;
+        ctx.funcScope = fs;
+        FunctionInfo info = new FunctionInfo();
+        info.arrow = true;
+        info.async = true;
+        initInfo(info);
+        info.start = start.start;
+        boolean committed = false;
+        try {
+            next();
             ctx.inParams = true;
             parseFormalParameters(info);
             ctx.inParams = false;
@@ -2036,6 +2199,12 @@ abstract class ExpressionParser extends ParserBase {
             next();
         }
         m.flag = isStatic;
+        boolean async = false;
+        if (isN("async") && !peek().newlineBefore && !peek().isPunct("(")
+                && (peek().isPunct("*") || startsPropertyName(peek()))) {
+            async = true;
+            next();
+        }
         boolean gen = false;
         boolean getter = false;
         boolean setter = false;
@@ -2054,8 +2223,8 @@ abstract class ExpressionParser extends ParserBase {
         boolean ctor = false;
         if (!computed && m.a.name != null) {
             if (!isStatic && m.a.name.equals("constructor")) {
-                if (getter || setter || gen) {
-                    throw error("Class constructor may not be an accessor or a generator", m.a);
+                if (getter || setter || gen || async) {
+                    throw error("Class constructor may not be an accessor, generator or async method", m.a);
                 }
                 ctor = true;
             } else if (isStatic && m.a.name.equals("prototype")) {
@@ -2069,7 +2238,7 @@ abstract class ExpressionParser extends ParserBase {
         Node keyHolder = new Node(NodeType.PROPERTY, m.line, m.column);
         keyHolder.a = m.a;
         keyHolder.flag = computed;
-        m.b = parseMethodFunction(start, keyHolder, gen, getter, setter, ctor, derived);
+        m.b = parseMethodFunction(start, keyHolder, gen, getter, setter, ctor, derived, async);
         if (ctor) {
             m.value = Boolean.FALSE;
         }

@@ -52,6 +52,13 @@ public final class FunctionInfo {
     public boolean generator;
 
     /**
+     * True for async functions, async generators, async methods and async arrows.
+     * <p>
+     * async 함수, async 제너레이터, async 메서드와 async 화살표이면 true.
+     */
+    public boolean async;
+
+    /**
      * True for concise methods, getters, setters and class methods (they have a home object and no prototype).
      * <p>
      * 간결한 메서드, getter, setter, 클래스 메서드이면 true(홈 객체가 있고 prototype 이 없다).

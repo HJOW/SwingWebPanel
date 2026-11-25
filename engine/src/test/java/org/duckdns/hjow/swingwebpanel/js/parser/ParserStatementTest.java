@@ -94,6 +94,9 @@ public class ParserStatementTest {
         Check.equal("(program (for-of (. x y) z (empty)))", p("for (x.y of z);"), "member expression as a target");
         Check.equal("(program (for-of (const (d x _)) a (empty)))", p("for (const x of a);"), "const loop variable");
         Check.equal("(program (for (let (d i 0)) _ _ (empty)))", p("for (let i = 0;;);"), "let initializer");
+        Check.equal("(program (fdecl f (async-function f () (block (for-await (const (d x _)) xs (empty))))))",
+                p("async function f() { for await (const x of xs); }"),
+                "for-await inside an async function");
         Check.equal("(program (label l (for _ _ _ (block (continue l) (break l)))))", p("l: for (;;) { continue l; break l; }"),
                 "labelled loop with continue and break");
         Check.equal("(program (label a (label b (while 1 (continue a)))))", p("a: b: while (1) continue a"),
@@ -123,6 +126,20 @@ public class ParserStatementTest {
         Check.equal("(program (cdecl A (class A _ _ (static-method static (method static () (block)))"
                 + " (get get (method get () (block))) (method get (method get () (block))))))",
                 p("class A { static static() {} get get() {} get() {} }"), "contextual keywords as member names");
+        Check.equal("(program (fdecl f (async-function f (x) (block (expr (await x))))))",
+                p("async function f(x) { await x }"), "async function declaration");
+        Check.equal("(program (fdecl g (async-function* g () (block (expr (yield (await 1)))))))",
+                p("async function* g() { yield await 1 }"), "async generator declaration");
+        Check.isTrue(p("class A { async m() { await 1 } async *g() { yield await 1 } }").contains("(async-method"),
+                "async class methods");
+        Check.isTrue(AstDump.dump(Parser.parseModule("await 1", "m.js")).contains("(expr (await 1))"),
+                "top-level await in a module");
+        Check.isTrue(AstDump.dump(Parser.parseModule("for await (const x of xs);", "m.js")).contains("(for-await"),
+                "top-level for-await in a module");
+        Check.isTrue(AstDump.dump(Parser.parseModule("export default async function f() {}", "m.js")).contains("async-function"),
+                "exported async function");
+        Node asyncProgram = Parser.parseScript("async function f() {}", "t.js");
+        Check.isTrue(asyncProgram.list[0].b.fn.async, "FunctionInfo preserves async");
     }
 
     /**

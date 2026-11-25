@@ -121,6 +121,23 @@ public class ParserExpressionTest {
         Check.equal("(chain (call? a x))", e("a?.(x)"), "optional call");
         Check.equal("(chain (call (.? a b) x))", e("a?.b(x)"), "normal call in optional chain");
         Check.equal("(call (chain (.? a b)) c)", e("(a?.b)(c)"), "parentheses end the chain scope");
+        Check.equal("(async-arrow (x) (await x))", e("async x => await x"), "async identifier arrow");
+        Check.equal("(async-arrow (x) (await x))", e("async (x) => await x"), "async parenthesized arrow");
+        Check.equal("(async-function f () (block (expr (await 1))))", e("(async function f() { await 1 })"),
+                "async function expression");
+        Check.equal("(async-function* _ () (block (expr (yield (await 1)))))", e("(async function* () { yield await 1 })"),
+                "async generator expression");
+        Check.equal("(object (method m (async-method m () (block (expr (await x)))))"
+                + " (method g (async-function* g () (block (expr (yield (await x)))))))",
+                e("({async m() { await x }, async *g() { yield await x }})"), "async object methods");
+        Check.equal("(call async x)", e("async(x)"), "async remains an identifier for an ordinary call");
+        Check.equal("(arrow (async) async)", e("async => async"), "async is an ordinary arrow parameter without a second operand");
+        bad("async x\n=> x");
+        bad("async (await) => 0");
+        bad("(async function(await) {})");
+        bad("async function await() {}");
+        bad("async\n(x) => x");
+        bad("class A { async constructor() {} }");
         bad("a?.b = c");
         bad("a?.b++");
         bad("a?.b`x`");
