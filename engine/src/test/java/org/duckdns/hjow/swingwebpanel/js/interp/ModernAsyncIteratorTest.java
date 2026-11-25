@@ -8,6 +8,22 @@ package org.duckdns.hjow.swingwebpanel.js.interp;
 public class ModernAsyncIteratorTest {
 
     /**
+     * An async-from-sync iterator captures next, reads done before value and closes a rejected yield.
+     * <p>
+     * 동기 이터레이터를 감싸면 next를 저장하고 done 뒤 value를 읽으며 거부된 yield에서 닫는다.
+     */
+    public void testSyncAdapterObservationAndClosing() {
+        Scripts.checkInline("const log=[];"
+                + "const src={[Symbol.iterator](){return {"
+                + " get next(){log.push('next');let n=0;return ()=>{n++;return {"
+                + " get done(){log.push('done'+n);return false;},"
+                + " get value(){log.push('value'+n);return n===1?Promise.resolve(3):Promise.reject('reason');}};};},"
+                + " return(){log.push('close');throw 'ignored';}};}};"
+                + "(async()=>{try{for await (const x of src) log.push(x);}catch(e){log.push(e);} "
+                + "t('sync iterator',log.join(','),'next,done1,value1,3,done2,value2,close,reason');})();", 1);
+    }
+
+    /**
      * Creates the suite.
      * <p>
      * 스위트를 만든다.

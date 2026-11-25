@@ -301,6 +301,31 @@ final class PromiseBuiltins {
     }
 
     /**
+     * Resolves a value using an explicit Promise constructor (PromiseResolve).
+     * <p>
+     * 지정한 Promise 생성자로 값을 해결한다(PromiseResolve).
+     *
+     * @param realm the current realm / 현재 realm
+     * @param constructor the Promise constructor / Promise 생성자
+     * @param value the value to resolve / 해결할 값
+     * @return the result promise / 결과 Promise
+     */
+    static JsObject resolveWith(JsRealm realm, JsValue constructor, JsValue value) {
+        if (!(constructor instanceof JsObject)) {
+            throw JsException.typeError("PromiseResolve called on non-object");
+        }
+        if (value instanceof PromiseObject) {
+            JsObject promise = (JsObject) value;
+            if (Ops.sameValue(promise.get("constructor"), constructor)) {
+                return promise;
+            }
+        }
+        PromiseCapability capability = newCapability(realm, constructor);
+        capability.resolve(value);
+        return capability.getPromise();
+    }
+
+    /**
      * SpeciesConstructor (7.3.20): the constructor to use for derived objects.
      * <p>
      * SpeciesConstructor (7.3.20): 파생 객체를 만들 때 쓸 생성자.
@@ -414,19 +439,7 @@ final class PromiseBuiltins {
         // Promise.resolve(x) (25.4.4.5)
         realm.method(ctor, "resolve", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                if (!(thisValue instanceof JsObject)) {
-                    throw JsException.typeError("PromiseResolve called on non-object");
-                }
-                JsValue x = Js.arg(args, 0);
-                if (x instanceof PromiseObject) {
-                    JsValue xConstructor = ((JsObject) x).get("constructor");
-                    if (Ops.sameValue(xConstructor, thisValue)) {
-                        return x;
-                    }
-                }
-                PromiseCapability cap = newCapability(r, thisValue);
-                cap.resolve(x);
-                return cap.getPromise();
+                return resolveWith(r, thisValue, Js.arg(args, 0));
             }
         });
         // get Promise[@@species] (25.4.4.6)

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-04-c1 내장 Promise 대기와 동기 이터레이터 변환 (2026-11-26) ===
+현재 작업 번호: P29-04-c1 완료.
+완료한 내용: await는 intrinsic PromiseResolve와 PerformPromiseThen을 호출한다. 비동기 래퍼의 동기 next 메서드를 한 번 읽고 done 뒤에 value를 읽으며, 이행 전 값이 거부되면 열린 이터레이터를 닫고 원래 오류를 전달한다.
+변경 파일: PromiseBuiltins.java, PromiseCapability.java, PromiseInterop.java, AsyncIteratorHelper.java, IteratorHelper.java, ModernAsyncTest.java, ModernAsyncIteratorTest.java, AGENTS.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 734건 통과. Maven으로 생성한 엔진·브라우저 JAR을 클래스패스로 사용한 JRE 6u45 문서 모듈·Worker·AudioWorklet 54건 통과. sourcecheck 0 위반.
+미해결 사항: Array.fromAsync의 입력 선택과 순차 소비(P29-04-c2).
+다음 작업 번호: P29-04-c2.
+-----------------------------------------------------------------------------------------------
 === P29-04-b TypedArray 역방향 탐색과 복사 (2026-11-26) ===
 현재 작업 번호: P29-04-b 완료.
 완료한 내용: TypedArray의 findLast, findLastIndex, toReversed, toSorted, with를 추가했다. 복사 메서드는 내장 요소 형식을 유지하고 원본의 사용자 정의 생성자를 조회하지 않는다. 버퍼 분리 뒤의 인덱스 조회와 값 변환 순서를 확인했다.
@@ -594,6 +602,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-04-c1 Array.fromAsync 기반 연산
+
+공개 Promise 메서드가 바뀌어도 await가 정상적으로 이행하는지 검증했다. 동기 이터레이터에서 next getter를 한 번만 호출하고 done 다음에 value를 읽으며, 거부된 yield 뒤 return이 던져도 원래 거부 이유가 전달되는 것을 확인했다. 직접 클래스 디렉터리 실행에서 ArrayBuiltins.class가 빠진 산출물 문제를 확인하고 두 Maven JAR로 재검증했다.
 
 ### 2026-11-26 · P29-04-b 형식화 배열 탐색과 복사
 

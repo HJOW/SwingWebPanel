@@ -67,7 +67,20 @@ public final class IteratorHelper {
      * @return the iterator result object / 이터레이터 결과 객체
      */
     public static JsObject next(JsObject iterator, JsValue value) {
-        JsValue nextMethod = iterator.get("next");
+        return next(iterator, iterator.get("next"), value);
+    }
+
+    /**
+     * Gets the next object with a method captured when the iterator was obtained.
+     * <p>
+     * 이터레이터를 만든 시점의 메서드로 다음 객체를 얻는다.
+     *
+     * @param iterator the iterator object / 이터레이터 객체
+     * @param nextMethod captured next method / 미리 읽은 next 메서드
+     * @param value optional input, null when absent / 선택적 입력. 생략하면 null
+     * @return iterator result / 이터레이터 결과
+     */
+    static JsObject next(JsObject iterator, JsValue nextMethod, JsValue value) {
         JsValue r = Ops.call(nextMethod, iterator, value == null ? Js.NO_ARGS : new JsValue[] { value });
         if (!(r instanceof JsObject)) {
             throw JsException.typeError("Iterator result " + JsException.describe(r) + " is not an object");

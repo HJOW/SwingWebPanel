@@ -2,7 +2,6 @@ package org.duckdns.hjow.swingwebpanel.js.builtins.meta;
 
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
-import org.duckdns.hjow.swingwebpanel.js.Ops;
 
 /**
  * Small public bridge for the interpreter's async functions. It keeps Promise internal classes private while exposing only
@@ -34,9 +33,9 @@ public final class PromiseInterop {
     }
 
     /**
-     * Attaches fulfillment and rejection continuations using <code>%Promise%.resolve(value).then(...)</code>.
+     * Attaches fulfillment and rejection continuations with intrinsic PromiseResolve and PerformPromiseThen.
      * <p>
-     * <code>%Promise%.resolve(value).then(...)</code> 로 이행·거부 이어짐을 연결한다.
+     * 내장 PromiseResolve와 PerformPromiseThen으로 이행·거부 이어짐을 연결한다.
      *
      * @param realm realm / realm
      * @param value awaited value / await 값
@@ -45,8 +44,8 @@ public final class PromiseInterop {
      */
     public static void await(JsRealm realm, JsValue value, JsValue fulfilled, JsValue rejected) {
         JsValue promiseConstructor = realm.getIntrinsic(PromiseBuiltins.INTRINSIC_PROMISE);
-        JsValue promise = Ops.invoke(realm, promiseConstructor, "resolve", new JsValue[] { value });
-        Ops.invoke(realm, promise, "then", new JsValue[] { fulfilled, rejected });
+        PromiseObject promise = (PromiseObject) PromiseBuiltins.resolveWith(realm, promiseConstructor, value);
+        PromiseBuiltins.performThen(realm, promise, fulfilled, rejected, null);
     }
 }
 

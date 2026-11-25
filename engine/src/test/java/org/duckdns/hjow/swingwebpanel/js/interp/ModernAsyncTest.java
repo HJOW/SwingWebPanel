@@ -67,6 +67,19 @@ public class ModernAsyncTest {
     }
 
     /**
+     * Await uses the intrinsic Promise operations even when public methods are replaced.
+     * <p>
+     * 공개 메서드를 바꾸어도 await는 내장 Promise 연산을 쓴다.
+     */
+    public void testAwaitIntrinsicPromiseOperations() {
+        Scripts.checkInline("const v=Promise.resolve(41),then=Promise.prototype.then;"
+                + "Promise.resolve=()=>{throw 'resolve';};"
+                + "Object.defineProperty(v,'then',{get(){throw 'then';}});"
+                + "const p=(async()=>1+await v)();"
+                + "then.call(p,x=>t('intrinsic await',x,42),e=>t('unexpected',e,'none'));", 1);
+    }
+
+    /**
      * Checks async arrows, methods, promise adoption and constructor prohibition.
      * <p>
      * async 화살표, 메서드, Promise 채택, 생성자 금지를 검사한다.

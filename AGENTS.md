@@ -793,6 +793,8 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - [x] P29-04-a. `ArrayMethods`에 역방향 탐색과 복사 메서드를 추가한다. 희소 배열의 밀집 복사, 인덱스 읽기 순서, 변경 대상 슬롯의 getter 회피와 범위 오류를 JDK 6에서 검증한다.
   - [x] P29-04-b. `TypedArrayMethods`에 역방향 탐색과 복사 메서드를 추가한다. 일반·BigInt 배열의 결과, 수치 정렬, 동일 타입 생성과 species 접근 회피를 JDK 6에서 검증한다.
   - [ ] P29-04-c. `ArrayBuiltins`와 비동기 반복 경로에 `Array.fromAsync`를 추가한다. 반복자 종류, await 순서, 매퍼 예외와 반복자 닫기를 JDK 6에서 검증한다.
+    - [x] P29-04-c1. `PromiseInterop`와 `AsyncIteratorHelper`에서 내장 Promise 대기, 동기 반복자의 next·done 조회 순서와 거부 시 닫기를 검증한다.
+    - [ ] P29-04-c2. `ArrayBuiltins`와 `ArrayFromAsync`에서 반복자 또는 유사 배열의 순차 변환과 생성자 호출을 구현한다. 부작용 순서, 오류별 닫기 및 결과 Promise를 검증한다.
   - [ ] P29-04-d. 반정밀도 변환과 `Math.f16round`, `Float16Array`, DataView 접근을 추가한다. 짝수 반올림, 부호 있는 0 및 경계 비트열을 JDK 6에서 검증한다.
   - [ ] P29-04-e. `ArrayBufferLib`와 View 연산에 가변 길이, 전송, 자동 길이와 경계 검사 지원을 추가한다. 버퍼 축소 후 접근과 콜백 부작용을 JDK 6에서 검증한다.
   - [ ] P29-04-f. `Uint8Array`의 Base64·Hex 변환을 추가한다. 알파벳, 패딩, 접두부 처리, 버퍼 길이·분리 경계 및 read/written을 JDK 6에서 검증한다.

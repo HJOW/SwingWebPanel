@@ -90,7 +90,7 @@ public final class PromiseCapability {
      *
      * @param value the resolution / 해결 값
      */
-    void resolve(JsValue value) {
+    public void resolve(JsValue value) {
         Ops.call(resolveFunction, Js.UNDEFINED, new JsValue[] { value });
     }
 
@@ -101,7 +101,7 @@ public final class PromiseCapability {
      *
      * @param reason the reason / 이유
      */
-    void reject(JsValue reason) {
+    public void reject(JsValue reason) {
         Ops.call(rejectFunction, Js.UNDEFINED, new JsValue[] { reason });
     }
 }
