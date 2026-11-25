@@ -175,6 +175,9 @@ public final class BrowserSession implements FormSubmitSink {
      */
     private volatile PageSnapshot current = PageSnapshot.blank();
 
+    /** The top-level browsing context of this component across document changes. / 문서가 바뀌어도 유지되는 컴포넌트 최상위 브라우징 문맥. */
+    private final TopContext topContext = new TopContext(this);
+
     /**
      * User agent sent with requests.
      * <p>
@@ -374,6 +377,17 @@ public final class BrowserSession implements FormSubmitSink {
      */
     Object sharedMemoryCluster() {
         return sharedMemoryCluster;
+    }
+
+    /**
+     * Returns the component's stable top-level context.
+     * <p>
+     * 컴포넌트의 고정 최상위 문맥을 반환한다.
+     *
+     * @return the top-level context / 최상위 문맥
+     */
+    TopContext topContext() {
+        return topContext;
     }
 
     /**

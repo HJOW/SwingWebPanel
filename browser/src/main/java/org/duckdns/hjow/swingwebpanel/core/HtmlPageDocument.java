@@ -245,6 +245,17 @@ public final class HtmlPageDocument implements PageDocument {
     }
 
     /**
+     * Returns the runtime of this document while it is confirmed in the top-level context.
+     * <p>
+     * 최상위 문맥에서 확정된 이 문서의 실행 환경을 반환한다.
+     *
+     * @return the runtime, or null for a document without scripts / 실행 환경. 스크립트 없는 문서이면 null
+     */
+    PageRuntime runtime() {
+        return runtime;
+    }
+
+    /**
      * Returns the frames (nested browsing contexts) of this document.
      * <p>
      * 이 문서의 프레임(중첩된 브라우징 문맥)을 반환한다.

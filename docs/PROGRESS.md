@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-c2b 최상위 WindowProxy의 이동 수명 (2026-11-26) ===
+현재 작업 번호: P29-10-c2b와 P29-10-c2 완료.
+완료한 내용: 컴포넌트마다 최상위 브라우징 문맥을 하나 할당한다. 파싱하는 스크립트에는 자신의 전역을 제공하고, 다른 호출에는 확정 문서를 제공한다.
+변경 파일: BrowserSession.java, HtmlPageDocument.java, PageRuntime.java, TopContext.java, PageScripts.java, TopWindowNavigationTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45 TopWindowNavigationTest 1건, FrameWindowTest 13건, FrameNavigationTest 11건, ScriptNavigationTest 6건, PageScriptsTest 19건 통과. sourcecheck 0 위반.
+미해결 사항: COOP/COEP와 공유 메모리 조건(P29-10-c3a~c3c), Unicode·최종 회귀.
+다음 작업 번호: P29-10-c3a.
+-----------------------------------------------------------------------------------------------
 === P29-10-c2a WindowProxy 프레임 속성과 반사 (2026-11-26) ===
 현재 작업 번호: P29-10-c2a 완료.
 완료한 내용: 프레임 인덱스를 WindowProxy의 자체 데이터 속성으로 노출한다. 교차 오리진 허용 속성의 접근자·메서드·폴백 기술자와 열거 순서를 규격에 맞췄다.
@@ -1114,6 +1122,11 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-c2b 이동 전후 최상위 WindowProxy 정체성
+
+- [WHATWG HTML Living Standard §7.2.3](https://html.spec.whatwg.org/multipage/nav-history-apis.html#the-windowproxy-exotic-object) 2026-11-25 11:33:24 GMT 판의 최상위 창 정체성에 맞춰 컴포넌트 단위로 문맥을 유지한다.
+- 로딩 중 스크립트의 자기 참조와 확정 문서 교체를 시험했다. 대체된 요청을 늦게 완료시켜도 보관한 프록시의 속성이 새 전역에서 조회된다. 기존 `window.name` 값은 문서별 수명을 유지한다.
 
 ### 2026-11-26 · P29-10-c2a 동일·교차 오리진 창의 반사 연산
 

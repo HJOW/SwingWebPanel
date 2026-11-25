@@ -1311,12 +1311,35 @@ public final class PageScripts {
      * @return window or restricted view / 창 또는 제한 객체
      */
     static JsObject windowTarget(BrowsingContext context) {
-        JsRealm running = RealmExecution.current();
-        PageScripts caller = running == null ? ENTRY.get() : pageForRealm(running);
+        PageScripts caller = currentPage();
         if (caller == null || caller.isDisposed()) {
             throw JsException.typeError("Window access requires an active document");
         }
         return caller.globals.frameApi().windowTarget(context);
+    }
+
+    /**
+     * Returns the environment of the active script or document task.
+     * <p>
+     * 실행 중인 스크립트 또는 문서 작업의 환경을 반환한다.
+     *
+     * @return current host environment or null / 현재 호스트 환경 또는 null
+     */
+    public static HostEnvironment currentHostEnvironment() {
+        PageScripts page = currentPage();
+        return page == null || page.isDisposed() ? null : page.env;
+    }
+
+    /**
+     * Resolves the page from the executing realm or the page task that entered this thread.
+     * <p>
+     * 실행 중인 렐름이나 현재 스레드의 문서 작업에서 페이지를 찾는다.
+     *
+     * @return the page or null / 페이지 또는 null
+     */
+    private static PageScripts currentPage() {
+        JsRealm running = RealmExecution.current();
+        return running == null ? ENTRY.get() : pageForRealm(running);
     }
 
     /**

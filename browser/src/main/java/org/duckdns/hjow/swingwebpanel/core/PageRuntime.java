@@ -86,6 +86,8 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
     private final FrameContext frame;
     /** The browsing context that the scripts of this page see: the frame, or the top-level context. / 이 페이지의 스크립트가 보는 브라우징 문맥: 프레임, 또는 최상위 문맥. */
     private final org.duckdns.hjow.swingwebpanel.js.host.BrowsingContext browsingContext;
+    /** The name assigned by this top-level document. / 이 최상위 문서에서 설정한 이름. */
+    private volatile String topWindowName = "";
 
     /**
      * Installs script services before the parser starts; call close on every abandoned parse.
@@ -108,7 +110,7 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         this.cookies = cookies;
         this.context = context;
         frame = request.getFrame();
-        browsingContext = frame != null ? frame : new TopContext(this, document, presentation);
+        browsingContext = frame != null ? frame : session.topContext();
         pageUrl = document.getOriginUrl();
         webRequests = new PageWebRequests(fetcher, cookies, context, pageUrl, resources);
         parent = request.getCancelToken();
@@ -148,6 +150,39 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
      * @return the component state / 컴포넌트 상태 */
     BrowserSession session() {
         return session;
+    }
+
+    /**
+     * Returns the window name of this top-level document.
+     * <p>
+     * 이 최상위 문서의 창 이름을 반환한다.
+     *
+     * @return the current name / 현재 이름
+     */
+    String getTopWindowName() {
+        return topWindowName;
+    }
+
+    /**
+     * Stores the name for this document only.
+     * <p>
+     * 이 문서의 창 이름을 저장한다.
+     *
+     * @param value the name, or null to clear / 이름. null이면 비운다
+     */
+    void setTopWindowName(String value) {
+        topWindowName = value == null ? "" : value;
+    }
+
+    /**
+     * Returns the live frame set of this document, including during parsing.
+     * <p>
+     * 파싱 중인 경우를 포함하여 이 문서의 현재 프레임 집합을 반환한다.
+     *
+     * @return the frame set or null / 프레임 집합 또는 null
+     */
+    FrameSet frameSet() {
+        return presentation.frameSet();
     }
 
     /** Returns the page bridge on its owning thread. / 소유 스레드에서 페이지 연결을 반환한다.

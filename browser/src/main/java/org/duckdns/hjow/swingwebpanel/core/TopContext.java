@@ -5,42 +5,71 @@ import java.util.List;
 import org.duckdns.hjow.swingwebpanel.dom.Document;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
 import org.duckdns.hjow.swingwebpanel.js.host.BrowsingContext;
+import org.duckdns.hjow.swingwebpanel.js.host.HostEnvironment;
 import org.duckdns.hjow.swingwebpanel.js.host.PageScripts;
 
 /**
- * The browsing context of the top-level document of the component, as the scripts see it: it has no parent, is its own top and lists the
- * frames of the document. The name of the window (<code>window.name</code>) is kept here.
+ * The component's top-level browsing context. Its identity lasts across navigations and its properties refer to the active document.
  * <p>
- * 스크립트가 보는 컴포넌트의 최상위 문서의 브라우징 문맥: 부모가 없고 자기가 최상위이며 문서의 프레임을 나열한다. window 이름(<code>window.name</code>)을
- * 여기에 보관한다.
+ * 컴포넌트의 최상위 브라우징 문맥. 이동해도 정체성을 유지하며 각 속성은 현재 문서를 가리킨다.
  */
 final class TopContext implements BrowsingContext {
 
-    /** The script host of the document. / 문서의 스크립트 호스트. */
-    private final PageRuntime runtime;
-
-    /** The DOM document. / DOM 문서. */
-    private final Document document;
-
-    /** The presentation state that owns the frames of the document. / 문서의 프레임을 소유한 표현 상태. */
-    private final PagePresentation presentation;
-
-    /** The name of the window. / window 의 이름. */
-    private volatile String name = "";
+    /** The owner of the confirmed page. / 확정된 페이지를 소유한 세션. */
+    private final BrowserSession session;
 
     /**
      * Creates the context.
      * <p>
      * 문맥을 만든다.
      *
-     * @param runtime      the script host of the document / 문서의 스크립트 호스트
-     * @param document     the DOM document / DOM 문서
-     * @param presentation the presentation state of the document / 문서의 표현 상태
+     * @param session the component session / 컴포넌트 세션
      */
-    TopContext(PageRuntime runtime, Document document, PagePresentation presentation) {
-        this.runtime = runtime;
-        this.document = document;
-        this.presentation = presentation;
+    TopContext(BrowserSession session) {
+        this.session = session;
+    }
+
+    /**
+     * Finds a top-level runtime already executing on this thread, including a page still being parsed.
+     * <p>
+     * 아직 파싱 중인 페이지를 포함하여 현재 스레드에서 실행하는 최상위 문서 환경을 찾는다.
+     *
+     * @return the local runtime or null / 현재 실행 환경 또는 null
+     */
+    private PageRuntime executingRuntime() {
+        HostEnvironment env = PageScripts.currentHostEnvironment();
+        if (env instanceof PageRuntime && env.getBrowsingContext() == this) {
+            return (PageRuntime) env;
+        }
+        return null;
+    }
+
+    /**
+     * Returns the confirmed HTML document and its page state.
+     * <p>
+     * 확정된 HTML 문서와 그 문서의 상태를 반환한다.
+     *
+     * @return the confirmed HTML page or null / 확정된 HTML 페이지 또는 null
+     */
+    private HtmlPageDocument confirmedPage() {
+        PageDocument page = session.getSnapshot().getDocument();
+        return page instanceof HtmlPageDocument ? (HtmlPageDocument) page : null;
+    }
+
+    /**
+     * Returns the runtime visible to the caller.
+     * <p>
+     * 호출자가 볼 수 있는 실행 환경을 반환한다.
+     *
+     * @return the local or confirmed runtime or null / 현재 실행 중이거나 확정된 실행 환경 또는 null
+     */
+    private PageRuntime activeRuntime() {
+        PageRuntime running = executingRuntime();
+        if (running != null) {
+            return running;
+        }
+        HtmlPageDocument page = confirmedPage();
+        return page == null ? null : page.runtime();
     }
 
     /**
@@ -51,7 +80,8 @@ final class TopContext implements BrowsingContext {
      * @return the script host / 스크립트 호스트
      */
     public PageScripts getScripts() {
-        return runtime.scripts();
+        PageRuntime runtime = activeRuntime();
+        return runtime == null ? null : runtime.scripts();
     }
 
     /**
@@ -62,7 +92,13 @@ final class TopContext implements BrowsingContext {
      * @return the document / 문서
      */
     public Document getDocument() {
-        return document;
+        PageRuntime running = executingRuntime();
+        // 파싱 중인 스크립트는 아직 확정되지 않은 자기 문서를 보아야 한다.
+        if (running != null) {
+            return running.scripts().getDocument();
+        }
+        HtmlPageDocument page = confirmedPage();
+        return page == null ? null : page.getDocument();
     }
 
     /**
@@ -95,7 +131,9 @@ final class TopContext implements BrowsingContext {
      * @return a new list / 새 목록
      */
     public List<BrowsingContext> getChildren() {
-        FrameSet set = presentation.frameSet();
+        PageRuntime running = executingRuntime();
+        HtmlPageDocument page = running == null ? confirmedPage() : null;
+        FrameSet set = running != null ? running.frameSet() : page == null ? null : page.frames();
         List<BrowsingContext> out = new ArrayList<BrowsingContext>();
         // 프레임 집합의 문맥을 문서 순서대로 옮겨 담는다.
         if (set != null) {
@@ -123,7 +161,8 @@ final class TopContext implements BrowsingContext {
      * @return the name / 이름
      */
     public String getName() {
-        return name;
+        PageRuntime runtime = activeRuntime();
+        return runtime == null ? "" : runtime.getTopWindowName();
     }
 
     /**
@@ -134,7 +173,10 @@ final class TopContext implements BrowsingContext {
      * @param value the name / 이름
      */
     public void setName(String value) {
-        name = value == null ? "" : value;
+        PageRuntime runtime = activeRuntime();
+        if (runtime != null) {
+            runtime.setTopWindowName(value);
+        }
     }
 
     /**
@@ -145,7 +187,8 @@ final class TopContext implements BrowsingContext {
      * @return the address / 주소
      */
     public String getOriginUrl() {
-        return document.getOriginUrl();
+        Document document = getDocument();
+        return document == null ? "about:blank" : document.getOriginUrl();
     }
 
     /**
@@ -157,7 +200,10 @@ final class TopContext implements BrowsingContext {
      * @param replace true to replace the history entry / 이력 항목을 바꾸려면 true
      */
     public void navigate(String url, boolean replace) {
-        runtime.navigate(url, replace);
+        PageRuntime runtime = activeRuntime();
+        if (runtime != null) {
+            runtime.navigate(url, replace);
+        }
     }
 
     /**
@@ -170,7 +216,8 @@ final class TopContext implements BrowsingContext {
      * @return the context that the target selects, or null / 대상이 고르는 문맥. 없으면 null
      */
     public BrowsingContext open(String url, String target) {
-        return FrameNavigator.open(runtime.session(), presentation.frameSet(), null, this, target, url);
+        PageRuntime runtime = activeRuntime();
+        return runtime == null ? null : FrameNavigator.open(session, runtime.frameSet(), null, this, target, url);
     }
 
     /**
@@ -186,13 +233,13 @@ final class TopContext implements BrowsingContext {
     }
 
     /**
-     * Tells whether the page was closed.
+     * Tells whether the component closed this browsing context.
      * <p>
-     * 페이지가 닫혔는지 알려 준다.
+     * 컴포넌트에서 이 브라우징 문맥을 닫았는지 알려 준다.
      *
      * @return true if closed / 닫혔으면 true
      */
     public boolean isClosed() {
-        return runtime.isClosed();
+        return session.isDisposed();
     }
 }
