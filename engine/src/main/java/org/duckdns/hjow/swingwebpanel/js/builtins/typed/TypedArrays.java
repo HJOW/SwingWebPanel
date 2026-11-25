@@ -149,14 +149,15 @@ public final class TypedArrays {
      * @param type       the element type / 요소 형식
      * @param buffer     the buffer, not detached / 버퍼(분리되지 않은 것)
      * @param byteOffset offset of the first element, a multiple of the element size / 첫 요소의 위치(요소 크기의 배수)
-     * @param length     number of elements / 요소 수
+     * @param length     number of elements or -1 to track the buffer's length / 요소 수. 버퍼의 길이를 추적하면 -1
      * @return the typed array / 형식화 배열
      */
     public static TypedArrayObject newTypedArray(JsRealm realm, ElementType type, ArrayBufferObject buffer, int byteOffset, int length) {
         if (type == null || buffer == null || buffer.isDetached()) {
             throw new IllegalArgumentException("a type and an attached buffer are required");
         }
-        if (byteOffset < 0 || length < 0 || byteOffset % type.getSize() != 0 || (long) byteOffset + (long) length * type.getSize() > buffer.getByteLength()) {
+        if (byteOffset < 0 || length < -1 || (length == -1 && !buffer.isResizable()) || byteOffset % type.getSize() != 0
+                || (long) byteOffset + (long) Math.max(0, length) * type.getSize() > buffer.getByteLength()) {
             throw new IllegalArgumentException("offset/length do not fit the buffer or are not aligned");
         }
         JsObject proto = realm.getIntrinsic("%" + type.getConstructorName() + "Prototype%");

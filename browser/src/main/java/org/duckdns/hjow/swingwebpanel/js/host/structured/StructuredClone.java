@@ -24,6 +24,7 @@ import org.duckdns.hjow.swingwebpanel.js.builtins.datajson.DataAccess;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.ArrayBufferObject;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.DataViewObject;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.ElementType;
+import org.duckdns.hjow.swingwebpanel.js.builtins.typed.SharedBufferReference;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrayObject;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrays;
 
@@ -32,21 +33,21 @@ import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrays;
  * "Safe passing of structured data"): a script value of one realm is turned into a realm independent, immutable Java tree
  * ({@link ClonedValue}), and that tree is turned into a fresh value of the same or another realm. It copies primitives (also -0 and NaN),
  * Boolean, Number and String wrapper objects, Date, RegExp (<code>lastIndex</code> becomes 0), Array (holes and length), ordinary objects (own
- * enumerable string keyed properties; getters are read), Map, Set, ArrayBuffer (shared buffers stay shared), the typed arrays, DataView and
+ * enumerable string keyed properties; getters are read), Map, Set, ArrayBuffer, the typed arrays, DataView and
  * Error objects (name, message and stack), and it keeps cycles and shared references. Functions, symbols, DOM nodes and other host objects,
  * Proxy objects, WeakMap, Promise and so on cannot be cloned and raise a {@link StructuredCloneException}. A depth limit, a cell limit and a
  * byte limit protect the process; the walk is iterative, so a deep structure never overflows the Java stack. ArrayBuffers in the transfer
- * list are moved instead of copied (the source is detached).
+ * list are moved instead of copied (the source is detached). The messaging entry points preserve shared buffers within an agent cluster.
  * <p>
  * Usage: <code>ClonedValue c = StructuredClone.serialize(realm, value); JsValue copy = StructuredClone.deserialize(otherRealm, c);</code>
  * <p>
  * HTML 표준의 구조화 복제 알고리즘("Safe passing of structured data" 절의 <code>StructuredSerialize</code>, <code>StructuredDeserialize</code>):
  * 한 realm 의 스크립트 값을 realm 에 독립적인 불변 Java 트리({@link ClonedValue})로 바꾸고, 그 트리를 같은 또는 다른 realm 의 새 값으로 바꾼다.
  * 원시 값(-0 과 NaN 포함), Boolean/Number/String 래퍼 객체, Date, RegExp(<code>lastIndex</code> 는 0), Array(빈 칸과 length), 일반 객체(자체
- * 열거 가능한 문자열 키 프로퍼티, getter 는 값을 읽음), Map, Set, ArrayBuffer(공유하던 버퍼는 계속 공유), 형식화 배열, DataView, Error 객체(name,
+ * 열거 가능한 문자열 키 프로퍼티, getter 는 값을 읽음), Map, Set, ArrayBuffer, 형식화 배열, DataView, Error 객체(name,
  * message, stack)를 복사하며 순환과 공유 참조를 유지한다. 함수, 심볼, DOM 노드 등 호스트 객체, Proxy, WeakMap, Promise 등은 복제할 수 없어
  * {@link StructuredCloneException} 을 던진다. 깊이, 칸 수, 바이트 한도가 프로세스를 보호하며 탐색은 반복문이므로 깊은 구조도 Java 스택을 넘치게 하지
- * 않는다. 전달 목록의 ArrayBuffer 는 복사하지 않고 옮긴다(원본은 분리된다).
+ * 않는다. 전달 목록의 ArrayBuffer 는 복사하지 않고 옮긴다(원본은 분리된다). 메시징 진입점은 같은 에이전트 클러스터에서 버퍼 공유를 유지한다.
  * <p>
  * 사용법: <code>ClonedValue c = StructuredClone.serialize(realm, value); JsValue copy = StructuredClone.deserialize(otherRealm, c);</code>
  */
@@ -192,6 +193,9 @@ public final class StructuredClone {
      */
     static final int BIGINT_OBJECT = 15;
 
+    /** Cell kind for a SharedArrayBuffer reference. / SharedArrayBuffer 참조를 담는 칸의 종류. */
+    static final int SHARED_BUFFER = 16;
+
     /**
      * The hook through which objects other than ArrayBuffers (for example a <code>MessagePort</code>) are put in a transfer list. The
      * serializer calls {@link #prepare(JsObject)} for every such entry without changing anything, then {@link #commit(JsObject, Object)} once
@@ -293,9 +297,9 @@ public final class StructuredClone {
         byte[] bytes;
 
         /**
-         * The payload of a transferred object ({@link #TRANSFERRED}).
+         * The payload of a transferred object or a shared buffer reference.
          * <p>
-         * 옮긴 객체({@link #TRANSFERRED})의 내용물.
+         * 옮긴 객체의 내용물 또는 공유 버퍼 참조.
          */
         Object payload;
 
@@ -424,11 +428,45 @@ public final class StructuredClone {
      * @throws StructuredCloneException if the value cannot be cloned or a transfer is invalid / 값을 복제할 수 없거나 전달이 잘못되었으면
      */
     public static ClonedValue serialize(JsRealm realm, JsValue value, long maxBytes, List<? extends JsObject> transfer, TransferHandler handler) {
-        Serializer s = new Serializer(maxBytes, transfer, handler);
+        return serialize(value, maxBytes, transfer, handler, null);
+    }
+
+    /**
+     * Serializes a browser message or a JavaScript structuredClone call, allowing shared memory in a bound realm.
+     * <p>
+     * 브라우저 메시지나 JavaScript structuredClone 호출을 직렬화한다. 호스트가 연결한 realm에서는 공유 메모리를 허용한다.
+     *
+     * @param realm the sending realm / 보내는 realm
+     * @param value the value to clone / 복제할 값
+     * @param maxBytes the size limit / 크기 한도
+     * @param transfer the objects to move, or null / 옮길 객체. 없으면 null
+     * @param handler the handler for external transferable objects, or null / 외부 전달 객체의 처리기. 없으면 null
+     * @return the serialized message / 직렬화된 메시지
+     */
+    public static ClonedValue serializeForMessaging(JsRealm realm, JsValue value, long maxBytes, List<? extends JsObject> transfer,
+            TransferHandler handler) {
+        return serialize(value, maxBytes, transfer, handler, SharedMemoryScope.of(realm));
+    }
+
+    /**
+     * Builds the serialized graph after validating the transfer list.
+     * <p>
+     * 전달 목록을 검사한 뒤 직렬화 그래프를 만든다.
+     *
+     * @param value value to serialize / 직렬화할 값
+     * @param maxBytes the size limit / 크기 한도
+     * @param transfer the objects to move, or null / 옮길 객체. 없으면 null
+     * @param handler external transfer handler, or null / 외부 전달 처리기. 없으면 null
+     * @param sharedScope scope that permits sharing, or null to disallow sharing / 공유를 허용하는 범위. 공유 금지이면 null
+     * @return serialized graph / 직렬화 그래프
+     */
+    private static ClonedValue serialize(JsValue value, long maxBytes, List<? extends JsObject> transfer, TransferHandler handler,
+            SharedMemoryScope sharedScope) {
+        Serializer s = new Serializer(maxBytes, transfer, handler, sharedScope);
         Object root = s.value(value);
         s.run();
         s.finish();
-        return new ClonedValue(root, s.cells.toArray(new Cell[s.cells.size()]), s.used);
+        return new ClonedValue(root, s.cells.toArray(new Cell[s.cells.size()]), s.used, s.containsShared ? sharedScope : null);
     }
 
     /**
@@ -460,6 +498,42 @@ public final class StructuredClone {
      * @return the new value / 새 값
      */
     public static JsValue deserialize(JsRealm realm, ClonedValue cloned, TransferHandler handler, List<JsObject> received) {
+        return deserialize(realm, cloned, handler, received, null);
+    }
+
+    /**
+     * Reads a browser message using the receiving realm's current agent-cluster identity.
+     * <p>
+     * 받는 realm의 현재 에이전트 클러스터 식별자를 사용해 브라우저 메시지를 읽는다.
+     *
+     * @param realm the receiving realm / 받는 realm
+     * @param cloned the serialized message / 직렬화된 메시지
+     * @param handler external transfer handler, or null / 외부 전달 처리기. 없으면 null
+     * @param received destination list for transferred objects, or null / 전달 객체를 받을 목록. 없으면 null
+     * @return the received value / 받은 값
+     * @throws StructuredCloneException if the receiver cannot share the memory / 받는 쪽에서 메모리를 공유할 수 없으면
+     */
+    public static JsValue deserializeForMessaging(JsRealm realm, ClonedValue cloned, TransferHandler handler, List<JsObject> received) {
+        return deserialize(realm, cloned, handler, received, SharedMemoryScope.of(realm));
+    }
+
+    /**
+     * Checks whether all the graph's buffers may be shared before any objects are reconstituted.
+     * <p>
+     * 객체를 복원하기 전에 그래프의 모든 공유 버퍼를 이 범위에서 공유할 수 있는지 검사한다.
+     *
+     * @param realm the receiving realm / 받는 realm
+     * @param cloned serialized graph / 직렬화 그래프
+     * @param handler external transfer handler, or null / 외부 전달 처리기. 없으면 null
+     * @param received destination list for transferred objects, or null / 전달 객체를 받을 목록. 없으면 null
+     * @param sharedScope receiving scope, or null when sharing is forbidden / 받는 쪽 범위. 공유 금지이면 null
+     * @return the received value / 받은 값
+     */
+    private static JsValue deserialize(JsRealm realm, ClonedValue cloned, TransferHandler handler, List<JsObject> received,
+            SharedMemoryScope sharedScope) {
+        if (cloned.sharedScope != null && !cloned.sharedScope.permits(sharedScope)) {
+            throw new StructuredCloneException("SharedArrayBuffer is outside its agent cluster.");
+        }
         Deserializer d = new Deserializer(realm, cloned, handler);
         JsValue v = d.run();
         // 옮긴 객체를 전달 목록의 순서로 정리해 돌려준다.
@@ -574,6 +648,12 @@ public final class StructuredClone {
          */
         private final TransferHandler handler;
 
+        /** Source scope permitted to share buffers. / 버퍼를 공유할 수 있는 원본 범위. */
+        private final SharedMemoryScope sharedScope;
+
+        /** Whether a shared buffer has been serialized in the graph. / 그래프에 공유 버퍼를 직렬화했는지 여부. */
+        private boolean containsShared;
+
         /**
          * The objects that the handler took, with their payloads (the cell is made from this).
          * <p>
@@ -596,10 +676,12 @@ public final class StructuredClone {
          * @param maxBytes the size limit / 크기 한도
          * @param list     the transfer list or null / 전달 목록 또는 null
          * @param handler  the handler of entries that are not ArrayBuffers, or null / ArrayBuffer 가 아닌 항목의 처리기. 없으면 null
+         * @param sharedScope the source scope if sharing is allowed / 공유를 허용하는 원본 범위
          */
-        Serializer(long maxBytes, List<? extends JsObject> list, TransferHandler handler) {
+        Serializer(long maxBytes, List<? extends JsObject> list, TransferHandler handler, SharedMemoryScope sharedScope) {
             this.maxBytes = maxBytes;
             this.handler = handler;
+            this.sharedScope = sharedScope;
             if (list == null) {
                 return;
             }
@@ -622,6 +704,9 @@ public final class StructuredClone {
                     continue;
                 }
                 ArrayBufferObject b = (ArrayBufferObject) o;
+                if (b.isShared()) {
+                    throw new StructuredCloneException("A SharedArrayBuffer cannot be transferred.");
+                }
                 if (b.isDetached()) {
                     throw new StructuredCloneException("An ArrayBuffer is detached and could not be cloned.");
                 }
@@ -809,7 +894,7 @@ public final class StructuredClone {
                 c.text = t.getType().getConstructorName();
                 c.bufferRef = ref(t.getBuffer()).intValue();
                 c.offset = t.getByteOffset();
-                c.length = t.getLength();
+                c.length = t.getBuffer().isShared() && t.isLengthTracking() ? -1 : t.getLength();
                 return c;
             }
             if (o instanceof DataViewObject) {
@@ -820,7 +905,7 @@ public final class StructuredClone {
                 Cell c = new Cell(VIEW);
                 c.bufferRef = ref(d.getBuffer()).intValue();
                 c.offset = d.getByteOffset();
-                c.length = d.getByteLength();
+                c.length = d.getBuffer().isShared() && d.isLengthTracking() ? -1 : d.getByteLength();
                 return c;
             }
             if (o instanceof JsErrorObject) {
@@ -844,6 +929,16 @@ public final class StructuredClone {
          * @return the cell / 칸
          */
         private Cell bufferCell(ArrayBufferObject b) {
+            if (b.isShared()) {
+                if (sharedScope == null) {
+                    throw new StructuredCloneException("SharedArrayBuffer is not permitted at this boundary.");
+                }
+                charge(b.getByteLength());
+                Cell c = new Cell(SHARED_BUFFER);
+                c.payload = new SharedBufferReference(b);
+                containsShared = true;
+                return c;
+            }
             if (b.isDetached()) {
                 throw new StructuredCloneException("An ArrayBuffer is detached and could not be cloned.");
             }
@@ -1286,6 +1381,8 @@ public final class StructuredClone {
                 return DataAccess.newSet(realm);
             case BUFFER:
                 return TypedArrays.newArrayBuffer(realm, c.bytes.clone());
+            case SHARED_BUFFER:
+                return ((SharedBufferReference) c.payload).wrap(realm);
             case TRANSFERRED:
                 if (handler == null) {
                     throw new IllegalStateException("A transferred object needs a transfer handler");

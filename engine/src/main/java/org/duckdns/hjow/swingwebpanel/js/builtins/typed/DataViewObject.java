@@ -81,6 +81,17 @@ public class DataViewObject extends JsObject {
     }
 
     /**
+     * Reports whether the view's length follows changes to the buffer's length.
+     * <p>
+     * 뷰의 길이가 버퍼의 길이 변화를 따르는지 알려 준다.
+     *
+     * @return true if the length is automatic / 자동 길이이면 true
+     */
+    public boolean isLengthTracking() {
+        return byteLength < 0;
+    }
+
+    /**
      * Checks the view's current bounds.
      * <p>
      * 뷰의 현재 경계를 확인한다.

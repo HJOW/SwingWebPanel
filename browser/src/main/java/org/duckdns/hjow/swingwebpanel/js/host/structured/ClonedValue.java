@@ -27,6 +27,9 @@ public final class ClonedValue {
      */
     final StructuredClone.Cell[] cells;
 
+    /** Sending scope if the value contains shared memory. / 값에 공유 메모리가 있으면 보낸 쪽 범위. */
+    final SharedMemoryScope sharedScope;
+
     /**
      * The estimated size in bytes.
      * <p>
@@ -42,11 +45,13 @@ public final class ClonedValue {
      * @param root  the root / 루트
      * @param cells the cells / 칸
      * @param size  the estimated size / 추정 크기
+     * @param sharedScope the sending scope or null for ordinary data / 보낸 쪽 범위. 일반 데이터이면 null
      */
-    ClonedValue(Object root, StructuredClone.Cell[] cells, long size) {
+    ClonedValue(Object root, StructuredClone.Cell[] cells, long size, SharedMemoryScope sharedScope) {
         this.root = root;
         this.cells = cells;
         this.size = size;
+        this.sharedScope = sharedScope;
     }
 
     /**
