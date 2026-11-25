@@ -342,6 +342,18 @@ public class PageScriptsTest {
     }
 
     /**
+     * Checks the Window aliases and the property descriptor of globalThis in a page script.
+     * <p>
+     * 페이지 스크립트에서 Window 별칭과 globalThis의 프로퍼티 기술자를 확인한다.
+     */
+    public void testGlobalThis() {
+        PageFixture f = new PageFixture().load("<p></p>");
+        Check.equal("true", f.scripts.evaluate("var d=Object.getOwnPropertyDescriptor(window,'globalThis');"
+                + " String(d.value===globalThis && globalThis===this && this===self && self===document.defaultView"
+                + " && d.writable && !d.enumerable && d.configurable)", "globalThis"), "window aliases and descriptor");
+    }
+
+    /**
      * P15-01: navigator, screen, performance, base64 helpers and the absence of unsupported objects.
      * <p>
      * P15-01: navigator, screen, performance, base64 도우미, 지원하지 않는 객체의 부재.

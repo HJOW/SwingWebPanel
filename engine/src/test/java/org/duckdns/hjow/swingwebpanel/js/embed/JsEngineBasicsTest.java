@@ -67,6 +67,21 @@ public class JsEngineBasicsTest {
     }
 
     /**
+     * Checks the descriptor and replacement or deletion of globalThis in an independent engine.
+     * <p>
+     * 독립 엔진의 globalThis 기술자와 값 교체 및 삭제를 확인한다.
+     */
+    public void testGlobalThis() {
+        JsEngine engine = new JsEngine();
+        Check.equal(Boolean.TRUE, engine.eval("var d=Object.getOwnPropertyDescriptor(this,'globalThis');"
+                + " d.value===this && d.value===globalThis && d.writable && !d.enumerable && d.configurable"),
+                "script global value and descriptor");
+        Check.equal(Boolean.TRUE, engine.eval("var original=globalThis; globalThis=42;"
+                + " globalThis===42 && this===original && delete this.globalThis && typeof globalThis==='undefined'"),
+                "replacement and deletion preserve the realm's this binding");
+    }
+
+    /**
      * Reading and writing global variables, the names, and deleting.
      * <p>
      * 전역 변수 읽기와 쓰기, 이름, 삭제.

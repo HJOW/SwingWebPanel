@@ -30,6 +30,20 @@ public class AudioWorkletModulesTest {
     }
 
     /**
+     * Checks the globalThis descriptor and module top-level this in an AudioWorklet.
+     * <p>
+     * AudioWorklet의 globalThis 기술자와 모듈 최상위 this를 확인한다.
+     */
+    public void testGlobalThis() {
+        WorkletPage p = new WorkletPage();
+        p.module("global.js", "const d=Object.getOwnPropertyDescriptor(globalThis,'globalThis');"
+                + "console.log(d.value===globalThis && d.writable && !d.enumerable && d.configurable && this===undefined);");
+        p.run("var ctx = new OfflineAudioContext(1, 128, 8000);");
+        Check.equal("ok", add(p, "ctx", "'global.js'"), "the module loads");
+        Check.equal("log: true", p.console().get(0), "worklet module global descriptor");
+    }
+
+    /**
      * Adds a module and waits for the promise to settle; the result is <code>ok</code> or the name of the error in the variable <code>result</code>.
      * <p>
      * 모듈을 추가하고 프라미스가 확정될 때까지 기다린다. 결과는 변수 <code>result</code> 에 <code>ok</code> 또는 오류 이름으로 둔다.

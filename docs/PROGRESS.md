@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-02-f 실행 환경별 globalThis 기술자 (2026-11-26) ===
+현재 작업 번호: P29-02-f 완료. P29-02-h에서 이동을 가로지르는 WindowProxy를 추적한다.
+완료한 내용: 독립 엔진, 일반 페이지, 같은 오리진 iframe, 전용·공유 Worker, AudioWorklet의 globalThis 값과 기술자를 검증했다. 독립 엔진에서 globalThis 대입과 삭제 뒤에도 스크립트 최상위 this가 유지되는지 확인했다.
+변경 파일: JsEngineBasicsTest.java, PageScriptsTest.java, FrameWindowTest.java, WorkerGlobalScopeTest.java, AudioWorkletModulesTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl browser -am test -Dtest.filter=testGlobalThis (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 엔진 1건과 브라우저 4건 통과, 실패 0건. sourcecheck 0 위반.
+미해결 사항: FrameApi는 같은 오리진에 문서별 전역 객체를 직접 반환한다. WindowProxy가 문맥 이동 후에도 같은 객체여야 하는 범위를 P29-02-h로 분리했다. P29-02-g1/g2 및 P29-03~10도 열려 있다.
+다음 작업 번호: P29-02-g1.
+-----------------------------------------------------------------------------------------------
 === P29-02-e Array.prototype.sort의 비교와 쓰기·삭제 순서 (2026-11-26) ===
 현재 작업 번호: P29-02-e 완료.
 완료한 내용: 기본 정렬에서 비교할 때 두 값을 문자열로 변환하고, 정렬 후 남은 모든 인덱스에 삭제 연산을 적용한다. 희소·상속 프로퍼티를 포함한 프록시 연산 순서, 비교 함수나 문자열 변환 예외, 삭제 실패 전에 이미 반영된 쓰기를 검증했다.
@@ -474,6 +482,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-02-f globalThis 기술자
+
+JDK 6u45에서 독립 실행과 브라우저 호스트 네 경로를 확인했다. 현재 문서 내 동일성과 문맥 이동 후 지속되는 동일성을 별도로 추적한다.
 
 ### 2026-11-26 · P29-02-e 배열 정렬의 비교와 쓰기·삭제
 

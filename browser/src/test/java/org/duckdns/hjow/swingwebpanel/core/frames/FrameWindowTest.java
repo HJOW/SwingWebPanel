@@ -62,6 +62,30 @@ public class FrameWindowTest {
     }
 
     /**
+     * Checks globalThis from both sides of a same-origin iframe.
+     * <p>
+     * 같은 오리진의 iframe에서 내부와 부모가 보는 globalThis를 확인한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testGlobalThis() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        SwingWebPanel panel = FrameTestSupport.newPanel(400, 300);
+        try {
+            String inner = "<script>window.ownGlobalIsThis=globalThis===window && window===this && parent!==this;</script>";
+            serve(panel, server, "<!DOCTYPE html><iframe id=\"f\" srcdoc=\"" + attr(inner) + "\"></iframe>"
+                    + "<script>window.onload=function(){var child=document.getElementById('f').contentWindow;"
+                    + " var d=Object.getOwnPropertyDescriptor(child,'globalThis');"
+                    + " sessionStorage.setItem('identity',String(child.ownGlobalIsThis && d.value===child && child.globalThis===child"
+                    + " && child!==globalThis && d.writable && !d.enumerable && d.configurable));};</script>");
+            FrameTestSupport.awaitStored(panel, "identity", "true");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
      * The top-level document is its own parent and top and has no frame element; a frame sees its parent, the top-level window and its frame
      * element, and the parent sees its frames by index, by name and through the elements.
      * <p>

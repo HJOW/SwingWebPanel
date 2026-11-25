@@ -31,6 +31,36 @@ public class WorkerGlobalScopeTest {
     }
 
     /**
+     * Checks globalThis with the classic script global object and descriptor in dedicated and shared workers.
+     * <p>
+     * 전용 및 공유 worker에서 globalThis와 일반 스크립트의 전역 객체 및 기술자가 일치하는지 확인한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testGlobalThis() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        SwingWebPanel panel = WorkerTestSupport.newPanel();
+        try {
+            String check = "var d=Object.getOwnPropertyDescriptor(self,'globalThis');"
+                    + " var ok=d.value===self && globalThis===self && self===this && d.writable && !d.enumerable && d.configurable;";
+            server.routeFixed("/dedicated.js", WorkerTestSupport.js(check + "postMessage(String(ok));"));
+            server.routeFixed("/shared.js", WorkerTestSupport.js(check
+                    + "onconnect=function(e){e.ports[0].postMessage(String(ok));};"));
+            server.routeFixed("/page", TestHttpServer.Response.html(WorkerTestSupport.page(
+                    "var dedicated=new Worker('/dedicated.js'), shared=new SharedWorker('/shared.js');"
+                    + " dedicated.onmessage=function(e){put('dedicated', e.data);};"
+                    + " shared.port.onmessage=function(e){put('shared', e.data);};")));
+            server.start();
+            panel.setPage(server.url("/page"));
+            Check.equal("true", WorkerTestSupport.await(panel, "dedicated"), "dedicated worker descriptor");
+            Check.equal("true", WorkerTestSupport.await(panel, "shared"), "shared worker descriptor");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
      * The worker cannot reach the page: every page object is missing, a page variable is not visible, and a worker variable is not visible
      * to the page; the members of a worker global scope are present and the user agent of the component is the one of the worker.
      * <p>
