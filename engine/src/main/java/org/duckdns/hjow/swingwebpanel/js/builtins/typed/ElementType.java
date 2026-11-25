@@ -357,7 +357,7 @@ public enum ElementType {
      * @param littleEndian byte order / 바이트 순서
      * @return the bits in the low part of a long / long 의 아래쪽에 담은 비트
      */
-    private static long readBits(byte[] data, int offset, int count, boolean littleEndian) {
+    static long readBits(byte[] data, int offset, int count, boolean littleEndian) {
         long v = 0;
         // 바이트를 순서대로 모아 하나의 비트 패턴으로 만든다.
         for (int i = 0; i < count; i++) {
@@ -378,7 +378,7 @@ public enum ElementType {
      * @param bits         the bit pattern (low bits are used) / 비트 패턴(아래쪽 비트를 사용)
      * @param littleEndian byte order / 바이트 순서
      */
-    private static void writeBits(byte[] data, int offset, int count, long bits, boolean littleEndian) {
+    static void writeBits(byte[] data, int offset, int count, long bits, boolean littleEndian) {
         long v = bits;
         // 낮은 바이트부터 풀어서 엔디언에 맞는 위치에 쓴다.
         for (int i = 0; i < count; i++) {

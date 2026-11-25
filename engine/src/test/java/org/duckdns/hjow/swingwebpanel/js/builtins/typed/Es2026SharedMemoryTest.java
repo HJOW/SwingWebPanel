@@ -148,6 +148,108 @@ public class Es2026SharedMemoryTest {
     }
 
     /**
+     * Checks integer arithmetic, bitwise operations and wrapped storage on both buffer kinds.
+     * <p>
+     * 두 버퍼 종류에서 정수 산술, 비트 연산과 저장 범위에 맞춘 변환을 검증한다.
+     */
+    public void testAtomicsIntegerOperations() {
+        String source = "function run(buffer){"
+                + "const a=new Int8Array(buffer,2,1); const u=new Uint8Array(buffer,2,1);"
+                + "const results=[Atomics.store(a,0,255.9),Atomics.load(a,0),Atomics.add(a,0,2),Atomics.sub(a,0,2),"
+                + "Atomics.and(a,0,15),Atomics.or(a,0,0x40),Atomics.xor(a,0,0x10),Atomics.exchange(a,0,255),"
+                + "Atomics.compareExchange(a,0,255,128),Atomics.compareExchange(a,0,127,0),Atomics.load(u,0)];"
+                + "const b=new BigInt64Array(buffer,8,1), ub=new BigUint64Array(buffer,8,1);"
+                + "const wide=18446744073709551615n;"
+                + "results.push(Atomics.store(b,0,wide),Atomics.load(b,0),Atomics.load(ub,0),Atomics.add(ub,0,2n),"
+                + "Atomics.compareExchange(b,0,'1',true),Atomics.xor(b,0,-1n),Atomics.load(ub,0),"
+                + "Object.is(Atomics.store(a,0,-0.5),0),Atomics.store(a,0,Infinity),Atomics.load(a,0));"
+                + "return results.join(',');}"
+                + "const s=run(new SharedArrayBuffer(16)), n=run(new ArrayBuffer(16)); [s,s===n].join('|')";
+        Check.equal("255,-1,-1,1,-1,15,79,95,-1,-128,128,18446744073709551615,-1,18446744073709551615,"
+                + "18446744073709551615,1,1,18446744073709551614,true,Infinity,0|true",
+                eval(JsRealm.create(), source), "Atomics returns the old value or the unwrapped store argument");
+    }
+
+    /**
+     * Checks argument ordering, buffer witness revalidation and built-in descriptors.
+     * <p>
+     * 인수 변환 순서, 버퍼 경계 재검사와 내장 객체 기술자를 검증한다.
+     */
+    public void testAtomicsArgumentOrdering() {
+        String script = "function failure(f){try{f();return 'missing';}catch(e){return e.name;}}"
+                + "let trace=''; const invalid={valueOf(){trace+='bad';return 0;}};"
+                + "const wrong=failure(()=>Atomics.load(new Float16Array(1),invalid));"
+                + "const clamped=failure(()=>Atomics.xor(new Uint8ClampedArray(1),invalid,1));"
+                + "const s=new SharedArrayBuffer(4,{maxByteLength:8}), gs=new Int32Array(s);"
+                + "const captured=failure(()=>Atomics.load(gs,{valueOf(){s.grow(8);return 1;}}));"
+                + "const b=new ArrayBuffer(8,{maxByteLength:16}), view=new Int32Array(b);"
+                + "const index={valueOf(){trace+='i';return 1;}}, expected={valueOf(){trace+='e';b.resize(5);return 0;}},"
+                + "replacement={valueOf(){trace+='r';return 7;}};"
+                + "const partial=failure(()=>Atomics.compareExchange(view,index,expected,replacement));"
+                + "const fixed=new Int32Array(b,0,1);"
+                + "const detached=failure(()=>Atomics.store(fixed,0,{valueOf(){b.transfer();return 1;}}));"
+                + "const mixed=failure(()=>Atomics.add(new BigInt64Array(1),0,1));"
+                + "const desc=Object.getOwnPropertyDescriptor(Atomics,Symbol.toStringTag);"
+                + "[typeof Atomics,Atomics.compareExchange.length,Atomics.load.length,Atomics.store.length,"
+                + "Object.prototype.toString.call(Atomics),desc.writable,desc.enumerable,desc.configurable,"
+                + "Atomics.isLockFree(4.8),Atomics.isLockFree(3),Atomics.load(gs,1),trace,wrong,clamped,captured,partial,detached,mixed].join('|')";
+        Check.equal("object|4|2|3|[object Atomics]|false|false|true|true|false|0|ier|"
+                + "TypeError|TypeError|RangeError|RangeError|TypeError|TypeError", eval(JsRealm.create(), script),
+                "type check, captured length and post-conversion byte bounds");
+    }
+
+    /**
+     * Runs Atomics operations from two concurrent JavaScript agents sharing adjacent fields.
+     * <p>
+     * 이웃 필드를 공유하는 두 JavaScript 에이전트에서 원자 연산을 동시에 실행한다.
+     *
+     * @throws Exception if the coordinating thread is interrupted / 조정 스레드가 인터럽트되면
+     */
+    public void testConcurrentAtomics() throws Exception {
+        final SharedByteBlock block = new SharedByteBlock(16);
+        final CountDownLatch ready = new CountDownLatch(2);
+        final CountDownLatch start = new CountDownLatch(1);
+        final AtomicReference<Throwable> failure = new AtomicReference<Throwable>();
+        Thread[] agents = new Thread[2];
+        // 두 에이전트가 4바이트 카운터를 함께 증가시키고 나머지 독립 필드를 갱신한다.
+        for (int i = 0; i < agents.length; i++) {
+            final int index = i;
+            agents[i] = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        JsRealm r = JsRealm.create();
+                        r.getGlobalObject().defineBuiltin("buffer", new SharedArrayBufferObject(r.getIntrinsic("%SharedArrayBufferPrototype%"),
+                                block, -1));
+                        ready.countDown();
+                        start.await();
+                        eval(r, "const both=new Uint32Array(buffer,0,1), own=new Uint16Array(buffer,4,2), "
+                                + "big=new BigUint64Array(buffer,8,1);"
+                                + "for(var i=0;i<5000;i++){Atomics.add(both,0,1);Atomics.add(own," + index
+                                + ",2);Atomics.add(big,0,1n);}");
+                    } catch (Throwable e) {
+                        failure.compareAndSet(null, e);
+                    }
+                }
+            }, "atomics-test-" + i);
+            agents[i].setDaemon(true);
+            agents[i].start();
+        }
+        boolean started = ready.await(5, TimeUnit.SECONDS);
+        start.countDown();
+        Check.isTrue(started, "both agents are ready");
+        // 모든 원자 연산이 끝난 뒤 각 필드를 확인한다.
+        for (Thread agent : agents) {
+            agent.join(10000);
+            Check.isTrue(!agent.isAlive(), "atomic operations completed");
+        }
+        Check.isNull(failure.get(), "agents executed successfully");
+        Check.equal(10000L, block.load(0, 4, true), "competing Uint32Array updates are never lost");
+        Check.equal(10000L, block.load(4, 2, true), "adjacent Uint16Array field of the first agent");
+        Check.equal(10000L, block.load(6, 2, true), "adjacent Uint16Array field of the second agent");
+        Check.equal(10000L, block.load(8, 8, true), "competing BigUint64Array updates are never lost");
+    }
+
+    /**
      * Evaluates a test script and converts its result to a string for comparison.
      * <p>
      * 시험 스크립트를 평가한 뒤 결과를 비교할 문자열로 변환한다.

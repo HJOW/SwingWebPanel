@@ -259,7 +259,7 @@ final class SharedByteBlock {
      * @param width byte count / 바이트 수
      * @return the low-bit mask / 하위 비트 마스크
      */
-    private static long mask(int width) {
+    static long mask(int width) {
         return width == 8 ? -1L : (1L << (8 * width)) - 1;
     }
 

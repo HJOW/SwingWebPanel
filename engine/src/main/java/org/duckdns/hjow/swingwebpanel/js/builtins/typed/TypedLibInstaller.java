@@ -44,6 +44,7 @@ public class TypedLibInstaller implements BuiltinInstaller {
     public void install(JsRealm realm) {
         ArrayBufferLib.install(realm);
         SharedArrayBufferLib.install(realm);
+        AtomicsLib.install(realm);
         DataViewLib.install(realm);
         TypedArrayLib.install(realm);
     }
