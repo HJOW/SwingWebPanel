@@ -326,4 +326,27 @@ public class ModuleScriptTest {
             page.dispose();
         }
     }
+
+    /**
+     * An inline handler uses the active dispatcher on the stack without retaining the one that caused compilation.
+     * <p>
+     * 인라인 핸들러는 실행 스택에 있는 이벤트 발생 문맥을 사용하고 첫 컴파일 문맥을 보관하지 않는다.
+     */
+    public void testNestedAttributeUsesEachActiveDispatcher() {
+        FakeModules m = new FakeModules();
+        m.texts.put("http://example.test/first/dep.js", "export default 'first';");
+        m.texts.put("http://example.test/second/dep.js", "export default 'second';");
+        m.texts.put("http://example.test/assets/dep.js", "export default 'host';");
+        PageScripts page = load(m, "<base href='/assets/'><button id=b onclick=\""
+                + "Promise.resolve('import(&quot;./dep.js&quot;)').then(eval).then(m=>window.hits.push(m.default))\">Run</button>"
+                + "<script>window.hits=[];</script>", new StringBuilder());
+        try {
+            page.evaluate("document.getElementById('b').click()", "http://example.test/first/dispatch.js");
+            page.evaluate("document.getElementById('b').click()", "http://example.test/second/dispatch.js");
+            page.dispatchEvent(page.getDocument().getElementById("b"), new Event("click", true, true));
+            Check.equal("first,second,host", page.evaluate("hits.join()", "verify"), "each dispatch supplies its own active record");
+        } finally {
+            page.dispose();
+        }
+    }
 }

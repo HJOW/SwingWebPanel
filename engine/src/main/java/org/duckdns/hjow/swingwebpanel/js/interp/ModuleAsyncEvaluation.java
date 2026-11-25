@@ -87,7 +87,7 @@ final class ModuleAsyncEvaluation {
         gen.suspending = false;
         gen.resumeMode = mode;
         gen.resumeValue = value;
-        ScriptScope previous = module.in.enter(module.key);
+        ScriptScope previous = module.in.enter(module.reference);
         try {
             module.evaluateBody(ctx);
             module.finishAsync();

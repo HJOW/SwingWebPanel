@@ -4,6 +4,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution.ScriptReference;
 
 /**
  * A Promise JobCallback with optional HTML incumbent settings and active script.
@@ -18,8 +19,8 @@ final class PromiseJobCallback {
     /** The HTML incumbent realm, or null for the default host. / HTML incumbent realm. 기본 호스트이면 null. */
     private final JsRealm incumbent;
 
-    /** The active script or module key at registration. / 등록 시의 활성 스크립트 또는 모듈 키. */
-    private final String source;
+    /** The active script or module record at registration. / 등록 시의 활성 스크립트 또는 모듈 레코드. */
+    private final ScriptReference source;
 
     /**
      * Creates a job callback with the host state captured at registration.
@@ -31,11 +32,11 @@ final class PromiseJobCallback {
      */
     PromiseJobCallback(JsRealm realm, JsValue callback) {
         this.callback = callback;
-        // 브라우저는 등록 시 incumbent와 원문 키를 보존하고 독립 엔진은 기본 콜백 동작을 쓴다.
+        // 브라우저는 등록 시 incumbent와 원문 레코드를 보존하고 독립 엔진은 기본 콜백 동작을 쓴다.
         if (realm.usesHtmlJobCallbacks()) {
             JsRealm current = RealmExecution.currentIncumbent();
             incumbent = current == null ? realm : current;
-            source = RealmExecution.currentScriptSource();
+            source = RealmExecution.currentScriptReference();
         } else {
             incumbent = null;
             source = null;

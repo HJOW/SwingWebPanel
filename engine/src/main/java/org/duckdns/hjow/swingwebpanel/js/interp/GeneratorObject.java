@@ -175,7 +175,7 @@ public final class GeneratorObject extends JsObject {
         gen.suspending = false;
         gen.resumeMode = mode;
         gen.resumeValue = value;
-        ScriptScope previous = interp.enter(function.scriptSource);
+        ScriptScope previous = interp.enter(function.scriptReference);
         state = RUNNING;
         boolean suspended = false;
         try {

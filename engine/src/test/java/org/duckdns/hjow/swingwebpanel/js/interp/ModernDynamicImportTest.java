@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
+import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
 import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
@@ -143,6 +144,29 @@ public class ModernDynamicImportTest {
         realm.runJobs();
         Check.equal("7:root/dep.js", Ops.toString(realm.getGlobalObject().get("result")), "dynamic import result");
         Check.equal(Integer.valueOf(1), loader.fetches.get("root/dep.js"), "module is fetched once");
+    }
+
+    /**
+     * The active record's owner loads the module even when another realm evaluates the import expression.
+     * <p>
+     * 다른 렐름에서 import 식을 평가할 때도 활성 레코드의 소유자가 모듈을 가져온다.
+     */
+    public void testForeignEvalKeepsModuleOwner() {
+        Object[] source = realm("root/dep.js", "export default globalThis.owner;");
+        Object[] target = realm("root/dep.js", "export default 'foreign loader';");
+        JsRealm owner = (JsRealm) source[0];
+        JsRealm evaluator = (JsRealm) target[0];
+        owner.getGlobalObject().set("foreignEval", evaluator.getGlobalObject().get("eval"));
+        owner.evaluateScript("var owner='source';var answer='';"
+                + "foreignEval(\"import('./dep.js')\").then(ns=>answer=ns.default);", "root/main.js");
+        evaluator.runJobs();
+        owner.runJobs();
+        evaluator.runJobs();
+        owner.runJobs();
+        JsValue value = owner.getGlobalObject().get("answer");
+        Check.equal("source", Ops.toString(value), "the module is instantiated in the source realm");
+        Check.equal(Integer.valueOf(1), ((Loader) source[1]).fetches.get("root/dep.js"), "only the owner's module map fetched the source");
+        Check.isTrue(((Loader) target[1]).fetches.isEmpty(), "foreign eval's loader was not used");
     }
 
     /**

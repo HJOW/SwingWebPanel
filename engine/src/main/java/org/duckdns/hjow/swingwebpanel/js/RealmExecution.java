@@ -13,8 +13,8 @@ public final class RealmExecution {
     /** Innermost executing ECMAScript code's realm. / 가장 안쪽에서 ECMAScript 코드를 실행하는 realm. */
     private static final ThreadLocal<JsRealm> SCRIPT = new ThreadLocal<JsRealm>();
 
-    /** Key of the active script or module, independent of stack trace labels. / 오류 위치 이름과 별개인 활성 스크립트 또는 모듈 키. */
-    private static final ThreadLocal<String> SCRIPT_SOURCE = new ThreadLocal<String>();
+    /** Innermost non-null script or module record. / 가장 안쪽의 null이 아닌 스크립트 또는 모듈 레코드. */
+    private static final ThreadLocal<ScriptReference> SCRIPT_SOURCE = new ThreadLocal<ScriptReference>();
 
     /** Backup incumbent realm supplied by a browser job callback. / 브라우저 작업 콜백이 제공하는 예비 incumbent realm. */
     private static final ThreadLocal<JsRealm> INCUMBENT = new ThreadLocal<JsRealm>();
@@ -53,7 +53,67 @@ public final class RealmExecution {
      * @return the active key or null if there is no active script record / 활성 키 또는 활성 스크립트 레코드가 없으면 null
      */
     public static String currentScriptSource() {
+        ScriptReference reference = currentScriptReference();
+        return reference == null ? null : reference.getKey();
+    }
+
+    /**
+     * Returns the first script or module record found inward to outward on the execution stack.
+     * <p>
+     * 실행 스택 안쪽부터 바깥쪽으로 찾아 처음 발견한 스크립트 또는 모듈 레코드를 반환한다.
+     *
+     * @return the active record or null / 활성 레코드 또는 null
+     */
+    public static ScriptReference currentScriptReference() {
         return SCRIPT_SOURCE.get();
+    }
+
+    /**
+     * Identifies the script or module whose realm and source key govern host module loads.
+     * <p>
+     * 호스트 모듈 가져오기에 쓰는 렐름과 원문 키를 가진 스크립트 또는 모듈을 식별한다.
+     */
+    public static final class ScriptReference {
+        /** The realm that created the record. / 레코드를 만든 렐름. */
+        private final JsRealm realm;
+
+        /** The module loader's referrer key. / 모듈 로더의 참조 키. */
+        private final String key;
+
+        /**
+         * Records the original owner and referrer key.
+         * <p>
+         * 원래 소유 렐름과 참조 키를 기록한다.
+         *
+         * @param realm the owner / 소유 렐름
+         * @param key the referrer key / 참조 키
+         */
+        public ScriptReference(JsRealm realm, String key) {
+            this.realm = realm;
+            this.key = key;
+        }
+
+        /**
+         * Returns the owner that supplies the loader and module map.
+         * <p>
+         * 로더와 모듈 맵을 제공하는 소유 렐름을 반환한다.
+         *
+         * @return the owner / 소유 렐름
+         */
+        public JsRealm getRealm() {
+            return realm;
+        }
+
+        /**
+         * Returns the key used to resolve relative imports.
+         * <p>
+         * 상대 import를 해석할 때 사용하는 키를 반환한다.
+         *
+         * @return the referrer key / 참조 키
+         */
+        public String getKey() {
+            return key;
+        }
     }
 
     /**
@@ -74,10 +134,10 @@ public final class RealmExecution {
      * Promise 작업 콜백 등록 시 저장한 호스트 상태에 들어간다.
      *
      * @param incumbent the saved incumbent realm / 저장한 incumbent realm
-     * @param source the saved active script key, or null / 저장한 활성 스크립트 키 또는 null
+     * @param source the saved active record, or null / 저장한 활성 레코드 또는 null
      * @return prior state for restoration / 복원할 이전 상태
      */
-    public static CallbackScope enterJobCallback(JsRealm incumbent, String source) {
+    public static CallbackScope enterJobCallback(JsRealm incumbent, ScriptReference source) {
         CallbackScope previous = new CallbackScope(INCUMBENT.get(), SCRIPT_SOURCE.get());
         INCUMBENT.set(incumbent);
         // 실제 스크립트가 없으면 호출자를 바꾸지 않고 예비 realm만 제공한다.
@@ -104,13 +164,13 @@ public final class RealmExecution {
     }
 
     /**
-     * Replaces or clears the active script key.
+     * Replaces or clears the active record.
      * <p>
-     * 활성 스크립트 키를 교체하거나 지운다.
+     * 활성 레코드를 교체하거나 지운다.
      *
-     * @param source the new key or null / 새 키 또는 null
+     * @param source the new record or null / 새 레코드 또는 null
      */
-    private static void setScriptSource(String source) {
+    private static void setScriptSource(ScriptReference source) {
         if (source == null) {
             SCRIPT_SOURCE.remove();
         } else {
@@ -128,8 +188,8 @@ public final class RealmExecution {
         /** Previous incumbent realm. / 이전 incumbent realm. */
         private final JsRealm incumbent;
 
-        /** Previous active script key. / 이전 활성 스크립트 키. */
-        private final String source;
+        /** Previous active record. / 이전 활성 레코드. */
+        private final ScriptReference source;
 
         /**
          * Saves the state for restoration.
@@ -137,9 +197,9 @@ public final class RealmExecution {
          * 나중에 복원할 상태를 저장한다.
          *
          * @param incumbent prior incumbent realm / 이전 incumbent realm
-         * @param source prior active script key / 이전 활성 스크립트 키
+         * @param source prior active record / 이전 활성 레코드
          */
-        private CallbackScope(JsRealm incumbent, String source) {
+        private CallbackScope(JsRealm incumbent, ScriptReference source) {
             this.incumbent = incumbent;
             this.source = source;
         }
@@ -198,9 +258,49 @@ public final class RealmExecution {
      * @return previous execution scope, or null if unchanged / 이전 실행 범위. 바뀌지 않으면 null
      */
     public static ScriptScope enterScript(JsRealm realm, String source) {
+        return enterScriptRecord(realm, source == null ? null : new ScriptReference(realm, source));
+    }
+
+    /**
+     * Enters code using its own record or the nearest outer record when this context has none.
+     * <p>
+     * 코드에 진입하고 자체 레코드를 사용한다. 없으면 가장 가까운 바깥의 레코드를 사용한다.
+     *
+     * @param realm entering realm / 실행할 렐름
+     * @param source the code's record, or null / 코드의 레코드 또는 null
+     * @return previous state for restoration / 복원할 이전 상태
+     */
+    public static ScriptScope enterScriptRecord(JsRealm realm, ScriptReference source) {
+        return replaceScriptRecord(realm, source == null ? SCRIPT_SOURCE.get() : source);
+    }
+
+    /**
+     * Enters a host compilation scope with no outer script record.
+     * Use this to construct an event handler whose ScriptOrModule slot must be null.
+     * <p>
+     * 바깥 스크립트 레코드 없이 호스트 컴파일 범위에 진입한다.
+     * ScriptOrModule 슬롯이 null이어야 하는 이벤트 처리기를 만들 때 사용한다.
+     *
+     * @param realm entering realm / 실행할 렐름
+     * @return previous state for restoration / 복원할 이전 상태
+     */
+    public static ScriptScope enterRecordlessCompilation(JsRealm realm) {
+        return replaceScriptRecord(realm, null);
+    }
+
+    /**
+     * Installs the effective execution state and returns the fields that were replaced.
+     * <p>
+     * 적용할 실행 상태를 설정하고 교체된 필드를 반환한다.
+     *
+     * @param realm entering realm / 실행할 렐름
+     * @param source the effective record / 적용할 레코드
+     * @return previous state for restoration / 복원할 이전 상태
+     */
+    private static ScriptScope replaceScriptRecord(JsRealm realm, ScriptReference source) {
         JsRealm previousScript = SCRIPT.get();
         JsRealm previous = enter(realm);
-        String previousSource = SCRIPT_SOURCE.get();
+        ScriptReference previousSource = SCRIPT_SOURCE.get();
         if (previous == realm && previousScript == realm && previousSource == source) {
             return null;
         }
@@ -246,8 +346,8 @@ public final class RealmExecution {
         /** Prior realm executing script source. / 스크립트 원문을 실행하던 realm. */
         private final JsRealm previousScript;
 
-        /** Prior active script or module key. / 이전 활성 스크립트 또는 모듈 키. */
-        private final String previousSource;
+        /** Prior active record. / 이전 활성 레코드. */
+        private final ScriptReference previousSource;
 
         /**
          * Stores the realms and source for restoration.
@@ -256,9 +356,9 @@ public final class RealmExecution {
          *
          * @param previous prior running realm / 이전 실행 realm
          * @param previousScript prior script realm / 이전 스크립트 realm
-         * @param previousSource prior script or module key / 이전 스크립트 또는 모듈 키
+         * @param previousSource prior active record / 이전 활성 레코드
          */
-        private ScriptScope(JsRealm previous, JsRealm previousScript, String previousSource) {
+        private ScriptScope(JsRealm previous, JsRealm previousScript, ScriptReference previousSource) {
             this.previous = previous;
             this.previousScript = previousScript;
             this.previousSource = previousSource;

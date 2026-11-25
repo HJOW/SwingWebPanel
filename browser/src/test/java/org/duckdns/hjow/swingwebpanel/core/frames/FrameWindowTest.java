@@ -152,6 +152,36 @@ public class FrameWindowTest {
     }
 
     /**
+     * Runs eval in a child realm while resolving imports and caching their records in the calling document.
+     * <p>
+     * 자식 렐름에서 eval을 실행하면서 호출한 문서에서 import를 해석하고 모듈 레코드를 캐시한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testCrossRealmEvalImportsFromActiveRecord() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        SwingWebPanel panel = FrameTestSupport.newPanel(400, 300);
+        try {
+            server.routeFixed("/child/frame", TestHttpServer.Response.html("<script>var marker='child';</script>"));
+            server.routeFixed("/outer/load.js", TestHttpServer.Response.ok("text/javascript",
+                    "export default [globalThis.marker,import.meta.url.endsWith('/outer/load.js')].join('|');"));
+            server.routeFixed("/outer/main.js", TestHttpServer.Response.ok("text/javascript",
+                    "var marker='parent'; window.onload=()=>{const child=document.getElementById('f').contentWindow;"
+                    + "const order=[];child.Promise.resolve().then(()=>order.push('child'));"
+                    + "child.queueMicrotask(()=>order.push('queue'));Promise.resolve().then(()=>order.push('parent'));"
+                    + "const run=child.eval('import(\"./load.js\")'), registered=Promise.resolve('import(\"./load.js\")').then(child.eval);"
+                    + "Promise.all([run,registered,import('./load.js')]).then(a=>sessionStorage.setItem('foreign-import',"
+                    + "[child.eval('marker'),run instanceof child.Promise,a[0].default,a[0]===a[1]&&a[1]===a[2],order.join()].join(';')),"
+                    + "e=>sessionStorage.setItem('foreign-import',String(e)));};"));
+            serve(panel, server, "<!doctype html><iframe id=f src='/child/frame'></iframe><script src='/outer/main.js'></script>");
+            FrameTestSupport.awaitStored(panel, "foreign-import", "child;true;parent|true;true;child,queue,parent");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
      * Checks the same frame reference before and after matching and nonmatching origin navigations.
      * <p>
      * 같은 프레임 참조를 유지한 채 같은 오리진과 다른 오리진으로 이동했을 때를 확인한다.

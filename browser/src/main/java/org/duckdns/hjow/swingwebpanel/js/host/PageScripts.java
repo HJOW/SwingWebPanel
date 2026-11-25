@@ -30,6 +30,7 @@ import org.duckdns.hjow.swingwebpanel.html.ParserListenerAdapter;
 import org.duckdns.hjow.swingwebpanel.html.ParserNodeData;
 import org.duckdns.hjow.swingwebpanel.js.ConsoleHook;
 import org.duckdns.hjow.swingwebpanel.js.ConsoleRecord;
+import org.duckdns.hjow.swingwebpanel.js.JobQueue;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
@@ -489,6 +490,7 @@ public final class PageScripts {
         SharedMemoryScope.bind(realm, env.getSharedMemoryCluster(), Origin.of(document.getOriginUrl()));
         realm.setAtomicsWaitAllowed(false);
         installExternalJobExecutor(env.getScheduler());
+        installPromiseJobQueue();
         synchronized (BY_REALM) {
             BY_REALM.put(realm, new WeakReference<PageScripts>(this));
         }
@@ -1195,6 +1197,68 @@ public final class PageScripts {
                 }
             }
         });
+    }
+
+    /**
+     * Queues promise jobs from synchronously called windows on the current document task's FIFO queue.
+     * Windows of a component run on one document thread even though their realms own separate queues.
+     * <p>
+     * 동기 호출된 창의 프라미스 작업을 현재 문서 작업의 FIFO 큐에 넣는다.
+     * 한 컴포넌트의 창은 렐름별 큐를 가진 상태에서 같은 문서 스레드에서 실행한다.
+     */
+    private void installPromiseJobQueue() {
+        PromiseJobs.setQueue(realm, new JobQueue() {
+            /**
+             * Adds a job to the current shared checkpoint when a sibling invoked this realm.
+             * <p>
+             * 같은 컴포넌트의 문서가 이 렐름을 호출했으면 현재 검사점에 작업을 넣는다.
+             *
+             * @param job work to run / 실행할 작업
+             */
+            public void enqueue(final Runnable job) {
+                PageScripts entry = ENTRY.get();
+                // 다른 컴포넌트 및 독립 환경은 각자 큐를 계속 사용한다.
+                if (entry == null || entry == PageScripts.this || entry.env.getSharedMemoryCluster() != env.getSharedMemoryCluster()) {
+                    realm.enqueueJob(job);
+                    return;
+                }
+                entry.realm.enqueueJob(new Runnable() {
+                    /** Runs the job with its owning page's limits. / 작업을 소유한 페이지의 제한으로 실행한다. */
+                    public void run() {
+                        runForeignMicrotask(job);
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Runs one queued job on this page without opening a nested microtask checkpoint.
+     * <p>
+     * 마이크로태스크 검사점을 중첩해 열지 않고 이 페이지의 예약 작업 하나를 실행한다.
+     *
+     * @param job the microtask / 마이크로태스크
+     */
+    private void runForeignMicrotask(Runnable job) {
+        lock.lock();
+        try {
+            // 큐에 올린 뒤 문서가 교체될 수 있으므로 실행 시에 다시 확인한다.
+            if (disposed) {
+                return;
+            }
+            realm.getLimits().beginTask();
+            try {
+                job.run();
+            } catch (JsException e) {
+                reportError(e);
+            } catch (ScriptAbortedException e) {
+                reportAbort(e);
+            } finally {
+                realm.getLimits().endTask();
+            }
+        } finally {
+            lock.unlock();
+        }
     }
 
     /**
@@ -2604,6 +2668,8 @@ public final class PageScripts {
         lock.lock();
         try {
             realm.getLimits().beginTask();
+            // 첫 이벤트를 스크립트가 발생시켜도 컴파일한 핸들러에는 그 스크립트의 레코드를 보관하지 않는다.
+            RealmExecution.ScriptScope previous = RealmExecution.enterRecordlessCompilation(realm);
             try {
                 JsValue factory = realm.getInterpreter().evaluateScript(
                         "(function(__d,__f,__e){return function(event){with(__d){with(__f){with(__e){\n" + body
@@ -2619,6 +2685,7 @@ public final class PageScripts {
                 reportAbort(e);
                 return null;
             } finally {
+                RealmExecution.restoreScript(previous);
                 realm.getLimits().endTask();
             }
         } finally {

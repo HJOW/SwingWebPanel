@@ -15,6 +15,7 @@ import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
 import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution.ScriptReference;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution.ScriptScope;
 import org.duckdns.hjow.swingwebpanel.js.builtins.datajson.JsonBuiltins;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseCapability;
@@ -152,6 +153,9 @@ final class ModuleRecord {
      */
     final String key;
 
+    /** The source record captured by module code. / 모듈 코드가 이어받는 원문 레코드. */
+    final ScriptReference reference;
+
     /**
      * The PROGRAM node for source text modules, null for JSON modules.
      * <p>
@@ -230,6 +234,7 @@ final class ModuleRecord {
     private ModuleRecord(Interpreter in, String key, Node program) {
         this.in = in;
         this.key = key;
+        this.reference = new ScriptReference(in.realm, key);
         this.program = program;
         this.jsonDefault = null;
         this.info = (ProgramInfo) program.value;
@@ -247,6 +252,7 @@ final class ModuleRecord {
     private ModuleRecord(Interpreter in, String key, JsValue value) {
         this.in = in;
         this.key = key;
+        this.reference = new ScriptReference(in.realm, key);
         this.program = null;
         this.jsonDefault = value;
         this.info = new ProgramInfo();
@@ -633,7 +639,7 @@ final class ModuleRecord {
             throw failure;
         }
         status = EVALUATING;
-        ScriptScope previous = RealmExecution.enterScript(in.realm, key);
+        ScriptScope previous = RealmExecution.enterScriptRecord(in.realm, reference);
         try {
             // 요청한 모듈을 순서대로 평가한다.
             for (int i = 0; i < requested.size(); i++) {

@@ -23,6 +23,7 @@ import org.duckdns.hjow.swingwebpanel.js.Property;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution.ScriptReference;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution.ScriptScope;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseCapability;
@@ -250,11 +251,12 @@ public final class Interpreter {
      *
      * @param specifier evaluated module specifier / 평가한 모듈 지정자
      * @param options evaluated import options or undefined / 평가한 가져오기 옵션 또는 undefined
-     * @param referrer referring module or script name / 참조하는 모듈/스크립트 이름
+     * @param referrer active module or script record / 활성 모듈 또는 스크립트 레코드
      * @return import Promise / import Promise
      */
-    JsObject dynamicImport(JsValue specifier, JsValue options, final String referrer) {
+    JsObject dynamicImport(JsValue specifier, JsValue options, final ScriptReference referrer) {
         final PromiseCapability capability = PromiseInterop.newCapability(realm);
+        final JsRealm owner = referrer == null ? realm : referrer.getRealm();
         final ModuleRequest request;
         try {
             String text = Ops.toString(specifier);
@@ -269,11 +271,13 @@ public final class Interpreter {
             public void run() {
                 try {
                     // worklet처럼 동적 가져오기를 제한하는 호스트는 캐시 조회 전에 거부한다.
-                    if (!realm.isDynamicImportEnabled()) {
+                    if (!owner.isDynamicImportEnabled()) {
                         throw JsException.typeError("Dynamic import is not allowed in this realm");
                     }
-                    ModuleRequest resolved = ModuleRecord.resolve(realm.getModuleLoader(), request, referrer);
-                    ModuleRecord module = ModuleRecord.load(Interpreter.this, resolved, null);
+                    // eval을 실행하는 렐름과 별개로 활성 원문의 로더와 모듈 맵을 사용한다.
+                    String key = referrer == null ? null : referrer.getKey();
+                    ModuleRequest resolved = ModuleRecord.resolve(owner.getModuleLoader(), request, key);
+                    ModuleRecord module = ModuleRecord.load(owner.getInterpreter(), resolved, null);
                     module.link();
                     JsObject evaluation = module.evaluateAsync();
                     NativeFunction fulfilled = new NativeFunction(realm, "", 1, new NativeFunction.Call() {
@@ -288,7 +292,7 @@ public final class Interpreter {
                             return Js.UNDEFINED;
                         }
                     });
-                    PromiseInterop.await(realm, evaluation, fulfilled, rejected);
+                    PromiseInterop.await(owner, evaluation, fulfilled, rejected);
                 } catch (JsException e) {
                     Ops.call(capability.getRejectFunction(), Js.UNDEFINED, new JsValue[] { e.getValue(realm) });
                 }
@@ -566,16 +570,16 @@ public final class Interpreter {
      * <p>
      * 호출을 센다: 단계 수와 호출 깊이 제한을 검사한다.
      *
-     * @param scriptSource the active record key or null / 활성 레코드 키 또는 null
+     * @param reference the function's script or module record / 함수의 스크립트 또는 모듈 레코드
      * @return previous scope for {@link #leave(ScriptScope)} / {@link #leave(ScriptScope)}에서 복원할 이전 범위
      */
-    ScriptScope enter(String scriptSource) {
+    ScriptScope enter(ScriptReference reference) {
         limits.tick();
         if (depth >= limits.getMaxCallDepth()) {
             throw JsException.rangeError("Maximum call stack size exceeded");
         }
         depth++;
-        return RealmExecution.enterScript(realm, scriptSource);
+        return RealmExecution.enterScriptRecord(realm, reference);
     }
 
     /**
@@ -601,7 +605,7 @@ public final class Interpreter {
      * @return the result / 결과
      */
     JsValue callFunction(ScriptFunction f, JsValue thisArg, JsValue[] args) {
-        ScriptScope previous = enter(f.scriptSource);
+        ScriptScope previous = enter(f.scriptReference);
         try {
             ScriptFunction cur = f;
             JsValue curThis = thisArg;
@@ -624,10 +628,9 @@ public final class Interpreter {
                     return r;
                 }
                 cur = ctx.tailTarget;
-                ScriptScope changed = RealmExecution.enterScript(realm, cur.scriptSource);
-                if (previous == null) {
-                    previous = changed;
-                }
+                // 제거한 호출의 레코드는 건너뛰고 원래 호출자 위에 꼬리 호출을 얹는다.
+                RealmExecution.restoreScript(previous);
+                previous = RealmExecution.enterScriptRecord(realm, cur.scriptReference);
                 curThis = ctx.tailThis;
                 curArgs = ctx.tailArgs;
                 limits.tick();
@@ -650,7 +653,7 @@ public final class Interpreter {
      * @return the new object / 새 객체
      */
     JsObject constructFunction(ScriptFunction f, JsValue[] args, JsObject newTarget) {
-        ScriptScope previous = enter(f.scriptSource);
+        ScriptScope previous = enter(f.scriptReference);
         try {
             boolean derived = f.info.derived;
             if (f.defaultConstructor) {
@@ -1012,7 +1015,7 @@ public final class Interpreter {
         evalCtx.funcEnv = direct ? ctx.funcEnv : null;
         // eval 코드의 줄 번호는 eval 문자열 안의 위치이므로 호출 위치의 스크립트 이름과 섞지 않는다.
         evalCtx.sourceName = "eval";
-        ScriptScope previous = RealmExecution.enterScript(realm, RealmExecution.currentScriptSource());
+        ScriptScope previous = RealmExecution.enterScript(realm);
         try {
             evalDeclarationInstantiation(prog.scope, callerEnv, varEnv, lexEnv, strict);
             Completion c = st.execList(prog.list, lexEnv, evalCtx);

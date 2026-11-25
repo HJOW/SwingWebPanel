@@ -12,6 +12,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseJobs;
 
 /**
  * Timers and animation frames of one page (plan items P15-06, P15-07): <code>setTimeout</code>, <code>setInterval</code>, their
@@ -325,7 +326,7 @@ final class Timers {
                     throw JsException.typeError("Failed to execute 'queueMicrotask' on 'Window': The callback provided as parameter 1 is not "
                             + "a function.");
                 }
-                page.getRealm().enqueueJob(new Runnable() {
+                PromiseJobs.enqueue(page.getRealm(), new Runnable() {
                     /**
                      * Calls the function; its error is reported.
                      * <p>

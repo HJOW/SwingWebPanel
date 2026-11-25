@@ -272,7 +272,7 @@ final class Expressions {
             // 두 인수의 평가 예외는 Promise를 만들기 전 호출한 코드에 전달된다.
             JsValue specifier = memo(st, n.a, env, ctx);
             JsValue options = n.b == null ? Js.UNDEFINED : memo(st, n.b, env, ctx);
-            return in.dynamicImport(specifier, options, RealmExecution.currentScriptSource());
+            return in.dynamicImport(specifier, options, RealmExecution.currentScriptReference());
         }
         default:
             throw JsException.syntaxError("Unsupported expression (node type " + n.type + ")", null, n.line, n.column);

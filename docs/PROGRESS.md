@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-c1 활성 레코드 소유 렐름과 모듈 로더 (2026-11-26) ===
+현재 작업 번호: P29-10-c1 완료.
+완료한 내용: 활성 원문 레코드에 소유 렐름을 등록했다. 타 렐름 eval·Promise 및 중첩 이벤트 속성이 스택의 원문 소유 로더와 모듈 맵을 사용한다. 같은 컴포넌트 창의 프라미스 작업과 queueMicrotask는 현재 문서 작업에서 등록 순서로 진행한다.
+변경 파일: RealmExecution.java, Interpreter.java, Expressions.java, ScriptFunction.java, ModuleRecord.java, ModuleAsyncEvaluation.java, GeneratorObject.java, AsyncGeneratorObject.java, AsyncFunction.java, PromiseJobCallback.java, PageScripts.java, Timers.java, ModernDynamicImportTest.java, FrameWindowTest.java, ModuleScriptTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45에서 ModuleScriptTest 9건, FrameWindowTest 12건, ModernDynamicImportTest 11건, PromiseJobContextTest 2건, WorkerGlobalScopeTest 5건, AudioWorkletModulesTest 10건 통과. 최종 Timers 변경은 JDK 6으로 변경 클래스 세 개를 재컴파일하여 FrameWindowTest로 검증했다. sourcecheck 0 위반.
+미해결 사항: WindowProxy 반사, COOP/COEP와 공유 메모리 조건(P29-10-c2~c3), Unicode·최종 회귀.
+다음 작업 번호: P29-10-c2.
+-----------------------------------------------------------------------------------------------
 === P29-10-b3 독립 엔진과 JSR 223 경계 (2026-11-26) ===
 현재 작업 번호: P29-10-b3, P29-10-b 완료.
 완료한 내용: Java 진입점에서 Float16Array·가변 및 공유 버퍼, 오류 핸들, import attributes JSON 로더를 검증했다. 분리 후 복사와 공유 저장소 스냅숏 및 JSR 223 예외의 원본 객체를 확인했다.
@@ -1098,6 +1106,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-c1 타 렐름 eval과 중첩 이벤트 속성의 활성 레코드
+
+- [WHATWG HTML Living Standard §8.1.6.7](https://html.spec.whatwg.org/multipage/webappapis.html#hostloadimportedmodule)과 [§8.1.8.1](https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-attributes)의 기존 2026-11-26 조회 자료를 사용했다. 모듈 가져오기는 실제 실행 렐름과 독립적으로 활성 스크립트 레코드의 설정을 사용한다.
+- 이벤트 속성은 자체 레코드 없이 생성한다. 중첩 실행은 현재 호출의 바깥 레코드를 쓰고 직접 전달한 이벤트는 문서 base URL을 사용한다. iframe 시험은 부모 모듈의 단일 네임스페이스, 자식 쪽 eval Promise와 등록 순서가 유지되는 마이크로태스크를 확인한다.
+- 브라우저 Maven 필터와 JDK 6u45 TestRunner로 엔진·브라우저 관련 시험 49건을 통과했다.
 
 ### 2026-11-26 · P29-10-b3 독립 엔진 및 표준 Java 스크립팅 경계
 
