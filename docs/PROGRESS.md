@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-a2 제17판 내장 객체 표 23~25장 (2026-11-26) ===
+현재 작업 번호: P29-10-a2 완료.
+완료한 내용: Array·TypedArray, Map·Set·WeakMap, 버퍼·DataView·Atomics·JSON을 내장 표에 반영했다. TypedArray.includes를 추가해 NaN과 검색 도중 버퍼 축소를 처리한다.
+변경 파일: TypedArrayMethods.java, TypedArrayScriptTest.java, BuiltinPropertiesTest.java, ConformanceTable.java, MetaConformanceTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 873건과 현재 표 688개 항목 통과. sourcecheck 0 위반.
+미해결 사항: 제17판 26~28장과 이터레이터 및 동적 함수 생성자의 계층(P29-10-a3a~c).
+다음 작업 번호: P29-10-a3a.
+-----------------------------------------------------------------------------------------------
 === P29-10-a1 제17판 내장 객체 표 19~22장 (2026-11-26) ===
 현재 작업 번호: P29-10-a1 완료.
 완료한 내용: 전역, 기본 객체, 숫자·날짜, 텍스트 및 B.2의 메타데이터를 대조했다. BigInt 호출·구성·프로토타입과 큰 폭 절단, Function 제한 접근자의 고정 기술자를 수정했다.
@@ -1034,6 +1042,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-a2 내장 객체 표 23~25장
+
+- 구체 TypedArray 12종의 BYTES_PER_ELEMENT 값·기술자, 생성자/프로토타입 상속 사슬, Array의 length와 unscopables, 배열·키 컬렉션·버퍼·Atomics·JSON의 추가 메서드를 확인했다.
+- 제17판 §23.2.3.16의 TypedArray.includes를 추가했다. 초기 길이를 기준으로 탐색하고 fromIndex 변환으로 사라진 인덱스는 undefined로 비교한다. `BuiltinPropertiesTest`의 기존 속성 목록과 신규 회귀를 함께 검증했다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 873건, 현재 내장 표 688개 항목 통과.
 
 ### 2026-11-26 · P29-10-a1 내장 객체 표 19~22장, B.2
 

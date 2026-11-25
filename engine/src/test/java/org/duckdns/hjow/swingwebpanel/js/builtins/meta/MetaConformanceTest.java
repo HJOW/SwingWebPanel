@@ -218,7 +218,7 @@ public class MetaConformanceTest {
      * 표 자체의 형식이 올바르다: 알려진 종류, 항목 존재, id 유일, 허용 목록 행이 완전함.
      */
     public void testTableIsWellFormed() {
-        String known = " ctor ctor0 fn getter const tag val obj rfn lfn accessor robj link chain poison ";
+        String known = " ctor ctor0 fn getter const tag val obj rfn lfn accessor robj size link chain poison ";
         Set<String> ids = new HashSet<String>();
         List<String> lines = ConformanceTable.lines();
         // 표의 모든 줄을 읽어 종류와 항목의 형식, id 중복을 검사한다.
@@ -235,7 +235,7 @@ public class MetaConformanceTest {
             // 한 줄의 항목을 하나씩 검사한다.
             for (int j = 0; j < parts.length; j++) {
                 Check.isTrue(parts[j].length() > 0, "no empty item in: " + line);
-                boolean needsEquals = "link".equals(kind) || "chain".equals(kind) || "tag".equals(kind);
+                boolean needsEquals = "link".equals(kind) || "chain".equals(kind) || "tag".equals(kind) || "size".equals(kind);
                 Check.isTrue(!needsEquals || parts[j].indexOf('=') > 0, "item '" + parts[j] + "' needs '=' in: " + line);
                 String id = itemId(line.substring(0, colon), kind, parts[j]);
                 Check.isTrue(ids.add(id), "entry id is unique: " + id);
@@ -280,6 +280,32 @@ public class MetaConformanceTest {
         Check.isTrue(Ops.sameValue(Js.str(""), name.value), "the thrower is anonymous");
         Check.isTrue(Ops.sameValue(Js.num(0), length.value), "the thrower has length zero");
         Check.isFalse(thrower.isExtensible(), "the thrower is non-extensible");
+    }
+
+    /**
+     * Verifies the abstract TypedArray constructor and Array's list of excluded with bindings.
+     * <p>
+     * 추상 TypedArray 생성자와 Array가 with 바인딩에서 제외하는 프로퍼티 목록을 확인한다.
+     */
+    public void testIndexedCollectionIntrinsicMetadata() {
+        JsObject typed = expectFunction(realm.getIntrinsic("%TypedArray%"), "%TypedArray%", true);
+        expectNameLength(typed, "%TypedArray%", "TypedArray", "0");
+        verifyConstructorPrototype(typed, typed.getOwnProperty("prototype"), "%TypedArray%");
+        JsObject arrayProto = (JsObject) resolve("Array.prototype");
+        JsObject unscopables = (JsObject) arrayProto.get(keyOf("@@unscopables"));
+        Check.isNull(unscopables.getPrototypeOf(), "the unscopables object has a null prototype");
+        String[] names = { "at", "copyWithin", "entries", "fill", "find", "findIndex", "findLast", "findLastIndex", "flat",
+            "flatMap", "includes", "keys", "toReversed", "toSorted", "toSpliced", "values" };
+        List<Object> keys = unscopables.ownKeys();
+        Check.equal(names.length, keys.size(), "the unscopables list is complete");
+        // 생성 순서와 각 이름을 숨기는 프로퍼티의 기술자를 확인한다.
+        for (int index = 0; index < names.length; index++) {
+            String name = names[index];
+            Check.equal(name, keys.get(index), "the name is in specification order");
+            PropertyDescriptor descriptor = unscopables.getOwnProperty(name);
+            expectData(descriptor, name, true, true, true);
+            Check.equal(Js.TRUE, descriptor.value, "the descriptor hides " + name + " in with");
+        }
     }
 
     /**
@@ -764,8 +790,11 @@ public class MetaConformanceTest {
                     || thrower == null || d.get != thrower || d.set != thrower) {
                 throw Problem.wrong(name + " must be a configurable, unenumerable %ThrowTypeError% accessor");
             }
-        } else if ("const".equals(kind)) {
-            expectData(d, name, false, false, false);
+        } else if ("const".equals(kind) || "size".equals(kind)) {
+            expectData(d, name, "size".equals(kind), false, false);
+            if (arg != null && !Ops.sameValue(d.value, Js.num(Double.parseDouble(arg)))) {
+                throw Problem.wrong(name + " must have numeric value " + arg);
+            }
         } else if ("val".equals(kind)) {
             expectData(d, name, true, false, true);
         } else if ("obj".equals(kind) || "robj".equals(kind)) {

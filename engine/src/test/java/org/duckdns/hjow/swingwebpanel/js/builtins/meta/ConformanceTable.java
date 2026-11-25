@@ -14,7 +14,8 @@ import java.util.List;
  * (function that is not a constructor), <code>getter</code> (accessor with a getter named "get x" and no setter), <code>const</code>
  * (read-only data), <code>tag</code> (@@toStringTag string), <code>val</code> (writable data), <code>obj</code> (object valued data),
  * <code>rfn</code> (function, read-only but configurable), <code>lfn</code> (function with all attributes false), <code>accessor</code> (getter and setter),
- * <code>robj</code> (object valued, read-only, configurable), <code>link</code> (<code>a=b</code>: the property a is the same value as the path b), <code>chain</code> (<code>a=b</code>:
+ * <code>robj</code> (object valued, read-only, configurable), <code>size</code> (writable numeric data with fixed attributes),
+ * <code>link</code> (<code>a=b</code>: the property a is the same value as the path b), <code>chain</code> (<code>a=b</code>:
  * the prototype of a is b), <code>poison</code> (a restricted accessor whose two functions are %ThrowTypeError%).
  * <p>
  * ECMA-262 제17판 19~28장과 부속서 B.2에 따른 ECMAScript 내장 프로퍼티 표.
@@ -42,10 +43,11 @@ final class ConformanceTable {
         "global: fn eval=1 isFinite=1 isNaN=1 parseFloat=1 parseInt=2 decodeURI=1 decodeURIComponent=1 encodeURI=1 encodeURIComponent=1 escape=1 unescape=1",
         "global: ctor Object=1 Function=1 Boolean=1 Symbol=0 Error=1 EvalError=1 RangeError=1 ReferenceError=1 SyntaxError=1 TypeError=1 URIError=1"
                 + " AggregateError=2 Number=1 BigInt=1 String=1 RegExp=2 Date=7 Array=1 Map=0 Set=0 WeakMap=0 WeakSet=0 ArrayBuffer=1 DataView=3 Promise=1"
-                + " WeakRef=1 FinalizationRegistry=1"
-                + " Int8Array=3 Uint8Array=3 Uint8ClampedArray=3 Int16Array=3 Uint16Array=3 Int32Array=3 Uint32Array=3 Float32Array=3 Float64Array=3",
+                + " WeakRef=1 FinalizationRegistry=1 SharedArrayBuffer=1"
+                + " Int8Array=3 Uint8Array=3 Uint8ClampedArray=3 Int16Array=3 Uint16Array=3 Int32Array=3 Uint32Array=3"
+                + " Float16Array=3 Float32Array=3 Float64Array=3 BigInt64Array=3 BigUint64Array=3",
         "global: ctor0 Proxy=2",
-        "global: obj Math JSON Reflect",
+        "global: obj Math JSON Reflect Atomics",
 
         // ---- 20.1 Object (+ B.2.2)
         "Object: fn assign=2 create=2 defineProperties=2 defineProperty=3 freeze=1 getOwnPropertyDescriptor=2 getOwnPropertyNames=1"
@@ -106,7 +108,7 @@ final class ConformanceTable {
 
         // ---- 22 Text Processing
         "String: fn fromCharCode=1 fromCodePoint=1 raw=1",
-        "String.prototype: const length",
+        "String.prototype: const length=0",
         "String.prototype: fn charAt=1 charCodeAt=1 codePointAt=1 concat=1 endsWith=1 includes=1 indexOf=1 lastIndexOf=1 localeCompare=1 match=1"
                 + " normalize=0 repeat=1 replace=2 search=1 slice=2 split=2 startsWith=1 substring=2 toLocaleLowerCase=0 toLocaleUpperCase=0"
                 + " toLowerCase=0 toString=0 toUpperCase=0 trim=0 valueOf=0 at=1 matchAll=1 replaceAll=2 @@iterator=0"
@@ -118,59 +120,86 @@ final class ConformanceTable {
         "RegExp.prototype: fn exec=1 test=1 toString=0 compile=2 @@match=1 @@matchAll=1 @@replace=2 @@search=1 @@split=2",
         "RegExp.prototype: getter dotAll flags global hasIndices ignoreCase multiline source sticky unicode unicodeSets",
 
-        // ---- 22 Indexed Collections
-        "Array: fn from=1 isArray=1 of=0",
+        // ---- 23 Indexed Collections
+        "Array: fn from=1 fromAsync=1 isArray=1 of=0",
         "Array: getter @@species",
+        "Array.prototype: size length=0",
         "Array.prototype: fn concat=1 copyWithin=2 entries=0 every=1 fill=1 filter=1 find=1 findIndex=1 forEach=1 indexOf=1 join=1 keys=0"
                 + " lastIndexOf=1 map=1 pop=0 push=1 reduce=1 reduceRight=1 reverse=0 shift=0 slice=2 some=1 sort=1 splice=2 toLocaleString=0"
-                + " toString=0 unshift=1 values=0 at=1 flat=0 flatMap=1",
+                + " toString=0 unshift=1 values=0 at=1 flat=0 flatMap=1 findLast=1 findLastIndex=1 includes=1"
+                + " toReversed=0 toSorted=1 toSpliced=2 with=2",
         "Array.prototype: link @@iterator=Array.prototype.values",
         "Array.prototype: robj @@unscopables",
         "%TypedArray%: fn from=1 of=0",
         "%TypedArray%: getter @@species",
         "%TypedArray%.prototype: getter buffer byteLength byteOffset length @@toStringTag",
         "%TypedArray%.prototype: fn copyWithin=2 entries=0 every=1 fill=1 filter=1 find=1 findIndex=1 forEach=1 indexOf=1 join=1 keys=0"
-                + " lastIndexOf=1 map=1 reduce=1 reduceRight=1 reverse=0 set=1 slice=2 some=1 sort=1 subarray=2 toLocaleString=0 values=0 at=1",
+                + " lastIndexOf=1 map=1 reduce=1 reduceRight=1 reverse=0 set=1 slice=2 some=1 sort=1 subarray=2 toLocaleString=0 values=0 at=1"
+                + " findLast=1 findLastIndex=1 includes=1 toReversed=0 toSorted=1 with=2",
         "%TypedArray%.prototype: link @@iterator=%TypedArray%.prototype.values toString=Array.prototype.toString",
-        "Int8Array: const BYTES_PER_ELEMENT",
-        "Uint8Array: const BYTES_PER_ELEMENT",
-        "Uint8ClampedArray: const BYTES_PER_ELEMENT",
-        "Int16Array: const BYTES_PER_ELEMENT",
-        "Uint16Array: const BYTES_PER_ELEMENT",
-        "Int32Array: const BYTES_PER_ELEMENT",
-        "Uint32Array: const BYTES_PER_ELEMENT",
-        "Float32Array: const BYTES_PER_ELEMENT",
-        "Float64Array: const BYTES_PER_ELEMENT",
-        "Int8Array.prototype: const BYTES_PER_ELEMENT",
-        "Float64Array.prototype: const BYTES_PER_ELEMENT",
+        "Int8Array: const BYTES_PER_ELEMENT=1",
+        "Int8Array.prototype: const BYTES_PER_ELEMENT=1",
+        "Uint8Array: const BYTES_PER_ELEMENT=1",
+        "Uint8Array.prototype: const BYTES_PER_ELEMENT=1",
+        "Uint8ClampedArray: const BYTES_PER_ELEMENT=1",
+        "Uint8ClampedArray.prototype: const BYTES_PER_ELEMENT=1",
+        "Int16Array: const BYTES_PER_ELEMENT=2",
+        "Int16Array.prototype: const BYTES_PER_ELEMENT=2",
+        "Uint16Array: const BYTES_PER_ELEMENT=2",
+        "Uint16Array.prototype: const BYTES_PER_ELEMENT=2",
+        "Int32Array: const BYTES_PER_ELEMENT=4",
+        "Int32Array.prototype: const BYTES_PER_ELEMENT=4",
+        "Uint32Array: const BYTES_PER_ELEMENT=4",
+        "Uint32Array.prototype: const BYTES_PER_ELEMENT=4",
+        "Float16Array: const BYTES_PER_ELEMENT=2",
+        "Float16Array.prototype: const BYTES_PER_ELEMENT=2",
+        "Float32Array: const BYTES_PER_ELEMENT=4",
+        "Float32Array.prototype: const BYTES_PER_ELEMENT=4",
+        "Float64Array: const BYTES_PER_ELEMENT=8",
+        "Float64Array.prototype: const BYTES_PER_ELEMENT=8",
+        "BigInt64Array: const BYTES_PER_ELEMENT=8",
+        "BigInt64Array.prototype: const BYTES_PER_ELEMENT=8",
+        "BigUint64Array: const BYTES_PER_ELEMENT=8",
+        "BigUint64Array.prototype: const BYTES_PER_ELEMENT=8",
+        "Uint8Array: fn fromBase64=1 fromHex=1",
+        "Uint8Array.prototype: fn setFromBase64=1 setFromHex=1 toBase64=0 toHex=0",
 
-        // ---- 23 Keyed Collection
+        // ---- 24 Keyed Collections
         "Map: getter @@species",
-        "Map.prototype: fn clear=0 delete=1 entries=0 forEach=1 get=1 has=1 keys=0 set=2 values=0",
+        "Map: fn groupBy=2",
+        "Map.prototype: fn clear=0 delete=1 entries=0 forEach=1 get=1 getOrInsert=2 getOrInsertComputed=2 has=1 keys=0 set=2 values=0",
         "Map.prototype: getter size",
         "Map.prototype: link @@iterator=Map.prototype.entries",
         "Map.prototype: tag @@toStringTag=Map",
         "Set: getter @@species",
-        "Set.prototype: fn add=1 clear=0 delete=1 entries=0 forEach=1 has=1 values=0",
+        "Set.prototype: fn add=1 clear=0 delete=1 difference=1 entries=0 forEach=1 has=1 intersection=1 isDisjointFrom=1"
+                + " isSubsetOf=1 isSupersetOf=1 symmetricDifference=1 union=1 values=0",
         "Set.prototype: getter size",
         "Set.prototype: link @@iterator=Set.prototype.values keys=Set.prototype.values",
         "Set.prototype: tag @@toStringTag=Set",
-        "WeakMap.prototype: fn delete=1 get=1 has=1 set=2",
+        "WeakMap.prototype: fn delete=1 get=1 getOrInsert=2 getOrInsertComputed=2 has=1 set=2",
         "WeakMap.prototype: tag @@toStringTag=WeakMap",
         "WeakSet.prototype: fn add=1 delete=1 has=1",
         "WeakSet.prototype: tag @@toStringTag=WeakSet",
 
-        // ---- 24 Structured Data
+        // ---- 25 Structured Data
         "ArrayBuffer: fn isView=1",
         "ArrayBuffer: getter @@species",
-        "ArrayBuffer.prototype: getter byteLength",
-        "ArrayBuffer.prototype: fn slice=2",
+        "ArrayBuffer.prototype: getter byteLength detached maxByteLength resizable",
+        "ArrayBuffer.prototype: fn resize=1 slice=2 transfer=0 transferToFixedLength=0",
         "ArrayBuffer.prototype: tag @@toStringTag=ArrayBuffer",
+        "SharedArrayBuffer: getter @@species",
+        "SharedArrayBuffer.prototype: getter byteLength growable maxByteLength",
+        "SharedArrayBuffer.prototype: fn grow=1 slice=2",
+        "SharedArrayBuffer.prototype: tag @@toStringTag=SharedArrayBuffer",
         "DataView.prototype: getter buffer byteLength byteOffset",
-        "DataView.prototype: fn getFloat32=1 getFloat64=1 getInt16=1 getInt32=1 getInt8=1 getUint16=1 getUint32=1 getUint8=1"
-                + " setFloat32=2 setFloat64=2 setInt16=2 setInt32=2 setInt8=2 setUint16=2 setUint32=2 setUint8=2",
+        "DataView.prototype: fn getBigInt64=1 getBigUint64=1 getFloat16=1 getFloat32=1 getFloat64=1 getInt16=1 getInt32=1 getInt8=1"
+                + " getUint16=1 getUint32=1 getUint8=1 setBigInt64=2 setBigUint64=2 setFloat16=2 setFloat32=2 setFloat64=2"
+                + " setInt16=2 setInt32=2 setInt8=2 setUint16=2 setUint32=2 setUint8=2",
         "DataView.prototype: tag @@toStringTag=DataView",
-        "JSON: fn parse=2 stringify=3",
+        "Atomics: fn add=3 and=3 compareExchange=4 exchange=3 isLockFree=1 load=2 notify=3 or=3 store=3 sub=3 wait=4 waitAsync=4 xor=3",
+        "Atomics: tag @@toStringTag=Atomics",
+        "JSON: fn isRawJSON=1 parse=2 rawJSON=1 stringify=3",
         "JSON: tag @@toStringTag=JSON",
 
         // ---- 25 Control Abstraction Objects
@@ -199,7 +228,9 @@ final class ConformanceTable {
                 + " Number.prototype=Object.prototype BigInt.prototype=Object.prototype Boolean.prototype=Object.prototype"
                 + " Symbol.prototype=Object.prototype Date.prototype=Object.prototype"
                 + " RegExp.prototype=Object.prototype Error.prototype=Object.prototype Map.prototype=Object.prototype Set.prototype=Object.prototype"
-                + " Promise.prototype=Object.prototype ArrayBuffer.prototype=Object.prototype DataView.prototype=Object.prototype",
+                + " Promise.prototype=Object.prototype ArrayBuffer.prototype=Object.prototype SharedArrayBuffer.prototype=Object.prototype"
+                + " DataView.prototype=Object.prototype WeakMap.prototype=Object.prototype WeakSet.prototype=Object.prototype"
+                + " %TypedArray%.prototype=Object.prototype",
         "global: chain EvalError.prototype=Error.prototype RangeError.prototype=Error.prototype ReferenceError.prototype=Error.prototype"
                 + " SyntaxError.prototype=Error.prototype TypeError.prototype=Error.prototype URIError.prototype=Error.prototype"
                 + " AggregateError.prototype=Error.prototype",
@@ -207,11 +238,19 @@ final class ConformanceTable {
                 + " AggregateError=Error Object=Function.prototype Function=Function.prototype Array=Function.prototype"
                 + " Boolean=Function.prototype Symbol=Function.prototype Error=Function.prototype Number=Function.prototype BigInt=Function.prototype"
                 + " Date=Function.prototype String=Function.prototype RegExp=Function.prototype"
-                + " Promise=Function.prototype Proxy=Function.prototype",
+                + " Promise=Function.prototype Proxy=Function.prototype Map=Function.prototype Set=Function.prototype"
+                + " WeakMap=Function.prototype WeakSet=Function.prototype ArrayBuffer=Function.prototype SharedArrayBuffer=Function.prototype"
+                + " DataView=Function.prototype %TypedArray%=Function.prototype",
         "global: chain Int8Array=%TypedArray% Uint8Array=%TypedArray% Uint8ClampedArray=%TypedArray% Int16Array=%TypedArray% Uint16Array=%TypedArray%"
-                + " Int32Array=%TypedArray% Uint32Array=%TypedArray% Float32Array=%TypedArray% Float64Array=%TypedArray%"
-                + " Int8Array.prototype=%TypedArray%.prototype Float64Array.prototype=%TypedArray%.prototype",
-        "global: chain Math=Object.prototype JSON=Object.prototype Reflect=Object.prototype",
+                + " Int32Array=%TypedArray% Uint32Array=%TypedArray% Float16Array=%TypedArray% Float32Array=%TypedArray%"
+                + " Float64Array=%TypedArray% BigInt64Array=%TypedArray% BigUint64Array=%TypedArray%"
+                + " Int8Array.prototype=%TypedArray%.prototype Uint8Array.prototype=%TypedArray%.prototype"
+                + " Uint8ClampedArray.prototype=%TypedArray%.prototype Int16Array.prototype=%TypedArray%.prototype"
+                + " Uint16Array.prototype=%TypedArray%.prototype Int32Array.prototype=%TypedArray%.prototype"
+                + " Uint32Array.prototype=%TypedArray%.prototype Float16Array.prototype=%TypedArray%.prototype"
+                + " Float32Array.prototype=%TypedArray%.prototype Float64Array.prototype=%TypedArray%.prototype"
+                + " BigInt64Array.prototype=%TypedArray%.prototype BigUint64Array.prototype=%TypedArray%.prototype",
+        "global: chain Math=Object.prototype JSON=Object.prototype Reflect=Object.prototype Atomics=Object.prototype",
         "%ArrayIteratorPrototype%: chain %ArrayIteratorPrototype%=%IteratorPrototype%",
     };
 

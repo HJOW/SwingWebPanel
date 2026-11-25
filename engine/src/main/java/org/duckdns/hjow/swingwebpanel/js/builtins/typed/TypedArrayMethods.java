@@ -363,14 +363,41 @@ final class TypedArrayMethods {
     }
 
     /**
-     * Installs indexOf, lastIndexOf, join, toLocaleString and toString.
+     * Installs includes, indexOf, lastIndexOf, join, toLocaleString and toString.
      * <p>
-     * indexOf, lastIndexOf, join, toLocaleString, toString 을 설치한다.
+     * includes, indexOf, lastIndexOf, join, toLocaleString, toString을 설치한다.
      *
      * @param realm the realm / realm
      * @param proto the prototype / 프로토타입
      */
     private static void installSearching(JsRealm realm, JsObject proto) {
+        realm.method(proto, "includes", 1, new NativeFunction.Call() {
+            /**
+             * Searches the captured range with SameValueZero and reads each index at visit time.
+             * <p>
+             * 저장한 검색 범위에서 SameValueZero로 비교하며 방문하는 시점마다 요소를 읽는다.
+             *
+             * @param r the realm / 렐름
+             * @param thisValue the receiver / 수신자
+             * @param args the search value and optional start / 검색값과 선택적인 시작 위치
+             * @return whether an element matches / 일치하는 요소의 존재 여부
+             */
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                TypedArrayObject array = TypedSupport.validate(thisValue);
+                int length = array.getLength();
+                if (length == 0) {
+                    return Js.FALSE;
+                }
+                JsValue target = Js.arg(args, 0);
+                // 시작 위치 변환으로 배열이 줄면 사라진 인덱스는 undefined로 읽는다.
+                for (int index = searchStart(length, Js.arg(args, 1)); index < length; index++) {
+                    if (Ops.sameValueZero(target, elem(array, index))) {
+                        return Js.TRUE;
+                    }
+                }
+                return Js.FALSE;
+            }
+        });
         realm.method(proto, "indexOf", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 TypedArrayObject o = TypedSupport.validate(thisValue);
@@ -378,11 +405,7 @@ final class TypedArrayMethods {
                 if (len == 0) {
                     return Js.num(-1);
                 }
-                double n = Ops.toInteger(Js.arg(args, 1));
-                if (n >= len) {
-                    return Js.num(-1);
-                }
-                int k = n >= 0 ? (int) n : (int) Math.max(len + n, 0);
+                int k = searchStart(len, Js.arg(args, 1));
                 JsValue target = Js.arg(args, 0);
                 // 엄격한 동등 비교로 처음 일치하는 위치를 찾는다.
                 for (; k < len; k++) {
@@ -464,6 +487,20 @@ final class TypedArrayMethods {
                 }
             });
         }
+    }
+
+    /**
+     * Resolves a forward search's optional index against the captured length.
+     * <p>
+     * 저장한 길이를 기준으로 순방향 검색의 선택적인 시작 위치를 구한다.
+     *
+     * @param length captured array length / 저장한 배열 길이
+     * @param fromIndex starting position / 시작 위치
+     * @return the first index or length when the range is empty / 첫 위치 또는 범위가 비어 있으면 길이
+     */
+    private static int searchStart(int length, JsValue fromIndex) {
+        double index = Ops.toInteger(fromIndex);
+        return index >= 0 ? (int) Math.min(index, length) : (int) Math.max(length + index, 0);
     }
 
     /**

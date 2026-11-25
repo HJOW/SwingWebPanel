@@ -68,6 +68,26 @@ public class TypedArrayScriptTest {
     }
 
     /**
+     * Verifies SameValueZero searches and resizing during fromIndex conversion.
+     * <p>
+     * SameValueZero 검색과 fromIndex 변환 중 버퍼 길이 변경을 검증한다.
+     */
+    public void testTypedArrayIncludes() {
+        check("true,true,false,true,false,-1,true,false",
+                "var a=new Float16Array([NaN,-0,4]);"
+                + "[a.includes(NaN),a.includes(+0,-2),a.includes(NaN,-2),a.includes(NaN,-Infinity),"
+                + "a.includes(4,Infinity),a.indexOf(NaN),new BigInt64Array([2n]).includes(2n),"
+                + "new BigInt64Array([2n]).includes(2)].join()");
+        check("true,-1,false,false,TypeError",
+                "var b=new ArrayBuffer(2,{maxByteLength:4}),a=new Uint8Array(b),fixed=new Uint8Array(b,0,1);"
+                + "var shrink={valueOf(){b.resize(0);return 0;}}, found=a.includes(undefined,shrink);"
+                + "b.resize(2);var index=a.indexOf(undefined,shrink),called=false;"
+                + "var empty=a.includes(0,{valueOf(){called=true;throw 'unexpected';}}), error;"
+                + "try{fixed.includes(0);}catch(e){error=e.name;}"
+                + "[found,index,empty,called,error].join()");
+    }
+
+    /**
      * The constructors exist, convert values and print as expected.
      * <p>
      * 생성자가 있고 값을 변환하며 기대대로 출력된다.

@@ -362,7 +362,7 @@
 | ES-B-STR | 21.1 / 22.1 | `String`(`codePointAt fromCodePoint normalize repeat startsWith endsWith includes raw`, 이터레이터) | `StringBuiltinsTest`, `Es2022RegExpTest.testUnicode18StringCasing` | 부분 구현: 기본 대소문자는 Unicode 18.0.0으로 검증했다. normalize의 JRE 판본 차이는 P29-10 대조 대상 |
 | ES-B-RE | 21.2 / 22.2 | `RegExp`(`y u` 플래그, `lastIndex`, `@@match @@replace @@search @@split`, 자체 엔진) | `js.regexp.RegExpTest`, `js.builtins.datajson.RegExpTest`, `Es2022RegExpTest.testUnicode18RegExpCaseFolding` | 검증 완료(Unicode 18.0.0 접기 및 레거시 정규형) |
 | ES-B-ARR | 22.1 / 23.1 | `Array`(`from of copyWithin fill find findIndex keys values entries`, 이터레이터, Species) | `js.builtins.stringarray.ArrayBuiltinsTest`, `js.builtins.stringarray.ArrayMethodsTest` | 검증 완료 |
-| ES-B-TYPED | 22.2 / 23.2 | `%TypedArray%`와 `Int8Array … Float64Array` | `js.builtins.typed.TypedArrayMethodsTest` | 검증 완료 |
+| ES-B-TYPED | 22.2 / 23.2 | `%TypedArray%`와 구체 형식화 배열 | `TypedArrayMethodsTest`, `TypedArrayScriptTest`, `BuiltinPropertiesTest`, `MetaConformanceTest` | 검증 완료. 제17판 §23.2.3.16의 includes와 구체 배열 12종의 BYTES_PER_ELEMENT 및 상속 사슬을 P29-10-a2에서 확인했다. |
 | ES-B-MAP | 23 / 24 | `Map Set WeakMap WeakSet` | `js.builtins.datajson.CollectionTest` | 검증 완료 |
 | ES-B-BUF | 24.1-2 / 25.1·25.3 | `ArrayBuffer`, `DataView` | `js.builtins.typed.ArrayBufferTest`, `js.builtins.typed.DataViewTest` | 검증 완료 |
 | ES-B-JSON | 24.3 / 25.5 | `JSON`(parse/stringify, reviver/replacer, 순환 오류) | `js.builtins.datajson.JsonTest` | 검증 완료 |
