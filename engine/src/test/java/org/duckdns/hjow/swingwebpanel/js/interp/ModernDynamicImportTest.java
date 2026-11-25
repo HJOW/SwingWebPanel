@@ -134,6 +134,58 @@ public class ModernDynamicImportTest {
     }
 
     /**
+     * Separates argument evaluation from Promise rejection and keeps getter order.
+     * <p>
+     * 인수 평가와 Promise 거부를 구분하고 getter 호출 순서를 보존한다.
+     */
+    public void testDynamicImportOptionsOrder() {
+        Object[] setup = realm("root/ok.js", "export default 1;");
+        JsRealm realm = (JsRealm) setup[0];
+        realm.evaluateScript("var log=[];"
+                + "function fail(x){throw x;}"
+                + "try {import(fail('arg'),log.push('wrong'));} catch(e){log.push(e);}"
+                + "try {import({toString(){log.push('wrong');}},fail('opt'));} catch(e){log.push(e);}"
+                + "var spec={toString(){log.push('string');return './ok.js';}};"
+                + "var attrs={get bad(){log.push('bad');return 0;},get later(){log.push('later');throw 'getter';}};"
+                + "import((log.push('specifier'),spec),(log.push('options'),{get with(){log.push('with');return attrs;}}))"
+                + ".catch(e=>log.push(e));"
+                + "import({toString(){throw 'coerce';}},{get with(){log.push('wrong');}}).catch(e=>log.push(e));"
+                + "log.push('end');", "root/main.js");
+        realm.runJobs();
+        Check.equal("arg,opt,specifier,options,string,with,bad,later,end,getter,coerce",
+                Ops.toString(realm.getGlobalObject().get("log")), "evaluation, getters and promise rejection");
+        Check.isTrue(((Loader) setup[1]).fetches.isEmpty(), "no fetch after rejected options");
+    }
+
+    /**
+     * Reads own enumerable string keys and rejects invalid or unsupported attributes.
+     * <p>
+     * 열거 가능한 자체 문자열 키를 읽고 잘못되었거나 지원하지 않는 속성을 거부한다.
+     */
+    public void testDynamicImportAttributeChecks() {
+        Object[] setup = realm("root/ok.js", "export default 1;");
+        JsRealm realm = (JsRealm) setup[0];
+        realm.evaluateScript("var outcomes=[];var calls=[];"
+                + "var attrs=Object.create({get inherited(){calls.push('wrong');}});"
+                + "Object.defineProperty(attrs,'hidden',{get(){calls.push('wrong');}});"
+                + "Object.defineProperty(attrs,Symbol(),{enumerable:true,get(){calls.push('wrong');}});"
+                + "Object.defineProperty(attrs,'a',{enumerable:true,configurable:true,get(){calls.push('a');delete attrs.b;return 'x';}});"
+                + "attrs.b='y';"
+                + "var p=new Proxy(attrs,{ownKeys(t){calls.push('keys');return Reflect.ownKeys(t);},"
+                + "getOwnPropertyDescriptor(t,k){calls.push('desc:'+k);return Reflect.getOwnPropertyDescriptor(t,k);}});"
+                + "for (let option of [null, {with:null}, {with:{type:1}}, {with:p}])"
+                + "  import('./ok.js',option).catch(e=>outcomes.push(e.name));"
+                + "import('./ok.js',{get assert(){calls.push('wrong');},with:Object.create(attrs.__proto__)},)"
+                + ".then(m=>outcomes.push(m.default));", "root/main.js");
+        realm.runJobs();
+        Check.equal("keys,desc:hidden,desc:a,a,desc:b", Ops.toString(realm.getGlobalObject().get("calls")),
+                "descriptors and gets are interleaved and symbols are skipped");
+        Check.equal("TypeError,TypeError,TypeError,TypeError,1", Ops.toString(realm.getGlobalObject().get("outcomes")),
+                "rejected options and one successful load");
+        Check.equal(Integer.valueOf(1), ((Loader) setup[1]).fetches.get("root/ok.js"), "only the unqualified module is fetched");
+    }
+
+    /**
      * Checks top-level await and dependency ordering.
      * <p>
      * top-level await 와 의존성 순서를 검사한다.

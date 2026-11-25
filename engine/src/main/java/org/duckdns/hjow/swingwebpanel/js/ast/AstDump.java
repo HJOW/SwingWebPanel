@@ -361,6 +361,9 @@ public final class AstDump {
         case NodeType.IMPORT_CALL:
             sb.append("(import-call");
             child(n.a, sb);
+            if (n.b != null) {
+                child(n.b, sb);
+            }
             sb.append(')');
             return;
         case NodeType.ARRAY_PATTERN:

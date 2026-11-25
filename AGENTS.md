@@ -777,7 +777,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   구현: `js.parser.*`, `js.ast.*`, `js.interp.*`, `js.ModuleLoader`, `js.host.*`, `js.worker.*`. 완료 조건: 엔진 단독 모듈 시험과 브라우저 HTTP 통합 시험(정적/동적 JSON import, MIME 거부, CORS, 캐시 분리)이 JDK 6에서 통과한다.
   - [x] P29-03-a. `Lexer`에서 첫 문자부터 시작한 해시뱅을 한 줄 주석으로 읽는다. Script, Module, eval 허용과 공백·BOM·함수 인수 뒤 거부, 탐색 위치와 기존 private 식별자를 JDK 6에서 검증한다.
   - [x] P29-03-b. `Parser`, `ProgramInfo`와 모듈 레코드에 정적 가져오기·재내보내기의 속성을 포함한다. 문자열·식별자 키, 중복과 오류, 키 순서에 독립적인 요청 동일성을 JDK 6에서 검증한다.
-  - [ ] P29-03-c. 표현식 파서, 인터프리터와 `ModuleLoader`에서 동적 `import()` 옵션과 호스트 속성 검사를 구현한다. 옵션 평가 순서와 실패의 Promise 전달을 JDK 6에서 검증한다.
+  - [x] P29-03-c. 표현식 파서와 인터프리터에서 동적 `import()` 옵션을 읽고 `ModuleLoader`로 넘기기 전에 호스트 속성을 검사한다. 옵션 평가 순서와 실패의 Promise 전달을 JDK 6에서 검증한다.
   - [ ] P29-03-d. 엔진 모듈 레코드에서 JSON 합성 모듈의 `default`와 속성별 캐시를 구현한다. 정적·동적 가져오기, 재내보내기, 값과 오류 수명을 JDK 6에서 검증한다.
   - [ ] P29-03-e. 브라우저 페이지·Worker·AudioWorklet 로더에 JSON 모듈 요청을 전달한다. HTTP 서버로 MIME 및 CORS 검사와 캐시 분리를 JDK 6에서 검증한다.
 - [ ] P29-04. ES2023~ES2026 배열·형식화 배열·이진 데이터(`Float16Array`, `Uint8Array` Base64/Hex, 가변 `ArrayBuffer`)를 구현한다.

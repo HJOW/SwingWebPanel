@@ -1240,12 +1240,16 @@ abstract class ExpressionParser extends ParserBase {
         next();
         expectP("(");
         Node specifier = parseAssignment(false);
-        if (isP(",")) {
-            throw error("A dynamic import accepts one specifier in ECMAScript 2022", tok);
+        Node options = null;
+        // 쉼표 뒤에 닫는 괄호가 없으면 두 번째 인수를 읽고 끝 쉼표도 허용한다.
+        if (eatP(",") && !isP(")")) {
+            options = parseAssignment(false);
+            eatP(",");
         }
         expectP(")");
         Node n = mk(NodeType.IMPORT_CALL, start);
         n.a = specifier;
+        n.b = options;
         return done(n);
     }
 

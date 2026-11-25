@@ -27,8 +27,6 @@ import org.duckdns.hjow.swingwebpanel.js.ast.Node;
 import org.duckdns.hjow.swingwebpanel.js.ast.NodeType;
 import org.duckdns.hjow.swingwebpanel.js.ast.Op;
 import org.duckdns.hjow.swingwebpanel.js.ast.TemplateParts;
-import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseCapability;
-import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseInterop;
 
 /**
  * Evaluates expressions (ECMA-262 6th edition clause 12). All evaluation goes through {@link #eval(Node, Environment, Ctx)}.
@@ -270,14 +268,10 @@ final class Expressions {
             }
             return metaModule.importMeta();
         case NodeType.IMPORT_CALL: {
-            PromiseCapability capability = PromiseInterop.newCapability(realm);
-            try {
-                String specifier = Ops.toString(memo(st, n.a, env, ctx));
-                return in.dynamicImport(capability, specifier, ctx.sourceName);
-            } catch (JsException e) {
-                Ops.call(capability.getRejectFunction(), Js.UNDEFINED, new JsValue[] { e.getValue(realm) });
-                return capability.getPromise();
-            }
+            // 두 인수의 평가 예외는 Promise를 만들기 전 호출한 코드에 전달된다.
+            JsValue specifier = memo(st, n.a, env, ctx);
+            JsValue options = n.b == null ? Js.UNDEFINED : memo(st, n.b, env, ctx);
+            return in.dynamicImport(specifier, options, ctx.sourceName);
         }
         default:
             throw JsException.syntaxError("Unsupported expression (node type " + n.type + ")", null, n.line, n.column);

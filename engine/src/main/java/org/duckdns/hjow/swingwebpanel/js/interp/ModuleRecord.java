@@ -244,10 +244,7 @@ final class ModuleRecord {
             // 요청된 모듈을 순서대로 해석해 불러온다.
             for (ModuleRequest request : m.info.moduleRequests) {
                 String spec = request.getSpecifier();
-                // 속성을 처리할 로더가 연결되기 전에는 속성이 유실되는 요청을 거부한다.
-                if (!request.getAttributes().isEmpty()) {
-                    throw JsException.typeError("Unsupported import attributes for module '" + spec + "'");
-                }
+                validateImportAttributes(request);
                 if (loader == null) {
                     throw JsException.typeError("Cannot resolve module '" + spec + "': no module loader is configured");
                 }
@@ -259,6 +256,20 @@ final class ModuleRecord {
             throw e;
         }
         return m;
+    }
+
+    /**
+     * Checks that the engine's module host can honor the import attributes.
+     * <p>
+     * 엔진의 모듈 호스트가 가져오기 속성을 처리할 수 있는지 검사한다.
+     *
+     * @param request the module request / 모듈 요청
+     */
+    static void validateImportAttributes(ModuleRequest request) {
+        // 아직 모듈 타입을 바꿀 수 없으므로 속성을 무시하고 가져오지 않는다.
+        if (!request.getAttributes().isEmpty()) {
+            throw JsException.typeError("Unsupported import attributes for module '" + request.getSpecifier() + "'");
+        }
     }
 
     /**

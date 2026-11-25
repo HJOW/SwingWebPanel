@@ -1,7 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.js.interp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.duckdns.hjow.swingwebpanel.js.ExecutionLimits;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsArray;
@@ -13,6 +16,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsString;
 import org.duckdns.hjow.swingwebpanel.js.ModuleGraph;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.ParsedScript;
@@ -227,16 +231,28 @@ public final class Interpreter {
      * <p>
      * 동적 import 를 시작하고 Promise 를 반환한다.
      *
-     * @param capability returned Promise capability / 반환 Promise capability
-     * @param specifier module specifier / 모듈 지정자
+     * @param specifier evaluated module specifier / 평가한 모듈 지정자
+     * @param options evaluated import options or undefined / 평가한 가져오기 옵션 또는 undefined
      * @param referrer referring module or script name / 참조하는 모듈/스크립트 이름
      * @return import Promise / import Promise
      */
-    JsObject dynamicImport(final PromiseCapability capability, final String specifier, final String referrer) {
+    JsObject dynamicImport(JsValue specifier, JsValue options, final String referrer) {
+        final PromiseCapability capability = PromiseInterop.newCapability(realm);
+        final ModuleRequest request;
+        try {
+            String text = Ops.toString(specifier);
+            request = new ModuleRequest(text, importAttributes(options));
+            ModuleRecord.validateImportAttributes(request);
+        } catch (JsException e) {
+            // 지정자 변환과 속성 조회 중의 예외부터는 Promise로 전달한다.
+            Ops.call(capability.getRejectFunction(), Js.UNDEFINED, new JsValue[] { e.getValue(realm) });
+            return capability.getPromise();
+        }
         org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseJobs.enqueue(realm, new Runnable() {
             public void run() {
                 try {
                     ModuleLoader loader = realm.getModuleLoader();
+                    String specifier = request.getSpecifier();
                     if (loader == null) {
                         throw JsException.typeError("Cannot import module '" + specifier + "': no module loader is configured");
                     }
@@ -263,6 +279,51 @@ public final class Interpreter {
             }
         });
         return capability.getPromise();
+    }
+
+    /**
+     * Reads the enumerable own string properties of the import options' with object.
+     * <p>
+     * 가져오기 옵션의 with 객체에서 열거 가능한 자체 문자열 프로퍼티를 읽는다.
+     *
+     * @param options the evaluated options argument / 평가한 옵션 인수
+     * @return the import attributes / 가져오기 속성
+     */
+    private Map<String, String> importAttributes(JsValue options) {
+        Map<String, String> attributes = new HashMap<String, String>();
+        if (options.isUndefined()) {
+            return attributes;
+        }
+        if (!(options instanceof JsObject)) {
+            throw JsException.typeError("Import options must be an object");
+        }
+        JsValue with = ((JsObject) options).get("with");
+        if (with.isUndefined()) {
+            return attributes;
+        }
+        if (!(with instanceof JsObject)) {
+            throw JsException.typeError("Import attributes must be an object");
+        }
+
+        JsObject object = (JsObject) with;
+        Map<String, JsValue> values = new LinkedHashMap<String, JsValue>();
+        // 열거 여부를 확인한 키의 값을 바로 읽어 getter와 Proxy의 호출 순서를 유지한다.
+        for (Object key : object.ownKeys()) {
+            if (key instanceof String) {
+                PropertyDescriptor desc = object.getOwnProperty(key);
+                if (desc != null && Boolean.TRUE.equals(desc.enumerable)) {
+                    values.put((String) key, object.get(key));
+                }
+            }
+        }
+        // 열거를 마친 뒤에 값의 타입을 속성 순서대로 검사한다.
+        for (Map.Entry<String, JsValue> entry : values.entrySet()) {
+            if (!(entry.getValue() instanceof JsString)) {
+                throw JsException.typeError("Import attribute '" + entry.getKey() + "' must be a string");
+            }
+            attributes.put(entry.getKey(), ((JsString) entry.getValue()).getValue());
+        }
+        return attributes;
     }
 
     /**
