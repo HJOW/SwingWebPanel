@@ -64,6 +64,9 @@ public class LexerTest {
             case NUMBER:
                 sb.append("N(").append(t.raw).append(')');
                 break;
+            case BIGINT:
+                sb.append("I(").append(t.bigInteger.toString()).append(')');
+                break;
             case STRING:
                 sb.append("S(").append(t.value).append(')');
                 break;
@@ -105,9 +108,9 @@ public class LexerTest {
     }
 
     /**
-     * Longest-match punctuators; ** is not an ES2015 operator.
+     * Longest-match punctuators, including the ES2016 and ES2020 additions.
      * <p>
-     * 가장 긴 일치 구두점. ** 는 ES2015 연산자가 아니다.
+     * ES2016, ES2020 추가 구두점을 포함한 가장 긴 일치.
      */
     public void testPunctuators() {
         Check.equal(">>>= >>> >>= >> >= >", forms(">>>= >>> >>= >> >= >"), "greater-than family");
@@ -115,8 +118,11 @@ public class LexerTest {
         Check.equal("!== != !", forms("!== != !"), "bang family");
         Check.equal("<<= << <= <", forms("<<= << <= <"), "less-than family");
         Check.equal("... . ++ += + -- -= -", forms("... . ++ += + -- -= -"), "dots and signs");
-        Check.equal("&& &= & || |= | ^= ^ %= % *= * /= /", forms("&& &= & || |= | ^= ^ %= % *= * /= /"), "bit and arithmetic");
-        Check.equal("a * * b", forms("a ** b"), "** is two stars in ES2015");
+        Check.equal("&& &&= &= & || ||= |= | ^= ^ %= % **= ** *= * /= /", forms("&& &&= &= & || ||= |= | ^= ^ %= % **= ** *= * /= /"),
+                "bit and arithmetic");
+        Check.equal("a ** b", forms("a ** b"), "exponentiation");
+        Check.equal("a ?. b a ?? b a ??= b", forms("a?.b a??b a??=b"), "optional chaining and nullish");
+        Check.equal("a ? N(.3) : b", forms("a?.3:b"), "optional chaining punctuator is not formed before a digit");
         Check.equal("a . . . b", forms("a . . . b"), "spaced dots stay separate");
     }
 
@@ -171,6 +177,13 @@ public class LexerTest {
         Check.equal("N(1.) . toString ( )", forms("1..toString()"), "1. followed by a member access");
         Check.equal("N(1) . toString ( )", forms("1 .toString()"), "space before the dot");
         Check.equal("N(0.5e1)", forms("0.5e1"), "fraction with exponent");
+        Check.equal("I(1000)", forms("1_000n"), "decimal BigInt separator");
+        Check.equal("I(51966)", forms("0xCA_FEn"), "hex BigInt separator");
+        Check.equal("I(83)", forms("0o123n"), "octal BigInt");
+        Check.equal("I(5)", forms("0b101n"), "binary BigInt");
+        Check.equal(1000.0, Double.valueOf(lex("1_000").get(0).number), "decimal separator");
+        Check.equal(0.125, Double.valueOf(lex("0.1_25").get(0).number), "fraction separator");
+        Check.equal(4095.0, Double.valueOf(lex("0xF_FF").get(0).number), "hex separator");
     }
 
     /**
@@ -189,6 +202,15 @@ public class LexerTest {
         fails("0x1g");
         fails("12abc");
         fails("07a");
+        fails("1__0");
+        fails("1_");
+        fails("0x_FF");
+        fails("0x1_");
+        fails("1e1_");
+        fails("0_1");
+        fails("01n");
+        fails("1.0n");
+        fails("1e2n");
     }
 
     /**

@@ -31,6 +31,12 @@ public enum TokenType {
      */
     NUMBER,
     /**
+     * A BigInt integer literal ending in <code>n</code>.
+     * <p>
+     * <code>n</code> 으로 끝나는 BigInt 정수 리터럴.
+     */
+    BIGINT,
+    /**
      * A string literal.
      * <p>
      * 문자열 리터럴.

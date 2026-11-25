@@ -200,6 +200,9 @@ abstract class ExpressionParser extends ParserBase {
         if (v.equals("*=")) {
             return Op.MUL;
         }
+        if (v.equals("**=")) {
+            return Op.EXP;
+        }
         if (v.equals("/=")) {
             return Op.DIV;
         }
@@ -436,6 +439,8 @@ abstract class ExpressionParser extends ParserBase {
         case Op.ADD:
         case Op.SUB:
             return 9;
+        case Op.EXP:
+            return 11;
         default:
             return 10;
         }
@@ -516,6 +521,9 @@ abstract class ExpressionParser extends ParserBase {
         if (op != 0) {
             next();
             Node operand = parseUnary();
+            if (operand.type == NodeType.BINARY && operand.op == Op.EXP && !operand.paren) {
+                throw error("Unary expression may not be the left-hand side of exponentiation", t);
+            }
             if (op == Op.DELETE && fc.strict && operand.type == NodeType.IDENT) {
                 throw error("Delete of an unqualified identifier in strict mode.", operand);
             }
@@ -531,6 +539,14 @@ abstract class ExpressionParser extends ParserBase {
             n.op = tok.value.equals("++") ? Op.INC : Op.DEC;
             n.a = e;
             next();
+            e = done(n);
+        }
+        if (isP("**")) {
+            next();
+            Node n = mk(NodeType.BINARY, t);
+            n.op = Op.EXP;
+            n.a = e;
+            n.b = parseUnary();
             return done(n);
         }
         return e;
@@ -734,6 +750,12 @@ abstract class ExpressionParser extends ParserBase {
             next();
             Node n = mk(NodeType.LITERAL, t);
             n.value = JsNumber.of(t.number);
+            return done(n);
+        }
+        case BIGINT: {
+            next();
+            Node n = mk(NodeType.LITERAL, t);
+            n.value = t.bigInteger;
             return done(n);
         }
         case STRING: {

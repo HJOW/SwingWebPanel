@@ -14,7 +14,8 @@ import org.duckdns.hjow.swingwebpanel.js.JsException;
  * after <code>}</code> ({@link #rescanTemplateContinuation(Token)}). {@link #saveState()} and {@link #restoreState(State)} support
  * the parser's speculation and lookahead. Lexical errors are thrown as SyntaxError {@link JsException}s carrying line and column.
  * <p>
- * The <code>**</code> operator and the ES2016+ syntax are not part of ES2015 and are not recognized.
+ * ECMAScript 2016-2022 additions recognized by the grammar include the exponentiation punctuators, optional chaining,
+ * nullish operators, numeric separators and BigInt literals.
  * <p>
  * 어휘 분석기(ECMA-262 6판 11장). 소스 텍스트를 필요할 때마다 {@link Token} 으로 바꾼다: 이스케이프가 있는 유니코드 식별자,
  * 숫자 리터럴(10진, <code>0x</code>, <code>0o</code>, <code>0b</code>, 레거시 8진), 모든 이스케이프가 있는 문자열 리터럴,
@@ -24,7 +25,8 @@ import org.duckdns.hjow.swingwebpanel.js.JsException;
  * 정규식으로 다시 읽음)과 <code>}</code> 뒤의 템플릿 이어짐({@link #rescanTemplateContinuation(Token)}). {@link #saveState()},
  * {@link #restoreState(State)} 는 파서의 추측 파싱과 미리 보기에 쓴다. 어휘 오류는 줄/열을 가진 SyntaxError {@link JsException} 으로 던진다.
  * <p>
- * <code>**</code> 연산자와 ES2016 이후 문법은 ES2015 에 없으므로 인식하지 않는다.
+ * 문법이 인식하는 ECMAScript 2016~2022 추가 요소에는 거듭제곱 구두점, optional chaining, nullish 연산자,
+ * 숫자 구분자와 BigInt 리터럴이 포함된다.
  */
 public final class Lexer {
 
@@ -543,61 +545,122 @@ public final class Lexer {
             int radix = (n == 'x' || n == 'X') ? 16 : (n == 'o' || n == 'O') ? 8 : (n == 'b' || n == 'B') ? 2 : 0;
             if (radix != 0) {
                 pos += 2;
-                int ds = pos;
-                // 진법에 맞는 숫자가 이어지는 동안 읽는다.
-                while (pos < len && JsChars.hexValue(src.charAt(pos)) >= 0 && JsChars.hexValue(src.charAt(pos)) < radix) {
+                String digits = scanSeparatedDigits(radix);
+                if (pos < len && src.charAt(pos) == 'n') {
                     pos++;
+                    t.type = TokenType.BIGINT;
+                    t.bigInteger = new BigInteger(digits, radix);
+                } else {
+                    t.number = new BigInteger(digits, radix).doubleValue();
                 }
-                if (pos == ds) {
-                    throw error("Missing digits after the radix prefix of a numeric literal");
-                }
-                t.number = new BigInteger(src.substring(ds, pos), radix).doubleValue();
                 checkAfterNumber();
                 return;
             }
-            if (isDigit(n)) {
-                int ds = pos;
-                boolean allOctal = true;
-                // 0 으로 시작하는 숫자열이 모두 8진수 숫자인지 확인한다.
-                while (pos < len && isDigit(src.charAt(pos))) {
-                    if (src.charAt(pos) > '7') {
-                        allOctal = false;
-                    }
-                    pos++;
-                }
-                sawLegacyOctal = true;
-                if (allOctal) {
-                    t.number = new BigInteger(src.substring(ds, pos), 8).doubleValue();
-                    checkAfterNumber();
-                    return;
-                }
-                pos = begin;
-            }
         }
-        // 10진 리터럴: 정수부, 소수부, 지수부.
-        while (pos < len && isDigit(src.charAt(pos))) {
+
+        boolean leadingDot = c == '.';
+        String integerDigits = "";
+        if (leadingDot) {
             pos++;
+        } else {
+            integerDigits = scanSeparatedDigits(10);
         }
+        boolean exponent = false;
+        boolean dot = leadingDot;
+        StringBuilder normalized = new StringBuilder(integerDigits);
         if (pos < len && src.charAt(pos) == '.') {
+            dot = true;
             pos++;
-            while (pos < len && isDigit(src.charAt(pos))) { // 소수부 숫자를 읽는다.
-                pos++;
+            normalized.append('.');
+            if (pos < len && isDigit(src.charAt(pos))) {
+                normalized.append(scanSeparatedDigits(10));
+            } else if (leadingDot) {
+                throw error("Missing digits after decimal point");
             }
+        } else if (leadingDot) {
+            normalized.insert(0, "0.");
+            normalized.append(scanSeparatedDigits(10));
         }
         if (pos < len && (src.charAt(pos) == 'e' || src.charAt(pos) == 'E')) {
+            exponent = true;
+            normalized.append(src.charAt(pos));
             pos++;
             if (pos < len && (src.charAt(pos) == '+' || src.charAt(pos) == '-')) {
+                normalized.append(src.charAt(pos));
                 pos++;
             }
-            if (pos >= len || !isDigit(src.charAt(pos))) {
-                throw error("Missing exponent digits in numeric literal");
+            normalized.append(scanSeparatedDigits(10));
+        }
+        boolean separators = src.substring(begin, pos).indexOf('_') >= 0;
+        if (!leadingDot && integerDigits.length() > 1 && integerDigits.charAt(0) == '0') {
+            sawLegacyOctal = true;
+            if (separators) {
+                throw error("Numeric separators are not allowed in a legacy octal literal");
             }
-            while (pos < len && isDigit(src.charAt(pos))) { // 지수부 숫자를 읽는다.
-                pos++;
+            boolean octal = true;
+            for (int i = 0; i < integerDigits.length(); i++) {
+                if (integerDigits.charAt(i) > '7') {
+                    octal = false;
+                    break;
+                }
+            }
+            if (octal && !dot && !exponent && !(pos < len && src.charAt(pos) == 'n')) {
+                t.number = new BigInteger(integerDigits, 8).doubleValue();
+                checkAfterNumber();
+                return;
             }
         }
-        t.number = Double.parseDouble(src.substring(begin, pos));
+        if (pos < len && src.charAt(pos) == 'n') {
+            if (leadingDot || dot || exponent || (integerDigits.length() > 1 && integerDigits.charAt(0) == '0')) {
+                throw error("Invalid BigInt literal");
+            }
+            pos++;
+            t.type = TokenType.BIGINT;
+            t.bigInteger = new BigInteger(integerDigits, 10);
+        } else {
+            t.number = Double.parseDouble(normalized.toString());
+        }
         checkAfterNumber();
+    }
+
+    /**
+     * Reads digits in the selected radix while validating numeric separators between digits.
+     * <p>
+     * 선택한 진법의 숫자를 읽고 숫자 사이의 구분선을 검증한다.
+     *
+     * @param radix radix 2, 8, 10 or 16 / 진법 2, 8, 10 또는 16
+     * @return digits without separators / 구분선을 뺀 숫자
+     */
+    private String scanSeparatedDigits(int radix) {
+        StringBuilder out = new StringBuilder();
+        boolean digit = false;
+        // 유효 숫자와 그 사이의 밑줄만 읽는다. 밑줄 앞뒤는 모두 같은 진법의 숫자여야 한다.
+        while (pos < len) {
+            char ch = src.charAt(pos);
+            int value = JsChars.hexValue(ch);
+            if (value >= 0 && value < radix) {
+                out.append(ch);
+                digit = true;
+                pos++;
+            } else if (ch == '_') {
+                if (!digit || pos + 1 >= len) {
+                    throw error("Invalid numeric separator");
+                }
+                char next = src.charAt(pos + 1);
+                int nextValue = JsChars.hexValue(next);
+                if (nextValue < 0 || nextValue >= radix) {
+                    throw error("Invalid numeric separator");
+                }
+                pos++;
+                digit = false;
+            } else {
+                break;
+            }
+        }
+        if (out.length() == 0) {
+            throw error(radix == 10 ? "Missing digits in numeric literal" : "Missing digits after the radix prefix of a numeric literal");
+        }
+        return out.toString();
     }
 
     /**
@@ -987,7 +1050,13 @@ public final class Lexer {
             p = ":";
             break;
         case '?':
-            p = "?";
+            if (c1 == '?') {
+                p = c2 == '=' ? "??=" : "??";
+            } else if (c1 == '.' && !(c2 >= '0' && c2 <= '9')) {
+                p = "?.";
+            } else {
+                p = "?";
+            }
             break;
         case '.':
             p = (c1 == '.' && c2 == '.') ? "..." : ".";
@@ -1015,7 +1084,7 @@ public final class Lexer {
             p = c1 == '-' ? "--" : (c1 == '=' ? "-=" : "-");
             break;
         case '*':
-            p = c1 == '=' ? "*=" : "*";
+            p = c1 == '*' ? (c2 == '=' ? "**=" : "**") : (c1 == '=' ? "*=" : "*");
             break;
         case '/':
             p = c1 == '=' ? "/=" : "/";
@@ -1024,10 +1093,10 @@ public final class Lexer {
             p = c1 == '=' ? "%=" : "%";
             break;
         case '&':
-            p = c1 == '&' ? "&&" : (c1 == '=' ? "&=" : "&");
+            p = c1 == '&' ? (c2 == '=' ? "&&=" : "&&") : (c1 == '=' ? "&=" : "&");
             break;
         case '|':
-            p = c1 == '|' ? "||" : (c1 == '=' ? "|=" : "|");
+            p = c1 == '|' ? (c2 == '=' ? "||=" : "||") : (c1 == '=' ? "|=" : "|");
             break;
         case '^':
             p = c1 == '=' ? "^=" : "^";

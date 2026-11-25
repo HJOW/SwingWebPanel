@@ -1,5 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.parser;
 
+import java.math.BigInteger;
+
 /**
  * A token with its value and source position. Tokens are plain data holders created by the {@link Lexer}.
  * Lines and columns are 1-based; columns count UTF-16 code units.
@@ -38,6 +40,13 @@ public final class Token {
      * NUMBER 토큰의 숫자 값.
      */
     public double number;
+
+    /**
+     * The exact integer value of a BIGINT token.
+     * <p>
+     * BIGINT 토큰의 정확한 정수 값.
+     */
+    public BigInteger bigInteger;
 
     /**
      * The flags of a REGEXP token.
@@ -176,6 +185,8 @@ public final class Token {
             return "string " + raw;
         case NUMBER:
             return "number " + raw;
+        case BIGINT:
+            return "bigint " + raw;
         case TEMPLATE:
             return "template";
         case REGEXP:

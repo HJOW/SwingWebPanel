@@ -58,11 +58,11 @@ public class EarlyErrorTest {
         "if (1) class C {}", "if (1) let [a] = b;", "switch (a) { default: default: }", "try {}", "throw\n1", "do x; while (1) y; )",
         "for (;)", "for (a;b)", "label: class A {}", "while (1) let [a] = 1;",
         // 템플릿과 리터럴
-        "`\\u{zz}`", "`abc", "`a${b", "'abc", "/abc", "/a/gg", "0x", "1_0", "3in []", "'\\u{110000}'",
+        "`\\u{zz}`", "`abc", "`a${b", "'abc", "/abc", "/a/gg", "0x", "3in []", "'\\u{110000}'",
         // 예약어
         "var if", "var class = 1", "var enum", "var null", "var true", "var \\u0069f", "\\u0069f (a) b", "({ if })", "({ if = 1 } = x)",
         // ES2015 에 없는 문법: 무시하지 않고 오류로 보고한다
-        "async function f() {}", "a ** b", "x?.y", "a ?? b", "let x = 1n;", "class A { x = 1 }", "class A { #x }", "({...a})",
+        "async function f() {}", "x?.y", "a ?? b", "class A { x = 1 }", "class A { #x }", "({...a})",
         "import('x')", "f(a, ...)", "class A { static { } }",
     };
 

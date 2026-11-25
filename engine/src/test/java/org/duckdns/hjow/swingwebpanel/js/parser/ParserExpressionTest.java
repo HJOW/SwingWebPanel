@@ -99,6 +99,13 @@ public class ParserExpressionTest {
         Check.equal("(&& (&& a b) c)", e("a && b && c"), "logical and is left associative");
         Check.equal("(delete (. a b))", e("delete a.b"), "delete");
         Check.equal("(void 0)", e("void 0"), "void");
+        Check.equal("(** 2 (** 3 2))", e("2 ** 3 ** 2"), "exponentiation is right associative");
+        Check.equal("(** 2 (+ 3 4))", e("2 ** (3 + 4)"), "parenthesized exponent");
+        Check.equal("(** 2 (- 2))", e("2 ** -2"), "unary exponent is allowed on the right");
+        Check.equal("(**= a 3)", e("a **= 3"), "exponentiation assignment");
+        Check.equal("(** (- 2) 3)", e("(-2) ** 3"), "parenthesized unary is allowed on the left");
+        Check.equal("51966", e("0xCAFEn"), "BigInt literal");
+        bad("-2 ** 3");
     }
 
     /**
@@ -131,6 +138,8 @@ public class ParserExpressionTest {
         Check.equal("\"a\nb\"", e("'a\\nb'"), "string escape is resolved");
         Check.equal("true", e("true"), "true");
         Check.equal("null", e("null"), "null");
+        Check.equal("1000", e("1000n"), "BigInt is a literal node");
+        Check.equal("1000", e("1_000n"), "separated BigInt");
         Check.equal("this", e("this"), "this");
         Check.equal("(array 1 _ 2 (... a))", e("[1,,2,...a]"), "array literal with a hole and spread");
         Check.equal("(array)", e("[]"), "empty array");

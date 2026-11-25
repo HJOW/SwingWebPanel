@@ -57,6 +57,8 @@ public final class Op {
     public static final int LOGAND = 22;
     /** Logical or (||). / 논리 OR(||). */
     public static final int LOGOR = 23;
+    /** Exponentiation (**). / 거듭제곱(**). */
+    public static final int EXP = 24;
 
     /** Unary minus (-x). / 단항 마이너스(-x). */
     public static final int NEG = 30;
@@ -153,6 +155,8 @@ public final class Op {
             return "&&";
         case LOGOR:
             return "||";
+        case EXP:
+            return "**";
         default:
             return "?";
         }
