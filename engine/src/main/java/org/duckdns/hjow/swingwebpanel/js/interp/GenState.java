@@ -77,6 +77,13 @@ final class GenState {
     boolean yieldedRaw;
 
     /**
+     * Value awaited by a suspended async function.
+     * <p>
+     * 중단된 async 함수가 기다리는 값.
+     */
+    JsValue awaited;
+
+    /**
      * Returns the state of a node, creating it on first entry, and restarts its memo cursor.
      * <p>
      * 노드의 상태를 반환한다. 처음 들어가면 만들며, 저장 칸 커서를 처음으로 되돌린다.

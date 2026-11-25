@@ -95,7 +95,7 @@ public final class ScriptFunction extends JsFunction {
         this.info = info;
         this.scope = scope;
         defineNameAndLength(name, info.length);
-        protoMaterialized = info.arrow || (info.method && !info.classConstructor && !info.generator);
+        protoMaterialized = info.arrow || info.async || (info.method && !info.classConstructor && !info.generator);
     }
 
     /**
@@ -109,7 +109,7 @@ public final class ScriptFunction extends JsFunction {
         if (classConstructor) {
             return true;
         }
-        return !info.arrow && !info.method && !info.generator;
+        return !info.arrow && !info.method && !info.generator && !info.async;
     }
 
     /**

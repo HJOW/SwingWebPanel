@@ -247,6 +247,8 @@ final class Expressions {
         }
         case NodeType.YIELD:
             return n.flag ? evalYieldStar(n, env, ctx, st) : evalYield(n, env, ctx, st);
+        case NodeType.AWAIT:
+            return evalAwait(n, env, ctx, st);
         default:
             throw JsException.syntaxError("Unsupported expression (node type " + n.type + ")", null, n.line, n.column);
         }
@@ -1421,6 +1423,32 @@ final class Expressions {
             gen.yielded = v;
             gen.yieldedRaw = false;
             throw YieldSignal.INSTANCE;
+        }
+        return resumeValue(gen);
+    }
+
+    /**
+     * Evaluates await by suspending the async activation and returning the Promise reaction value on replay.
+     * <p>
+     * await 를 평가해 async 활성을 중단하고, 다시 실행할 때 Promise 반응 값을 반환한다.
+     *
+     * @param n await node / await 노드
+     * @param env environment / 환경
+     * @param ctx context / 문맥
+     * @param st saved node state / 저장 노드 상태
+     * @return resumed fulfillment value / 재개 이행 값
+     */
+    private JsValue evalAwait(Node n, Environment env, Ctx ctx, NodeState st) {
+        GenState gen = ctx.gen;
+        if (gen == null) {
+            throw JsException.syntaxError("await is only valid in an async function or module");
+        }
+        if (st.phase == 0) {
+            JsValue awaited = memo(st, n.a, env, ctx);
+            st.phase = 1;
+            gen.suspending = true;
+            gen.awaited = awaited;
+            throw AwaitSignal.INSTANCE;
         }
         return resumeValue(gen);
     }

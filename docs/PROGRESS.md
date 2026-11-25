@@ -11,13 +11,13 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
-=== P28-03-b 클래스 필드와 private 실행 의미 (2026-11-25) ===
-현재 작업 번호: P28-03-b 완료.
-완료한 내용: 클래스 brand와 WeakHashMap 기반 private 슬롯을 추가했다. base/derived/implicit constructor의 field 초기화 시점, static field와 static block의 소스 순서, 계산 키의 한 번 평가, private field/method/getter/setter, `#x in`, private 호출의 this, brand 오류를 연결했다.
-변경 파일: AGENTS.md(P28-03-b 완료), engine/src/main/java/.../interp/{ClassRuntime,Classes,ScriptFunction,Interpreter,Expressions,Reference,Environment}.java, engine/src/test/java/.../interp/ModernClassTest.java, 이 문서.
-검증 결과: `engine\test.bat --filter ModernClassTest` JDK 6u45 4 passed/0 failed/0 skipped.
-미해결 사항: async/await(P28-03-c~f), BigInt(P28-04)는 후속.
-다음 작업 번호: P28-03-c.
+=== P28-03-c async 함수와 await (2026-11-25) ===
+현재 작업 번호: P28-03-c 완료.
+완료한 내용: async 함수·화살표·메서드가 즉시 Promise 를 반환하면서 첫 await 까지는 동기로 실행하고, 이후 Promise 작업 큐에서 GenState를 재사용해 재개하도록 구현했다. await는 fulfillment/throw를 Resume 방식으로 처리하며 thenable·finally·중첩 거부·async 생성자 금지를 검증했다. 모듈 최상위 await는 비동기 ModuleRecord와 함께 P28-03-e에서 연결한다.
+변경 파일: AGENTS.md(P28-03-c 완료), parser/ExpressionParser.java, interp/{AsyncFunction,AwaitSignal,GenState,Expressions,Interpreter,ScriptFunction}.java, builtins/meta/PromiseInterop.java, ModernAsyncTest.java, 이 문서.
+검증 결과: `engine\test.bat --filter ModernAsyncTest` JDK 6u45 5 passed/0 failed/0 skipped.
+미해결 사항: async generator/for-await(P28-03-d), dynamic import/TLA(P28-03-e), 수명 통합(P28-03-f), BigInt(P28-04).
+다음 작업 번호: P28-03-d.
 -----------------------------------------------------------------------------------------------
 === P28-02 ES2016~ES2022 파서 완료 (2026-11-25) ===
 현재 작업 번호: P28-02 완료(P28-02-a~f).

@@ -435,6 +435,9 @@ public final class Interpreter {
             // 꼬리 호출이 요청되면 같은 호출 깊이에서 대상 함수를 이어서 실행한다(ES2015 14.6, 트램펄린).
             for (;;) {
                 Ctx ctx = prepareCall(cur, curThis, curArgs, null);
+                if (cur.info.async && !cur.info.generator) {
+                    return AsyncFunction.start(this, cur, ctx);
+                }
                 if (cur.info.generator) {
                     return GeneratorObject.create(this, cur, ctx);
                 }
@@ -552,7 +555,7 @@ public final class Interpreter {
         Ctx ctx = new Ctx(info.strict, fenv, f);
         ctx.sourceName = info.sourceName == null ? "" : info.sourceName;
         ctx.funcEnv = fenv;
-        if (info.generator) {
+        if (info.generator || info.async) {
             ctx.gen = new GenState();
         }
         functionDeclarationInstantiation(f, fenv, args, ctx);

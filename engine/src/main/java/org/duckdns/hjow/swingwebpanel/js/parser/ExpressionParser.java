@@ -394,6 +394,7 @@ abstract class ExpressionParser extends ParserBase {
         Token t = tok;
         next();
         Node n = mk(NodeType.AWAIT, t);
+        n.hasYield = true;
         n.a = parseUnary();
         n.end = n.a.end;
         return n;
