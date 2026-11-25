@@ -768,6 +768,8 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - [ ] P29-02-h. `FrameApi`, 브라우징 문맥과 `JsRealm`에서 이동 전후 WindowProxy와 `globalThis`의 동일성을 검증한다. 이전부터 창을 가리키던 부모의 참조가 같은 오리진의 새 문서를 보고, 오리진이 바뀌면 같은 참조에 접근 제한이 적용되는지 JDK 6의 실제 프레임 이동으로 확인한다.
     - [x] P29-02-h1. `JsRealm`과 인터프리터에서 호스트가 지정한 별도 전역 this 값으로 `globalThis`와 스크립트의 최상위 this를 연결한다. 전역 변수와 식별자 해석은 전역 객체에 남으며 비엄격 호출, eval, 모듈, 독립 엔진의 차이를 JDK 6에서 검증한다.
     - [ ] P29-02-h2. 프레임 브라우징 문맥별 WindowProxy를 브라우저에서 사용한다. 같은 오리진 사이의 동작, 이동 후 기존 참조의 현재 문서 연결, 교차 오리진 재판정과 폐기, 메시지 출처와 window 별칭을 실제 HTTP 프레임의 JDK 6 시험으로 확인한다.
+      - [x] P29-02-h2a. 현재 실행 realm을 추적한다. 다른 realm의 함수·생성자·제너레이터·모듈로 들어갔다가 예외로 끝나도 호출자의 realm이 복원되어야 한다. JDK 6 엔진 시험에서 속성 접근으로 관찰한다.
+      - [ ] P29-02-h2b. `PageScripts`, `WindowGlobals`, `FrameApi`의 창 진입점을 문맥별 WindowProxy에 연결한다. 보관한 참조의 오리진 재검사와 창 별칭, 프레임 메시징을 JDK 6 통합 시험으로 검증한다.
 - [ ] P29-03. ES2023~ES2025 어휘·구문·모듈 확장(Hashbang, Import Attributes, JSON 모듈)을 구현한다.
   - Hashbang 주석(`12.5 Hashbang Comments`): Script와 Module 시작 오프셋 0의 `#!...` 한 줄 주석을 허용하고(`InputElementHashbangOrRegExp`), 공백·BOM 뒤나 함수 본문 등 허용되지 않는 위치의 조기 오류 및 `eval`/`Function` 처리 규칙을 규격대로 검증한다.
   - Import Attributes(`16.2.2`, `13.3.10`): 정적 `import ... with { key: "value" }`, `export ... from ... with { ... }`, 동적 `import(specifier, options)` 두 번째 인수(`options.with`), `ModuleRequest Record`와 속성 동등성(`ModuleRequestsEqual`), 중복 키 조기 오류와 호스트 미지원 속성 거부(`AllImportAttributesSupported`/`HostGetSupportedImportAttributes`)를 구현한다.

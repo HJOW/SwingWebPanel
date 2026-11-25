@@ -174,7 +174,7 @@ public final class GeneratorObject extends JsObject {
         gen.suspending = false;
         gen.resumeMode = mode;
         gen.resumeValue = value;
-        interp.enter();
+        JsRealm previous = interp.enter();
         state = RUNNING;
         boolean suspended = false;
         try {
@@ -188,7 +188,7 @@ public final class GeneratorObject extends JsObject {
         } catch (GeneratorReturn r) {
             return IteratorHelper.createResult(realm, r.value, true);
         } finally {
-            interp.depth--;
+            interp.leave(previous);
             state = suspended ? SUSPENDED : DONE;
             if (!suspended) {
                 gen.saved.clear();

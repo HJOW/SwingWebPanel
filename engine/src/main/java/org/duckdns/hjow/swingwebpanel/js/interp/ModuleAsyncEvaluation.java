@@ -86,7 +86,7 @@ final class ModuleAsyncEvaluation {
         gen.suspending = false;
         gen.resumeMode = mode;
         gen.resumeValue = value;
-        module.in.enter();
+        JsRealm previous = module.in.enter();
         try {
             module.in.st.execList(module.program().list, module.env, ctx);
             module.finishAsync();
@@ -95,7 +95,7 @@ final class ModuleAsyncEvaluation {
         } catch (JsException e) {
             module.failAsync(e);
         } finally {
-            module.in.depth--;
+            module.in.leave(previous);
         }
     }
 

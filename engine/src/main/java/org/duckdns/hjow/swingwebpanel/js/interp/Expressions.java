@@ -1199,8 +1199,9 @@ final class Expressions {
             }
             return in.performEval(((JsString) args[0]).getValue(), true, env, ctx);
         }
-        if (tail && func instanceof ScriptFunction && !((ScriptFunction) func).classConstructor) {
-            // 꼬리 호출: 호출자의 트램펄린이 이 함수 본문이 끝난 뒤 실행한다.
+        if (tail && func instanceof ScriptFunction && !((ScriptFunction) func).classConstructor
+                && ((ScriptFunction) func).getRealm() == realm) {
+            // 같은 realm의 꼬리 호출만 호출자의 트램펄린에서 실행한다.
             ctx.tailTarget = (ScriptFunction) func;
             ctx.tailThis = thisOut[0];
             ctx.tailArgs = args;

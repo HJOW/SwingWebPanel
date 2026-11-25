@@ -183,8 +183,13 @@ public class NativeFunction extends JsFunction {
      * @return the result / 결과
      */
     public JsValue call(JsValue thisValue, JsValue[] args) {
-        JsValue r = callImpl.call(realm, thisValue, args);
-        return r == null ? Js.UNDEFINED : r;
+        JsRealm previous = RealmExecution.enter(realm);
+        try {
+            JsValue r = callImpl.call(realm, thisValue, args);
+            return r == null ? Js.UNDEFINED : r;
+        } finally {
+            RealmExecution.restore(previous);
+        }
     }
 
     /**
@@ -200,6 +205,11 @@ public class NativeFunction extends JsFunction {
         if (constructImpl == null) {
             throw JsException.typeError("not a constructor");
         }
-        return constructImpl.construct(realm, args, newTarget == null ? this : newTarget);
+        JsRealm previous = RealmExecution.enter(realm);
+        try {
+            return constructImpl.construct(realm, args, newTarget == null ? this : newTarget);
+        } finally {
+            RealmExecution.restore(previous);
+        }
     }
 }

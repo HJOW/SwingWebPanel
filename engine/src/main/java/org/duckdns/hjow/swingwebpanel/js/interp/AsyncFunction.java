@@ -80,9 +80,7 @@ final class AsyncFunction {
             return;
         }
         state = RUNNING;
-        if (!initial) {
-            in.enter();
-        }
+        JsRealm previous = initial ? null : in.enter();
         GenState gen = ctx.gen;
         gen.suspending = false;
         gen.resumeMode = mode;
@@ -100,7 +98,7 @@ final class AsyncFunction {
             throw e;
         } finally {
             if (!initial) {
-                in.depth--;
+                in.leave(previous);
             }
         }
     }

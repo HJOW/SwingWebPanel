@@ -166,7 +166,7 @@ public final class AsyncGeneratorObject extends JsObject {
         gen.suspending = false;
         gen.resumeMode = mode;
         gen.resumeValue = value;
-        in.enter();
+        JsRealm previous = in.enter();
         try {
             JsValue result = in.runBody(function, ctx);
             state = DONE;
@@ -187,7 +187,7 @@ public final class AsyncGeneratorObject extends JsObject {
             settle(false, e.getValue(in.realm));
             process();
         } finally {
-            in.depth--;
+            in.leave(previous);
         }
     }
 

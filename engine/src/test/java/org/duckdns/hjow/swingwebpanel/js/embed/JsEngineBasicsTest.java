@@ -10,9 +10,11 @@ import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
+import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
 import org.duckdns.hjow.swingwebpanel.js.ParsedScript;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
 import org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException;
 import org.duckdns.hjow.swingwebpanel.testing.Block;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
@@ -103,6 +105,38 @@ public class JsEngineBasicsTest {
         Check.equal("42", Ops.toString(realm.evaluateScript("var property=42; property", "host.js")), "global binding lookup");
         Check.same(Js.UNDEFINED, hostThis.get("property"), "global declarations use the separate global object");
         Check.isTrue(realm.getGlobalObject().hasOwnProperty("property"), "the global object holds the variable");
+    }
+
+    /**
+     * Checks which realm is active during property access and after unwinding a cross-realm call.
+     * <p>
+     * 프로퍼티 접근 중과 다른 realm 호출이 끝난 뒤에 활성 realm을 확인한다.
+     */
+    public void testExecutingRealm() {
+        final JsRealm a = JsRealm.create();
+        final JsRealm b = JsRealm.create();
+        JsObject probe = new JsObject(null) {
+            @Override
+            public JsValue get(Object key, JsValue receiver) {
+                return Js.str(RealmExecution.current() == a ? "a" : RealmExecution.current() == b ? "b" : "outside");
+            }
+        };
+        a.getGlobalObject().defineBuiltin("probe", probe);
+        b.getGlobalObject().defineBuiltin("probe", probe);
+        b.evaluateScript("function other(){return probe.active;} function boom(){throw probe.active;}"
+                + " function* values(){yield probe.active;} function Maker(){this.active=probe.active;}", "b.js");
+        a.getGlobalObject().defineBuiltin("other", b.getGlobalObject().get("other"));
+        a.getGlobalObject().defineBuiltin("boom", b.getGlobalObject().get("boom"));
+        a.getGlobalObject().defineBuiltin("values", b.getGlobalObject().get("values"));
+        a.getGlobalObject().defineBuiltin("Maker", b.getGlobalObject().get("Maker"));
+        Check.equal("a,b,b,b,b,b,a", Ops.toString(a.evaluateScript("var thrown;"
+                + "try{boom();}catch(e){thrown=e;}"
+                + "function strictTail(){'use strict';return other();}"
+                + "[probe.active,other(),strictTail(),new Maker().active,values().next().value,thrown,probe.active].join()",
+                "a.js")), "script, ordinary call, strict tail, construct, generator, throw, and restoration");
+        Check.equal("b", Ops.toString(b.evaluateModule("case.mjs", "export const active=probe.active;").get("active")),
+                "synchronous module execution");
+        Check.isNull(RealmExecution.current(), "outside JavaScript no realm is bound to the thread");
     }
 
     /**

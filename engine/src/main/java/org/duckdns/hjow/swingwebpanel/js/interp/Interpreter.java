@@ -19,6 +19,7 @@ import org.duckdns.hjow.swingwebpanel.js.ParsedScript;
 import org.duckdns.hjow.swingwebpanel.js.Property;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseCapability;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseInterop;
@@ -99,7 +100,7 @@ public final class Interpreter {
      * <p>
      * 현재 스크립트 함수 호출 중첩 깊이.
      */
-    int depth;
+    private int depth;
 
     /**
      * The loaded modules by key (shared by all imports in this realm).
@@ -185,6 +186,7 @@ public final class Interpreter {
      */
     private JsValue run(Node prog, String name) {
         limits.beginTask();
+        JsRealm previous = RealmExecution.enter(realm);
         try {
             ProgramInfo pi = (ProgramInfo) prog.value;
             Ctx ctx = new Ctx(pi.strict, globalEnv, null);
@@ -193,6 +195,7 @@ public final class Interpreter {
             Completion c = st.execList(prog.list, globalEnv, ctx);
             return c.value == null ? Js.UNDEFINED : c.value;
         } finally {
+            RealmExecution.restore(previous);
             limits.endTask();
         }
     }
@@ -471,13 +474,28 @@ public final class Interpreter {
      * Counts a call: enforces the step and call depth limits.
      * <p>
      * 호출을 센다: 단계 수와 호출 깊이 제한을 검사한다.
+     *
+     * @return previous realm for {@link #leave(JsRealm)} / {@link #leave(JsRealm)}에서 복원할 이전 realm
      */
-    void enter() {
+    JsRealm enter() {
         limits.tick();
         if (depth >= limits.getMaxCallDepth()) {
             throw JsException.rangeError("Maximum call stack size exceeded");
         }
         depth++;
+        return RealmExecution.enter(realm);
+    }
+
+    /**
+     * Ends a call and restores the caller's execution realm.
+     * <p>
+     * 호출을 끝내고 호출자의 실행 realm을 복원한다.
+     *
+     * @param previous the caller's realm / 호출자의 realm
+     */
+    void leave(JsRealm previous) {
+        depth--;
+        RealmExecution.restore(previous);
     }
 
     /**
@@ -491,7 +509,7 @@ public final class Interpreter {
      * @return the result / 결과
      */
     JsValue callFunction(ScriptFunction f, JsValue thisArg, JsValue[] args) {
-        enter();
+        JsRealm previous = enter();
         try {
             ScriptFunction cur = f;
             JsValue curThis = thisArg;
@@ -521,7 +539,7 @@ public final class Interpreter {
         } catch (StackOverflowError e) {
             throw JsException.rangeError("Maximum call stack size exceeded");
         } finally {
-            depth--;
+            leave(previous);
         }
     }
 
@@ -536,7 +554,7 @@ public final class Interpreter {
      * @return the new object / 새 객체
      */
     JsObject constructFunction(ScriptFunction f, JsValue[] args, JsObject newTarget) {
-        enter();
+        JsRealm previous = enter();
         try {
             boolean derived = f.info.derived;
             if (f.defaultConstructor) {
@@ -564,7 +582,7 @@ public final class Interpreter {
         } catch (StackOverflowError e) {
             throw JsException.rangeError("Maximum call stack size exceeded");
         } finally {
-            depth--;
+            leave(previous);
         }
     }
 

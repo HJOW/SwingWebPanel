@@ -7,10 +7,12 @@ import java.util.Set;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
+import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsString;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseCapability;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseInterop;
 import org.duckdns.hjow.swingwebpanel.js.ast.Node;
@@ -515,6 +517,7 @@ final class ModuleRecord {
             throw failure;
         }
         status = EVALUATING;
+        JsRealm previous = RealmExecution.enter(in.realm);
         try {
             // 요청한 모듈을 순서대로 평가한다.
             for (int i = 0; i < requested.size(); i++) {
@@ -537,6 +540,8 @@ final class ModuleRecord {
             status = FAILED;
             failure = new JsException(Js.UNDEFINED);
             throw e;
+        } finally {
+            RealmExecution.restore(previous);
         }
     }
 
