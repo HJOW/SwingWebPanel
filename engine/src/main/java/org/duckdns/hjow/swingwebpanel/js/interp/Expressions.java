@@ -203,6 +203,11 @@ final class Expressions {
         case NodeType.UPDATE:
             return evalUpdate(n, env, ctx, st);
         case NodeType.BINARY: {
+            if (n.op == Op.IN && n.a.type == NodeType.PRIVATE_NAME) {
+                JsValue right = memo(st, n.b, env, ctx);
+                ClassRuntime.Brand brand = ctx.function == null ? null : ctx.function.classBrand;
+                return JsBoolean.of(ClassRuntime.has(brand, n.a.name, right));
+            }
             JsValue l = memo(st, n.a, env, ctx);
             JsValue r = memo(st, n.b, env, ctx);
             return applyBinary(n.op, l, r);
@@ -423,6 +428,9 @@ final class Expressions {
         if (te == null || te.function == null || te.function.homeObject == null) {
             throw JsException.syntaxError("'super' keyword unexpected here");
         }
+        if (te.classStaticContext) {
+            return te.function.getPrototypeOf();
+        }
         return te.function.homeObject.getPrototypeOf();
     }
 
@@ -438,6 +446,11 @@ final class Expressions {
      * @return the value / 값
      */
     private JsValue evalMember(Node n, Environment env, Ctx ctx, NodeState st) {
+        if (n.privateName) {
+            JsValue base = memo(st, n.a, env, ctx);
+            ClassRuntime.Brand brand = ctx.function == null ? null : ctx.function.classBrand;
+            return ClassRuntime.get(brand, n.name, base, base);
+        }
         if (n.a.type == NodeType.SUPER) {
             JsValue thisV = superThis(env);
             Object key = n.flag ? Ops.toPropertyKey(memo(st, n.b, env, ctx)) : n.name;
@@ -670,6 +683,9 @@ final class Expressions {
             return Reference.superProperty(this, thisV, superBase(env), key, ctx.strict);
         }
         JsValue base = memo(st, t.a, env, ctx);
+        if (t.privateName) {
+            return Reference.privateProperty(this, base, t.name, ctx.function == null ? null : ctx.function.classBrand, ctx.strict);
+        }
         if (t.optional && base.isNullOrUndefined()) {
             throw OptionalShortCircuit.INSTANCE;
         }
@@ -1058,6 +1074,9 @@ final class Expressions {
         }
         JsObject result = parent.construct(args, te.newTarget);
         te.bindThis(result);
+        if (active.classBrand != null) {
+            in.cls.initializeInstanceFields(active, result);
+        }
         return result;
     }
 

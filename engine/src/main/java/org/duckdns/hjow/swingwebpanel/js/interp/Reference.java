@@ -56,6 +56,12 @@ final class Reference {
      * 종류: super 프로퍼티(<code>super.name</code>). this 값을 따로 가진다.
      */
     static final int SUPER = 3;
+    /**
+     * Kind: a private class element reference.
+     * <p>
+     * 종류: 클래스 private 요소 참조.
+     */
+    static final int PRIVATE = 4;
 
     /**
      * The kind of this reference.
@@ -114,6 +120,13 @@ final class Reference {
     private final Object superKey;
 
     /**
+     * The active private class brand, or null.
+     * <p>
+     * 실행 중 private 클래스 brand. 없으면 null.
+     */
+    private final ClassRuntime.Brand brand;
+
+    /**
      * True if the reference was created in strict mode code.
      * <p>
      * 엄격 모드 코드에서 만든 참조이면 true.
@@ -136,7 +149,7 @@ final class Reference {
      * @param strict    the strict flag / 엄격 모드 표시
      */
     private Reference(int kind, Expressions ex, Environment env, String name, JsValue base, JsValue keyValue, JsObject superBase,
-            Object superKey, boolean strict) {
+            Object superKey, ClassRuntime.Brand brand, boolean strict) {
         this.kind = kind;
         this.ex = ex;
         this.env = env;
@@ -145,6 +158,7 @@ final class Reference {
         this.keyValue = keyValue;
         this.superBase = superBase;
         this.superKey = superKey;
+        this.brand = brand;
         this.strict = strict;
     }
 
@@ -161,9 +175,9 @@ final class Reference {
      */
     static Reference resolved(Expressions ex, Environment env, String name, boolean strict) {
         if (env == null) {
-            return new Reference(UNRESOLVABLE, ex, null, name, Js.UNDEFINED, null, null, null, strict);
+            return new Reference(UNRESOLVABLE, ex, null, name, Js.UNDEFINED, null, null, null, null, strict);
         }
-        return new Reference(ENVIRONMENT, ex, env, name, null, null, null, null, strict);
+        return new Reference(ENVIRONMENT, ex, env, name, null, null, null, null, null, strict);
     }
 
     /**
@@ -193,7 +207,7 @@ final class Reference {
      * @return the reference / 참조
      */
     static Reference property(Expressions ex, JsValue base, String name, boolean strict) {
-        return new Reference(PROPERTY, ex, null, name, base, null, null, null, strict);
+        return new Reference(PROPERTY, ex, null, name, base, null, null, null, null, strict);
     }
 
     /**
@@ -208,7 +222,7 @@ final class Reference {
      * @return the reference / 참조
      */
     static Reference element(Expressions ex, JsValue base, JsValue keyValue, boolean strict) {
-        return new Reference(PROPERTY, ex, null, null, base, keyValue, null, null, strict);
+        return new Reference(PROPERTY, ex, null, null, base, keyValue, null, null, null, strict);
     }
 
     /**
@@ -224,7 +238,23 @@ final class Reference {
      * @return the reference / 참조
      */
     static Reference superProperty(Expressions ex, JsValue thisValue, JsObject superBase, Object key, boolean strict) {
-        return new Reference(SUPER, ex, null, null, thisValue, null, superBase, key, strict);
+        return new Reference(SUPER, ex, null, null, thisValue, null, superBase, key, null, strict);
+    }
+
+    /**
+     * Creates a private element reference.
+     * <p>
+     * private 요소 참조를 만든다.
+     *
+     * @param ex expression helpers / 표현식 도우미
+     * @param base receiver / 수신자
+     * @param name private name including hash / 해시 포함 private 이름
+     * @param brand active class brand / 실행 중 클래스 brand
+     * @param strict strict mode / 엄격 모드
+     * @return reference / 참조
+     */
+    static Reference privateProperty(Expressions ex, JsValue base, String name, ClassRuntime.Brand brand, boolean strict) {
+        return new Reference(PRIVATE, ex, null, name, base, null, null, null, brand, strict);
     }
 
     // ------------------------------------------------------------------ derived operations (ES2015 6.2.3.1)
@@ -237,7 +267,7 @@ final class Reference {
      * @return the result / 결과
      */
     boolean isPropertyReference() {
-        return kind == PROPERTY || kind == SUPER;
+        return kind == PROPERTY || kind == SUPER || kind == PRIVATE;
     }
 
     /**
@@ -292,7 +322,7 @@ final class Reference {
      * @return the base value / 기준 값
      */
     JsValue getBaseValue() {
-        return kind == PROPERTY || kind == SUPER ? base : Js.UNDEFINED;
+        return kind == PROPERTY || kind == SUPER || kind == PRIVATE ? base : Js.UNDEFINED;
     }
 
     /**
@@ -346,7 +376,7 @@ final class Reference {
      * @return the this value for the call / 호출의 this 값
      */
     JsValue thisValueForCall() {
-        if (kind == PROPERTY || kind == SUPER) {
+        if (kind == PROPERTY || kind == SUPER || kind == PRIVATE) {
             return base;
         }
         if (kind == ENVIRONMENT && env.withEnv) {
@@ -374,6 +404,8 @@ final class Reference {
             return env.get(name, strict);
         case SUPER:
             return superBase == null ? Js.UNDEFINED : superBase.get(superKey, base);
+        case PRIVATE:
+            return ClassRuntime.get(brand, name, base, base);
         default:
             return keyValue != null ? ex.getElement(base, keyValue) : ex.getPropertyChecked(base, name);
         }
@@ -403,6 +435,9 @@ final class Reference {
             if (superBase != null && !superBase.set(superKey, value, base) && strict) {
                 throw JsException.typeError("Cannot assign to read only property '" + PropertyKeys.describe(superKey) + "' of object");
             }
+            return;
+        case PRIVATE:
+            ClassRuntime.put(brand, name, base, base, value);
             return;
         default:
             if (keyValue != null) {
@@ -444,6 +479,8 @@ final class Reference {
             }
             return false;
         }
+        case PRIVATE:
+            throw JsException.syntaxError("Private fields cannot be deleted");
         default: {
             if (base.isNullOrUndefined()) {
                 throw JsException.typeError("Cannot convert undefined or null to object");

@@ -84,6 +84,13 @@ final class Environment {
     JsObject newTarget;
 
     /**
+     * True for static class field, method or block evaluation where <code>super</code> starts from the constructor's prototype.
+     * <p>
+     * static 클래스 필드·메서드·블록 평가에서 <code>super</code> 가 생성자의 프로토타입에서 시작하면 true.
+     */
+    boolean classStaticContext;
+
+    /**
      * The module this environment belongs to (module top-level environments), or null.
      * <p>
      * 이 환경이 속한 모듈(모듈 최상위 환경). 없으면 null.

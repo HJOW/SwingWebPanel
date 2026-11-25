@@ -1,5 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.js.interp;
 
+import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
@@ -9,6 +10,7 @@ import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo;
 import org.duckdns.hjow.swingwebpanel.js.ast.Node;
+import org.duckdns.hjow.swingwebpanel.js.ast.NodeType;
 import org.duckdns.hjow.swingwebpanel.js.ast.Op;
 
 /**
@@ -66,6 +68,7 @@ final class Classes {
         if (cls.name != null) {
             classEnv.declare(cls.name, false, false, null);
         }
+        ClassRuntime.Brand brand = new ClassRuntime.Brand(ctx.function == null ? null : ctx.function.classBrand);
         Ctx strictCtx = ctx;
         JsObject protoParent = realm.getObjectPrototype();
         JsObject constructorParent = realm.getFunctionPrototype();
@@ -107,6 +110,8 @@ final class Classes {
             f.defaultConstructor = true;
         }
         f.classConstructor = true;
+        f.classBrand = brand;
+        brand.constructor = f;
         f.homeObject = proto;
         f.defineOwnProperty("name", PropertyDescriptor.data(JsString.of(className), false, false, true));
         if (constructorParent != realm.getFunctionPrototype()) {
@@ -115,31 +120,193 @@ final class Classes {
         f.prototypeHandled();
         f.defineOwnProperty("prototype", PropertyDescriptor.data(proto, false, false, false));
         proto.defineBuiltin("constructor", f);
-        // 메서드와 접근자를 정의한다. static 멤버는 생성자에, 나머지는 프로토타입에 둔다. 클래스 멤버는 열거할 수 없다.
+        preparePrivateElements(brand, cls);
+        // 메서드·필드·static 블록을 소스 순서대로 정의/실행한다.
         for (int i = 0; i < cls.list.length; i++) {
             Node m = cls.list[i];
+            if (m.type == NodeType.CLASS_STATIC_BLOCK) {
+                runStaticBlock(m, f, classEnv, ctx);
+                continue;
+            }
+            if (m.op == Op.PROP_FIELD) {
+                defineField(m, brand, f, proto, classEnv, ctx);
+                continue;
+            }
             JsObject target = m.flag ? f : proto;
             Object key = m.value == Boolean.TRUE ? Ops.toPropertyKey(in.ex.eval(m.a, classEnv, strictCtx)) : m.a.name;
             if (m.op == Op.PROP_METHOD) {
                 ScriptFunction mf = in.ex.createMethod(m.b, classEnv, target, key, null);
-                target.definePropertyOrThrow(key, PropertyDescriptor.data(mf, true, false, true));
+                mf.classBrand = brand;
+                if (m.privateName) {
+                    brand.privates.get(key.toString()).method = mf;
+                } else {
+                    target.definePropertyOrThrow(key, PropertyDescriptor.data(mf, true, false, true));
+                }
             } else {
                 boolean getter = m.op == Op.PROP_GET;
                 ScriptFunction mf = in.ex.createMethod(m.b, classEnv, target, key, getter ? "get " : "set ");
-                PropertyDescriptor d = new PropertyDescriptor();
-                if (getter) {
-                    d.get = mf;
+                mf.classBrand = brand;
+                if (m.privateName) {
+                    ClassRuntime.PrivateDefinition pd = brand.privates.get(key.toString());
+                    if (getter) {
+                        pd.getter = mf;
+                    } else {
+                        pd.setter = mf;
+                    }
                 } else {
-                    d.set = mf;
+                    PropertyDescriptor d = new PropertyDescriptor();
+                    if (getter) {
+                        d.get = mf;
+                    } else {
+                        d.set = mf;
+                    }
+                    d.enumerable = Boolean.FALSE;
+                    d.configurable = Boolean.TRUE;
+                    target.definePropertyOrThrow(key, d);
                 }
-                d.enumerable = Boolean.FALSE;
-                d.configurable = Boolean.TRUE;
-                target.definePropertyOrThrow(key, d);
             }
         }
         if (cls.name != null) {
             classEnv.initialize(cls.name, f);
         }
         return f;
+    }
+
+    /**
+     * Predeclares all private elements of the class before any method or initializer closes over them.
+     * <p>
+     * 메서드나 초기화 식이 닫기 전에 클래스의 모든 private 요소를 선언한다.
+     *
+     * @param brand class brand / 클래스 brand
+     * @param cls class AST / 클래스 AST
+     */
+    private void preparePrivateElements(ClassRuntime.Brand brand, Node cls) {
+        // private 필드·메서드·접근자를 먼저 모두 등록해 앞 요소도 뒤 요소 이름을 볼 수 있게 한다.
+        for (int i = 0; i < cls.list.length; i++) {
+            Node m = cls.list[i];
+            if (!m.privateName) {
+                continue;
+            }
+            ClassRuntime.PrivateDefinition pd = brand.privates.get(m.a.name);
+            if (pd == null) {
+                pd = new ClassRuntime.PrivateDefinition(m.flag);
+                brand.privates.put(m.a.name, pd);
+            }
+            if (m.op == Op.PROP_FIELD) {
+                pd.field = true;
+            }
+        }
+    }
+
+    /**
+     * Defines one static field or records one instance field.
+     * <p>
+     * static 필드 하나를 정의하거나 인스턴스 필드 하나를 기록한다.
+     *
+     * @param member field node / 필드 노드
+     * @param brand class brand / 클래스 brand
+     * @param constructor constructor / 생성자
+     * @param prototype instance prototype / 인스턴스 프로토타입
+     * @param classEnv class lexical environment / 클래스 렉시컬 환경
+     * @param outer surrounding context / 바깥 문맥
+     */
+    private void defineField(Node member, ClassRuntime.Brand brand, ScriptFunction constructor, JsObject prototype,
+            Environment classEnv, Ctx outer) {
+        Object key = member.value == Boolean.TRUE ? Ops.toPropertyKey(in.ex.eval(member.a, classEnv, outer)) : member.a.name;
+        if (member.flag) {
+            JsValue value = member.b == null ? Js.UNDEFINED
+                    : evalStatic(member.b, constructor, classEnv, outer.sourceName);
+            if (member.privateName) {
+                ClassRuntime.PrivateDefinition pd = brand.privates.get(key.toString());
+                pd.staticValue = value;
+            } else {
+                constructor.createDataPropertyOrThrow(key, value);
+            }
+        } else {
+            brand.fields.add(new ClassRuntime.Field(key, member.privateName, member.b));
+        }
+    }
+
+    /**
+     * Evaluates a static field initializer in a class-static this/super context.
+     * <p>
+     * 클래스 static this/super 문맥에서 static 필드 초기화 식을 평가한다.
+     */
+    private JsValue evalStatic(Node expression, ScriptFunction constructor, Environment classEnv, String sourceName) {
+        Environment env = staticEnvironment(constructor, classEnv);
+        Ctx ctx = new Ctx(true, env, constructor);
+        ctx.funcEnv = env;
+        ctx.sourceName = sourceName;
+        return in.ex.eval(expression, env, ctx);
+    }
+
+    /**
+     * Runs one class static initialization block.
+     * <p>
+     * 클래스 static 초기화 블록 하나를 실행한다.
+     */
+    private void runStaticBlock(Node block, ScriptFunction constructor, Environment classEnv, Ctx outer) {
+        Environment env = staticEnvironment(constructor, classEnv);
+        in.declareLexicals(block.scope, env);
+        in.instantiateBlockFunctions(block.scope, env);
+        for (int i = 0; i < block.scope.varNames.length; i++) {
+            if (env.own(block.scope.varNames[i]) == null) {
+                env.declare(block.scope.varNames[i], true, true, Js.UNDEFINED);
+            }
+        }
+        Ctx ctx = new Ctx(true, env, constructor);
+        ctx.funcEnv = env;
+        ctx.sourceName = outer.sourceName;
+        in.st.execList(block.list, env, ctx);
+    }
+
+    /**
+     * Creates the this environment for static field and block evaluation.
+     * <p>
+     * static 필드와 블록 평가용 this 환경을 만든다.
+     */
+    private static Environment staticEnvironment(ScriptFunction constructor, Environment classEnv) {
+        Environment env = new Environment(classEnv);
+        env.function = constructor;
+        env.hasThis = true;
+        env.thisBound = true;
+        env.thisValue = constructor;
+        env.classStaticContext = true;
+        return env;
+    }
+
+    /**
+     * Initializes all non-static fields of one class brand on an instance.
+     * <p>
+     * 클래스 brand 하나의 모든 인스턴스 필드를 객체에 초기화한다.
+     *
+     * @param constructor class constructor / 클래스 생성자
+     * @param object new instance / 새 인스턴스
+     */
+    void initializeInstanceFields(ScriptFunction constructor, JsObject object) {
+        ClassRuntime.Brand brand = constructor.classBrand;
+        if (brand == null) {
+            return;
+        }
+        java.util.Map<String, JsValue> slots = ClassRuntime.enter(object, brand);
+        Environment fieldEnv = new Environment(constructor.scope);
+        fieldEnv.function = constructor;
+        fieldEnv.hasThis = true;
+        fieldEnv.thisBound = true;
+        fieldEnv.thisValue = object;
+        fieldEnv.newTarget = constructor;
+        Ctx ctx = new Ctx(true, fieldEnv, constructor);
+        ctx.funcEnv = fieldEnv;
+        ctx.sourceName = constructor.info.sourceName == null ? "" : constructor.info.sourceName;
+        // 필드는 소스 순서대로 undefined 슬롯을 먼저 만들고 초기화 식을 평가한다.
+        for (int i = 0; i < brand.fields.size(); i++) {
+            ClassRuntime.Field field = brand.fields.get(i);
+            JsValue value = field.initializer == null ? Js.UNDEFINED : in.ex.eval(field.initializer, fieldEnv, ctx);
+            if (field.privateField) {
+                slots.put((String) field.key, value);
+            } else {
+                object.createDataPropertyOrThrow(field.key, value);
+            }
+        }
     }
 }

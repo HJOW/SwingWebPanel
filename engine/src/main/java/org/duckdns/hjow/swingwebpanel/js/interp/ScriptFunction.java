@@ -50,6 +50,13 @@ public final class ScriptFunction extends JsFunction {
     JsObject homeObject;
 
     /**
+     * The private class environment of this constructor or method, or null.
+     * <p>
+     * 이 생성자나 메서드의 private 클래스 환경. 없으면 null.
+     */
+    ClassRuntime.Brand classBrand;
+
+    /**
      * True for class constructors (they cannot be called without new).
      * <p>
      * 클래스 생성자이면 true(new 없이 호출할 수 없다).

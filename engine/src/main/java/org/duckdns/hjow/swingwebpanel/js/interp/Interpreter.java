@@ -477,6 +477,9 @@ public final class Interpreter {
                 obj = new JsObject(Ops.getPrototypeFromConstructor(realm, newTarget, realm.getObjectPrototype()));
             }
             Ctx ctx = prepareCall(f, obj == null ? Js.UNDEFINED : obj, args, newTarget);
+            if (!derived && obj != null) {
+                cls.initializeInstanceFields(f, obj);
+            }
             JsValue r = runBody(f, ctx);
             if (r instanceof JsObject) {
                 return (JsObject) r;
@@ -507,13 +510,17 @@ public final class Interpreter {
      */
     private JsObject constructDefault(ScriptFunction f, JsValue[] args, JsObject newTarget) {
         if (!f.info.derived) {
-            return new JsObject(Ops.getPrototypeFromConstructor(realm, newTarget, realm.getObjectPrototype()));
+            JsObject object = new JsObject(Ops.getPrototypeFromConstructor(realm, newTarget, realm.getObjectPrototype()));
+            cls.initializeInstanceFields(f, object);
+            return object;
         }
         JsObject parent = f.getPrototypeOf();
         if (parent == null || !parent.isConstructor()) {
             throw JsException.typeError("Super constructor " + JsException.describe(parent) + " of anonymous class is not a constructor");
         }
-        return parent.construct(args, newTarget);
+        JsObject object = parent.construct(args, newTarget);
+        cls.initializeInstanceFields(f, object);
+        return object;
     }
 
     /**
