@@ -3,6 +3,8 @@ package org.duckdns.hjow.swingwebpanel.js.interp;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 import org.duckdns.hjow.swingwebpanel.js.AsyncIteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.Js;
@@ -57,6 +59,13 @@ final class Expressions {
      * 이 구성 요소를 소유한 realm.
      */
     final JsRealm realm;
+
+    /**
+     * Template objects for live parse nodes in this realm. A compiled script may be shared by several realms.
+     * <p>
+     * 이 realm에서 살아 있는 파싱 노드의 템플릿 객체를 저장한다. 컴파일된 스크립트 하나를 여러 realm에서 공유할 수 있다.
+     */
+    private final Map<Node, JsObject> templates = new WeakHashMap<Node, JsObject>();
 
     /**
      * Creates the evaluator.
@@ -1330,9 +1339,9 @@ final class Expressions {
      * @return the template object / 템플릿 객체
      */
     private JsObject templateObject(Node tpl) {
-        Object[] cache = (Object[]) tpl.cache;
-        if (cache != null && cache[0] == realm) {
-            return (JsObject) cache[1];
+        JsObject cached = templates.get(tpl);
+        if (cached != null) {
+            return cached;
         }
         TemplateParts tp = (TemplateParts) tpl.value;
         JsArray cooked = realm.newArray();
@@ -1345,7 +1354,7 @@ final class Expressions {
         freeze(raw);
         cooked.defineOwnProperty("raw", PropertyDescriptor.data(raw, false, false, false));
         freeze(cooked);
-        tpl.cache = new Object[] { realm, cooked };
+        templates.put(tpl, cooked);
         return cooked;
     }
 

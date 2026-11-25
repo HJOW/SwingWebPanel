@@ -3,10 +3,10 @@ package org.duckdns.hjow.swingwebpanel.js.ast;
 /**
  * A syntax tree node. One generic class represents every construct; the meaning of the child fields depends on the
  * {@link NodeType} constant in {@link #type} (see the documentation of each constant). Nodes are created by the parser and
- * read by the interpreter; after parsing they are only changed through the interpreter-owned {@link #cache} field.
+ * read by the interpreter without changes after parsing.
  * <p>
  * 구문 트리 노드. 모든 구문을 하나의 범용 클래스로 나타내며, 자식 필드의 의미는 {@link #type} 의 {@link NodeType} 상수에 따라 달라진다
- * (각 상수의 설명 참조). 노드는 파서가 만들고 인터프리터가 읽으며, 파싱 후에는 인터프리터가 쓰는 {@link #cache} 필드만 바뀐다.
+ * (각 상수의 설명 참조). 노드는 파서가 만들며, 인터프리터는 파싱이 끝난 노드를 변경하지 않고 읽는다.
  */
 public final class Node {
 
@@ -150,13 +150,6 @@ public final class Node {
      * 스코프를 여는 노드의 스코프 설명.
      */
     public ScopeInfo scope;
-
-    /**
-     * Interpreter-owned cache (for example the template object of a tagged template).
-     * <p>
-     * 인터프리터가 쓰는 캐시(예: 태그 템플릿의 템플릿 객체).
-     */
-    public Object cache;
 
     /**
      * Creates a node.

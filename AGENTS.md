@@ -756,6 +756,13 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - 문자열 리터럴 안의 U+2028/U+2029 직접 허용(ES2019 JSON superset), `JSON.stringify`의 고립 서로게이트 `\uXXXX` 이스케이프(well-formed UTF-16 반환, ES2019), `Function.prototype.toString`의 원본 소스 텍스트 보존 또는 표준 네이티브 자리표시자 반환(ES2019), `for-in` 열거 순서 표준화(ES2020), `Array.prototype.sort`의 정밀 정렬 순서와 예외/변경 경계(ES2021), `globalThis` 속성 기술자(`writable: true, enumerable: false, configurable: true`)와 브라우저 `WindowProxy`·Worker·독립 엔진 일관성(ES2020).
   - ES2026 2절이 요구하는 최신 Unicode 기준에 맞춰 식별자(`ID_Start`/`ID_Continue`), 공백(`U+180E` 비공백 처리 등), 정규식 `\p{}` 표 생성기(`tools/unicodegen`)의 UCD 판본을 점검·갱신한다(JAR 크기 제약에 따른 Emoji 속성 `EXC-15` 유지 여부는 용량 측정 결과와 함께 기록).
   구현: `js.parser.*`, `js.interp.*`, `js.builtins.*`, `js.regexp.*`, `tools/unicodegen`. 완료 조건: 각 항목의 경계 사례 시험이 JDK 6에서 통과하고 7.5절 해당 행이 `검증 완료`로 갱신된다.
+  - [x] P29-02-a. 태그 템플릿의 잘못된 8진·16진·유니코드 이스케이프를 `Lexer`와 `Expressions`에서 확인한다. 조각별 cooked/raw와 태그 없는 경우의 조기 오류, 같은 위치·다른 위치·다른 realm의 템플릿 객체 동일성을 JDK 6에서 검증한다.
+  - [ ] P29-02-b. `Lexer`에서 인용 문자열의 U+2028/U+2029 허용과 CR/LF 거부를 확인한다. `JsonBuiltins`에서 값과 키의 고립 서로게이트를 이스케이프하고 유효한 쌍을 보존하며, 둘 다 JDK 6에서 검증한다.
+  - [ ] P29-02-c. `FunctionLib`, 파서와 인터프리터에서 함수·메서드·클래스·동적 생성자의 원문과 바운드·내장·프록시의 네이티브 구문을 JDK 6에서 검증한다.
+  - [ ] P29-02-d. `EnumerateSupport`와 `Statements`에서 정수 키 정렬, 프로토타입 가림, 순회 중 삭제, 프록시의 자체 키 순서와 심볼 제외를 JDK 6에서 검증한다.
+  - [ ] P29-02-e. `ArrayMethods`에서 희소·상속 배열의 수집·정렬·쓰기·삭제 순서, 비교 함수와 프록시 예외 경계를 JDK 6에서 검증한다.
+  - [ ] P29-02-f. `JsRealm`, 브라우저 창·Worker·AudioWorklet의 `globalThis` 동일성과 프로퍼티 기술자를 각 실행 환경의 JDK 6 시험으로 검증한다.
+  - [ ] P29-02-g. `CharClass`, 정규식 속성 표와 `tools/unicodegen`에서 최신 UCD 판본을 사용한다. 새 식별자, U+180E, 비이모지 속성 및 이모지 속성 거부를 JDK 6에서 검증하고 JAR 크기를 측정한다.
 - [ ] P29-03. ES2023~ES2025 어휘·구문·모듈 확장(Hashbang, Import Attributes, JSON 모듈)을 구현한다.
   - Hashbang 주석(`12.5 Hashbang Comments`): Script와 Module 시작 오프셋 0의 `#!...` 한 줄 주석을 허용하고(`InputElementHashbangOrRegExp`), 공백·BOM 뒤나 함수 본문 등 허용되지 않는 위치의 조기 오류 및 `eval`/`Function` 처리 규칙을 규격대로 검증한다.
   - Import Attributes(`16.2.2`, `13.3.10`): 정적 `import ... with { key: "value" }`, `export ... from ... with { ... }`, 동적 `import(specifier, options)` 두 번째 인수(`options.with`), `ModuleRequest Record`와 속성 동등성(`ModuleRequestsEqual`), 중복 키 조기 오류와 호스트 미지원 속성 거부(`AllImportAttributesSupported`/`HostGetSupportedImportAttributes`)를 구현한다.

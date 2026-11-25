@@ -133,6 +133,54 @@ public class JsEngineBasicsTest {
     }
 
     /**
+     * Checks malformed template escapes, raw text, and the exact position of substitution values.
+     * <p>
+     * 잘못된 템플릿 이스케이프, 원문 문자열, 치환 값의 위치를 확인한다.
+     */
+    public void testTaggedTemplateEscapes() {
+        final JsEngine engine = new JsEngine();
+        engine.eval("function tag(s){return s}");
+        String[] invalid = { "\\01", "\\8", "\\9", "\\xG", "\\u{}", "\\u{110000}", "\\u0" };
+        // 각 잘못된 이스케이프는 태그가 있을 때에만 허용하며 원문은 보존한다.
+        for (String escape : invalid) {
+            final String source = "`" + escape + "`";
+            engine.put("rawEscape", escape);
+            Check.equal(Boolean.TRUE, engine.eval("var t=tag" + source
+                    + "; t[0] === undefined && t.hasOwnProperty(0) && t.raw[0] === rawEscape"), escape);
+            JsScriptError error = (JsScriptError) Check.throwsException(JsScriptError.class, new Block() {
+                public void run() {
+                    engine.compile(source, "template.js");
+                }
+            }, escape);
+            Check.equal("SyntaxError", error.getErrorName(), escape);
+        }
+        Check.equal(Boolean.TRUE, engine.eval("function parts(s,a,b){return s[0]==='a\\n' && a===1 && s[1]===undefined"
+                + " && s.raw[1]==='\\\\xG' && b===2 && s[2]==='b' && Object.isFrozen(s) && Object.isFrozen(s.raw);}"
+                + " parts`a\r\n${1}\\xG${2}b`"), "independent cooked and raw segments");
+    }
+
+    /**
+     * Verifies that alternating evaluations of the same parse node in two realms preserve both template identities.
+     * <p>
+     * 같은 파싱 노드를 두 realm에서 번갈아 실행해도 각 템플릿 객체가 유지되는지 확인한다.
+     */
+    public void testTaggedTemplateCachePerRealm() {
+        JsEngine first = new JsEngine();
+        JsEngine second = new JsEngine();
+        String source = "function tag(s){return s} tag`site`";
+        ParsedScript shared = first.compile(source, "shared.js");
+        first.put("seen", first.eval(shared));
+        second.put("seen", second.eval(shared));
+        first.put("again", first.eval(shared));
+        second.put("again", second.eval(shared));
+        Check.equal(Boolean.TRUE, first.eval("seen === again"), "first realm keeps its template");
+        Check.equal(Boolean.TRUE, second.eval("seen === again"), "second realm keeps its template");
+        first.put("reparsed", first.eval(first.compile(source, "shared.js")));
+        Check.equal(Boolean.FALSE, first.eval("seen === reparsed"), "separately parsed templates are distinct");
+        Check.equal(Boolean.FALSE, first.eval("tag`site` === tag`site`"), "different source positions are distinct");
+    }
+
+    /**
      * A script that was parsed in advance runs any number of times, in any engine, and a syntax error is reported at once.
      * <p>
      * 미리 파싱한 스크립트는 몇 번이든, 어느 엔진에서든 실행되며, 구문 오류는 바로 보고된다.
