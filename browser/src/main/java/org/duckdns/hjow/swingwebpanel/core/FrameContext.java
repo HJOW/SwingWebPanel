@@ -161,6 +161,9 @@ final class FrameContext implements BrowsingContext {
     /** True once the load event was sent for the current navigation; document queue only. / 현재 이동의 load 이벤트를 보냈으면 true. 문서 큐 전용. */
     private boolean loadFired;
 
+    /** Navigation generation of the installed document, or -1 before the first commit. / 설치된 문서의 이동 세대. 처음 확정 전이면 -1. */
+    private int installedGeneration = -1;
+
     /** The width of the viewport of the frame in CSS pixels. / 프레임 뷰포트의 너비(CSS 픽셀). */
     private volatile int viewW = FrameLimits.DEFAULT_WIDTH;
 
@@ -497,7 +500,7 @@ final class FrameContext implements BrowsingContext {
             result.dispose();
             return;
         }
-        install(result);
+        install(gen, result);
     }
 
     /**
@@ -505,14 +508,16 @@ final class FrameContext implements BrowsingContext {
      * <p>
      * 만든 문서를 프레임의 내용으로 삼고, 이전 문서를 해제하고, 새 문서를 활성화한다.
      *
+     * @param gen the completed navigation generation / 완료된 이동 세대
      * @param result the snapshot with the document / 문서가 붙은 스냅샷
      */
-    private void install(PageSnapshot result) {
+    private void install(int gen, PageSnapshot result) {
         PageSnapshot old = content;
         PagePresentation oldCreated = created;
         content = result;
         HtmlPageDocument p = result.getDocument() instanceof HtmlPageDocument ? (HtmlPageDocument) result.getDocument() : null;
         page = p;
+        installedGeneration = gen;
         lastRendered = null;
         scrollX = 0;
         scrollY = 0;
@@ -951,7 +956,8 @@ final class FrameContext implements BrowsingContext {
      * 상태를 다시 판단하게 한다.
      */
     void checkLoaded() {
-        if (destroyed || loadFired) {
+        // 새 문서를 기다리는 동안 이전 문서의 완료 상태로 load를 보내지 않는다.
+        if (destroyed || loadFired || installedGeneration != generation) {
             return;
         }
         HtmlPageDocument p = page;

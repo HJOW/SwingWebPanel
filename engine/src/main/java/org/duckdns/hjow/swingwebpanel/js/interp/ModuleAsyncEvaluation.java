@@ -5,6 +5,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution.ScriptScope;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseCapability;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseInterop;
 
@@ -86,7 +87,7 @@ final class ModuleAsyncEvaluation {
         gen.suspending = false;
         gen.resumeMode = mode;
         gen.resumeValue = value;
-        JsRealm previous = module.in.enter();
+        ScriptScope previous = module.in.enter();
         try {
             module.in.st.execList(module.program().list, module.env, ctx);
             module.finishAsync();

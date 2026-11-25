@@ -13,6 +13,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
+import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.ParsedScript;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
 import org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException;
@@ -129,6 +130,11 @@ public class JsEngineBasicsTest {
         a.getGlobalObject().defineBuiltin("boom", b.getGlobalObject().get("boom"));
         a.getGlobalObject().defineBuiltin("values", b.getGlobalObject().get("values"));
         a.getGlobalObject().defineBuiltin("Maker", b.getGlobalObject().get("Maker"));
+        a.getGlobalObject().defineBuiltin("nativeProbe", b.newFunction("nativeProbe", 0, new NativeFunction.Call() {
+            public JsValue call(JsRealm realm, JsValue thisValue, JsValue[] args) {
+                return Js.bool(RealmExecution.current() == b && RealmExecution.currentScript() == a);
+            }
+        }));
         Check.equal("a,b,b,b,b,b,a", Ops.toString(a.evaluateScript("var thrown;"
                 + "try{boom();}catch(e){thrown=e;}"
                 + "function strictTail(){'use strict';return other();}"
@@ -136,7 +142,10 @@ public class JsEngineBasicsTest {
                 "a.js")), "script, ordinary call, strict tail, construct, generator, throw, and restoration");
         Check.equal("b", Ops.toString(b.evaluateModule("case.mjs", "export const active=probe.active;").get("active")),
                 "synchronous module execution");
+        Check.same(Js.TRUE, a.evaluateScript("nativeProbe()", "a.js"),
+                "a built-in indexes its own running realm and the actual calling script separately");
         Check.isNull(RealmExecution.current(), "outside JavaScript no realm is bound to the thread");
+        Check.isNull(RealmExecution.currentScript(), "outside JavaScript no script realm is bound to the thread");
     }
 
     /**

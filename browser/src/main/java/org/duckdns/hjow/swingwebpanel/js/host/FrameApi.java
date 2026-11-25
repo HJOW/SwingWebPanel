@@ -1,9 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.js.host;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 import org.duckdns.hjow.swingwebpanel.dom.Document;
 import org.duckdns.hjow.swingwebpanel.dom.DomException;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
@@ -22,17 +23,16 @@ import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
  * The window relations of nested browsing contexts for the scripts of one document (plan item P20-02, HTML5 REC 2014-10-28 5.1-5.2):
  * <code>window.parent</code>, <code>top</code>, <code>frames</code>, <code>length</code>, <code>frames[i]</code> and named frames,
  * <code>frameElement</code>, <code>window.name</code>, and <code>contentWindow</code> and <code>contentDocument</code> of
- * <code>iframe</code> and <code>frame</code> elements. A window of the same origin is the real global object of the other document (a script
- * of one document may use it directly, as all documents of a page run on one thread); a window of another origin is a
- * {@link CrossOriginWindow}, which shows only the few members that the standard allows. Documents that inherit the origin of their creator
+ * <code>iframe</code> and <code>frame</code> elements. A {@link WindowProxy} routes access to the current same-origin global object or to a
+ * {@link CrossOriginWindow} exposing the allowed members. Documents that inherit the origin of their creator
  * (<code>about:blank</code>, <code>srcdoc</code>) are of the same origin as the creator; a sandbox without <code>allow-same-origin</code> makes
  * the origin opaque, so the document cannot reach any other window.
  * <p>
  * 한 문서의 스크립트를 위한 중첩 브라우징 문맥의 window 관계(계획 P20-02, HTML5 REC 2014-10-28 5.1-5.2): <code>window.parent</code>, <code>top</code>,
  * <code>frames</code>, <code>length</code>, <code>frames[i]</code> 와 이름 있는 프레임, <code>frameElement</code>, <code>window.name</code>,
- * <code>iframe</code>/<code>frame</code> 요소의 <code>contentWindow</code>, <code>contentDocument</code>. 같은 오리진의 window 는 다른 문서의 실제 전역
- * 객체이다(한 페이지의 모든 문서가 한 스레드에서 실행되므로 한 문서의 스크립트가 직접 쓸 수 있다). 다른 오리진의 window 는 표준이 허용하는 몇 가지
- * 멤버만 보이는 {@link CrossOriginWindow} 이다. 생성자의 오리진을 물려받는 문서(<code>about:blank</code>, <code>srcdoc</code>)는 생성자와 같은 오리진이고,
+ * <code>iframe</code>/<code>frame</code> 요소의 <code>contentWindow</code>, <code>contentDocument</code>. {@link WindowProxy}는 현재 같은 오리진
+ * 전역 객체 또는 허용한 멤버를 노출하는 {@link CrossOriginWindow}로 접근을 연결한다.
+ * 생성자의 오리진을 물려받는 문서(<code>about:blank</code>, <code>srcdoc</code>)는 생성자와 같은 오리진이고,
  * <code>allow-same-origin</code> 이 없는 샌드박스는 오리진을 불투명하게 하므로 그 문서는 다른 어떤 window 에도 닿을 수 없다.
  */
 final class FrameApi {
@@ -40,8 +40,9 @@ final class FrameApi {
     /** The script host of the document. / 문서의 스크립트 호스트. */
     private final PageScripts page;
 
-    /** The proxies of cross-origin windows by browsing context, so that the same window is the same object. / 브라우징 문맥별 다른 오리진 window 프록시. 같은 window 는 같은 객체이다. */
-    private final Map<BrowsingContext, CrossOriginWindow> proxies = new IdentityHashMap<BrowsingContext, CrossOriginWindow>();
+    /** Restricted views for this caller, including their cached functions. / 캐시된 함수가 들어 있는 이 호출자의 제한 객체. */
+    private final Map<BrowsingContext, WeakReference<CrossOriginWindow>> proxies =
+            new WeakHashMap<BrowsingContext, WeakReference<CrossOriginWindow>>();
 
     /** The keys of the frame properties that this api put on the global object. / 이 API 가 전역 객체에 둔 프레임 프로퍼티의 키. */
     private final List<String> childKeys = new ArrayList<String>();
@@ -102,30 +103,36 @@ final class FrameApi {
     }
 
     /**
-     * Returns the window of a browsing context for the scripts of this document: the global object of the same document, the real global
-     * object of a document of the same origin, or a restricted proxy.
+     * Returns the stable window identity of a browsing context.
      * <p>
-     * 이 문서의 스크립트를 위해 브라우징 문맥의 window 를 반환한다: 같은 문서의 전역 객체, 같은 오리진 문서의 실제 전역 객체, 또는 제한된 프록시.
+     * 브라우징 문맥의 탐색 중에도 유지되는 창 객체를 반환한다.
      *
      * @param c the context / 문맥
      * @return the window object, or null for a missing context / window 객체. 문맥이 없으면 null
      */
     JsValue windowOf(BrowsingContext c) {
-        if (c == null) {
-            return Js.NULL;
-        }
-        if (c == context()) {
-            return page.getRealm().getGlobalObject();
-        }
+        return c == null ? Js.NULL : WindowProxy.forContext(c);
+    }
+
+    /**
+     * Resolves the current target for an operation on a window identity.
+     * <p>
+     * 창 객체에 대한 연산이 닿는 현재 문서를 확인한다.
+     *
+     * @param c target browsing context / 대상 브라우징 문맥
+     * @return the current global object or a restricted view / 현재 전역 객체 또는 제한 객체
+     */
+    JsObject windowTarget(BrowsingContext c) {
         PageScripts scripts = c.getScripts();
-        // 같은 오리진이고 스크립트 호스트가 있으면 그 문서의 전역 객체를 그대로 쓴다.
-        if (scripts != null && !scripts.isDisposed() && scripts != page && sameOrigin(c)) {
+        // 문맥의 현재 문서에 맞춰 오리진을 다시 검사한다.
+        if (scripts != null && !scripts.isDisposed() && !c.isClosed() && sameOrigin(c)) {
             return scripts.getRealm().getGlobalObject();
         }
-        CrossOriginWindow proxy = proxies.get(c);
+        WeakReference<CrossOriginWindow> ref = proxies.get(c);
+        CrossOriginWindow proxy = ref == null ? null : ref.get();
         if (proxy == null) {
             proxy = new CrossOriginWindow(page, this, c);
-            proxies.put(c, proxy);
+            proxies.put(c, new WeakReference<CrossOriginWindow>(proxy));
         }
         return proxy;
     }
@@ -171,7 +178,7 @@ final class FrameApi {
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
                 BrowsingContext c = context();
                 BrowsingContext p = c == null ? null : c.getParent();
-                return p == null ? (JsValue) g : windowOf(p);
+                return p == null ? r.getGlobalThisValue() : windowOf(p);
             }
         });
         replaceable(g, "top", new NativeFunction.Call() {
@@ -187,7 +194,7 @@ final class FrameApi {
              */
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
                 BrowsingContext c = context();
-                return c == null ? (JsValue) g : windowOf(c.getTop());
+                return c == null ? r.getGlobalThisValue() : windowOf(c.getTop());
             }
         });
         g.defineAccessor("length", realm.newFunction("get length", 0, new NativeFunction.Call() {
@@ -546,7 +553,8 @@ final class FrameApi {
      */
     void postMessageTo(BrowsingContext target, JsValue message, String targetOrigin, JsValue transfer) {
         PageScripts receiver = target.getScripts();
-        MessagingApi own = page.messaging();
+        PageScripts sender = PageScripts.messageSender(page);
+        String senderUrl = sender.getDocument().getOriginUrl();
         // 대상 오리진은 받는 문서의 오리진과 비교하며 문법이 틀리면 SyntaxError 이다.
         if (!"*".equals(targetOrigin) && !"/".equals(targetOrigin)) {
             boolean valid;
@@ -561,10 +569,11 @@ final class FrameApi {
                         + targetOrigin + "' in a call to 'postMessage'."));
             }
         }
-        org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue cloned = own.cloneForPost(message, transfer);
+        org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue cloned = sender.messaging().cloneForPost(message, transfer);
         if (receiver == null || receiver.isDisposed()) {
             return;
         }
-        receiver.messaging().receiveFromOther(targetOrigin, cloned, callerOrigin(), "/".equals(targetOrigin) ? page.getDocument().getOriginUrl() : null);
+        receiver.messaging().receiveFromOther(targetOrigin, cloned, Origin.of(senderUrl).serialize(), senderUrl,
+                sender.getRealm().getGlobalThisValue());
     }
 }

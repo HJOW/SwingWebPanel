@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-02-h2b 프레임 WindowProxy와 메시지 출처 (2026-11-26) ===
+현재 작업 번호: P29-02 완료.
+완료한 내용: 창 참조를 프레임 브라우징 문맥에 연결했다. 참조를 유지한 채 이동하면 현재 문서 기준으로 오리진을 검사한다. 이동 중 이전 문서가 새 load 이벤트를 보내던 문제를 수정했다. 프레임 메시지는 호출 스크립트의 realm을 기준으로 보낸 창을 전달하므로 수신자는 event.source로 응답할 수 있다.
+변경 파일: FrameContext.java, WindowProxy.java, FrameApi.java, CrossOriginWindow.java, WindowGlobals.java, PageScripts.java, MessagingApi.java, RealmExecution 및 인터프리터 실행 코드, FrameWindowTest.java, JsEngineBasicsTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, docs/ARCHITECTURE.md, 이 문서.
+검증 결과: mvn -B -o -pl browser -am test -Dtest.filter=FrameWindowTest (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 8건 통과. 제품 테스트 클래스패스로 JRE 6u45의 프레임·메시징·페이지·Worker·AudioWorklet 102건 통과. sourcecheck 0 위반.
+미해결 사항: 전체 회귀의 Web Audio·Worker 다섯 실패는 개별 재실행에서도 재현되어 P22/P25 검증 기록에 남긴다. WindowProxy의 최상위 문서 교체 수명은 P29-10에서 호스트 경계와 함께 대조한다.
+다음 작업 번호: P29-03-a.
+-----------------------------------------------------------------------------------------------
 === P29-02-h2a 실행 중인 realm 식별 (2026-11-26) ===
 현재 작업 번호: P29-02-h2a 완료.
 완료한 내용: JavaScript 실행과 내장 함수 진입에서 실행 realm을 스레드에 지정하고 종료 때 복원한다. 서로 다른 realm의 꼬리 호출은 대상 인터프리터에서 실행한다. 일반·엄격 호출, 생성자, 제너레이터, 모듈 및 예외 이후 복원 상태를 직접 프로퍼티 접근으로 관찰했다.
@@ -514,6 +522,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-02-h2b 프레임 창 참조와 메시지
+
+JRE 6u45의 실제 HTTP 프레임 이동에서 same-origin·cross-origin, `globalThis`, 메시지 출처와 프레임 제거 후 `closed`를 검증했다.
 
 ### 2026-11-26 · P29-02-g2 후속 JAR 분리 시험
 

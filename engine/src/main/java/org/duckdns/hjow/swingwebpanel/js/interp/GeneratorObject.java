@@ -6,6 +6,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution.ScriptScope;
 
 /**
  * A generator object (ECMA-262 6th edition 25.3): the iterator returned by calling a generator function. Its body does not run
@@ -174,7 +175,7 @@ public final class GeneratorObject extends JsObject {
         gen.suspending = false;
         gen.resumeMode = mode;
         gen.resumeValue = value;
-        JsRealm previous = interp.enter();
+        ScriptScope previous = interp.enter();
         state = RUNNING;
         boolean suspended = false;
         try {

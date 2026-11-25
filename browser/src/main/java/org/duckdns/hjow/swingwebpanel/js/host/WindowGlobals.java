@@ -254,10 +254,11 @@ final class WindowGlobals {
         final JsRealm realm = page.getRealm();
         final DomBridge bridge = page.getBridge();
         final JsObject g = realm.getGlobalObject();
-        bridge.alias(page.getWindow(), g);
-        g.defineData("window", g, true, true, true);
-        g.defineData("self", g, true, true, true);
-        g.defineData("frames", g, true, true, true);
+        JsObject window = realm.getGlobalThisValue();
+        bridge.alias(page.getWindow(), window);
+        g.defineData("window", window, true, true, true);
+        g.defineData("self", window, true, true, true);
+        g.defineData("frames", window, true, true, true);
         g.defineData("document", bridge.toJs(page.getDocument()), true, true, true);
         g.defineData("closed", Js.FALSE, true, true, true);
         g.defineData("devicePixelRatio", Js.num(1), true, true, true);
@@ -1648,17 +1649,17 @@ final class WindowGlobals {
         });
         getter(d, "defaultView", new NativeFunction.Call() {
             /**
-             * Returns the window (the global object).
+             * Returns the browsing context's window identity.
              * <p>
-             * window(전역 객체)를 반환한다.
+             * 브라우징 문맥을 가리키는 창 객체를 반환한다.
              *
              * @param r    the realm / realm
              * @param self this value / this 값
              * @param args arguments / 인수
-             * @return the global object / 전역 객체
+             * @return the window identity / 창 객체
              */
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
-                return r.getGlobalObject();
+                return r.getGlobalThisValue();
             }
         });
         getter(d, "currentScript", new NativeFunction.Call() {
@@ -1838,7 +1839,7 @@ final class WindowGlobals {
         JsValue errValue = error instanceof JsException && ((JsException) error).hasValue()
                 ? ((JsException) error).getValue(page.getRealm()) : Js.NULL;
         try {
-            JsValue r = Ops.call(onerror, page.getRealm().getGlobalObject(), new JsValue[] { Js.str(message), Js.str(source), Js.num(line),
+            JsValue r = Ops.call(onerror, page.getRealm().getGlobalThisValue(), new JsValue[] { Js.str(message), Js.str(source), Js.num(line),
                 Js.num(col), errValue });
             return r == Js.TRUE;
         } catch (JsException e) {

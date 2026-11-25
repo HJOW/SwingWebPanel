@@ -308,6 +308,8 @@ blink의 그림은 기능 표의 정책에 따라 정적 텍스트이고 별도 
 Pending 상한은 기존 JS 타이머 한도와 같은 100000이며, 시간 공급원은 내부 진단에서만 교체 가능하다. 이 기반만으로 SwingWebPanel의 스크립트 실행이 연결된 것은 아니다.
 
 `PageScripts.requestDisposal()`는 페이지 잠금을 얻지 않고 disposed/실행 취소를 표시한다(P15-08-b-1). EDT에서는 이 요청만 수행하고 완전한 dispose는 정리 작업자에서 수행해야 한다.
+
+창의 `globalThis`와 프레임의 `contentWindow`는 브라우징 문맥별 `WindowProxy`를 사용한다(P29-02-h). `RealmExecution`이 기록한 실행 realm으로 `FrameApi`가 접근 오리진을 판정하고 현재 전역 객체 또는 제한된 창을 선택한다. 창 메시지에는 호출 스크립트 쪽 프록시를 실어 보낸다. 프레임 요소의 `load`는 현재 이동의 문서가 설치된 뒤에 발생한다.
 `core.PageRuntime`이 이 연결을 수행한다(P15-08-b-2). 표준 컴포넌트는 생성 중 `ParsingPageLoader.bindScripts`로 세션/요청 계층/쿠키를 한 번 전달한다.
 HTML·Markdown의 DOM을 만든 뒤 파싱 전에 PageScripts를 설치하고 scriptReady를 전달한다. 파싱 중 DOM은 로더 소유이며 확정 뒤 문서 큐로 인계한다.
 HtmlPageDocument는 런타임을 소유하며 BrowserSession.commit이 확정한 정확한 스냅샷으로 스케줄러를 활성화한다. 수신 원문은 변경하지 않는다.

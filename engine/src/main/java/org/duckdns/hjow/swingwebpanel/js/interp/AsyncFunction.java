@@ -7,6 +7,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution.ScriptScope;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseCapability;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseInterop;
 
@@ -80,7 +81,7 @@ final class AsyncFunction {
             return;
         }
         state = RUNNING;
-        JsRealm previous = initial ? null : in.enter();
+        ScriptScope previous = initial ? null : in.enter();
         GenState gen = ctx.gen;
         gen.suspending = false;
         gen.resumeMode = mode;

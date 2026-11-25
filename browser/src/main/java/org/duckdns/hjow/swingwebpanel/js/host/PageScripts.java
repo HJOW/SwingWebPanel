@@ -1,11 +1,13 @@
 package org.duckdns.hjow.swingwebpanel.js.host;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 import org.duckdns.hjow.swingwebpanel.dom.Document;
 import org.duckdns.hjow.swingwebpanel.dom.DomException;
@@ -37,6 +39,7 @@ import org.duckdns.hjow.swingwebpanel.js.ModuleGraph;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
 import org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomBridge;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomInterfaces;
@@ -476,7 +479,10 @@ public final class PageScripts {
         }
         this.document = document;
         this.env = env;
-        this.realm = JsRealm.create();
+        this.realm = JsRealm.create(WindowProxy.forContext(env.getBrowsingContext()));
+        synchronized (BY_REALM) {
+            BY_REALM.put(realm, new WeakReference<PageScripts>(this));
+        }
         this.bridge = new DomBridge(realm);
         this.window = new Window();
         realm.getLimits().setMaxTimeMillis(env.getTaskTimeLimitMillis());
@@ -1180,6 +1186,54 @@ public final class PageScripts {
      * 현재 스레드에서 가장 바깥에서 작업을 실행 중인 페이지(HTML 표준의 "entry"). 그것이 부르는 다른 문서의 스크립트는 그 작업 안에서 실행된다.
      */
     private static final ThreadLocal<PageScripts> ENTRY = new ThreadLocal<PageScripts>();
+
+    /** Page owning each realm, without keeping a discarded page alive. / 폐기한 페이지를 붙잡지 않는 realm별 페이지 표. */
+    private static final Map<JsRealm, WeakReference<PageScripts>> BY_REALM = new WeakHashMap<JsRealm, WeakReference<PageScripts>>();
+
+    /**
+     * Selects the view of a context for the innermost executing page script or the current host page task.
+     * <p>
+     * 가장 안쪽에서 실행 중인 페이지 스크립트 또는 현재 호스트 페이지 작업에서 볼 수 있는 창을 고른다.
+     *
+     * @param context browsing context being accessed / 접근 대상 브라우징 문맥
+     * @return window or restricted view / 창 또는 제한 객체
+     */
+    static JsObject windowTarget(BrowsingContext context) {
+        JsRealm running = RealmExecution.current();
+        PageScripts caller = running == null ? ENTRY.get() : pageForRealm(running);
+        if (caller == null || caller.isDisposed()) {
+            throw JsException.typeError("Window access requires an active document");
+        }
+        return caller.globals.frameApi().windowTarget(context);
+    }
+
+    /**
+     * Finds the page running the script that called a window messaging function.
+     * <p>
+     * 창 메시지 함수를 호출한 스크립트를 실행하는 페이지를 찾는다.
+     *
+     * @param fallback messaging function's page, used outside a script / 스크립트 밖에서 쓸 메시지 함수의 페이지
+     * @return author page or fallback / 작성자 페이지 또는 대체 페이지
+     */
+    static PageScripts messageSender(PageScripts fallback) {
+        PageScripts author = pageForRealm(RealmExecution.currentScript());
+        return author == null ? fallback : author;
+    }
+
+    /**
+     * Looks up the browser page associated with an engine realm.
+     * <p>
+     * 엔진 realm에 연결된 브라우저 페이지를 찾는다.
+     *
+     * @param realm executing realm / 실행 realm
+     * @return page or null / 페이지 또는 null
+     */
+    private static PageScripts pageForRealm(JsRealm realm) {
+        synchronized (BY_REALM) {
+            WeakReference<PageScripts> ref = BY_REALM.get(realm);
+            return ref == null ? null : ref.get();
+        }
+    }
 
     /**
      * Returns the browsing context of the script that is running on this thread, the one that started the outermost task (a script that

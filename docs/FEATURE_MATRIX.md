@@ -388,7 +388,7 @@
 ### 7.5 ES2016~ES2022 규격 항목 (필수 목표 범위: P28 구현분 및 P29 잔여 보완 대상)
 
 2026-11-24 NetstormJava 게임 번들 구동 점검을 계기로 계획 P28에 추가하여 P28-01~05에서 핵심 문법·실행 의미·BigInt·내장 객체를 구현했고, 2026-11-25 상단 목표가 **ES2026**으로 상향됨에 따라 이 절 전체가 **프로젝트 필수 규격 범위**가 되었다.
-미구현·부분 구현·판정 필요로 남은 네 행(`ESX-SHARED`, `ESX-SYNTAX-2018`, `ESX-SEMANTICS-2019`, `ESX-GLOBALTHIS`)은 **P29-02 및 P29-05**에서 완성한다.
+P29-02에서 `ESX-SYNTAX-2018`, `ESX-SEMANTICS-2019`, `ESX-GLOBALTHIS`를 검증했다. `ESX-SHARED`는 P29-05에서 구현한다.
 이 절의 초기 대조 판본은 ECMA-262 제13판(ECMAScript 2022, [`docs/es2022`](es2022/))이며 최종 검증은 제17판([`docs/es2026`](es2026/)) 본문과 일치시킨다. "게임" 열은 NetstormJava 번들의 사용 수 또는 `"사용"`/`"없음"`이다(근거: `docs/progress/netstorm.md` 3~4, 11절).
 
 | 기능 ID | 판본 | 요구사항 | 구현 클래스 | 검증 사례 | 상태 | 게임 |
@@ -407,7 +407,7 @@
 | ESX-CHAIN | ES2020 | optional chaining `?.`, nullish `??`와 단락 평가·괄호 조기 오류 | `interp.OptionalShortCircuit`, `Expressions` | `ModernExpressionTest` | 검증 완료: member/call chain 범위, 인수 생략, 논리 혼합 오류 검증 | `?.` 1,985, `??` 714 |
 | ESX-BIGINT | ES2020 | BigInt 원시값·모든 진법 리터럴, 연산/변환, `BigInt`, `asIntN/asUintN`, `BigInt64Array/BigUint64Array`, `DataView` BigInt 접근 | `JsBigInt`, `Ops`, `interp.Expressions`, `corelib.BigIntLib`, `builtins.typed.*`, `embed.JavaValues`, `StructuredClone` | `BigIntCoreTest`, `BigIntTypedArrayTest`, `JsEngineValuesTest`, `JsScriptEngineTest`, `StructuredCloneTest`, `tools/netstormparse` | 검증 완료: 2/8/10/16진 리터럴, Number 혼합 오류, 정확한 비교/산술/비트/시프트, BigInt/래퍼, N-bit 절단, 64비트 형식화 배열/DataView, JSON TypeError/replacer, clone, Java `BigInteger`/JSR 223 왕복 검증 | 리터럴 129, `BigInt` 307, `asIntN` 83, `asUintN` 44, get/setBigUint64 각 14 |
 | ESX-IMPORT | ES2020 | 동적 `import()`, `import.meta`, `export * as name from` | `interp.ModuleAsyncEvaluation`, `ModuleRecord`, `PageScripts` | `ModernDynamicImportTest`, `ModuleScriptTest` | 검증 완료: Promise, coercion/rejection, import.meta.url, 중복/cycle, 요청 계층 연동 검증 | 없음 |
-| ESX-GLOBALTHIS | ES2020 (§19.1.1) | globalThis 속성 기술자와 실행 환경별 동일성 | `js.JsRealm`, `js.host.{WindowGlobals,FrameApi}`, `js.worker.{WorkerScope,SharedWorkerScope}`, `js.host.webaudio.worklet.*` | `testGlobalThis` (JsEngineBasicsTest, PageScriptsTest, FrameWindowTest, WorkerGlobalScopeTest, AudioWorkletModulesTest) | 부분 구현: 독립 엔진, 현재 문서·같은 오리진 프레임, Worker 및 AudioWorklet의 값·기술자 검증 완료(P29-02-f). WindowProxy의 문맥 이동 정체성은 P29-02-h | 16 |
+| ESX-GLOBALTHIS | ES2020 (§19.1.1) | globalThis 속성 기술자와 실행 환경별 동일성 | `js.JsRealm`, `js.host.{WindowGlobals,WindowProxy,FrameApi}`, Worker, AudioWorklet | `testGlobalThis` (엔진과 브라우저 네 시험 클래스), `FrameWindowTest.testStableWindowProxyAcrossNavigation` | 검증 완료(P29-02-f/h): 독립 엔진, 페이지, 프레임 이동, Worker 및 AudioWorklet | 16 |
 | ESX-LOGASSIGN | ES2021 | `\|\|=`, `&&=`, `??=`과 단락된 참조·대입 | `interp.Expressions` | `ModernExpressionTest` | 검증 완료: 단락, 단일 Reference, 단일 getter/setter 검증 | 102 |
 | ESX-NUMSEP | ES2021 | 숫자 구분자 `_`(decimal/binary/octal/hex, BigInt) | `js.parser.Lexer` | `LexerTest`, `ParserExpressionTest`, `tools/netstormparse` | 검증 완료(문법): 위치/진법 오류와 BigInt 조합을 P28-02에서 검증 | 원본 소스 2 |
 | ESX-TOPAWAIT | ES2022 | 모듈 최상위 `await`와 모듈 평가 비동기 순환 | `interp.ModuleAsyncEvaluation`, `ModuleRecord` | `ModernDynamicImportTest`, `ModuleScriptTest` | 검증 완료: 의존성 순서, Promise 재개, cycle과 페이지 module script 검증 | 없음 |

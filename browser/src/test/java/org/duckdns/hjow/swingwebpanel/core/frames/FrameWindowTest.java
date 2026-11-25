@@ -1,6 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.core.frames;
 
+import java.util.Vector;
+import org.duckdns.hjow.swingwebpanel.ConsoleEvent;
+import org.duckdns.hjow.swingwebpanel.ConsoleListener;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
+import org.duckdns.hjow.swingwebpanel.testing.AssertionFailure;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 import org.duckdns.hjow.swingwebpanel.testing.TestHttpServer;
 
@@ -82,6 +86,58 @@ public class FrameWindowTest {
         } finally {
             panel.dispose();
             server.stop();
+        }
+    }
+
+    /**
+     * Checks the same frame reference before and after matching and nonmatching origin navigations.
+     * <p>
+     * 같은 프레임 참조를 유지한 채 같은 오리진과 다른 오리진으로 이동했을 때를 확인한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testStableWindowProxyAcrossNavigation() throws Exception {
+        TestHttpServer first = new TestHttpServer();
+        TestHttpServer other = new TestHttpServer();
+        SwingWebPanel panel = FrameTestSupport.newPanel(400, 300);
+        final Vector<String> console = new Vector<String>();
+        panel.addConsoleListener(new ConsoleListener() {
+            public void consoleMessage(ConsoleEvent event) {
+                console.add(event.getMessage());
+            }
+        });
+        try {
+            other.routeFixed("/remote", TestHttpServer.Response.html("<script>var secret=9;"
+                    + "onmessage=function(e){if(e.data==='ping')e.source.postMessage('pong','*');};</script>"));
+            other.start();
+            first.routeFixed("/one", TestHttpServer.Response.html("<script>var marker='one';</script>"));
+            first.routeFixed("/two", TestHttpServer.Response.html("<script>var marker='two';</script>"));
+            serve(panel, first, "<!DOCTYPE html><iframe id=\"f\" src=\"/one\"></iframe><script>"
+                    + "var f=document.getElementById('f'), held;"
+                    + "window.onload=function(){held=f.contentWindow;"
+                    + " sessionStorage.setItem('first',[held.marker,held===held.globalThis,held===frames[0]].join('|'));"
+                    + " f.addEventListener('load',same); setTimeout(function(){f.setAttribute('src','/two');},100);};"
+                    + "function same(){f.removeEventListener('load',same);"
+                    + " sessionStorage.setItem('same',[held===f.contentWindow,held.marker,held===held.globalThis].join('|'));"
+                    + " f.addEventListener('load',cross); f.setAttribute('src','" + other.url("/remote") + "');}"
+                    + "function cross(){f.removeEventListener('load',cross); var denied=''; try{denied=String(held.secret);}catch(e){denied=e.name;}"
+                    + " sessionStorage.setItem('cross',[held===f.contentWindow,held===held.self,held.parent===window,denied].join('|'));"
+                    + " window.onmessage=function(e){if(e.data==='pong'){sessionStorage.setItem('message',String(e.source===held));"
+                    + " f.parentNode.removeChild(f); var timer=setInterval(function(){if(held.closed){clearInterval(timer);"
+                    + " sessionStorage.setItem('closed','true');}},20);}};"
+                    + " held.postMessage('ping','*');}</script>");
+            FrameTestSupport.awaitStored(panel, "first", "one|true|true");
+            FrameTestSupport.awaitStored(panel, "same", "true|two|true");
+            FrameTestSupport.awaitStored(panel, "cross", "true|true|true|SecurityError");
+            FrameTestSupport.awaitStored(panel, "message", "true");
+            FrameTestSupport.awaitStored(panel, "closed", "true");
+        } catch (AssertionFailure failure) {
+            throw new AssertionFailure(failure.getMessage() + ", second-request=" + first.count("/two")
+                    + ", cross-origin-request=" + other.count("/remote") + ", console=" + console);
+        } finally {
+            panel.dispose();
+            first.stop();
+            other.stop();
         }
     }
 

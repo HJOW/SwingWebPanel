@@ -20,6 +20,7 @@ import org.duckdns.hjow.swingwebpanel.js.Property;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
 import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
+import org.duckdns.hjow.swingwebpanel.js.RealmExecution.ScriptScope;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseCapability;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseInterop;
@@ -186,7 +187,7 @@ public final class Interpreter {
      */
     private JsValue run(Node prog, String name) {
         limits.beginTask();
-        JsRealm previous = RealmExecution.enter(realm);
+        ScriptScope previous = RealmExecution.enterScript(realm);
         try {
             ProgramInfo pi = (ProgramInfo) prog.value;
             Ctx ctx = new Ctx(pi.strict, globalEnv, null);
@@ -195,7 +196,7 @@ public final class Interpreter {
             Completion c = st.execList(prog.list, globalEnv, ctx);
             return c.value == null ? Js.UNDEFINED : c.value;
         } finally {
-            RealmExecution.restore(previous);
+            RealmExecution.restoreScript(previous);
             limits.endTask();
         }
     }
@@ -475,15 +476,15 @@ public final class Interpreter {
      * <p>
      * 호출을 센다: 단계 수와 호출 깊이 제한을 검사한다.
      *
-     * @return previous realm for {@link #leave(JsRealm)} / {@link #leave(JsRealm)}에서 복원할 이전 realm
+     * @return previous scope for {@link #leave(ScriptScope)} / {@link #leave(ScriptScope)}에서 복원할 이전 범위
      */
-    JsRealm enter() {
+    ScriptScope enter() {
         limits.tick();
         if (depth >= limits.getMaxCallDepth()) {
             throw JsException.rangeError("Maximum call stack size exceeded");
         }
         depth++;
-        return RealmExecution.enter(realm);
+        return RealmExecution.enterScript(realm);
     }
 
     /**
@@ -491,11 +492,11 @@ public final class Interpreter {
      * <p>
      * 호출을 끝내고 호출자의 실행 realm을 복원한다.
      *
-     * @param previous the caller's realm / 호출자의 realm
+     * @param previous the caller's scope / 호출자의 실행 범위
      */
-    void leave(JsRealm previous) {
+    void leave(ScriptScope previous) {
         depth--;
-        RealmExecution.restore(previous);
+        RealmExecution.restoreScript(previous);
     }
 
     /**
@@ -509,7 +510,7 @@ public final class Interpreter {
      * @return the result / 결과
      */
     JsValue callFunction(ScriptFunction f, JsValue thisArg, JsValue[] args) {
-        JsRealm previous = enter();
+        ScriptScope previous = enter();
         try {
             ScriptFunction cur = f;
             JsValue curThis = thisArg;
@@ -554,7 +555,7 @@ public final class Interpreter {
      * @return the new object / 새 객체
      */
     JsObject constructFunction(ScriptFunction f, JsValue[] args, JsObject newTarget) {
-        JsRealm previous = enter();
+        ScriptScope previous = enter();
         try {
             boolean derived = f.info.derived;
             if (f.defaultConstructor) {
@@ -916,9 +917,14 @@ public final class Interpreter {
         evalCtx.funcEnv = direct ? ctx.funcEnv : null;
         // eval 코드의 줄 번호는 eval 문자열 안의 위치이므로 호출 위치의 스크립트 이름과 섞지 않는다.
         evalCtx.sourceName = "eval";
-        evalDeclarationInstantiation(prog.scope, callerEnv, varEnv, lexEnv, strict);
-        Completion c = st.execList(prog.list, lexEnv, evalCtx);
-        return c.value == null ? Js.UNDEFINED : c.value;
+        ScriptScope previous = RealmExecution.enterScript(realm);
+        try {
+            evalDeclarationInstantiation(prog.scope, callerEnv, varEnv, lexEnv, strict);
+            Completion c = st.execList(prog.list, lexEnv, evalCtx);
+            return c.value == null ? Js.UNDEFINED : c.value;
+        } finally {
+            RealmExecution.restoreScript(previous);
+        }
     }
 
     /**

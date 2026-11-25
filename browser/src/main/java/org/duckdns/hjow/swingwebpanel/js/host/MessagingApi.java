@@ -301,8 +301,10 @@ public final class MessagingApi {
     private void postToWindow(JsValue message, String targetOrigin, JsValue transfer) {
         boolean any = "*".equals(targetOrigin);
         boolean same = "/".equals(targetOrigin);
+        PageScripts sender = PageScripts.messageSender(page);
+        Origin senderOrigin = Origin.of(sender.getDocument().getOriginUrl());
         Origin documentOrigin = Origin.of(page.getDocument().getOriginUrl());
-        boolean matches = any || same;
+        boolean matches = any || same && (sender == page || senderOrigin.isSameOrigin(documentOrigin));
         if (!any && !same) {
             Origin target;
             try {
@@ -317,11 +319,11 @@ public final class MessagingApi {
             }
             matches = !target.isOpaque() && !documentOrigin.isOpaque() && target.isSameOrigin(documentOrigin);
         }
-        final ClonedValue cloned = cloneMessage(message, transferList(transfer, null));
+        ClonedValue cloned = sender.messaging().cloneForPost(message, transfer);
         if (!matches) {
             return;
         }
-        queue(cloned, documentOrigin.isOpaque() ? "null" : documentOrigin.serialize());
+        queue(cloned, senderOrigin.serialize(), sender.getRealm().getGlobalThisValue());
     }
 
     /**
@@ -348,8 +350,9 @@ public final class MessagingApi {
      * @param cloned          the cloned message / 복제한 메시지
      * @param senderOrigin    the serialized origin of the sender / 보낸 쪽의 직렬화된 오리진
      * @param senderOriginUrl the address that the origin of the sender is computed from, used for <code>/</code> / 보낸 쪽 오리진의 원천 주소. <code>/</code> 에 쓴다
+     * @param source          the sending window identity / 보낸 창 객체
      */
-    void receiveFromOther(String targetOrigin, ClonedValue cloned, String senderOrigin, String senderOriginUrl) {
+    void receiveFromOther(String targetOrigin, ClonedValue cloned, String senderOrigin, String senderOriginUrl, JsObject source) {
         Origin documentOrigin = Origin.of(page.getDocument().getOriginUrl());
         boolean matches;
         // 대상 오리진은 이 페이지의 문서와 비교한다. "/" 는 보낸 쪽과 같은 오리진을 뜻한다.
@@ -360,7 +363,7 @@ public final class MessagingApi {
             matches = !expected.isOpaque() && !documentOrigin.isOpaque() && expected.isSameOrigin(documentOrigin);
         }
         if (matches) {
-            queue(cloned, senderOrigin);
+            queue(cloned, senderOrigin, source);
         }
     }
 
@@ -371,8 +374,9 @@ public final class MessagingApi {
      *
      * @param cloned the cloned message / 복제한 메시지
      * @param origin the serialized origin of the sender / 보낸 쪽의 직렬화된 오리진
+     * @param source the sending window identity / 보낸 창 객체
      */
-    private void queue(final ClonedValue cloned, final String origin) {
+    private void queue(final ClonedValue cloned, final String origin, final JsObject source) {
         Scheduler s = page.getEnvironment().getScheduler();
         if (s == null) {
             return;
@@ -392,7 +396,7 @@ public final class MessagingApi {
                      */
                     public void run() {
                         MessageEvent event = new MessageEvent("message", false, false);
-                        ports.fillEvent(event, cloned, origin, page.getWindow());
+                        ports.fillEvent(event, cloned, origin, source);
                         try {
                             page.getWindow().dispatchTrustedEvent(event);
                         } catch (DomException e) {

@@ -151,11 +151,11 @@ final class CrossOriginWindow extends JsObject {
         String k = (String) key;
         JsRealm realm = caller.getRealm();
         if ("window".equals(k) || "self".equals(k) || "frames".equals(k)) {
-            return this;
+            return api.windowOf(target);
         }
         if ("parent".equals(k)) {
             BrowsingContext p = target.getParent();
-            return p == null ? (JsValue) this : api.windowOf(p);
+            return api.windowOf(p == null ? target : p);
         }
         if ("top".equals(k)) {
             return api.windowOf(target.getTop());
