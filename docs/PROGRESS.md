@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-04-b TypedArray 역방향 탐색과 복사 (2026-11-26) ===
+현재 작업 번호: P29-04-b 완료.
+완료한 내용: TypedArray의 findLast, findLastIndex, toReversed, toSorted, with를 추가했다. 복사 메서드는 내장 요소 형식을 유지하고 원본의 사용자 정의 생성자를 조회하지 않는다. 버퍼 분리 뒤의 인덱스 조회와 값 변환 순서를 확인했다.
+변경 파일: TypedArrayMethods.java, TypedArrayFactory.java, TypedArrayMethodsTest.java, BuiltinPropertiesTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 732건 통과. sourcecheck 0 위반.
+미해결 사항: Array.fromAsync, Float16, 가변 ArrayBuffer 및 Uint8Array 인코딩(P29-04-c~f). 가변 버퍼의 메서드 경계는 P29-04-e에서 추가 검증한다.
+다음 작업 번호: P29-04-c.
+-----------------------------------------------------------------------------------------------
 === P29-04-a Array 역방향 탐색과 복사 (2026-11-26) ===
 현재 작업 번호: P29-04-a 완료.
 완료한 내용: findLast와 findLastIndex, toReversed, toSorted, toSpliced, with를 추가했다. 프로퍼티 읽기 순서, 희소 배열의 밀집 복사, 원본 constructor 미조회, 범위와 타입 오류 및 ES2026의 @@unscopables 목록을 검증했다.
@@ -586,6 +594,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-04-b 형식화 배열 탐색과 복사
+
+Number와 BigInt 배열의 결과, 정렬의 부호 있는 0과 NaN, 파생 배열의 프로토타입, 비교 콜백의 원본 변형과 고정 버퍼 분리 시 동작을 검증했다.
 
 ### 2026-11-26 · P29-04-a 배열 탐색과 복사
 

@@ -371,6 +371,8 @@ public class TypedArrayMethodsTest {
         Check.isTrue(Ops.toBoolean(TypedTestSupport.call(realm, u8(), "every", even)), "every on an empty array");
         TypedTestSupport.eq(2, TypedTestSupport.num(TypedTestSupport.call(realm, a, "find", even)), "find");
         TypedTestSupport.eq(1, TypedTestSupport.num(TypedTestSupport.call(realm, a, "findIndex", even)), "findIndex");
+        TypedTestSupport.eq(4, TypedTestSupport.num(TypedTestSupport.call(realm, a, "findLast", even)), "findLast");
+        TypedTestSupport.eq(3, TypedTestSupport.num(TypedTestSupport.call(realm, a, "findLastIndex", even)), "findLastIndex");
         Check.isTrue(TypedTestSupport.call(realm, u8(1, 3), "find", even).isUndefined(), "find without match");
         TypedTestSupport.eq(-1, TypedTestSupport.num(TypedTestSupport.call(realm, u8(1, 3), "findIndex", even)), "findIndex without match");
         final double[] sum = new double[1];
@@ -381,6 +383,61 @@ public class TypedArrayMethodsTest {
             }
         }));
         TypedTestSupport.eq(10, sum[0], "forEach visits every element");
+    }
+
+    /**
+     * Copies into the intrinsic type and shares numeric sort semantics with sort.
+     * <p>
+     * 내장 형식의 배열로 복사하고 sort와 같은 수치 정렬을 적용한다.
+     */
+    public void testCopyMethodsUseIntrinsicElementType() {
+        String source = "class Derived extends Int16Array {}"
+                + "let a=new Derived([10,2,1]);Object.defineProperty(a,'constructor',{get(){throw 'species';}});"
+                + "let reverse=a.toReversed(),changed=a.with(-0.5,3);"
+                + "let sorted=a.toSorted((x,y)=>{a[0]=99;return x-y;});"
+                + "let f=new Float64Array([NaN,0,2,-0,-3]).toSorted();"
+                + "let b=new BigInt64Array([10n,-1n,2n]);"
+                + "[Object.getPrototypeOf(reverse)===Int16Array.prototype,"
+                + " Object.getPrototypeOf(changed)===Int16Array.prototype,Object.getPrototypeOf(sorted)===Int16Array.prototype,"
+                + " reverse.join('/'),changed.join('/'),sorted.join('/'),a.join('/'),"
+                + " f.join('/'),Object.is(f[1],-0),b.toSorted().join('/'),b.with(-1,'8').join('/')].join('|');";
+        Check.equal("true|true|true|1/2/10|3/2/1|1/2/10|99/2/1|-3/0/0/2/NaN|true|-1/2/10|10/-1/8",
+                Ops.toString(JsRealm.create().evaluateScript(source, "typed-copy.js")), "species, numeric sort and BigInt");
+    }
+
+    /**
+     * Observes a detach during descending search and replacement conversion.
+     * <p>
+     * 역방향 탐색과 교체 값 변환 도중 버퍼가 분리되는 경우를 확인한다.
+     */
+    public void testFindLastAndWithAfterDetach() {
+        final TypedArrayObject searching = u8(1, 2, 3);
+        final List<String> seen = new ArrayList<String>();
+        JsValue predicate = TypedTestSupport.fn(realm, "predicate", 3, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
+                seen.add(Ops.toString(args[1]) + ":" + Ops.toString(args[0]));
+                if (seen.size() == 1) {
+                    searching.getBuffer().detach();
+                }
+                return Js.FALSE;
+            }
+        });
+        TypedTestSupport.eq(-1, TypedTestSupport.num(TypedTestSupport.call(realm, searching, "findLastIndex", predicate)), "no match");
+        Check.equal("[2:3, 1:undefined, 0:undefined]", seen.toString(), "reads each remaining index after detach");
+        final TypedArrayObject updating = u8(1, 2);
+        final JsObject value = realm.newObject();
+        value.defineBuiltin("valueOf", TypedTestSupport.fn(realm, "valueOf", 0, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue receiver, JsValue[] args) {
+                updating.getBuffer().detach();
+                return Js.num(3);
+            }
+        }));
+        TypedTestSupport.expectError(ErrorKind.RANGE_ERROR, new Block() {
+            public void run() {
+                TypedTestSupport.call(realm, updating, "with", Js.num(0), value);
+            }
+        }, "replacement conversion can invalidate the target index");
+        Check.isTrue(updating.getBuffer().isDetached(), "replacement conversion ran");
     }
 
     /**
@@ -695,7 +752,7 @@ public class TypedArrayMethodsTest {
                 }
             }, name + " on an array");
         }
-        String[] callbackMethods = { "every", "filter", "find", "findIndex", "forEach", "map", "reduce", "reduceRight", "some" };
+        String[] callbackMethods = { "every", "filter", "find", "findIndex", "findLast", "findLastIndex", "forEach", "map", "reduce", "reduceRight", "some" };
         // 콜백이 필요한 메서드에 함수가 아닌 값을 주면 TypeError 여야 한다.
         for (int i = 0; i < callbackMethods.length; i++) {
             final String name = callbackMethods[i];
@@ -716,8 +773,9 @@ public class TypedArrayMethodsTest {
         final TypedArrayObject a = u8(1, 2, 3);
         a.getBuffer().detach();
         TypedTestSupport.eq(0, TypedTestSupport.num(a.get("length")), "length of a detached array");
-        String[] methods = { "copyWithin", "entries", "every", "fill", "filter", "find", "findIndex", "forEach", "indexOf", "join", "keys", "lastIndexOf",
-            "map", "reduce", "reduceRight", "reverse", "slice", "some", "sort", "toLocaleString", "values" };
+        String[] methods = { "copyWithin", "entries", "every", "fill", "filter", "find", "findIndex", "findLast", "findLastIndex", "forEach",
+            "indexOf", "join", "keys", "lastIndexOf", "map", "reduce", "reduceRight", "reverse", "slice", "some", "sort", "toLocaleString",
+            "toReversed", "toSorted", "values", "with" };
         // 분리된 버퍼 위의 배열에는 어떤 메서드도 쓸 수 없다.
         for (int i = 0; i < methods.length; i++) {
             final String name = methods[i];

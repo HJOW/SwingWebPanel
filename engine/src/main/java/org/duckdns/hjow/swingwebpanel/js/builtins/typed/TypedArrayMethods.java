@@ -17,13 +17,13 @@ import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 /**
  * The methods and accessors of <code>%TypedArray%.prototype</code> (ECMA-262 6th edition, 22.2.3): buffer, byteLength, byteOffset, length and the
  * toStringTag getter, and copyWithin, entries, every, fill, filter, find, findIndex, forEach, indexOf, join, keys, lastIndexOf, map, reduce,
- * reduceRight, reverse, set, slice, some, sort, subarray, toLocaleString, toString, values and <code>[Symbol.iterator]</code>. The ECMAScript 2016
- * method <code>includes</code> is not part of ECMAScript 2015 and is not installed here.
+ * reduceRight, reverse, set, slice, some, sort, subarray, toLocaleString, toString, values and <code>[Symbol.iterator]</code>.
+ * Later methods include includes, at, findLast, findLastIndex, toReversed, toSorted and with.
  * <p>
  * <code>%TypedArray%.prototype</code> 의 메서드와 접근자(ECMA-262 6판, 22.2.3): buffer, byteLength, byteOffset, length, toStringTag getter 와
  * copyWithin, entries, every, fill, filter, find, findIndex, forEach, indexOf, join, keys, lastIndexOf, map, reduce, reduceRight, reverse, set,
- * slice, some, sort, subarray, toLocaleString, toString, values, <code>[Symbol.iterator]</code>. ECMAScript 2016 의 <code>includes</code> 메서드는
- * ECMAScript 2015 에 없으므로 여기서 설치하지 않는다.
+ * slice, some, sort, subarray, toLocaleString, toString, values, <code>[Symbol.iterator]</code>.
+ * 이후 판본에서 추가된 includes, at, findLast, findLastIndex, toReversed, toSorted, with도 설치한다.
  */
 final class TypedArrayMethods {
 
@@ -93,6 +93,33 @@ final class TypedArrayMethods {
      */
     private static JsValue[] cb(JsValue v, int k, JsObject o) {
         return new JsValue[] { v, Js.num(k), o };
+    }
+
+    /**
+     * Finds a matching element or index in the requested direction.
+     * <p>
+     * 지정한 방향에서 조건을 만족하는 요소나 인덱스를 찾는다.
+     *
+     * @param receiver the typed array / 형식화 배열
+     * @param args callback and thisArg / 콜백과 thisArg
+     * @param indexResult whether to return the index / 인덱스를 반환할지 여부
+     * @param reverse true when searching from the end / 끝에서 검색하면 true
+     * @return the matching value or index, or the matching method's sentinel / 일치한 값이나 인덱스, 없으면 메서드별 기본값
+     */
+    private static JsValue find(JsValue receiver, JsValue[] args, boolean indexResult, boolean reverse) {
+        TypedArrayObject source = TypedSupport.validate(receiver);
+        int length = source.getLength();
+        JsObject predicate = TypedSupport.callable(Js.arg(args, 0));
+        JsValue thisArg = Js.arg(args, 1);
+        int step = reverse ? -1 : 1;
+        // 진입 시 길이를 고정하고 콜백 직전에 각 인덱스의 현재 값을 읽는다.
+        for (int i = reverse ? length - 1 : 0; i >= 0 && i < length; i += step) {
+            JsValue value = elem(source, i);
+            if (Ops.toBoolean(Ops.call(predicate, thisArg, cb(value, i, source)))) {
+                return indexResult ? Js.num(i) : value;
+            }
+        }
+        return indexResult ? Js.num(-1) : Js.UNDEFINED;
     }
 
     /**
@@ -231,33 +258,22 @@ final class TypedArrayMethods {
         });
         realm.method(proto, "find", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                TypedArrayObject o = TypedSupport.validate(thisValue);
-                int len = o.getLength();
-                JsObject fn = TypedSupport.callable(Js.arg(args, 0));
-                JsValue t = Js.arg(args, 1);
-                // 조건을 만족하는 첫 요소의 값을 돌려준다.
-                for (int k = 0; k < len; k++) {
-                    JsValue v = elem(o, k);
-                    if (Ops.toBoolean(Ops.call(fn, t, cb(v, k, o)))) {
-                        return v;
-                    }
-                }
-                return Js.UNDEFINED;
+                return find(thisValue, args, false, false);
             }
         });
         realm.method(proto, "findIndex", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                TypedArrayObject o = TypedSupport.validate(thisValue);
-                int len = o.getLength();
-                JsObject fn = TypedSupport.callable(Js.arg(args, 0));
-                JsValue t = Js.arg(args, 1);
-                // 조건을 만족하는 첫 요소의 인덱스를 돌려준다.
-                for (int k = 0; k < len; k++) {
-                    if (Ops.toBoolean(Ops.call(fn, t, cb(elem(o, k), k, o)))) {
-                        return Js.num(k);
-                    }
-                }
-                return Js.num(-1);
+                return find(thisValue, args, true, false);
+            }
+        });
+        realm.method(proto, "findLast", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return find(thisValue, args, false, true);
+            }
+        });
+        realm.method(proto, "findLastIndex", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return find(thisValue, args, true, true);
             }
         });
         realm.method(proto, "map", 1, new NativeFunction.Call() {
@@ -488,33 +504,10 @@ final class TypedArrayMethods {
         });
         realm.method(proto, "sort", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                final JsValue cmp = Js.arg(args, 0);
-                if (!cmp.isUndefined() && !cmp.isCallable()) {
-                    throw JsException.typeError("The comparison function must be either a function or undefined");
-                }
+                JsValue compare = comparator(args);
                 TypedArrayObject o = TypedSupport.validate(thisValue);
                 int len = o.getLength();
-                JsValue[] values = new JsValue[len];
-                // 정렬할 값을 먼저 모두 읽는다.
-                for (int i = 0; i < len; i++) {
-                    values[i] = o.getElementValue(i);
-                }
-                ValueOrder order;
-                if (cmp.isUndefined()) {
-                    order = new ValueOrder() {
-                        public int compare(JsValue x, JsValue y) {
-                            return defaultElementOrder(x, y);
-                        }
-                    };
-                } else {
-                    order = new ValueOrder() {
-                        public int compare(JsValue x, JsValue y) {
-                            double v = Ops.toNumber(Ops.call(cmp, Js.UNDEFINED, new JsValue[] { x, y }));
-                            return v != v ? 0 : (v < 0 ? -1 : (v > 0 ? 1 : 0));
-                        }
-                    };
-                }
-                mergeSort(values, order);
+                JsValue[] values = sortedValues(o, len, compare);
                 int end = Math.min(len, o.getLength());
                 // 정렬한 값을 다시 쓴다. 콜백이 배열을 줄였다면 남은 부분만 쓴다.
                 for (int i = 0; i < end; i++) {
@@ -575,6 +568,51 @@ final class TypedArrayMethods {
      * @param proto the prototype / 프로토타입
      */
     private static void installCopying(JsRealm realm, JsObject proto) {
+        realm.method(proto, "toReversed", 0, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                TypedArrayObject source = TypedSupport.validate(thisValue);
+                int length = source.getLength();
+                TypedArrayObject result = TypedArrayFactory.allocateSameType(r, source, length);
+                // 원본을 끝에서부터 읽어 같은 요소 형식의 배열에 쓴다.
+                for (int i = 0; i < length; i++) {
+                    result.setElementValue(i, source.getElementValue(length - i - 1));
+                }
+                return result;
+            }
+        });
+        realm.method(proto, "toSorted", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                JsValue compare = comparator(args);
+                TypedArrayObject source = TypedSupport.validate(thisValue);
+                int length = source.getLength();
+                TypedArrayObject result = TypedArrayFactory.allocateSameType(r, source, length);
+                JsValue[] sorted = sortedValues(source, length, compare);
+                // 정렬 비교가 끝난 값을 결과에만 쓴다.
+                for (int i = 0; i < length; i++) {
+                    result.setElementValue(i, sorted[i]);
+                }
+                return result;
+            }
+        });
+        realm.method(proto, "with", 2, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                TypedArrayObject source = TypedSupport.validate(thisValue);
+                int length = source.getLength();
+                double relative = Ops.toInteger(Js.arg(args, 0));
+                double index = relative < 0 ? length + relative : relative;
+                JsValue replacement = source.convertElement(Js.arg(args, 1));
+                // 변환 도중 버퍼가 분리되거나 길이가 변할 수 있어 현재 길이로 검사한다.
+                if (index < 0 || index >= source.getLength()) {
+                    throw JsException.rangeError("TypedArray index is out of range");
+                }
+                TypedArrayObject result = TypedArrayFactory.allocateSameType(r, source, length);
+                // 원래 길이를 복사한다. 길이가 줄었다면 남은 인덱스의 읽기 결과는 undefined다.
+                for (int i = 0; i < length; i++) {
+                    result.setElementValue(i, i == index ? replacement : elem(source, i));
+                }
+                return result;
+            }
+        });
         realm.method(proto, "slice", 2, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 TypedArrayObject o = TypedSupport.validate(thisValue);
@@ -668,6 +706,57 @@ final class TypedArrayMethods {
         for (int k = 0; k < (int) srcLength; k++) {
             target.setIndexed(at + k, src.get(PropertyKeys.fromIndex(k)));
         }
+    }
+
+    /**
+     * Reads and validates the optional comparator before reading the receiver.
+     * <p>
+     * 수신자를 읽기 전에 선택적 비교 함수를 읽고 검사한다.
+     *
+     * @param args the arguments of sort or toSorted / sort 또는 toSorted의 인수
+     * @return the comparator or undefined / 비교 함수 또는 undefined
+     */
+    private static JsValue comparator(JsValue[] args) {
+        JsValue compare = Js.arg(args, 0);
+        if (!compare.isUndefined() && !compare.isCallable()) {
+            throw JsException.typeError("The comparison function must be either a function or undefined");
+        }
+        return compare;
+    }
+
+    /**
+     * Reads the elements before sorting them with the same order for sort and toSorted.
+     * <p>
+     * 요소를 읽은 뒤 sort와 toSorted에 같은 비교 규칙을 적용한다.
+     *
+     * @param source the typed array / 형식화 배열
+     * @param length captured length / 미리 읽은 길이
+     * @param compare comparator or undefined / 비교 함수 또는 undefined
+     * @return sorted values / 정렬한 값
+     */
+    private static JsValue[] sortedValues(TypedArrayObject source, int length, final JsValue compare) {
+        JsValue[] values = new JsValue[length];
+        // 첫 비교를 하기 전에 원본의 모든 값을 읽는다.
+        for (int i = 0; i < length; i++) {
+            values[i] = source.getElementValue(i);
+        }
+        ValueOrder order;
+        if (compare.isUndefined()) {
+            order = new ValueOrder() {
+                public int compare(JsValue x, JsValue y) {
+                    return defaultElementOrder(x, y);
+                }
+            };
+        } else {
+            order = new ValueOrder() {
+                public int compare(JsValue x, JsValue y) {
+                    double v = Ops.toNumber(Ops.call(compare, Js.UNDEFINED, new JsValue[] { x, y }));
+                    return v != v ? 0 : (v < 0 ? -1 : (v > 0 ? 1 : 0));
+                }
+            };
+        }
+        mergeSort(values, order);
+        return values;
     }
 
     /**

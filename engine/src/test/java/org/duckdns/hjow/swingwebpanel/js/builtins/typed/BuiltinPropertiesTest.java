@@ -223,9 +223,10 @@ public class BuiltinPropertiesTest {
         method("%TypedArray%.of", ctor, "of", "of", 0);
         getter("%TypedArray%[@@species]", ctor, WellKnownSymbols.SPECIES, "get [Symbol.species]");
         String[][] methods = { { "at", "1" }, { "copyWithin", "2" }, { "entries", "0" }, { "every", "1" }, { "fill", "1" }, { "filter", "1" }, { "find", "1" },
-            { "findIndex", "1" }, { "forEach", "1" }, { "indexOf", "1" }, { "join", "1" }, { "keys", "0" }, { "lastIndexOf", "1" }, { "map", "1" },
+            { "findIndex", "1" }, { "findLast", "1" }, { "findLastIndex", "1" }, { "forEach", "1" }, { "indexOf", "1" }, { "join", "1" },
+            { "keys", "0" }, { "lastIndexOf", "1" }, { "map", "1" },
             { "reduce", "1" }, { "reduceRight", "1" }, { "reverse", "0" }, { "set", "1" }, { "slice", "2" }, { "some", "1" }, { "sort", "1" },
-            { "subarray", "2" }, { "toLocaleString", "0" }, { "values", "0" } };
+            { "subarray", "2" }, { "toLocaleString", "0" }, { "toReversed", "0" }, { "toSorted", "1" }, { "values", "0" }, { "with", "2" } };
         List<String> expected = new ArrayList<String>(Arrays.asList("constructor", "buffer", "byteLength", "byteOffset", "length", "toString"));
         // 메서드마다 이름, length, 속성을 점검한다.
         for (int i = 0; i < methods.length; i++) {

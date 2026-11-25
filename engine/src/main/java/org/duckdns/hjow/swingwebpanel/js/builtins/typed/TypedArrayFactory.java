@@ -74,6 +74,21 @@ final class TypedArrayFactory {
     }
 
     /**
+     * Creates an array of the exemplar's element type with the intrinsic prototype of the current realm.
+     * <p>
+     * 예시 배열과 같은 요소 형식과 현재 realm의 내장 프로토타입으로 배열을 만든다.
+     *
+     * @param realm the current realm / 현재 realm
+     * @param example exemplar typed array / 예시 형식화 배열
+     * @param length element count / 요소 수
+     * @return a new array of the same element type / 같은 요소 형식의 새 배열
+     */
+    static TypedArrayObject allocateSameType(JsRealm realm, TypedArrayObject example, int length) {
+        ElementType type = example.getType();
+        return allocate(realm, type, realm.getIntrinsic("%" + type.getConstructorName() + "Prototype%"), length);
+    }
+
+    /**
      * 22.2.4.3: copies the elements of another typed array, converting between element types if needed.
      * <p>
      * 22.2.4.3: 다른 형식화 배열의 요소를 복사하며 필요하면 요소 형식을 변환한다.
