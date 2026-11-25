@@ -796,12 +796,14 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-04-c1. `PromiseInterop`와 `AsyncIteratorHelper`에서 내장 Promise 대기, 동기 반복자의 next·done 조회 순서와 거부 시 닫기를 검증한다.
     - [x] P29-04-c2. `ArrayBuiltins`와 `ArrayFromAsync`에서 반복자 또는 유사 배열의 순차 변환과 생성자 호출을 구현한다. 부작용 순서, 오류별 닫기 및 결과 Promise를 검증한다.
   - [x] P29-04-d. 반정밀도 변환과 `Math.f16round`, `Float16Array`, DataView 접근을 추가한다. 짝수 반올림, 부호 있는 0 및 경계 비트열을 JDK 6에서 검증한다.
-  - [ ] P29-04-e. `ArrayBufferLib`와 View 연산에 가변 길이, 전송, 자동 길이와 경계 검사 지원을 추가한다. 버퍼 축소 후 접근과 콜백 부작용을 JDK 6에서 검증한다.
+  - [x] P29-04-e. `ArrayBufferLib`와 View 연산에 가변 길이, 전송, 자동 길이와 경계 검사 지원을 추가한다. 버퍼 축소 후 접근과 콜백 부작용을 JDK 6에서 검증한다.
     - [x] P29-04-e1. `ArrayBufferObject`와 `ArrayBufferLib`에 최대 길이와 재할당을 추가한다. 옵션 변환, 길이 접근자, 축소·확대와 바이트 보존을 JDK 6에서 검증한다.
     - [x] P29-04-e2. `TypedArrayObject`, 생성자와 메서드에 자동 길이와 경계 이탈을 반영한다. 축소·확대, 경계 복구, 콜백과 형식화 배열의 복사·쓰기 순서를 검증한다.
     - [x] P29-04-e3. `DataViewObject`, 생성자 및 접근자에서 버퍼의 현재 경계를 사용한다. 자동·고정 길이, 엔디언, 값 변환 중 축소·분리와 결과 오류를 검증한다.
-    - [ ] P29-04-e4. `ArrayBuffer.prototype`의 resize와 transfer 2종을 연결한다. 범위 실패, 재할당의 0 채움, 전송 성공 뒤 분리와 기존 뷰의 동작을 스크립트에서 검증한다.
+    - [x] P29-04-e4. `ArrayBuffer.prototype`의 resize와 transfer 2종을 연결한다. 범위 실패, 재할당의 0 채움, 전송 성공 뒤 분리와 기존 뷰의 동작을 스크립트에서 검증한다.
   - [ ] P29-04-f. `Uint8Array`의 Base64·Hex 변환을 추가한다. 알파벳, 패딩, 접두부 처리, 버퍼 길이·분리 경계 및 read/written을 JDK 6에서 검증한다.
+    - [ ] P29-04-f1. `Uint8ArrayConversions`를 등록하고 Hex 3종을 구현한다. 입력·출력 형식, 제한 길이, 불완전 입력, 오류 전 접두부 저장, 분리·가변 버퍼를 시험한다.
+    - [ ] P29-04-f2. Base64 3종을 구현한다. 알파벳, ASCII 공백, 패딩, 마지막 조각 처리, 출력 범위와 관찰 가능한 옵션 접근을 시험한다.
 - [ ] P29-05. `SharedArrayBuffer`와 `Atomics`(ES2017·ES2024, `25.2`·`25.4`·`29`)를 구현한다.
   - `SharedArrayBuffer` 생성자(`{ maxByteLength }` 성장 옵션 포함), `byteLength`, `maxByteLength`, `growable`, `grow(newLength)`(축소 금지·원자적 확장), `slice`, `@@species`/`@@toStringTag`를 구현한다.
   - Java 6 표준 공개 API(`java.util.concurrent.atomic`, 모니터/잠금 등 — `sun.misc.Unsafe` 및 네이티브 코드 금지)만으로 공유 바이트 블록과 8/16/32/64비트 정수 `TypedArray`(`Int8`~`Uint32`, `BigInt64`/`BigUint64`)에 대한 원자적 읽기·쓰기·산술·비트·교환 연산(`Atomics.load`, `store`, `add`, `sub`, `and`, `or`, `xor`, `exchange`, `compareExchange`, `isLockFree`)을 구현한다.

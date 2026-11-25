@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-04-e4 공개 ArrayBuffer 크기 변경과 전송 (2026-11-26) ===
+현재 작업 번호: P29-04-e 완료.
+완료한 내용: resize, transfer와 transferToFixedLength를 설치했다. 길이 변환 후의 실제 바이트를 복사하고 성공한 전송만 원본을 분리한다. 가변성 보존과 고정 길이 전송, 기존 TypedArray 및 DataView의 분리를 검증했다.
+변경 파일: ArrayBufferLib.java, ArrayBufferObject.java, Es2026ResizableBufferTest.java, BuiltinPropertiesTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 748건 통과. sourcecheck 0 위반.
+미해결 사항: Uint8Array 인코딩(P29-04-f1~f2), 가변 버퍼의 구조화 복제와 호스트 경계(P29-10).
+다음 작업 번호: P29-04-f1.
+-----------------------------------------------------------------------------------------------
 === P29-04-e3 DataView 길이 추적과 경계 (2026-11-26) ===
 현재 작업 번호: P29-04-e3 완료.
 완료한 내용: 길이를 생략한 가변 버퍼의 DataView를 현재 버퍼 길이에 연결한다. 뷰가 범위를 벗어나면 접근자와 읽기·쓰기가 TypeError를 내고, 유효한 뷰에서 요청 크기만 범위를 넘으면 RangeError를 낸다. 생성 시 사용자 코드가 프로토타입을 반환한 뒤 경계를 다시 읽는다.
@@ -642,6 +650,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-04-e4 ArrayBuffer resize와 transfer
+
+스크립트에서 최대 길이를 넘는 전송 실패, 잘린 바이트의 0 채움, 기본 길이, 가변성 유지와 고정 길이 전송, 길이 변환 중의 분리 및 slice 도중 축소를 검증했다. 새 버퍼는 내장 프로토타입을 쓰며 저장소를 준비한 뒤 원본을 분리한다.
 
 ### 2026-11-26 · P29-04-e3 DataView 가변 경계
 

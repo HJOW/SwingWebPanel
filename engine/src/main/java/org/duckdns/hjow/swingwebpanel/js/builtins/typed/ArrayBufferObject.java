@@ -118,16 +118,16 @@ public class ArrayBufferObject extends JsObject {
      *
      * @param length new byte length / 새 바이트 길이
      */
-    void resizeTo(int length) {
+    void resizeTo(double length) {
         if (data == null || !isResizable()) {
             throw JsException.typeError("ArrayBuffer must be attached and resizable");
         }
-        if (length < 0 || length > maximum) {
+        if (length < 0 || length > maximum || length != Math.floor(length)) {
             throw JsException.rangeError("New ArrayBuffer length exceeds its maximum");
         }
         if (length != data.length) {
             byte[] resized = TypedSupport.allocate(length);
-            System.arraycopy(data, 0, resized, 0, Math.min(length, data.length));
+            System.arraycopy(data, 0, resized, 0, Math.min(resized.length, data.length));
             data = resized;
         }
     }

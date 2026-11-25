@@ -91,6 +91,27 @@ final class ArrayBufferLib {
                 return Js.bool(thisBuffer(thisValue).isDetached());
             }
         });
+        realm.method(proto, "resize", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                ArrayBufferObject buffer = thisBuffer(thisValue);
+                // 고정 버퍼는 길이 인수의 변환 전에 거부한다.
+                if (!buffer.isResizable()) {
+                    throw JsException.typeError("ArrayBuffer is not resizable");
+                }
+                buffer.resizeTo(TypedSupport.toIndex(Js.arg(args, 0), "new array buffer length"));
+                return Js.UNDEFINED;
+            }
+        });
+        realm.method(proto, "transfer", 0, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return transfer(r, thisBuffer(thisValue), Js.arg(args, 0), true);
+            }
+        });
+        realm.method(proto, "transferToFixedLength", 0, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return transfer(r, thisBuffer(thisValue), Js.arg(args, 0), false);
+            }
+        });
         realm.method(proto, "slice", 2, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
                 return slice(r, thisBuffer(thisValue), Js.arg(args, 0), Js.arg(args, 1));
@@ -112,6 +133,35 @@ final class ArrayBufferLib {
             throw JsException.typeError("this is not an ArrayBuffer");
         }
         return (ArrayBufferObject) v;
+    }
+
+    /**
+     * Copies the attached bytes to an intrinsic ArrayBuffer and detaches the source after success.
+     * <p>
+     * 분리되지 않은 바이트를 내장 ArrayBuffer에 복사한 뒤 성공했을 때 원본을 분리한다.
+     *
+     * @param realm the current realm / 현재 realm
+     * @param source the original buffer / 원본 버퍼
+     * @param lengthArg desired length or undefined / 지정한 길이 또는 undefined
+     * @param preserve true to preserve resizability / 가변 길이 속성을 유지하려면 true
+     * @return the new buffer / 새 버퍼
+     */
+    private static ArrayBufferObject transfer(JsRealm realm, ArrayBufferObject source, JsValue lengthArg, boolean preserve) {
+        double length = lengthArg.isUndefined() ? source.getByteLength() : TypedSupport.toIndex(lengthArg, "new array buffer length");
+        // 길이 변환 중 원본이 분리되는 경우도 여기서 검사한다.
+        if (source.isDetached()) {
+            throw JsException.typeError("ArrayBuffer is detached");
+        }
+        int maximum = preserve && source.isResizable() ? source.getMaxByteLength() : -1;
+        if (maximum >= 0 && length > maximum) {
+            throw JsException.rangeError("New ArrayBuffer length exceeds its maximum");
+        }
+        byte[] bytes = TypedSupport.allocate(length);
+        byte[] from = source.getData();
+        System.arraycopy(from, 0, bytes, 0, Math.min(from.length, bytes.length));
+        ArrayBufferObject target = new ArrayBufferObject(realm.getIntrinsic("%ArrayBufferPrototype%"), bytes, maximum);
+        source.detach();
+        return target;
     }
 
     /**

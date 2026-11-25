@@ -169,12 +169,16 @@ public class BuiltinPropertiesTest {
         data("ArrayBuffer.prototype", ctor, "prototype", "");
         method("ArrayBuffer.isView", ctor, "isView", "isView", 1);
         getter("ArrayBuffer[@@species]", ctor, WellKnownSymbols.SPECIES, "get [Symbol.species]");
-        keys("ArrayBuffer.prototype", proto, new String[] { "constructor", "byteLength", "maxByteLength", "resizable", "detached", "slice" }, 1);
+        keys("ArrayBuffer.prototype", proto, new String[] { "constructor", "byteLength", "maxByteLength", "resizable", "detached", "resize",
+            "transfer", "transferToFixedLength", "slice" }, 1);
         data("ArrayBuffer.prototype.constructor", proto, "constructor", "wc");
         getter("ArrayBuffer.prototype.byteLength", proto, "byteLength", "get byteLength");
         getter("ArrayBuffer.prototype.maxByteLength", proto, "maxByteLength", "get maxByteLength");
         getter("ArrayBuffer.prototype.resizable", proto, "resizable", "get resizable");
         getter("ArrayBuffer.prototype.detached", proto, "detached", "get detached");
+        method("ArrayBuffer.prototype.resize", proto, "resize", "resize", 1);
+        method("ArrayBuffer.prototype.transfer", proto, "transfer", "transfer", 0);
+        method("ArrayBuffer.prototype.transferToFixedLength", proto, "transferToFixedLength", "transferToFixedLength", 0);
         method("ArrayBuffer.prototype.slice", proto, "slice", "slice", 2);
         data("ArrayBuffer.prototype[@@toStringTag]", proto, WellKnownSymbols.TO_STRING_TAG, "c");
         Check.equal("ArrayBuffer", TypedTestSupport.str(proto.get(WellKnownSymbols.TO_STRING_TAG)), "tag text");

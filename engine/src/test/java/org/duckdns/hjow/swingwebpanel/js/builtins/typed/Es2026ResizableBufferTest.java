@@ -144,6 +144,49 @@ public class Es2026ResizableBufferTest {
     }
 
     /**
+     * Uses the public resize and transfer methods and checks the original views after detachment.
+     * <p>
+     * 공개 resize 및 transfer 메서드를 사용하고 분리 뒤 원본 뷰를 확인한다.
+     */
+    public void testResizeAndTransferThroughJavaScript() {
+        Scripts.checkInline("const a=new ArrayBuffer(4,{maxByteLength:8});"
+                + "const typed=new Uint8Array(a),view=new DataView(a);typed.set([1,2,3,4]);"
+                + "t('resize return',a.resize(2),undefined);a.resize(5);"
+                + "t('growth does not restore discarded bytes',typed.join(','),'1,2,0,0,0');"
+                + "try{a.transfer(9);}catch(e){t('resize limit preserved',e.name,'RangeError');}"
+                + "t('failed transfer stays attached',a.detached,false);"
+                + "Object.defineProperty(a,'constructor',{get(){throw 'species';}});"
+                + "const b=a.transfer(6);"
+                + "t('source detached',[a.detached,a.byteLength,a.maxByteLength,a.resizable,typed.length].join(','),'true,0,0,true,0');"
+                + "try{view.getUint8(0);}catch(e){t('old DataView is detached',e.name,'TypeError');}"
+                + "t('target resizable',[b.byteLength,b.maxByteLength,b.resizable].join(','),'6,8,true');"
+                + "t('target bytes',new Uint8Array(b).join(','),'1,2,0,0,0,0');"
+                + "const c=b.transferToFixedLength(10);"
+                + "t('fixed length target',[c.byteLength,c.maxByteLength,c.resizable,b.detached].join(','),'10,10,false,true');"
+                + "t('default transfer length',c.transfer().byteLength,10);", 10);
+    }
+
+    /**
+     * Observes side effects of length conversion, failed transfers and shrinking during slice.
+     * <p>
+     * 길이 변환의 부수 효과, 실패한 전송, slice 도중의 축소를 확인한다.
+     */
+    public void testResizeAndTransferCoercionOrder() {
+        Scripts.checkInline("let log=[];const fixed=new ArrayBuffer(1),r=new ArrayBuffer(4,{maxByteLength:8});"
+                + "try{fixed.resize({valueOf(){log.push('fixed');return 0;}});}catch(e){t('fixed resize',e.name,'TypeError');}"
+                + "new Uint8Array(r).set([7,8,9,10]);"
+                + "const moved=r.transfer({valueOf(){log.push('transfer');r.resize(2);return 5;}});"
+                + "t('reads current bytes after conversion',new Uint8Array(moved).join(','),'7,8,0,0,0');"
+                + "try{r.transfer({valueOf(){log.push('detached');return 4;}});}catch(e){t('detached transfer',e.name,'TypeError');}"
+                + "try{moved.resize({valueOf(){log.push('resize');moved.transfer();return 0;}});}"
+                + " catch(e){t('detached during resize',e.name,'TypeError');}"
+                + "t('conversion order',log.join(','),'transfer,detached,resize');"
+                + "const x=new ArrayBuffer(5,{maxByteLength:6});"
+                + "const slice=x.slice({valueOf(){x.resize(1);return 2;}});"
+                + "t('slice start beyond new length',new Uint8Array(slice).join(','),'0,0,0');", 6);
+    }
+
+    /**
      * Runs view assertions with a host hook that calls the underlying resize operation.
      * <p>
      * 내부 크기 변경 연산을 호출하는 호스트 함수를 연결해 뷰 단언을 실행한다.
