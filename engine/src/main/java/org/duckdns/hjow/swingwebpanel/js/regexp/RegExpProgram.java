@@ -216,6 +216,9 @@ public final class RegExpProgram {
      */
     static final int OP_LOOK_BEHIND = 24;
 
+    /** Named backreference: operand count followed by capture numbers. / 이름 역참조의 그룹 개수와 캡처 번호 목록. */
+    static final int OP_BACKREF_ALTERNATIVES = 25;
+
     /**
      * Atom kind: literal character.
      * <p>
@@ -547,13 +550,14 @@ public final class RegExpProgram {
      * @param start start index / 시작 위치
      * @param expectedEnd expected end / 필요한 끝 위치
      * @param cancel cancellation hook / 취소 훅
+     * @param inherited preceding captures / 이전에 일치한 캡처들
      * @return captures or null / 캡처 또는 null
      */
-    int[] matchAtEnding(String input, int start, int expectedEnd, RegExpCancel cancel) {
+    int[] matchAtEnding(String input, int start, int expectedEnd, RegExpCancel cancel, int[] inherited) {
         if (start < 0 || start > input.length() || expectedEnd < start || expectedEnd > input.length()) {
             return null;
         }
         RegExpMatcher m = new RegExpMatcher(this, input, cancel);
-        return m.matchAtEnding(start, expectedEnd) ? m.result() : null;
+        return m.matchAtEnding(start, expectedEnd, inherited) ? m.result() : null;
     }
 }

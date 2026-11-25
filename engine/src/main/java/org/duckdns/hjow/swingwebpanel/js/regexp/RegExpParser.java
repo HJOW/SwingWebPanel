@@ -1,7 +1,11 @@
 package org.duckdns.hjow.swingwebpanel.js.regexp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.duckdns.hjow.swingwebpanel.js.text.CharClass;
 
 /**
@@ -158,16 +162,101 @@ final class RegExpParser {
         if (pos < n) {
             throw error("Unmatched ')'", pos);
         }
-        // 이름 있는 역참조를 그룹 번호로 바꾼다.
-        for (int i = 0; i < namedRefs.size(); i++) {
-            RegExpNode ref = namedRefs.get(i);
-            int idx = names.indexOf(ref.name);
-            if (idx < 0) {
-                throw error("Invalid named capture referenced", -1);
-            }
-            ref.value = idx;
+        if (hasNamed) {
+            resolveNamedGroups(root);
         }
         return root;
+    }
+
+    /**
+     * Resolves named backreferences and validates the alternative paths of duplicated names.
+     * <p>
+     * 이름 있는 역참조를 해석하고 중복 이름이 별개의 대안 경로에 있는지 검증한다.
+     *
+     * @param root parsed pattern / 해석한 패턴
+     * @throws RegExpSyntaxException on a missing reference or conflicting names / 대상이 없는 역참조 또는 이름 충돌 시
+     */
+    private void resolveNamedGroups(RegExpNode root) throws RegExpSyntaxException {
+        Map<String, List<Integer>> byName = new HashMap<String, List<Integer>>();
+        Set<String> duplicates = new HashSet<String>();
+        // 캡처 번호 순서대로 각 이름에 해당하는 그룹들을 모은다.
+        for (int i = 1; i < names.size(); i++) {
+            String name = names.get(i);
+            if (name != null) {
+                List<Integer> indices = byName.get(name);
+                if (indices == null) {
+                    indices = new ArrayList<Integer>();
+                    byName.put(name, indices);
+                } else {
+                    duplicates.add(name);
+                }
+                indices.add(Integer.valueOf(i));
+            }
+        }
+        if (!duplicates.isEmpty()) {
+            validateGroupParticipation(root, duplicates);
+        }
+        // 이름 역참조는 참여할 수 있는 캡처 번호를 모두 보관한다.
+        for (RegExpNode reference : namedRefs) {
+            List<Integer> indices = byName.get(reference.name);
+            if (indices == null) {
+                throw error("Invalid named capture referenced", -1);
+            }
+            reference.value = indices.get(0).intValue();
+            if (indices.size() > 1) {
+                reference.referenceGroups = new int[indices.size()];
+                // 한 번호인 경우에는 숫자 역참조와 같은 명령을 사용한다.
+                for (int i = 0; i < indices.size(); i++) {
+                    reference.referenceGroups[i] = indices.get(i).intValue();
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks MightBothParticipate and returns the duplicated names seen in the subtree.
+     * <p>
+     * MightBothParticipate를 검사하고 하위 트리에 나타나는 중복 이름을 반환한다.
+     *
+     * @param node subtree / 하위 트리
+     * @param duplicates names declared more than once in the pattern / 패턴에서 두 번 이상 선언한 이름
+     * @return encountered names, or null if none / 발견한 이름, 없으면 null
+     * @throws RegExpSyntaxException if the same name can occur on a shared path / 같은 경로에 이름이 중복될 때
+     */
+    private Set<String> validateGroupParticipation(RegExpNode node, Set<String> duplicates) throws RegExpSyntaxException {
+        Set<String> present = node.child == null ? null : validateGroupParticipation(node.child, duplicates);
+        if (node.children != null) {
+            // 서로 다른 대안의 같은 이름은 허용하고 연결된 항목 사이의 충돌은 거부한다.
+            for (RegExpNode child : node.children) {
+                Set<String> childNames = validateGroupParticipation(child, duplicates);
+                if (childNames != null) {
+                    if (present == null) {
+                        present = childNames;
+                    } else if (node.type == RegExpNode.ALT) {
+                        present.addAll(childNames);
+                    } else {
+                        // 연결된 두 하위 식의 이름이 겹치면 두 캡처가 함께 참여할 수 있다.
+                        for (String name : childNames) {
+                            if (!present.add(name)) {
+                                throw error("Duplicate capture group name " + name, -1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (node.type == RegExpNode.GROUP && node.value > 0) {
+            String name = names.get(node.value);
+            if (duplicates.contains(name)) {
+                if (present == null) {
+                    present = new HashSet<String>();
+                }
+                if (!present.add(name)) {
+                    throw error("Duplicate capture group name " + name, -1);
+                }
+            }
+        }
+        return present;
     }
 
     /**
@@ -478,23 +567,13 @@ final class RegExpParser {
             pos += 2;
             String name = parseGroupName();
             int index = ++groupCounter;
-            // 이름 목록이 그룹 번호까지 채워질 때까지 빈 칸을 추가한다.
-            while (names.size() <= index) {
-                names.add(null);
-            }
-            if (names.contains(name)) {
-                throw error("Duplicate capture group name", pos);
-            }
-            names.set(index, name);
+            names.add(name);
             node = RegExpNode.of(RegExpNode.GROUP, index, parseDisjunction());
         } else if (pos < n && src.charAt(pos) == '?') {
             throw error("Invalid group", pos);
         } else {
             int index = ++groupCounter;
-            // 이름 목록이 그룹 번호까지 채워질 때까지 빈 칸을 추가한다.
-            while (names.size() <= index) {
-                names.add(null);
-            }
+            names.add(null);
             node = RegExpNode.of(RegExpNode.GROUP, index, parseDisjunction());
         }
         if (pos >= n || src.charAt(pos) != ')') {

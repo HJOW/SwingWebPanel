@@ -489,7 +489,7 @@ final class RegExpMatcher {
      */
     boolean matchAt(int start) {
         requiredEnd = -1;
-        return run(start);
+        return run(start, null);
     }
 
     /**
@@ -499,11 +499,12 @@ final class RegExpMatcher {
      *
      * @param start start position / 시작 위치
      * @param end required end / 필요한 끝 위치
+     * @param inherited preceding captures / 이전에 일치한 캡처들
      * @return true if matched / 일치하면 true
      */
-    boolean matchAtEnding(int start, int end) {
+    boolean matchAtEnding(int start, int end, int[] inherited) {
         requiredEnd = end;
-        return run(start);
+        return run(start, inherited);
     }
 
     /**
@@ -512,10 +513,15 @@ final class RegExpMatcher {
      * 끝 조건을 정한 뒤 일치를 실행한다.
      *
      * @param start start position / 시작 위치
+     * @param inherited preceding captures, or null at the top level / 이전에 일치한 캡처들, 최상위 실행은 null
      * @return true if matched / 일치하면 true
      */
-    private boolean run(int start) {
+    private boolean run(int start, int[] inherited) {
         Arrays.fill(caps, -1);
+        if (inherited != null) {
+            // 뒤쪽 탐색은 바깥 캡처를 읽고 본문에서 일치한 캡처만 갱신할 수 있다.
+            System.arraycopy(inherited, 2, caps, 2, Math.min(inherited.length, caps.length) - 2);
+        }
         Arrays.fill(regs, 0);
         sp = 0;
         pc = 0;
@@ -652,6 +658,17 @@ final class RegExpMatcher {
                 }
                 break;
             }
+            case RegExpProgram.OP_BACKREF_ALTERNATIVES: {
+                int nextPc = pc + 2 + code[pc + 1];
+                int np = matchAlternativeBackReference(pc + 2, nextPc);
+                if (np < 0) {
+                    ok = false;
+                } else {
+                    pos = np;
+                    pc = nextPc;
+                }
+                break;
+            }
             case RegExpProgram.OP_LOOK_START:
                 push(BT_LOOK, code[pc + 2], pos, code[pc + 1]);
                 pc += 3;
@@ -735,7 +752,7 @@ final class RegExpMatcher {
     private boolean executeLookbehind(boolean negative, RegExpProgram body) {
         // 가능한 시작점마다 본문이 현재 위치에서 정확히 끝나는지 검사한다.
         for (int start = 0; start <= pos; ) {
-            int[] found = body.matchAtEnding(in, start, pos, cancel);
+            int[] found = body.matchAtEnding(in, start, pos, cancel, caps);
             if (found != null) {
                 if (negative) {
                     return false;
@@ -842,6 +859,26 @@ final class RegExpMatcher {
             b += c2 > 0xFFFF ? 2 : 1;
         }
         return b;
+    }
+
+    /**
+     * Matches the participating capture of a duplicated name, or an empty reference if none participated.
+     * <p>
+     * 중복 이름의 캡처 중 참여한 것을 일치시킨다. 참여한 캡처가 없으면 빈 역참조를 일치시킨다.
+     *
+     * @param from first group operand in the code / 명령의 첫 그룹 피연산자 위치
+     * @param to end of group operands / 그룹 피연산자 끝 위치
+     * @return new position or -1 on mismatch / 새 위치 또는 불일치 시 -1
+     */
+    private int matchAlternativeBackReference(int from, int to) {
+        // 문법으로 함께 참여할 수 없는 그룹들 가운데 완료한 캡처를 찾는다.
+        for (int i = from; i < to; i++) {
+            int group = code[i];
+            if (caps[2 * group] >= 0 && caps[2 * group + 1] >= 0) {
+                return matchBackReference(group);
+            }
+        }
+        return pos;
     }
 
     /**

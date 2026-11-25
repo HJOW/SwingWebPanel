@@ -208,6 +208,9 @@ final class RegExpNode {
      */
     String name;
 
+    /** Captures to consider for an ambiguous named backreference. / 중복 이름 역참조에서 확인할 캡처 그룹. */
+    int[] referenceGroups;
+
     /**
      * Creates a node of the given type.
      * <p>

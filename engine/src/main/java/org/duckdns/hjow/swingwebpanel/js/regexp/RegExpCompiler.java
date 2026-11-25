@@ -338,8 +338,17 @@ public final class RegExpCompiler {
             }
             break;
         case RegExpNode.BACKREF:
-            emit(RegExpProgram.OP_BACKREF);
-            emit(n.value);
+            if (n.referenceGroups == null) {
+                emit(RegExpProgram.OP_BACKREF);
+                emit(n.value);
+            } else {
+                emit(RegExpProgram.OP_BACKREF_ALTERNATIVES);
+                emit(n.referenceGroups.length);
+                // 대안 중 참여한 캡처를 검색기가 고를 수 있도록 번호들을 기록한다.
+                for (int group : n.referenceGroups) {
+                    emit(group);
+                }
+            }
             break;
         case RegExpNode.ASSERT:
             genAssertion(n);

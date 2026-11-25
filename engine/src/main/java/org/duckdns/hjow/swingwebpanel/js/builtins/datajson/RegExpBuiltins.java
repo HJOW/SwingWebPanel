@@ -328,59 +328,41 @@ public final class RegExpBuiltins {
             int b = m[2 * i];
             int e = m[2 * i + 1];
             JsValue value = b < 0 || e < 0 ? Js.UNDEFINED : Js.str(s.substring(b, e));
+            JsValue pair = Js.UNDEFINED;
             a.add(value);
             if (hasIndices) {
-                indices.add(b < 0 || e < 0 ? Js.UNDEFINED
-                        : r.newArray(new JsValue[] { Js.num(b), Js.num(e) }));
+                if (value != Js.UNDEFINED) {
+                    pair = r.newArray(new JsValue[] { Js.num(b), Js.num(e) });
+                }
+                indices.add(pair);
             }
             if (i > 0) {
                 String name = x.getProgram().getGroupName(i);
                 if (name != null) {
                     if (named == null) {
                         named = new JsObject(null);
-                    }
-                    named.createDataProperty(name, value);
-                    if (hasIndices) {
-                        if (namedIndices == null) {
+                        if (hasIndices) {
                             namedIndices = new JsObject(null);
                         }
-                        namedIndices.createDataProperty(name, indices.get(String.valueOf(i)));
+                    }
+                    // 캡처 이름의 순서는 첫 선언을 따르고 값은 실제로 참여한 그룹을 따른다.
+                    if (value != Js.UNDEFINED || !named.hasOwnProperty(name)) {
+                        named.createDataProperty(name, value);
+                        if (hasIndices) {
+                            namedIndices.createDataProperty(name, pair);
+                        }
                     }
                 }
             }
         }
         a.createDataProperty("index", Js.num(m[0]));
         a.createDataProperty("input", Js.str(s));
-        if (named != null) {
-            a.createDataProperty("groups", named);
-        } else if (hasNamedCaptures(x.getProgram())) {
-            a.createDataProperty("groups", Js.UNDEFINED);
-        }
+        a.createDataProperty("groups", named == null ? Js.UNDEFINED : named);
         if (hasIndices) {
-            if (namedIndices != null) {
-                indices.createDataProperty("groups", namedIndices);
-            }
+            indices.createDataProperty("groups", namedIndices == null ? Js.UNDEFINED : namedIndices);
             a.createDataProperty("indices", indices);
         }
         return a;
-    }
-
-    /**
-     * Tells whether the program declares any named capture group.
-     * <p>
-     * 프로그램이 이름 있는 캡처 그룹을 선언했는지 확인한다.
-     *
-     * @param program the compiled program / 컴파일된 프로그램
-     * @return true if a name exists / 이름이 있으면 true
-     */
-    private static boolean hasNamedCaptures(RegExpProgram program) {
-        // 그룹 번호를 따라가며 이름이 하나라도 있는지 확인한다.
-        for (int i = 1; i <= program.groupCount(); i++) {
-            if (program.getGroupName(i) != null) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
