@@ -417,7 +417,7 @@ P29-02에서 `ESX-SYNTAX-2018`, `ESX-SEMANTICS-2019`, `ESX-GLOBALTHIS`를 검증
 | ESX-B-STR | ES2017~2022 | `padStart/padEnd/trimStart/trimEnd/replaceAll/matchAll/at` | `js.builtins.stringarray.StringBuiltins`, `datajson.RegExpBuiltins` | `Es2022BuiltinsTest.testModernStringMethods`, `Es2022RegExpTest.testMatchAll` | 검증 완료 | padStart 22, padEnd 3, trimStart/trimEnd 0, replaceAll 3, matchAll 0, `at`는 ESX-B-ARR과 합산 42 |
 | ESX-B-PROM | ES2018~2021 | `Promise.prototype.finally`, `Promise.allSettled/any`, `AggregateError` | `meta.PromiseBuiltins`, `corelib.ErrorLib` | `Es2022BuiltinsTest.testModernPromises` | 검증 완료 | 없음 |
 | ESX-B-SYM | ES2018/2019 | `Symbol.asyncIterator`, `Symbol.prototype.description` | `corelib.SymbolLib`, `WellKnownSymbols` | `Es2022BuiltinsTest.testSymbolExtensions`, `ModernAsyncIteratorTest` | 검증 완료 | `description` 36, asyncIterator 미관찰 |
-| ESX-B-WEAK | ES2021 | `WeakRef`, `FinalizationRegistry` | `meta.WeakReferenceBuiltins`, `JsRealm` | `Es2022BuiltinsTest.testWeakReferences`, `testWeakReferenceCollection`(3회 연속) | 검증 완료 | `WeakRef` 7, FinalizationRegistry 0 |
+| ESX-B-WEAK | ES2021 | `WeakRef`, `FinalizationRegistry` | `meta.WeakReferenceBuiltins`, `JsRealm` | `Es2022BuiltinsTest.testWeakReferences`, `testWeakReferenceCollection`(3회 연속) | 검증 완료 | `WeakRef` 7, FinalizationRegistry 0. P29-10-a3a 내장 표에서 태그·상속을 대조했다. 기존 cleanupSome은 호스트 보조 정리 확장으로 별도 기록한다. |
 | ESX-B-ERR | ES2022 | Error `cause` 옵션 | `corelib.ErrorLib` | `Es2022BuiltinsTest.testModernErrors` | 검증 완료 | 원본 소스 1 |
 | ESX-RE-INDICES | ES2022 | 정규식 `d` 플래그, `hasIndices`, `RegExpExec` 결과의 `indices`/그룹 인덱스 | `js.regexp.RegExpFlags`, `datajson.RegExpBuiltins` | `Es2022RegExpTest.testNamedGroupsAndIndices`, `testIndicesFlagAccessor` | 검증 완료 | 원본 소스 9, 번들에는 없음 |
 

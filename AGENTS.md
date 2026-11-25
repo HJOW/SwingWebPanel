@@ -900,7 +900,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
     - [x] P29-10-a1. 19~22장 및 B.2의 전역, 기본 객체, 숫자·날짜, 텍스트를 대조한다. 함수 이름·길이, 접근자 및 속성 기술자, 별칭 정체성과 프로토타입을 검사한다.
     - [x] P29-10-a2. 23~25장의 인덱스·키 컬렉션과 이진 데이터, Atomics, JSON을 대조한다. 신규·기존 생성자와 각 프로토타입의 전체 속성 표를 검증한다.
     - [ ] P29-10-a3. 26~28장의 약한 참조, 이터레이터·제너레이터·Promise·Reflect·Proxy를 대조한다. 내부 프로토타입, 심볼과 제약 목록을 검증한다.
-      - [ ] P29-10-a3a. WeakRef·FinalizationRegistry·Promise·Reflect·Proxy의 프로퍼티와 생성자 계층을 대조한다. 선택 또는 확장 프로퍼티는 표에서 근거와 함께 관리한다.
+      - [x] P29-10-a3a. WeakRef·FinalizationRegistry·Promise·Reflect·Proxy의 프로퍼티와 생성자 계층을 대조한다. 선택 또는 확장 프로퍼티는 표에서 근거와 함께 관리한다.
       - [ ] P29-10-a3b. Iterator와 헬퍼, Array·TypedArray·String·RegExp·Map·Set 이터레이터의 내부 프로토타입을 대조한다. 같은 프로토타입과 메서드가 공유되어야 하는 수신자를 검사한다.
       - [ ] P29-10-a3c. 제너레이터·async 함수·async 제너레이터의 생성자와 프로토타입을 대조한다. Function 계열의 동적 생성, newTarget 및 중단·재개의 실행 결과를 검증한다.
   - [ ] P29-10-b. 구조화 복제와 독립 엔진 경계를 보완한다. 가변 버퍼·뷰, Float16Array, 공유 버퍼 정책, Error cause·AggregateError, JSON 모듈을 호스트별 정상 진입점과 JSR 223에서 확인한다.

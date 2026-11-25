@@ -51,6 +51,17 @@ public class MetaConformanceTest {
     };
 
     /**
+     * Current nonstandard own properties and why they are exposed by the independent engine.
+     * <p>
+     * 독립 엔진이 공개하는 비표준 자체 프로퍼티와 제공 이유.
+     */
+    private static final String[][] EXTENSIONS = {
+        { "global.console", "The standalone host console hook provides Console output." },
+        { "global.print", "The public standalone console hook retains its documented print alias." },
+        { "FinalizationRegistry.prototype.cleanupSome", "The existing host-assisted finalization extension is part of the embedding API." }
+    };
+
+    /**
      * The realm under test.
      * <p>
      * 시험 대상 realm.
@@ -246,6 +257,13 @@ public class MetaConformanceTest {
             Check.equal(3, PENDING[i].length, "allow-list row " + i + " has pattern, owner and reason");
             Check.isTrue(PENDING[i][0].length() > 0 && PENDING[i][1].length() > 0 && PENDING[i][2].length() > 0, "allow-list row " + i + " is filled");
         }
+        // 확장 행의 근거와 표준 항목·다른 확장과의 중복을 검사한다.
+        for (int i = 0; i < EXTENSIONS.length; i++) {
+            String[] extension = EXTENSIONS[i];
+            Check.equal(2, extension.length, "extension row has an id and a reason");
+            Check.isTrue(extension[1].length() > 0, "extension reason for " + extension[0]);
+            Check.isTrue(ids.add(extension[0]), "extension id is distinct: " + extension[0]);
+        }
     }
 
     /**
@@ -402,10 +420,10 @@ public class MetaConformanceTest {
 
     /**
      * The global object exposes no Java or host-engine entry points (names of the Rhino/Nashorn style bridges and shell functions).
-     * Other global names that are not part of the ES2015 table are printed for information.
+     * The separate own-property walk records the host extensions.
      * <p>
-     * 전역 객체가 Java 나 호스트 엔진의 진입점(Rhino/Nashorn 방식의 연결과 셸 함수 이름)을 노출하지 않는다. ES2015 표에 없는 다른 전역 이름은
-     * 참고용으로 출력한다.
+     * 전역 객체가 Java나 호스트 엔진의 진입점(Rhino/Nashorn 방식의 연결과 셸 함수 이름)을 노출하지 않는다.
+     * 호스트 확장은 자체 프로퍼티 순회에서 기록한다.
      */
     public void testNoJavaOrShellGlobals() {
         String[] forbidden = { "Packages", "java", "javax", "JavaImporter", "JavaAdapter", "importPackage", "importClass", "Java", "load",
@@ -414,41 +432,14 @@ public class MetaConformanceTest {
         for (int i = 0; i < forbidden.length; i++) {
             Check.isNull(global.getOwnProperty(forbidden[i]), "global must not define " + forbidden[i]);
         }
-        Set<String> table = new HashSet<String>();
-        List<String> lines = ConformanceTable.lines();
-        // 표의 전역 항목 이름을 모은다.
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i);
-            if (!line.startsWith("global: ") || line.startsWith("global: chain ")) {
-                continue;
-            }
-            String rest = line.substring("global: ".length());
-            String[] parts = rest.substring(rest.indexOf(' ') + 1).split(" ");
-            // 항목에서 '=' 앞의 이름만 취한다.
-            for (int j = 0; j < parts.length; j++) {
-                int eq = parts[j].indexOf('=');
-                table.add(eq >= 0 ? parts[j].substring(0, eq) : parts[j]);
-            }
-        }
-        StringBuilder extra = new StringBuilder();
-        List<Object> keys = global.ownKeys();
-        // 전역의 문자열 키 중 표에 없는 것을 모은다.
-        for (int i = 0; i < keys.size(); i++) {
-            Object k = keys.get(i);
-            if (k instanceof String && !table.contains(k)) {
-                extra.append(extra.length() == 0 ? "" : ", ").append(k);
-            }
-        }
-        System.out.println("global names outside the ES2015 table: " + extra);
     }
 
     /**
-     * Lists the own properties of every object of the table that the table does not name (the extensions beyond ES2015, such as
-     * later editions' methods, and anything unexpected). The list is printed for the conformance record; the case fails only if a
-     * property is named like a host or Java bridge (<code>$</code> or a Java package style name).
+     * Lists unaccounted own properties while comparing the realm against the seventeenth edition.
+     * Also verifies that each recorded host extension is still exposed and rejects Java bridge names.
      * <p>
-     * 표에 나오는 모든 객체에 대해 표가 언급하지 않는 자체 프로퍼티(후속 판의 메서드 같은 ES2015 이후의 확장과 예상 밖의 것)를 나열한다. 목록은
-     * 적합성 기록용으로 출력하며, 호스트나 Java 연결처럼 보이는 이름(<code>$</code> 나 Java 패키지 형태)이 있을 때만 실패한다.
+     * realm을 제17판과 대조하면서 표에 없는 자체 프로퍼티를 나열한다.
+     * 기록한 호스트 확장이 공개되어 있는지도 확인하고 Java 연결 이름을 거부한다.
      */
     public void testPropertiesBeyondTheTable() {
         Map<String, Set<String>> named = new LinkedHashMap<String, Set<String>>();
@@ -477,6 +468,11 @@ public class MetaConformanceTest {
             }
         }
         List<String> suspicious = new ArrayList<String>();
+        Map<String, String> extensions = new LinkedHashMap<String, String>();
+        // 허용한 확장을 프로퍼티 경로로 색인한다.
+        for (String[] extension : EXTENSIONS) {
+            extensions.put(extension[0], extension[1]);
+        }
         int total = 0;
         // 경로마다 객체의 자체 키 가운데 표에 없는 것을 찾는다.
         for (Map.Entry<String, Set<String>> entry : named.entrySet()) {
@@ -498,9 +494,15 @@ public class MetaConformanceTest {
                 if (entry.getValue().contains(n) || "length".equals(n) || "name".equals(n) || "prototype".equals(n) || "constructor".equals(n)) {
                     continue;
                 }
+                String path = entry.getKey() + "." + n;
+                String reason = extensions.remove(path);
+                if (reason != null) {
+                    System.out.println("  [host extension] " + path + ": " + reason);
+                    continue;
+                }
                 extras.add(n);
                 if (n.indexOf('$') >= 0 || n.startsWith("java") || n.startsWith("Java")) {
-                    suspicious.add(entry.getKey() + "." + n);
+                    suspicious.add(path);
                 }
             }
             if (!extras.isEmpty()) {
@@ -508,7 +510,8 @@ public class MetaConformanceTest {
                 System.out.println("  beyond the table: " + entry.getKey() + " -> " + extras);
             }
         }
-        System.out.println("own properties beyond the ES2015 table: " + total);
+        System.out.println("own properties outside the ECMA-262 table and host extensions: " + total);
+        Check.isTrue(extensions.isEmpty(), "every recorded host extension is present: " + extensions.keySet());
         Check.isTrue(suspicious.isEmpty(), "no host or Java bridge names: " + suspicious);
     }
 

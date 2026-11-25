@@ -202,8 +202,14 @@ final class ConformanceTable {
         "JSON: fn isRawJSON=1 parse=2 rawJSON=1 stringify=3",
         "JSON: tag @@toStringTag=JSON",
 
-        // ---- 25 Control Abstraction Objects
-        "Promise: fn all=1 allSettled=1 any=1 race=1 reject=1 resolve=1",
+        // ---- 26 Managing Memory
+        "WeakRef.prototype: fn deref=0",
+        "WeakRef.prototype: tag @@toStringTag=WeakRef",
+        "FinalizationRegistry.prototype: fn register=2 unregister=1",
+        "FinalizationRegistry.prototype: tag @@toStringTag=FinalizationRegistry",
+
+        // ---- 27 Control Abstraction Objects
+        "Promise: fn all=1 allSettled=1 any=1 race=1 reject=1 resolve=1 try=1 withResolvers=0",
         "Promise: getter @@species",
         "Promise.prototype: fn catch=1 finally=1 then=2",
         "Promise.prototype: tag @@toStringTag=Promise",
@@ -213,10 +219,8 @@ final class ConformanceTable {
         "%GeneratorPrototype%: fn next=1 return=1 throw=1",
         "%GeneratorPrototype%: tag @@toStringTag=Generator",
         "%GeneratorFunction.prototype%: tag @@toStringTag=GeneratorFunction",
-        "WeakRef.prototype: fn deref=0",
-        "FinalizationRegistry.prototype: fn register=2 unregister=1 cleanupSome=0",
 
-        // ---- 26 Reflection
+        // ---- 28 Reflection
         "Proxy: fn revocable=2",
         "Reflect: fn apply=3 construct=2 defineProperty=3 deleteProperty=2 get=2 getOwnPropertyDescriptor=2 getPrototypeOf=1 has=2"
                 + " isExtensible=1 ownKeys=1 preventExtensions=1 set=3 setPrototypeOf=2",
@@ -230,6 +234,7 @@ final class ConformanceTable {
                 + " RegExp.prototype=Object.prototype Error.prototype=Object.prototype Map.prototype=Object.prototype Set.prototype=Object.prototype"
                 + " Promise.prototype=Object.prototype ArrayBuffer.prototype=Object.prototype SharedArrayBuffer.prototype=Object.prototype"
                 + " DataView.prototype=Object.prototype WeakMap.prototype=Object.prototype WeakSet.prototype=Object.prototype"
+                + " WeakRef.prototype=Object.prototype FinalizationRegistry.prototype=Object.prototype"
                 + " %TypedArray%.prototype=Object.prototype",
         "global: chain EvalError.prototype=Error.prototype RangeError.prototype=Error.prototype ReferenceError.prototype=Error.prototype"
                 + " SyntaxError.prototype=Error.prototype TypeError.prototype=Error.prototype URIError.prototype=Error.prototype"
@@ -240,7 +245,7 @@ final class ConformanceTable {
                 + " Date=Function.prototype String=Function.prototype RegExp=Function.prototype"
                 + " Promise=Function.prototype Proxy=Function.prototype Map=Function.prototype Set=Function.prototype"
                 + " WeakMap=Function.prototype WeakSet=Function.prototype ArrayBuffer=Function.prototype SharedArrayBuffer=Function.prototype"
-                + " DataView=Function.prototype %TypedArray%=Function.prototype",
+                + " DataView=Function.prototype %TypedArray%=Function.prototype WeakRef=Function.prototype FinalizationRegistry=Function.prototype",
         "global: chain Int8Array=%TypedArray% Uint8Array=%TypedArray% Uint8ClampedArray=%TypedArray% Int16Array=%TypedArray% Uint16Array=%TypedArray%"
                 + " Int32Array=%TypedArray% Uint32Array=%TypedArray% Float16Array=%TypedArray% Float32Array=%TypedArray%"
                 + " Float64Array=%TypedArray% BigInt64Array=%TypedArray% BigUint64Array=%TypedArray%"

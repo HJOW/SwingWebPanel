@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-a3a 약한 참조와 Promise·반사 표 (2026-11-26) ===
+현재 작업 번호: P29-10-a3a 완료.
+완료한 내용: WeakRef·FinalizationRegistry의 태그와 계층, Promise.try/withResolvers, Reflect·Proxy의 제17판 표를 대조했다. 호스트 확장 세 건과 근거를 표준 항목과 함께 점검한다.
+변경 파일: ConformanceTable.java, MetaConformanceTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 873건과 현재 표 695개 항목 통과. sourcecheck 0 위반.
+미해결 사항: 이터레이터와 동적 함수의 메타데이터·정체성(P29-10-a3b~c).
+다음 작업 번호: P29-10-a3b.
+-----------------------------------------------------------------------------------------------
 === P29-10-a2 제17판 내장 객체 표 23~25장 (2026-11-26) ===
 현재 작업 번호: P29-10-a2 완료.
 완료한 내용: Array·TypedArray, Map·Set·WeakMap, 버퍼·DataView·Atomics·JSON을 내장 표에 반영했다. TypedArray.includes를 추가해 NaN과 검색 도중 버퍼 축소를 처리한다.
@@ -1042,6 +1050,11 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-a3a 약한 참조, Promise, Reflect, Proxy
+
+- 제17판 26~28장의 해당 객체를 대조했다. 기존 독립 엔진의 console·print와 FinalizationRegistry.cleanupSome에는 확장 사유를 등록했고 해당 프로퍼티의 존재와 표준 목록 중복 여부를 확인한다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 873건, 현재 내장 표 695개 항목 통과.
 
 ### 2026-11-26 · P29-10-a2 내장 객체 표 23~25장
 
