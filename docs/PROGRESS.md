@@ -12,12 +12,12 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 
 ```text
 === P28-02 파서 하위 작업 분해 (2026-11-25) ===
-현재 작업 번호: P28-02-a 완료.
-완료한 내용: P28-02의 큰 범위를 토큰/숫자/연산자, 논리·optional chaining, async/await, object/catch/import, class private/static, 외부 Netstorm 파싱의 여섯 하위 작업으로 나누었다. P28-02-a에서 숫자 구분자, 2/8/10/16진 BigInt 토큰, `**`/`**=`와 지수 우결합/단항 좌변 제한을 구현했다.
-변경 파일: AGENTS.md(P28-02-a~f 체크리스트와 a 완료), engine/src/main/java/.../parser/{Lexer,Token,TokenType,ExpressionParser}.java, engine/src/main/java/.../ast/{Op,AstDump}.java, parser 시험 3개, 이 문서.
+현재 작업 번호: P28-02-b 완료.
+완료한 내용: P28-02-a의 숫자/BigInt/지수 문법에 이어 P28-02-b에서 `?.` 선택적 접근·호출의 단락 범위를 `OPTIONAL_CHAIN` AST로 보존했고, `??`와 논리 대입 `??=`/`&&=`/`||=`를 추가했다. 괄호 없는 `??`와 `&&`/`||` 혼합, 선택적 체인의 대입/갱신/tag template, `new` 와의 잘못된 결합을 조기 오류로 처리했다.
+변경 파일: AGENTS.md(P28-02-b 완료), engine/src/main/java/.../ast/{Node,NodeType,Op,AstDump}.java, parser/ExpressionParser.java, parser 시험, 이 문서.
 검증 결과: `engine\test.bat --filter js.parser` JDK 6u45 39 passed/0 failed/0 skipped. 제품 컴파일도 source/target 1.6으로 통과.
-미해결 사항: BigInt 실행 의미는 P28-04; 나머지 P28-02-b~f 미구현.
-다음 작업 번호: P28-02-b.
+미해결 사항: BigInt 실행 의미는 P28-04; P28-02-c~f 미구현.
+다음 작업 번호: P28-02-c.
 -----------------------------------------------------------------------------------------------
 === P28-01 ECMAScript 2022 기준 판본과 대상 목록 확정 (2026-11-25) ===
 현재 작업 번호: P28-01 완료.

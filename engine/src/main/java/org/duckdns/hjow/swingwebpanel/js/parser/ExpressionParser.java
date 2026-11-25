@@ -203,6 +203,15 @@ abstract class ExpressionParser extends ParserBase {
         if (v.equals("**=")) {
             return Op.EXP;
         }
+        if (v.equals("&&=")) {
+            return Op.LOGAND;
+        }
+        if (v.equals("||=")) {
+            return Op.LOGOR;
+        }
+        if (v.equals("??=")) {
+            return Op.COALESCE;
+        }
         if (v.equals("/=")) {
             return Op.DIV;
         }
@@ -247,6 +256,9 @@ abstract class ExpressionParser extends ParserBase {
             return;
         }
         if (n.type == NodeType.MEMBER) {
+            if (n.optional) {
+                throw error(msg, n);
+            }
             return;
         }
         throw error(msg, n);
@@ -383,6 +395,9 @@ abstract class ExpressionParser extends ParserBase {
             if (v.equals("||")) {
                 return Op.LOGOR;
             }
+            if (v.equals("??")) {
+                return Op.COALESCE;
+            }
             return 0;
         case 3:
             if (v.equals("===")) {
@@ -410,6 +425,7 @@ abstract class ExpressionParser extends ParserBase {
      */
     private static int precedence(int op) {
         switch (op) {
+        case Op.COALESCE:
         case Op.LOGOR:
             return 1;
         case Op.LOGAND:
@@ -468,15 +484,60 @@ abstract class ExpressionParser extends ParserBase {
             if (prec <= minPrec) {
                 break;
             }
+            if (mixesNullish(op, left, null)) {
+                throw error("Nullish coalescing operator may not be mixed with && or || without parentheses", tok);
+            }
             next();
             Node right = parseBinary(prec, noIn);
-            Node n = mk(op == Op.LOGAND || op == Op.LOGOR ? NodeType.LOGICAL : NodeType.BINARY, start);
+            if (mixesNullish(op, left, right)) {
+                throw error("Nullish coalescing operator may not be mixed with && or || without parentheses", left);
+            }
+            Node n = mk(op == Op.LOGAND || op == Op.LOGOR || op == Op.COALESCE ? NodeType.LOGICAL : NodeType.BINARY, start);
             n.op = op;
             n.a = left;
             n.b = right;
             left = done(n);
         }
         return left;
+    }
+
+    /**
+     * Rejects an unparenthesized nullish operator mixed with logical and/or.
+     * <p>
+     * 괄호 없이 nullish 연산자가 논리 AND/OR 와 섞였는지 검사한다.
+     *
+     * @param op    current operator / 현재 연산자
+     * @param left  left expression / 왼쪽 식
+     * @param right right expression or null / 오른쪽 식 또는 null
+     * @return true for an early error / 조기 오류이면 true
+     */
+    private static boolean mixesNullish(int op, Node left, Node right) {
+        if (op == Op.COALESCE) {
+            return isLogicalAndOr(left) || isLogicalAndOr(right);
+        }
+        if (op == Op.LOGAND || op == Op.LOGOR) {
+            return isCoalesce(left) || isCoalesce(right);
+        }
+        return false;
+    }
+
+    /**
+     * Tests the top-level logical and/or kind without looking through parentheses.
+     * <p>
+     * 괄호 밖으로 들어가지 않고 최상위 논리 AND/OR 종류인지 검사한다.
+     */
+    private static boolean isLogicalAndOr(Node n) {
+        return n != null && !n.paren && n.type == NodeType.LOGICAL
+                && (n.op == Op.LOGAND || n.op == Op.LOGOR);
+    }
+
+    /**
+     * Tests the top-level nullish kind without looking through parentheses.
+     * <p>
+     * 괄호 밖으로 들어가지 않고 최상위 nullish 종류인지 검사한다.
+     */
+    private static boolean isCoalesce(Node n) {
+        return n != null && !n.paren && n.type == NodeType.LOGICAL && n.op == Op.COALESCE;
     }
 
     /**
@@ -583,9 +644,43 @@ abstract class ExpressionParser extends ParserBase {
      * @return the node / 노드
      */
     private Node parseCallTail(Node e, Token start, boolean allowCall) {
+        boolean optional = false;
         // 점, 대괄호, 호출, 템플릿이 이어지는 동안 식을 감싸 나간다.
         while (true) {
-            if (isP(".")) {
+            if (isP("?.")) {
+                if (!allowCall) {
+                    throw error("Invalid optional chain from new expression", tok);
+                }
+                optional = true;
+                next();
+                if (isP("(")) {
+                    Node call = mk(NodeType.CALL, start);
+                    call.a = e;
+                    call.optional = true;
+                    call.list = parseArguments();
+                    e = done(call);
+                } else if (isP("[")) {
+                    next();
+                    Node key = parseExpression(false);
+                    expectP("]");
+                    Node m = mk(NodeType.MEMBER, start);
+                    m.a = e;
+                    m.b = key;
+                    m.flag = true;
+                    m.optional = true;
+                    e = done(m);
+                } else {
+                    if (tok.type != TokenType.NAME) {
+                        throw unexpected(tok);
+                    }
+                    Node m = mk(NodeType.MEMBER, start);
+                    m.a = e;
+                    m.name = tok.value;
+                    m.optional = true;
+                    next();
+                    e = done(m);
+                }
+            } else if (isP(".")) {
                 next();
                 if (tok.type != TokenType.NAME) {
                     throw unexpected(tok);
@@ -616,12 +711,20 @@ abstract class ExpressionParser extends ParserBase {
                 }
                 e = done(call);
             } else if (tok.type == TokenType.TEMPLATE) {
+                if (optional) {
+                    throw error("Invalid tagged template on optional chain", tok);
+                }
                 Node tt = mk(NodeType.TAGGED_TEMPLATE, start);
                 tt.a = e;
                 tt.b = parseTemplate(true);
                 e = done(tt);
             } else {
-                return e;
+                if (!optional) {
+                    return e;
+                }
+                Node chain = mk(NodeType.OPTIONAL_CHAIN, start);
+                chain.a = e;
+                return done(chain);
             }
         }
     }

@@ -59,6 +59,8 @@ public final class Op {
     public static final int LOGOR = 23;
     /** Exponentiation (**). / 거듭제곱(**). */
     public static final int EXP = 24;
+    /** Nullish coalescing (??). / nullish 병합(??). */
+    public static final int COALESCE = 25;
 
     /** Unary minus (-x). / 단항 마이너스(-x). */
     public static final int NEG = 30;
@@ -157,6 +159,8 @@ public final class Op {
             return "||";
         case EXP:
             return "**";
+        case COALESCE:
+            return "??";
         default:
             return "?";
         }

@@ -116,6 +116,14 @@ public final class Node {
     public boolean paren;
 
     /**
+     * True for an optional call or member access. The enclosing {@link NodeType#OPTIONAL_CHAIN} node defines the
+     * short-circuit scope.
+     * <p>
+     * 선택적 호출이나 멤버 접근이면 true. 바깥 {@link NodeType#OPTIONAL_CHAIN} 노드가 단락 평가 범위를 정한다.
+     */
+    public boolean optional;
+
+    /**
      * True if this node contains a yield expression outside nested functions (used to resume generators).
      * <p>
      * 중첩 함수 밖에 yield 식을 포함하면 true(제너레이터 재개에 쓴다).

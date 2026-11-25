@@ -71,6 +71,8 @@ public final class NodeType {
     public static final int SPREAD = 25;
     /** yield expression; a = operand or null, flag = delegating yield*. / yield 표현식. a 는 피연산자 또는 null, flag 는 yield*. */
     public static final int YIELD = 26;
+    /** Optional chain; a = the complete optional member/call expression. / optional chain. a 는 전체 선택적 멤버/호출 식. */
+    public static final int OPTIONAL_CHAIN = 27;
 
     // ---------------------------------------------------------------- patterns
 

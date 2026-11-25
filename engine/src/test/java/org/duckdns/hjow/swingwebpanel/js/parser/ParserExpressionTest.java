@@ -106,6 +106,25 @@ public class ParserExpressionTest {
         Check.equal("(** (- 2) 3)", e("(-2) ** 3"), "parenthesized unary is allowed on the left");
         Check.equal("51966", e("0xCAFEn"), "BigInt literal");
         bad("-2 ** 3");
+        Check.equal("(?? a b)", e("a ?? b"), "nullish coalescing");
+        Check.equal("(?? (?? a b) c)", e("a ?? b ?? c"), "nullish is left associative");
+        Check.equal("(??= a b)", e("a ??= b"), "nullish assignment");
+        Check.equal("(&&= a b)", e("a &&= b"), "logical-and assignment");
+        Check.equal("(||= a b)", e("a ||= b"), "logical-or assignment");
+        bad("a ?? b || c");
+        bad("a || b ?? c");
+        bad("a ?? b && c");
+        Check.equal("(?? a (&& b c))", e("a ?? (b && c)"), "parentheses permit the logical mix");
+        Check.equal("(chain (.? a b))", e("a?.b"), "optional member");
+        Check.equal("(chain (. (.? a b) c))", e("a?.b.c"), "normal tail remains in the chain scope");
+        Check.equal("(chain ([]? a k))", e("a?.[k]"), "optional computed member");
+        Check.equal("(chain (call? a x))", e("a?.(x)"), "optional call");
+        Check.equal("(chain (call (.? a b) x))", e("a?.b(x)"), "normal call in optional chain");
+        Check.equal("(call (chain (.? a b)) c)", e("(a?.b)(c)"), "parentheses end the chain scope");
+        bad("a?.b = c");
+        bad("a?.b++");
+        bad("a?.b`x`");
+        bad("new a?.b()");
     }
 
     /**

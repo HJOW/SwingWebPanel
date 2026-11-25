@@ -292,7 +292,7 @@ public final class AstDump {
             sb.append(')');
             return;
         case NodeType.CALL:
-            sb.append("(call");
+            sb.append(n.optional ? "(call?" : "(call");
             child(n.a, sb);
             writeList(n.list, sb);
             sb.append(')');
@@ -305,11 +305,11 @@ public final class AstDump {
             return;
         case NodeType.MEMBER:
             if (n.flag) {
-                sb.append("([]");
+                sb.append(n.optional ? "([]?" : "([]");
                 child(n.a, sb);
                 child(n.b, sb);
             } else {
-                sb.append("(.");
+                sb.append(n.optional ? "(.?" : "(.");
                 child(n.a, sb);
                 sb.append(' ').append(n.name);
             }
@@ -327,6 +327,11 @@ public final class AstDump {
             return;
         case NodeType.YIELD:
             sb.append(n.flag ? "(yield*" : "(yield");
+            child(n.a, sb);
+            sb.append(')');
+            return;
+        case NodeType.OPTIONAL_CHAIN:
+            sb.append("(chain");
             child(n.a, sb);
             sb.append(')');
             return;
