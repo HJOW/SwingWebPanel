@@ -75,6 +75,17 @@ public final class ModuleRequest {
     }
 
     /**
+     * Tests whether the request selects the JSON module type.
+     * <p>
+     * 요청이 JSON 모듈 타입을 선택하는지 확인한다.
+     *
+     * @return true if the type attribute is json / type 속성이 json이면 true
+     */
+    public boolean isJson() {
+        return "json".equals(attributes.get("type"));
+    }
+
+    /**
      * Checks module request equality by specifier and attribute key/value pairs.
      * <p>
      * 지정자와 속성의 키·값 쌍으로 요청의 동일성을 검사한다.

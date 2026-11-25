@@ -89,7 +89,7 @@ final class ModuleAsyncEvaluation {
         gen.resumeValue = value;
         ScriptScope previous = module.in.enter();
         try {
-            module.in.st.execList(module.program().list, module.env, ctx);
+            module.evaluateBody(ctx);
             module.finishAsync();
         } catch (AwaitSignal signal) {
             await(gen.awaited);

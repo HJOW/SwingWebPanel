@@ -12,6 +12,25 @@ package org.duckdns.hjow.swingwebpanel.js;
 public interface ModuleLoader {
 
     /**
+     * A loader that can fetch JavaScript and JSON with separate host rules for each type.
+     * <p>
+     * JavaScript와 JSON에 서로 다른 호스트 규칙을 적용해 가져올 수 있는 로더.
+     */
+    interface WithAttributes extends ModuleLoader {
+
+        /**
+         * Fetches a resolved module with its validated import attributes.
+         * <p>
+         * 해석된 모듈을 검사된 가져오기 속성에 맞게 가져온다.
+         *
+         * @param request resolved module key and attributes / 해석된 모듈 키와 속성
+         * @return module source / 모듈 소스
+         * @throws JsException if the host cannot load the requested module / 요청 모듈을 불러올 수 없는 경우
+         */
+        String fetch(ModuleRequest request) throws JsException;
+    }
+
+    /**
      * Resolves a module specifier relative to the importing module.
      * <p>
      * 가져오는 모듈을 기준으로 모듈 지정자를 해석한다.

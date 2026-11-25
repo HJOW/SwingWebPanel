@@ -1332,7 +1332,7 @@ public final class Parser extends ExpressionParser {
                 next();
                 ModuleRequest request = parseModuleRequest();
                 addExportName(exported.value, exported);
-                pinfo.indirectExports.add(ProgramInfo.ExportEntry.forRequest(exported.value, request, "*"));
+                pinfo.indirectExports.add(ProgramInfo.ExportEntry.forRequest(exported.value, request, null));
                 n.name = request.getSpecifier();
                 n.op = 3;
                 consumeSemicolon();

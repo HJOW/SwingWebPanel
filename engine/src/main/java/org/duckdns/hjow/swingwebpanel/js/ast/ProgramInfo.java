@@ -140,7 +140,7 @@ public final class ProgramInfo {
          *
          * @param exportName exported name or null for a star export / 내보내는 이름. 별표 내보내기면 null
          * @param request re-export request / 재내보내기 요청
-         * @param importName imported name / 가져오는 이름
+         * @param importName imported name or null for a namespace export / 가져오는 이름. 네임스페이스 내보내기면 null
          * @return export entry / 내보내기 항목
          */
         public static ExportEntry forRequest(String exportName, ModuleRequest request, String importName) {

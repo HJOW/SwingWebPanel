@@ -778,8 +778,11 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - [x] P29-03-a. `Lexer`에서 첫 문자부터 시작한 해시뱅을 한 줄 주석으로 읽는다. Script, Module, eval 허용과 공백·BOM·함수 인수 뒤 거부, 탐색 위치와 기존 private 식별자를 JDK 6에서 검증한다.
   - [x] P29-03-b. `Parser`, `ProgramInfo`와 모듈 레코드에 정적 가져오기·재내보내기의 속성을 포함한다. 문자열·식별자 키, 중복과 오류, 키 순서에 독립적인 요청 동일성을 JDK 6에서 검증한다.
   - [x] P29-03-c. 표현식 파서와 인터프리터에서 동적 `import()` 옵션을 읽고 `ModuleLoader`로 넘기기 전에 호스트 속성을 검사한다. 옵션 평가 순서와 실패의 Promise 전달을 JDK 6에서 검증한다.
-  - [ ] P29-03-d. 엔진 모듈 레코드에서 JSON 합성 모듈의 `default`와 속성별 캐시를 구현한다. 정적·동적 가져오기, 재내보내기, 값과 오류 수명을 JDK 6에서 검증한다.
+  - [x] P29-03-d. 엔진 모듈 레코드에서 JSON 합성 모듈의 `default`와 속성별 캐시를 구현한다. 정적·동적 가져오기, 재내보내기, 값과 오류 수명을 JDK 6에서 검증한다.
   - [ ] P29-03-e. 브라우저 페이지·Worker·AudioWorklet 로더에 JSON 모듈 요청을 전달한다. HTTP 서버로 MIME 및 CORS 검사와 캐시 분리를 JDK 6에서 검증한다.
+    - [ ] P29-03-e1. `PageRuntime`, `PageScripts`의 문서 모듈 요청에 타입을 전달한다. 정적·동적 JSON 가져오기에서 UTF-8, MIME과 CORS, 같은 URL의 타입별 캐시 분리를 `ModuleScriptHttpTest`에서 검증한다.
+    - [ ] P29-03-e2. `WorkerScope`와 Worker 설정에 모듈 로더를 연결한다. Worker 메시지로 받은 JSON 값, 기존 스크립트와 오리진 검사를 실제 HTTP 시험에서 대조한다.
+    - [ ] P29-03-e3. `ModuleGraphFetcher`와 `WorkletScope`의 선취득 키에 타입을 포함한다. JSON 의존성에서 등록된 프로세서의 값, MIME 오류, 기존 AudioWorklet 시험을 검증한다.
 - [ ] P29-04. ES2023~ES2026 배열·형식화 배열·이진 데이터(`Float16Array`, `Uint8Array` Base64/Hex, 가변 `ArrayBuffer`)를 구현한다.
   - 복사 기반 배열 변경과 역방향 탐색(ES2023): `Array.prototype`의 `findLast`, `findLastIndex`, `toReversed`, `toSorted`, `toSpliced`, `with`(`@@unscopables` 포함, 희소 배열 빈 슬롯을 `undefined`로 채우는 복사 규칙 준수) 및 `%TypedArray%.prototype`의 `findLast`, `findLastIndex`, `toReversed`, `toSorted`, `with`(species를 보지 않는 `TypedArrayCreateSameType` 적용).
   - 비동기 배열 생성(ES2026, `23.1.2.1`): `Array.fromAsync(items [, mapper [, thisArg]])` — async iterable·sync iterable·array-like 입력의 순차 소비, 각 원소와 매퍼 결과의 `await`, 도중 예외 발생 시 열린 iterator/async iterator 닫기(`IfAbruptCloseAsyncIterator`), 생성자 `this` 처리.

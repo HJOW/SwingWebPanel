@@ -5,6 +5,7 @@ import java.util.Map;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
@@ -20,9 +21,11 @@ public class ModernDynamicImportTest {
      * <p>
      * 메모리 안 모듈 로더.
      */
-    private static final class Loader implements ModuleLoader {
+    private static final class Loader implements ModuleLoader.WithAttributes {
         /** Sources by key. / 키별 소스. */
         final Map<String, String> sources = new HashMap<String, String>();
+        /** JSON sources by key. / 키별 JSON 소스. */
+        final Map<String, String> jsonSources = new HashMap<String, String>();
         /** Fetch count by key. / 키별 가져오기 횟수. */
         final Map<String, Integer> fetches = new HashMap<String, Integer>();
 
@@ -70,9 +73,33 @@ public class ModernDynamicImportTest {
          * 소스 하나를 가져와 횟수를 센다.
          */
         public String fetch(String key) {
+            return read(key, sources.get(key));
+        }
+
+        /**
+         * Supplies the source for the requested module type.
+         * <p>
+         * 요청에 지정한 모듈 타입의 소스를 제공한다.
+         *
+         * @param request resolved module request / 해석된 모듈 요청
+         * @return the source / 소스
+         */
+        public String fetch(ModuleRequest request) {
+            return request.isJson() ? read(request.toString(), jsonSources.get(request.getSpecifier())) : fetch(request.getSpecifier());
+        }
+
+        /**
+         * Counts a fetch and checks whether the source is present.
+         * <p>
+         * 가져오기 횟수를 세고 소스가 있는지 검사한다.
+         *
+         * @param key module identifier / 모듈 식별자
+         * @param source source text or null when missing / 소스 텍스트. 없으면 null
+         * @return loaded source / 불러온 소스
+         */
+        private String read(String key, String source) {
             Integer old = fetches.get(key);
             fetches.put(key, Integer.valueOf(old == null ? 1 : old.intValue() + 1));
-            String source = sources.get(key);
             if (source == null) {
                 throw JsException.typeError("Cannot find module '" + key + "'");
             }
@@ -183,6 +210,55 @@ public class ModernDynamicImportTest {
         Check.equal("TypeError,TypeError,TypeError,TypeError,1", Ops.toString(realm.getGlobalObject().get("outcomes")),
                 "rejected options and one successful load");
         Check.equal(Integer.valueOf(1), ((Loader) setup[1]).fetches.get("root/ok.js"), "only the unqualified module is fetched");
+    }
+
+    /**
+     * Shares a JSON module across static and dynamic imports while caching JavaScript separately.
+     * <p>
+     * 정적·동적 가져오기에서 JSON 모듈을 공유하고 같은 URL의 JavaScript는 별도로 캐시한다.
+     */
+    public void testJsonModuleIdentityAndExports() {
+        Object[] setup = realm("root/data", "export default 'script';");
+        JsRealm realm = (JsRealm) setup[0];
+        Loader loader = (Loader) setup[1];
+        loader.jsonSources.put("root/data", "{\"count\":1,\"__proto__\":{\"kept\":true}}");
+        loader.sources.put("root/relay.js", "export {default as value} from './data' with {type:'json'};"
+                + "export * as data from './data' with {type:'json'};export * from './data' with {type:'json'};");
+        realm.evaluateModule("root/static.js", "import cfg from './data' with {type:'json'};"
+                + "import * as relay from './relay.js';import {data as viaBinding} from './relay.js';import plain from './data';"
+                + "cfg.count=2;globalThis.saved=relay.data;"
+                + "globalThis.result=[plain, cfg===relay.value, Object.keys(relay).join('/'),"
+                + " Object.getPrototypeOf(cfg)===Object.prototype, cfg.__proto__.kept, viaBinding===relay.data];"
+                + "try { cfg=0; }catch(e){result.push(e.name);}");
+        realm.evaluateScript("import('./data',{with:{type:'json'}}).then(m=>"
+                + "result.push(m===saved,m.default.count,Object.keys(m).join('/'),Reflect.set(m,'default',0)));", "root/main.js");
+        realm.runJobs();
+        Check.equal("script,true,data/value,true,true,true,TypeError,true,2,default,false",
+                Ops.toString(realm.getGlobalObject().get("result")), "namespace, re-exports and default binding");
+        Check.equal(Integer.valueOf(1), loader.fetches.get("root/data"), "one JavaScript fetch");
+        Check.equal(Integer.valueOf(1), loader.fetches.get("root/data with {type=json}"), "one JSON fetch");
+    }
+
+    /**
+     * Keeps a JSON parse failure for its request and does not poison the JavaScript cache.
+     * <p>
+     * 해당 요청의 JSON 파싱 오류를 보존하고 JavaScript 캐시에 영향을 주지 않는다.
+     */
+    public void testJsonModuleErrorsAndScalar() {
+        Object[] setup = realm("root/bad", "export default 5;");
+        JsRealm realm = (JsRealm) setup[0];
+        Loader loader = (Loader) setup[1];
+        loader.jsonSources.put("root/bad", "{invalid}");
+        loader.jsonSources.put("root/scalar", "null");
+        realm.getGlobalObject().delete("JSON");
+        realm.evaluateScript("var result=[];var seen;var opts={with:{type:'json'}};"
+                + "import('./bad',opts).catch(e=>{seen=e;result.push(e.name);});"
+                + "import('./bad',opts).catch(e=>result.push(seen===e));"
+                + "import('./bad').then(m=>result.push(m.default));"
+                + "import('./scalar',opts).then(m=>result.push(m.default===null));", "root/async.js");
+        realm.runJobs();
+        Check.equal("SyntaxError,true,5,true", Ops.toString(realm.getGlobalObject().get("result")), "JSON parser and cache");
+        Check.equal(Integer.valueOf(1), loader.fetches.get("root/bad with {type=json}"), "bad JSON fetched once");
     }
 
     /**

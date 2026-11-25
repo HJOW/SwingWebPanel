@@ -1,8 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.js.interp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -14,6 +16,7 @@ import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution.ScriptScope;
+import org.duckdns.hjow.swingwebpanel.js.builtins.datajson.JsonBuiltins;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseCapability;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseInterop;
 import org.duckdns.hjow.swingwebpanel.js.ast.Node;
@@ -22,13 +25,13 @@ import org.duckdns.hjow.swingwebpanel.js.ast.ScopeInfo;
 import org.duckdns.hjow.swingwebpanel.js.parser.Parser;
 
 /**
- * A Source Text Module Record (ECMA-262 6th edition 15.2.1.16): the parsed module with its import and export tables,
+ * A source text or JSON synthetic module record with its import and export tables,
  * environment, requested modules and evaluation state. Loading resolves and parses the module graph through the host's
  * {@link ModuleLoader}; linking creates the environments and connects imports to the exporting bindings (so imports are live);
  * evaluation runs the module bodies depth first. Cyclic dependencies are supported: a module that is already being evaluated is
  * not entered again, so it may observe uninitialized bindings of a cycle member exactly like in the specification.
  * <p>
- * 소스 텍스트 모듈 레코드(ECMA-262 6판 15.2.1.16): import/export 표, 환경, 요청 모듈, 평가 상태를 가진 파싱된 모듈. 로딩은 호스트의
+ * 소스 텍스트 또는 JSON 합성 모듈 레코드: import/export 표, 환경, 요청 모듈, 평가 상태를 가진 모듈. 로딩은 호스트의
  * {@link ModuleLoader} 로 모듈 그래프를 해석하고 파싱하며, 링크는 환경을 만들고 import 를 export 하는 바인딩에 연결하고(그래서
  * import 는 실시간 연결), 평가는 모듈 본문을 깊이 우선으로 실행한다. 순환 의존성을 지원한다: 이미 평가 중인 모듈에는 다시 들어가지
  * 않으므로 규격과 똑같이 순환의 다른 모듈의 초기화되지 않은 바인딩을 볼 수 있다.
@@ -90,9 +93,9 @@ final class ModuleRecord {
          */
         final ModuleRecord module;
         /**
-         * The binding name in that module.
+         * The binding name in that module, or null for its namespace.
          * <p>
-         * 그 모듈에서의 바인딩 이름.
+         * 그 모듈에서의 바인딩 이름. 네임스페이스면 null.
          */
         final String name;
 
@@ -107,6 +110,24 @@ final class ModuleRecord {
         Resolved(ModuleRecord module, String name) {
             this.module = module;
             this.name = name;
+        }
+
+        /**
+         * Gets the binding or a read-only binding for the namespace object.
+         * <p>
+         * 바인딩 또는 네임스페이스 객체를 담은 읽기 전용 바인딩을 반환한다.
+         *
+         * @return the binding / 바인딩
+         */
+        Binding binding() {
+            if (name != null) {
+                return module.env == null ? null : module.env.own(name);
+            }
+            Binding b = new Binding();
+            b.value = module.getNamespace();
+            b.initialized = true;
+            b.mutable = false;
+            return b;
         }
     }
 
@@ -132,11 +153,14 @@ final class ModuleRecord {
     final String key;
 
     /**
-     * The PROGRAM node.
+     * The PROGRAM node for source text modules, null for JSON modules.
      * <p>
-     * PROGRAM 노드.
+     * 소스 텍스트 모듈의 PROGRAM 노드. JSON 모듈이면 null.
      */
     private final Node program;
+
+    /** Parsed JSON default export, or null for source text modules. / 파싱한 JSON 기본 내보내기. 소스 텍스트 모듈이면 null. */
+    private final JsValue jsonDefault;
 
     /**
      * The module information (import and export tables).
@@ -207,7 +231,26 @@ final class ModuleRecord {
         this.in = in;
         this.key = key;
         this.program = program;
+        this.jsonDefault = null;
         this.info = (ProgramInfo) program.value;
+    }
+
+    /**
+     * Creates a synthetic module with one default export carrying the parsed JSON value.
+     * <p>
+     * 파싱한 JSON 값을 기본 내보내기로 제공하는 합성 모듈을 만든다.
+     *
+     * @param in the interpreter / 인터프리터
+     * @param key the resolved module key / 해석된 모듈 키
+     * @param value the parsed JSON value / 파싱한 JSON 값
+     */
+    private ModuleRecord(Interpreter in, String key, JsValue value) {
+        this.in = in;
+        this.key = key;
+        this.program = null;
+        this.jsonDefault = value;
+        this.info = new ProgramInfo();
+        info.localExports.add(new ProgramInfo.ExportEntry("default", null, null, "default"));
     }
 
     // ------------------------------------------------------------------ loading
@@ -225,37 +268,102 @@ final class ModuleRecord {
      * @return the module record / 모듈 레코드
      */
     static ModuleRecord load(Interpreter in, String key, String source) {
-        ModuleRecord existing = in.modules.get(key);
+        return load(in, new ModuleRequest(key), source);
+    }
+
+    /**
+     * Loads one resolved request and publishes the complete graph to the realm's cache.
+     * <p>
+     * 해석된 요청을 불러오고 완성된 그래프를 realm의 캐시에 넣는다.
+     *
+     * @param in the interpreter / 인터프리터
+     * @param request resolved module key and attributes / 해석된 모듈 키와 속성
+     * @param source optional source provided by the host / 호스트가 제공한 선택적 소스
+     * @return the module record / 모듈 레코드
+     */
+    static ModuleRecord load(Interpreter in, ModuleRequest request, String source) {
+        Map<ModuleRequest, ModuleRecord> pending = new HashMap<ModuleRequest, ModuleRecord>();
+        ModuleRecord module = load(in, request, source, pending);
+        in.modules.putAll(pending);
+        return module;
+    }
+
+    /**
+     * Builds a graph of module records, resolving cycles within the graph being loaded.
+     * <p>
+     * 불러오는 그래프 안의 순환을 처리하며 모듈 레코드 그래프를 구성한다.
+     *
+     * @param in the interpreter / 인터프리터
+     * @param request resolved module key and attributes / 해석된 모듈 키와 속성
+     * @param source optional source provided by the host / 호스트가 제공한 선택적 소스
+     * @param pending records created while loading this graph / 이 그래프를 불러오며 만든 레코드
+     * @return the module record / 모듈 레코드
+     */
+    private static ModuleRecord load(Interpreter in, ModuleRequest request, String source, Map<ModuleRequest, ModuleRecord> pending) {
+        ModuleRecord existing = in.modules.get(request);
+        if (existing == null) {
+            existing = pending.get(request);
+        }
         if (existing != null) {
             return existing;
         }
+        JsException parseError = in.jsonModuleErrors.get(request);
+        if (parseError != null) {
+            throw parseError;
+        }
+        String key = request.getSpecifier();
         ModuleLoader loader = in.realm.getModuleLoader();
         String text = source;
         if (text == null) {
             if (loader == null) {
                 throw JsException.typeError("Cannot load module '" + key + "': no module loader is configured");
             }
-            text = loader.fetch(key);
-        }
-        Node prog = Parser.parseModule(text, key);
-        ModuleRecord m = new ModuleRecord(in, key, prog);
-        in.modules.put(key, m);
-        try {
-            // 요청된 모듈을 순서대로 해석해 불러온다.
-            for (ModuleRequest request : m.info.moduleRequests) {
-                String spec = request.getSpecifier();
-                validateImportAttributes(request);
-                if (loader == null) {
-                    throw JsException.typeError("Cannot resolve module '" + spec + "': no module loader is configured");
-                }
-                String depKey = loader.resolve(spec, key);
-                m.requested.add(load(in, depKey, null));
+            // 속성을 받는 호스트에서 MIME 등 모듈 타입별 가져오기 규칙을 적용한다.
+            if (loader instanceof ModuleLoader.WithAttributes) {
+                text = ((ModuleLoader.WithAttributes) loader).fetch(request);
+            } else if (request.isJson()) {
+                throw JsException.typeError("The module loader cannot fetch JSON module '" + key + "'");
+            } else {
+                text = loader.fetch(key);
             }
-        } catch (RuntimeException e) {
-            in.modules.remove(key);
-            throw e;
+        }
+        ModuleRecord m;
+        if (request.isJson()) {
+            try {
+                m = new ModuleRecord(in, key, JsonBuiltins.parse(in.realm, text));
+            } catch (JsException e) {
+                in.jsonModuleErrors.put(request, e);
+                throw e;
+            }
+        } else {
+            m = new ModuleRecord(in, key, Parser.parseModule(text, key));
+        }
+        pending.put(request, m);
+        // 의존성을 모두 연결하기 전에는 완료 레코드 캐시에 넣지 않는다.
+        for (ModuleRequest dependency : m.info.moduleRequests) {
+            validateImportAttributes(dependency);
+            ModuleRequest resolved = resolve(loader, dependency, key);
+            m.requested.add(load(in, resolved, null, pending));
         }
         return m;
+    }
+
+    /**
+     * Resolves a specifier through the host while retaining its import attributes.
+     * <p>
+     * 가져오기 속성을 유지하면서 호스트로 지정자를 해석한다.
+     *
+     * @param loader the host module loader / 호스트 모듈 로더
+     * @param request unresolved module request / 해석 전 모듈 요청
+     * @param referrer key or source name of the referring code / 모듈을 참조한 코드의 키 또는 소스 이름
+     * @return a resolved request / 해석된 요청
+     */
+    static ModuleRequest resolve(ModuleLoader loader, ModuleRequest request, String referrer) {
+        String specifier = request.getSpecifier();
+        if (loader == null) {
+            throw JsException.typeError("Cannot resolve module '" + specifier + "': no module loader is configured");
+        }
+        return new ModuleRequest(loader.resolve(specifier, referrer), request.getAttributes());
     }
 
     /**
@@ -266,10 +374,15 @@ final class ModuleRecord {
      * @param request the module request / 모듈 요청
      */
     static void validateImportAttributes(ModuleRequest request) {
-        // 아직 모듈 타입을 바꿀 수 없으므로 속성을 무시하고 가져오지 않는다.
-        if (!request.getAttributes().isEmpty()) {
+        Map<String, String> attributes = request.getAttributes();
+        // 프로젝트 호스트의 모듈 타입 속성은 JSON을 선택한다.
+        if (attributes.isEmpty() || (attributes.size() == 1 && request.isJson())) {
+            return;
+        }
+        if (attributes.size() != 1 || !attributes.containsKey("type")) {
             throw JsException.typeError("Unsupported import attributes for module '" + request.getSpecifier() + "'");
         }
+        throw JsException.typeError("Unsupported module type '" + attributes.get("type") + "'");
     }
 
     /**
@@ -324,6 +437,10 @@ final class ModuleRecord {
         env.thisValue = Js.UNDEFINED;
         env.thisBound = true;
         env.module = this;
+        if (program == null) {
+            env.declare("default", true, true, Js.UNDEFINED);
+            return;
+        }
         ScopeInfo scope = program.scope;
         // 모듈 var 이름을 undefined 로 선언한다.
         for (int i = 0; i < scope.varNames.length; i++) {
@@ -355,7 +472,7 @@ final class ModuleRecord {
                 throw JsException.syntaxError("The requested module '" + ie.moduleRequest + "' "
                         + (r == null ? "does not provide an export named '" : "has an ambiguous export named '") + ie.importName + "'");
             }
-            Binding exported = r.module.env.own(r.name);
+            Binding exported = r.binding();
             if (exported == null) {
                 throw JsException.syntaxError("The requested module '" + ie.moduleRequest + "' does not provide an export named '" + ie.importName + "'");
             }
@@ -403,8 +520,9 @@ final class ModuleRecord {
             ProgramInfo.ExportEntry e = info.localExports.get(i);
             if (name.equals(e.exportName)) {
                 ProgramInfo.ImportEntry imp = importOf(e.localName);
-                if (imp != null && !"*".equals(imp.importName)) {
-                    return requestedModule(imp.request).resolveExport(imp.importName, resolveSet);
+                if (imp != null) {
+                    ModuleRecord target = requestedModule(imp.request);
+                    return "*".equals(imp.importName) ? new Resolved(target, null) : target.resolveExport(imp.importName, resolveSet);
                 }
                 return new Resolved(this, e.localName);
             }
@@ -413,7 +531,8 @@ final class ModuleRecord {
         for (int i = 0; i < info.indirectExports.size(); i++) {
             ProgramInfo.ExportEntry e = info.indirectExports.get(i);
             if (name.equals(e.exportName)) {
-                return requestedModule(e.request).resolveExport(e.importName, resolveSet);
+                ModuleRecord target = requestedModule(e.request);
+                return e.importName == null ? new Resolved(target, null) : target.resolveExport(e.importName, resolveSet);
             }
         }
         if (name.equals("default")) {
@@ -430,7 +549,7 @@ final class ModuleRecord {
             if (r != null) {
                 if (star == null) {
                     star = r;
-                } else if (star.module != r.module || !star.name.equals(r.name)) {
+                } else if (star.module != r.module || (star.name == null ? r.name != null : !star.name.equals(r.name))) {
                     return AMBIGUOUS;
                 }
             }
@@ -507,8 +626,8 @@ final class ModuleRecord {
         // 이름마다 해석해 모호하지 않은 export 만 네임스페이스에 넣는다.
         for (int i = 0; i < names.size(); i++) {
             Resolved r = resolveExport(names.get(i), new ArrayList<Object[]>());
-            if (r != null && r != AMBIGUOUS && r.module.env != null) {
-                Binding b = r.module.env.own(r.name);
+            if (r != null && r != AMBIGUOUS) {
+                Binding b = r.binding();
                 if (b != null) {
                     namespace.addExport(names.get(i), b);
                 }
@@ -542,11 +661,11 @@ final class ModuleRecord {
             Ctx ctx = new Ctx(true, env, null);
             ctx.sourceName = key;
             ctx.funcEnv = env;
-            if (program.hasYield) {
+            if (program != null && program.hasYield) {
                 status = LINKED;
                 throw JsException.typeError("Module '" + key + "' contains top-level await; dynamic import is required");
             }
-            in.st.execList(program.list, env, ctx);
+            evaluateBody(ctx);
             status = EVALUATED;
         } catch (JsException e) {
             status = FAILED;
@@ -621,12 +740,18 @@ final class ModuleRecord {
     }
 
     /**
-     * Returns the parsed module program.
+     * Runs source text or initializes the default export of a synthetic module.
      * <p>
-     * 파싱된 모듈 프로그램을 반환한다.
+     * 소스 텍스트를 실행하거나 합성 모듈의 기본 내보내기 값을 설정한다.
+     *
+     * @param ctx evaluation context / 평가 문맥
      */
-    Node program() {
-        return program;
+    void evaluateBody(Ctx ctx) {
+        if (program == null) {
+            env.set("default", jsonDefault, true);
+        } else {
+            in.st.execList(program.list, env, ctx);
+        }
     }
 
     /**

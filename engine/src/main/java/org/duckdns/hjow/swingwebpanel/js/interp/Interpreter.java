@@ -15,7 +15,6 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsString;
 import org.duckdns.hjow.swingwebpanel.js.ModuleGraph;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
-import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
 import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
@@ -108,11 +107,14 @@ public final class Interpreter {
     private int depth;
 
     /**
-     * The loaded modules by key (shared by all imports in this realm).
+     * Successfully loaded modules by resolved key and attributes, shared in this realm.
      * <p>
-     * 키로 찾는 불러온 모듈(이 realm 의 모든 import 가 공유).
+     * 해석된 키와 속성으로 찾는 불러온 모듈. 이 realm의 모든 import가 공유한다.
      */
-    final java.util.HashMap<String, ModuleRecord> modules = new java.util.HashMap<String, ModuleRecord>();
+    final Map<ModuleRequest, ModuleRecord> modules = new HashMap<ModuleRequest, ModuleRecord>();
+
+    /** Parse errors of fetched JSON modules. / 가져온 JSON 모듈의 파싱 오류. */
+    final Map<ModuleRequest, JsException> jsonModuleErrors = new HashMap<ModuleRequest, JsException>();
 
     /**
      * Creates the interpreter of a realm.
@@ -251,13 +253,8 @@ public final class Interpreter {
         org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseJobs.enqueue(realm, new Runnable() {
             public void run() {
                 try {
-                    ModuleLoader loader = realm.getModuleLoader();
-                    String specifier = request.getSpecifier();
-                    if (loader == null) {
-                        throw JsException.typeError("Cannot import module '" + specifier + "': no module loader is configured");
-                    }
-                    String key = loader.resolve(specifier, referrer);
-                    ModuleRecord module = ModuleRecord.load(Interpreter.this, key, null);
+                    ModuleRequest resolved = ModuleRecord.resolve(realm.getModuleLoader(), request, referrer);
+                    ModuleRecord module = ModuleRecord.load(Interpreter.this, resolved, null);
                     module.link();
                     JsObject evaluation = module.evaluateAsync();
                     NativeFunction fulfilled = new NativeFunction(realm, "", 1, new NativeFunction.Call() {

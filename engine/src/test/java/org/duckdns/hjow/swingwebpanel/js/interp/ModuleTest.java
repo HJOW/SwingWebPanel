@@ -182,6 +182,20 @@ public class ModuleTest {
     }
 
     /**
+     * Retries a cyclic module graph after a missing dependency becomes available.
+     * <p>
+     * 순환 모듈 그래프의 누락된 의존 모듈이 생긴 뒤 그래프를 다시 불러온다.
+     */
+    public void testRetryIncompleteCyclicGraph() {
+        setUp("a.js", "import {b} from 'b.js';import {c} from 'c.js';export function a(){return b+c;}",
+                "b.js", "import {a} from 'a.js';export const b=2;export function result(){return a();}");
+        Check.contains(error("a.js"), "Cannot find module", "initial graph load fails");
+        loader.sources.put("c.js", "export const c=3;");
+        realm.evaluateModule("main.js", "import {result} from 'b.js';print(result());");
+        Check.equal("[5]", capture.lines.toString(), "retry links the entire graph");
+    }
+
+    /**
      * Named exports and imports, renaming, and the namespace import.
      * <p>
      * 이름 있는 export 와 import, 이름 바꾸기, 네임스페이스 import.

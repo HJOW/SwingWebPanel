@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-03-d 엔진의 JSON 합성 모듈 (2026-11-26) ===
+현재 작업 번호: P29-03-d 완료.
+완료한 내용: ModuleLoader.WithAttributes가 제공한 JSON 본문을 공통 JSON 파서로 읽고 default 하나만 내보낸다. 해석된 URL과 속성을 키로 삼아 모듈과 JSON 구문 오류를 공유한다. 미완성 순환 그래프의 재시도와 export * as 이름의 네임스페이스 연결도 수정했다.
+변경 파일: ModuleLoader.java, ModuleRequest.java, ModuleRecord.java, ModuleAsyncEvaluation.java, Interpreter.java, JsonBuiltins.java, Parser.java, ProgramInfo.java, ModernDynamicImportTest.java, ModuleTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test (JDK 6u45 컴파일·실행, Maven은 JDK 8u202) 727건 통과. sourcecheck 0 위반.
+미해결 사항: 문서·Worker·AudioWorklet의 네트워크 요청과 MIME·CORS 검증(P29-03-e1~e3).
+다음 작업 번호: P29-03-e1.
+-----------------------------------------------------------------------------------------------
 === P29-03-c 동적 가져오기 옵션 (2026-11-26) ===
 현재 작업 번호: P29-03-c 완료.
 완료한 내용: 동적 import의 두 번째 인수와 후행 쉼표를 파싱한다. 옵션 객체의 with에서 열거 가능한 자체 문자열 키의 값만 읽고 호스트의 속성 제약을 확인한다. 인수 표현식의 예외는 동기 예외로 전달하며 지정자 문자열 변환과 속성 조회 중 오류부터 Promise를 거부한다.
@@ -546,6 +554,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-03-d JSON 합성 모듈과 캐시
+
+정적·동적 가져오기와 재내보내기에서 하나의 JSON 객체를 공유하고, 같은 키의 JavaScript와 JSON을 각각 한 번 가져왔다. JSON 문법 오류의 재전달, 스칼라 값, 읽기 전용 import, 기본 내보내기 외 이름 미노출 및 누락된 의존성이 생긴 뒤 순환 그래프의 재시도를 시험했다. 미디어 타입 검사는 다음 작업에서 브라우저 호스트가 맡는다.
 
 ### 2026-11-26 · P29-03-c 동적 모듈 요청 옵션
 

@@ -165,15 +165,15 @@ public final class JsonBuiltins {
     }
 
     /**
-     * Parses JSON text into JavaScript values with an explicit stack (no recursion).
+     * Parses JSON text for JSON.parse and JSON modules using an explicit stack.
      * <p>
-     * 명시적 스택으로(재귀 없이) JSON 텍스트를 JavaScript 값으로 해석한다.
+     * JSON.parse와 JSON 모듈에 쓰는 JSON 텍스트를 명시적 스택으로 해석한다.
      *
      * @param r    the realm / realm
      * @param text the JSON text / JSON 텍스트
      * @return the value / 값
      */
-    static JsValue parse(JsRealm r, String text) {
+    public static JsValue parse(JsRealm r, String text) {
         JsonTokenizer t = new JsonTokenizer(text);
         List<JsObject> containers = new ArrayList<JsObject>();
         List<String> keys = new ArrayList<String>();
