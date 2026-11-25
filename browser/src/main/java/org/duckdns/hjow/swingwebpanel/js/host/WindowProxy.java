@@ -4,6 +4,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
+import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.Property;
@@ -65,6 +66,16 @@ final class WindowProxy extends JsObject {
      */
     private JsObject target() {
         return PageScripts.windowTarget(context);
+    }
+
+    /**
+     * Rejects a private element addition on the navigation-stable identity.
+     * <p>
+     * 이동 후에도 유지되는 창 객체에 private 요소 추가를 거부한다.
+     */
+    @Override
+    public void ensureCanAddPrivateElement() {
+        throw JsException.typeError("Cannot add a private element to WindowProxy");
     }
 
     /** Returns the window class name. / 창의 클래스 이름을 반환한다. */

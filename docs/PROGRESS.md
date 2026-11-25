@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-09-d2 호스트 객체의 private 요소 (2026-11-26) ===
+현재 작업 번호: P29-09-d2 완료.
+완료한 내용: WindowProxy와 Location의 private 메서드·필드 추가를 거부한다. 필드 추가 시점, 중복 추가 오류, 클로저의 렉시컬 private 환경을 보완했다.
+변경 파일: JsObject.java, ClassRuntime.java, Classes.java, Environment.java, Expressions.java, LocationObject.java, WindowGlobals.java, WindowProxy.java, CrossOriginWindow.java, ModernClassTest.java, FrameWindowTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45 엔진 전체 857건, FrameWindowTest 10건, HtmlAllCollectionTest 2건 통과. sourcecheck 0 위반.
+미해결 사항: Promise 작업 콜백의 활성 문맥 보존(P29-09-d3a~d3b), 구판 통합(P29-09-e).
+다음 작업 번호: P29-09-d3a.
+-----------------------------------------------------------------------------------------------
 === P29-09-d1 레거시 HTMLAllCollection (2026-11-26) ===
 현재 작업 번호: P29-09-d1 완료.
 완료한 내용: document.all에 라이브 컬렉션, 호출, 순서 있는 인덱스와 이름을 연결했다. [[IsHTMLDDA]]를 가진 객체에만 boolean, 느슨한 동등, typeof 예외를 적용한다.
@@ -994,6 +1002,12 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-09-d2 HostEnsureCanAddPrivateElement
+
+- ECMA-262 제17판 B.3.8과 WHATWG HTML §8.1.6.1(`https://html.spec.whatwg.org/multipage/webappapis.html#hostensurecanaddprivateelement`, Last-Modified 2026-11-25, 조회 2026-11-26, JRE 25 `tools/webfetch`)을 기준으로 현재 문서와 교차 오리진의 WindowProxy·Location에 private 요소 추가를 제한한다.
+- private 메서드는 필드 초기화 전에 추가하고 필드는 초기화 뒤에 추가한다. 부분 초기화 중의 존재 검사, 중복 추가, private 이름을 캡처하는 중첩 함수, 확장 불가 일반 객체, 별도 프록시 객체를 검증했다.
+- JDK 6u45에서 `mvn -B -o -pl engine test` 857건, TestRunner의 FrameWindowTest 10건과 HtmlAllCollectionTest 2건 통과.
 
 ### 2026-11-26 · P29-09-d1 HTMLAllCollection과 [[IsHTMLDDA]]
 

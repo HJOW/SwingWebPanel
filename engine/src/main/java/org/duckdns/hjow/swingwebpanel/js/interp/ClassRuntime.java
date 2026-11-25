@@ -67,6 +67,9 @@ final class ClassRuntime {
          */
         final List<Field> fields = new ArrayList<Field>();
 
+        /** Whether this class declares private instance methods or accessors. / private 인스턴스 메서드나 접근자 선언 여부. */
+        boolean hasInstancePrivateMethods;
+
         /**
          * Class constructor that owns static private slots.
          * <p>
@@ -212,15 +215,51 @@ final class ClassRuntime {
     }
 
     /**
-     * Creates or returns an instance slot map and records the class brand.
+     * Adds the private methods and accessors before instance field initializers run.
      * <p>
-     * 인스턴스 슬롯 표를 만들거나 반환하고 클래스 brand 를 기록한다.
+     * 인스턴스 필드 초기화 식을 실행하기 전에 private 메서드와 접근자를 추가한다.
      *
      * @param object receiver / 수신자
      * @param brand  class brand / 클래스 brand
-     * @return slot map / 슬롯 표
      */
-    static Map<String, JsValue> enter(JsObject object, Brand brand) {
+    static void addMethods(JsObject object, Brand brand) {
+        object.ensureCanAddPrivateElement();
+        Map<Brand, Map<String, JsValue>> brands = INSTANCES.get(object);
+        if (brands != null && brands.containsKey(brand)) {
+            throw JsException.typeError("Private methods already exist on this object");
+        }
+        enter(object, brand);
+    }
+
+    /**
+     * Adds an initialized private field to the receiver.
+     * <p>
+     * 초기화한 private 필드를 수신자에 추가한다.
+     *
+     * @param object receiver / 수신자
+     * @param brand class brand / 클래스 brand
+     * @param name field name / 필드 이름
+     * @param value initialized value / 초기화한 값
+     */
+    static void addField(JsObject object, Brand brand, String name, JsValue value) {
+        object.ensureCanAddPrivateElement();
+        Map<String, JsValue> slots = enter(object, brand);
+        if (slots.containsKey(name)) {
+            throw JsException.typeError("Private field '" + name + "' already exists on this object");
+        }
+        slots.put(name, value);
+    }
+
+    /**
+     * Returns the private storage for the receiver, creating it after the host check.
+     * <p>
+     * 수신자의 private 저장소를 반환한다. 호스트 검사 후 필요에 따라 저장소를 만든다.
+     *
+     * @param object receiver / 수신자
+     * @param brand class brand / 클래스 brand
+     * @return private field slots / private 필드 슬롯
+     */
+    private static Map<String, JsValue> enter(JsObject object, Brand brand) {
         Map<Brand, Map<String, JsValue>> brands = INSTANCES.get(object);
         if (brands == null) {
             brands = new IdentityHashMap<Brand, Map<String, JsValue>>();
@@ -245,16 +284,11 @@ final class ClassRuntime {
      * @return true when the brand is present / brand 가 있으면 true
      */
     static boolean has(Brand active, String name, JsValue value) {
-        Brand owner = resolve(active, name);
-        PrivateDefinition def = owner.privates.get(name);
-        if (def.staticElement) {
-            return value == owner.constructor;
-        }
         if (!(value instanceof JsObject)) {
-            return false;
+            throw JsException.typeError("Right-hand side of private in must be an object");
         }
-        Map<Brand, Map<String, JsValue>> brands = INSTANCES.get(value);
-        return brands != null && brands.containsKey(owner);
+        Brand owner = resolve(active, name);
+        return hasInstalled(owner, owner.privates.get(name), name, value);
     }
 
     /**
@@ -271,7 +305,9 @@ final class ClassRuntime {
     static JsValue get(Brand active, String name, JsValue receiver, JsValue callThis) {
         Brand owner = resolve(active, name);
         PrivateDefinition def = owner.privates.get(name);
-        checkBrand(owner, def, receiver);
+        if (!hasInstalled(owner, def, name, receiver)) {
+            throw brandError();
+        }
         if (def.getter != null) {
             return def.getter.call(callThis, new JsValue[0]);
         }
@@ -301,7 +337,9 @@ final class ClassRuntime {
     static void put(Brand active, String name, JsValue receiver, JsValue callThis, JsValue value) {
         Brand owner = resolve(active, name);
         PrivateDefinition def = owner.privates.get(name);
-        checkBrand(owner, def, receiver);
+        if (!hasInstalled(owner, def, name, receiver)) {
+            throw brandError();
+        }
         if (def.setter != null) {
             def.setter.call(callThis, new JsValue[] { value });
             return;
@@ -332,24 +370,26 @@ final class ClassRuntime {
     }
 
     /**
-     * Checks a private receiver brand.
+     * Reports whether the particular private element has been installed on the receiver.
      * <p>
-     * private 수신자의 brand 를 검사한다.
+     * 지정한 private 요소가 수신자에 설치되었는지 확인한다.
+     *
+     * @param owner class brand / 클래스 brand
+     * @param def private declaration / private 선언
+     * @param name element name / 요소 이름
+     * @param receiver candidate receiver / 수신자 후보
+     * @return whether the private element is present / private 요소의 설치 여부
      */
-    private static void checkBrand(Brand owner, PrivateDefinition def, JsValue receiver) {
+    private static boolean hasInstalled(Brand owner, PrivateDefinition def, String name, JsValue receiver) {
         if (def.staticElement) {
-            if (receiver != owner.constructor) {
-                throw brandError();
-            }
-            return;
+            return receiver == owner.constructor;
         }
         if (!(receiver instanceof JsObject)) {
-            throw brandError();
+            return false;
         }
         Map<Brand, Map<String, JsValue>> brands = INSTANCES.get(receiver);
-        if (brands == null || !brands.containsKey(owner)) {
-            throw brandError();
-        }
+        Map<String, JsValue> slots = brands == null ? null : brands.get(owner);
+        return slots != null && (!def.field || slots.containsKey(name));
     }
 
     /**

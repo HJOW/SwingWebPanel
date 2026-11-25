@@ -822,7 +822,7 @@ final class WindowGlobals {
      */
     private void installLocation(JsObject g) {
         JsRealm realm = page.getRealm();
-        location = realm.newObject();
+        location = new LocationObject(realm);
         String[] parts = { "href", "origin", "protocol", "host", "hostname", "port", "pathname", "search", "hash" };
         // 위치의 각 부분을 문서 URL 에서 읽는 접근자로 정의한다. href 와 hash 는 쓰면 이동한다.
         for (int i = 0; i < parts.length; i++) {

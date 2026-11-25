@@ -90,6 +90,40 @@ public class FrameWindowTest {
     }
 
     /**
+     * Checks private stamping on local and cross-origin WindowProxy and Location objects.
+     * <p>
+     * 현재 오리진과 교차 오리진의 WindowProxy 및 Location에 private 요소 추가를 확인한다.
+     *
+     * @throws Exception if a test host cannot be started or the page does not report its result / 시험 서버나 페이지 응답 실패
+     */
+    public void testPrivateElementsOnHostObjects() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        TestHttpServer other = new TestHttpServer();
+        SwingWebPanel panel = FrameTestSupport.newPanel(400, 300);
+        try {
+            other.routeFixed("/child", TestHttpServer.Response.html("<!doctype html><title>cross</title>"));
+            other.start();
+            serve(panel, server, "<!doctype html><iframe id=f src='" + other.url("/child") + "'></iframe>"
+                    + "<script>window.onload=function(){var n=0, child=document.getElementById('f').contentWindow;"
+                    + "class Return { constructor(o){return o;} }"
+                    + "class Field extends Return { #value=++n; static has(o){return #value in o;} }"
+                    + "class Method extends Return { #value(){} ordinary=++n; }"
+                    + "var errs=[window,location,child,child.location].map(function(o){"
+                    + "var a;try{new Field(o);}catch(e){a=e.name;}"
+                    + "try{new Method(o);}catch(e){return a+':'+e.name+':'+Field.has(o);}});"
+                    + "class Public extends Return { ordinary=1; } new Public(window);"
+                    + "var proxy=new Proxy(window,{}); new Field(proxy);"
+                    + "sessionStorage.setItem('private-host',errs.join('|')+'|'+[n,window.ordinary,Field.has(proxy)].join());};</script>");
+            FrameTestSupport.awaitStored(panel, "private-host",
+                    "TypeError:TypeError:false|TypeError:TypeError:false|TypeError:TypeError:false|TypeError:TypeError:false|5,1,true");
+        } finally {
+            panel.dispose();
+            server.stop();
+            other.stop();
+        }
+    }
+
+    /**
      * Checks the same frame reference before and after matching and nonmatching origin navigations.
      * <p>
      * 같은 프레임 참조를 유지한 채 같은 오리진과 다른 오리진으로 이동했을 때를 확인한다.

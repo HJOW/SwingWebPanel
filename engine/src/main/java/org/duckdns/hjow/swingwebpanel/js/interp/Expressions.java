@@ -217,8 +217,7 @@ final class Expressions {
         case NodeType.BINARY: {
             if (n.op == Op.IN && n.a.type == NodeType.PRIVATE_NAME) {
                 JsValue right = memo(st, n.b, env, ctx);
-                ClassRuntime.Brand brand = ctx.function == null ? null : ctx.function.classBrand;
-                return JsBoolean.of(ClassRuntime.has(brand, n.a.name, right));
+                return JsBoolean.of(ClassRuntime.has(env.privateBrand, n.a.name, right));
             }
             JsValue l = memo(st, n.a, env, ctx);
             JsValue r = memo(st, n.b, env, ctx);
@@ -477,8 +476,7 @@ final class Expressions {
     private JsValue evalMember(Node n, Environment env, Ctx ctx, NodeState st) {
         if (n.privateName) {
             JsValue base = memo(st, n.a, env, ctx);
-            ClassRuntime.Brand brand = ctx.function == null ? null : ctx.function.classBrand;
-            return ClassRuntime.get(brand, n.name, base, base);
+            return ClassRuntime.get(env.privateBrand, n.name, base, base);
         }
         if (n.a.type == NodeType.SUPER) {
             JsValue thisV = superThis(env);
@@ -841,7 +839,7 @@ final class Expressions {
         }
         JsValue base = memo(st, t.a, env, ctx);
         if (t.privateName) {
-            return Reference.privateProperty(this, base, t.name, ctx.function == null ? null : ctx.function.classBrand, ctx.strict);
+            return Reference.privateProperty(this, base, t.name, env.privateBrand, ctx.strict);
         }
         if (t.optional && base.isNullOrUndefined()) {
             throw OptionalShortCircuit.INSTANCE;

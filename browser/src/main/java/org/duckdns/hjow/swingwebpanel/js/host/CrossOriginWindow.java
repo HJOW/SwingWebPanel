@@ -236,7 +236,7 @@ final class CrossOriginWindow extends JsObject {
      */
     private JsObject location(JsRealm realm) {
         if (location == null) {
-            JsObject l = realm.newObject();
+            JsObject l = new LocationObject(realm);
             final JsObject self = l;
             l.defineAccessor("href", realm.newFunction("get href", 0, new NativeFunction.Call() {
                 /**

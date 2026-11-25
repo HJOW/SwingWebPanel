@@ -68,7 +68,7 @@ final class Classes {
         if (cls.name != null) {
             classEnv.declare(cls.name, false, false, null);
         }
-        ClassRuntime.Brand brand = new ClassRuntime.Brand(ctx.function == null ? null : ctx.function.classBrand);
+        ClassRuntime.Brand brand = new ClassRuntime.Brand(env.privateBrand);
         Ctx strictCtx = ctx;
         JsObject protoParent = realm.getObjectPrototype();
         JsObject constructorParent = realm.getFunctionPrototype();
@@ -90,6 +90,7 @@ final class Classes {
                 constructorParent = (JsObject) sup;
             }
         }
+        classEnv.privateBrand = brand;
         JsObject proto = new JsObject(protoParent);
         ScriptFunction f;
         if (cls.b != null) {
@@ -192,6 +193,8 @@ final class Classes {
             }
             if (m.op == Op.PROP_FIELD) {
                 pd.field = true;
+            } else if (!m.flag) {
+                brand.hasInstancePrivateMethods = true;
             }
         }
     }
@@ -287,7 +290,10 @@ final class Classes {
         if (brand == null) {
             return;
         }
-        java.util.Map<String, JsValue> slots = ClassRuntime.enter(object, brand);
+        // private 메서드와 접근자를 먼저 추가하고, 호스트가 거부하면 필드 초기화를 시작하지 않는다.
+        if (brand.hasInstancePrivateMethods) {
+            ClassRuntime.addMethods(object, brand);
+        }
         Environment fieldEnv = new Environment(constructor.scope);
         fieldEnv.function = constructor;
         fieldEnv.hasThis = true;
@@ -297,12 +303,12 @@ final class Classes {
         Ctx ctx = new Ctx(true, fieldEnv, constructor);
         ctx.funcEnv = fieldEnv;
         ctx.sourceName = constructor.info.sourceName == null ? "" : constructor.info.sourceName;
-        // 필드는 소스 순서대로 undefined 슬롯을 먼저 만들고 초기화 식을 평가한다.
+        // 소스 순서에 따라 초기화 식이 끝난 필드만 추가한다.
         for (int i = 0; i < brand.fields.size(); i++) {
             ClassRuntime.Field field = brand.fields.get(i);
             JsValue value = field.initializer == null ? Js.UNDEFINED : in.ex.eval(field.initializer, fieldEnv, ctx);
             if (field.privateField) {
-                slots.put((String) field.key, value);
+                ClassRuntime.addField(object, brand, (String) field.key, value);
             } else {
                 object.createDataPropertyOrThrow(field.key, value);
             }

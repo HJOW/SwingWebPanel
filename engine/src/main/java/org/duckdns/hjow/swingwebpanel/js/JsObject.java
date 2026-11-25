@@ -132,6 +132,14 @@ public class JsObject extends JsWeakKey {
     }
 
     /**
+     * Implements HostEnsureCanAddPrivateElement. The default permits private elements on this object.
+     * <p>
+     * HostEnsureCanAddPrivateElement를 구현한다. 기본 동작은 이 객체에 private 요소 추가를 허용한다.
+     */
+    public void ensureCanAddPrivateElement() {
+    }
+
+    /**
      * The [[Call]] internal method. Ordinary objects are not callable.
      * <p>
      * [[Call]] 내부 메서드. 일반 객체는 호출할 수 없다.

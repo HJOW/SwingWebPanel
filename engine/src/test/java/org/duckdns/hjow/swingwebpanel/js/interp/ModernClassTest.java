@@ -62,6 +62,26 @@ public class ModernClassTest {
     }
 
     /**
+     * Checks that private fields are added after initialization and cannot be added twice.
+     * <p>
+     * private 필드는 초기화 후 추가되며 같은 필드를 두 번 추가할 수 없는지 확인한다.
+     */
+    public void testPrivateFieldInstallation() {
+        Check.equal("true:false,TypeError,7,TypeError,2,TypeError", Scripts.eval(
+                "var target=Object.preventExtensions({}), log=[], count=0;"
+                + "class Return { constructor(o){return o;} }"
+                + "class Stamp extends Return { #method(){return 7;} #value=(log.push((#method in this)+':'+(#value in this)),"
+                + "(()=>{try{return this.#value;}catch(e){log.push(e.name);return this.#method();}})());"
+                + "static read(o){return o.#value;} static check(o){return #value in o;} }"
+                + "new Stamp(target); log.push(Stamp.read(target));"
+                + "try{new Stamp(target);}catch(e){log.push(e.name);}"
+                + "class FieldOnly extends Return { #f=++count; } new FieldOnly(target);"
+                + "try{new FieldOnly(target);}catch(e){log.push(count);}"
+                + "try{Stamp.check(1);}catch(e){log.push(e.name);} log.join()"),
+                "presence is per element, and a private field is allowed on any ordinary receiver");
+    }
+
+    /**
      * Checks static fields, static private elements, static blocks and super access.
      * <p>
      * static 필드·private 요소·static 블록과 super 접근을 검사한다.

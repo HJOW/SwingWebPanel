@@ -76,6 +76,9 @@ final class Environment {
      */
     ScriptFunction function;
 
+    /** The nearest enclosing class's private environment. / 가장 가까운 바깥 클래스의 private 환경. */
+    ClassRuntime.Brand privateBrand;
+
     /**
      * The new.target of the call, or null when called without new.
      * <p>
@@ -106,6 +109,7 @@ final class Environment {
      */
     Environment(Environment outer) {
         this.outer = outer;
+        privateBrand = outer == null ? null : outer.privateBrand;
     }
 
     /**
