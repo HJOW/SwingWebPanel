@@ -41,6 +41,7 @@ public final class CoreLibInstaller implements BuiltinInstaller {
         SymbolLib.install(realm);
         JsObject[] parsers = GlobalLib.install(realm);
         NumberLib.install(realm, parsers);
+        BigIntLib.install(realm);
         MathLib.install(realm);
     }
 }

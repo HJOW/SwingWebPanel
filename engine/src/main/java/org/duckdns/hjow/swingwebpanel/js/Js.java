@@ -1,5 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js;
 
+import java.math.BigInteger;
+
 /**
  * Constants and small factories for ECMAScript values, meant to be used by built-in authors:
  * <code>Js.UNDEFINED</code>, <code>Js.num(1.5)</code>, <code>Js.str("a")</code>, <code>Js.bool(true)</code>.
@@ -62,6 +64,18 @@ public final class Js {
      */
     public static JsNumber num(double d) {
         return JsNumber.of(d);
+    }
+
+    /**
+     * Creates a BigInt value.
+     * <p>
+     * BigInt 값을 만든다.
+     *
+     * @param value the exact integer / 정확한 정수
+     * @return the value / 값
+     */
+    public static JsBigInt bigint(BigInteger value) {
+        return JsBigInt.of(value);
     }
 
     /**

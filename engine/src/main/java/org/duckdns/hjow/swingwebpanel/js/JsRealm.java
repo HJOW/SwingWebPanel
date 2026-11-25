@@ -67,6 +67,13 @@ public class JsRealm {
     private final JsObject numberPrototype;
 
     /**
+     * The intrinsic %BigInt.prototype% object of this realm.
+     * <p>
+     * 이 realm 의 내장 객체 %BigInt.prototype%.
+     */
+    private final JsObject bigIntPrototype;
+
+    /**
      * The intrinsic %BooleanPrototype% object of this realm.
      * <p>
      * 이 realm 의 내장 객체 %BooleanPrototype%.
@@ -189,6 +196,7 @@ public class JsRealm {
         arrayPrototype = new JsArray(objectPrototype);
         stringPrototype = new JsStringObject(objectPrototype, "");
         numberPrototype = new JsPrimitiveObject(objectPrototype, JsNumber.ZERO, "Number");
+        bigIntPrototype = new JsPrimitiveObject(objectPrototype, JsBigInt.ZERO, "BigInt");
         booleanPrototype = new JsPrimitiveObject(objectPrototype, JsBoolean.FALSE, "Boolean");
         symbolPrototype = new JsObject(objectPrototype);
         JsObject errorProto = new JsObject(objectPrototype);
@@ -381,6 +389,17 @@ public class JsRealm {
      */
     public JsObject getNumberPrototype() {
         return numberPrototype;
+    }
+
+    /**
+     * Returns %BigInt.prototype%.
+     * <p>
+     * %BigInt.prototype% 을 반환한다.
+     *
+     * @return BigInt.prototype / BigInt.prototype
+     */
+    public JsObject getBigIntPrototype() {
+        return bigIntPrototype;
     }
 
     /**

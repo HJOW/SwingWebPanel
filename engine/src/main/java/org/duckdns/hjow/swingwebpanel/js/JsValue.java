@@ -2,12 +2,12 @@ package org.duckdns.hjow.swingwebpanel.js;
 
 /**
  * Base class of every ECMAScript value. The hierarchy is {@link JsUndefined}, {@link JsNull}, {@link JsBoolean},
- * {@link JsNumber}, {@link JsString}, {@link JsSymbol} and {@link JsObject}. JavaScript <code>null</code> and
+ * {@link JsNumber}, {@link JsBigInt}, {@link JsString}, {@link JsSymbol} and {@link JsObject}. JavaScript <code>null</code> and
  * <code>undefined</code> are distinct singleton objects; a Java <code>null</code> reference is never a JavaScript value
  * (it means "absent" inside the engine only). Use {@link Js} for constants and factories and {@link Ops} for conversions.
  * <p>
  * 모든 ECMAScript 값의 기반 클래스. 계층은 {@link JsUndefined}, {@link JsNull}, {@link JsBoolean}, {@link JsNumber},
- * {@link JsString}, {@link JsSymbol}, {@link JsObject} 이다. JavaScript 의 <code>null</code> 과 <code>undefined</code> 는
+ * {@link JsBigInt}, {@link JsString}, {@link JsSymbol}, {@link JsObject} 이다. JavaScript 의 <code>null</code> 과 <code>undefined</code> 는
  * 서로 다른 싱글턴 객체이며, Java 의 <code>null</code> 참조는 JavaScript 값이 아니다(엔진 내부에서 "없음"을 뜻할 때만 쓴다).
  * 상수와 생성 도구는 {@link Js}, 형 변환은 {@link Ops} 를 사용한다.
  */
@@ -90,7 +90,7 @@ public abstract class JsValue {
      * <p>
      * 이 값에 <code>typeof</code> 연산자를 적용한 결과를 반환한다.
      *
-     * @return one of "undefined", "object", "boolean", "number", "string", "symbol", "function" / typeof 결과 문자열
+     * @return one of "undefined", "object", "boolean", "number", "bigint", "string", "symbol", "function" / typeof 결과 문자열
      */
     public String typeOf() {
         switch (type()) {
@@ -102,6 +102,8 @@ public abstract class JsValue {
             return "boolean";
         case NUMBER:
             return "number";
+        case BIGINT:
+            return "bigint";
         case STRING:
             return "string";
         case SYMBOL:

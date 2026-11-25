@@ -1,11 +1,13 @@
 package org.duckdns.hjow.swingwebpanel.js.interp;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.js.AsyncIteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsArray;
+import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
 import org.duckdns.hjow.swingwebpanel.js.JsBoolean;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsNumber;
@@ -323,6 +325,9 @@ final class Expressions {
         if (base instanceof JsNumber) {
             return realm.getNumberPrototype().get(key, base);
         }
+        if (base instanceof JsBigInt) {
+            return realm.getBigIntPrototype().get(key, base);
+        }
         if (base instanceof JsBoolean) {
             return realm.getBooleanPrototype().get(key, base);
         }
@@ -513,25 +518,92 @@ final class Expressions {
             }
             return sum;
         }
-        case Op.SUB:
-            return JsNumber.of(Ops.toNumber(l) - Ops.toNumber(r));
-        case Op.MUL:
-            return JsNumber.of(Ops.toNumber(l) * Ops.toNumber(r));
-        case Op.DIV:
-            return JsNumber.of(Ops.toNumber(l) / Ops.toNumber(r));
-        case Op.MOD: {
-            double a = Ops.toNumber(l);
-            double b = Ops.toNumber(r);
-            return JsNumber.of(a % b);
+        case Op.SUB: {
+            JsValue a = Ops.toNumeric(l);
+            JsValue b = Ops.toNumeric(r);
+            requireSameNumericType(op, a, b);
+            return a instanceof JsBigInt
+                    ? JsBigInt.of(((JsBigInt) a).getValue().subtract(((JsBigInt) b).getValue()))
+                    : JsNumber.of(((JsNumber) a).getValue() - ((JsNumber) b).getValue());
         }
-        case Op.EXP:
-            return JsNumber.of(Math.pow(Ops.toNumber(l), Ops.toNumber(r)));
-        case Op.SHL:
-            return JsNumber.of(Ops.toInt32(l) << (int) (Ops.toUint32(r) & 31));
-        case Op.SHR:
-            return JsNumber.of(Ops.toInt32(l) >> (int) (Ops.toUint32(r) & 31));
+        case Op.MUL: {
+            JsValue a = Ops.toNumeric(l);
+            JsValue b = Ops.toNumeric(r);
+            requireSameNumericType(op, a, b);
+            return a instanceof JsBigInt
+                    ? JsBigInt.of(((JsBigInt) a).getValue().multiply(((JsBigInt) b).getValue()))
+                    : JsNumber.of(((JsNumber) a).getValue() * ((JsNumber) b).getValue());
+        }
+        case Op.DIV: {
+            JsValue a = Ops.toNumeric(l);
+            JsValue b = Ops.toNumeric(r);
+            requireSameNumericType(op, a, b);
+            if (a instanceof JsBigInt) {
+                BigInteger divisor = ((JsBigInt) b).getValue();
+                if (divisor.signum() == 0) {
+                    throw JsException.rangeError("Division by zero");
+                }
+                return JsBigInt.of(((JsBigInt) a).getValue().divide(divisor));
+            }
+            return JsNumber.of(((JsNumber) a).getValue() / ((JsNumber) b).getValue());
+        }
+        case Op.MOD: {
+            JsValue a = Ops.toNumeric(l);
+            JsValue b = Ops.toNumeric(r);
+            requireSameNumericType(op, a, b);
+            if (a instanceof JsBigInt) {
+                BigInteger divisor = ((JsBigInt) b).getValue();
+                if (divisor.signum() == 0) {
+                    throw JsException.rangeError("Division by zero");
+                }
+                return JsBigInt.of(((JsBigInt) a).getValue().remainder(divisor));
+            }
+            return JsNumber.of(((JsNumber) a).getValue() % ((JsNumber) b).getValue());
+        }
+        case Op.EXP: {
+            JsValue a = Ops.toNumeric(l);
+            JsValue b = Ops.toNumeric(r);
+            requireSameNumericType(op, a, b);
+            if (a instanceof JsBigInt) {
+                BigInteger exponent = ((JsBigInt) b).getValue();
+                if (exponent.signum() < 0) {
+                    throw JsException.rangeError("Exponent must be positive");
+                }
+                if (exponent.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+                    throw JsException.rangeError("BigInt exponent is too large");
+                }
+                return JsBigInt.of(((JsBigInt) a).getValue().pow(exponent.intValue()));
+            }
+            return JsNumber.of(Math.pow(((JsNumber) a).getValue(), ((JsNumber) b).getValue()));
+        }
+        case Op.SHL: {
+            JsValue a = Ops.toNumeric(l);
+            JsValue b = Ops.toNumeric(r);
+            requireSameNumericType(op, a, b);
+            if (a instanceof JsBigInt) {
+                return JsBigInt.of(bigIntShift(((JsBigInt) a).getValue(), ((JsBigInt) b).getValue(), true));
+            }
+            return JsNumber.of(Ops.toInt32(((JsNumber) a).getValue()) << (int) (Ops.toUint32(((JsNumber) b).getValue()) & 31));
+        }
+        case Op.SHR: {
+            JsValue a = Ops.toNumeric(l);
+            JsValue b = Ops.toNumeric(r);
+            requireSameNumericType(op, a, b);
+            if (a instanceof JsBigInt) {
+                return JsBigInt.of(bigIntShift(((JsBigInt) a).getValue(), ((JsBigInt) b).getValue(), false));
+            }
+            return JsNumber.of(Ops.toInt32(((JsNumber) a).getValue()) >> (int) (Ops.toUint32(((JsNumber) b).getValue()) & 31));
+        }
         case Op.USHR:
-            return JsNumber.of((double) (Ops.toUint32(l) >>> (int) (Ops.toUint32(r) & 31)));
+        {
+            JsValue a = Ops.toNumeric(l);
+            JsValue b = Ops.toNumeric(r);
+            if (a instanceof JsBigInt || b instanceof JsBigInt) {
+                throw JsException.typeError("BigInts have no unsigned right shift, use >> instead");
+            }
+            return JsNumber.of((double) (Ops.toUint32(((JsNumber) a).getValue())
+                    >>> (int) (Ops.toUint32(((JsNumber) b).getValue()) & 31)));
+        }
         case Op.LT:
             return JsBoolean.of(Ops.lessThan(l, r, true) == 1);
         case Op.GT:
@@ -549,11 +621,11 @@ final class Expressions {
         case Op.SNE:
             return JsBoolean.of(!Ops.strictEquals(l, r));
         case Op.BITAND:
-            return JsNumber.of(Ops.toInt32(l) & Ops.toInt32(r));
+            return bitwise(op, l, r);
         case Op.BITOR:
-            return JsNumber.of(Ops.toInt32(l) | Ops.toInt32(r));
+            return bitwise(op, l, r);
         case Op.BITXOR:
-            return JsNumber.of(Ops.toInt32(l) ^ Ops.toInt32(r));
+            return bitwise(op, l, r);
         case Op.IN: {
             if (!(r instanceof JsObject)) {
                 throw JsException.typeError("Cannot use 'in' operator to search for a key in " + Interpreter.describe(r));
@@ -565,6 +637,57 @@ final class Expressions {
         default:
             throw new IllegalStateException("unknown binary operator " + op);
         }
+    }
+
+    /**
+     * Requires both numeric values to be Number or both to be BigInt.
+     * <p>
+     * 두 수치 값이 모두 Number 이거나 모두 BigInt 이도록 요구한다.
+     */
+    private static void requireSameNumericType(int op, JsValue left, JsValue right) {
+        if ((left instanceof JsBigInt) != (right instanceof JsBigInt)) {
+            throw JsException.typeError("Cannot mix BigInt and other types in operator " + Op.text(op));
+        }
+    }
+
+    /**
+     * Applies one bitwise operator to Number or BigInt operands.
+     * <p>
+     * Number 또는 BigInt 피연산자에 비트 연산자를 적용한다.
+     */
+    private static JsValue bitwise(int op, JsValue left, JsValue right) {
+        JsValue a = Ops.toNumeric(left);
+        JsValue b = Ops.toNumeric(right);
+        requireSameNumericType(op, a, b);
+        if (a instanceof JsBigInt) {
+            BigInteger x = ((JsBigInt) a).getValue();
+            BigInteger y = ((JsBigInt) b).getValue();
+            return JsBigInt.of(op == Op.BITAND ? x.and(y) : op == Op.BITOR ? x.or(y) : x.xor(y));
+        }
+        int x = Ops.toInt32(((JsNumber) a).getValue());
+        int y = Ops.toInt32(((JsNumber) b).getValue());
+        return JsNumber.of(op == Op.BITAND ? x & y : op == Op.BITOR ? x | y : x ^ y);
+    }
+
+    /**
+     * Applies a BigInt left or signed-right shift, swapping directions for negative shift counts.
+     * <p>
+     * 음의 이동 수는 방향을 바꾸어 BigInt 왼쪽 또는 부호 있는 오른쪽 이동을 적용한다.
+     */
+    private static BigInteger bigIntShift(BigInteger value, BigInteger count, boolean left) {
+        if (count.signum() == 0) {
+            return value;
+        }
+        boolean direction = left == (count.signum() > 0);
+        BigInteger amount = count.abs();
+        if (amount.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+            if (direction) {
+                throw JsException.rangeError("BigInt shift count is too large");
+            }
+            return value.signum() < 0 ? BigInteger.valueOf(-1) : BigInteger.ZERO;
+        }
+        int n = amount.intValue();
+        return direction ? value.shiftLeft(n) : value.shiftRight(n);
     }
 
     /**
@@ -596,12 +719,18 @@ final class Expressions {
             return Js.UNDEFINED;
         case Op.NOT:
             return JsBoolean.of(!Ops.toBoolean(memo(st, n.a, env, ctx)));
-        case Op.NEG:
-            return JsNumber.of(-Ops.toNumber(memo(st, n.a, env, ctx)));
+        case Op.NEG: {
+            JsValue value = Ops.toNumeric(memo(st, n.a, env, ctx));
+            return value instanceof JsBigInt ? JsBigInt.of(((JsBigInt) value).getValue().negate())
+                    : JsNumber.of(-((JsNumber) value).getValue());
+        }
         case Op.POS:
             return JsNumber.of(Ops.toNumber(memo(st, n.a, env, ctx)));
-        case Op.BITNOT:
-            return JsNumber.of(~Ops.toInt32(memo(st, n.a, env, ctx)));
+        case Op.BITNOT: {
+            JsValue value = Ops.toNumeric(memo(st, n.a, env, ctx));
+            return value instanceof JsBigInt ? JsBigInt.of(((JsBigInt) value).getValue().not())
+                    : JsNumber.of(~Ops.toInt32(((JsNumber) value).getValue()));
+        }
         case Op.DELETE:
             return evalDelete(n.a, env, ctx, st);
         default:
@@ -641,19 +770,20 @@ final class Expressions {
      * @return the value / 값
      */
     private JsValue evalUpdate(Node n, Environment env, Ctx ctx, NodeState st) {
-        double delta = n.op == Op.INC ? 1 : -1;
         // 대상을 Reference 로 한 번만 평가하고, 옛 값은 GetValue 한 번으로 읽어 저장한 뒤 PutValue 한다.
         Reference ref = evalReference(n.a, env, ctx, st);
-        double old;
+        JsValue old;
         if (replay(st)) {
-            old = ((Double) take(st)).doubleValue();
+            old = (JsValue) take(st);
         } else {
-            old = Ops.toNumber(ref.getValue());
-            save(st, Double.valueOf(old));
+            old = Ops.toNumeric(ref.getValue());
+            save(st, old);
         }
-        JsNumber nv = JsNumber.of(old + delta);
+        JsValue nv = old instanceof JsBigInt
+                ? JsBigInt.of(((JsBigInt) old).getValue().add(n.op == Op.INC ? BigInteger.ONE : BigInteger.valueOf(-1)))
+                : JsNumber.of(((JsNumber) old).getValue() + (n.op == Op.INC ? 1 : -1));
         ref.putValue(nv);
-        return n.flag ? nv : JsNumber.of(old);
+        return n.flag ? nv : old;
     }
 
     /**

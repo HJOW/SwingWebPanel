@@ -46,6 +46,8 @@ public class PropertyAttributesTest {
         { "TypeError.prototype" }, { "URIError.prototype" },
         { "Number", "isFinite:1", "isInteger:1", "isNaN:1", "isSafeInteger:1", "parseFloat:1", "parseInt:2" },
         { "Number.prototype", "toExponential:1", "toFixed:1", "toLocaleString:0", "toPrecision:1", "toString:1", "valueOf:0" },
+        { "BigInt", "asIntN:2", "asUintN:2" },
+        { "BigInt.prototype", "toLocaleString:0", "toString:0", "valueOf:0" },
         { "Math", "abs:1", "acos:1", "acosh:1", "asin:1", "asinh:1", "atan:1", "atanh:1", "atan2:2", "cbrt:1", "ceil:1", "clz32:1", "cos:1",
             "cosh:1", "exp:1", "expm1:1", "floor:1", "fround:1", "hypot:2", "imul:2", "log:1", "log1p:1", "log10:1", "log2:1", "max:2", "min:2",
             "pow:2", "random:0", "round:1", "sign:1", "sin:1", "sinh:1", "sqrt:1", "tan:1", "tanh:1", "trunc:1" },
@@ -65,7 +67,7 @@ public class PropertyAttributesTest {
      * (생성자를 뺀) 전역 함수와 "length".
      */
     private static final String[] GLOBAL_FUNCTIONS = { "parseFloat:1", "parseInt:2", "isNaN:1", "isFinite:1", "decodeURI:1",
-        "decodeURIComponent:1", "encodeURI:1", "encodeURIComponent:1" };
+        "decodeURIComponent:1", "encodeURI:1", "encodeURIComponent:1", "BigInt:1" };
 
     /**
      * Property names that are not functions and that the global object must have, besides functions and constructors.
@@ -172,7 +174,7 @@ public class PropertyAttributesTest {
         PropertyDescriptor nd = f.getOwnProperty("name");
         Check.isTrue(!ld.isWritableTrue() && !ld.isEnumerableTrue() && ld.isConfigurableTrue(), where + " length attributes");
         Check.isTrue(!nd.isWritableTrue() && !nd.isEnumerableTrue() && nd.isConfigurableTrue(), where + " name attributes");
-        Check.isFalse(f.hasOwnProperty("prototype"), where + " must not have a prototype property");
+        Check.equal("BigInt".equals(key), f.hasOwnProperty("prototype"), where + " prototype property");
         Check.isFalse(f.isConstructor(), where + " must not be a constructor");
     }
 

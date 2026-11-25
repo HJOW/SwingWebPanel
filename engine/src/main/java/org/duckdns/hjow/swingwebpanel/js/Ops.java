@@ -1,5 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,6 +137,9 @@ public final class Ops {
             double d = ((JsNumber) v).getValue();
             return d == d && d != 0;
         }
+        if (v instanceof JsBigInt) {
+            return ((JsBigInt) v).getValue().signum() != 0;
+        }
         if (v instanceof JsString) {
             return ((JsString) v).length() != 0;
         }
@@ -171,7 +176,121 @@ public final class Ops {
         if (v instanceof JsSymbol) {
             throw JsException.typeError("Cannot convert a Symbol value to a number");
         }
+        if (v instanceof JsBigInt) {
+            throw JsException.typeError("Cannot convert a BigInt value to a number");
+        }
         return toNumber(toPrimitive(v, HINT_NUMBER));
+    }
+
+    /**
+     * ToNumeric (6.1.6.2): ToPrimitive with number hint, then an unchanged BigInt or a Number.
+     * <p>
+     * ToNumeric (6.1.6.2): number 힌트로 원시 값으로 바꾼 뒤 BigInt 는 그대로, 나머지는 Number 로 바꾼다.
+     *
+     * @param v the value / 값
+     * @return a Number or BigInt / Number 또는 BigInt
+     */
+    public static JsValue toNumeric(JsValue v) {
+        JsValue p = toPrimitive(v, HINT_NUMBER);
+        return p instanceof JsBigInt ? p : JsNumber.of(toNumber(p));
+    }
+
+    /**
+     * ToBigInt (7.1.13): converts Boolean, BigInt and integer text, rejecting Number, Undefined, Null and Symbol.
+     * <p>
+     * ToBigInt (7.1.13): Boolean, BigInt, 정수 문자열을 바꾸고 Number, Undefined, Null, Symbol 을 거부한다.
+     *
+     * @param v the value / 값
+     * @return the BigInt integer / BigInt 정수
+     */
+    public static BigInteger toBigInt(JsValue v) {
+        JsValue p = toPrimitive(v, HINT_NUMBER);
+        if (p instanceof JsBigInt) {
+            return ((JsBigInt) p).getValue();
+        }
+        if (p instanceof JsBoolean) {
+            return ((JsBoolean) p).getValue() ? BigInteger.ONE : BigInteger.ZERO;
+        }
+        if (p instanceof JsString) {
+            return parseBigInt(((JsString) p).getValue());
+        }
+        throw JsException.typeError("Cannot convert " + JsException.describe(p) + " to a BigInt");
+    }
+
+    /**
+     * Converts the argument of the BigInt function, whose integer Number special case is allowed in addition to ToBigInt.
+     * <p>
+     * ToBigInt 외에 정수 Number 특례를 허용하는 BigInt 함수 인수를 변환한다.
+     *
+     * @param v the value / 값
+     * @return the integer / 정수
+     */
+    public static BigInteger bigIntFunctionValue(JsValue v) {
+        JsValue p = toPrimitive(v, HINT_NUMBER);
+        if (p instanceof JsNumber) {
+            double n = ((JsNumber) p).getValue();
+            if (n != n || Double.isInfinite(n) || n != Math.floor(n)) {
+                throw JsException.rangeError("The number " + NumberText.toString(n) + " cannot be converted to a BigInt because it is not an integer");
+            }
+            return new BigDecimal(n).toBigInteger();
+        }
+        return toBigInt(p);
+    }
+
+    /**
+     * Parses StringIntegerLiteral for BigInt conversion.
+     * <p>
+     * BigInt 변환용 StringIntegerLiteral 을 해석한다.
+     *
+     * @param text source text / 원문
+     * @return the integer / 정수
+     */
+    private static BigInteger parseBigInt(String text) {
+        String s = text.trim();
+        if (s.length() == 0) {
+            return BigInteger.ZERO;
+        }
+        int sign = 1;
+        int start = 0;
+        char first = s.charAt(0);
+        if (first == '+' || first == '-') {
+            sign = first == '-' ? -1 : 1;
+            start = 1;
+        }
+        if (start >= s.length()) {
+            throw JsException.syntaxError("Cannot convert " + text + " to a BigInt");
+        }
+        int radix = 10;
+        int digits = start;
+        if (s.length() - start >= 2 && s.charAt(start) == '0') {
+            char p = s.charAt(start + 1);
+            if (p == 'x' || p == 'X') {
+                radix = 16;
+                digits += 2;
+            } else if (p == 'o' || p == 'O') {
+                radix = 8;
+                digits += 2;
+            } else if (p == 'b' || p == 'B') {
+                radix = 2;
+                digits += 2;
+            }
+        }
+        if (digits >= s.length()) {
+            throw JsException.syntaxError("Cannot convert " + text + " to a BigInt");
+        }
+        // 모든 글자가 고른 진법의 숫자인지 확인한다.
+        for (int i = digits; i < s.length(); i++) {
+            int d = Character.digit(s.charAt(i), radix);
+            if (d < 0) {
+                throw JsException.syntaxError("Cannot convert " + text + " to a BigInt");
+            }
+        }
+        try {
+            BigInteger n = new BigInteger(s.substring(digits), radix);
+            return sign < 0 ? n.negate() : n;
+        } catch (NumberFormatException e) {
+            throw JsException.syntaxError("Cannot convert " + text + " to a BigInt");
+        }
     }
 
     /**
@@ -284,6 +403,9 @@ public final class Ops {
         if (v instanceof JsNumber) {
             return NumberText.toString(((JsNumber) v).getValue());
         }
+        if (v instanceof JsBigInt) {
+            return ((JsBigInt) v).getValue().toString();
+        }
         if (v instanceof JsBoolean) {
             return ((JsBoolean) v).getValue() ? "true" : "false";
         }
@@ -368,6 +490,9 @@ public final class Ops {
         if (v instanceof JsNumber) {
             return new JsPrimitiveObject(realm.getNumberPrototype(), v, "Number");
         }
+        if (v instanceof JsBigInt) {
+            return new JsPrimitiveObject(realm.getBigIntPrototype(), v, "BigInt");
+        }
         if (v instanceof JsBoolean) {
             return new JsPrimitiveObject(realm.getBooleanPrototype(), v, "Boolean");
         }
@@ -411,6 +536,9 @@ public final class Ops {
         if (a instanceof JsNumber && b instanceof JsNumber) {
             return ((JsNumber) a).getValue() == ((JsNumber) b).getValue();
         }
+        if (a instanceof JsBigInt && b instanceof JsBigInt) {
+            return ((JsBigInt) a).getValue().equals(((JsBigInt) b).getValue());
+        }
         if (a instanceof JsString && b instanceof JsString) {
             return ((JsString) a).getValue().equals(((JsString) b).getValue());
         }
@@ -440,19 +568,66 @@ public final class Ops {
         if (a instanceof JsString && b instanceof JsNumber) {
             return toNumber(a) == ((JsNumber) b).getValue();
         }
+        if (a instanceof JsBigInt && b instanceof JsString) {
+            return bigIntStringEquals(((JsBigInt) a).getValue(), ((JsString) b).getValue());
+        }
+        if (a instanceof JsString && b instanceof JsBigInt) {
+            return bigIntStringEquals(((JsBigInt) b).getValue(), ((JsString) a).getValue());
+        }
+        if (a instanceof JsBigInt && b instanceof JsNumber) {
+            return bigIntNumberEquals(((JsBigInt) a).getValue(), ((JsNumber) b).getValue());
+        }
+        if (a instanceof JsNumber && b instanceof JsBigInt) {
+            return bigIntNumberEquals(((JsBigInt) b).getValue(), ((JsNumber) a).getValue());
+        }
+        if (a instanceof JsBigInt && b instanceof JsBoolean) {
+            return ((JsBigInt) a).getValue().equals(((JsBoolean) b).getValue() ? BigInteger.ONE : BigInteger.ZERO);
+        }
+        if (a instanceof JsBoolean && b instanceof JsBigInt) {
+            return ((JsBigInt) b).getValue().equals(((JsBoolean) a).getValue() ? BigInteger.ONE : BigInteger.ZERO);
+        }
         if (a instanceof JsBoolean) {
             return looseEquals(JsNumber.of(toNumber(a)), b);
         }
         if (b instanceof JsBoolean) {
             return looseEquals(a, JsNumber.of(toNumber(b)));
         }
-        if ((a instanceof JsString || a instanceof JsNumber || a instanceof JsSymbol) && b instanceof JsObject) {
+        if ((a instanceof JsString || a instanceof JsNumber || a instanceof JsBigInt || a instanceof JsSymbol) && b instanceof JsObject) {
             return looseEquals(a, toPrimitive(b, HINT_DEFAULT));
         }
-        if (a instanceof JsObject && (b instanceof JsString || b instanceof JsNumber || b instanceof JsSymbol)) {
+        if (a instanceof JsObject && (b instanceof JsString || b instanceof JsNumber || b instanceof JsBigInt || b instanceof JsSymbol)) {
             return looseEquals(toPrimitive(a, HINT_DEFAULT), b);
         }
         return false;
+    }
+
+    /**
+     * Compares a BigInt with a JavaScript string without throwing on invalid StringIntegerLiteral text.
+     * <p>
+     * 잘못된 StringIntegerLiteral 에 오류를 던지지 않고 BigInt 와 문자열을 비교한다.
+     */
+    private static boolean bigIntStringEquals(BigInteger integer, String text) {
+        try {
+            return integer.equals(parseBigInt(text));
+        } catch (JsException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Compares a BigInt and the exact mathematical value of a JavaScript Number.
+     * <p>
+     * BigInt 와 JavaScript Number 의 정확한 수학적 값을 비교한다.
+     */
+    private static boolean bigIntNumberEquals(BigInteger integer, double number) {
+        if (number != number || Double.isInfinite(number)) {
+            return false;
+        }
+        try {
+            return integer.equals(new BigDecimal(number).toBigIntegerExact());
+        } catch (ArithmeticException e) {
+            return false;
+        }
     }
 
     /**
@@ -521,6 +696,35 @@ public final class Ops {
         if (px instanceof JsString && py instanceof JsString) {
             return ((JsString) px).getValue().compareTo(((JsString) py).getValue()) < 0 ? 1 : 0;
         }
+        if (px instanceof JsBigInt || py instanceof JsBigInt) {
+            if (px instanceof JsBigInt && py instanceof JsBigInt) {
+                return ((JsBigInt) px).getValue().compareTo(((JsBigInt) py).getValue()) < 0 ? 1 : 0;
+            }
+            double nx = px instanceof JsBigInt ? 0 : toNumber(px);
+            double ny = py instanceof JsBigInt ? 0 : toNumber(py);
+            BigDecimal dx;
+            BigDecimal dy;
+            if (px instanceof JsBigInt) {
+                if (ny != ny) {
+                    return -1;
+                }
+                if (Double.isInfinite(ny)) {
+                    return ny > 0 ? 1 : 0;
+                }
+                dx = new BigDecimal(((JsBigInt) px).getValue());
+                dy = new BigDecimal(ny);
+            } else {
+                if (nx != nx) {
+                    return -1;
+                }
+                if (Double.isInfinite(nx)) {
+                    return nx < 0 ? 1 : 0;
+                }
+                dx = new BigDecimal(nx);
+                dy = new BigDecimal(((JsBigInt) py).getValue());
+            }
+            return dx.compareTo(dy) < 0 ? 1 : 0;
+        }
         double nx = toNumber(px);
         double ny = toNumber(py);
         if (nx != nx || ny != ny) {
@@ -542,10 +746,19 @@ public final class Ops {
         if (a instanceof JsNumber && b instanceof JsNumber) {
             return JsNumber.of(((JsNumber) a).getValue() + ((JsNumber) b).getValue());
         }
+        if (a instanceof JsBigInt && b instanceof JsBigInt) {
+            return JsBigInt.of(((JsBigInt) a).getValue().add(((JsBigInt) b).getValue()));
+        }
         JsValue pa = toPrimitive(a, HINT_DEFAULT);
         JsValue pb = toPrimitive(b, HINT_DEFAULT);
         if (pa instanceof JsString || pb instanceof JsString) {
             return JsString.of(toString(pa).concat(toString(pb)));
+        }
+        if (pa instanceof JsBigInt && pb instanceof JsBigInt) {
+            return JsBigInt.of(((JsBigInt) pa).getValue().add(((JsBigInt) pb).getValue()));
+        }
+        if (pa instanceof JsBigInt || pb instanceof JsBigInt) {
+            throw JsException.typeError("Cannot mix BigInt and other types, use explicit conversions");
         }
         return JsNumber.of(toNumber(pa) + toNumber(pb));
     }

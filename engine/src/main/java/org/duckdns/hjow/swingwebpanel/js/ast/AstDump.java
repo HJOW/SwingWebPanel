@@ -1,6 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.ast;
 
 import java.math.BigInteger;
+import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
 import org.duckdns.hjow.swingwebpanel.js.JsBoolean;
 import org.duckdns.hjow.swingwebpanel.js.JsNumber;
 import org.duckdns.hjow.swingwebpanel.js.JsString;
@@ -169,7 +170,7 @@ public final class AstDump {
             Object v = n.value;
             if (v instanceof JsString) {
                 sb.append('"').append(((JsString) v).getValue()).append('"');
-            } else if (v instanceof JsNumber || v instanceof JsBoolean || v instanceof BigInteger) {
+            } else if (v instanceof JsNumber || v instanceof JsBigInt || v instanceof JsBoolean || v instanceof BigInteger) {
                 sb.append(v.toString());
             } else {
                 sb.append("null");

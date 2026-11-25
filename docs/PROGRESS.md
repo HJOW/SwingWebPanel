@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-04-a BigInt 원시값·연산·내장 객체 (2026-11-25) ===
+현재 작업 번호: P28-04-a 완료.
+완료한 내용: JsBigInt/JsType.BIGINT, typeof, ToNumeric/ToBigInt, 산술·비트·시프트·비교·갱신 연산, BigInt 래퍼와 BigInt()/asIntN/asUintN/toString/valueOf를 구현했다.
+변경 파일: engine/src/main/java/.../js/JsBigInt·JsType·JsValue·Js·Ops·JsRealm, parser/ExpressionParser, ast/AstDump, interp/Expressions, corelib/BigIntLib·CoreLibInstaller, BigIntCoreTest와 PropertyAttributesTest, AGENTS.md/이 문서.
+검증 결과: 진행 중 작업의 집중 시험 BigIntCoreTest 4건, 핵심 속성 표 PropertyAttributesTest 4건, 기존 parser 40건 통과. 전체 엔진·최종 sourcecheck는 P28-04-d에서 다시 실행한다.
+미해결 사항: BigInt64Array/DataView(P28-04-b), JSON/구조화 복제/Java 변환(P28-04-c), 전체 문서·회귀(P28-04-d).
+다음 작업 번호: P28-04-b.
+-----------------------------------------------------------------------------------------------
 === P28-03 ES2016~ES2022 실행 의미 완료 (2026-11-25) ===
 현재 작업 번호: P28-03 완료(P28-03-a~f).
 완료한 내용: Number 지수·spread/rest·optional/nullish·논리 대입, class field/private/static block, async function/await, async generator/yield*/for-await, dynamic import/import.meta/top-level await, 페이지 dispose와 실행 제한에서의 재개 중단을 구현했다. BigInt 실행 의미는 P28-04로 분리했다.

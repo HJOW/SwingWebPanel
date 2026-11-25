@@ -683,6 +683,10 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   - `js.embed`/`javax.script`의 Java 값 변환(`java.math.BigInteger`).
 
   번들이 BigInt 리터럴 129곳, `asIntN`/`asUintN` 127곳, `get/setBigUint64` 28곳을 쓰므로 게임 구동에 필수이다. 게임 쪽에서 하위 판본으로 트랜스파일해도 BigInt는 없앨 수 없다. 구현: `js.*`, `js.builtins.*`, `js.embed`. 완료 조건: 연산, 변환, 타입 배열, DataView 시험이 통과한다.
+  - [x] P28-04-a. BigInt 원시값·연산·래퍼와 `BigInt` 내장 객체를 구현한다. 입력: 진법 변환, 산술/비트/시프트/비교/갱신 연산, Number 혼합, `asIntN/asUintN`, `new BigInt`, radix 문자열; 기대: ES2022 TypeError/RangeError/SyntaxError와 2의 보수 결과; 구현: `JsBigInt`, `Ops`, `Expressions`, `BigIntLib`; 완료 조건: BigInt 의미 시험과 전체 엔진 회귀 JRE 6 통과. 완료(2026-11-25): 원시 형식과 typeof, ToNumeric/ToBigInt, 산술·비트·정확한 Number 비교, 래퍼·toString/valueOf·asIntN/asUintN, 생성자 금지를 구현했고 `BigIntCoreTest` 4건과 핵심 속성 표 4건이 통과한다.
+  - [ ] P28-04-b. `BigInt64Array`/`BigUint64Array`와 DataView BigInt 접근자를 구현한다. 입력: 생성/복사/인덱스 읽기·쓰기, 엔디언, ToBigInt 변환, 다른 형식화 배열과 혼합, 정렬; 기대: 64비트 2의 보수와 Number/BigInt 변환 오류; 구현: `builtins.typed.*`; 완료 조건: typed-array/DataView 시험과 기존 9종 회귀 JRE 6 통과.
+  - [ ] P28-04-c. JSON, 구조화 복제와 Java 경계의 BigInt를 연결한다. 입력: BigInt JSON 오류, wrapper toJSON, structured clone, Java `BigInteger` 왕복과 Java Script API; 기대: 복사된 정확한 값, JSON TypeError, 임의 Java 객체 비노출; 구현: `JsonBuiltins`, `StructuredClone`, `embed.JavaValues`, `js.script`; 완료 조건: 관련 엔진/브라우저 시험 JRE 6 통과.
+  - [ ] P28-04-d. P28-04 전체를 대조·검증·문서화한다. 입력: a~c의 시험과 Netstorm 번들의 BigInt 사용; 기대: 기능 표의 `ESX-BIGINT` 검증 완료와 실행 제한/지원 차이 기록; 구현: `docs/*`; 완료 조건: 전체 엔진/브라우저 회귀, sourcecheck, 외부 번들 구문 검사와 P28-04 기록 통과.
 - [ ] P28-05. ES2016~ES2022 내장 객체를 추가한다. 대상은 다음과 같다.
   - `Object.entries/values/getOwnPropertyDescriptors/fromEntries/hasOwn`.
   - `Array.prototype.flat/flatMap/at`, `%TypedArray%.prototype.at`.

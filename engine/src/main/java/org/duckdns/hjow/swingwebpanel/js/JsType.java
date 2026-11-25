@@ -1,10 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.js;
 
 /**
- * The seven ECMAScript language types (ECMA-262 6th edition, clause 6.1).
+ * The eight ECMAScript language types (ECMA-262 13th edition, clause 6.1).
  * Use {@link JsValue#type()} to read the type of a value.
  * <p>
- * ECMAScript 언어의 일곱 가지 자료형(ECMA-262 6판 6.1절).
+ * ECMAScript 언어의 여덟 가지 자료형(ECMA-262 13판 6.1절).
  * 값의 형식은 {@link JsValue#type()} 으로 읽는다.
  */
 public enum JsType {
@@ -32,6 +32,12 @@ public enum JsType {
      * Number 형식(IEEE 754 배정밀도).
      */
     NUMBER,
+    /**
+     * The BigInt type (arbitrary precision integer).
+     * <p>
+     * BigInt 형식(임의 정밀도 정수).
+     */
+    BIGINT,
     /**
      * The String type (sequence of UTF-16 code units).
      * <p>

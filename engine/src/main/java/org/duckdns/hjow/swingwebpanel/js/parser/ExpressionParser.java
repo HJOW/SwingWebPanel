@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.duckdns.hjow.swingwebpanel.js.Js;
+import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
 import org.duckdns.hjow.swingwebpanel.js.JsBoolean;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsNumber;
@@ -1109,7 +1110,7 @@ abstract class ExpressionParser extends ParserBase {
         case BIGINT: {
             next();
             Node n = mk(NodeType.LITERAL, t);
-            n.value = t.bigInteger;
+            n.value = JsBigInt.of(t.bigInteger);
             return done(n);
         }
         case STRING: {
