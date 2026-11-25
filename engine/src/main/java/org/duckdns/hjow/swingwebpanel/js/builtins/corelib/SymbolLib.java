@@ -69,6 +69,7 @@ final class SymbolLib {
         defineWellKnown(ctor, "hasInstance", WellKnownSymbols.HAS_INSTANCE);
         defineWellKnown(ctor, "isConcatSpreadable", WellKnownSymbols.IS_CONCAT_SPREADABLE);
         defineWellKnown(ctor, "iterator", WellKnownSymbols.ITERATOR);
+        defineWellKnown(ctor, "asyncIterator", WellKnownSymbols.ASYNC_ITERATOR);
         defineWellKnown(ctor, "match", WellKnownSymbols.MATCH);
         defineWellKnown(ctor, "replace", WellKnownSymbols.REPLACE);
         defineWellKnown(ctor, "search", WellKnownSymbols.SEARCH);

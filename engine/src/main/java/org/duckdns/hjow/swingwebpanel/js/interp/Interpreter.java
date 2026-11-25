@@ -438,6 +438,9 @@ public final class Interpreter {
                 if (cur.info.async && !cur.info.generator) {
                     return AsyncFunction.start(this, cur, ctx);
                 }
+                if (cur.info.async && cur.info.generator) {
+                    return AsyncGeneratorObject.create(this, cur, ctx);
+                }
                 if (cur.info.generator) {
                     return GeneratorObject.create(this, cur, ctx);
                 }

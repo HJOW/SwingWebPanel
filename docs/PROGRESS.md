@@ -11,13 +11,13 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
-=== P28-03-c async 함수와 await (2026-11-25) ===
-현재 작업 번호: P28-03-c 완료.
-완료한 내용: async 함수·화살표·메서드가 즉시 Promise 를 반환하면서 첫 await 까지는 동기로 실행하고, 이후 Promise 작업 큐에서 GenState를 재사용해 재개하도록 구현했다. await는 fulfillment/throw를 Resume 방식으로 처리하며 thenable·finally·중첩 거부·async 생성자 금지를 검증했다. 모듈 최상위 await는 비동기 ModuleRecord와 함께 P28-03-e에서 연결한다.
-변경 파일: AGENTS.md(P28-03-c 완료), parser/ExpressionParser.java, interp/{AsyncFunction,AwaitSignal,GenState,Expressions,Interpreter,ScriptFunction}.java, builtins/meta/PromiseInterop.java, ModernAsyncTest.java, 이 문서.
-검증 결과: `engine\test.bat --filter ModernAsyncTest` JDK 6u45 5 passed/0 failed/0 skipped.
-미해결 사항: async generator/for-await(P28-03-d), dynamic import/TLA(P28-03-e), 수명 통합(P28-03-f), BigInt(P28-04).
-다음 작업 번호: P28-03-d.
+=== P28-03-d async generator와 for-await (2026-11-25) ===
+현재 작업 번호: P28-03-d 완료.
+완료한 내용: async generator의 next/return/throw 요청을 Promise capability 큐로 직렬화하고, yield 값의 Promise 해결과 await/throw/return 재개를 연결했다. Symbol.asyncIterator, AsyncFromSyncIterator 래퍼, async/sync iterable의 for-await와 break/throw 시 async iterator close를 구현했다.
+변경 파일: AGENTS.md(P28-03-d 완료), interp/{AsyncGeneratorObject,Statements,Interpreter,AsyncIteratorHelper,Parser}.java, WellKnownSymbols, SymbolLib, IteratorBuiltins, ModernAsyncIteratorTest.java, 이 문서.
+검증 결과: `engine\test.bat --filter ModernAsyncIteratorTest` JDK 6u45 4 passed/0 failed/0 skipped.
+미해결 사항: dynamic import/TLA(P28-03-e), 수명 통합(P28-03-f), BigInt(P28-04).
+다음 작업 번호: P28-03-e.
 -----------------------------------------------------------------------------------------------
 === P28-02 ES2016~ES2022 파서 완료 (2026-11-25) ===
 현재 작업 번호: P28-02 완료(P28-02-a~f).

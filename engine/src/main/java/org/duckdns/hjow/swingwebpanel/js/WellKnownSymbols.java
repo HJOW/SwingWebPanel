@@ -29,6 +29,13 @@ public final class WellKnownSymbols {
     public static final JsSymbol ITERATOR = new JsSymbol("Symbol.iterator");
 
     /**
+     * The well-known symbol Symbol.asyncIterator.
+     * <p>
+     * 잘 알려진 심볼 Symbol.asyncIterator.
+     */
+    public static final JsSymbol ASYNC_ITERATOR = new JsSymbol("Symbol.asyncIterator");
+
+    /**
      * The well-known symbol Symbol.match.
      * <p>
      * 잘 알려진 심볼 Symbol.match 를 나타낸다.

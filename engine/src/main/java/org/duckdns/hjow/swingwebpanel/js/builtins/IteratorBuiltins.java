@@ -15,6 +15,7 @@ import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.PropertyKeys;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
 import org.duckdns.hjow.swingwebpanel.js.interp.GeneratorObject;
+import org.duckdns.hjow.swingwebpanel.js.interp.AsyncGeneratorObject;
 
 /**
  * The iterator related intrinsics: the array iterator (%ArrayIteratorPrototype%), and the generator machinery
@@ -154,6 +155,7 @@ public final class IteratorBuiltins implements BuiltinInstaller {
         arrayIterProto.defineData(WellKnownSymbols.TO_STRING_TAG, JsString.of("Array Iterator"), false, false, true);
 
         installGenerators(realm);
+        installAsyncGenerators(realm);
     }
 
     /**
@@ -200,6 +202,53 @@ public final class IteratorBuiltins implements BuiltinInstaller {
         realm.setIntrinsic("%GeneratorFunction%", genFnCtor);
         realm.setIntrinsic("%GeneratorFunction.prototype%", genFnProto);
         realm.setIntrinsic("%GeneratorPrototype%", genProto);
+    }
+
+    /**
+     * Installs the shared async-generator prototype and its Promise request methods.
+     * <p>
+     * 공유 async-generator 프로토타입과 Promise 요청 메서드를 설치한다.
+     *
+     * @param realm realm / realm
+     */
+    private void installAsyncGenerators(JsRealm realm) {
+        JsObject proto = new JsObject(realm.getIteratorPrototype());
+        proto.defineData(WellKnownSymbols.TO_STRING_TAG, JsString.of("AsyncGenerator"), false, false, true);
+        realm.method(proto, "next", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return asyncGenerator(thisValue, "next").request(AsyncGeneratorObject.NEXT, Js.arg(args, 0));
+            }
+        });
+        realm.method(proto, "return", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return asyncGenerator(thisValue, "return").request(AsyncGeneratorObject.RETURN, Js.arg(args, 0));
+            }
+        });
+        realm.method(proto, "throw", 1, new NativeFunction.Call() {
+            public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                return asyncGenerator(thisValue, "throw").request(AsyncGeneratorObject.THROW, Js.arg(args, 0));
+            }
+        });
+        proto.defineData(WellKnownSymbols.ASYNC_ITERATOR, new NativeFunction(realm, "[Symbol.asyncIterator]", 0,
+                new NativeFunction.Call() {
+                    public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
+                        asyncGenerator(thisValue, "Symbol.asyncIterator");
+                        return thisValue;
+                    }
+                }), false, false, true);
+        realm.setIntrinsic("%AsyncGeneratorPrototype%", proto);
+    }
+
+    /**
+     * Validates an async-generator receiver.
+     * <p>
+     * async-generator 수신자를 검사한다.
+     */
+    private static AsyncGeneratorObject asyncGenerator(JsValue value, String method) {
+        if (!(value instanceof AsyncGeneratorObject)) {
+            throw JsException.typeError(method + " method called on incompatible receiver " + JsException.describe(value));
+        }
+        return (AsyncGeneratorObject) value;
     }
 
     /**

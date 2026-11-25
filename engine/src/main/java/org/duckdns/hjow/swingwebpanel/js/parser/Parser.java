@@ -777,6 +777,7 @@ public final class Parser extends ExpressionParser {
             next();
             Node n = mk(isOf ? NodeType.FOR_OF : NodeType.FOR_IN, t);
             n.flag = forAwait;
+            n.hasYield = forAwait || n.hasYield;
             n.a = left;
             n.b = isOf ? parseAssignment(false) : parseExpression(false);
             expectP(")");

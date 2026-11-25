@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.js.interp;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.duckdns.hjow.swingwebpanel.js.AsyncIteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.IteratorHelper;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -217,7 +218,9 @@ final class Statements {
             // 반복자 정리가 필요하므로 이 반복문 안의 호출은 꼬리 호출이 아니다.
             ctx.noTail++;
             try {
-                return execForInOf(n, env, ctx, st, labels);
+                return n.type == NodeType.FOR_OF && n.flag
+                        ? execForAwait(n, env, ctx, st, labels)
+                        : execForInOf(n, env, ctx, st, labels);
             } finally {
                 ctx.noTail--;
             }
@@ -719,6 +722,7 @@ final class Statements {
                 iterEnv = (Environment) st.o2;
             }
         }
+
         // 값을 하나 꺼내 바인딩하고(1) 본문을 실행하는(2) 과정을 반복한다.
         while (true) {
             in.limits.tick();
@@ -797,6 +801,159 @@ final class Statements {
                 return act == 1 ? Completion.normal(v) : Completion.updateEmpty(c, v);
             }
         }
+    }
+
+    /**
+     * Saved state of one for-await-of loop.
+     * <p>
+     * for-await-of 반복 하나의 저장 상태.
+     */
+    private static final class ForAwaitState {
+        /** Base environment. / 기준 환경. */
+        Environment base;
+        /** Async iterator. / 비동기 이터레이터. */
+        JsObject iterator;
+        /** Current iteration environment. / 현재 반복 환경. */
+        Environment iteration;
+        /** Value used by the next async step. / 다음 비동기 단계가 쓸 값. */
+        JsValue awaitedValue;
+        /** True while an async step is suspended. / 비동기 단계가 중단됐으면 true. */
+        boolean awaiting;
+        /** Completion accumulated through the loop. / 반복에서 누적한 완료. */
+        JsValue completion = Js.UNDEFINED;
+        /** Pending completion after iterator close. / 이터레이터 close 뒤 보류 완료. */
+        Completion pending;
+        /** Pending abrupt JavaScript completion. / 보류 중인 비정상 JavaScript 완료. */
+        RuntimeException pendingThrow;
+    }
+
+    /**
+     * Executes a for-await-of statement by awaiting each iterator.next/return result.
+     * <p>
+     * 각 iterator.next/return 결과를 await 하며 for-await-of 문을 실행한다.
+     */
+    private Completion execForAwait(Node n, Environment env, Ctx ctx, NodeState st, List<String> labels) {
+        ForAwaitState state;
+        if (st.o1 instanceof ForAwaitState) {
+            state = (ForAwaitState) st.o1;
+        } else {
+            Environment headEnv = env;
+            if (n.scope != null) {
+                headEnv = new Environment(env);
+                in.declareLexicals(n.scope, headEnv);
+            }
+            state = new ForAwaitState();
+            state.base = env;
+            state.iterator = AsyncIteratorHelper.getAsyncIterator(realm, in.ex.eval(n.b, headEnv, ctx));
+            st.o1 = state;
+            st.phase = 1;
+        }
+        // 이터레이터 단계, 본문, close 단계를 await 중단과 함께 순서대로 진행한다.
+        while (true) {
+            in.limits.tick();
+            if (st.phase == 1) {
+                if (!state.awaiting) {
+                    state.awaitedValue = AsyncIteratorHelper.next(state.iterator);
+                }
+                JsValue nextValue = awaitForLoop(state, ctx);
+                if (!(nextValue instanceof JsObject)) {
+                    throw JsException.typeError("Async iterator result " + JsException.describe(nextValue) + " is not an object");
+                }
+                JsObject result = (JsObject) nextValue;
+                if (IteratorHelper.isDone(result)) {
+                    return Completion.normal(state.completion);
+                }
+                state.iteration = env;
+                if (n.scope != null) {
+                    state.iteration = new Environment(env);
+                    in.declareLexicals(n.scope, state.iteration);
+                }
+                try {
+                    bindLoopVariable(n.a, IteratorHelper.value(result), state.iteration, ctx);
+                } catch (RuntimeException e) {
+                    return beginAsyncClose(state, n, st, ctx, labels, null, e);
+                }
+                st.phase = 2;
+            }
+            if (st.phase == 2) {
+                Completion c;
+                try {
+                    c = exec(n.d, state.iteration, ctx);
+                } catch (JsException e) {
+                    return beginAsyncClose(state, n, st, ctx, labels, null, e);
+                } catch (GeneratorReturn e) {
+                    return beginAsyncClose(state, n, st, ctx, labels, null, e);
+                }
+                if (c.value != null) {
+                    state.completion = c.value;
+                }
+                int act = bodyAction(c, labels);
+                if (act != 0) {
+                    Completion done = act == 1 ? Completion.normal(state.completion) : Completion.updateEmpty(c, state.completion);
+                    return beginAsyncClose(state, n, st, ctx, labels, done, null);
+                }
+                st.phase = 1;
+            }
+            if (st.phase == 3) {
+                JsValue closed;
+                try {
+                    closed = awaitForLoop(state, ctx);
+                } catch (RuntimeException e) {
+                    if (state.pendingThrow != null) {
+                        throw state.pendingThrow;
+                    }
+                    throw e;
+                }
+                if (closed != null && !(closed instanceof JsObject)) {
+                    throw JsException.typeError("Async iterator return() result is not an object");
+                }
+                if (state.pendingThrow != null) {
+                    throw state.pendingThrow;
+                }
+                return state.pending;
+            }
+        }
+    }
+
+    /**
+     * Starts asynchronous iterator close after an abrupt loop body completion.
+     * <p>
+     * 반복 본문의 비정상 완료 뒤 비동기 이터레이터 close 를 시작한다.
+     */
+    private Completion beginAsyncClose(ForAwaitState state, Node loop, NodeState st, Ctx ctx, List<String> labels,
+            Completion pending, RuntimeException abrupt) {
+        state.pending = pending;
+        state.pendingThrow = abrupt;
+        JsValue close = AsyncIteratorHelper.close(state.iterator);
+        if (close == null) {
+            if (abrupt != null) {
+                throw abrupt;
+            }
+            return pending;
+        }
+        state.awaitedValue = close;
+        state.awaiting = false;
+        st.phase = 3;
+        return execForAwait(loop, state.base, ctx, st, labels);
+    }
+
+    /**
+     * Suspends or resumes one Promise result within for-await.
+     * <p>
+     * for-await 안의 Promise 결과 하나를 중단하거나 재개한다.
+     */
+    private JsValue awaitForLoop(ForAwaitState state, Ctx ctx) {
+        if (!state.awaiting) {
+            state.awaiting = true;
+            ctx.gen.suspending = true;
+            ctx.gen.awaited = state.awaitedValue;
+            throw AwaitSignal.INSTANCE;
+        }
+        state.awaiting = false;
+        if (ctx.gen.resumeMode == GenState.THROW) {
+            throw new JsException(ctx.gen.resumeValue);
+        }
+        return ctx.gen.resumeValue;
     }
 
     /**
