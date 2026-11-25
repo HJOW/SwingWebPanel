@@ -30,6 +30,24 @@ public class DynamicCodeTest {
     }
 
     /**
+     * Checks hashbang at the start of Script and Module and in the distinct goals used by eval and Function.
+     * <p>
+     * Script·Module 시작과 eval·Function이 사용하는 파싱 목표의 해시뱅 규칙을 확인한다.
+     */
+    public void testHashbangEvaluation() {
+        Check.equal("42", Scripts.eval("#!/example\n  42"), "classic script");
+        JsRealm realm = Scripts.realm(new Scripts.Capture());
+        Check.equal("42", Ops.toString(realm.evaluateModule("hashbang.mjs", "#!/example\nexport const value = 42;").get("value")),
+                "source text module");
+        Check.equal("42,43", Scripts.eval("var x=2; eval('#!\\nx+40')+','+(0,eval)('#!\\nx+41')"), "both eval forms parse a Script");
+        Check.equal("SyntaxError,SyntaxError,SyntaxError,SyntaxError", Scripts.eval(
+                "function name(f){try{f();return 'ok';}catch(e){return e.name;}}"
+                + "[name(()=>eval(' #!\\n1')),name(()=>eval('function f(){\\n#!\\n}')),"
+                + "name(()=>new Function('#!\\nreturn 1')),name(()=>new Function('#!\\nx','return x'))].join()"),
+                "hashbang cannot start a function parameter or body");
+    }
+
+    /**
      * Dynamic code uses the same limits as normal code: an endless loop created by eval or Function is aborted.
      * <p>
      * 동적 코드도 일반 코드와 같은 제한을 쓴다: eval 이나 Function 으로 만든 무한 루프는 중단된다.

@@ -427,7 +427,7 @@ P29-02에서 `ESX-SYNTAX-2018`, `ESX-SEMANTICS-2019`, `ESX-GLOBALTHIS`를 검증
 
 | 기능 ID | 도입 판본(제17판 절) | 요구사항 | 구현 클래스(계획) | 검증 사례(계획) | 지원 상태 | 제약 / 비고 |
 | --- | --- | --- | --- | --- | --- | --- |
-| ES26-HASHBANG | ES2023 (§12.5) | Script·Module 시작 오프셋 0의 `#!...` Hashbang 주석 허용과 위치별 조기 오류 | `js.parser.Lexer` | `Es2026SyntaxModuleTest` (P29-03) | 미구현 | P29-01 실측: 현재 오프셋 0의 `#!`를 private 식별자로 읽어 `SyntaxError` |
+| ES26-HASHBANG | ES2023 (§12.5) | Script·Module 시작 오프셋 0의 `#!...` Hashbang 주석 허용과 위치별 조기 오류 | `js.parser.Lexer` | `LexerTest`, `DynamicCodeTest` (P29-03-a) | 검증 완료 | CRLF 및 토큰 위치, eval, 공백·BOM 및 Function 생성자 소스를 JRE 6에서 검증 |
 | ES26-ARR-FINDLAST | ES2023 (§23.1.3.13~14, §23.2.3.13~14) | `Array.prototype.findLast/findLastIndex`, `%TypedArray%.prototype.findLast/findLastIndex`, `@@unscopables` | `js.builtins.stringarray.ArrayMethods`, `typed.TypedArrayMethods` | `Es2026ArrayTest` (P29-04) | 미구현 | |
 | ES26-ARR-COPY | ES2023 (§23.1.3.34~36·39, §23.2.3.34~35·37) | 복사 기반 변경: `Array.prototype.toReversed/toSorted/toSpliced/with`, `%TypedArray%.prototype.toReversed/toSorted/with`(`TypedArrayCreateSameType`) | `js.builtins.stringarray.ArrayMethods`, `typed.TypedArrayMethods` | `Es2026ArrayTest` (P29-04) | 미구현 | 희소 배열 빈 슬롯은 `undefined`로 채움, species 미사용 |
 | ES26-WEAK-SYM | ES2023 (§9.13, §20.4.5.1, §24.3~4, §26.1~2) | `CanBeHeldWeakly`: 비등록 Symbol(`KeyForSymbol === undefined`, well-known symbol 포함)을 `WeakMap`/`WeakSet`/`WeakRef`/`FinalizationRegistry` 대상·해제 토큰으로 허용 | `js.Ops`, `datajson.CollectionBuiltins`, `meta.WeakReferenceBuiltins` | `Es2026WeakSymbolTest` (P29-06) | 미구현 | `Symbol.for` 등록 심볼은 `TypeError` |

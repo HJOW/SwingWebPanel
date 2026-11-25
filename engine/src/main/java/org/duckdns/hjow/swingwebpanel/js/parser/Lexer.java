@@ -282,6 +282,9 @@ public final class Lexer {
                 newline = true;
             } else if (c == ' ' || c == '\t' || (c > 0x7F ? JsChars.isWhiteSpace(c) : (c == 0x0B || c == 0x0C))) {
                 pos++;
+            } else if (pos == 0 && c == '#' && src.startsWith("#!")) {
+                // Script 또는 Module 소스의 첫 위치에서만 해시뱅을 주석으로 읽는다.
+                skipLineComment();
             } else if (c == '/' && pos + 1 < len && src.charAt(pos + 1) == '/') {
                 skipLineComment();
             } else if (c == '/' && pos + 1 < len && src.charAt(pos + 1) == '*') {

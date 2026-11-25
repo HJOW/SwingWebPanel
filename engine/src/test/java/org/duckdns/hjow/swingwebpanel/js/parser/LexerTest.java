@@ -26,6 +26,26 @@ public class LexerTest {
     }
 
     /**
+     * Checks hashbang position, line terminators and the source position of the following token.
+     * <p>
+     * 해시뱅 위치, 줄 끝, 다음 토큰의 소스 위치를 확인한다.
+     */
+    public void testHashbang() {
+        Check.equal(0, lex("#!").size(), "empty comment at end of input");
+        Check.equal(0, lex("#!/example #! as part of the comment").size(), "comment reaches end of input");
+        Token token = lex("#!/example\r\n  1").get(0);
+        Check.equal(2, token.line, "CRLF counts once");
+        Check.equal(3, token.column, "column starts after CRLF");
+        Check.isTrue(token.newlineBefore, "terminator after the comment");
+        Check.equal("2", lex("#!/example" + (char) 0x2028 + "2").get(0).raw, "Unicode line separator ends the comment");
+        Check.equal(TokenType.PRIVATE_NAME, lex("#name").get(0).type, "private names still use the same prefix");
+        fails(" #!\n1");
+        fails((char) 0xFEFF + "#!\n1");
+        fails("\n#!\n1");
+        fails("// comment\n#!\n1");
+    }
+
+    /**
      * Lexes a whole source text (slashes stay punctuators).
      * <p>
      * 소스 텍스트 전체를 토큰으로 나눈다(슬래시는 구두점으로 남는다).
