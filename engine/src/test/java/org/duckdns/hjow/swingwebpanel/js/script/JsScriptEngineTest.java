@@ -15,10 +15,13 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 import javax.script.SimpleScriptContext;
+import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
+import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException;
 import org.duckdns.hjow.swingwebpanel.js.embed.JsCallable;
 import org.duckdns.hjow.swingwebpanel.js.embed.JsEngine;
 import org.duckdns.hjow.swingwebpanel.js.embed.JsHostFunction;
+import org.duckdns.hjow.swingwebpanel.js.embed.JsObjectHandle;
 import org.duckdns.hjow.swingwebpanel.js.embed.JsScriptError;
 import org.duckdns.hjow.swingwebpanel.testing.Block;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
@@ -54,6 +57,103 @@ public class JsScriptEngineTest {
         ScriptEngine e = new ScriptEngineManager().getEngineByName("swingwebpanel-js");
         Check.isTrue(e instanceof JsScriptEngine, "the engine of this project: " + (e == null ? null : e.getClass().getName()));
         return e;
+    }
+
+    /**
+     * Exercises modern binary handles and thrown values through the standard scripting interface.
+     * <p>
+     * 표준 스크립팅 인터페이스에서 최신 이진 핸들과 던진 값을 확인한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testModernBinaryAndErrorValues() throws Exception {
+        final ScriptEngine engine = newEngine();
+        JsObjectHandle view = (JsObjectHandle) ((Compilable) engine)
+                .compile("var buf=new ArrayBuffer(2,{maxByteLength:6});var view=new Float16Array(buf);view[0]=1.5;view")
+                .eval();
+        Check.equal(Double.valueOf(1.5), view.get("0"), "a compiled script returns the live Float16Array");
+        engine.eval("buf.resize(4);view[1]=2.5;");
+        Check.equal(Double.valueOf(2), view.get("length"), "the returned view tracks growth");
+        Check.equal(Double.valueOf(2.5), view.get("1"), "new storage is visible through the same handle");
+        ScriptException failure = (ScriptException) Check.throwsException(ScriptException.class, new Block() {
+            /**
+             * Throws an aggregate with shared cause and list entry.
+             * <p>
+             * 원인과 목록 항목을 공유하는 오류를 던진다.
+             *
+             * @throws Exception the translated script error / 변환된 스크립트 오류
+             */
+            public void run() throws Exception {
+                engine.eval("var inner=new TypeError('inner');throw new AggregateError([inner],'outer',{cause:inner});");
+            }
+        }, "aggregate reaches the JSR 223 caller");
+        JsScriptError error = (JsScriptError) failure.getCause();
+        Check.equal("AggregateError", error.getErrorName(), "the Java exception describes the aggregate");
+        JsObjectHandle thrown = (JsObjectHandle) error.getThrownValue();
+        Check.equal(thrown.get("cause"), ((List<?>) thrown.get("errors")).get(0), "the original JavaScript error identity is retained");
+        engine.put("caught", thrown);
+        Check.equal(Boolean.TRUE, engine.eval("Error.isError(caught)&&caught.cause===inner"), "the thrown object can return to its scope");
+    }
+
+    /**
+     * Uses the host-provided type-aware loader through a compiled JSR 223 script and the independent module API.
+     * <p>
+     * JSR 223 컴파일 스크립트와 독립 모듈 API에서 호스트의 속성 지원 로더를 사용한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testModernJsonLoader() throws Exception {
+        JsScriptEngine engine = (JsScriptEngine) newEngine();
+        final JsEngine runtime = engine.getJsEngine();
+        runtime.setModuleLoader(new ModuleLoader.WithAttributes() {
+            /**
+             * Resolves the in-memory JSON request and checks the calling script's name.
+             * <p>
+             * 메모리상의 JSON 요청을 해석하고 호출한 스크립트의 이름을 확인한다.
+             *
+             * @param specifier the import specifier / import 지정자
+             * @param referrer the active script name / 활성 스크립트 이름
+             * @return the resolved module key / 해석된 모듈 키
+             */
+            public String resolve(String specifier, String referrer) {
+                Check.equal("./data.json", specifier, "the specifier reaches the host");
+                Check.isTrue("embed/entry.js".equals(referrer) || "embed/check.js".equals(referrer), "the script name reaches the host");
+                return "embed/data.json";
+            }
+
+            /**
+             * Refuses the legacy hook for the typed import.
+             * <p>
+             * 타입을 지정한 import가 이전 메서드를 사용하면 실패한다.
+             *
+             * @param key the resolved key / 해석된 키
+             * @return never / 반환하지 않음
+             */
+            public String fetch(String key) {
+                throw new AssertionError("typed imports use ModuleRequest");
+            }
+
+            /**
+             * Returns JSON with its own data property named __proto__.
+             * <p>
+             * 자체 데이터 프로퍼티 __proto__를 가진 JSON을 반환한다.
+             *
+             * @param request the resolved import request / 해석된 import 요청
+             * @return the JSON text / JSON 원문
+             */
+            public String fetch(ModuleRequest request) {
+                Check.equal("embed/data.json", request.getSpecifier(), "the host sees the resolved key");
+                Check.isTrue(request.isJson(), "the host sees the JSON attribute");
+                return "{\"items\":[1,2],\"__proto__\":\"payload\"}";
+            }
+        });
+        engine.put(ScriptEngine.FILENAME, "embed/entry.js");
+        engine.compile("var result;import('./data.json',{with:{type:'json'}}).then(ns=>{result=ns.default;});").eval();
+        Map<?, ?> result = (Map<?, ?>) engine.get("result");
+        Check.equal("payload", result.get("__proto__"), "the script receives JSON data rather than JavaScript source");
+        JsObjectHandle namespace = runtime.evalModule("embed/check.js",
+                "import data from './data.json' with {type:'json'};export {data};");
+        Check.equal(result, namespace.get("data"), "the static import reuses the dynamic import's JSON value");
     }
 
     /**

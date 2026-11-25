@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P29-10-b3 독립 엔진과 JSR 223 경계 (2026-11-26) ===
+현재 작업 번호: P29-10-b3, P29-10-b 완료.
+완료한 내용: Java 진입점에서 Float16Array·가변 및 공유 버퍼, 오류 핸들, import attributes JSON 로더를 검증했다. 분리 후 복사와 공유 저장소 스냅숏 및 JSR 223 예외의 원본 객체를 확인했다.
+변경 파일: JsEngineValuesTest.java, JsScriptEngineTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, README.md, 이 문서.
+검증 결과: mvn -B -o -pl engine test에서 JDK 6u45 엔진 884건 통과(엔진 분리 4건 포함). 별도 JDK 6u45 TestRunner에서 ModuleScriptTest 8건, WorkerMessagingTest 8건, AudioWorkletModulesTest 10건 통과. sourcecheck 0 위반.
+미해결 사항: 렐름(P29-10-c1~c3), Unicode·최종 회귀.
+다음 작업 번호: P29-10-c1.
+-----------------------------------------------------------------------------------------------
 === P29-10-b2 오류 객체의 구조화 복제 (2026-11-26) ===
 현재 작업 번호: P29-10-b2 완료.
 완료한 내용: Error.cause와 AggregateError.errors의 자체 데이터 값, 공유·순환 참조와 수신 렐름의 오류 프로토타입을 보존한다.
@@ -1090,6 +1098,11 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-26 · P29-10-b3 독립 엔진 및 표준 Java 스크립팅 경계
+
+- JDK 6u45에서 Java 배열 입력, 버퍼 크기 변경·분리, 공유 버퍼의 직접 바이트 접근 제한과 독립 스냅숏을 확인했다. `ScriptEngineManager`로 얻은 JSR 223 엔진에서 컴파일 스크립트의 형식화 배열 핸들과 오류의 `cause`·`errors` 정체성을 확인했다.
+- ECMAScript 제17판 §16.2의 타입 지정 JSON 모듈을 `ModuleLoader.WithAttributes`로 연결해 JSR 223의 동적 import와 독립 엔진의 정적 import가 같은 값을 쓰는지 확인했다. 창·Worker·AudioWorklet 관련 스위트와 모듈 경계·상수 풀 검사도 통과했다.
 
 ### 2026-11-26 · P29-10-b2 오류 원인과 집계 목록의 구조화 복제
 

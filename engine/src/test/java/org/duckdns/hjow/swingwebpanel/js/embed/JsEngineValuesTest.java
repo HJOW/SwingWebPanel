@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrays;
 import org.duckdns.hjow.swingwebpanel.testing.Block;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
@@ -20,6 +21,50 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
  * 절대 넘으면 안 되는 것.
  */
 public class JsEngineValuesTest {
+
+    /**
+     * Retains the backing store behind Java handles, while byte snapshots and Java arrays remain independent.
+     * <p>
+     * Java 핸들에 저장소를 연결하고 바이트 스냅숏과 Java 배열은 독립적으로 유지하는지 확인한다.
+     */
+    public void testModernBinaryValues() {
+        JsEngine engine = new JsEngine();
+        byte[] input = { 62, 0 };
+        engine.put("input", input);
+        JsObjectHandle view = (JsObjectHandle) engine.eval("var b=new ArrayBuffer(2,{maxByteLength:8});"
+                + "new Uint8Array(b).set(input);var d=new DataView(b);"
+                + "var v=new Float16Array(b);input[0]=0;v");
+        Check.equal(Byte.valueOf((byte) 62), Byte.valueOf(input[0]), "the Java primitive array was copied");
+        Check.equal(Double.valueOf(1.5), engine.eval("d.getFloat16(0)"), "the bytes decode in big endian order");
+        byte[] snapshot = TypedArrays.copyBytes(view.getJsObject());
+        engine.eval("d.setFloat16(0,2);b.resize(6)");
+        Check.equal(Byte.valueOf((byte) 62), Byte.valueOf(snapshot[0]), "the Java snapshot does not follow changes");
+        Check.equal(Double.valueOf(3), view.get("length"), "a live handle sees the view grow");
+        JsObjectHandle moved = (JsObjectHandle) engine.eval("b.transfer()");
+        Check.equal(0, TypedArrays.copyBytes(view.getJsObject()).length, "a detached view has no bytes to copy");
+        Check.equal(Double.valueOf(8), moved.get("maxByteLength"), "transfer keeps the maximum");
+        Check.equal(Byte.valueOf((byte) 64), Byte.valueOf(TypedArrays.copyBytes(moved.getJsObject())[0]),
+                "the moved bytes contain the updated value");
+    }
+
+    /**
+     * Makes shared bytes visible through Java handles and keeps direct byte access subject to the sharing contract.
+     * <p>
+     * Java 핸들에서 공유 바이트가 보이고 바이트 직접 접근은 공유 규칙을 따르는지 확인한다.
+     */
+    public void testModernSharedValues() {
+        JsEngine engine = new JsEngine();
+        JsObjectHandle buffer = (JsObjectHandle) engine.eval("var s=new SharedArrayBuffer(4,{maxByteLength:8});s");
+        JsObjectHandle view = (JsObjectHandle) engine.eval("var a=new Int32Array(s);Atomics.store(a,0,42);a");
+        Check.equal(Double.valueOf(42), view.get("0"), "Java reads the indexed view through its handle");
+        Check.isNull(TypedArrays.bytesOf(view.getJsObject()), "the host does not receive a mutable shared byte array");
+        buffer.callMember("grow", Integer.valueOf(8));
+        byte[] snapshot = TypedArrays.copyBytes(view.getJsObject());
+        Check.equal(8, snapshot.length, "a shared snapshot covers the grown view");
+        view.put("1", Integer.valueOf(99));
+        Check.equal(Double.valueOf(99), engine.eval("Atomics.load(a,1)"), "the engine reads the grown slot written from Java");
+        Check.isTrue(!Arrays.equals(snapshot, TypedArrays.copyBytes(view.getJsObject())), "the old copy is independent of shared writes");
+    }
 
     /**
      * Creates the suite.

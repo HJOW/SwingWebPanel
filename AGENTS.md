@@ -904,11 +904,14 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
       - [x] P29-10-a3b. Iterator와 헬퍼, Array·TypedArray·String·RegExp·Map·Set 이터레이터의 내부 프로토타입을 대조한다. 같은 프로토타입과 메서드가 공유되어야 하는 수신자를 검사한다.
       - [x] P29-10-a3c. 제너레이터·async 함수·async 제너레이터의 생성자와 프로토타입을 대조한다. Function 계열의 동적 생성, newTarget 및 중단·재개의 실행 결과를 검증한다.
       - [x] P29-10-a3d. Async-from-Sync 어댑터를 공용 내장 프로토타입에 연결한다. for await와 yield*가 next를 한 번 읽고 return·throw를 호출 시점에 조회하는지 확인한다.
-  - [ ] P29-10-b. 구조화 복제와 독립 엔진 경계를 보완한다. 가변 버퍼·뷰, Float16Array, 공유 버퍼 정책, Error cause·AggregateError, JSON 모듈을 호스트별 정상 진입점과 JSR 223에서 확인한다.
+  - [x] P29-10-b. 구조화 복제와 독립 엔진 경계를 보완한다. 가변 버퍼·뷰, Float16Array, 공유 버퍼 정책, Error cause·AggregateError, JSON 모듈을 호스트별 정상 진입점과 JSR 223에서 확인한다.
     - [x] P29-10-b1. 구조화 복제·전송에서 가변 버퍼의 최대 길이와 형식화 배열·DataView의 길이 추적을 보존한다. 분리·범위 이탈, 전송 전 재진입, 창·Worker·AudioWorklet 메시지를 검증한다.
     - [x] P29-10-b2. Error의 cause, AggregateError의 errors, 수신 렐름 프로토타입 및 공유·순환 참조를 구조화 복제에서 검증한다. 잘못된 호스트 객체는 DataCloneError를 확인한다.
-    - [ ] P29-10-b3. 독립 엔진 및 JSR 223의 최신 값과 JSON 모듈 로더 경계를 검증한다. Java 값 변환, 바이트·생명 주기 및 패키지 분리를 점검한다.
+    - [x] P29-10-b3. 독립 엔진 및 JSR 223의 최신 값과 JSON 모듈 로더 경계를 검증한다. Java 값 변환, 바이트·생명 주기 및 패키지 분리를 점검한다.
   - [ ] P29-10-c. 브라우저 렐름 경계를 대조한다. 전역 `WindowProxy`의 정체성과 반사 연산, 타 렐름 eval이 사용하는 활성 모듈 레코드의 소유 렐름, 이벤트 속성의 중첩 실행, COOP/COEP와 공유 메모리 조건을 확인한다.
+    - [ ] P29-10-c1. `RealmExecution`과 `Interpreter`에서 활성 레코드의 소유 렐름을 모듈 로더와 연결한다. 타 렐름 eval과 Promise 콜백은 원문 소유 렐름에서 모듈을 불러오고, `PageScripts`의 이벤트 속성은 컴파일 문맥을 복제하지 않는지 확인한다.
+    - [ ] P29-10-c2. `WindowProxy`와 브라우징 문맥을 실제 주 문서 이동 및 프레임 시험으로 대조한다. 정체성, 동일·교차 오리진에서 프로토타입과 키·기술자, 이전 참조의 동작을 확인한다.
+    - [ ] P29-10-c3. 문서와 Worker의 COOP/COEP 설정, `crossOriginIsolated`, 공유 메모리 노출과 전송을 헤더에 따라 시험한다. 응답 메타데이터, 페이지 및 Worker 설정과 `SharedMemoryScope`에 정책을 적용한다.
   - [ ] P29-10-d. Java 6에서 정본의 Unicode 정규화와 ECMA-402 없는 기본 지역화 동작을 확인한다. Unicode 18 입력, 정규화 형식과 문자열·수치·날짜의 경계를 검증한다.
   - [ ] P29-10-e. JDK 6u45 엔진·브라우저 전체 회귀, 예제 smoke, 엔진 분리, sourcecheck를 실행하고 7절과 13절 및 사용자·구조·진행 문서를 갱신한다.
 
