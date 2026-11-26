@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
 import org.duckdns.hjow.swingwebpanel.media.audio.BlockPcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmConverter;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPacket;
@@ -26,6 +27,9 @@ import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream;
  * 그 앞의 출력은 기반 클래스가 버리므로 위치는 정확하다.
  */
 final class OpusSource extends BlockPcmSource {
+
+    /** Encoded input shared by the links and owned by this source. / 고리들이 공유하고 이 소스가 소유하는 인코딩 입력. */
+    private final ByteSource data;
 
     /**
      * Number of samples that a seek decodes before the wanted position so that the decoder state converges (80 ms).
@@ -240,12 +244,14 @@ final class OpusSource extends BlockPcmSource {
      * <p>
      * 소스를 만든다.
      *
+     * @param data        the encoded input / 인코딩 입력
      * @param links       the links in file order / 파일 순서의 고리
      * @param outChannels number of output channels / 출력 채널 수
      * @param frames      total number of output frames / 전체 출력 프레임 수
      */
-    private OpusSource(List<Link> links, int outChannels, long frames) {
+    private OpusSource(ByteSource data, List<Link> links, int outChannels, long frames) {
         super(OpusFrameDecoder.FS, outChannels, frames, OpusPacket.MAX_PACKET_SAMPLES);
+        this.data = data;
         this.links = links;
         this.outChannels = outChannels;
     }
@@ -256,11 +262,12 @@ final class OpusSource extends BlockPcmSource {
      * <p>
      * Ogg 파일의 Opus 고리를 연다: 헤더를 읽고 확인하며, 패킷을 색인하고(길이와 탐색을 위해) 소스를 시작 위치에 둔다.
      *
+     * @param data the encoded input / 인코딩 입력
      * @param streams the logical Opus streams of the file in order / 파일의 논리 Opus 스트림(순서대로)
      * @return the source / 소스
      * @throws MediaException CORRUPT or UNSUPPORTED_FORMAT for damaged or unsupported headers; CANCELLED if the thread is interrupted / 헤더가 손상되었거나 지원하지 않으면 CORRUPT 또는 UNSUPPORTED_FORMAT. 스레드가 인터럽트되면 CANCELLED
      */
-    static OpusSource open(List<OggStream> streams) throws MediaException {
+    static OpusSource open(ByteSource data, List<OggStream> streams) throws MediaException {
         List<Link> list = new ArrayList<Link>();
         boolean allMono = true;
         long total = 0;
@@ -294,7 +301,7 @@ final class OpusSource extends BlockPcmSource {
         if (list.isEmpty()) {
             throw new MediaException(MediaException.Kind.CORRUPT, "no usable Opus stream in the Ogg file");
         }
-        OpusSource s = new OpusSource(list, allMono ? 1 : 2, total);
+        OpusSource s = new OpusSource(data, list, allMono ? 1 : 2, total);
         s.startLink(0);
         return s;
     }
@@ -665,5 +672,11 @@ final class OpusSource extends BlockPcmSource {
         packets = l.stream.openPackets(l.anchorPage[best]);
         produced = l.anchorSample[best];
         return l.startFrame + Math.max(0, produced - l.skip);
+    }
+
+    /** Closes the shared encoded input and drops the current page reader. / 공용 인코딩 입력을 닫고 현재 페이지 판독기를 해제한다. */
+    protected void release() {
+        packets = null;
+        data.close();
     }
 }

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P18-08-c2c2a Vorbis·Opus의 파일 패킷 연결 (2026-11-26) ===
+현재 작업 번호: P18-08-c2c2a 완료.
+완료한 내용: Vorbis·Opus 코덱은 Ogg 바이트 원천에서 패킷을 읽는다. 기존 배열의 시그니처·PCM·탐색과 연쇄 정책을 유지한다. PCM 소스가 인코딩 입력을 닫는다.
+변경 파일: VorbisDecoder.java, VorbisSource.java, OpusDecoder.java, OpusSource.java, ReferenceDecodeTest.java, AGENTS.md, progress/media-play.md, 이 문서.
+검증 결과: JDK 6u45로 변경 클래스를 컴파일했다. JRE 6u45에서 Vorbis 9개, Opus 12개, 채널 배치가 바뀌는 Opus 연쇄의 16비트·float PCM과 역탐색, 파일 닫힘을 확인했다. 관련 Ogg·Vorbis·Opus·WebM·참조 회귀 포함 64건 통과. sourcecheck·diff 검사 위반 0건.
+미해결 사항: 네이티브 및 Ogg FLAC와 WebM, 브라우저 요청·재생기 적재.
+다음 작업 번호: P18-08-c2c2b.
+-----------------------------------------------------------------------------------------------
 === P18-08-c2c1 Ogg 페이지와 패킷의 파일 읽기 (2026-11-26) ===
 현재 작업 번호: P18-08-c2c1 완료.
 완료한 내용: 파일의 캡처와 페이지 헤더를 색인하고 패킷 읽기는 CRC를 검증한 페이지 버퍼 하나를 재사용한다. 분할 패킷과 그라뉼, 손상 복구 동작을 보존한다. 컨테이너 호출자가 원천을 소유한다.

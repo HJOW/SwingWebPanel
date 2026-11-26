@@ -3,6 +3,7 @@ package org.duckdns.hjow.swingwebpanel.media.audio.vorbis;
 import java.util.LinkedList;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
 import org.duckdns.hjow.swingwebpanel.media.audio.BlockPcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmConverter;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPacket;
@@ -22,6 +23,9 @@ import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream;
  * 정확하다.
  */
 final class VorbisSource extends BlockPcmSource {
+
+    /** Encoded input owned by the PCM source. / PCM 소스가 소유하는 인코딩 입력. */
+    private final ByteSource data;
 
     /**
      * The logical stream.
@@ -98,12 +102,14 @@ final class VorbisSource extends BlockPcmSource {
      * <p>
      * 소스를 만든다.
      *
+     * @param data           the encoded input / 인코딩 입력
      * @param stream         the logical stream / 논리 스트림
      * @param setup          the configuration / 설정
      * @param audioStartPage first page with audio packets / 오디오 패킷이 있는 첫 페이지
      */
-    VorbisSource(OggStream stream, VorbisSetup setup, int audioStartPage) {
+    VorbisSource(ByteSource data, OggStream stream, VorbisSetup setup, int audioStartPage) {
         super(setup.sampleRate, Math.min(setup.channels, 2), stream.getLastGranule(), Math.max(4096, setup.blockSize1 / 2));
+        this.data = data;
         this.stream = stream;
         this.audioStartPage = audioStartPage;
         this.core = new VorbisStream(setup);
@@ -324,5 +330,12 @@ final class VorbisSource extends BlockPcmSource {
         packets = stream.openPackets(audioStartPage);
         produced = 0;
         return 0;
+    }
+
+    /** Closes the input and releases retained packets. / 입력을 닫고 보관한 패킷을 해제한다. */
+    protected void release() {
+        queue.clear();
+        packets = null;
+        data.close();
     }
 }

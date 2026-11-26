@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteAudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmFloatAdapter;
-import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
-import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggReader;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream;
 
@@ -25,7 +24,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream;
  * 시그니처로 알아본다. 출력은 48 kHz 16비트 PCM 이며 채널이 둘보다 많으면 스테레오로 다운믹스한다. WebM/Matroska 안의 Opus 는
  * {@link org.duckdns.hjow.swingwebpanel.media.audio.webm.WebmDecoder} 를 통해 디코딩한다.
  */
-public final class OpusDecoder implements WideAudioDecoder {
+public final class OpusDecoder extends ByteAudioDecoder {
 
     /**
      * Creates the decoder.
@@ -65,38 +64,28 @@ public final class OpusDecoder implements WideAudioDecoder {
      * @param data the data / 데이터
      * @return true if the data is Ogg Opus / Ogg Opus 이면 true
      */
-    public boolean accepts(byte[] data) {
-        return OggReader.startsWithOgg(data) && OggReader.sniffCodecs(data).contains("opus");
+    public boolean acceptsSource(ByteSource data) {
+        return OggReader.sniffSourceCodecs(data).contains("opus");
     }
 
     /**
-     * Opens the data for decoding.
-     * <p>
-     * 디코딩을 위해 데이터를 연다.
-     *
-     * @param data   the data / 데이터
-     * @param limits limits / 제한
-     * @return PCM source / PCM 소스
-     * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
-     */
-    public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
-        return create(data);
-    }
-
-    /**
-     * Opens the data with every channel of the stream and the float output of the decoder (see {@link WideAudioDecoder}). A chained stream whose
+     * Opens the data as 16-bit PCM or in float with every channel of the stream. A chained stream whose
      * links differ in the channel layout cannot be given with a fixed number of channels; it is given through the 16 bit path (stereo).
      * <p>
-     * 스트림의 모든 채널과 디코더의 float 출력으로 데이터를 연다({@link WideAudioDecoder} 참조). 고리마다 채널 배치가 다른 연결된 스트림은 고정된 채널 수로 줄 수
+     * 16비트 PCM 또는 스트림의 모든 채널을 담은 float으로 데이터를 연다. 고리마다 채널 배치가 다른 연결된 스트림은 고정된 채널 수로 줄 수
      * 없으므로 16비트 경로(스테레오)로 준다.
      *
      * @param data   the data / 데이터
      * @param limits limits / 제한
-     * @return float source / float 소스
+     * @param wide true for float output / float 출력이면 true
+     * @return PCM source / PCM 소스
      * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
      */
-    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
-        OpusSource source = create(data);
+    protected Object create(ByteSource data, DecodeLimits limits, boolean wide) throws MediaException {
+        OpusSource source = createSource(data);
+        if (!wide) {
+            return source;
+        }
         int channels = source.uniformChannels();
         // 고리마다 채널 배치가 다르면 16비트 경로로 준다.
         if (channels < 0) {
@@ -114,8 +103,8 @@ public final class OpusDecoder implements WideAudioDecoder {
      * @return the source that decodes packet after packet / 패킷을 차례로 디코딩하는 소스
      * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
      */
-    private static OpusSource create(byte[] data) throws MediaException {
-        OggReader reader = OggReader.scan(data);
+    private static OpusSource createSource(ByteSource data) throws MediaException {
+        OggReader reader = OggReader.scanSource(data);
         List<OggStream> streams = new ArrayList<OggStream>();
         // Opus 논리 스트림만 모은다(다른 코덱의 스트림은 무시한다).
         for (OggStream s : reader.getStreams()) {
@@ -126,6 +115,6 @@ public final class OpusDecoder implements WideAudioDecoder {
         if (streams.isEmpty()) {
             throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "no Opus stream in the Ogg file");
         }
-        return OpusSource.open(streams);
+        return OpusSource.open(data, streams);
     }
 }

@@ -2,9 +2,8 @@ package org.duckdns.hjow.swingwebpanel.media.audio.vorbis;
 
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
-import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
-import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteAudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPacket;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPacketStream;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggReader;
@@ -20,7 +19,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream;
  * 스테레오로 다운믹스). Ogg 파일의 첫 Vorbis 스트림을 재생한다. 다중화 파일의 다른 스트림은 무시하고, 체인 파일은 첫 고리만 재생한다(고리마다 샘플링
  * 주파수와 채널 수가 바뀔 수 있는데 하나의 PCM 스트림으로는 표현할 수 없다).
  */
-public final class VorbisDecoder implements WideAudioDecoder {
+public final class VorbisDecoder extends ByteAudioDecoder {
 
     /**
      * Creates the decoder.
@@ -60,37 +59,24 @@ public final class VorbisDecoder implements WideAudioDecoder {
      * @param data the data / 데이터
      * @return true if the data is Ogg Vorbis / Ogg Vorbis 이면 true
      */
-    public boolean accepts(byte[] data) {
-        return OggReader.startsWithOgg(data) && OggReader.sniffCodecs(data).contains("vorbis");
+    public boolean acceptsSource(ByteSource data) {
+        return OggReader.sniffSourceCodecs(data).contains("vorbis");
     }
 
     /**
-     * Opens the data for decoding.
+     * Opens indexed packets as 16-bit or canonical-order float PCM.
      * <p>
-     * 디코딩을 위해 데이터를 연다.
+     * 색인된 패킷을 16비트 또는 표준 채널 순서의 float PCM으로 연다.
      *
      * @param data   the data / 데이터
      * @param limits limits / 제한
+     * @param wide true for float output / float 출력이면 true
      * @return PCM source / PCM 소스
      * @throws MediaException on damaged data / 손상된 데이터일 때
      */
-    public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
-        return create(data);
-    }
-
-    /**
-     * Opens the data with every channel of the stream and the float output of the decoder (see {@link WideAudioDecoder}); the channels are in the
-     * canonical order (see {@link VorbisFloatSource}).
-     * <p>
-     * 스트림의 모든 채널과 디코더의 float 출력으로 데이터를 연다({@link WideAudioDecoder} 참조). 채널은 표준 순서이다({@link VorbisFloatSource} 참조).
-     *
-     * @param data   the data / 데이터
-     * @param limits limits / 제한
-     * @return float source / float 소스
-     * @throws MediaException on damaged data / 손상된 데이터일 때
-     */
-    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
-        return new VorbisFloatSource(create(data));
+    protected Object create(ByteSource data, DecodeLimits limits, boolean wide) throws MediaException {
+        VorbisSource source = createSource(data);
+        return wide ? new VorbisFloatSource(source) : source;
     }
 
     /**
@@ -102,8 +88,8 @@ public final class VorbisDecoder implements WideAudioDecoder {
      * @return the source that decodes packet after packet / 패킷을 차례로 디코딩하는 소스
      * @throws MediaException on damaged data / 손상된 데이터일 때
      */
-    private static VorbisSource create(byte[] data) throws MediaException {
-        OggReader reader = OggReader.scan(data);
+    private static VorbisSource createSource(ByteSource data) throws MediaException {
+        OggReader reader = OggReader.scanSource(data);
         OggStream stream = reader.findFirst("vorbis");
         if (stream == null) {
             throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "no Vorbis stream in the Ogg file");
@@ -121,6 +107,6 @@ public final class VorbisDecoder implements WideAudioDecoder {
         }
         VorbisSetup setup = new VorbisSetup(id.getData());
         setup.parseSetup(setupPacket.getData());
-        return new VorbisSource(stream, setup, setupPacket.getPageIndex() + 1);
+        return new VorbisSource(data, stream, setup, setupPacket.getPageIndex() + 1);
     }
 }

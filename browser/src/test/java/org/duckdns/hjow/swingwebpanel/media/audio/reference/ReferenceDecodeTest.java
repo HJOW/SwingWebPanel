@@ -17,7 +17,10 @@ import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.aac.AacDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.mp3.Mp3Decoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.opus.OpusDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
+import org.duckdns.hjow.swingwebpanel.media.audio.testkit.OggMux;
+import org.duckdns.hjow.swingwebpanel.media.audio.vorbis.VorbisDecoder;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
@@ -376,6 +379,40 @@ public class ReferenceDecodeTest {
     }
 
     /**
+     * Compares file-backed Ogg Vorbis and Opus including an Opus chain that changes channel layout.
+     * <p>
+     * 파일에서 Ogg Vorbis와 Opus를 해독해 비교한다. 채널 배치가 바뀌는 Opus 체인도 포함한다.
+     * @throws Exception on I/O or decode failure / 입출력 또는 해독에 실패하면
+     */
+    public void testVorbisAndOpusFilePcmMatchesArrayPcm() throws Exception {
+        List<ReferenceFixture> vorbis = ReferenceFixture.ofGroup("vorbis");
+        Check.equal(9, vorbis.size(), "Vorbis fixture count");
+        VorbisDecoder vorbisDecoder = new VorbisDecoder();
+        // 모노부터 7.1까지 파일에서 전체 PCM을 비교한다.
+        for (ReferenceFixture fixture : vorbis) {
+            compareFileSources(vorbisDecoder, fixture.name, fixture.readFile(), true);
+        }
+        List<ReferenceFixture> opus = ReferenceFixture.ofGroup("opus");
+        Check.equal(12, opus.size(), "Opus fixture count");
+        OpusDecoder opusDecoder = new OpusDecoder();
+        byte[] stereo = null;
+        byte[] mono = null;
+        // Opus 모드와 채널 배치마다 PCM을 비교하고 연쇄 시험에 쓸 두 고리를 고른다.
+        for (ReferenceFixture fixture : opus) {
+            byte[] data = fixture.readFile();
+            compareFileSources(opusDecoder, fixture.name, data, true);
+            if (fixture.name.equals("opus_audio_128k_48000_st")) {
+                stereo = data;
+            } else if (fixture.name.equals("opus_voip_16k_16000_mono")) {
+                mono = data;
+            }
+        }
+        Check.notNull(stereo, "stereo Opus fixture");
+        Check.notNull(mono, "mono Opus fixture");
+        compareFileSources(opusDecoder, "Opus chain with a channel layout change", OggMux.concat(stereo, mono), true);
+    }
+
+    /**
      * Compares complete PCM, backwards seeking and file ownership with the array path.
      * <p>
      * 전체 PCM과 역탐색을 배열 경로와 비교하고 파일 소유권을 확인한다.
@@ -410,12 +447,7 @@ public class ReferenceDecodeTest {
                     mem.close();
                     disk.close();
                 }
-                try {
-                    input.get(0);
-                    Check.fail(label + " PCM close must close its input");
-                } catch (ByteSourceException expected) {
-                    Check.equal(MediaException.Kind.ACCESS_FAILED, expected.toMediaException().getKind(), label + " closed source access");
-                }
+                assertFileInputClosed(input, label);
             } finally {
                 input.close();
             }
@@ -460,8 +492,23 @@ public class ReferenceDecodeTest {
                 mem.close();
                 disk.close();
             }
+            assertFileInputClosed(input, label + " float PCM");
         } finally {
             input.close();
+        }
+    }
+
+    /**
+     * Checks that a decoder closed the file that it owned. / 디코더가 소유한 파일을 닫았는지 확인한다.
+     * @param input the input given to the decoder / 디코더에 전달한 입력
+     * @param label name used in assertions / 검증 메시지의 이름
+     */
+    private void assertFileInputClosed(FileByteSource input, String label) {
+        try {
+            input.get(0);
+            Check.fail(label + " PCM close must close its input");
+        } catch (ByteSourceException expected) {
+            Check.equal(MediaException.Kind.ACCESS_FAILED, expected.toMediaException().getKind(), label + " closed source access");
         }
     }
 
