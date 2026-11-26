@@ -390,7 +390,8 @@ public class AudioControlsIntegrationTest {
                     + "<script>var audio=document.getElementById('a');document.addEventListener('keyup',function(e){if(e.key==='Tab')"
                     + "mark('focus@'+e.target.id+(getComputedStyle(e.target).getPropertyValue('outline-style')==='solid'?'-visible':''));});"
                     + "audio.addEventListener('keydown',function(e){if(e.key==='ArrowUp')e.preventDefault();});"
-                    + "audio.addEventListener('keyup',function(e){if(e.key==='ArrowUp')mark('up@'+audio.volume.toFixed(2));});</script>";
+                    + "audio.addEventListener('keyup',function(e){if(e.key==='ArrowUp')mark('up@'+audio.volume.toFixed(2));});"
+                    + "Promise.prototype.catch=function(){mark('script-catch');throw Error('author catch');};</script>";
             server.routeFixed("/page", TestHttpServer.Response.html(html));
             byte[] wav = AudioKit.wav(1, 1, 8000, 16, ScriptedDecoder.pcm(0, 96000), -1);
             server.routeFixed("/clip.wav", new TestHttpServer.Response(200).bytes("audio/wav", wav));
@@ -416,6 +417,7 @@ public class AudioControlsIntegrationTest {
             await(panel, "pause", 1, "Enter pauses the audio");
             pressKey(panel, KeyEvent.VK_TAB, '\t');
             await(panel, "focus@after-visible", 1, "the next Tab moves off the audio");
+            Check.equal(0, count(panel, "script-catch"), "audio controls do not call the author's Promise methods");
         } finally {
             panel.dispose();
             server.stop();

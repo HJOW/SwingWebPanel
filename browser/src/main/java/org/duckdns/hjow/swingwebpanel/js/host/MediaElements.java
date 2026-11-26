@@ -1371,11 +1371,11 @@ final class MediaElements implements MediaControlSource {
     /**
      * Applies an action of the user on the control bar (see {@link PageScripts#controlMedia(Element, int, double)}): exactly what a script
      * would do with <code>play()</code>, <code>pause()</code>, <code>currentTime</code>, <code>muted</code> and <code>volume</code>. The
-     * promise of <code>play()</code> is handled here, so a failing playback does not become an unhandled rejection of the page.
+     * control starts playback directly without creating a script promise.
      * <p>
      * 사용자가 컨트롤 막대에서 한 동작을 적용한다({@link PageScripts#controlMedia(Element, int, double)} 참고): 스크립트가 <code>play()</code>,
-     * <code>pause()</code>, <code>currentTime</code>, <code>muted</code>, <code>volume</code> 으로 하는 것과 똑같다. <code>play()</code> 의 프라미스는
-     * 여기서 처리하므로 재생이 실패해도 페이지의 처리되지 않은 거부가 되지 않는다.
+     * <code>pause()</code>, <code>currentTime</code>, <code>muted</code>, <code>volume</code> 으로 하는 것과 똑같다. 컨트롤은 스크립트 프라미스를
+     * 만들지 않고 직접 재생을 시작한다.
      *
      * @param e        the <code>audio</code> element / <code>audio</code> 요소
      * @param part     the part of the bar (<code>MediaControls.PART_</code>) / 막대의 부분(<code>MediaControls.PART_</code>)
@@ -1391,22 +1391,7 @@ final class MediaElements implements MediaControlSource {
         switch (part) {
         case MediaControls.PART_PLAY:
             if (m.paused) {
-                JsObject promise = play(m);
-                Ops.invoke(page.getRealm(), promise, "catch", new JsValue[] { page.getRealm().newFunction("", 1, new NativeFunction.Call() {
-                    /**
-                     * Ignores the rejection of the promise (the error event already reports the failure).
-                     * <p>
-                     * 프라미스의 거부를 무시한다(실패는 error 이벤트가 이미 알린다).
-                     *
-                     * @param r    the realm / realm
-                     * @param self this value / this 값
-                     * @param args arguments / 인수
-                     * @return undefined / undefined
-                     */
-                    public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
-                        return Js.UNDEFINED;
-                    }
-                }) });
+                requestPlayback(m, e, null);
             } else {
                 pause(m);
             }
@@ -2574,9 +2559,25 @@ final class MediaElements implements MediaControlSource {
             d.reject(DomExceptionObjects.create(page.getBridge(), "NotSupportedError", "video playback is not supported"));
             return d.promise;
         }
+        requestPlayback(m, e, d);
+        return d.promise;
+    }
+
+    /**
+     * Runs the shared internal play steps for a script or the user agent controls.
+     * <p>
+     * 스크립트 또는 사용자 에이전트 컨트롤을 위한 공통 내부 재생 단계를 실행한다.
+     * @param m the media state / 미디어 상태
+     * @param e the live media element / 살아 있는 미디어 요소
+     * @param request the script promise to settle, or null for controls / 확정할 스크립트 프라미스. 컨트롤이면 null
+     */
+    private void requestPlayback(Media m, Element e, Deferred request) {
         if (m.error != null && m.error.getCode() == MEDIA_ERR_SRC_NOT_SUPPORTED) {
-            d.reject(DomExceptionObjects.create(page.getBridge(), "NotSupportedError", "The element has no supported sources."));
-            return d.promise;
+            // 스크립트가 재생을 요청했으면 프라미스를 거부한다. 컨트롤의 오류 상태는 이미 표시되어 있다.
+            if (request != null) {
+                request.reject(DomExceptionObjects.create(page.getBridge(), "NotSupportedError", "The element has no supported sources."));
+            }
+            return;
         }
         if (m.networkState == NETWORK_EMPTY) {
             startSelection(m);
@@ -2586,7 +2587,9 @@ final class MediaElements implements MediaControlSource {
             seek(m, 0);
         }
         boolean wasPaused = m.paused;
-        m.playPromises.add(d);
+        if (request != null) {
+            m.playPromises.add(request);
+        }
         if (wasPaused) {
             m.paused = false;
             addPlaying(m);
@@ -2597,7 +2600,7 @@ final class MediaElements implements MediaControlSource {
             } else {
                 notifyPlaying(m);
             }
-        } else if (m.readyState >= HAVE_FUTURE_DATA) {
+        } else if (request != null && m.readyState >= HAVE_FUTURE_DATA) {
             // 이미 재생 중이면 대기 중인 프라미스를 가져와 다음 작업에서 이행한다.
             Task t = new Task(m, m.epoch, K_RESOLVE);
             t.promises = takePlayPromises(m);
@@ -2614,7 +2617,6 @@ final class MediaElements implements MediaControlSource {
         promoteMetadataOnly(m);
         startPlayback(m);
         textTracks.playbackChanged(m);
-        return d.promise;
     }
 
     /**

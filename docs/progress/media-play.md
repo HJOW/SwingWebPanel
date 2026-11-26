@@ -181,6 +181,12 @@
 
 ## 작업 기록
 
+### 2026-11-26 P18-08-b1 — 사용자 조작과 `play()`의 프라미스 분리
+
+미디어 막대를 사용한 재생과 스크립트의 `play()`는 같은 내부 상태 전이를 사용한다. 막대 재생은 페이지의 프라미스를 만들거나 호출하지 않는다. 스크립트에는 기존 `playing` 시점의 이행과 실패 시 거부가 유지된다. `AudioControlsIntegrationTest`는 페이지가 `Promise.prototype.catch`를 예외를 던지는 함수로 바꾸어도 막대 재생이 이를 호출하지 않는지 확인한다.
+
+JRE 6u45의 `AudioControlsIntegrationTest`, `AudioIntegrationTest`, `MediaElementsTest`, `TextTrackTest`, `MediaElementSourceScriptTest` 58건이 통과했다. preload의 `metadata`는 DOM에서 `HAVE_METADATA`로 멈추어 `play()`를 기다린다. 수신 데이터는 `auto`와 같이 통째로 가져오므로 네트워크 사용량과 보관 용량에는 여전히 한계가 있다.
+
 ### 2026-11-26 P18-08-a — 오디오 컨트롤 키보드 입력
 
 `controls`가 있는 오디오 요소는 하나의 Tab 정지점이며 포커스를 기존 CSS 상태에 표시한다. Space와 Enter는 재생/일시정지를 전환한다. 좌우는 5초씩 탐색하고 위아래는 음량을 10%씩 바꾸며 M은 음소거를 전환한다. `preventDefault()`로 취소된 `keydown`에는 이 동작을 적용하지 않는다. 키를 눌러 반복해도 재생이나 음소거는 한 번만 전환한다. 제어 동작의 기준은 [HTML5 REC, 2014-10-28 §4.7.10.13](https://www.w3.org/TR/2014/REC-html5-20141028/embedded-content-0.html#user-interface)이며 2026-11-26에 webfetch로 조회했다. 해당 절에는 개별 키 배치가 정해져 있지 않다.
