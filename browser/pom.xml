@@ -73,6 +73,45 @@
             <id>run-regression</id>
             <phase>test</phase>
           </execution>
+          <execution>
+            <!-- C-ROOTCLOSE-8 (P30-03): the default closeRootWindow() ends its own JVM with exit code 0. -->
+            <id>run-root-close-exit</id>
+            <phase>test</phase>
+            <goals><goal>run</goal></goals>
+            <configuration>
+              <skip>${skipTests}</skip>
+              <target>
+                <java classname="org.duckdns.hjow.swingwebpanel.RootWindowClosingExitMain"
+                      jvm="${swp.java}" fork="true" resultproperty="swp.rootclose.on" timeout="120000">
+                  <jvmarg line="${swp.test.jvmArgs}"/>
+                  <classpath>
+                    <pathelement location="${swp.test.runtimePath}"/>
+                    <path refid="maven.test.classpath"/>
+                  </classpath>
+                </java>
+                <java classname="org.duckdns.hjow.swingwebpanel.RootWindowClosingExitMain"
+                      jvm="${swp.java}" fork="true" resultproperty="swp.rootclose.off" timeout="120000">
+                  <jvmarg line="${swp.test.jvmArgs}"/>
+                  <classpath>
+                    <pathelement location="${swp.test.runtimePath}"/>
+                    <path refid="maven.test.classpath"/>
+                  </classpath>
+                  <arg value="off"/>
+                </java>
+                <fail message="window.close() with setRootWindowClosingEnabled(true) must end the JVM with exit code 0 but the code was ${swp.rootclose.on}.">
+                  <condition>
+                    <not><equals arg1="${swp.rootclose.on}" arg2="0"/></not>
+                  </condition>
+                </fail>
+                <fail message="window.close() with the setting off must not end the JVM (expected exit code 3) but the code was ${swp.rootclose.off}.">
+                  <condition>
+                    <not><equals arg1="${swp.rootclose.off}" arg2="3"/></not>
+                  </condition>
+                </fail>
+                <echo level="info">Root window closing exit check passed (on: exit ${swp.rootclose.on}, off: exit ${swp.rootclose.off}).</echo>
+              </target>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>

@@ -132,6 +132,7 @@ Call `panel.dispose()` when closing the window. Property notifications, includin
 | `addHyperlinkListener`, `removeHyperlinkListener`, `removeHyperlinkEvents()` | Manage Swing listeners for link enter, exit and activation. Link navigation works without listeners. |
 | `addConsoleListener`, `removeConsoleListener`, `getConsoleListeners()` | Manage listeners for page console output and script errors. |
 | `postMessage(Object[, String])`, `addWebMessageListener`, `removeWebMessageListener`, `getWebMessageListeners()` | Send cloned data to the top-level document and receive messages on the EDT. |
+| `setRootWindowClosingEnabled(boolean)` / `isRootWindowClosingEnabled()` | Allow the page of the main window (not a popup) to close it with `window.close()`. Off by default (the call is ignored); when on, the default action ends the program with `System.exit(0)`. See "Letting the page close the window". |
 | `getLocalStorage()`, `getSessionStorage()` | Return read-only copies of the origin, key and value of each storage entry. |
 | `clean()` | Cancel current work, return to `about:blank` and clear cache, session storage and all process-wide local storage. Preserve cookies, headers, User-Agent, scripting settings and listeners. |
 | `dispose()` | Clean up the component and release user listeners, timers, media, downloads and other resources. Repeated calls are safe. |
@@ -233,6 +234,22 @@ panel.addWebMessageListener(new WebMessageListener() {
 ```
 
 Check the origin and data shape when a document or frame sends a message. `reply()` is associated with the original document. Use `examples\run.bat MessageExample` or `examples/run.sh MessageExample` and append `--smoke` for a headless round trip. [Messaging contract](docs/API_CONTRACT.md)
+
+### Letting the page close the window
+
+By default `window.close()` from the page of the main window is ignored and only leaves a warning in the console of the page. After `setRootWindowClosingEnabled(true)`, a call from the top-level document makes the component call `closeRootWindow()` once on the EDT, right after the calling script task has ended. The default implementation ends the program with `System.exit(0)`.
+
+```java
+SwingWebPanel panel = new SwingWebPanel() {
+    protected void closeRootWindow() {
+        frame.dispose();   // close only this window instead of ending the program
+        dispose();
+    }
+};
+panel.setRootWindowClosingEnabled(true);
+```
+
+**Warning:** with this setting on, the page that is shown can end the program. Turn it on only for pages whose content you control. `top.close()` from a frame of another origin, or from a sandboxed frame without `allow-top-navigation`, is ignored even when the setting is on. A host action before the closing is performed (`setPage`, `clean()` and so on) cancels it. [Closing contract](docs/API_CONTRACT.md)
 
 ### Standalone JavaScript and JSR 223
 

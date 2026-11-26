@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.content.ContentClassifier;
 import org.duckdns.hjow.swingwebpanel.content.ContentKind;
 import org.duckdns.hjow.swingwebpanel.content.ContentType;
+import org.duckdns.hjow.swingwebpanel.js.host.BrowsingContext;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.HostMessageValues;
 import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
@@ -341,6 +342,46 @@ public final class BrowserSession implements FormSubmitSink {
     private volatile boolean disposed;
 
     /**
+     * Whether scripts may close the window of a component that the host created (API contract 5.23).
+     * <p>
+     * 호스트가 만든 컴포넌트의 창을 스크립트가 닫을 수 있는지 여부(API 계약 5.23).
+     */
+    private volatile boolean rootWindowClosingEnabled;
+
+    /**
+     * True if web content created this window (the "is created by web content" flag of the HTML Standard): scripts may then close it
+     * whatever {@link #rootWindowClosingEnabled} says, and closing it never ends the program.
+     * <p>
+     * 웹 콘텐츠가 이 창을 만들었으면 true(HTML 표준의 "is created by web content" 표시). 이때는 {@link #rootWindowClosingEnabled} 와 상관없이
+     * 스크립트가 닫을 수 있고, 닫아도 프로그램을 끝내지 않는다.
+     */
+    private volatile boolean createdByWebContent;
+
+    /**
+     * True while a script closes the window (the "is closing" flag of the HTML Standard); written under {@link #lock}. It belongs to
+     * the window, not to a page: a navigation of the page does not clear it.
+     * <p>
+     * 스크립트가 창을 닫는 동안 true(HTML 표준의 "is closing" 표시). {@link #lock} 을 쥐고 쓴다. 페이지가 아니라 창의 상태이므로 페이지의 이동으로는
+     * 풀리지 않는다.
+     */
+    private volatile boolean windowClosing;
+
+    /**
+     * Serial of the accepted close request; a host action that cancels the closing changes it, so that the queued work of the old
+     * request does nothing. Guarded by {@link #lock}.
+     * <p>
+     * 받아들인 닫기 요청의 일련번호. 닫기를 취소하는 호스트 조작이 이 값을 바꾸므로 옛 요청의 대기 작업은 아무것도 하지 않는다. {@link #lock} 으로 보호한다.
+     */
+    private int closeSerial;
+
+    /**
+     * Receives the accepted close requests of this window, or null.
+     * <p>
+     * 이 창의 받아들인 닫기 요청을 받는 처리기. 없으면 null.
+     */
+    private volatile WindowCloseHandler closeHandler;
+
+    /**
      * Progress sink handed to loaders.
      * <p>
      * 로더에 건네는 진행률 대상.
@@ -633,6 +674,10 @@ public final class BrowserSession implements FormSubmitSink {
             checkAlive();
             javascriptEnabled = enabled;
             stop = enabled ? null : new ArrayList<PageRuntime>(runtimes);
+            // 스크립트를 끄는 것은 닫기를 취소하는 호스트 조작이다.
+            if (!enabled) {
+                cancelWindowCloseLocked();
+            }
         }
         if (stop != null) {
             // 실행 잠금을 기다리지 않고 현재 페이지와 아직 확정되지 않은 페이지를 모두 중단한다.
@@ -882,6 +927,8 @@ public final class BrowserSession implements FormSubmitSink {
             target = canonical(target);
         }
         synchronized (lock) {
+            // 호스트가 시작한 이동은 스크립트가 예약한 창 닫기를 취소한다.
+            cancelWindowCloseLocked();
             // 현재 문서와 프래그먼트만 다른 주소는 같은 문서 안의 이동이다(문서를 다시 받지 않고 언로드 이벤트도 없다).
             // 주소가 완전히 같은 연속 이동은 계약대로 별도 항목으로 다시 읽고, 그 밖에도 새 페이지를 요청한다.
             if (kind == SchemePolicy.Kind.BLOCKED || target.equals(current.getUrl()) || !startFragmentLocked(target, false)) {
@@ -926,6 +973,10 @@ public final class BrowserSession implements FormSubmitSink {
             throw new IllegalArgumentException("contentType must not be null");
         }
         String mime = ContentClassifier.requireSetContentMime(contentType);
+        // 호스트가 시작한 이동은 스크립트가 예약한 창 닫기를 취소한다.
+        synchronized (lock) {
+            cancelWindowCloseLocked();
+        }
         start(NavigationType.SET_CONTENT, SchemePolicy.ABOUT_TEXT, content, mime, false, null, -1);
     }
 
@@ -938,6 +989,19 @@ public final class BrowserSession implements FormSubmitSink {
      * @throws IllegalStateException if disposed / 폐기되었을 때
      */
     public void back(int n) {
+        back(n, true);
+    }
+
+    /**
+     * Goes back for the host or for a script of the page. Only a move that the host started cancels a closing of the window that a
+     * script requested (API contract 5.23).
+     * <p>
+     * 호스트 또는 페이지의 스크립트를 위해 뒤로 이동한다. 호스트가 시작한 이동만 스크립트가 요청한 창 닫기를 취소한다(API 계약 5.23).
+     *
+     * @param n    number of entries / 칸 수
+     * @param host true if the host asked / 호스트가 요청했으면 true
+     */
+    private void back(int n, boolean host) {
         checkAlive();
         if (n <= 0) {
             return;
@@ -946,6 +1010,9 @@ public final class BrowserSession implements FormSubmitSink {
             int target = history.index() - n;
             if (target < 0) {
                 return;
+            }
+            if (host) {
+                cancelWindowCloseLocked();
             }
             // 같은 문서 안의 항목(프래그먼트만 다른 항목)이면 다시 읽지 않고 현재 문서에서 이동한다.
             if (!startTraversalLocked(history.get(target), target)) {
@@ -963,6 +1030,19 @@ public final class BrowserSession implements FormSubmitSink {
      * @throws IllegalStateException if disposed / 폐기되었을 때
      */
     public void forward(int n) {
+        forward(n, true);
+    }
+
+    /**
+     * Goes forward for the host or for a script of the page. Only a move that the host started cancels a closing of the window that a
+     * script requested (API contract 5.23).
+     * <p>
+     * 호스트 또는 페이지의 스크립트를 위해 앞으로 이동한다. 호스트가 시작한 이동만 스크립트가 요청한 창 닫기를 취소한다(API 계약 5.23).
+     *
+     * @param n    number of entries / 칸 수
+     * @param host true if the host asked / 호스트가 요청했으면 true
+     */
+    private void forward(int n, boolean host) {
         checkAlive();
         if (n <= 0) {
             return;
@@ -971,6 +1051,9 @@ public final class BrowserSession implements FormSubmitSink {
             long target = (long) history.index() + n;
             if (target >= history.size()) {
                 return;
+            }
+            if (host) {
+                cancelWindowCloseLocked();
             }
             if (!startTraversalLocked(history.get((int) target), (int) target)) {
                 startLocked(NavigationType.HISTORY, null, null, null, false, history.get((int) target), (int) target);
@@ -1196,7 +1279,7 @@ public final class BrowserSession implements FormSubmitSink {
      */
     void reloadFromPage() {
         if (!disposed) {
-            refresh(false);
+            refresh(false, false);
         }
     }
 
@@ -1214,7 +1297,7 @@ public final class BrowserSession implements FormSubmitSink {
             return;
         }
         if (delta == 0) {
-            refresh(false);
+            refresh(false, false);
             return;
         }
         // 이동할 위치는 문서 큐가 이 작업에 닿았을 때 정한다. 앞서 요청한 같은 문서 안의 이동(location.hash 등)이 먼저 이력에 반영되어야
@@ -1231,9 +1314,9 @@ public final class BrowserSession implements FormSubmitSink {
                 }
                 try {
                     if (delta < 0) {
-                        back(-delta);
+                        back(-delta, false);
                     } else {
-                        forward(delta);
+                        forward(delta, false);
                     }
                 } catch (IllegalStateException e) {
                     // 그 사이 컴포넌트가 폐기되었으면 이동하지 않는다.
@@ -1525,7 +1608,25 @@ public final class BrowserSession implements FormSubmitSink {
      * @throws IllegalStateException if disposed / 폐기되었을 때
      */
     public void refresh(boolean force) {
+        refresh(force, true);
+    }
+
+    /**
+     * Reloads the page for the host or for a script of the page. Only a reload that the host started cancels a closing of the window
+     * that a script requested (API contract 5.23).
+     * <p>
+     * 호스트 또는 페이지의 스크립트를 위해 페이지를 다시 읽는다. 호스트가 시작한 새로고침만 스크립트가 요청한 창 닫기를 취소한다(API 계약 5.23).
+     *
+     * @param force true to bypass caches / 캐시를 우회하려면 true
+     * @param host  true if the host asked / 호스트가 요청했으면 true
+     */
+    private void refresh(boolean force, boolean host) {
         checkAlive();
+        if (host) {
+            synchronized (lock) {
+                cancelWindowCloseLocked();
+            }
+        }
         PageSnapshot shown = current;
         // 폼 제출이 만든 페이지는 자동으로 다시 보내지 않고 사용자가 동의한 뒤에만 다시 보낸다.
         if (shown.getPost() != null) {
@@ -2192,6 +2293,248 @@ public final class BrowserSession implements FormSubmitSink {
     }
 
     /**
+     * Allows or forbids scripts to close the window of a component that the host created (API contract 5.23). Forbidding it cancels a
+     * closing of such a window that is under way.
+     * <p>
+     * 호스트가 만든 컴포넌트의 창을 스크립트가 닫는 것을 허용하거나 막는다(API 계약 5.23). 막으면 진행 중인 그런 창의 닫기를 취소한다.
+     *
+     * @param enabled true to allow / 허용하려면 true
+     * @return the previous value / 이전 값
+     * @throws IllegalStateException if disposed / 폐기되었을 때
+     */
+    public boolean setRootWindowClosingEnabled(boolean enabled) {
+        synchronized (lock) {
+            checkAlive();
+            boolean old = rootWindowClosingEnabled;
+            rootWindowClosingEnabled = enabled;
+            // 설정을 끄면 호스트가 만든 창의 예약된 닫기를 취소한다. 웹 콘텐츠가 만든 창은 이 설정과 무관하다.
+            if (!enabled && !createdByWebContent) {
+                cancelWindowCloseLocked();
+            }
+            return old;
+        }
+    }
+
+    /**
+     * Tells whether scripts may close the window of a component that the host created.
+     * <p>
+     * 호스트가 만든 컴포넌트의 창을 스크립트가 닫을 수 있는지 알려 준다.
+     *
+     * @return true if allowed / 허용이면 true
+     */
+    public boolean isRootWindowClosingEnabled() {
+        return rootWindowClosingEnabled;
+    }
+
+    /**
+     * Marks the window as created by web content (a popup of <code>window.open</code> or a window that a link opened); the component
+     * that the host created itself keeps the default. Call it before the first page runs.
+     * <p>
+     * 창을 웹 콘텐츠가 만든 것으로 표시한다(<code>window.open</code> 의 팝업이나 링크가 연 창). 호스트가 직접 만든 컴포넌트는 기본값을 유지한다.
+     * 첫 페이지가 실행되기 전에 부른다.
+     *
+     * @param value true if web content created the window / 웹 콘텐츠가 창을 만들었으면 true
+     */
+    void setCreatedByWebContent(boolean value) {
+        createdByWebContent = value;
+    }
+
+    /**
+     * Tells whether web content created this window.
+     * <p>
+     * 웹 콘텐츠가 이 창을 만들었는지 알려 준다.
+     *
+     * @return true if web content created it / 웹 콘텐츠가 만들었으면 true
+     */
+    boolean isCreatedByWebContent() {
+        return createdByWebContent;
+    }
+
+    /**
+     * Sets the receiver of the accepted close requests of this window. It is called on the event dispatch thread after the unloading
+     * events of the page ran.
+     * <p>
+     * 이 창의 받아들인 닫기 요청을 받을 처리기를 정한다. 페이지의 언로드 이벤트가 실행된 뒤 이벤트 디스패치 스레드에서 호출된다.
+     *
+     * @param handler the receiver or null / 처리기 또는 null
+     */
+    public void setWindowCloseHandler(WindowCloseHandler handler) {
+        closeHandler = handler;
+    }
+
+    /**
+     * Tells whether a script closes the window (<code>window.closed</code> is then true although the page still runs).
+     * <p>
+     * 스크립트가 창을 닫는 중인지 알려 준다(이때 페이지는 아직 실행 중이지만 <code>window.closed</code> 는 true 이다).
+     *
+     * @return true while closing / 닫는 중이면 true
+     */
+    public boolean isWindowClosing() {
+        return windowClosing;
+    }
+
+    /**
+     * Ends a closing that a script requested, because the host acted on the component. The caller holds {@link #lock}.
+     * <p>
+     * 호스트가 컴포넌트를 조작했으므로 스크립트가 요청한 닫기를 끝낸다. 호출자가 {@link #lock} 을 쥔다.
+     */
+    private void cancelWindowCloseLocked() {
+        if (windowClosing) {
+            windowClosing = false;
+            closeSerial++;
+        }
+    }
+
+    /**
+     * Runs the steps of <code>window.close()</code> for a script (WHATWG HTML 7.2.2.1, API contract 5.23). A window that web content
+     * created follows the standard: the caller must be familiar with it and its sandbox must allow navigating it. The window of a
+     * component that the host created is closed only if the host allowed it and only for a document of the same component: the top-level
+     * document itself, or a frame of the same origin that may navigate the top. An accepted request makes the window closing at once and
+     * queues the closing behind the task of the caller.
+     * <p>
+     * 스크립트를 위해 <code>window.close()</code> 의 단계를 실행한다(WHATWG HTML 7.2.2.1, API 계약 5.23). 웹 콘텐츠가 만든 창은 표준을 따른다:
+     * 호출한 쪽이 창과 familiar 관계이고 그 샌드박스가 창의 이동을 허용해야 한다. 호스트가 만든 컴포넌트의 창은 호스트가 허용했을 때만, 그리고 같은
+     * 컴포넌트의 문서(최상위 문서 자신, 또는 최상위를 이동시킬 수 있는 같은 오리진의 프레임)를 위해서만 닫는다. 받아들인 요청은 창을 곧바로 닫는 중으로
+     * 만들고 호출한 작업 뒤에 닫기를 예약한다.
+     *
+     * @param caller the context of the calling script, or null when unknown / 호출한 스크립트의 문맥. 모르면 null
+     * @return null if accepted or silently ignored, otherwise the reason for the console of the caller / 받았거나 조용히 무시했으면 null.
+     *         아니면 호출한 쪽의 콘솔에 알릴 이유
+     */
+    String closeWindowFromPage(BrowsingContext caller) {
+        if (disposed || windowClosing) {
+            return null;
+        }
+        String refused = createdByWebContent ? refuseStandardClose(caller) : refuseRootClose(caller);
+        if (refused != null) {
+            return refused;
+        }
+        final int serial;
+        synchronized (lock) {
+            // 판정하는 사이 폐기되었거나 다른 호출이 먼저 닫기를 시작했으면 아무것도 하지 않는다.
+            if (disposed || windowClosing) {
+                return null;
+            }
+            windowClosing = true;
+            serial = ++closeSerial;
+        }
+        // 파싱 중인 페이지의 스크립트는 로더 스레드에서 실행되므로 문서 큐의 순서만으로는 호출한 작업 뒤가 보장되지 않는다.
+        final Runnable callerTask = org.duckdns.hjow.swingwebpanel.js.host.PageScripts.taskEndBarrier();
+        boolean queued = nav.submitDocumentTask(new Runnable() {
+            /** Closes the window after the task of the caller and its microtasks. / 호출한 작업과 그 마이크로태스크 뒤에 창을 닫는다. */
+            public void run() {
+                callerTask.run();
+                finishWindowClose(serial);
+            }
+        });
+        if (!queued) {
+            synchronized (lock) {
+                if (serial == closeSerial) {
+                    cancelWindowCloseLocked();
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Tells why a script may not close the window of a component that the host created, or null if it may.
+     * <p>
+     * 호스트가 만든 컴포넌트의 창을 스크립트가 닫을 수 없는 이유를 알려 준다. 닫을 수 있으면 null.
+     *
+     * @param caller the context of the calling script / 호출한 스크립트의 문맥
+     * @return the reason or null / 이유 또는 null
+     */
+    private String refuseRootClose(BrowsingContext caller) {
+        if (!rootWindowClosingEnabled) {
+            return "Scripts may close only the windows that were opened by them.";
+        }
+        // 닫으면 프로그램이 끝나므로 같은 컴포넌트의 문서가 부른 경우만 받는다.
+        if (caller == null || caller.getTop() != topContext) {
+            return "window.close() was ignored: a script of another window may not close the window of the component.";
+        }
+        if (caller != topContext) {
+            if (!Origin.of(caller.getOriginUrl()).isSameOrigin(Origin.of(topContext.getOriginUrl()))) {
+                return "window.close() was ignored: a cross-origin frame may not close the window of the component.";
+            }
+            if (!caller.mayNavigate(topContext)) {
+                return "window.close() was ignored: the sandbox of the frame does not allow it to navigate the top-level window.";
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Tells why a script may not close a window that web content created, or null if it may (the conditions of the HTML Standard: the
+     * caller is familiar with the window and its sandbox allows navigating the window).
+     * <p>
+     * 웹 콘텐츠가 만든 창을 스크립트가 닫을 수 없는 이유를 알려 준다. 닫을 수 있으면 null(HTML 표준의 조건: 호출한 쪽이 창과 familiar 관계이고 그
+     * 샌드박스가 창의 이동을 허용한다).
+     *
+     * @param caller the context of the calling script / 호출한 스크립트의 문맥
+     * @return the reason or null / 이유 또는 null
+     */
+    private String refuseStandardClose(BrowsingContext caller) {
+        if (caller == null) {
+            return "window.close() was ignored: the calling document is unknown.";
+        }
+        // familiar: 호출한 문서의 최상위가 이 창이거나, 두 문서가 같은 오리진이다.
+        boolean familiar = caller.getTop() == topContext
+                || Origin.of(caller.getOriginUrl()).isSameOrigin(Origin.of(topContext.getOriginUrl()));
+        if (!familiar) {
+            return "window.close() was ignored: the calling document is not allowed to close this window.";
+        }
+        if (caller != topContext && !caller.mayNavigate(topContext)) {
+            return "window.close() was ignored: the sandbox of the calling document does not allow it to navigate this window.";
+        }
+        return null;
+    }
+
+    /**
+     * Closes the window for an accepted request, on the document thread: the unloading events of the shown page run once, then the close
+     * handler is called on the event dispatch thread. A request that the host cancelled in the meantime does nothing.
+     * <p>
+     * 받아들인 요청에 따라 문서 스레드에서 창을 닫는다: 보이는 페이지의 언로드 이벤트를 한 번 실행한 뒤 이벤트 디스패치 스레드에서 닫기 처리기를 부른다.
+     * 그 사이 호스트가 취소한 요청은 아무것도 하지 않는다.
+     *
+     * @param serial the serial of the request / 요청의 일련번호
+     */
+    private void finishWindowClose(final int serial) {
+        if (!isCloseCurrent(serial)) {
+            return;
+        }
+        // 문서 스레드이므로 언로드 이벤트는 곧바로 실행된다. 이후의 clean()/dispose() 는 같은 페이지에 다시 보내지 않는다.
+        unloadCurrentPage();
+        final WindowCloseHandler handler = closeHandler;
+        final boolean web = createdByWebContent;
+        if (handler == null) {
+            return;
+        }
+        SwingUtilities.invokeLater(new Runnable() {
+            /** Performs the closing unless the host cancelled it. / 호스트가 취소하지 않았으면 닫는 동작을 수행한다. */
+            public void run() {
+                if (isCloseCurrent(serial)) {
+                    handler.closeWindow(web);
+                }
+            }
+        });
+    }
+
+    /**
+     * Tells whether the close request with the given serial is still the one under way.
+     * <p>
+     * 주어진 일련번호의 닫기 요청이 아직 진행 중인 요청인지 알려 준다.
+     *
+     * @param serial the serial of the request / 요청의 일련번호
+     * @return true if still current / 아직 유효하면 true
+     */
+    private boolean isCloseCurrent(int serial) {
+        synchronized (lock) {
+            return !disposed && windowClosing && serial == closeSerial;
+        }
+    }
+
+    /**
      * Cancels everything, shows the blank page, resets the history and clears this component's caches and storage
      * (API contract 5.13). User agent, headers, JavaScript flag and listeners are kept.
      * <p>
@@ -2216,6 +2559,8 @@ public final class BrowserSession implements FormSubmitSink {
         PageSnapshot old;
         List<PageSnapshot> dropped;
         synchronized (lock) {
+            // 페이지를 비우는 것은 닫기를 취소하는 호스트 조작이다.
+            cancelWindowCloseLocked();
             nav.cancelCurrent();
             hoverText = null;
             old = current;

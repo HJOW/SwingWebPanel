@@ -679,8 +679,8 @@ final class WindowGlobals {
                 return Js.UNDEFINED;
             }
         };
-        String[] noops = { "focus", "blur", "close", "stop", "print" };
-        // 화면 없는 동작은 빈 함수로 둔다.
+        String[] noops = { "focus", "blur", "stop", "print" };
+        // 화면 없는 동작은 빈 함수로 둔다. close 와 closed 는 창 관계를 아는 FrameApi 가 정의한다.
         for (int i = 0; i < noops.length; i++) {
             method(g, noops[i], 0, noop);
         }

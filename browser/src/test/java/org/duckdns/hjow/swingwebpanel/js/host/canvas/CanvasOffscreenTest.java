@@ -363,7 +363,7 @@ public class CanvasOffscreenTest {
         Check.equal("TypeError,TypeError,TypeError,RangeError,RangeError,InvalidStateError,InvalidStateError,TypeError,TypeError,TypeError,TypeError,TypeError,TypeError,"
                 + "TypeError,TypeError", js(f, "log.join()"), "argument errors");
         js(f, "log.length = 0; var zero = document.createElement('canvas'); zero.width = 0; rej(createImageBitmap(zero));"
-                + " rej(createImageBitmap(new OffscreenCanvas(0, 1))); var closed; createImageBitmap(cv).then(function (b) { closed = b; b.close(); rej(createImageBitmap(b)); });"
+                + " rej(createImageBitmap(new OffscreenCanvas(0, 1))); var closedBitmap; createImageBitmap(cv).then(function (b) { closedBitmap = b; b.close(); rej(createImageBitmap(b)); });"
                 + " var img = document.createElement('img'); rej(createImageBitmap(img)); var vid = document.createElement('video'); rej(createImageBitmap(vid));");
         Check.equal("InvalidStateError,InvalidStateError,InvalidStateError,InvalidStateError,InvalidStateError", js(f, "log.join()"),
                 "unusable sources: no area, closed, an image without source, a video");

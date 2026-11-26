@@ -166,8 +166,8 @@ public class RealtimeContextScriptTest {
     public void testLimitOfOpenContexts() {
         page.run("var cs = []; var err = null; try { for (var i = 0; i < 20; i++) { cs.push(new AudioContext()); } } catch (e) { err = e.name; }");
         Check.equal("6:NotSupportedError", page.run("cs.length + ':' + err"), "six contexts");
-        page.run("var closed = false; cs[0].close().then(function () { closed = true; });");
-        page.waitFor("closed", 5000, "one is closed");
+        page.run("var ctxClosed = false; cs[0].close().then(function () { ctxClosed = true; });");
+        page.waitFor("ctxClosed", 5000, "one is closed");
         Check.equal("no error", page.errorOf("cs.push(new AudioContext())"), "the place is free again");
         Check.equal("NotSupportedError", page.errorOf("new AudioContext()"), "and the limit applies again");
         Check.equal("no error", page.errorOf("new OfflineAudioContext(1, 128, 8000)"), "offline contexts have a limit of their own");

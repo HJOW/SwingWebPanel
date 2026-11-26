@@ -154,6 +154,7 @@ panel.dispose();                          // 창을 닫을 때 반드시 호출�
 | `addHyperlinkListener`, `removeHyperlinkListener`, `removeHyperlinkEvents()` | `javax.swing.event.HyperlinkListener` 로 링크 진입/이탈/활성화를 받는다. 통지를 모두 제거해도 링크 이동 자체는 계속 동작한다. |
 | `addConsoleListener`, `removeConsoleListener`, `getConsoleListeners()` | 페이지 스크립트의 `console.log`/`console.error` 등 콘솔 출력을 `ConsoleListener` 로 받는다(아래 "콘솔 출력 받기"). `clean()` 은 유지하고 `dispose()` 는 제거한다. |
 | `postMessage(Object[,String])`, `addWebMessageListener`, `removeWebMessageListener`, `getWebMessageListeners()` | 현재 최상위 문서에 복사한 값을 보내고, 페이지의 호스트 메시지를 EDT에서 받는다. |
+| `setRootWindowClosingEnabled(boolean)` / `isRootWindowClosingEnabled()` | 팝업이 아닌 본 창의 페이지가 `window.close()`로 창을 닫는 것을 허용합니다. 기본은 꺼짐(무시)이고, 켜면 기본 동작은 `System.exit(0)`으로 프로그램을 끝내는 것입니다(아래 "페이지가 창을 닫게 하기"). |
 | `getLocalStorage()`, `getSessionStorage()` | Web Storage 항목의 읽기 전용 복사본(`StorageEntry`: origin, key, value). |
 | `clean()` | 진행 중인 작업을 취소하고 `about:blank` 로 돌아가며 캐시, sessionStorage, **프로세스 공용 localStorage 전체**를 비운다(다른 컴포넌트도 영향을 받는다). User-Agent, 추가 헤더, 쿠키, JavaScript 설정, 사용자 리스너는 유지한다. |
 | `dispose()` | `clean()` 후 이 컴포넌트에 등록된 모든 사용자 리스너와 내부 자원(타이머, 하위 작업, 미디어, 다운로드)을 해제한다. 반복 호출은 안전하다. 이후 변경 메서드는 `IllegalStateException`, 조회는 빈 상태를 돌려준다. |
@@ -270,6 +271,22 @@ panel.addWebMessageListener(new WebMessageListener() {
 네트워크 페이지나 그 하위 프레임에서 메시지가 올 수 있으므로 오리진과 데이터 형식을 먼저 확인하세요. Java가 특정 사이트에 값을 보낼 때는 해당 절대 오리진을 지정합니다. `reply`는 이벤트가 기록한 원래 문서에만 응답합니다. [값 변환과 수명 계약](docs/API_CONTRACT.md#522-java-호스트와-페이지-스크립트-간-메시지-p27)
 
 Windows에서는 `examples\run.bat MessageExample`로 클래스패스 왕복 예제를 열 수 있습니다. `--smoke`를 붙이면 화면 없이 메시지를 주고받습니다. [예제 목록](examples/README.md)
+
+### 페이지가 창을 닫게 하기
+
+기본적으로 본 창의 페이지가 부른 `window.close()`는 무시되고 페이지의 콘솔에 경고만 남습니다. `setRootWindowClosingEnabled(true)`로 허용하면, 최상위 문서가 `window.close()`를 부를 때 호출한 스크립트 작업이 끝난 직후 EDT에서 `closeRootWindow()`가 한 번 호출됩니다. 기본 구현은 `System.exit(0)`으로 프로그램을 끝냅니다.
+
+```java
+SwingWebPanel panel = new SwingWebPanel() {
+    protected void closeRootWindow() {
+        frame.dispose();   // 프로그램을 끝내지 않고 이 창만 닫는다
+        dispose();
+    }
+};
+panel.setRootWindowClosingEnabled(true);
+```
+
+**주의:** 이 설정을 켜면 보여 주는 페이지가 프로그램을 종료할 수 있습니다. 내용을 직접 통제하는 페이지에서만 켜세요. 다른 오리진의 프레임과 `allow-top-navigation` 없는 샌드박스 프레임이 부른 `top.close()`는 설정을 켜도 무시됩니다. 닫기가 수행되기 전에 Java에서 `setPage`, `clean()` 등으로 컴포넌트를 조작하면 닫기가 취소됩니다. [닫기 조건과 취소 계약](docs/API_CONTRACT.md#523-확장-메서드-본-창-닫기-허용-p30-확장이며-agentsmd-의-공개-메서드-목록에는-없다)
 
 ### 독립 JavaScript 엔진과 `javax.script`
 

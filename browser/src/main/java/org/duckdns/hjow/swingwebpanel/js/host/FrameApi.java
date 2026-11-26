@@ -146,6 +146,38 @@ final class FrameApi {
     }
 
     /**
+     * Runs <code>window.close()</code> on a window for a calling document and reports a refusal to the console of the caller.
+     * <p>
+     * 호출한 문서를 위해 창에 <code>window.close()</code> 를 실행하고, 거절되면 호출한 쪽의 콘솔에 알린다.
+     *
+     * @param target the context of the window to close, or null when the host has none / 닫을 창의 문맥. 호스트에 문맥이 없으면 null
+     * @param sender the page of the calling script / 호출한 스크립트의 페이지
+     */
+    static void closeWindow(BrowsingContext target, PageScripts sender) {
+        if (target == null) {
+            return;
+        }
+        BrowsingContext caller = sender == null ? null : sender.getEnvironment().getBrowsingContext();
+        String refused = target.close(caller);
+        // 닫을 수 없는 창이면 이유를 호출한 문서의 콘솔에 경고로 남긴다.
+        if (refused != null && sender != null && !sender.isDisposed()) {
+            sender.getRealm().getConsole().message("warn", refused);
+        }
+    }
+
+    /**
+     * Gives the value of <code>window.closed</code> for a context: true if the window is gone or a script is closing it.
+     * <p>
+     * 문맥의 <code>window.closed</code> 값을 준다: 창이 없어졌거나 스크립트가 닫는 중이면 true.
+     *
+     * @param c the context, or null when the host has none / 문맥. 호스트에 문맥이 없으면 null
+     * @return the value of <code>closed</code> / <code>closed</code> 의 값
+     */
+    static boolean isWindowClosed(BrowsingContext c) {
+        return c != null && (c.isClosed() || c.isClosing());
+    }
+
+    /**
      * Wraps an element or document of another document of the page for the scripts of this one: with the bridge of the document that owns
      * it when that document has scripts, otherwise with the bridge of this document.
      * <p>
@@ -314,6 +346,38 @@ final class FrameApi {
                 return opened == null ? Js.NULL : windowOf(opened);
             }
         }), true, false, true);
+        g.defineData("close", realm.newFunction("close", 0, new NativeFunction.Call() {
+            /**
+             * Closes the window if scripts may close it (WHATWG HTML 7.2.2.1, API contract 5.23); otherwise does nothing and tells the
+             * console of the calling document why.
+             * <p>
+             * 스크립트가 닫을 수 있는 창이면 닫는다(WHATWG HTML 7.2.2.1, API 계약 5.23). 아니면 아무것도 하지 않고 호출한 문서의 콘솔에 이유를 알린다.
+             *
+             * @param r    the realm / realm
+             * @param self this value / this 값
+             * @param args arguments (ignored) / 인수(무시)
+             * @return undefined / undefined
+             */
+            public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
+                closeWindow(context(), PageScripts.messageSender(page));
+                return Js.UNDEFINED;
+            }
+        }), true, true, true);
+        g.defineAccessor("closed", realm.newFunction("get closed", 0, new NativeFunction.Call() {
+            /**
+             * Tells whether the window was discarded or is being closed by a script.
+             * <p>
+             * 창이 버려졌거나 스크립트에 의해 닫히는 중인지 알려 준다.
+             *
+             * @param r    the realm / realm
+             * @param self this value / this 값
+             * @param args arguments / 인수
+             * @return true if closed / 닫혔으면 true
+             */
+            public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
+                return Js.bool(isWindowClosed(context()));
+            }
+        }), null, true, true);
         installElementMembers();
         refresh();
     }

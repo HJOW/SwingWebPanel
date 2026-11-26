@@ -434,13 +434,16 @@ panel.postMessage("hello", "https://app.example");             // 대상 오리�
 
 1. `close()` 를 부른 즉시 창이 "닫는 중"이 된다. `closed` 는 표준대로 "창이 없거나(폐기) 닫는 중"이면 `true` 이다.
    최상위 창의 `closed`, 프레임에서 본 `top.closed`, 교차 오리진에서 본 `closed` 가 모두 같은 값을 읽는다.
-2. 실제 닫기는 호출한 스크립트 작업과 그 마이크로태스크 검사점이 끝난 뒤, 문서 큐의 다음 작업으로 수행한다.
+2. 실제 닫기는 호출한 스크립트 작업과 그 마이크로태스크 검사점이 끝난 뒤, 문서 큐의 작업으로 수행한다.
    즉 "바로 종료"는 "호출한 스크립트 작업이 끝난 직후 종료"이다. `window.close()` 뒤에 같은 작업에서 실행되는 문장은 끝까지 실행된다.
+   파싱 중에 실행되는 인라인 스크립트는 문서 스레드가 아닌 로더 스레드에서 실행되므로, 닫기 작업은 호출한 작업의 페이지 잠금이 풀릴 때까지 기다린 뒤 진행한다(`PageScripts.taskEndBarrier()`).
 3. 닫기 작업은 지금 보이는 페이지의 언로드 이벤트(`beforeunload`, `pagehide`, `visibilitychange`, `unload`)를 확인 대화 상자 없이 한 번 실행한다.
-   그 뒤의 `dispose()`/`clean()` 은 이 이벤트를 다시 보내지 않는다.
+   그 뒤의 `dispose()`/`clean()` 은 이 이벤트를 다시 보내지 않는다. 이동할 때와 같이 한 번 보인(`pageshow`) 페이지만 이 이벤트를 듣는다.
+   그래서 `load` 이벤트 처리기나 파싱 중의 스크립트처럼 `pageshow` 전에 닫은 페이지는 언로드 이벤트 없이 닫힌다.
 4. 그 뒤 EDT 에서 닫는 동작을 한 번 수행한다(위 표).
 
 **취소.** 페이지 스크립트의 이동(`location`, 링크, 폼)과 진행 중인 로딩은 닫기를 취소하지 않는다(표준과 같다).
+다만 이 컴포넌트는 이동이 시작되면 떠나는 페이지의 스크립트를 그 자리에서 중단하므로, 같은 스크립트에서 `location` 대입 뒤에 오는 `window.close()` 는 실행되지 않는다.
 닫기를 취소하는 것은 닫는 동작이 시작되기 전의 호스트 조작뿐이다: Java 의 `setPage`, `setContent`, `back`, `forward`, `refresh`, `clean()`, `dispose()`,
 `setJavascriptEnabled(false)`, 그리고 본 창에서의 `setRootWindowClosingEnabled(false)`. 취소하면 닫는 중 상태가 풀리고 `closed` 는 다시 `false` 가 된다.
 아무 일도 하지 않는 `back`/`forward`(이동할 칸이 없음)는 취소하지 않는다.
@@ -522,6 +525,6 @@ HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도�
 | C-SSL-1~3 | SSL | protected 재정의 호출, HTTPS 실패 후 HTTP 재시도, 404 비재시도 |
 | C-CONSOLE-1~8 | 콘솔 리스너(5.20) | log/error 수준·문자열·인수·위치·EDT, 모든 콘솔 메서드의 수준, Swing 등록 규칙, 리스너 예외 격리, 브라우저 보고의 종류, 모든 스크립트 실행 위치, 프레임/Worker 표시, 대량 출력 상한, 이동·clean·dispose·JavaScript 설정 |
 | C-MESSAGE-1~8 | 호스트 메시지(5.22, P27) | `HostOutboundMessageTest`: 1 대상 오리진·신뢰 이벤트, 2 파싱 중 발신·이동 취소. `HostInboundMessageTest`: 3 준비 알림·EDT 응답, 4 값과 전달 오류, 5 프레임·Worker·교체 응답. `HostMessageQueueTest`: 6 마이크로태스크와 리스너 예외, 7 대기 건수·바이트. `HostMessageLifecycleTest`: 8 비활성·정리·폐기와 약한 수명. 클래스패스 왕복은 `MessageExample --smoke`. |
-| C-ROOTCLOSE-1~8 | 본 창 닫기 허용(5.23, P30) | `RootWindowClosingTest`: 1 기본값·속성 통지·폐기 뒤 ISE, 2 기본값에서 무시와 콘솔 경고, 3 허용 시 EDT 한 번·작업과 마이크로태스크 뒤·`closed`·반복 호출, 4 프레임(같은/다른 오리진, 샌드박스, 프레임 자신), 5 페이지 이동은 취소하지 않고 호스트 조작은 취소, 6 언로드 이벤트 한 번, 7 웹 콘텐츠가 만든 창 경로, 8 기본 구현의 `System.exit(0)`(별도 JVM) |
+| C-ROOTCLOSE-1~8 | 본 창 닫기 허용(5.23, P30) | `RootWindowClosingTest`: 1 기본값·속성 통지·`clean()` 유지·폐기 뒤 ISE, 2 기본값에서 무시와 콘솔 경고, 3 허용 시 EDT 한 번·작업과 마이크로태스크 뒤(파싱 중 스크립트 포함)·`closed`·반복 호출·타이머/프라미스/인라인 핸들러, 4 프레임(같은/다른 오리진, 샌드박스, 프레임 자신), 5 페이지 이동은 취소하지 않고 호스트 조작은 취소, 6 언로드 이벤트 한 번. `core.WebContentWindowClosingTest`: 7 웹 콘텐츠가 만든 창 경로. `RootWindowClosingExitMain`(Maven `run-root-close-exit`): 8 기본 구현의 `System.exit(0)`을 별도 JVM 에서 확인(허용 시 종료 코드 0, 대조로 미허용 시 3) |
 
 사례 ID는 구현 시 `browser/src/test/java`의 메서드 이름에 포함하고 `FEATURE_MATRIX.md`의 검증 사례 열과 일치시킨다.

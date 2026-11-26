@@ -1426,6 +1426,32 @@ public final class PageScripts {
     }
 
     /**
+     * Returns a barrier for the task that runs outermost on the calling thread now: running the returned object on another thread
+     * blocks until that task, including its microtask checkpoint, has ended. A script of a page that is still being parsed runs on the
+     * thread of its loader, not on the document thread, so work that must follow "the task of the caller" cannot rely on the order of the
+     * document queue alone; it runs this barrier first. Without a running task the barrier does nothing.
+     * <p>
+     * 지금 호출한 스레드에서 가장 바깥에 실행 중인 작업에 대한 장벽을 반환한다: 반환된 객체를 다른 스레드에서 실행하면 그 작업이 마이크로태스크 검사점까지
+     * 끝날 때까지 막힌다. 아직 파싱 중인 페이지의 스크립트는 문서 스레드가 아니라 로더의 스레드에서 실행되므로, "호출한 작업 뒤"에 와야 하는 일은 문서
+     * 큐의 순서만으로는 보장되지 않는다. 그런 일은 먼저 이 장벽을 실행한다. 실행 중인 작업이 없으면 장벽은 아무것도 하지 않는다.
+     *
+     * @return the barrier; never null / 장벽. null 이 아니다
+     */
+    public static Runnable taskEndBarrier() {
+        final PageScripts entry = ENTRY.get();
+        return new Runnable() {
+            /** Waits until the page lock of the task is free. / 작업의 페이지 잠금이 풀릴 때까지 기다린다. */
+            public void run() {
+                if (entry != null) {
+                    // 작업은 끝날 때까지 페이지 잠금을 쥐고 있으므로 잠금을 잡았다 놓으면 작업이 끝난 뒤이다.
+                    entry.lock.lock();
+                    entry.lock.unlock();
+                }
+            }
+        };
+    }
+
+    /**
      * Returns the browsing context of the script that is running on this thread, the one that started the outermost task (a script that
      * calls into another document is still the caller there). Used to apply the sandbox rules to navigations that scripts start.
      * <p>

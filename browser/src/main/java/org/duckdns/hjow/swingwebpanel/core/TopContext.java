@@ -242,4 +242,27 @@ final class TopContext implements BrowsingContext {
     public boolean isClosed() {
         return session.isDisposed();
     }
+
+    /**
+     * Tells whether a script asked to close the window of the component and the request was accepted.
+     * <p>
+     * 스크립트가 컴포넌트의 창을 닫으라고 요청했고 그 요청이 받아들여졌는지 알려 준다.
+     *
+     * @return true while closing / 닫는 중이면 true
+     */
+    public boolean isClosing() {
+        return session.isWindowClosing();
+    }
+
+    /**
+     * Runs <code>window.close()</code> on the window of the component: the component decides whether scripts may close it.
+     * <p>
+     * 컴포넌트의 창에 <code>window.close()</code> 를 실행한다. 스크립트가 닫을 수 있는지는 컴포넌트가 판정한다.
+     *
+     * @param caller the context of the calling script / 호출한 스크립트의 문맥
+     * @return null if accepted or silently ignored, otherwise the reason for the console / 받았거나 조용히 무시했으면 null. 아니면 콘솔에 알릴 이유
+     */
+    public String close(BrowsingContext caller) {
+        return session.closeWindowFromPage(caller);
+    }
 }

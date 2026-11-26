@@ -161,7 +161,7 @@ final class CrossOriginWindow extends JsObject {
             return targetPage == null ? Js.NULL : targetPage.crossOriginHostOpener();
         }
         if ("closed".equals(k)) {
-            return Js.bool(target.isClosed());
+            return Js.bool(FrameApi.isWindowClosed(target));
         }
         if ("location".equals(k)) {
             return location(realm);
@@ -188,7 +188,25 @@ final class CrossOriginWindow extends JsObject {
                 }
             });
         }
-        if ("focus".equals(k) || "blur".equals(k) || "close".equals(k)) {
+        if ("close".equals(k)) {
+            return realm.newFunction("close", 0, new NativeFunction.Call() {
+                /**
+                     * Closes the window of the other origin if this document may close it (WHATWG HTML 7.2.2.1, API contract 5.23).
+                     * <p>
+                     * 이 문서가 닫을 수 있으면 다른 오리진의 창을 닫는다(WHATWG HTML 7.2.2.1, API 계약 5.23).
+                     *
+                     * @param r    the realm / realm
+                     * @param self this value / this 값
+                     * @param args arguments (ignored) / 인수(무시)
+                     * @return undefined / undefined
+                     */
+                public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
+                        FrameApi.closeWindow(target, caller);
+                        return Js.UNDEFINED;
+                }
+            });
+        }
+        if ("focus".equals(k) || "blur".equals(k)) {
             return realm.newFunction(k, 0, new NativeFunction.Call() {
                 /**
                      * Does nothing (a component has no window focus to move between frames).

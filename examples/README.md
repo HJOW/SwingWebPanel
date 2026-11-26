@@ -10,7 +10,7 @@
 - Java와 페이지 사이 메시지: `examples/run.sh MessageExample` 또는 `examples\run.bat MessageExample`. 클래스패스 페이지의 준비 메시지를 받은 뒤 Swing 입력값을 보내며, 페이지에서 보낸 메시지는 EDT의 라벨에 나타납니다. `--smoke`는 `WebMessageEvent.reply`와 페이지의 응답을 화면 없이 확인합니다.
 - 독립 JavaScript 엔진은 `examples/run.sh EngineExample`로 실행합니다. 예제 클래스와 엔진 JAR를 클래스패스에 두고 `JsEngine`으로 스크립트 실행, Java 함수 주기, Map/List 읽기, promise 작업, 타이머, 오류 위치와 시간 제한을 보여 줍니다. `--smoke`는 결과를 확인하고 한 줄을 출력합니다.
 - Java Scripting API(JSR 223)는 `examples/run.sh script.ScriptEngineExample`로 확인합니다. `ScriptEngineManager`로 고유한 이름 `swingwebpanel-js`의 엔진을 찾아 `eval`, `Bindings`, 컨텍스트의 라이터, `Compilable`, `Invocable`/`getInterface`, `ScriptException` 위치를 보여 줍니다. 하위 패키지 예제는 점으로 씁니다.
-- 기본 API 창: `examples/run.sh BlankPageExample [시작 URL]`. `JScrollPane`, 상태/진행률 속성, 뒤/앞 이동, 새로고침과 창 종료 시 `dispose()`를 보여 줍니다.
+- 기본 API 창: `examples/run.sh BlankPageExample [시작 URL]`. `JScrollPane`, 상태/진행률 속성, 뒤/앞 이동, 새로고침과 창 종료 시 `dispose()`를 보여 줍니다. 시작 URL 없이 실행하면 시작 페이지의 단추가 `window.close()`를 부릅니다. 예제는 자기 페이지에 한해 `setRootWindowClosingEnabled(true)`로 이를 허용하고 `closeRootWindow()`를 재정의해 창만 닫습니다(기본 동작은 `System.exit(0)`).
 
 정적 예제의 HTML/CSS는 Maven이 `examples/src/main/resources`에서 예제 클래스패스로 복사합니다. 예제 페이지는 로컬에서 열립니다.
 누락된 이미지는 URL·alt 대체 표시를 확인하기 위한 자료입니다. 표의 열 폭/셀 병합 등 완전한 배치는 아직 P10-02 작업이며 이 예제로 전체 HTML/CSS 지원을 뜻하지 않습니다.

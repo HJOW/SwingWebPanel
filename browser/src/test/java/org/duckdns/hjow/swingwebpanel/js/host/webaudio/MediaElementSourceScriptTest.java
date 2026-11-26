@@ -726,8 +726,8 @@ public class MediaElementSourceScriptTest {
      */
     public void testClosedContextLetsTheElementPlayOnSilently() throws Exception {
         connected(rampWav(RATE, 24000), 1.0, "http://example.test/dir/s.wav");
-        js("var closed = false; rt.close().then(function () { closed = true; });");
-        until("closed", "the context is closed");
+        js("var ctxClosed = false; rt.close().then(function () { ctxClosed = true; });");
+        until("ctxClosed", "the context is closed");
         long t0 = System.nanoTime();
         js("var ended = false; a.onended = function () { ended = true; }; a.play();");
         until("ended", "the element reached its end although the context is closed");
@@ -753,8 +753,8 @@ public class MediaElementSourceScriptTest {
             js("var rt = new AudioContext(); var a = new Audio('http://example.test/dir/s" + i + ".wav'); var s = rt.createMediaElementSource(a); s.connect(rt.destination);");
             deliver(i, rampWav(RATE, 2000));
             until("a.readyState === 4", "loaded " + i);
-            js("a.play(); var closed = false; rt.close().then(function () { closed = true; });");
-            until("closed", "closed " + i);
+            js("a.play(); var ctxClosed = false; rt.close().then(function () { ctxClosed = true; });");
+            until("ctxClosed", "closed " + i);
         }
         js("var a = null, rt = null, s = null;");
         long end = System.currentTimeMillis() + 10000;

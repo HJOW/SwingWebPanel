@@ -163,6 +163,13 @@ public class SwingWebPanel extends JPanel implements Scrollable {
     public static final String PROPERTY_ZOOM = "zoom";
 
     /**
+     * Name of the property that announces a change of {@link #setRootWindowClosingEnabled(boolean)}; the values are <code>Boolean</code>.
+     * <p>
+     * {@link #setRootWindowClosingEnabled(boolean)} 의 변경을 알리는 속성 이름. 값은 <code>Boolean</code> 이다.
+     */
+    public static final String PROPERTY_ROOT_WINDOW_CLOSING_ENABLED = "rootWindowClosingEnabled";
+
+    /**
      * Preferred width of an empty page in pixels.
      * <p>
      * 빈 페이지의 선호 폭(픽셀).
@@ -310,6 +317,21 @@ public class SwingWebPanel extends JPanel implements Scrollable {
         session = new BrowserSession(effective, new Observer(), cookies);
         session.setConsoleDispatcher(consoles);
         session.setWebMessageDispatcher(webMessages);
+        session.setWindowCloseHandler(new org.duckdns.hjow.swingwebpanel.core.WindowCloseHandler() {
+            /**
+             * Closes the window of this component for a script, on the event dispatch thread.
+             * <p>
+             * 스크립트를 위해 이 컴포넌트의 창을 이벤트 디스패치 스레드에서 닫는다.
+             *
+             * @param createdByWebContent true if web content created the window / 웹 콘텐츠가 창을 만들었으면 true
+             */
+            public void closeWindow(boolean createdByWebContent) {
+                // 호스트가 만든 창만 본 창 닫기 정책(기본은 프로그램 종료)을 쓴다. 웹 콘텐츠가 만든 창은 그 창을 담은 쪽이 닫는다.
+                if (!createdByWebContent && !disposed) {
+                    closeRootWindow();
+                }
+            }
+        });
         controls = new ControlOverlays(this);
         view = new PageView(session, metrics, new PageView.HostWithScriptLimits() {
             /** Publishes new scroll dimensions and drawing on the EDT. / EDT에서 새 스크롤 크기와 그림을 게시한다. */
@@ -990,6 +1012,95 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      */
     public boolean isJavascriptEnabled() {
         return session.isJavascriptEnabled();
+    }
+
+    /**
+     * Allows or forbids the page to close the window of this component with <code>window.close()</code> (extension method, API contract
+     * 5.23; default: forbidden). When it is allowed and the top-level document, not a popup, calls <code>window.close()</code>, the
+     * component calls {@link #closeRootWindow()} on the event dispatch thread right after the calling script task ended; by default that
+     * ends the program with <code>System.exit(0)</code>. A frame of another origin and a script of another window cannot close the
+     * window. Forbidding it again cancels a closing that has not been performed yet. The value survives {@link #clean()} and a change is
+     * announced as the {@link #PROPERTY_ROOT_WINDOW_CLOSING_ENABLED} property on the event dispatch thread. It may be called from any
+     * thread.
+     * <p>
+     * <b>Security:</b> with this setting on, the page that is shown can end the program. Turn it on only for pages whose content the host
+     * controls.
+     * <p>
+     * 페이지가 <code>window.close()</code> 로 이 컴포넌트의 창을 닫는 것을 허용하거나 막는다(확장 메서드, API 계약 5.23. 기본: 막음). 허용했을 때
+     * 팝업이 아닌 최상위 문서가 <code>window.close()</code> 를 부르면, 컴포넌트는 호출한 스크립트 작업이 끝난 직후 이벤트 디스패치 스레드에서
+     * {@link #closeRootWindow()} 를 부른다. 기본 동작은 <code>System.exit(0)</code> 으로 프로그램을 끝내는 것이다. 다른 오리진의 프레임과 다른 창의
+     * 스크립트는 이 창을 닫을 수 없다. 다시 막으면 아직 수행하지 않은 닫기를 취소한다. 값은 {@link #clean()} 뒤에도 유지되고, 변경은
+     * {@link #PROPERTY_ROOT_WINDOW_CLOSING_ENABLED} 속성으로 이벤트 디스패치 스레드에서 알린다. 어느 스레드에서나 부를 수 있다.
+     * <p>
+     * <b>보안:</b> 이 설정을 켜면 보여 주는 페이지가 프로그램을 끝낼 수 있다. 호스트가 내용을 통제하는 페이지에서만 켠다.
+     * <p>
+     * 사용 예 / Example:
+     * <pre>
+     * panel.setRootWindowClosingEnabled(true);
+     * panel.setPage("classpath://app/index.html"); // a button of the page may now call window.close()
+     * </pre>
+     *
+     * @param enabled true to allow / 허용하려면 true
+     * @throws IllegalStateException if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void setRootWindowClosingEnabled(final boolean enabled) {
+        checkAlive();
+        final boolean old = session.setRootWindowClosingEnabled(enabled);
+        if (old == enabled) {
+            return;
+        }
+        // 속성 변경은 EDT 에서 알린다.
+        if (SwingUtilities.isEventDispatchThread()) {
+            firePropertyChange(PROPERTY_ROOT_WINDOW_CLOSING_ENABLED, old, enabled);
+        } else {
+            SwingUtilities.invokeLater(new Runnable() {
+                /** Announces the new value on the event dispatch thread. / 이벤트 디스패치 스레드에서 새 값을 알린다. */
+                public void run() {
+                    firePropertyChange(PROPERTY_ROOT_WINDOW_CLOSING_ENABLED, old, enabled);
+                }
+            });
+        }
+    }
+
+    /**
+     * Tells whether the page may close the window of this component with <code>window.close()</code> (extension method, API contract
+     * 5.23). After {@link #dispose()} it returns the last value.
+     * <p>
+     * 페이지가 <code>window.close()</code> 로 이 컴포넌트의 창을 닫을 수 있는지 알려 준다(확장 메서드, API 계약 5.23). {@link #dispose()} 뒤에는
+     * 마지막 값을 반환한다.
+     *
+     * @return true if allowed / 허용이면 true
+     */
+    public boolean isRootWindowClosingEnabled() {
+        return session.isRootWindowClosingEnabled();
+    }
+
+    /**
+     * Closes the window of this component because the page called <code>window.close()</code> while
+     * {@link #setRootWindowClosingEnabled(boolean)} allowed it (API contract 5.23). It is called once per accepted call, on the event
+     * dispatch thread, after the unloading events of the page ran. The default implementation ends the program with
+     * <code>System.exit(0)</code>. A host that must not end (for example a browser that only closes the tab or the window that holds this
+     * component) overrides it; when the overriding method returns, the component and its page stay as they are and
+     * <code>window.closed</code> stays true until the host disposes the component or navigates it.
+     * <p>
+     * {@link #setRootWindowClosingEnabled(boolean)} 가 허용한 동안 페이지가 <code>window.close()</code> 를 불렀으므로 이 컴포넌트의 창을 닫는다(API
+     * 계약 5.23). 받아들인 호출마다 한 번, 페이지의 언로드 이벤트가 실행된 뒤 이벤트 디스패치 스레드에서 호출된다. 기본 구현은
+     * <code>System.exit(0)</code> 으로 프로그램을 끝낸다. 끝나면 안 되는 호스트(예: 이 컴포넌트를 담은 탭이나 창만 닫는 브라우저)는 재정의한다.
+     * 재정의한 메서드가 반환하면 컴포넌트와 페이지는 그대로 남고, 호스트가 컴포넌트를 폐기하거나 이동시킬 때까지 <code>window.closed</code> 는
+     * true 로 남는다.
+     * <p>
+     * 사용 예 / Example:
+     * <pre>
+     * SwingWebPanel panel = new SwingWebPanel() {
+     *     protected void closeRootWindow() {
+     *         frame.dispose(); // close only this window instead of ending the program
+     *         dispose();
+     *     }
+     * };
+     * </pre>
+     */
+    protected void closeRootWindow() {
+        System.exit(0);
     }
 
     /**

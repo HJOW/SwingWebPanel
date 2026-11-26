@@ -149,4 +149,32 @@ public interface BrowsingContext {
      * @return true if discarded / 버려졌으면 true
      */
     boolean isClosed();
+
+    /**
+     * Tells whether the window of this context is being closed by a script (the "is closing" flag of the HTML Standard, which only a
+     * top-level context ever sets). Together with {@link #isClosed()} it gives <code>window.closed</code>: the document of a closing window
+     * still runs until the window is really closed.
+     * <p>
+     * 이 문맥의 창이 스크립트에 의해 닫히는 중인지 알려 준다(HTML 표준의 "is closing" 표시. 최상위 문맥만 설정한다). {@link #isClosed()} 와 함께
+     * <code>window.closed</code> 의 값이 된다. 닫는 중인 창의 문서는 창이 실제로 닫힐 때까지 계속 실행된다.
+     *
+     * @return true while closing / 닫는 중이면 true
+     */
+    boolean isClosing();
+
+    /**
+     * Runs the steps of <code>window.close()</code> on the window of this context for a script (WHATWG HTML 7.2.2.1). Only a top-level
+     * window that scripts may close is closed: a window that web content created, or the window of the component when the host allowed it
+     * (API contract 5.23). The window becomes closing at once and is closed by a later task of the document queue. A nested context and
+     * a window that is closing already ignore the call silently.
+     * <p>
+     * 스크립트를 위해 이 문맥의 창에 <code>window.close()</code> 의 단계를 실행한다(WHATWG HTML 7.2.2.1). 스크립트가 닫을 수 있는 최상위 창만
+     * 닫는다: 웹 콘텐츠가 만든 창, 또는 호스트가 허용한 컴포넌트의 본 창(API 계약 5.23). 창은 곧바로 닫는 중이 되고 문서 큐의 뒤 작업에서 닫힌다.
+     * 중첩 문맥과 이미 닫는 중인 창은 호출을 조용히 무시한다.
+     *
+     * @param caller the context of the script that called (the incumbent), or null when unknown / 호출한 스크립트의 문맥(incumbent). 모르면 null
+     * @return null if the call was accepted or silently ignored, otherwise the reason why the window is not closed, for the console of
+     *         the caller / 호출을 받았거나 조용히 무시했으면 null. 아니면 창을 닫지 않는 이유(호출한 쪽의 콘솔에 알린다)
+     */
+    String close(BrowsingContext caller);
 }

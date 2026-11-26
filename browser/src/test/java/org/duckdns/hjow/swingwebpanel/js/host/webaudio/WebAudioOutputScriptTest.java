@@ -206,8 +206,8 @@ public class WebAudioOutputScriptTest {
         float[] again = second.copyChannel(0);
         Check.equal(0.25f, again[0], "the signal is there from the first frame of the new output");
         Check.isTrue(page.number("rt.currentTime") > stopped, "the time goes on from where it stopped");
-        page.run("var closed = false; rt.close().then(function () { closed = true; });");
-        page.waitFor("closed", 5000, "closed");
+        page.run("var ctxClosed = false; rt.close().then(function () { ctxClosed = true; });");
+        page.waitFor("ctxClosed", 5000, "closed");
         Check.equal(base, threads("swingwebpanel-audio-render-"), "close() ends the rendering thread");
         deadline = System.currentTimeMillis() + 5000;
         // 출력이 닫힐 때까지 기다린다.

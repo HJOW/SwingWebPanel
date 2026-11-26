@@ -1418,6 +1418,29 @@ final class FrameContext implements BrowsingContext {
     }
 
     /**
+     * A nested context is never closing: only a top-level window is closed by <code>window.close()</code>.
+     * <p>
+     * 중첩 문맥은 닫는 중이 되지 않는다. <code>window.close()</code> 로 닫히는 것은 최상위 창뿐이다.
+     *
+     * @return always false / 항상 false
+     */
+    public boolean isClosing() {
+        return false;
+    }
+
+    /**
+     * Ignores <code>window.close()</code> on the window of a frame, as the standard says for a context that is not top-level.
+     * <p>
+     * 프레임의 창에 대한 <code>window.close()</code> 를 무시한다. 표준이 최상위가 아닌 문맥에 정한 대로이다.
+     *
+     * @param caller the context of the calling script / 호출한 스크립트의 문맥
+     * @return always null (silently ignored) / 항상 null(조용히 무시)
+     */
+    public String close(BrowsingContext caller) {
+        return null;
+    }
+
+    /**
      * Discards the context: the load is cancelled, the document with its scripts, timers and presentation is released and the nested frames
      * are closed. Safe from any thread and repeatable.
      * <p>

@@ -23,11 +23,16 @@ import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
 /**
  * Minimal browser window: a <code>SwingWebPanel</code> wrapped in a <code>JScrollPane</code>, an address field, back/forward/refresh
  * buttons, a progress bar and a status line. It shows how the component is used and how it is released: closing the window calls
- * {@link SwingWebPanel#dispose()}. Run it with <code>examples/run.sh BlankPageExample</code>; with the argument <code>--smoke</code>
+ * {@link SwingWebPanel#dispose()}. The start page of the example has a button that calls <code>window.close()</code>: the example
+ * allows that with {@link SwingWebPanel#setRootWindowClosingEnabled(boolean)} for its own page only and overrides
+ * <code>closeRootWindow()</code> to close this window instead of ending the JVM at once. Run it with <code>examples/run.sh BlankPageExample</code>; with the argument <code>--smoke</code>
  * the window closes after the page finishes loading or a timeout, and the program prints a one-line result.
  * <p>
  * 최소한의 브라우저 창: <code>JScrollPane</code> 으로 감싼 <code>SwingWebPanel</code>, 주소 입력란, 뒤로/앞으로/새로고침 버튼,
  * 진행 막대, 상태 줄. 컴포넌트를 쓰는 방법과 해제하는 방법을 보여 준다: 창을 닫으면 {@link SwingWebPanel#dispose()} 를 호출한다.
+ * 예제의 시작 페이지에는 <code>window.close()</code> 를 부르는 단추가 있다. 예제는 자기 페이지에 한해
+ * {@link SwingWebPanel#setRootWindowClosingEnabled(boolean)} 로 그것을 허용하고, <code>closeRootWindow()</code> 를 재정의하여 JVM 을 곧바로
+ * 끝내는 대신 이 창을 닫는다.
  * <code>examples/run.sh BlankPageExample</code> 로 실행하며, <code>--smoke</code> 인수를 주면 페이지 로드 완료 또는 제한 시간 뒤
  * 창을 닫고 한 줄 결과를 출력한다.
  */
@@ -86,8 +91,22 @@ public final class BlankPageExample {
      * @param start start address or null for a small test page / 시작 주소. 작은 시험 페이지이면 null
      */
     private static void show(final boolean smoke, String start) {
-        final SwingWebPanel panel = new SwingWebPanel();
         final JFrame frame = new JFrame("SwingWebPanel");
+        final SwingWebPanel panel = new SwingWebPanel() {
+            /** Serialization version. / 직렬화 버전. */
+            private static final long serialVersionUID = 1L;
+
+            /**
+             * Closes this window when the page called <code>window.close()</code>; the default would end the JVM with
+             * <code>System.exit(0)</code>.
+             * <p>
+             * 페이지가 <code>window.close()</code> 를 부르면 이 창을 닫는다. 기본 동작은 <code>System.exit(0)</code> 으로 JVM 을 끝내는 것이다.
+             */
+            protected void closeRootWindow() {
+                dispose();
+                frame.dispose();
+            }
+        };
         final JTextField address = new JTextField("about:blank");
         final JLabel status = new JLabel(" ");
         final JProgressBar bar = new JProgressBar(0, 100);
@@ -103,6 +122,8 @@ public final class BlankPageExample {
              */
             public void actionPerformed(ActionEvent e) {
                 try {
+                    // 다른 페이지는 내용을 통제할 수 없으므로 페이지가 창을 닫는 것을 더 이상 허용하지 않는다.
+                    panel.setRootWindowClosingEnabled(false);
                     panel.setPage(address.getText().trim());
                 } catch (IllegalArgumentException ex) {
                     status.setText("Invalid address: " + ex.getMessage());
@@ -207,7 +228,9 @@ public final class BlankPageExample {
             address.setText(start);
             go.actionPerformed(null);
         } else {
-            panel.setContent("<h1>Hello</h1>", "text/html");
+            // 예제가 직접 만든 페이지이므로 페이지의 window.close() 로 창을 닫는 것을 허용한다.
+            panel.setRootWindowClosingEnabled(true);
+            panel.setContent("<h1>Hello</h1><p><button onclick=\"window.close()\">Close this window (window.close())</button></p>", "text/html");
         }
         if (smoke) {
             final long deadline = System.nanoTime() + 20000000000L;

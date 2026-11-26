@@ -51,15 +51,15 @@ public class ElementStatesTest {
         Check.equal("true", f.scripts.evaluate("var d2 = document.getElementById('d'); d2.show(); String(d2.open)", "t"), "show again does nothing");
         Check.equal("InvalidStateError", f.scripts.evaluate("try { document.getElementById('d').showModal() } catch (e) { e.name }", "t"),
                 "showModal of an open dialog");
-        f.scripts.evaluate("window.closed = 0; var d3 = document.getElementById('d'); d3.addEventListener('close', function (e) { window.closed++; "
+        f.scripts.evaluate("window.closeCount = 0; var d3 = document.getElementById('d'); d3.addEventListener('close', function (e) { window.closeCount++; "
                 + "window.bubbled = e.bubbles; }); d3.close('done');", "t");
         Check.equal("false,done", f.scripts.evaluate("var d4 = document.getElementById('d'); d4.open + ',' + d4.returnValue", "t"), "close sets the value");
-        Check.equal("0", f.scripts.evaluate("String(window.closed)", "t"), "the event is a task, not synchronous");
+        Check.equal("0", f.scripts.evaluate("String(window.closeCount)", "t"), "the event is a task, not synchronous");
         f.advance(1);
-        Check.equal("1,false", f.scripts.evaluate("window.closed + ',' + window.bubbled", "t"), "the close event does not bubble");
+        Check.equal("1,false", f.scripts.evaluate("window.closeCount + ',' + window.bubbled", "t"), "the close event does not bubble");
         f.scripts.evaluate("document.getElementById('d').close('again');", "t");
         f.advance(1);
-        Check.equal("1,done", f.scripts.evaluate("window.closed + ',' + document.getElementById('d').returnValue", "t"),
+        Check.equal("1,done", f.scripts.evaluate("window.closeCount + ',' + document.getElementById('d').returnValue", "t"),
                 "closing a closed dialog does nothing");
         Check.equal("true", f.scripts.evaluate("var d5 = document.getElementById('d'); d5.showModal(); String(d5.open)", "t"), "showModal of a closed dialog");
         Check.equal("InvalidStateError", f.scripts.evaluate("try { document.createElement('dialog').showModal() } catch (e) { e.name }", "t"),
