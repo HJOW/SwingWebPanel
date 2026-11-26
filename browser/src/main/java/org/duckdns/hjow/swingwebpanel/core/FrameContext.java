@@ -375,6 +375,11 @@ final class FrameContext implements BrowsingContext {
         // 페이지를 강제로 새로 고쳤으면(refresh(true)) 그 페이지의 프레임 문서도 캐시를 우회한다.
         final NavigationRequest request = tree.session.frameRequest(tree.requestId, url, force || tree.force, cancel, this, post, flags.allowsScripts())
                 .withBlobUrlEntry(blob);
+        if (UrlUtil.SCHEME_FILE.equals(UrlUtil.getScheme(url))) {
+            // DOM의 실제 오리진으로 인가한다. 부모나 요청 문서에 설정한 base URL은 권한을 부여하지 않는다.
+            Document initiator = requester == null ? owner.document : requester.getDocument();
+            request.withFileFrameInitiator(Origin.of(initiator.getOriginUrl()));
+        }
         String base = owner.document.getBaseUri();
         if (problem != null) {
             commitLater(gen, errorSnapshot(url, problem), request);
@@ -1358,7 +1363,12 @@ final class FrameContext implements BrowsingContext {
      * @param replace true to replace the entry / 항목을 바꾸려면 true
      */
     public void navigate(String url, boolean replace) {
-        if (NavigationPolicy.allowed(sourceUrl(), url) && FrameNavigator.permitted(this)) {
+        String source = sourceUrl();
+        if (UrlUtil.SCHEME_FILE.equals(UrlUtil.getScheme(url))) {
+            BrowsingContext caller = PageScripts.entryContext();
+            source = caller == null ? getOriginUrl() : caller.getOriginUrl();
+        }
+        if (NavigationPolicy.allowed(source, url) && FrameNavigator.permitted(this)) {
             scriptNavigate(url, replace);
         }
     }

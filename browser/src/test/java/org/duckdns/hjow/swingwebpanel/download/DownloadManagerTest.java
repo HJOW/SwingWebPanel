@@ -575,8 +575,8 @@ public class DownloadManagerTest {
      * @throws Exception on failure / 실패 시
      */
     public void testBlockedScheme() throws Exception {
-        FakeHandle h = run(new DownloadRequest("file:///etc/passwd", null, "", null, -1, null, null));
-        Check.equal(DownloadState.FAILED, h.state, "file: is not allowed: " + h.message);
+        FakeHandle h = run(new DownloadRequest("file://nonlocal.invalid/path", null, "", null, -1, null, null));
+        Check.equal(DownloadState.FAILED, h.state, "a nonlocal file authority is refused: " + h.message);
         onlyFiles();
     }
 

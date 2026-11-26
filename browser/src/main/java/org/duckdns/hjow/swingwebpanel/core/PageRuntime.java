@@ -407,6 +407,11 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
             String own = scripts.getDocument().getUrl();
             source = own != null && !own.startsWith("about:") ? own : frame.owner.sourceUrl();
         }
+        // 다른 창의 Location을 쓰는 경우에도 파일 권한은 호출한 문서에서 얻는다.
+        if (UrlUtil.SCHEME_FILE.equals(UrlUtil.getScheme(url))) {
+            org.duckdns.hjow.swingwebpanel.js.host.BrowsingContext entry = PageScripts.entryContext();
+            source = entry == null ? pageUrl : entry.getOriginUrl();
+        }
         if (!NavigationPolicy.allowed(source, url)) {
             scripts.getRealm().getConsole().message("error", "Navigation to " + url + " is not allowed");
             return;

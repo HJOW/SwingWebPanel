@@ -126,7 +126,9 @@ public class OriginPolicyTest {
         Check.equal("null", blank.serialize(), "opaque serializes as null");
         Check.isFalse(blank.isSameOrigin(blank), "an opaque origin is not same-origin even with itself");
         Check.isFalse(blank.isSameOrigin(Origin.of("about:blank")), "two opaque origins differ");
-        Check.isTrue(Origin.of("file:///x").isOpaque(), "blocked scheme is opaque");
+        Check.isTrue(Origin.of("file://nonlocal.invalid/x").isOpaque(), "blocked authority is opaque");
+        Check.isTrue(Origin.of("file:///a").isSameOrigin(Origin.of("file:///b")), "host-opened local documents share a file origin");
+        Check.isFalse(Origin.of("file:///a").isSameOrigin(Origin.of("https://example.test/")), "local and remote origins are separate");
         Check.isFalse(Origin.of("classpath://a").isSameOrigin(Origin.of("http://h/")), "classpath vs http");
     }
 

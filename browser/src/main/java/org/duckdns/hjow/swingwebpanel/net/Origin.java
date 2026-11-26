@@ -78,13 +78,17 @@ public final class Origin {
             // blob 경로에 직렬화된 튜플만 해석한다. null과 임의의 중첩 스킴은 불투명하다.
             String inner = UrlUtil.parse(url).path;
             String scheme = UrlUtil.getScheme(inner);
-            if ("http".equals(scheme) || "https".equals(scheme) || "ftp".equals(scheme) || UrlUtil.SCHEME_CLASSPATH.equals(scheme)) {
+            if ("http".equals(scheme) || "https".equals(scheme) || "ftp".equals(scheme)
+                    || UrlUtil.SCHEME_CLASSPATH.equals(scheme) || UrlUtil.SCHEME_FILE.equals(scheme)) {
                 return of(inner);
             }
             return opaque();
         }
         if (kind == SchemePolicy.Kind.CLASSPATH) {
             return new Origin(UrlUtil.SCHEME_CLASSPATH, "", -1);
+        }
+        if (kind == SchemePolicy.Kind.FILE) {
+            return new Origin(UrlUtil.SCHEME_FILE, "", -1);
         }
         if (kind == SchemePolicy.Kind.HTTP || kind == SchemePolicy.Kind.HTTPS || kind == SchemePolicy.Kind.FTP) {
             UrlUtil.Parts p = UrlUtil.parse(url);

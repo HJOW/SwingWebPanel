@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-06-e 로컬 파일 URL과 웹 요청 경계 (2026-11-26) ===
+현재 작업 번호: P28-06 완료.
+완료한 내용: Java 호스트와 로컬 파일 문서에서 file: URL을 지원한다. 로컬 GET·HEAD, 한글·공백 경로, Windows 드라이브와 상대 주소를 처리하며 파일 본문을 직접 스트리밍할 수 있다. 원격·불투명 문맥, 원격 호스트·UNC 경로와 HTTP 리디렉션의 로컬 파일 접근을 거부했다.
+변경 파일: FileResourceLoader.java, UrlUtil.java, SchemePolicy.java, ResourceFetcher.java, Origin.java, HttpFetcher.java, BrowserSession의 로더·프레임·이동 정책·웹 요청 계층, LocalFileIntegrationTest.java, 네트워크와 공개 계약 회귀 시험, AGENTS.md, API_CONTRACT.md, ARCHITECTURE.md, FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45의 LocalFileIntegrationTest, 네트워크·다운로드·미디어·스토리지 회귀에서 126건과 ScriptNavigationTest 6건 통과. sourcecheck 위반 0. 직전 전체 회귀는 엔진 891건 통과, 브라우저 3,784건 통과, 14건 건너뜀, 과거 blob: 차단을 전제로 한 두 시험 실패. 현재 커밋에서 그 전제를 교정했고 두 시험이 포함된 집중 검증은 모두 통과했다.
+미해결 사항: 현재 기준 전체 Maven 검증을 다시 실행한다. 실제 NetStorm 제시 자료의 번들이 JDK 6 Swing 로딩 화면에 그려지는 것은 확인했고 다음 단계에서 시간을 측정하고 메뉴 경로를 검증한다.
+다음 작업 번호: P28-07.
+-----------------------------------------------------------------------------------------------
 === P28-06-d2-c 객체 URL 다운로드 (2026-11-26) ===
 현재 작업 번호: P28-06-d2 완료.
 완료한 내용: 분리된 앵커의 click()과 실제 링크 활성화, Java의 바이너리 객체 이동을 기존 Swing 다운로드에 연결했다. 객체를 전송 전에 확보하고 문서 이동을 시작하지 않는다. 샌드박스는 이 링크 다운로드에 allow-downloads를 요구한다.

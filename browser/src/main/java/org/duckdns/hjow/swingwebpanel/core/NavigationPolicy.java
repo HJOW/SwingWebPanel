@@ -36,6 +36,10 @@ final class NavigationPolicy {
         if (target == null || !SchemePolicy.isNavigationAllowed(target)) {
             return false;
         }
+        // 로컬 파일은 실제 로컬 오리진의 링크만 따라간다. base 요소가 바꾼 주소는 오리진이 아니다.
+        if (UrlUtil.SCHEME_FILE.equals(UrlUtil.getScheme(target))) {
+            return UrlUtil.SCHEME_FILE.equals(Origin.of(sourceUrl).getScheme());
+        }
         String source = UrlUtil.getScheme(sourceUrl);
         if ("blob".equals(source)) {
             source = Origin.of(sourceUrl).getScheme();

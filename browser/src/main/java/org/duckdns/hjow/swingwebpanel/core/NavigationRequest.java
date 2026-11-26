@@ -1,6 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.core;
 
 import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
+import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.RequestHeaders;
 
@@ -146,6 +147,27 @@ public final class NavigationRequest {
     /** Returns the accepted entry, if any. / 받아들인 항목이 있으면 반환한다. */
     public BlobUrlStore.Entry getBlobUrlEntry() {
         return blobUrlEntry;
+    }
+
+    /** Origin initiating a frame navigation to a local file. / 로컬 파일로 프레임 이동을 시작한 오리진. */
+    private Origin fileFrameInitiator;
+
+    /**
+     * Records the origin required to authorize file access by a frame.
+     * <p>
+     * 프레임의 파일 접근을 확인하는 데 필요한 오리진을 기록한다.
+     *
+     * @param origin the initiating document's origin / 시작 문서의 오리진
+     * @return the request to submit / 제출할 요청
+     */
+    NavigationRequest withFileFrameInitiator(Origin origin) {
+        fileFrameInitiator = origin;
+        return this;
+    }
+
+    /** Returns the initiating origin for a frame file request. / 프레임 파일 요청의 시작 오리진을 반환한다. */
+    Origin getFileFrameInitiator() {
+        return fileFrameInitiator;
     }
 
     /**

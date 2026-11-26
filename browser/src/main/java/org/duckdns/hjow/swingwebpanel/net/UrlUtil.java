@@ -43,6 +43,9 @@ public final class UrlUtil {
      */
     public static final String SCHEME_CLASSPATH = "classpath";
 
+    /** The scheme for local files. / 로컬 파일의 스킴. */
+    public static final String SCHEME_FILE = "file";
+
     /**
      * RFC 3986 appendix B style splitter with an optional scheme, authority, path, query and fragment.
      * <p>
@@ -505,7 +508,15 @@ public final class UrlUtil {
      */
     private static Parts normalizeParts(Parts p) {
         // blob 경로는 불투명하므로 내부 바이트 식별자의 경로 세그먼트를 바꾸지 않는다.
-        String path = upperCaseEscapes("blob".equals(p.scheme) ? p.path : removeDotSegments(p.path));
+        boolean file = SCHEME_FILE.equals(p.scheme);
+        String path = p.path;
+        if (file && hasDrive(path)) {
+            // 상위 참조를 해석해도 드라이브 루트에서 벗어나지 않는다.
+            path = path.substring(0, 3) + removeDotSegments(path.substring(3));
+        } else if (!"blob".equals(p.scheme)) {
+            path = removeDotSegments(path);
+        }
+        path = upperCaseEscapes(path);
         int port = p.port;
         if (port >= 0 && port == defaultPort(p.scheme)) {
             port = -1;
@@ -515,7 +526,29 @@ public final class UrlUtil {
         }
         String query = p.query == null ? null : upperCaseEscapes(p.query);
         String fragment = p.fragment == null ? null : upperCaseEscapes(p.fragment);
-        return new Parts(p.scheme, p.hasAuthority, p.userInfo, p.host, port, path, query, fragment);
+        boolean authority = p.hasAuthority;
+        String host = p.host;
+        if (file && SchemePolicy.isLocalFile(p)) {
+            authority = true;
+            host = "";
+        }
+        return new Parts(p.scheme, authority, p.userInfo, host, port, path, query, fragment);
+    }
+
+    /**
+     * Detects a leading Windows drive in an absolute URL path.
+     * <p>
+     * 절대 URL 경로 앞의 Windows 드라이브를 확인한다.
+     *
+     * @param path parsed URL path / 해석한 URL 경로
+     * @return true if the path starts with a drive / 드라이브로 시작하면 true
+     */
+    private static boolean hasDrive(String path) {
+        if (path.length() < 4 || path.charAt(0) != '/' || path.charAt(2) != ':' || path.charAt(3) != '/') {
+            return false;
+        }
+        char c = path.charAt(1);
+        return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z';
     }
 
     /**
@@ -545,10 +578,10 @@ public final class UrlUtil {
 
     /**
      * Resolves a reference against a base URL following RFC 3986 section 5.2 and returns a normalized absolute URL.
-     * A relative reference needs a hierarchical base (http, https, ftp, classpath).
+     * A relative reference needs a hierarchical base (http, https, ftp, file, classpath).
      * <p>
      * RFC 3986 5.2 절에 따라 참조를 기준 URL 에 결합하고 정규화된 절대 URL 을 돌려준다.
-     * 상대 참조에는 계층형 기준(http, https, ftp, classpath)이 필요하다.
+     * 상대 참조에는 계층형 기준(http, https, ftp, file, classpath)이 필요하다.
      *
      * @param base base URL, may be null when the reference is absolute / 기준 URL. 참조가 절대면 null 가능
      * @param ref  reference text / 참조 문자열
@@ -573,7 +606,7 @@ public final class UrlUtil {
             if ("blob".equals(b.scheme) && !r.hasAuthority && r.path.length() == 0 && r.query == null && r.fragment != null) {
                 return toString(normalizeParts(b.withFragment(r.fragment)));
             }
-            if (b.scheme == null || !(b.hasAuthority || SCHEME_CLASSPATH.equals(b.scheme))) {
+            if (b.scheme == null || !(b.hasAuthority || SCHEME_CLASSPATH.equals(b.scheme) || SCHEME_FILE.equals(b.scheme))) {
                 throw new IllegalArgumentException("cannot resolve relative url against " + base);
             }
             if (r.hasAuthority) {
@@ -582,7 +615,9 @@ public final class UrlUtil {
                 t = new Parts(b.scheme, b.hasAuthority, b.userInfo, b.host, b.port, b.path,
                         r.query != null ? r.query : b.query, r.fragment);
             } else if (r.path.startsWith("/")) {
-                t = new Parts(b.scheme, b.hasAuthority, b.userInfo, b.host, b.port, r.path, r.query, r.fragment);
+                String path = SCHEME_FILE.equals(b.scheme) && hasDrive(b.path) && !hasDrive(r.path)
+                        ? b.path.substring(0, 3) + r.path : r.path;
+                t = new Parts(b.scheme, b.hasAuthority, b.userInfo, b.host, b.port, path, r.query, r.fragment);
             } else {
                 t = new Parts(b.scheme, b.hasAuthority, b.userInfo, b.host, b.port, merge(b, r.path), r.query, r.fragment);
             }

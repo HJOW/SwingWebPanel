@@ -7,6 +7,7 @@ import org.duckdns.hjow.swingwebpanel.dom.Element;
 import org.duckdns.hjow.swingwebpanel.dom.html.FormSubmission;
 import org.duckdns.hjow.swingwebpanel.js.host.BrowsingContext;
 import org.duckdns.hjow.swingwebpanel.js.host.PageScripts;
+import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 
 /**
  * Chooses the browsing context that a link, a form or a script navigates (the rules for choosing a browsing context of HTML5 REC 2014-10-28
@@ -246,7 +247,7 @@ final class FrameNavigator {
      * @param href    the absolute address / 절대 주소
      */
     static void navigate(BrowserSession session, HtmlPageDocument top, FrameContext source, String name, String href) {
-        String from = source == null ? session.getPage() : source.sourceUrl();
+        String from = sourceUrl(session, source, href);
         if (!NavigationPolicy.allowed(from, href)) {
             return;
         }
@@ -307,13 +308,30 @@ final class FrameNavigator {
         }
         // 주소가 있으면 이동 정책을 거쳐 선택한 문맥을 이동시킨다. 정책이 막은 주소는 창을 주지 않는다.
         if (href.length() > 0) {
-            String from = source == null ? session.getPage() : source.sourceUrl();
+            String from = sourceUrl(session, source, href);
             if (!NavigationPolicy.allowed(from, href)) {
                 return null;
             }
             target.navigate(href, false);
         }
         return target;
+    }
+
+    /**
+     * Returns the initiating origin for file targets and the browsing address for other targets.
+     * <p>
+     * 파일 대상에는 시작 오리진을, 그 밖의 대상에는 브라우징 주소를 반환한다.
+     *
+     * @param session the component / 컴포넌트
+     * @param source the initiating frame, or null for the top document / 시작 프레임. 최상위 문서면 null
+     * @param target the absolute address / 대상 절대 주소
+     * @return the source used by the navigation policy / 이동 정책의 출처
+     */
+    private static String sourceUrl(BrowserSession session, FrameContext source, String target) {
+        if (UrlUtil.SCHEME_FILE.equals(UrlUtil.getScheme(target))) {
+            return source == null ? session.topContext().getOriginUrl() : source.getOriginUrl();
+        }
+        return source == null ? session.getPage() : source.sourceUrl();
     }
 
     /**
@@ -341,6 +359,10 @@ final class FrameNavigator {
              */
             public void submit(FormSubmission submission) {
                 if (submission == null) {
+                    return;
+                }
+                if (UrlUtil.SCHEME_FILE.equals(UrlUtil.getScheme(submission.getUrl()))
+                        && !NavigationPolicy.allowed(sourceUrl(session, source, submission.getUrl()), submission.getUrl())) {
                     return;
                 }
                 if (source != null && !source.flags().allowsForms()) {

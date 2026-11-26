@@ -300,9 +300,7 @@ public class ClasspathAndDispatchTest {
         servers.add(http);
         http.start();
         ResourceFetcher f = new ResourceFetcher(null, FetchLimits.DEFAULT.withTimeouts(2000, 2000), loader);
-        File marker = new File(dir, "marker.txt");
-        write(marker, "inside classpath dir");
-        String[] blocked = { marker.toURI().toString(), "file:///" + marker.getPath().replace('\\', '/'), "jar:" + jar.toURI() + "!/jarred/readme",
+        String[] blocked = { "file://nonlocal.invalid/marker.txt", "file:////nonlocal.invalid/marker.txt", "jar:" + jar.toURI() + "!/jarred/readme",
             "mailto:a@b.c", "javascript:alert(1)", "data:text/html,x", "ws://localhost:" + http.getPort() + "/",
             "wss://localhost:" + http.getPort() + "/", "about:text", "about:srcdoc", "gopher://localhost/" };
         // 금지 스킴마다 BLOCKED_SCHEME 이고 본문이 없어야 한다.
@@ -315,6 +313,52 @@ public class ClasspathAndDispatchTest {
                 "an unregistered object URL does not request the URL embedded in it");
         Check.equal(FailureKind.INVALID_URL, f.fetch(new ResourceRequest("relative.html")).getFailureKind(), "relative url");
         Check.equal(0, http.totalRequests(), "the server saw nothing");
+    }
+
+    /**
+     * Loads a local file in memory or through a streaming handler, applying the initiator and path rules.
+     * <p>
+     * 시작 오리진과 경로 규칙을 적용하며 로컬 파일을 메모리 또는 스트리밍 처리기로 읽는다.
+     *
+     * @throws Exception if the fixture cannot be used / 시험 파일을 사용할 수 없으면
+     */
+    public void testLocalFileResponsesAndRestrictions() throws Exception {
+        File file = new File(dir, "한글 file.txt");
+        write(file, "file payload");
+        String url = file.toURI().toASCIIString();
+        ResourceFetcher fetch = new ResourceFetcher(null, FetchLimits.DEFAULT, loader);
+        ResourceResponse result = fetch.fetch(new ResourceRequest(url + "?query#anchor"));
+        Check.equal(200, result.getStatus(), "file GET");
+        Check.equal("file payload", new String(result.getBody(), "UTF-8"), "percent-encoded path");
+        Check.equal("text/plain", result.getMimeType(), "file MIME type");
+        ResourceResponse head = fetch.fetch(new ResourceRequest(url).setMethod("HEAD"));
+        Check.equal(Long.valueOf(12), Long.valueOf(head.getDeclaredLength()), "HEAD size");
+        Check.equal(0, head.getBody().length, "HEAD body");
+        Check.equal(FailureKind.BLOCKED_SCHEME, fetch.fetch(new ResourceRequest(url).setInitiator(Origin.of("https://example.test"))).getFailureKind(),
+                "remote document");
+        Check.equal(FailureKind.BLOCKED_SCHEME, fetch.fetch(new ResourceRequest(url).setInitiator(Origin.opaque())).getFailureKind(),
+                "opaque document");
+        Check.equal(FailureKind.BLOCKED_SCHEME, fetch.fetch(new ResourceRequest("file:///%2fnonlocal.invalid/a")).getFailureKind(),
+                "encoded UNC");
+        Check.equal(FailureKind.BLOCKED_SCHEME, fetch.fetch(new ResourceRequest("file:///%5cnonlocal.invalid/a")).getFailureKind(),
+                "encoded backslash");
+        Check.equal(FailureKind.BLOCKED_SCHEME, fetch.fetch(new ResourceRequest(url).setMethod("POST")).getFailureKind(), "file writes are refused");
+        Check.equal(FailureKind.NOT_FOUND, fetch.fetch(new ResourceRequest(new File(dir, "missing").toURI().toString())).getFailureKind(),
+                "missing file");
+        CancelToken cancel = new CancelToken();
+        cancel.cancel();
+        Check.equal(FailureKind.CANCELLED, fetch.fetch(new ResourceRequest(url).setCancelToken(cancel)).getFailureKind(), "cancelled file");
+        final java.io.ByteArrayOutputStream sink = new java.io.ByteArrayOutputStream();
+        ResourceFetcher limited = new ResourceFetcher(null, FetchLimits.DEFAULT.withMaxMemoryBytes(4), loader);
+        Check.equal(FailureKind.TOO_LARGE, limited.fetch(new ResourceRequest(url)).getFailureKind(), "file memory limit");
+        ResourceResponse streamed = limited.fetch(new ResourceRequest(url), new ResponseHandler() {
+            /** Receives file bytes beyond the buffer limit. / 버퍼 한도를 넘는 파일 바이트를 받는다. */
+            public java.io.OutputStream onResponse(ResourceResponse response) {
+                return sink;
+            }
+        });
+        Check.equal(FailureKind.NONE, streamed.getFailureKind(), "streaming bypasses the buffer size limit");
+        Check.equal("file payload", new String(sink.toByteArray(), "UTF-8"), "streamed bytes");
     }
 
     /**

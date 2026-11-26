@@ -557,7 +557,8 @@ public class HttpFetcher {
      * @return the header value / 헤더 값
      */
     private static String originHeader(Origin initiator) {
-        boolean hide = initiator.isOpaque() || UrlUtil.SCHEME_CLASSPATH.equals(initiator.getScheme());
+        boolean hide = initiator.isOpaque() || UrlUtil.SCHEME_CLASSPATH.equals(initiator.getScheme())
+                || UrlUtil.SCHEME_FILE.equals(initiator.getScheme());
         return hide ? "null" : initiator.serialize();
     }
 

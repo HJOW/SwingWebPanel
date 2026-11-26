@@ -148,6 +148,7 @@ public final class NetworkPageLoader implements PageLoader, CacheOwner {
         ResourceRequest req = new ResourceRequest(url).setUserAgent(request.getUserAgent()).setExtraHeaders(request.getHeaders())
                 .setCookies(cookies).setPurpose(purpose)
                 .setBlobUrlEntry(request.getBlobUrlEntry())
+                .setInitiator(request.getFileFrameInitiator())
                 .setCacheMode(cacheModeFor(request))
                 .setCancelToken(request.getCancelToken()).setProgressListener(new ProgressListener() {
                     /**

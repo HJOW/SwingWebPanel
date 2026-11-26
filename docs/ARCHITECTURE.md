@@ -61,7 +61,7 @@ User-Agent 기본값 `swingwebpanel/1.0`, JAR 이름 `swingwebpanel.jar`, 스레
 | --- | --- |
 | `org.duckdns.hjow.swingwebpanel` | 공개 진입점 `SwingWebPanel` |
 | `org.duckdns.hjow.swingwebpanel.core` | 컴포넌트 상태: `BrowserSession`(컴포넌트별 설정/쿠키/캐시/세션 저장소), 이동 제어기, 이력, 상태/진행률 모델, EDT 호출 도우미, 수명 토큰 |
-| `org.duckdns.hjow.swingwebpanel.net` | URL 처리, HTTP/HTTPS 요청기, 쿠키 저장소, 오리진, FTP 클라이언트, 클래스패스 로더, 객체 URL 저장소, 리소스 응답/캐시 |
+| `org.duckdns.hjow.swingwebpanel.net` | URL 처리, HTTP/HTTPS 요청기, 쿠키 저장소, 오리진, FTP 클라이언트, 클래스패스·로컬 파일 로더, 객체 URL 저장소, 리소스 응답/캐시 |
 | `org.duckdns.hjow.swingwebpanel.html` | 인코딩 판정, HTML 토큰화기, 트리 생성기, 문자 참조 표 |
 | `org.duckdns.hjow.swingwebpanel.dom` | Document/Element/Text 등 DOM 노드, 컬렉션, 이벤트(`Event`, `EventTarget`), 변경 통지 |
 | `org.duckdns.hjow.swingwebpanel.css` | CSS 토큰화/파서, 스타일시트, 선택자 일치기, 계산 스타일, 미디어 질의 |
@@ -223,7 +223,7 @@ HTML Living Standard의 Web Storage 절(조회일 2026-11-16, 판본은 계획�
 
 **제한**: 오리진당 2,621,440 코드 단위(키+값, 5 MiB 문자 수), 전체 16,777,216 코드 단위, 오리진 1,000개, 오리진당 항목 100,000개. 초과하면 `StorageQuotaException` 이며 저장소는 변하지 않는다. 같은 값을 다시 쓰면 통지하지 않는다.
 
-**오리진 정책**: 오리진은 스키마/호스트/유효 포트(기본 포트 정규화)이다. `about:blank`, `about:text`(setContent), 차단 스키마의 오리진은 불투명이며 `forOrigin` 이 SecurityError(`DomException`)를 던진다. `classpath://` 문서는 모두 하나의 오리진(`classpath://`)을 공유하며 웹 오리진과는 분리된다.
+**오리진 정책**: 오리진은 스키마/호스트/유효 포트(기본 포트 정규화)이다. 최상위 `about:blank`, `about:text`(setContent), 차단 스키마의 오리진은 불투명이며 `forOrigin` 이 SecurityError(`DomException`)를 던진다. `classpath://` 문서와 로컬 `file:` 문서는 각각 `classpath://`, `file://` 오리진을 공유하며 웹 오리진과 분리된다. `BlobUrlStore`는 컴포넌트별로 등록을 유지하며, 성공한 객체 URL 문서는 생성자의 오리진을 상속한다.
 
 **파일 정책**: 파일 이름은 `<tmp>/swingwebpanel/localstorage-<pid>-<시각>-<난수>.dat`로 프로세스마다 다르다. 파일 부재는 빈 저장소이며 관리자는 파일을 감시하거나 복구하지 않는다(다음 읽기에서 부재를 처리). 해석 실패(손상, 잘림, 알 수 없는 버전, 체크섬 불일치, 제한 초과)는 저장소를 초기화하고 빈 파일로 교체한다. 쓰기는 `.tmp` 에 쓴 뒤 `renameTo` 로 교체하며, 기존 파일 위로 이름 바꾸기가 실패하는 JRE 6/Windows 에서는 `.bak` 로 옮긴 뒤 교체하고 실패 시 되돌린다(JDK 6u45/Windows 에서 실제로 이 경로가 실행되어 시험으로 확인). 쓰기 자체가 실패하면 성공할 때까지 메모리 저장소가 기준이다.
 

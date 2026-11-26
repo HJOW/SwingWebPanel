@@ -289,7 +289,7 @@ public class NetworkIntegrationTest {
     public void testBlockedSchemeDoesNotTouchTheNetwork() throws Exception {
         TestHttpServer s = http();
         SwingWebPanel p = panel();
-        p.setPage("file:///c:/windows/win.ini");
+        p.setPage("file://nonlocal.invalid/path");
         settle(p, "file");
         Check.equal("Error 400", p.getStatusText(), "status");
         Check.equal(0, s.totalRequests(), "no request was made");

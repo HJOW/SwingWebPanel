@@ -208,8 +208,8 @@ public class ScriptNavigationTest {
         TestHttpServer server = new TestHttpServer();
         SwingWebPanel panel = newPanel();
         try {
-            String action = "var targets = ['javascript:void(0)', 'file:///etc/passwd', 'mailto:someone@example.test', 'data:text/html,hi', "
-                    + "'classpath://org/duckdns/hjow/swingwebpanel/examples/pages/index.html', 'jar:file:/x.jar!/a', 'blob:http://x/y'];"
+            String action = "var targets = ['javascript:void(0)', 'file:///blocked.html', 'mailto:someone@example.test', 'data:text/html,hi', "
+                    + "'classpath://org/duckdns/hjow/swingwebpanel/examples/pages/index.html', 'jar:file:/x.jar!/a'];"
                     + "for (var i = 0; i < targets.length; i++) { try { location.href = targets[i]; } catch (e) { } }"
                     + "sessionStorage.setItem('done', 'yes');";
             server.routeFixed("/a", TestHttpServer.Response.html(pageWith(action)));

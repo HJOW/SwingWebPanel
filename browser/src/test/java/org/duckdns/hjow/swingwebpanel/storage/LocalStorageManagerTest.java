@@ -481,7 +481,7 @@ public class LocalStorageManagerTest {
              * 차단된 스키마의 저장소를 요청한다.
              */
             public void run() {
-                m.forOrigin(Origin.of("file:///etc/passwd"), null);
+                m.forOrigin(Origin.of("file://nonlocal.invalid/path"), null);
             }
         }, "blocked scheme");
         m.forOrigin(Origin.of("classpath:///docs/a.html"), null).setItem("k", "v");

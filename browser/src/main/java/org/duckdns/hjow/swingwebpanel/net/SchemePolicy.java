@@ -2,14 +2,14 @@ package org.duckdns.hjow.swingwebpanel.net;
 
 /**
  * Decides which URL schemes the component may fetch. Only <code>http</code>, <code>https</code> and <code>ftp</code> are
- * network schemes; <code>classpath://</code>, <code>blob:</code>, <code>about:blank</code> and the internal <code>about:text</code> are special
- * addresses. Everything else (<code>file</code>, <code>jar</code>, <code>mailto</code>, <code>javascript</code>, <code>data</code>,
+ * network schemes; <code>classpath://</code>, <code>file:</code>, <code>blob:</code>, <code>about:blank</code> and the internal <code>about:text</code>
+ * are local or special addresses. Everything else (<code>jar</code>, <code>mailto</code>, <code>javascript</code>, <code>data</code>,
  * <code>ws</code>, <code>wss</code>, other <code>about:</code> pages, ...) is blocked: the fetch layer must
  * refuse it without connecting anywhere. The check is applied to the first URL, every redirect target and every sub-resource.
  * <p>
  * 구성 요소가 가져올 수 있는 URL 스킴을 판정한다. 네트워크 스킴은 <code>http</code>, <code>https</code>, <code>ftp</code> 뿐이고
- * <code>classpath://</code>, <code>blob:</code>, <code>about:blank</code>, 내부용 <code>about:text</code> 는 특수 주소이다. 그 밖의 모든 스킴
- * (<code>file</code>, <code>jar</code>, <code>mailto</code>, <code>javascript</code>, <code>data</code>,
+ * <code>classpath://</code>, <code>file:</code>, <code>blob:</code>, <code>about:blank</code>, 내부용 <code>about:text</code> 는 로컬 또는 특수 주소이다.
+ * 그 밖의 모든 스킴(<code>jar</code>, <code>mailto</code>, <code>javascript</code>, <code>data</code>,
  * <code>ws</code>, <code>wss</code>, 다른 <code>about:</code> 페이지 등)은 차단하며, 가져오기 계층은 어디에도 연결하지 않고
  * 거부해야 한다. 이 검사는 최초 주소, 모든 리디렉션 대상, 모든 하위 리소스에 적용한다.
  */
@@ -59,6 +59,8 @@ public final class SchemePolicy {
          * 클래스패스 리소스 URL.
          */
         CLASSPATH,
+        /** An absolute local file URL. / 절대 로컬 파일 URL. */
+        FILE,
         /** An object URL owned by a browser component. / 브라우저 컴포넌트가 보유한 객체 URL. */
         BLOB,
         /**
@@ -129,6 +131,14 @@ public final class SchemePolicy {
                 return Kind.INVALID;
             }
         }
+        if (UrlUtil.SCHEME_FILE.equals(scheme)) {
+            try {
+                UrlUtil.Parts file = UrlUtil.parse(url);
+                return isLocalFile(file) ? Kind.FILE : Kind.BLOCKED;
+            } catch (IllegalArgumentException invalid) {
+                return Kind.INVALID;
+            }
+        }
         boolean network = "http".equals(scheme) || "https".equals(scheme) || "ftp".equals(scheme);
         if (network || UrlUtil.SCHEME_CLASSPATH.equals(scheme)) {
             UrlUtil.Parts p;
@@ -156,16 +166,29 @@ public final class SchemePolicy {
     }
 
     /**
-     * Tells whether the fetch layer may load the address (http, https, ftp, classpath or a registered blob URL).
+     * Identifies hierarchical file addresses with no remote authority or user information.
      * <p>
-     * 가져오기 계층이 주소를 읽어도 되는지 알려 준다(http, https, ftp, classpath 및 등록된 blob URL).
+     * 원격 호스트나 사용자 정보가 없는 계층형 파일 주소를 식별한다.
+     *
+     * @param parts parsed file URL / 해석한 파일 URL
+     * @return true for an absolute local URL / 절대 로컬 URL이면 true
+     */
+    static boolean isLocalFile(UrlUtil.Parts parts) {
+        return parts.path.startsWith("/") && !parts.path.startsWith("//") && parts.userInfo == null && parts.port < 0
+                && (!parts.hasAuthority || "".equals(parts.host) || "localhost".equals(parts.host));
+    }
+
+    /**
+     * Tells whether the fetch layer may load the address (http, https, ftp, classpath, file or a registered blob URL).
+     * <p>
+     * 가져오기 계층이 주소를 읽어도 되는지 알려 준다(http, https, ftp, classpath, file 및 등록된 blob URL).
      *
      * @param url address / 주소
      * @return true if loadable / 읽을 수 있으면 true
      */
     public static boolean isFetchAllowed(String url) {
         Kind k = classify(url);
-        return k == Kind.HTTP || k == Kind.HTTPS || k == Kind.FTP || k == Kind.CLASSPATH || k == Kind.BLOB;
+        return k == Kind.HTTP || k == Kind.HTTPS || k == Kind.FTP || k == Kind.CLASSPATH || k == Kind.FILE || k == Kind.BLOB;
     }
 
     /**

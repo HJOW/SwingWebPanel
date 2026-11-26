@@ -322,7 +322,9 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
             String url = request.getUrl();
             SchemePolicy.Kind kind = SchemePolicy.classify(url);
             boolean classpathPage = UrlUtil.SCHEME_CLASSPATH.equals(initiator.getScheme());
+            boolean filePage = UrlUtil.SCHEME_FILE.equals(initiator.getScheme());
             if (!(kind == SchemePolicy.Kind.HTTP || kind == SchemePolicy.Kind.HTTPS || (kind == SchemePolicy.Kind.CLASSPATH && classpathPage)
+                    || (kind == SchemePolicy.Kind.FILE && filePage)
                     || (kind == SchemePolicy.Kind.BLOB && blob != null))) {
                 return WebResponse.futileError("scheme is not allowed for scripted requests: " + url);
             }
@@ -565,7 +567,7 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
          * @return the referrer or null / 참조 또는 null
          */
         private String originReferrer() {
-            if (initiator.isOpaque() || UrlUtil.SCHEME_CLASSPATH.equals(initiator.getScheme())) {
+            if (initiator.isOpaque() || UrlUtil.SCHEME_CLASSPATH.equals(initiator.getScheme()) || UrlUtil.SCHEME_FILE.equals(initiator.getScheme())) {
                 return null;
             }
             return initiator.serialize() + "/";

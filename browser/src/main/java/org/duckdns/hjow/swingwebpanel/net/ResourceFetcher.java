@@ -50,6 +50,8 @@ public final class ResourceFetcher {
      * 클래스패스 로더.
      */
     private final ClasspathLoader classpath;
+    /** Reader of local file URLs. / 로컬 파일 URL 읽기 객체. */
+    private final FileResourceLoader files;
     /** Registered object URLs for this component. / 이 컴포넌트에 등록된 객체 URL. */
     private final BlobUrlStore blobUrls = new BlobUrlStore();
     /** Local source of a resolved Blob response. / 조회한 Blob 응답의 로컬 소스. */
@@ -75,6 +77,7 @@ public final class ResourceFetcher {
         this.http = new HttpFetcher(ssl, l);
         this.ftp = new FtpFetcher(l);
         this.classpath = new ClasspathLoader(loader, l);
+        this.files = new FileResourceLoader(l);
         this.blobs = new BlobResourceLoader(blobUrls, l);
     }
 
@@ -202,6 +205,13 @@ public final class ResourceFetcher {
             return classpath.load(req, handler);
         case BLOB:
             return blobs.load(req, handler);
+        case FILE:
+            Origin fileInitiator = req.getInitiator();
+            // 로컬 출처의 요청만 허용한다. 시작 오리진이 없는 요청은 Java 호스트나 이미 승인한 저장 요청에만 해당한다.
+            if (fileInitiator != null ? !UrlUtil.SCHEME_FILE.equals(fileInitiator.getScheme()) : req.getPurpose() == RequestPurpose.FRAME) {
+                return ResourceResponse.failure(url, FailureKind.BLOCKED_SCHEME, "only local documents and the host can read file URLs");
+            }
+            return files.load(req, handler);
         case ABOUT_BLANK:
             ResourceResponse blank = new ResourceResponse(url);
             blank.setStatus(200, "OK");

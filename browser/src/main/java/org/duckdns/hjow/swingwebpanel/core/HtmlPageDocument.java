@@ -208,7 +208,8 @@ public final class HtmlPageDocument implements PageDocument {
             // 해석할 수 없는 주소는 이동하지 않는다.
             return;
         }
-        if (target == null || !NavigationPolicy.allowed(current, target)) {
+        String source = UrlUtil.SCHEME_FILE.equals(UrlUtil.getScheme(target)) ? doc.getOriginUrl() : current;
+        if (target == null || !NavigationPolicy.allowed(source, target)) {
             return;
         }
         FrameContext frame = metaFrame;

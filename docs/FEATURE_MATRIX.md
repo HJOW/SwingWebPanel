@@ -51,7 +51,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | API-01 | `setUserAgent(String)` | 프로젝트 요구, 계약 5.1 | `SwingWebPanel`, `core.BrowserSession` | `PublicApiContractIntegrationTest`, `NetworkIntegrationTest` | 검증 완료 | User-Agent 가 모든 목적의 요청에 실림(통합 시험), 검증/보관 확인 |
 | API-02 | `getUserAgent()` 기본 `swingwebpanel/1.0` | 계약 5.1 | 동상 | `PublicApiContractIntegrationTest` | 검증 완료 | 기본값/설정 반영 확인 |
-| API-03 | `setPage(String)` 비동기 이동, `classpath://`, `about:blank` | 계약 5.2, 6 | `core.NavigationController`, `net.ClasspathLoader` | `PublicApiContractIntegrationTest`, `NetworkIntegrationTest`, `core.BrowserSessionTest` | 검증 완료 | HTTP/HTTPS/FTP/classpath 로딩, 오류 페이지, 비동기, 입력 검증 확인. 렌더링은 P09 |
+| API-03 | `setPage(String)` 비동기 이동, HTTP/HTTPS/FTP, `classpath:`, `file:`, `blob:`, `about:blank` | 계약 5.2, 6 | `core.NavigationController`, `net.ResourceFetcher` | `PublicApiContractIntegrationTest`, `NetworkIntegrationTest`, `LocalFileIntegrationTest`, `BlobUrlIntegrationTest`, `core.BrowserSessionTest` | 검증 완료 | 허용 주소 로딩, 오류 페이지, 비동기, 입력 검증 확인. 렌더링은 P09, 객체 URL의 제약은 WEB-17 |
 | API-04 | `getPage()` (`setContent` 후 `about:text`) | 계약 5.3 | `core.PageSnapshot` | `PublicApiContractIntegrationTest`, `core.BrowserSessionTest` | 검증 완료 | final URL, about:text, about:blank 확인 |
 | API-05 | `setJavascriptEnabled(boolean)` | 계약 5.4 | `js.JsRealm`, `core.BrowserSession`, `core.PageRuntime` | `core.PageRuntimeIntegrationTest`(끄기·다시 켜기·파싱 중 중단), `IntegratedPageIntegrationTest`(끈 뒤 클릭/타이머 없음, CSS·링크·폼은 동작), `PublicApiContractIntegrationTest` | 검증 완료 | 끄면 파싱 중이거나 확정된 페이지의 스크립트·인라인 핸들러·타이머가 멈추고 HTML/CSS/링크/기본 폼은 계속 동작한다. 다시 켜도 멈춘 페이지를 재실행하지 않고 다음 콘텐츠 설정/이동/새로고침부터 실행(P15-10, P22-01) |
 | API-06 | `back()` | 계약 5.5 | `core.History` | `HistoryContentIntegrationTest`, `core.HistoryNavigationTest`, `PendingNavigationIntegrationTest` | 검증 완료 | 이력 경계/정확한 n칸/분기 삭제 확인(가짜 로더). URL 재로딩은 P19에서 재확인 |
@@ -92,7 +92,7 @@
 | 기능 ID | 요구사항 | 규격/판본 | 구현 클래스 | 검증 사례 | 지원 상태 | 제약 |
 | --- | --- | --- | --- | --- | --- | --- |
 | NET-01 | URL 해석/결합/정규화/프래그먼트 | RFC 3986, WHATWG URL(참고) | `net.UrlUtil` | `net.UrlUtilTest` | 검증 완료 | RFC 3986 예제 전부, 이중 디코딩 없음 |
-| NET-02 | 허용 스킴 http/https/ftp (+특수 주소) | 계약 6 | `net.SchemePolicy` | `net.ClasspathAndDispatchTest`, `ProtocolMatrixIntegrationTest` | 검증 완료 | 금지 스킴 12종 연결 안 함, 리디렉션/하위 리소스 적용 |
+| NET-02 | 허용 스킴 HTTP/HTTPS/FTP, `classpath:`, `file:`, `blob:` 및 특수 페이지 주소 | 계약 6 | `net.{SchemePolicy,ResourceFetcher,FileResourceLoader,BlobResourceLoader}` | `ClasspathAndDispatchTest`, `ProtocolMatrixIntegrationTest`, `LocalFileIntegrationTest`, `BlobUrlIntegrationTest` | 검증 완료 | UNC·원격 파일 URL 거부. `file:` GET·HEAD와 로컬 문서의 접근, HTTP 리디렉션 및 원격·불투명 문서 거부를 확인. `blob:`은 WEB-17. 그 밖의 스킴은 EXC-05. |
 | NET-03 | HTTP GET/HEAD/POST | RFC 9110 | `net.HttpFetcher` | `net.HttpFetcherTest`, `net.HttpsFetcherTest` | 검증 완료 | GET/HEAD/POST, 제한 시간/크기/취소 |
 | NET-04 | 리디렉션 직접 처리, 최종 URL | RFC 9110 §15.4 | 동상 | `net.HttpFetcherTest` | 검증 완료 | 상대/절대/순환/횟수 제한/POST 전환 |
 | NET-05 | 압축(gzip/deflate) 해제 | RFC 9110 | 동상 | `net.HttpFetcherTest` | 검증 완료 | gzip/zlib/raw deflate, 지원 안 하는 br 거부 |
@@ -117,7 +117,7 @@
 | EXC-02 | 3D 가속, WebGL, WebGPU | 상단 | `canvas.getContext('webgl'/'webgl2'/'experimental-webgl'/'webgpu'/'bitmaprenderer')` 는 `null` 반환, `navigator.gpu` 미노출, `WebGLRenderingContext`/`WebGL2RenderingContext`/`GPU` 등 전역 인터페이스 미노출. **검증 완료**(`CanvasBasicsTest.testOnlyTwoDimensionalContext`, `CanvasIntegrationTest.testNoThreeDimensionalContext`, 2026-11-17) | WebGL 앱 동작 불가 |
 | EXC-03 | CSS 3D 변환 (`perspective`, `transform-style: preserve-3d`, `backface-visibility`, 3D 변환 함수 `translate3d`/`rotateX`/`rotate3d`/`matrix3d` 등) | CSS Transforms Level 2 대상 제외 | 선언을 파싱하되 3D 부분은 적용하지 않고 2D 투영 가능한 경우만(예: `translate3d(x,y,0)` → 2D) 사용. 나머지는 무시하고 진단 기록 | Level 2 3D 효과 없음 |
 | EXC-04 | 외부 플러그인(`<embed>`, `<object>` 플러그인, `<applet>`) | 플러그인/네이티브 금지 | 실행하지 않는다. `applet` 과 대체 내용(자식 콘텐츠)이 있는 `object` 는 그 대체 내용을 배치하고, `embed` 와 대체 내용이 없는 `object` 는 상자 크기를 유지한 채 "지원하지 않는 플러그인입니다" 안내와 주소를 보인다(`layout.Replaced.isReplaced`, `render.DisplayListBuilder`). **검증 완료**(`MixedDocumentsIntegrationTest.testPluginElementsShowFallback`, 2026-11-17) | 플러그인 콘텐츠 불가. `object` 가 이미지나 HTML 문서를 가리켜도 표시하지 않는다 |
-| EXC-05 | 허용되지 않은 URL 스킴 (`file`, `mailto`, `javascript` 등) | 상단 스킴 제한 | 연결하지 않고 오류 페이지, 스크립트의 `javascript:` URL 실행 안 함 | |
+| EXC-05 | 허용되지 않은 URL 스킴 (`mailto`, `javascript`, `jar`, `data` 등) | 상단 스킴 제한 | 연결하지 않고 오류 페이지, 스크립트의 `javascript:` URL 실행 안 함 | |
 | EXC-06 | `ws:`/`wss:`(WebSocket) 등 추가 스킴 | 스킴 제한(http/https/ftp 만) | `new WebSocket(url)` 은 규격이 네트워크 없이 확인하는 것(해석 실패, 프래그먼트, ws/wss/http/https 가 아닌 스킴, 잘못되거나 중복된 하위 프로토콜은 `SyntaxError`)을 검사하고, 올바른 요청은 `CONNECTING` 소켓을 돌려준 뒤 **연결이 거부된 것처럼** 페이지 작업에서 `error` → `readyState` 3 → `close`(`wasClean` false, 코드 1006)를 발생시킨다. `send` 는 연결 중이면 `InvalidStateError`, `close` 는 코드(1000/3000-4999)와 이유(123바이트)를 검사한다(`js.host.web.WebSocketApi`, `dom.CloseEvent`, `WebSocketTest` 4건) | WebSocket 연결은 실제로 만들어지지 않는다(폴링으로 되돌아가는 페이지는 동작). `new CloseEvent(...)` 생성자는 없다. `EventSource`(서버 전송 이벤트)는 http/https 이므로 이 예외가 아니라 단순히 **미구현**이다(11절에 설계) |
 | EXC-07 | `<audio>` 외 미디어 캡처/EME/WebRTC | 범위 밖 | 전역 객체 미노출 | |
 | EXC-08 | 캔버스 히트 영역(`addHitRegion`, `removeHitRegion`, `clearHitRegions`, `MouseEvent.region`)과 `scrollPathIntoView` | 규격에서 삭제됨: W3C HTML Canvas 2D Context REC(https://www.w3.org/TR/2015/REC-2dcontext-20151119/, 조회 2026-11-18)에는 히트 영역이 있으나 현행 WHATWG HTML LS 의 캔버스 장(https://html.spec.whatwg.org/multipage/canvas.html, 조회 2026-11-17, `Last-Modified: Tue, 17 Nov 2026 11:40:10 GMT`)에는 두 이름이 한 번도 나오지 않고 `https://www.w3.org/TR/2dcontext2/` 는 WHATWG 표준으로 넘어간다 | 정의하지 않는다(`typeof ctx.addHitRegion === "undefined"`; `CanvasExtrasTest.testContextLossAndRemovedMembers`). 현행 규격을 따른다. 대신 `drawFocusIfNeeded`(WEB-05h)는 구현 | 2015 REC 의 히트 영역에 기대는 오래된 스크립트는 동작하지 않는다 |
@@ -567,7 +567,7 @@ AGENTS.md 상단 "목표 - 지원 기능"의 각 행이 이 표의 어느 기능
 | Storage API (session/local) | STO-01~04, WEB-04, API-25/26 |
 | 404/500 오류 페이지 | REQ-03, CNT-05 |
 | ftp:// (anonymous, 404 처리, 목록/디렉터리 링크/`../`) | NET-10 |
-| http/https/ftp 스킴만 지원, mailto 등 미지원 | NET-02, EXC-05 |
+| HTTP/HTTPS/FTP, `classpath:`, `file:`, `blob:` 지원, `mailto:` 등 미지원 | NET-02, WEB-17, EXC-05 |
 | SSL(JRE 버전), 분리·protected·오버라이드, https 실패 시 http 시도 | NET-06, NET-07 |
 | 3D 가속/WebGL/WebGPU 미지원, 2D 캔버스 지원 | EXC-02, WEB-05 |
 | 파일 다운로드용 Swing 팝업 | REQ-04, NET-14 |

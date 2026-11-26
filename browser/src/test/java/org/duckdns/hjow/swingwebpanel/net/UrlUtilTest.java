@@ -227,19 +227,23 @@ public class UrlUtilTest {
     }
 
     /**
-     * Scheme classification: only http, https, ftp and classpath may be fetched.
+     * Scheme classification for network, class path, file, object and blocked addresses.
      * <p>
-     * 스킴 분류: http, https, ftp, classpath 만 가져올 수 있다.
+     * 네트워크·클래스패스·파일·객체·차단 주소의 스킴 분류.
      */
     public void testSchemePolicy() {
         Check.equal(SchemePolicy.Kind.HTTP, SchemePolicy.classify("http://h/"), "http");
         Check.equal(SchemePolicy.Kind.HTTPS, SchemePolicy.classify("HTTPS://h"), "https");
         Check.equal(SchemePolicy.Kind.FTP, SchemePolicy.classify("ftp://h/x"), "ftp");
         Check.equal(SchemePolicy.Kind.CLASSPATH, SchemePolicy.classify("classpath://a.html"), "classpath");
+        Check.equal(SchemePolicy.Kind.FILE, SchemePolicy.classify("file:///c:/x"), "absolute file");
+        Check.equal("file:///C:/folder/a%20b.txt", UrlUtil.resolve("file:/C:/folder/index.html", "a b.txt"), "file relative address");
+        Check.equal("file:///C:/x", UrlUtil.resolve("file://localhost/C:/dir/p.html", "/../x"), "file drive root");
+        Check.equal("file:///home/index.html", UrlUtil.normalize("file://localhost/home/./index.html"), "file local authority");
         Check.equal(SchemePolicy.Kind.BLOB, SchemePolicy.classify("blob:http://h/x"), "blob lookup is handled by its store");
         Check.equal(SchemePolicy.Kind.ABOUT_BLANK, SchemePolicy.classify("about:blank"), "about:blank");
         Check.equal(SchemePolicy.Kind.ABOUT_TEXT, SchemePolicy.classify("about:text"), "about:text");
-        final String[] blocked = { "file:///c:/x", "jar:file:/x.jar!/a", "mailto:a@b.c", "javascript:alert(1)",
+        final String[] blocked = { "file://nonlocal.invalid/c:/x", "jar:file:/x.jar!/a", "mailto:a@b.c", "javascript:alert(1)",
             "data:text/html,x", "ws://h/", "wss://h/", "about:srcdoc", "c:\\x", "gopher://h/" };
         // 금지 스킴은 모두 BLOCKED 로 분류되어야 한다.
         for (int i = 0; i < blocked.length; i++) {

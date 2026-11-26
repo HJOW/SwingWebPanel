@@ -161,7 +161,7 @@ public class LegacyScriptCompatTest {
      */
     public void testJavascriptUrlsAreBlocked() {
         String[] blocked = { "javascript:alert(1)", "JavaScript:void(0)", "  javascript:history.back()", "vbscript:msgbox(1)", "livescript:x", "data:text/html,<p>x</p>",
-            "file:///c:/x.html", "mailto:a@b.c", "about:text", "blob:http://a/b" };
+            "file://nonlocal.invalid/x.html", "mailto:a@b.c", "about:text" };
         // 허용하지 않는 주소를 하나씩 확인한다.
         for (int i = 0; i < blocked.length; i++) {
             Check.isFalse(SchemePolicy.isNavigationAllowed(blocked[i]), "blocked: " + blocked[i]);

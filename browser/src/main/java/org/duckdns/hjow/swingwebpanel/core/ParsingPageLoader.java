@@ -346,8 +346,11 @@ public final class ParsingPageLoader implements PageLoader, CacheOwner {
         if (url != null) {
             doc.setUrl(url);
         }
-        // 등록된 객체를 받지 못한 오류 문서는 주소 문자열에 적힌 오리진을 획득하지 않는다.
-        if ("blob".equals(UrlUtil.getScheme(url)) && (request == null || request.getBlobUrlEntry() == null)) {
+        // 등록되지 않은 객체와 접근이 거부된 파일의 오류 문서는 주소 문자열에 적힌 오리진을 획득하지 않는다.
+        String protocol = UrlUtil.getScheme(url);
+        if ("blob".equals(protocol) && (request == null || request.getBlobUrlEntry() == null)
+                || UrlUtil.SCHEME_FILE.equals(protocol) && request != null && request.getFrame() != null
+                        && (request.getFileFrameInitiator() == null || !UrlUtil.SCHEME_FILE.equals(request.getFileFrameInitiator().getScheme()))) {
             doc.setOriginUrl("about:blank");
         }
         // 프레임의 문서는 주소, 기준 URL, 오리진을 프레임이 정한다(about:blank/srcdoc 은 생성자의 것을 물려받고 샌드박스는 오리진이 불투명).
