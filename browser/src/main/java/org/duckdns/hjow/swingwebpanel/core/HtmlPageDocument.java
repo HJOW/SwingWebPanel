@@ -32,7 +32,7 @@ public final class HtmlPageDocument implements PageDocument {
     /** Optional script host, disposed with this document. / 이 문서와 함께 폐기하는 선택적 스크립트 호스트. */
     private final PageRuntime runtime;
     /** Optional media host for a document without scripts. / 스크립트 없는 문서의 선택적 미디어 호스트. */
-    private final PageAudio audio;
+    private volatile PageAudio audio;
     /** Shared parser/drawing state, optional for standalone loaders. / 파서·그리기 공유 상태이며 독립 로더에서는 선택 사항. */
     private final PagePresentation presentation;
 
@@ -112,7 +112,8 @@ public final class HtmlPageDocument implements PageDocument {
      * @return true if scripts and the unscripted media host are both ready / 스크립트와 스크립트 없는 미디어 호스트가 모두 준비됐으면 true
      */
     boolean isLoadComplete() {
-        return (runtime == null || runtime.isLoadComplete()) && (audio == null || audio.media.isLoadComplete());
+        PageAudio media = audio;
+        return (runtime == null || runtime.isLoadComplete()) && (media == null || media.media.isLoadComplete());
     }
 
     /** Returns page presentation without transferring DOM ownership. / DOM 소유권 이전 없이 페이지 표현을 반환한다.
@@ -231,7 +232,8 @@ public final class HtmlPageDocument implements PageDocument {
     /** Activates timers after the session confirms this exact snapshot. / 세션이 바로 이 스냅샷을 확정한 뒤 타이머를 활성화한다.
      * @param snapshot confirmed snapshot / 확정된 스냅샷 */
     void activate(PageSnapshot snapshot) {
-        if (document == null || runtime != null && !runtime.activate(snapshot) || audio != null && !audio.activate(snapshot)) {
+        PageAudio media = audio;
+        if (document == null || runtime != null && !runtime.activate(snapshot) || media != null && !media.activate(snapshot, true)) {
             return;
         }
         startMetaRefresh();
@@ -239,6 +241,32 @@ public final class HtmlPageDocument implements PageDocument {
         // 이 문서의 iframe/frame 요소도 이제 중첩 브라우징 문맥을 만들 수 있다.
         if (set != null) {
             set.activate(snapshot);
+        }
+    }
+
+    /**
+     * Installs unscripted controls on a document whose script realm was disabled.
+     * <p>
+     * 스크립트 렐름이 비활성화된 문서에 스크립트 없는 컨트롤을 설치한다.
+     * @param session the component session / 컴포넌트 세션
+     * @param view the component view / 컴포넌트 뷰
+     * @param frame the owning frame or null / 소유 프레임 또는 null
+     * @param snapshot the top-level snapshot / 최상위 스냅샷
+     * @param loadElements true when first confirming a document / 새 문서를 처음 확정하면 true
+     */
+    void startUnscriptedAudio(BrowserSession session, PageView view, FrameContext frame, PageSnapshot snapshot, boolean loadElements) {
+        PageAudio prepared;
+        synchronized (this) {
+            // 페이지 폐기와 겹치면 리소스 요청과 출력의 소유자를 새로 만들지 않는다.
+            if (document == null || audio != null || presentation == null || session.getSnapshot() != snapshot) {
+                return;
+            }
+            prepared = PageAudio.prepare(session, view, presentation, frame, document);
+            audio = prepared;
+        }
+        if (prepared != null) {
+            prepared.activate(snapshot, loadElements);
+            presentation.canvasChanged();
         }
     }
 
@@ -331,10 +359,11 @@ public final class HtmlPageDocument implements PageDocument {
      * @param fraction the position or volume from 0 to 1 / 0 에서 1 까지의 위치 또는 음량
      */
     void controlMedia(Element target, int part, double fraction) {
-        if (runtime != null) {
+        PageAudio media = audio;
+        if (media != null) {
+            media.media.control(target, part, fraction);
+        } else if (runtime != null) {
             runtime.scripts().controlMedia(target, part, fraction);
-        } else if (audio != null) {
-            audio.media.control(target, part, fraction);
         }
     }
 
@@ -349,7 +378,8 @@ public final class HtmlPageDocument implements PageDocument {
      * @return true if the control accepts the key / 컨트롤에서 처리하는 키이면 true
      */
     boolean controlAudioKey(Element target, String key, boolean repeat) {
-        if (runtime == null && audio == null || target.getOwnerDocument() != document || !target.isConnected() || !target.hasAttribute("controls")) {
+        PageAudio media = audio;
+        if (runtime == null && media == null || target.getOwnerDocument() != document || !target.isConnected() || !target.hasAttribute("controls")) {
             return false;
         }
         // 누른 채로 있더라도 재생이나 음소거를 한 번만 전환한다.
@@ -365,7 +395,7 @@ public final class HtmlPageDocument implements PageDocument {
         if (!seek && !volume) {
             return false;
         }
-        MediaControlState state = audio == null ? runtime.scripts().mediaControlSource().getMediaControls(target) : audio.media.getMediaControls(target);
+        MediaControlState state = media == null ? runtime.scripts().mediaControlSource().getMediaControls(target) : media.media.getMediaControls(target);
         if (state != null) {
             // 좌우는 5초씩 탐색하고 위아래는 음량을 10%씩 바꾼다. 범위는 기존 컨트롤이 제한한다.
             if (volume) {
@@ -511,7 +541,14 @@ public final class HtmlPageDocument implements PageDocument {
      * 페이지와 함께 수거될 수 있도록 DOM 트리에 대한 참조를 놓는다.
      */
     public void dispose() {
-        Document doc = document;
+        Document doc;
+        PageAudio media;
+        synchronized (this) {
+            doc = document;
+            document = null;
+            media = audio;
+            audio = null;
+        }
         // 예약된 meta refresh 이동을 취소한다.
         javax.swing.Timer timer = metaTimer;
         metaTimer = null;
@@ -525,12 +562,11 @@ public final class HtmlPageDocument implements PageDocument {
         if (runtime != null) {
             runtime.close();
         }
-        if (audio != null) {
-            audio.close();
+        if (media != null) {
+            media.close();
         }
         if (presentation != null) {
             presentation.retire();
         }
-        document = null;
     }
 }

@@ -1,7 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.core;
 
+import org.duckdns.hjow.swingwebpanel.dom.Document;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
 import org.duckdns.hjow.swingwebpanel.dom.ElementCollection;
+import org.duckdns.hjow.swingwebpanel.dom.Namespaces;
 import org.duckdns.hjow.swingwebpanel.js.host.HostEnvironment;
 import org.duckdns.hjow.swingwebpanel.js.host.MediaRequestSource;
 import org.duckdns.hjow.swingwebpanel.js.host.Scheduler;
@@ -40,7 +42,7 @@ final class PageAudio extends HostEnvironment implements MediaRequestSource {
      * @param frame the owning frame or null / 소유 프레임 또는 null
      * @param elements the parsed audio elements / 파싱한 오디오 요소
      */
-    PageAudio(BrowserSession session, PageView view, PagePresentation presentation, FrameContext frame, ElementCollection elements) {
+    private PageAudio(BrowserSession session, PageView view, PagePresentation presentation, FrameContext frame, ElementCollection elements) {
         this.view = view;
         this.frame = frame;
         autoplayAllowed = frame == null || frame.flags().allowsScripts();
@@ -52,15 +54,33 @@ final class PageAudio extends HostEnvironment implements MediaRequestSource {
     }
 
     /**
+     * Prepares the unscripted host if the DOM contains audio. / DOM에 오디오가 있으면 스크립트 없는 호스트를 준비한다.
+     * @param session the component session / 컴포넌트 세션
+     * @param view the component view / 컴포넌트 뷰
+     * @param presentation the document's presentation and resources / 문서의 표현과 리소스
+     * @param frame the owning frame or null / 소유 프레임 또는 null
+     * @param document the parsed document / 파싱된 문서
+     * @return the media host or null / 미디어 호스트 또는 null
+     */
+    static PageAudio prepare(BrowserSession session, PageView view, PagePresentation presentation, FrameContext frame, Document document) {
+        ElementCollection elements = document.getElementsByTagNameNS(Namespaces.HTML, "audio");
+        return elements.getLength() == 0 ? null : new PageAudio(session, view, presentation, frame, elements);
+    }
+
+    /**
      * Starts media only for the confirmed document. / 확정된 문서의 미디어만 시작한다.
      * @param snapshot the owning confirmed snapshot / 소유 확정 스냅샷
+     * @param loadElements whether to preload elements as for a fresh document / 새 문서처럼 요소를 미리 로드할지 여부
      * @return true while the snapshot is active / 스냅샷이 활성 상태이면 true
      */
-    boolean activate(PageSnapshot snapshot) {
+    boolean activate(PageSnapshot snapshot, boolean loadElements) {
         if (!scheduler.activate(snapshot)) {
             return false;
         }
-        media.start(elements);
+        // 현재 문서에서 스크립트를 끄면 종료한 미디어를 자동으로 다시 로드하지 않는다. 사용자가 컨트롤에서 시작할 수 있다.
+        if (loadElements) {
+            media.start(elements);
+        }
         return true;
     }
 

@@ -89,6 +89,8 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
     private final AtomicBoolean hostCheckpointPending = new AtomicBoolean();
     /** Final lifetime flag, also used by racing constructors and setters. / 생성자와 설정 호출 경합에도 쓰는 영구 수명 표시. */
     private final AtomicBoolean closed = new AtomicBoolean();
+    /** Whether the host disabled scripts while this document was alive. / 문서가 살아 있는 동안 호스트가 스크립트를 껐는지 여부. */
+    private volatile boolean authorDisabled;
     /** Parser ownership barrier before final realm cleanup. / 최종 영역 해제 전 파서 소유권 장벽. */
     private final CountDownLatch parsed = new CountDownLatch(1);
     /** In-document navigations (URL and replace flag) requested before the page was confirmed; guarded by itself. / 확정 전에 요청된 문서 안의 이동(URL과 replace 표시). 자기 자신으로 보호한다. */
@@ -180,6 +182,7 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         });
         parent.addHook(this);
         if (!session.registerRuntime(this, request.getId())) {
+            authorDisabled = !session.isJavascriptEnabled();
             close();
         }
     }
@@ -285,21 +288,28 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
      * @param snapshot confirmed page / 확정된 페이지
      * @return whether the document is active / 문서의 활성화 여부 */
     boolean activate(PageSnapshot snapshot) {
+        if (authorDisabled) {
+            return enableUnscriptedAudio(snapshot, true);
+        }
         // 프레임의 문서는 뷰를 직접 준비하지 않는다(뷰는 최상위 페이지의 것이고 프레임은 그 DisplayList 안에 그려진다).
         if (frame == null) {
             view.preparePage(snapshot);
         }
         if (!scheduler.activate(snapshot)) {
-            return false;
+            return authorDisabled && enableUnscriptedAudio(snapshot, true);
         }
         List<Object[]> waiting;
         synchronized (waitingFragments) {
             if (closed.get()) {
-                return false;
+                waiting = null;
+            } else {
+                confirmed = true;
+                waiting = new ArrayList<Object[]>(waitingFragments);
+                waitingFragments.clear();
             }
-            confirmed = true;
-            waiting = new ArrayList<Object[]>(waitingFragments);
-            waitingFragments.clear();
+        }
+        if (waiting == null) {
+            return authorDisabled && enableUnscriptedAudio(snapshot, true);
         }
         // 확정되기 전에 요청된 같은 문서 안의 이동과 이력 상태 변경을 요청된 순서대로 적용한다.
         for (Object[] w : waiting) {
@@ -818,6 +828,39 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         }
         close();
         presentation.retire();
+    }
+
+    /**
+     * Stops author scripts and asks the document queue to connect the independent audio controls.
+     * <p>
+     * 작성자 스크립트를 중단하고 문서 큐에 스크립트 없는 오디오 제어 연결을 맡긴다.
+     */
+    void disableScripts() {
+        authorDisabled = true;
+        close();
+        session.submitDocumentTask(new Runnable() {
+            /** Restores controls only on the same live document. / 같은 살아 있는 문서에서만 컨트롤을 연결한다. */
+            public void run() {
+                enableUnscriptedAudio(session.getSnapshot(), false);
+            }
+        });
+    }
+
+    /**
+     * Connects unscripted media while this runtime still identifies the live document.
+     * <p>
+     * 이 실행 환경이 살아 있는 문서를 아직 식별할 때 스크립트 없는 미디어를 연결한다.
+     * @param snapshot the owning top-level snapshot / 소유 최상위 스냅샷
+     * @param loadElements true when first confirming a document / 새 문서를 처음 확정하면 true
+     * @return true while this is the live document / 이 문서가 살아 있으면 true
+     */
+    private boolean enableUnscriptedAudio(PageSnapshot snapshot, boolean loadElements) {
+        Object owner = frame == null ? snapshot.getDocument() : frame.page();
+        if (!(owner instanceof HtmlPageDocument) || ((HtmlPageDocument) owner).runtime() != this || session.getSnapshot() != snapshot) {
+            return false;
+        }
+        ((HtmlPageDocument) owner).startUnscriptedAudio(session, view, frame, snapshot, loadElements);
+        return session.getSnapshot() == snapshot;
     }
 
     /** Releases callbacks immediately and finishes locked cleanup off the EDT/document queue. / 콜백을 즉시 해제하고 잠금이 필요한 정리는 EDT·문서 큐 밖에서 끝낸다. */

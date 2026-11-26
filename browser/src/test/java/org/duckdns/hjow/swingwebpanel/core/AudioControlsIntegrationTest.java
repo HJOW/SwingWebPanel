@@ -543,12 +543,91 @@ public class AudioControlsIntegrationTest {
             Check.equal(1, server.count("/clip.wav"), "the frame's user control starts loading and playing");
             panel.clean();
             awaitLoaded(panel, "about:blank");
-            long end = System.currentTimeMillis() + 5000;
-            // 프레임 폐기에 큐가 사용되므로 출력 닫힘을 기다린다.
-            while (output.closeCalls() == 0 && System.currentTimeMillis() < end) {
-                Thread.sleep(10);
-            }
-            Check.equal(1, output.closeCalls(), "retiring the frame closes the output");
+            awaitClosed(output);
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
+     * Waits for an output owned by a retired host to close. / 폐기된 호스트의 출력이 닫히기를 기다린다.
+     * @param output the playback output / 재생 출력
+     * @throws InterruptedException if interrupted / 인터럽트되면
+     */
+    private static void awaitClosed(FakeOutputs.Out output) throws InterruptedException {
+        long end = System.currentTimeMillis() + 10000;
+        // 페이지나 프레임 폐기 작업이 출력을 닫을 때까지 기다린다.
+        while (output.closeCalls() == 0 && System.currentTimeMillis() < end) {
+            Thread.sleep(10);
+        }
+        Check.equal(1, output.closeCalls(), "the retired playback output closed once");
+    }
+
+    /**
+     * Turning off scripts stops the old audio host and leaves controls usable in the same page.
+     * <p>
+     * 스크립트를 끄면 기존 오디오 호스트는 닫히고 같은 페이지의 컨트롤은 계속 조작할 수 있다.
+     * @throws Exception if setup or playback failed / 준비 또는 재생이 실패하면
+     */
+    public void testDisablingJavaScriptKeepsTheCurrentAudioControlsUsable() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        FakeOutputs outputs = new FakeOutputs(2000);
+        SwingWebPanel panel = newPanel(outputs);
+        try {
+            String html = "<!doctype html><body style='margin:0'>" + SCRIPT
+                    + "<audio controls preload=none src='/clip.wav' style='display:block;width:300px;height:54px'></audio>";
+            server.routeFixed("/page", TestHttpServer.Response.html(html));
+            byte[] wav = AudioKit.wav(1, 1, 8000, 16, ScriptedDecoder.pcm(0, 24000), -1);
+            server.routeFixed("/clip.wav", new TestHttpServer.Response(200).bytes("audio/wav", wav));
+            server.start();
+            panel.setPage(server.url("/page"));
+            awaitLoaded(panel, server.url("/page"));
+            click(panel, 22, 27);
+            FakeOutputs.Out original = outputs.await(0);
+            original.awaitWritten(64);
+            await(panel, "click", 1, "the author click handler formerly ran");
+
+            panel.setJavascriptEnabled(false);
+            awaitClosed(original);
+            click(panel, 22, 27);
+            FakeOutputs.Out replacement = outputs.await(1);
+            replacement.awaitWritten(64);
+            Check.equal(1, count(panel, "play"), "the author script did not receive the new playback event");
+            Check.equal(1, count(panel, "click"), "the author script did not receive the new click");
+            Check.equal(html, panel.getContent(), "the original document is still displayed");
+            panel.dispose();
+            awaitClosed(replacement);
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
+     * The parser-to-document handoff can still connect audio when scripts were disabled during parsing.
+     * <p>
+     * 파싱 중 스크립트를 껐어도 파서에서 문서로 인계할 때 오디오를 연결할 수 있다.
+     * @throws Exception if setup or playback failed / 준비 또는 재생이 실패하면
+     */
+    public void testDisablingJavaScriptDuringParsingStillInstallsAudio() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        FakeOutputs outputs = new FakeOutputs(2000);
+        SwingWebPanel panel = newPanel(outputs);
+        try {
+            String html = "<!doctype html><body style='margin:0'>" + SCRIPT + "<script>mark('parsing');while(true){}</script>"
+                    + "<audio controls preload=none src='/clip.wav' style='display:block;width:300px;height:54px'></audio>";
+            server.routeFixed("/page", TestHttpServer.Response.html(html));
+            byte[] wav = AudioKit.wav(1, 1, 8000, 16, ScriptedDecoder.pcm(0, 24000), -1);
+            server.routeFixed("/clip.wav", new TestHttpServer.Response(200).bytes("audio/wav", wav));
+            server.start();
+            panel.setPage(server.url("/page"));
+            await(panel, "parsing", 1, "the parser's script reached its loop");
+            panel.setJavascriptEnabled(false);
+            awaitLoaded(panel, server.url("/page"));
+            click(panel, 22, 27);
+            outputs.await(0).awaitWritten(64);
+            Check.equal(0, count(panel, "play"), "audio now plays without the cancelled script observers");
         } finally {
             panel.dispose();
             server.stop();

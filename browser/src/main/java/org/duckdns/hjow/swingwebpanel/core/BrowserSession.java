@@ -637,7 +637,7 @@ public final class BrowserSession implements FormSubmitSink {
         if (stop != null) {
             // 실행 잠금을 기다리지 않고 현재 페이지와 아직 확정되지 않은 페이지를 모두 중단한다.
             for (PageRuntime runtime : stop) {
-                runtime.close();
+                runtime.disableScripts();
             }
         }
     }
