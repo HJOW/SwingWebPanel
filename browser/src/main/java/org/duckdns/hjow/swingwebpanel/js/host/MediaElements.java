@@ -307,6 +307,60 @@ final class MediaElements implements MediaControlSource {
      */
     static final long STALL_MILLIS = 3000;
 
+    /** Interval for progress events during an active transfer. / 전송 중 진행 이벤트 보고 간격. */
+    static final long PROGRESS_MILLIS = 350;
+
+    /**
+     * Progress notices and the timer for one load only. The network thread updates the byte count, and the DOM owner reports it.
+     * <p>
+     * 한 로드에 속하는 진행 통지와 타이머. 네트워크 스레드가 바이트 수를 바꾸고 DOM 소유자가 보고한다.
+     */
+    private static final class FetchProgress {
+
+        /** Latest byte count; guarded by this object. / 가장 최근의 바이트 수. 이 객체로 보호한다. */
+        private long bytes;
+
+        /** True while a notice is queued for the DOM owner. / DOM 소유자에게 통지가 대기 중이면 true. */
+        private boolean queued;
+
+        /** Byte count at the previous progress event, used only on the DOM owner. / 직전 진행 이벤트의 바이트 수. DOM 소유자만 사용한다. */
+        long reported;
+
+        /** Scheduled progress delivery, used only on the DOM owner. / 예정된 진행 알림. DOM 소유자만 사용한다. */
+        Scheduler.Handle timer;
+
+        /** Starts an empty progress record. / 빈 진행 기록을 만든다. */
+        FetchProgress() {
+        }
+
+        /**
+         * Records new bytes and asks for at most one DOM notice. / 새 바이트를 기록하고 DOM 통지를 최대 하나만 요청한다.
+         * @param received cumulative bytes / 누적 바이트 수
+         * @return true when the caller should queue a notice / 호출자가 통지를 올려야 하면 true
+         */
+        synchronized boolean offer(long received) {
+            if (received <= bytes) {
+                return false;
+            }
+            bytes = received;
+            if (queued) {
+                return false;
+            }
+            queued = true;
+            return true;
+        }
+
+        /** Marks delivery of the notice. / 통지가 전달되었음을 표시한다. */
+        synchronized void delivered() {
+            queued = false;
+        }
+
+        /** Reads the latest cumulative byte count. / 가장 최근의 누적 바이트 수를 읽는다. */
+        synchronized long bytes() {
+            return bytes;
+        }
+    }
+
     /**
      * One task for the owner of the DOM: the result of a fetch, a report of a player, or an event that was queued.
      * <p>
@@ -716,13 +770,8 @@ final class MediaElements implements MediaControlSource {
          */
         final AtomicBoolean timePending = new AtomicBoolean();
 
-        /**
-         * True while a progress task of the fetch waits for the owner of the DOM (at most one at a time, so a fast transfer does not flood
-         * the queue).
-         * <p>
-         * 가져오기의 진행 작업이 DOM 소유자를 기다리는 동안 true(한 번에 하나만이므로 빠른 전송이 줄을 넘치게 하지 않는다).
-         */
-        final AtomicBoolean progressPending = new AtomicBoolean();
+        /** Progress state of the current fetch. / 현재 가져오기의 진행 상태. */
+        FetchProgress progress;
 
         /**
          * The timer that fires <code>stalled</code> when the transfer gives no data for three seconds, or null.
@@ -730,6 +779,9 @@ final class MediaElements implements MediaControlSource {
          * 전송이 3초 동안 데이터를 주지 않으면 <code>stalled</code> 를 발생시키는 타이머. 없으면 null.
          */
         Scheduler.Handle stall;
+
+        /** Changes whenever the stall deadline is replaced. / 정체 기한을 바꿀 때마다 증가한다. */
+        int stallRevision;
 
         /**
          * True while the element stays at <code>HAVE_METADATA</code> because of <code>preload="metadata"</code> and wants no more data until
@@ -1364,12 +1416,7 @@ final class MediaElements implements MediaControlSource {
             setDelaying(m, false);
             break;
         case K_PROGRESS:
-            m.progressPending.set(false);
-            // 아직 가져오는 중일 때만 진행 이벤트를 내고, 다음 데이터를 기다리는 stalled 타이머를 다시 시작한다.
-            if (m.fetch != null && m.networkState == NETWORK_LOADING) {
-                fireEvent(m, m.element(), "progress");
-                armStall(m);
-            }
+            transferProgress(m, (FetchProgress) t.arg);
             break;
         case K_RUN:
             ((Runnable) t.arg).run();
@@ -1516,7 +1563,6 @@ final class MediaElements implements MediaControlSource {
         textTracks.mediaReset(m);
         m.everLoaded = true;
         m.metadataOnly = false;
-        m.progressPending.set(false);
         m.timePending.set(false);
         cancelFetch(m);
         releasePlayer(m);
@@ -1862,6 +1908,8 @@ final class MediaElements implements MediaControlSource {
             post(t);
             return;
         }
+        final FetchProgress progress = new FetchProgress();
+        m.progress = progress;
         m.fetch = source.request(url, new MediaRequestSource.AudioCallback() {
             /**
              * Queues a progress report for the owner of the DOM; at most one is waiting at a time (may run on any thread).
@@ -1873,8 +1921,10 @@ final class MediaElements implements MediaControlSource {
              */
             public void progress(long received, long total) {
                 // 이미 기다리는 진행 작업이 없을 때만 새로 올린다.
-                if (received > 0 && m.progressPending.compareAndSet(false, true)) {
-                    post(new Task(m, epoch, K_PROGRESS));
+                if (progress.offer(received)) {
+                    Task notice = new Task(m, epoch, K_PROGRESS);
+                    notice.arg = progress;
+                    post(notice);
                 }
             }
 
@@ -1925,6 +1975,54 @@ final class MediaElements implements MediaControlSource {
             }
         });
         armStall(m);
+    }
+
+    /**
+     * Refreshes the stall deadline when bytes arrive and coalesces progress notifications for the event interval.
+     * <p>
+     * 바이트가 오면 정체 기한을 갱신하고 이벤트 간격 동안 진행 알림을 모은다.
+     * @param m element state / 요소 상태
+     * @param progress the transfer progress state / 전송 진행 상태
+     */
+    private void transferProgress(final Media m, final FetchProgress progress) {
+        progress.delivered();
+        if (m.progress != progress || m.fetch == null || m.networkState != NETWORK_LOADING) {
+            return;
+        }
+        armStall(m);
+        if (progress.timer != null || progress.bytes() <= progress.reported) {
+            return;
+        }
+        Scheduler scheduler = host().getScheduler();
+        if (scheduler == null) {
+            reportProgress(m, progress);
+            return;
+        }
+        progress.timer = scheduler.post(new Runnable() {
+            /** Enters the DOM task before dispatching progress. / 진행 이벤트를 전달하기 전에 DOM 작업에 들어간다. */
+            public void run() {
+                runMediaTask(new Runnable() {
+                    /** Delivers the scheduled progress. / 예약한 진행 이벤트를 전달한다. */
+                    public void run() {
+                        progress.timer = null;
+                        reportProgress(m, progress);
+                    }
+                });
+            }
+        }, PROGRESS_MILLIS);
+    }
+
+    /**
+     * Dispatches progress if the current transfer has unreported bytes. / 현재 전송에 보고하지 않은 바이트가 있으면 진행 이벤트를 전달한다.
+     * @param m element state / 요소 상태
+     * @param progress transfer progress state / 전송 진행 상태
+     */
+    private void reportProgress(Media m, FetchProgress progress) {
+        long bytes = progress.bytes();
+        if (!disposed && m.progress == progress && m.fetch != null && m.networkState == NETWORK_LOADING && bytes > progress.reported) {
+            progress.reported = bytes;
+            fireEvent(m, m.element(), "progress");
+        }
     }
 
     /**
@@ -1981,6 +2079,9 @@ final class MediaElements implements MediaControlSource {
             return;
         }
         final int epoch = m.epoch;
+        final int revision = m.stallRevision;
+        final FetchProgress transfer = m.progress;
+        final long bytes = transfer == null ? 0 : transfer.bytes();
         m.stall = scheduler.post(new Runnable() {
             /**
              * Fires <code>stalled</code> if the same transfer still waits for data.
@@ -1991,8 +2092,14 @@ final class MediaElements implements MediaControlSource {
                 runMediaTask(new Runnable() {
                     /** Fires the event under the page lock. / 페이지 잠금 아래에서 이벤트를 발생시킨다. */
                     public void run() {
-                        if (!disposed && epoch == m.epoch && m.fetch != null && m.networkState == NETWORK_LOADING) {
+                        if (!disposed && epoch == m.epoch && revision == m.stallRevision && m.fetch != null
+                                && m.networkState == NETWORK_LOADING) {
                             m.stall = null;
+                            // 바이트는 이미 도착했으나 진행 통지가 대기 중이면 정체 상태가 아니다.
+                            if (transfer != null && transfer.bytes() > bytes) {
+                                armStall(m);
+                                return;
+                            }
                             fireEvent(m, m.element(), "stalled");
                         }
                     }
@@ -2011,8 +2118,23 @@ final class MediaElements implements MediaControlSource {
     private void cancelStall(Media m) {
         Scheduler.Handle h = m.stall;
         m.stall = null;
+        m.stallRevision++;
         if (h != null) {
             h.cancel();
+        }
+    }
+
+    /**
+     * Stops timers and detaches the transfer's progress record. / 타이머를 멈추고 전송 진행 상태를 분리한다.
+     * @param m element state / 요소 상태
+     */
+    private void stopTransferTimers(Media m) {
+        cancelStall(m);
+        FetchProgress progress = m.progress;
+        m.progress = null;
+        if (progress != null && progress.timer != null) {
+            progress.timer.cancel();
+            progress.timer = null;
         }
     }
 
@@ -2024,7 +2146,7 @@ final class MediaElements implements MediaControlSource {
      * @param m the element state / 요소 상태
      */
     private void cancelFetch(Media m) {
-        cancelStall(m);
+        stopTransferTimers(m);
         MediaRequestSource.Request r = m.fetch;
         m.fetch = null;
         if (r != null) {
@@ -2041,7 +2163,7 @@ final class MediaElements implements MediaControlSource {
      * @param t the result / 결과
      */
     private void fetched(Media m, Task t) {
-        cancelStall(m);
+        stopTransferTimers(m);
         m.fetch = null;
         MediaData encoded = takeAudio(t);
         try {

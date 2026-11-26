@@ -362,6 +362,7 @@ public class AudioIntegrationTest {
             panel.setPage(server.url("/page"));
             awaitPage(panel, server.url("/page"));
             File spool = awaitSpool(baseline, MediaSpool.MEMORY_LIMIT);
+            awaitOrder(panel, "cancel.progress,", "the active transfer reports progress before completion");
             if (navigate) {
                 panel.setPage("about:blank");
                 awaitPage(panel, "about:blank");

@@ -759,6 +759,14 @@ public class MediaElementsTest {
         } finally {
             stale.release();
         }
+        MediaRequestSource.ProgressCallback oldProgress = (MediaRequestSource.ProgressCallback) media.requests.get(0).callback;
+        MediaRequestSource.ProgressCallback newProgress = (MediaRequestSource.ProgressCallback) media.requests.get(1).callback;
+        oldProgress.progress(300, 500);
+        newProgress.progress(100, 500);
+        settleBriefly(f);
+        f.advance(350);
+        settleBriefly(f);
+        Check.equal("a:abort,a:emptied,a:loadstart,a:progress", js(f, "events()"), "only the new transfer's progress is reported");
         media.ok(1, wav(16000), "audio/wav");
         until(f, "a.readyState === 4", "the new resource loaded");
         js(f, "a.play();");
@@ -930,12 +938,11 @@ public class MediaElementsTest {
     }
 
     /**
-     * The transfer of a resource is visible to the page: <code>progress</code> fires when bytes arrived (a burst of reports is one event, and
-     * a report that carries no bytes is none), <code>stalled</code> fires once when no data comes for three seconds and starts again after
-     * the next progress, and nothing fires after the resource arrived.
+     * The transfer reports <code>progress</code> at the 350 ms interval and <code>stalled</code> after three seconds without more bytes.
+     * Repeated counts and completed transfers do not restart the waiting period.
      * <p>
-     * 리소스의 전송이 페이지에 보인다: 바이트가 도착하면 <code>progress</code> 가 발생하고(연속 보고는 이벤트 하나, 바이트가 없는 보고는 없음), 3초 동안
-     * 데이터가 오지 않으면 <code>stalled</code> 가 한 번 발생하며 다음 진행 뒤에 다시 시작되고, 리소스가 도착한 뒤에는 아무것도 발생하지 않는다.
+     * 전송 진행은 350 ms 간격으로 보고하고 새 바이트가 3초 동안 없으면 <code>stalled</code>를 발생시킨다.
+     * 중복 바이트 수나 완료한 전송은 대기 기간을 다시 시작하지 않는다.
      *
      * @throws Exception on failure / 실패 시
      */
@@ -953,22 +960,41 @@ public class MediaElementsTest {
         transfer.progress(1000, 5000);
         transfer.progress(2000, 5000);
         settleBriefly(f);
-        Check.equal("a:progress", js(f, "events()"), "a burst of reports is one progress event");
+        f.advance(349);
+        settleBriefly(f);
+        Check.equal("", js(f, "events()"), "nothing before the progress interval");
         transfer.progress(3000, 5000);
         settleBriefly(f);
+        f.advance(1);
+        settleBriefly(f);
+        Check.equal("a:progress", js(f, "events()"), "one event covers the burst of bytes");
+        transfer.progress(3500, 5000);
+        settleBriefly(f);
+        f.advance(349);
+        settleBriefly(f);
+        Check.equal("a:progress", js(f, "events()"), "the next report waits for its interval");
+        f.advance(1);
+        settleBriefly(f);
         Check.equal("a:progress,a:progress", js(f, "events()"), "the next burst is another event");
-        f.advance(2800);
+        f.advance(2550);
+        settleBriefly(f);
+        transfer.progress(3500, 5000);
+        settleBriefly(f);
+        f.advance(99);
         settleBriefly(f);
         Check.equal("a:progress,a:progress", js(f, "events()"), "no stalled event before three seconds");
-        f.advance(400);
+        f.advance(1);
         settleBriefly(f);
-        Check.equal("a:progress,a:progress,a:stalled", js(f, "events()"), "stalled after three seconds without data");
+        Check.equal("a:progress,a:progress,a:stalled", js(f, "events()"), "the duplicate count does not prevent a stall");
         f.advance(20000);
         settleBriefly(f);
         Check.equal("a:progress,a:progress,a:stalled", js(f, "events()"), "stalled fires once per stall");
         transfer.progress(4000, 5000);
         settleBriefly(f);
-        f.advance(3100);
+        f.advance(350);
+        settleBriefly(f);
+        Check.equal("a:progress,a:progress,a:stalled,a:progress", js(f, "events()"), "new bytes resume progress");
+        f.advance(2650);
         settleBriefly(f);
         Check.equal("a:progress,a:progress,a:stalled,a:progress,a:stalled", js(f, "events()"), "progress starts the timer again");
         media.ok(0, wav(500), "audio/wav");
