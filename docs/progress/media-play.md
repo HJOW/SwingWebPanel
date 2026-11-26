@@ -181,6 +181,12 @@
 
 ## 작업 기록
 
+### 2026-11-26 P18-08-b3a — 스크립트를 차단한 프레임의 오디오
+
+프레임의 표시 크기와 문서 큐를 사용하는 미디어 호스트를 연결했다. [HTML5 REC §4.7.10.7](https://www.w3.org/TR/2014/REC-html5-20141028/embedded-content-0.html#ready-states)의 자동 재생 조건에 따라 `allow-scripts`가 없는 샌드박스에서 자동 시작을 막는다. `preload=none`은 사용자 재생까지 가져오기를 미룬다. 프레임을 버리면 그 출력과 콜백도 해제한다.
+
+JRE 6u45의 `AudioControlsIntegrationTest`, `FrameSandboxTest`, `FrameNavigationTest`, `FrameRenderingTest`, `MediaElementsTest`가 총 57건 통과했다. 새 사례는 작성자 스크립트·오디오 요청이 자동으로 발생하지 않고, 클릭 뒤 PCM이 도착하며 프레임을 닫으면 출력이 해제됨을 확인했다.
+
 ### 2026-11-26 P18-08-b2 — 스크립트가 꺼진 새 최상위 문서의 오디오
 
 `PageAudio`가 확정된 최상위 문서에서 공통 리소스와 Java Sound 출력을 연결한다. `UnscriptedMedia`가 별도 스크립트 렐름 없이 `MediaElements`의 상태·이벤트를 문서 큐에서 실행한다. `<audio controls preload=none>`은 사용자가 재생할 때 가져오고, `autoplay`는 입력 없이 재생한다. 오디오 적재가 끝나거나 실패하면 진행률이 끝날 수 있고 페이지 교체·clean·폐기에서는 해당 미디어와 스케줄러를 닫는다.

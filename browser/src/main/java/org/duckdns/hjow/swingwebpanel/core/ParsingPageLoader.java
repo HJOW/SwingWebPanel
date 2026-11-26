@@ -446,11 +446,11 @@ public final class ParsingPageLoader implements PageLoader, CacheOwner {
             }
             complete = true;
             PageAudio audio = null;
-            // 스크립트 호스트가 없는 최상위 문서에도 마크업의 오디오를 준비한다.
-            if (runtime == null && services != null && frame == null) {
+            // 스크립트 호스트가 없는 문서에는 프레임의 제한과 함께 마크업의 오디오를 준비한다.
+            if (runtime == null && services != null) {
                 ElementCollection elements = doc.getElementsByTagNameNS(Namespaces.HTML, "audio");
                 if (elements.getLength() != 0) {
-                    audio = new PageAudio(services.session, services.view, presentation, elements);
+                    audio = new PageAudio(services.session, services.view, presentation, frame, elements);
                 }
             }
             HtmlPageDocument page = new HtmlPageDocument(doc, requests, runtime, presentation, audio);

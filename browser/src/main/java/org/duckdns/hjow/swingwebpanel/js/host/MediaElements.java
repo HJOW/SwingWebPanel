@@ -1822,7 +1822,7 @@ final class MediaElements implements MediaControlSource {
         Element e = m.element();
         String preload = e == null ? null : e.getAttribute("preload");
         // preload=none 이고 자동 재생도 재생 요청도 없으면 사용자가 재생할 때까지 가져오기를 미룬다.
-        if (e != null && preload != null && "none".equalsIgnoreCase(preload.trim()) && !e.hasAttribute("autoplay") && m.paused) {
+        if (e != null && preload != null && "none".equalsIgnoreCase(preload.trim()) && !wantsAutoplay(e) && m.paused) {
             m.deferredUrl = url;
             m.deferredCandidate = c;
             m.networkState = NETWORK_IDLE;
@@ -1885,6 +1885,17 @@ final class MediaElements implements MediaControlSource {
             }
         });
         armStall(m);
+    }
+
+    /**
+     * Checks both the HTML attribute and the document's automatic-features policy.
+     * <p>
+     * HTML 속성과 문서의 자동 기능 정책을 모두 확인한다.
+     * @param element the media element / 미디어 요소
+     * @return true if the element requests and may use autoplay / 요소가 자동 재생을 요청했고 문서가 허용하면 true
+     */
+    private boolean wantsAutoplay(Element element) {
+        return element.hasAttribute("autoplay") && host().allowsMediaAutoplay();
     }
 
     /**
@@ -2215,7 +2226,8 @@ final class MediaElements implements MediaControlSource {
         textTracks.timeMarchesOn(m);
         // preload="metadata": 재생이 요청되지 않았고 autoplay 도 없으면 메타데이터까지만 알고 멈춘다(네트워크는 놀고, 재생할 때 나머지 상태로 올라간다).
         String preload = e.getAttribute("preload");
-        if (preload != null && "metadata".equalsIgnoreCase(preload.trim()) && !e.hasAttribute("autoplay") && m.paused) {
+        boolean autoplay = wantsAutoplay(e);
+        if (preload != null && "metadata".equalsIgnoreCase(preload.trim()) && !autoplay && m.paused) {
             m.metadataOnly = true;
             post(new Task(m, m.epoch, K_RELEASE));
             queue(m, "progress");
@@ -2234,7 +2246,7 @@ final class MediaElements implements MediaControlSource {
             notifyPlaying(m);
         }
         // 자동 재생: 스크립트가 재생이나 일시정지를 부르지 않았고 autoplay 속성이 있으면 재생을 시작한다.
-        if (m.autoplaying && m.paused && e.hasAttribute("autoplay")) {
+        if (m.autoplaying && m.paused && autoplay) {
             m.paused = false;
             addPlaying(m);
             queue(m, "play");

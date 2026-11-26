@@ -232,6 +232,16 @@ public abstract class HostEnvironment {
     }
 
     /**
+     * Tells whether the document permits declarative media autoplay.
+     * <p>
+     * 문서에서 선언적 미디어 자동 재생을 허용하는지 알려 준다.
+     * @return true when the document permits autoplay / 자동 재생을 문서에서 허용하면 true
+     */
+    public boolean allowsMediaAutoplay() {
+        return true;
+    }
+
+    /**
      * Returns the factory that opens the outputs of the real-time <code>AudioContext</code> objects of the page (Web Audio, plan item P25-07), or null for the system output
      * (Java Sound, with a silent output that keeps the time running when there is no device or it cannot be opened). It is the Web Audio counterpart of
      * {@link #getAudioOutputFactory()}: the two are chosen independently, because the outputs differ in kind (a Web Audio output takes floating point audio and blocks until the device has

@@ -9,9 +9,9 @@ import org.duckdns.hjow.swingwebpanel.js.host.UnscriptedMedia;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
 
 /**
- * Connects the audio of a script-disabled top-level document to its view and document queue.
+ * Connects the audio of a script-disabled document to its view and document queue.
  * <p>
- * 스크립트가 비활성인 최상위 문서의 오디오를 그 뷰와 문서 큐에 연결한다.
+ * 스크립트가 비활성인 문서의 오디오를 그 뷰와 문서 큐에 연결한다.
  */
 final class PageAudio extends HostEnvironment implements MediaRequestSource {
 
@@ -19,6 +19,10 @@ final class PageAudio extends HostEnvironment implements MediaRequestSource {
     private final PagePresentation presentation;
     /** The component providing audio output and viewport dimensions. / 오디오 출력과 뷰포트 크기를 제공하는 컴포넌트. */
     private final PageView view;
+    /** Owning frame, or null on a top-level page. / 소유 프레임. 최상위 문서이면 null. */
+    private final FrameContext frame;
+    /** The automatic-features permission for this document, fixed when it is created. / 이 문서를 만들 때 고정하는 자동 기능 권한. */
+    private final boolean autoplayAllowed;
     /** Document-scoped callbacks. / 문서 수명에 귀속된 콜백. */
     private final DocumentScheduler scheduler;
     /** Parser-created audio elements to discover on confirmation. / 페이지 확정 때 살펴볼 파서 생성 오디오 요소. */
@@ -33,10 +37,13 @@ final class PageAudio extends HostEnvironment implements MediaRequestSource {
      * @param session the owning component session / 소유 컴포넌트 세션
      * @param view the component view / 컴포넌트 뷰
      * @param presentation the confirmed page's resources / 확정될 페이지의 리소스
+     * @param frame the owning frame or null / 소유 프레임 또는 null
      * @param elements the parsed audio elements / 파싱한 오디오 요소
      */
-    PageAudio(BrowserSession session, PageView view, PagePresentation presentation, ElementCollection elements) {
+    PageAudio(BrowserSession session, PageView view, PagePresentation presentation, FrameContext frame, ElementCollection elements) {
         this.view = view;
+        this.frame = frame;
+        autoplayAllowed = frame == null || frame.flags().allowsScripts();
         this.presentation = presentation;
         this.elements = elements;
         scheduler = new DocumentScheduler(session);
@@ -73,6 +80,11 @@ final class PageAudio extends HostEnvironment implements MediaRequestSource {
         return view.getAudioOutputFactory();
     }
 
+    /** Checks the frame's sandboxed automatic-features flag. / 프레임의 자동 기능 샌드박스 제한을 확인한다. */
+    public boolean allowsMediaAutoplay() {
+        return autoplayAllowed;
+    }
+
     /** Returns the media request service. / 미디어 요청 서비스를 반환한다. */
     public MediaRequestSource getMediaRequestSource() {
         return this;
@@ -90,12 +102,12 @@ final class PageAudio extends HostEnvironment implements MediaRequestSource {
 
     /** Returns the width in CSS pixels. / CSS 픽셀 단위 너비를 반환한다. */
     public int getViewportWidth() {
-        return view.viewportWidth();
+        return frame == null ? view.viewportWidth() : frame.viewportWidth();
     }
 
     /** Returns the height in CSS pixels. / CSS 픽셀 단위 높이를 반환한다. */
     public int getViewportHeight() {
-        return view.viewportHeight();
+        return frame == null ? view.viewportHeight() : frame.viewportHeight();
     }
 
     /**

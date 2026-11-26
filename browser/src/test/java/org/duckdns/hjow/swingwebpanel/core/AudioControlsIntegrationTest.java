@@ -510,4 +510,48 @@ public class AudioControlsIntegrationTest {
             server.stop();
         }
     }
+
+    /**
+     * Sandbox automatic-features restrictions do not disable a user's audio controls.
+     * <p>
+     * 샌드박스의 자동 기능 제한에서도 사용자가 오디오 컨트롤을 조작할 수 있다.
+     * @throws Exception if setup, frame input or playback failed / 초기화·프레임 입력·재생이 실패하면
+     */
+    public void testSandboxFrameAllowsManualAudioOnly() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        FakeOutputs outputs = new FakeOutputs(2000);
+        SwingWebPanel panel = newPanel(outputs);
+        try {
+            String outer = "<!doctype html><body style='margin:0'><iframe sandbox src='/frame'"
+                    + " style='display:block;border:0;width:310px;height:70px'></iframe>";
+            String inner = "<!doctype html><body style='margin:0'><script src='/author.js'></script>"
+                    + "<audio preload=none autoplay controls src='/clip.wav' style='display:block;width:300px;height:54px'></audio>";
+            server.routeFixed("/page", TestHttpServer.Response.html(outer));
+            server.routeFixed("/frame", TestHttpServer.Response.html(inner));
+            byte[] wav = AudioKit.wav(1, 1, 8000, 16, ScriptedDecoder.pcm(0, 24000), -1);
+            server.routeFixed("/clip.wav", new TestHttpServer.Response(200).bytes("audio/wav", wav));
+            server.start();
+            panel.setPage(server.url("/page"));
+            awaitLoaded(panel, server.url("/page"));
+            Check.equal(1, server.count("/frame"), "the sandbox frame finished loading");
+            Check.equal(0, server.count("/author.js"), "the frame author script did not load");
+            Check.equal(0, server.count("/clip.wav"), "sandbox prevents autoplay from overriding preload none");
+
+            click(panel, 22, 27);
+            FakeOutputs.Out output = outputs.await(0);
+            output.awaitWritten(64);
+            Check.equal(1, server.count("/clip.wav"), "the frame's user control starts loading and playing");
+            panel.clean();
+            awaitLoaded(panel, "about:blank");
+            long end = System.currentTimeMillis() + 5000;
+            // 프레임 폐기에 큐가 사용되므로 출력 닫힘을 기다린다.
+            while (output.closeCalls() == 0 && System.currentTimeMillis() < end) {
+                Thread.sleep(10);
+            }
+            Check.equal(1, output.closeCalls(), "retiring the frame closes the output");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
 }
