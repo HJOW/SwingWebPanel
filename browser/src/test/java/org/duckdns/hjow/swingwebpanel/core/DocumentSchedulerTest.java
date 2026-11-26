@@ -65,6 +65,31 @@ public class DocumentSchedulerTest {
     }
 
     /**
+     * Rejects late activation after a confirmed snapshot has been cleaned. / 확정 스냅샷을 비운 뒤의 늦은 활성화를 거부한다.
+     * @throws Exception on failure / 실패 시
+     */
+    public void testLateActivationOfReplacedSnapshot() throws Exception {
+        BrowserSession session = new BrowserSession(new DefaultPageLoader(), null);
+        DocumentScheduler scheduler = new DocumentScheduler(session);
+        final CountDownLatch ran = new CountDownLatch(1);
+        try {
+            session.setContent("<!doctype html><p>before cleanup</p>", "text/html");
+            TestSupport.waitForPage(session, "about:text");
+            PageSnapshot obsolete = session.getSnapshot();
+            scheduler.post(record(new ArrayList<Integer>(), ran, 1), 0);
+            session.clean();
+            Check.isFalse(obsolete == session.getSnapshot(), "clean replaced the snapshot");
+            Check.isFalse(scheduler.activate(obsolete), "a cleaned snapshot cannot activate");
+            Check.isFalse(ran.await(100, TimeUnit.MILLISECONDS), "its parse-time task stays out of the document queue");
+            scheduler.close();
+            Check.isFalse(scheduler.activate(session.getSnapshot()), "closing still wins over activation");
+        } finally {
+            scheduler.close();
+            session.dispose();
+        }
+    }
+
+    /**
      * Overdue timers are ordered by original deadline, preserving registration order for ties.
      * <p>기한이 지난 타이머는 원래 기한순이며 같은 기한은 등록 순서를 보존한다.
      * @throws Exception on failure / 실패 시

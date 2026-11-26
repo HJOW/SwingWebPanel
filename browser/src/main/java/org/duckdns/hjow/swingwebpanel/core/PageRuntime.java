@@ -282,15 +282,21 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
 
     /** Activates buffered timers after ownership handoff and then applies the in-document navigations that the page requested while it was
      * still being parsed. / 소유권 이전 뒤 보류 타이머를 활성화하고, 파싱 중에 페이지가 요청한 문서 안의 이동을 적용한다.
-     * @param snapshot confirmed page / 확정된 페이지 */
-    void activate(PageSnapshot snapshot) {
+     * @param snapshot confirmed page / 확정된 페이지
+     * @return whether the document is active / 문서의 활성화 여부 */
+    boolean activate(PageSnapshot snapshot) {
         // 프레임의 문서는 뷰를 직접 준비하지 않는다(뷰는 최상위 페이지의 것이고 프레임은 그 DisplayList 안에 그려진다).
         if (frame == null) {
             view.preparePage(snapshot);
         }
-        scheduler.activate(snapshot);
+        if (!scheduler.activate(snapshot)) {
+            return false;
+        }
         List<Object[]> waiting;
         synchronized (waitingFragments) {
+            if (closed.get()) {
+                return false;
+            }
             confirmed = true;
             waiting = new ArrayList<Object[]>(waitingFragments);
             waitingFragments.clear();
@@ -306,6 +312,7 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
                 applyNavigation((String) w[0], ((Boolean) w[1]).booleanValue());
             }
         }
+        return !closed.get();
     }
 
     /**

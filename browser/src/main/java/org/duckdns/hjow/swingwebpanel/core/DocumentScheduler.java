@@ -226,14 +226,19 @@ final class DocumentScheduler implements Scheduler {
      * Enables delivery for the confirmed snapshot. Expired parse-time deadlines become immediate document tasks.
      * <p>확정된 스냅샷의 전달을 활성화한다. 파싱 중 기한이 지난 작업은 즉시 문서 작업이 된다.
      * @param confirmed snapshot that owns this scheduler / 스케줄러를 소유한 확정 스냅샷
-     * @throws IllegalArgumentException for null or an unconfirmed page / null 또는 확정되지 않은 페이지이면
+     * @return true if activated, including an already active current page / 이미 활성인 현재 페이지를 포함해 활성화됐으면 true
+     * @throws IllegalArgumentException for a null snapshot / 스냅샷이 null이면
      */
-    synchronized void activate(PageSnapshot confirmed) {
-        if (confirmed == null || session.getSnapshot() != confirmed) {
+    synchronized boolean activate(PageSnapshot confirmed) {
+        if (confirmed == null) {
             throw new IllegalArgumentException("scheduler needs the confirmed page");
         }
-        if (closed || activated) {
-            return;
+        // 세션의 확정 잠금이 풀린 뒤 clean/dispose가 먼저 페이지를 교체할 수 있다.
+        if (closed || session.getSnapshot() != confirmed) {
+            return false;
+        }
+        if (activated) {
+            return true;
         }
         snapshot = confirmed;
         activated = true;
@@ -252,6 +257,7 @@ final class DocumentScheduler implements Scheduler {
         for (Pending task : ordered) {
             schedule(task);
         }
+        return true;
     }
 
     /**

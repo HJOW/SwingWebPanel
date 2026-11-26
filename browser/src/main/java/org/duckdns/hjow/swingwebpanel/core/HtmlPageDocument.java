@@ -225,8 +225,8 @@ public final class HtmlPageDocument implements PageDocument {
     /** Activates timers after the session confirms this exact snapshot. / 세션이 바로 이 스냅샷을 확정한 뒤 타이머를 활성화한다.
      * @param snapshot confirmed snapshot / 확정된 스냅샷 */
     void activate(PageSnapshot snapshot) {
-        if (runtime != null) {
-            runtime.activate(snapshot);
+        if (document == null || (runtime != null && !runtime.activate(snapshot))) {
+            return;
         }
         startMetaRefresh();
         FrameSet set = frames();
