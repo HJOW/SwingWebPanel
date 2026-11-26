@@ -560,6 +560,15 @@ public final class PageKeyboard extends KeyAdapter implements FocusListener {
      * @param key      the key / 키
      */
     private void defaultAction(PageSnapshot snapshot, Document doc, Element target, String type, Key key) {
+        boolean plain = !key.has(KeyEvent.CTRL_DOWN_MASK) && !key.has(KeyEvent.ALT_DOWN_MASK) && !key.has(KeyEvent.META_DOWN_MASK);
+        Object page = snapshot.getDocument();
+        // 포커스한 오디오 컨트롤에는 편집 호스트보다 먼저 취소되지 않은 전용 키를 전달한다.
+        if ("keydown".equals(type) && "audio".equals(target.getLocalName()) && plain && !key.has(KeyEvent.SHIFT_DOWN_MASK)
+                && !key.composing && FocusManager.getFocused(doc) == target
+                && page instanceof HtmlPageDocument && ((HtmlPageDocument) page).ownerOf(target).controlAudioKey(target, key.key, key.repeat)) {
+            typedSuppressed = true;
+            return;
+        }
         // 편집 호스트 안의 키(글자 입력, 지우기, 캐럿 이동, 편집 단축키)와 붙여넣기는 편집이 처리한다. 폼 컨트롤은 자기 편집기가 있다.
         if (!isFormControl(target) && !PageFormHost.isTextControl(target)) {
             PageEditing editing = input.getEditing();
@@ -579,7 +588,6 @@ public final class PageKeyboard extends KeyAdapter implements FocusListener {
                 }
             }
         }
-        boolean plain = !key.has(KeyEvent.CTRL_DOWN_MASK) && !key.has(KeyEvent.ALT_DOWN_MASK) && !key.has(KeyEvent.META_DOWN_MASK);
         if ("keydown".equals(type) && "Tab".equals(key.key) && plain) {
             moveFocus(snapshot, doc, !key.has(KeyEvent.SHIFT_DOWN_MASK));
         } else if ("keydown".equals(type) && "Enter".equals(key.key) && plain && (isLink(target) || isButton(target))) {

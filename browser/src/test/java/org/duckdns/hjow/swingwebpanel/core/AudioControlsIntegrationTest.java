@@ -3,6 +3,8 @@ package org.duckdns.hjow.swingwebpanel.core;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.SwingUtilities;
@@ -346,6 +348,74 @@ public class AudioControlsIntegrationTest {
             Check.equal(plays, count(panel, "play"), "the time label does not play");
             Check.equal(pauses, count(panel, "pause"), "the time label does not pause");
             Check.equal(html, panel.getContent(), "the received source is unchanged");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
+     * Sends a complete AWT key press through the panel listeners on the EDT. / EDT에서 패널 리스너에 AWT 키 누름과 놓음을 보낸다.
+     * @param panel the page component / 페이지 컴포넌트
+     * @param code the virtual key code / 가상 키 코드
+     * @param character the corresponding character or CHAR_UNDEFINED / 해당 문자 또는 CHAR_UNDEFINED
+     * @throws Exception if the EDT cannot deliver the event / EDT에서 이벤트를 보낼 수 없으면
+     */
+    private static void pressKey(final SwingWebPanel panel, final int code, final char character) throws Exception {
+        SwingUtilities.invokeAndWait(new Runnable() {
+            /** Dispatches both events to the installed listeners. / 설치된 리스너에 두 이벤트를 전달한다. */
+            public void run() {
+                long when = System.currentTimeMillis();
+                KeyEvent press = new KeyEvent(panel, KeyEvent.KEY_PRESSED, when, 0, code, character);
+                KeyEvent release = new KeyEvent(panel, KeyEvent.KEY_RELEASED, when, 0, code, character);
+                // 실제 패널에 설치된 키 입력 경로에 누름과 놓음을 차례로 보낸다.
+                for (KeyListener listener : panel.getKeyListeners()) {
+                    listener.keyPressed(press);
+                    listener.keyReleased(release);
+                }
+            }
+        });
+    }
+
+    /**
+     * Tabs into and out of the controls and operates them through trusted AWT keys. / 신뢰 AWT 키로 컨트롤에 들어가 조작하고 Tab으로 나온다.
+     * @throws Exception if the server or the input fails / 서버나 입력이 실패하면
+     */
+    public void testKeyboardOperatesFocusedAudioControls() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        SwingWebPanel panel = newPanel(new FakeOutputs(2000));
+        try {
+            String html = "<!doctype html><style>:focus-visible{outline:solid 2px blue}</style>" + SCRIPT + "<audio id=plain preload=none></audio>"
+                    + "<audio id=a controls src='/clip.wav'></audio><button id=after>After</button>"
+                    + "<script>var audio=document.getElementById('a');document.addEventListener('keyup',function(e){if(e.key==='Tab')"
+                    + "mark('focus@'+e.target.id+(getComputedStyle(e.target).getPropertyValue('outline-style')==='solid'?'-visible':''));});"
+                    + "audio.addEventListener('keydown',function(e){if(e.key==='ArrowUp')e.preventDefault();});"
+                    + "audio.addEventListener('keyup',function(e){if(e.key==='ArrowUp')mark('up@'+audio.volume.toFixed(2));});</script>";
+            server.routeFixed("/page", TestHttpServer.Response.html(html));
+            byte[] wav = AudioKit.wav(1, 1, 8000, 16, ScriptedDecoder.pcm(0, 96000), -1);
+            server.routeFixed("/clip.wav", new TestHttpServer.Response(200).bytes("audio/wav", wav));
+            server.start();
+            panel.setPage(server.url("/page"));
+            await(panel, "canplaythrough", 1, "the audio source is ready");
+
+            pressKey(panel, KeyEvent.VK_TAB, '\t');
+            await(panel, "focus@a-visible", 1, "Tab reaches audio controls and enables the focus outline");
+            pressKey(panel, KeyEvent.VK_RIGHT, KeyEvent.CHAR_UNDEFINED);
+            await(panel, "seeked@5", 1, "Right seeks five seconds forward");
+            pressKey(panel, KeyEvent.VK_LEFT, KeyEvent.CHAR_UNDEFINED);
+            await(panel, "seeked@0", 1, "Left returns to the start");
+            pressKey(panel, KeyEvent.VK_DOWN, KeyEvent.CHAR_UNDEFINED);
+            await(panel, "vol@0.90", 1, "Down lowers the volume");
+            pressKey(panel, KeyEvent.VK_UP, KeyEvent.CHAR_UNDEFINED);
+            await(panel, "up@0.90", 1, "a cancelled keydown leaves the volume unchanged at keyup");
+            pressKey(panel, KeyEvent.VK_M, 'm');
+            await(panel, "vol@0.90m", 1, "M mutes the audio");
+            pressKey(panel, KeyEvent.VK_SPACE, ' ');
+            await(panel, "playing", 1, "Space plays the audio");
+            pressKey(panel, KeyEvent.VK_ENTER, '\n');
+            await(panel, "pause", 1, "Enter pauses the audio");
+            pressKey(panel, KeyEvent.VK_TAB, '\t');
+            await(panel, "focus@after-visible", 1, "the next Tab moves off the audio");
         } finally {
             panel.dispose();
             server.stop();

@@ -195,6 +195,8 @@ Override `protected DownloadHandle createDownloadPopup(DownloadRequest, Download
 
 The `<audio>` element decodes PCM/WAV, AIFF, AU, MP3, AAC, FLAC and Ogg Vorbis/Opus, including Vorbis or Opus in WebM. It outputs through Java Sound and reports an error if no usable device is available. An inaccessible image or audio address is shown in its place with alternative text when available. `<video>` shows an unsupported-video placeholder.
 
+Tab to focus `<audio controls>`. Use Space or Enter to play or pause, Left and Right to seek by five seconds, Up and Down to adjust volume in 10% steps, and M to mute or unmute.
+
 Web Audio includes `AudioContext`, `OfflineAudioContext`, media element sources for same-origin audio, node graphs, decoding and `AudioWorkletNode`. A real-time context advances silently if Java Sound cannot open an output. Override `createAudioOutputFactory()` for media elements or `createWebAudioOutputFactory()` for Web Audio. Automated tests verify PCM and playback state with a test output. Physical-device playback depends on the environment. [Media and Web Audio coverage](docs/FEATURE_MATRIX.md)
 
 2D Canvas includes drawing, image data and exports through `toDataURL()` and `toBlob()`. Video playback, 3D acceleration, CSS 3D transforms, WebGL, WebGPU, emoji rendering and emoji-specific regular expression properties are unsupported. `getContext()` returns `null` for unsupported graphics contexts. External plugins such as Flash and Java applets display fallback content. [Feature coverage and exceptions](docs/FEATURE_MATRIX.md)

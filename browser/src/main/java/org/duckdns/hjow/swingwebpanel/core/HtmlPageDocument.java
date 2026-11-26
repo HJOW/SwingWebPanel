@@ -6,6 +6,8 @@ import org.duckdns.hjow.swingwebpanel.dom.Event;
 import org.duckdns.hjow.swingwebpanel.dom.EventTarget;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
+import org.duckdns.hjow.swingwebpanel.render.MediaControls;
+import org.duckdns.hjow.swingwebpanel.render.MediaControlState;
 
 /**
  * The live document of a page: the DOM tree that the HTML parser built from the page source (plan items P07, P15-01). It is attached to a
@@ -331,6 +333,46 @@ public final class HtmlPageDocument implements PageDocument {
         if (runtime != null) {
             runtime.scripts().controlMedia(target, part, fraction);
         }
+    }
+
+    /**
+     * Handles control keys for a focused audio element on the document thread.
+     * <p>
+     * 문서 스레드에서 포커스된 오디오의 컨트롤 키를 처리한다.
+     *
+     * @param target the focused audio element / 포커스된 오디오 요소
+     * @param key the DOM key value / DOM 키 값
+     * @param repeat whether the key is held down / 키를 누른 채로 반복된 입력인지 여부
+     * @return true if the control accepts the key / 컨트롤에서 처리하는 키이면 true
+     */
+    boolean controlAudioKey(Element target, String key, boolean repeat) {
+        if (runtime == null || target.getOwnerDocument() != document || !target.isConnected() || !target.hasAttribute("controls")) {
+            return false;
+        }
+        // 누른 채로 있더라도 재생이나 음소거를 한 번만 전환한다.
+        boolean play = " ".equals(key) || "Enter".equals(key);
+        if (play || "m".equalsIgnoreCase(key)) {
+            if (!repeat) {
+                controlMedia(target, play ? MediaControls.PART_PLAY : MediaControls.PART_MUTE, 0);
+            }
+            return true;
+        }
+        boolean seek = "ArrowLeft".equals(key) || "ArrowRight".equals(key);
+        boolean volume = "ArrowUp".equals(key) || "ArrowDown".equals(key);
+        if (!seek && !volume) {
+            return false;
+        }
+        MediaControlState state = runtime.scripts().mediaControlSource().getMediaControls(target);
+        if (state != null) {
+            // 좌우는 5초씩 탐색하고 위아래는 음량을 10%씩 바꾼다. 범위는 기존 컨트롤이 제한한다.
+            if (volume) {
+                controlMedia(target, MediaControls.PART_VOLUME, state.getVolume() + ("ArrowUp".equals(key) ? 0.1 : -0.1));
+            } else if (state.getDuration() > 0 && !Double.isInfinite(state.getDuration())) {
+                double seconds = state.getCurrentTime() + ("ArrowRight".equals(key) ? 5 : -5);
+                controlMedia(target, MediaControls.PART_SEEK, seconds / state.getDuration());
+            }
+        }
+        return true;
     }
 
     /**

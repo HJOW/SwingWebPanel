@@ -48,11 +48,11 @@ public final class FocusManager {
 
     /**
      * Tells whether an element is focusable by itself: an element with a valid <code>tabindex</code>, a link with <code>href</code>, an
-     * enabled form control (not <code>hidden</code> inputs), an <code>iframe</code>, an editable element or a <code>summary</code>; an
+     * enabled form control (not <code>hidden</code> inputs), an <code>iframe</code>, audio controls, an editable element or a <code>summary</code>; an
      * element that is disabled or has a <code>hidden</code> ancestor is not.
      * <p>
      * 요소가 스스로 포커스를 가질 수 있는지 알려 준다: 유효한 <code>tabindex</code> 가 있는 요소, <code>href</code> 가 있는 링크, 사용할 수 있는 폼
-     * 컨트롤(<code>hidden</code> 입력은 제외), <code>iframe</code>, 편집 가능한 요소, <code>summary</code>. 비활성이거나 <code>hidden</code> 조상이 있는
+     * 컨트롤(<code>hidden</code> 입력은 제외), <code>iframe</code>, 오디오 컨트롤, 편집 가능한 요소, <code>summary</code>. 비활성이거나 <code>hidden</code> 조상이 있는
      * 요소는 아니다.
      *
      * @param e the element / 요소
@@ -85,7 +85,7 @@ public final class FocusManager {
         if (("a".equals(name) || "area".equals(name)) && e.hasAttribute("href")) {
             return true;
         }
-        if (control || "iframe".equals(name) || "summary".equals(name)) {
+        if (control || "iframe".equals(name) || "summary".equals(name) || "audio".equals(name) && e.hasAttribute("controls")) {
             return true;
         }
         // 편집 호스트(바깥쪽 것)는 포커스를 가진다. 편집 호스트 안의 contenteditable 요소는 따로 포커스를 가지지 않는다.

@@ -226,6 +226,8 @@ HTTPS 의 연결/TLS 처리 실패일 때만 같은 주소의 HTTP 접근을 한
 출력을 바꿀 수 있고, 장치가 없으면 `error` 이벤트가 됩니다). `<video>` 는 **재생하지 않으며** 요소의 자리에 미지원 비디오임을 표시합니다(`canPlayType` 은 항상 `""`).
 이미지/오디오 주소에 접근하지 못하면 그 자리에 미지원 URL 과 `alt` 가 표시됩니다.
 
+Tab으로 `<audio controls>`에 포커스를 옮깁니다. Space나 Enter로 재생과 일시정지를 전환하고, 왼쪽과 오른쪽 화살표로 5초씩 탐색합니다. 위와 아래 화살표로 음량을 10%씩 조절하고 M으로 음소거를 전환합니다.
+
 **Web Audio API(P25, 청취 확인 전)**: `AudioContext`/`OfflineAudioContext` 와 오디오 노드 그래프(원천, 게인, 지연, 필터, 웨이브셰이퍼, 컨볼버, 컴프레서, 애널라이저, 패너와 HRTF, `ScriptProcessorNode`(폐기 예정 API 의 호환 구현, 지연 2 블록)와 `<audio>` 요소의 `createMediaElementSource`(같은 오리진만, 비디오는 지원하지 않음) 등)를 순수 Java 로 구현합니다. `AudioContext` 는 Java Sound 기본 믹서로 소리를 내고 장치가 없으면 소리 없이 시간만 흐릅니다(예외 없음). 호스트는 `protected createWebAudioOutputFactory()` 를 재정의해 소리를 다른 곳으로 보내거나(`<audio>` 요소는 `createAudioOutputFactory()` 가 따로 있습니다) `null` 을 반환해 끌 수 있습니다. **소리가 실제 장치에서 나는지는 자동 시험으로 확인하지 못했습니다**(가짜 장치로 PCM 과 상태를 검증). `decodeAudioData` 는 위 디코더를 재사용하며 컨텍스트의 표본율로 변환합니다. `audioWorklet.addModule()` 로 `AudioWorkletProcessor` 모듈을 불러와 `AudioWorkletNode` 로 쓸 수 있습니다(프로세서는 렌더링 스레드에서 도는 인터프리터 코드라서 단순한 프로세서 일곱 개 안팎이 48 kHz 실시간의 한계이고, 스크립트가 바쁘면 그 구간은 무음이며 콘솔에 경고합니다). 구현 상태는 [docs/FEATURE_MATRIX.md](docs/FEATURE_MATRIX.md) 의 Web Audio 절에 있습니다. `MediaStream` 계열(마이크 등 장치 입력)은 지원하지 않습니다.
 
 ### 콘솔 출력 받기

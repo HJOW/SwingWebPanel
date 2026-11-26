@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P18-08-a 오디오 컨트롤 키보드 입력 (2026-11-26) ===
+현재 작업 번호: P18-08-a 완료. P18-08 전체는 미완료.
+완료한 내용: controls 오디오는 탭 순서에 들어간다. 포커스한 오디오는 Space·Enter로 재생/일시정지, 좌우로 5초 탐색, 위아래로 음량 10% 조정, M으로 음소거를 지원한다. 취소된 keydown은 미디어를 조작하지 않는다.
+변경 파일: FocusManager.java, PageKeyboard.java, HtmlPageDocument.java, AudioControlsIntegrationTest.java, AGENTS.md, FEATURE_MATRIX.md, progress/media-play.md, README.md, README.ko.md, 이 문서.
+검증 결과: JDK 6u45로 변경 클래스를 별도 컴파일하고 JRE 6u45에서 AudioControlsIntegrationTest, AudioIntegrationTest, KeyboardFocusTest, EditingInputTest 28건을 실행해 모두 통과했다. sourcecheck와 git diff 검사 위반 0건. HTML5 REC §4.7.10.13을 2026-11-26에 webfetch로 조회했다.
+미해결 사항: 현 세션 Java Sound 믹서 0개이며 스피커 청취는 미확인이다. JavaScript 비활성 상태, 자원 가져오기와 실제 컨트롤의 남은 제약은 AUD-10에서 추적한다.
+다음 작업 번호: P18-08 잔여 동작과 P22-16-c 전체 회귀 확인.
+-----------------------------------------------------------------------------------------------
 === P22-16-e2 다단에서 블록 가장자리의 분할 전파 (2026-11-26) ===
 현재 작업 번호: P22-16-e2 완료. P22-16-e 전체는 미완료.
 완료한 내용: 일반 블록의 첫째·마지막 정상 흐름 자식에서 전달되는 분할 값을 조상의 값과 합친다. 탐색 깊이 8의 제약을 없앴으며 다른 다단 문맥에는 안쪽 열 나눔을 전파하지 않는다.

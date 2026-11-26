@@ -181,6 +181,12 @@
 
 ## 작업 기록
 
+### 2026-11-26 P18-08-a — 오디오 컨트롤 키보드 입력
+
+`controls`가 있는 오디오 요소는 하나의 Tab 정지점이며 포커스를 기존 CSS 상태에 표시한다. Space와 Enter는 재생/일시정지를 전환한다. 좌우는 5초씩 탐색하고 위아래는 음량을 10%씩 바꾸며 M은 음소거를 전환한다. `preventDefault()`로 취소된 `keydown`에는 이 동작을 적용하지 않는다. 키를 눌러 반복해도 재생이나 음소거는 한 번만 전환한다. 제어 동작의 기준은 [HTML5 REC, 2014-10-28 §4.7.10.13](https://www.w3.org/TR/2014/REC-html5-20141028/embedded-content-0.html#user-interface)이며 2026-11-26에 webfetch로 조회했다. 해당 절에는 개별 키 배치가 정해져 있지 않다.
+
+`AudioControlsIntegrationTest.testKeyboardOperatesFocusedAudioControls`가 실제 SwingWebPanel의 큐에 합성 AWT 키를 넣고 포커스·계산 스타일·미디어 DOM 이벤트를 확인한다. `AudioControlsIntegrationTest`, `AudioIntegrationTest`, `KeyboardFocusTest`, `EditingInputTest`로 JRE 6u45에서 28건을 통과했다. 실제 장치 청취와 JavaScript가 꺼진 문서에서의 재생은 남는다.
+
 ### 2026-11-17 P18-08, P18-05-c, P18-09(DOM) — 오디오 재생 엔진, `<audio>` 상태 기계, `<video>` 미지원 결과
 
 현재 작업 번호: P18-08(오디오 재생·DOM 상태·이벤트), P18-05-c(`source` 목록의 형식 선택), P18-09(video DOM 부분). 체크박스 후보는 아래.
