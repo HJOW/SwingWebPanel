@@ -1118,7 +1118,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
 - 설정과 수명: `setJavascriptEnabled`, `setUserAgent`, `clean()`/`dispose()`
 - 확장 지점: `ConsoleListener`, `getDownloadDirectory()`·`createDownloadPopup()` 재정의
 
-- [ ] P31-01. 범위, 구조, SwingWebPanel 보완 목록을 확정하고 `docs/progress/desktopapp.md`에 기록한다.
+- [x] P31-01. 범위, 구조, SwingWebPanel 보완 목록을 확정하고 `docs/progress/desktopapp.md`에 기록한다. 완료(2026-11-26): 아래 기본안을 채택해 `docs/progress/desktopapp.md` 1~5절에 기록했다. 보완 후보의 결정은 다음과 같다. (a)(b)(d)(e)(f)(g)(h)는 추가한다. (c) 로딩 중 여부는 추가하지 않고 `getProgress() != 100`으로 판정한다. (f)·(g)는 쿠키 저장소를 나타내는 공개 타입 하나로 함께 만든다. UI 글은 영어와 한국어를 함께 두고 JVM 로캘로 고른다. "문서·도구 연결"은 모듈이 생기는 P31-02에서 함께 처리한다.
   - 범위: 필수 기능(탭 브라우징과 인쇄 포함) 외에 기본 웹 브라우저 기능으로 다음을 함께 제공하는 것을 기본안으로 한다. 새 창, 팝업 창, 다운로드(기존 다운로드 팝업과 저장 폴더 설정), 확대·축소, 페이지 원본 보기, 페이지 내 찾기, 세션 방문 기록 목록, 키보드 단축키, 개인 정보 삭제, 콘솔 보기.
   - 모듈:
     - 저장소 루트의 `desktopapp/` 디렉터리를 부모 POM의 `<modules>`에 추가한다. artifactId는 `swingwebpanel-desktopapp`, 패키지는 `org.duckdns.hjow.swingwebpanel.desktopapp`을 기본안으로 한다.
