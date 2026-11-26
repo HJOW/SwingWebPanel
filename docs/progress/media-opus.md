@@ -85,6 +85,17 @@
 
 - 없음(아직). 컨테이너 연결 뒤에 FEATURE_MATRIX AUD-08/AUD-09 문구 제안을 추가한다.
 
+## 2026-11-26 원본 벡터 재검증
+
+JRE 25에서 `tools/webfetch`로 원본을 다시 받았다. 두 서버 응답의 Last-Modified는 2024-04-12였다. 압축 아카이브와 푼 벡터는 로컬 `build`에 두었다.
+
+| 벡터 | 원본 | SHA-256 |
+| --- | --- | --- |
+| RFC 6716 | [공식 아카이브](https://opus-codec.org/static/testvectors/opus_testvectors.tar.gz), 39,001,148바이트 | `94ac78ca4f74c4e43bc9fe4ec1ad0aa36f38ab90f45b0727c40dd1e96096e767` |
+| RFC 8251 | [공식 아카이브](https://opus-codec.org/static/testvectors/opus_testvectors-rfc8251.tar.gz), 74,624,664바이트 | `6b26a22f9ba87b2b836906a9bb7afec5f8e54d49553b1200382520ee6fedfa55` |
+
+`SWP_OPUS_VECTORS`를 `build/opus_testvectors`로, `SWP_OPUS_VECTORS_8251`을 `build/opus_newvectors`로 지정해 JRE 6u45에서 패키징된 JAR의 `OpusVectorTest`를 실행했다. 원본 벡터를 쓰는 12건을 포함해 28건이 통과했다(실패 0, 건너뜀 0).
+
 ## 체크박스 후보
 
 - 없음(Ogg Opus / WebM 연결과 검증이 끝나면 P18-07 의 Opus 부분).

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P22-14 재집계 및 P22-16-a 최종 조건 대조 (2026-11-26) ===
+현재 작업 번호: P22-16-a 완료. P22-07·P22-10 검증 계층 기록.
+완료한 내용: 상단 요구사항 대응과 실제 구현·시험을 비교했다. 스크립트 비활성 상태의 meta refresh, 문서 이탈 이벤트, 마우스 드래그·포인터, EventSource와 요소 기하의 낡은 판정을 정정했다. 현재 Maven 산출물의 OS·Swing 확인과 오디오 장치 제약을 기록했다.
+변경 파일: AGENTS.md, FEATURE_MATRIX.md, progress/{p22.md,media-opus.md}, 이 문서.
+검증 결과: 전체 회귀에서 MetaRefreshIntegrationTest, LegacyWebApiIntegrationTest, PageLifecycleIntegrationTest, ProtocolMatrixIntegrationTest 및 StorageComponentIntegrationTest 통과. opus-codec.org 원본 두 아카이브를 지정한 JRE 6u45 OpusVectorTest 28건 통과(원본 12건 포함, 실패·건너뜀 0). JRE 6·7·8의 JavaSoundDeviceTest에서 형식 실패 경로 통과, 장치 사례 각 2건 건너뜀. 전체 sourcecheck는 3,334개 파일 위반 0.
+미해결 사항: JRE 6에 실제 출력 믹서와 청취 환경이 필요하다. P22-16은 p22.md 4절의 부분 구현과 선행 항목을 완료해야 한다. 테스트 정리 후 전체 Maven 검증을 다시 실행 중이다.
+다음 작업 번호: P22-15 최신 검증 인계, P22-16-b DOM-05.
+-----------------------------------------------------------------------------------------------
 === P28-07·P28-09 성능 및 문서 완료 (2026-11-26) ===
 현재 작업 번호: P28 완료.
 완료한 내용: NetStorm 네 조합이 시작·메뉴 시간과 안정 구간 rAF 목표를 만족했다. 관련 웹 API, ES 변환, 사용자 문서와 실행 보고서를 갱신했다.
