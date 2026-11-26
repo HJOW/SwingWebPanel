@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-06-d1 객체 URL의 등록과 리소스 응답 (2026-11-26) ===
+현재 작업 번호: P28-06-d1 완료.
+완료한 내용: File API 객체 URL을 컴포넌트 내부에 등록하고 오리진·파티션을 적용했다. 문서·워커별 수명과 해제, 조회한 요청의 바이트 보존, 조각·쿼리 구별, 단일 바이트 범위와 취소를 공통 리소스 계층에 추가했다.
+변경 파일: BlobUrlStore.java, BlobResourceLoader.java, ResourceFetcher.java, ResourceRequest.java, ResourceResponse.java, Origin.java, SchemePolicy.java, UrlUtil.java, WebApis.java, UrlApi.java, HostEnvironment.java, PageRuntime.java, WorkerWebHost.java, BlobUrlStoreTest.java, WebTypesTest.java, UrlUtilTest.java, AGENTS.md, 이 문서.
+검증 결과: JDK 6u45에서 제품 검증 JAR와 변경 클래스를 함께 실행했다. BlobUrlStoreTest 3건, URL.createObjectURL/revokeObjectURL 바인딩 1건, DOM·URL·Fetch·Worker·클립보드 인접 회귀를 합쳐 58건 통과. File API 8.2~8.4절(https://w3c.github.io/FileAPI/, 2026-11-22 응답 판본, 2026-11-26 조회)과 sourcecheck 0 위반.
+미해결 사항: 실제 웹 요청·하위 리소스·프레임·최상위 이동과 다운로드의 입구 연결은 P28-06-d2에서 검증한다.
+다음 작업 번호: P28-06-d2-a.
+-----------------------------------------------------------------------------------------------
 === P28-06-c 비동기 일반 텍스트 클립보드 (2026-11-26) ===
 현재 작업 번호: P28-06-c 완료.
 완료한 내용: Secure Window의 navigator.clipboard를 P11-08 호스트 클립보드에 연결했다. 실제 클릭·키 입력에서 쓰기, Ctrl+V·Shift+Insert에서 읽기를 허용한다. 활성화는 입력 작업과 마이크로태스크 동안 유지한다. 호스트 제공 클래스패스도 보안 Window 문맥에 포함하며 네트워크의 교차 오리진 격리 판정은 기존 함수를 사용한다.

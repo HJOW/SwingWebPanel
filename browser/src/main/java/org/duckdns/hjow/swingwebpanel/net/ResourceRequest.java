@@ -170,6 +170,11 @@ public final class ResourceRequest {
      */
     private boolean streaming;
 
+    /** Requesting environment of an object URL. / 객체 URL의 요청 환경. */
+    private BlobUrlStore.Scope blobUrlScope;
+    /** Entry resolved before a route that may unload its creator. / 생성자 언로드가 가능한 경로 이전에 조회한 항목. */
+    private BlobUrlStore.Entry blobUrlEntry;
+
     /**
      * Creates a GET request.
      * <p>
@@ -211,6 +216,8 @@ public final class ResourceRequest {
         c.corsAuthorHeaders = corsAuthorHeaders == null ? null : new LinkedHashMap<String, String>(corsAuthorHeaders);
         c.readTimeoutMs = readTimeoutMs;
         c.streaming = streaming;
+        c.blobUrlScope = blobUrlScope;
+        c.blobUrlEntry = blobUrlEntry;
         return c;
     }
 
@@ -223,6 +230,42 @@ public final class ResourceRequest {
      */
     public String getUrl() {
         return url;
+    }
+
+    /** Returns the document or worker opening a blob URL. / blob URL을 여는 문서나 워커를 반환한다. */
+    public BlobUrlStore.Scope getBlobUrlScope() {
+        return blobUrlScope;
+    }
+
+    /**
+     * Associates a blob URL request with its creating storage partition and requester origin.
+     * <p>
+     * blob URL 요청에 생성 환경의 저장소 파티션과 요청자 오리진을 연결한다.
+     *
+     * @param scope requesting environment / 요청 환경
+     * @return this request / 이 요청
+     */
+    public ResourceRequest setBlobUrlScope(BlobUrlStore.Scope scope) {
+        blobUrlScope = scope;
+        return this;
+    }
+
+    /** Returns the object URL already accepted by this request. / 이 요청이 이미 받아들인 객체 URL을 반환한다. */
+    BlobUrlStore.Entry getBlobUrlEntry() {
+        return blobUrlEntry;
+    }
+
+    /**
+     * Uses immutable bytes resolved at the start of a navigation or download.
+     * <p>
+     * 이동이나 다운로드가 시작할 때 조회했던 변경 불가 바이트를 사용한다.
+     *
+     * @param entry accepted URL entry / 받아들인 URL 항목
+     * @return this request / 이 요청
+     */
+    public ResourceRequest setBlobUrlEntry(BlobUrlStore.Entry entry) {
+        blobUrlEntry = entry;
+        return this;
     }
 
     /**

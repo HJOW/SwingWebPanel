@@ -74,6 +74,15 @@ public final class Origin {
      */
     public static Origin of(String url) {
         SchemePolicy.Kind kind = SchemePolicy.classify(url);
+        if (kind == SchemePolicy.Kind.BLOB) {
+            // blob 경로에 직렬화된 튜플만 해석한다. null과 임의의 중첩 스킴은 불투명하다.
+            String inner = UrlUtil.parse(url).path;
+            String scheme = UrlUtil.getScheme(inner);
+            if ("http".equals(scheme) || "https".equals(scheme) || "ftp".equals(scheme) || UrlUtil.SCHEME_CLASSPATH.equals(scheme)) {
+                return of(inner);
+            }
+            return opaque();
+        }
         if (kind == SchemePolicy.Kind.CLASSPATH) {
             return new Origin(UrlUtil.SCHEME_CLASSPATH, "", -1);
         }

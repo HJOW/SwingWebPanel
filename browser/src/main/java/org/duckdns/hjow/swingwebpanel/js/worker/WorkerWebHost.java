@@ -8,6 +8,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.StreamingWebRequestSource;
 import org.duckdns.hjow.swingwebpanel.js.host.WebRequest;
 import org.duckdns.hjow.swingwebpanel.js.host.WebRequestSource;
 import org.duckdns.hjow.swingwebpanel.js.host.web.WebApis;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 
 /**
  * The {@link WebApis.Host} of a worker: the request APIs (<code>fetch</code>, <code>XMLHttpRequest</code> ...) of the worker go through the very
@@ -21,7 +22,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.web.WebApis;
  * 오리진은 스크립트의 오리진이며 곧 페이지의 오리진이다. 자기 참조를 지정하지 않은 요청은 worker 스크립트의 URL을 참조로 쓴다. 결과는 worker 의 스레드에서
  * worker 의 작업으로 전달된다.
  */
-final class WorkerWebHost implements WebApis.Host {
+final class WorkerWebHost implements WebApis.ObjectUrlHost {
 
     /**
      * The worker.
@@ -43,6 +44,8 @@ final class WorkerWebHost implements WebApis.Host {
      * worker 스레드에서 원시 작업을 실행하는 스케줄러.
      */
     private final Scheduler loop;
+    /** Worker's registrations within the creator's storage partition. / 생성자의 저장소 파티션 안의 워커 등록 범위. */
+    private final BlobUrlStore.Scope blobUrls;
 
     /**
      * Creates the host of a worker.
@@ -56,6 +59,8 @@ final class WorkerWebHost implements WebApis.Host {
     WorkerWebHost(WorkerScope scope, HostEnvironment env, Scheduler loop) {
         this.scope = scope;
         this.loop = loop;
+        BlobUrlStore.Scope creatorUrls = env.getBlobUrlScope();
+        blobUrls = creatorUrls == null ? null : creatorUrls.fork();
         final WebRequestSource delegate = env.getWebRequestSource();
         // 페이지의 서비스가 스트리밍도 하면 worker 의 EventSource 도 같은 서비스를 거치도록 스트리밍 짝도 감싼다.
         if (delegate == null) {
@@ -65,6 +70,11 @@ final class WorkerWebHost implements WebApis.Host {
         } else {
             this.source = new Wrapper(delegate);
         }
+    }
+
+    /** Returns the worker's object URL scope. / 워커의 객체 URL 범위를 반환한다. */
+    public BlobUrlStore.Scope getBlobUrlScope() {
+        return blobUrls;
     }
 
     /**

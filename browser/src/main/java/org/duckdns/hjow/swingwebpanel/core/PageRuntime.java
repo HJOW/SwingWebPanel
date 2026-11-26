@@ -30,6 +30,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.structured.HostMessageValues;
 import org.duckdns.hjow.swingwebpanel.js.host.WebRequestSource;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
@@ -66,6 +67,8 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
     private final PageRequestContext context;
     /** Actual final document URL, independent of base elements. / base 요소와 독립적인 최종 문서 URL. */
     private final String pageUrl;
+    /** Object URLs of this document in the component store. / 컴포넌트 저장소의 이 문서 객체 URL. */
+    private final BlobUrlStore.Scope blobUrls;
     /** Navigation cancellation, with no reference to a history entry. / 이력 항목 참조 없는 이동 취소. */
     private final CancelToken parent;
     /** Script resource cancellation independent of the main document. / 주 문서와 독립적인 스크립트 리소스 취소. */
@@ -124,6 +127,7 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         frame = request.getFrame();
         browsingContext = frame != null ? frame : session.topContext();
         pageUrl = document.getOriginUrl();
+        blobUrls = fetcher.getBlobUrlStore().open(pageUrl);
         Origin origin = Origin.of(pageUrl);
         CrossOriginPolicy policy = context.crossOriginPolicy;
         crossOriginIsolated = origin.isPotentiallyTrustworthy() && policy.getEmbedder() != CrossOriginPolicy.Embedder.UNSAFE_NONE
@@ -1121,6 +1125,11 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
      * @return true while active and enabled / 활성·허용 상태이면 true */
     public boolean isScriptingEnabled() {
         return !closed.get() && session.isJavascriptEnabled() && !session.isDisposed();
+    }
+
+    /** Returns this document's object URL scope. / 이 문서의 객체 URL 범위를 반환한다. */
+    public BlobUrlStore.Scope getBlobUrlScope() {
+        return blobUrls;
     }
 
     /**

@@ -19,6 +19,18 @@ import java.util.Map;
  * 본문을 {@link ResponseHandler} 의 스트림으로 흘렸으면 {@link #getBody()} 는 비어 있고 {@link #isStreamed()} 가 true 이다.
  */
 public final class ResourceResponse {
+    /** Blob provenance of a resolved object URL response. / 조회한 객체 URL 응답의 blob 출처. */
+    private BlobUrlStore.Entry blobUrlEntry;
+
+    /** Returns the object URL source, or null for other responses. / 객체 URL 출처를 반환한다. 다른 응답이면 null이다. */
+    public BlobUrlStore.Entry getBlobUrlEntry() {
+        return blobUrlEntry;
+    }
+
+    /** Records the object URL that produced this response. / 이 응답을 만든 객체 URL을 기록한다. */
+    void setBlobUrlEntry(BlobUrlStore.Entry entry) {
+        blobUrlEntry = entry;
+    }
 
     /**
      * An empty body.

@@ -19,15 +19,15 @@ import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
  * normalizations of that class), plus the URL Standard's handling of the special schemes: backslashes count as slashes, a host is
  * required, an IDN host becomes ASCII (Punycode), and the default port disappears. The remaining differences to the full URL Standard
  * algorithm (for example exotic IPv4 notations such as <code>0x7f.1</code>, and the full percent-encode sets of each component) are not
- * implemented. Object URLs (<code>URL.createObjectURL</code>) do not exist because the component never loads <code>blob:</code> addresses.
+ * implemented. <code>URL.createObjectURL</code> and <code>URL.revokeObjectURL</code> use the File API store of the owning component.
  * <p>
  * <code>URL</code> 을 설치한다(URL 표준 6절): 절대 URL의 해석된 형태이며 일반적인 구성요소 프로퍼티와 setter(<code>href</code>, <code>origin</code>,
  * <code>protocol</code>, <code>username</code>, <code>password</code>, <code>host</code>, <code>hostname</code>, <code>port</code>, <code>pathname</code>,
  * <code>search</code>, <code>searchParams</code>, <code>hash</code>), <code>toString()</code>, <code>toJSON()</code>, <code>URL.canParse()</code>,
  * <code>URL.parse()</code> 를 가진다. 해석기는 컴포넌트 자신의 {@link UrlUtil}(RFC 3986과 그 클래스의 정규화) 위에 세우고 URL 표준의 특수 스킴 처리를 더했다:
  * 역슬래시는 슬래시로 보고, 호스트가 필요하며, IDN 호스트는 ASCII(Punycode)가 되고, 기본 포트는 사라진다. 전체 URL 표준 알고리즘과의 나머지 차이(예:
- * <code>0x7f.1</code> 같은 특이한 IPv4 표기, 구성요소별 전체 퍼센트 인코딩 집합)는 구현하지 않았다. 컴포넌트가 <code>blob:</code> 주소를 읽지 않으므로 객체
- * URL(<code>URL.createObjectURL</code>)은 없다.
+ * <code>0x7f.1</code> 같은 특이한 IPv4 표기, 구성요소별 전체 퍼센트 인코딩 집합)는 구현하지 않았다. <code>URL.createObjectURL</code>과
+ * <code>URL.revokeObjectURL</code>은 소유 컴포넌트의 File API 저장소를 사용한다.
  */
 final class UrlApi {
 
@@ -118,6 +118,38 @@ final class UrlApi {
         Natives.method(realm, proto, "toJSON", 0, this, "toHref");
         Natives.method(realm, c.constructor, "canParse", 1, this, "canParse");
         Natives.method(realm, c.constructor, "parse", 1, this, "parseStatic");
+        Natives.method(realm, c.constructor, "createObjectURL", 1, this, "createObjectUrl");
+        Natives.method(realm, c.constructor, "revokeObjectURL", 1, this, "revokeObjectUrl");
+    }
+
+    /**
+     * Registers a Blob or File in the component's object URL store.
+     * <p>
+     * Blob이나 File을 컴포넌트의 객체 URL 저장소에 등록한다.
+     *
+     * @param self the constructor receiver / 생성자 수신 값
+     * @param args the Blob to register / 등록할 Blob
+     * @return the generated URL / 생성한 URL
+     */
+    JsValue createObjectUrl(JsValue self, JsValue[] args) {
+        Natives.requireArgs(args, 1, "createObjectURL", "URL");
+        BlobApi.BlobObject blob = Natives.self(args[0], BlobApi.BlobObject.class);
+        return Js.str(api.blobUrls.create(blob.data, blob.type));
+    }
+
+    /**
+     * Revokes an object URL in the requesting origin's partition.
+     * <p>
+     * 요청 오리진의 파티션에서 객체 URL을 해제한다.
+     *
+     * @param self the constructor receiver / 생성자 수신 값
+     * @param args the object URL / 객체 URL
+     * @return undefined / undefined
+     */
+    JsValue revokeObjectUrl(JsValue self, JsValue[] args) {
+        Natives.requireArgs(args, 1, "revokeObjectURL", "URL");
+        api.blobUrls.revoke(Natives.usv(args[0]));
+        return Js.UNDEFINED;
     }
 
     /**
@@ -391,7 +423,7 @@ final class UrlApi {
     JsValue getOrigin(JsValue self, JsValue[] args) {
         UrlObject u = Natives.self(self, UrlObject.class);
         String s = u.parts.scheme;
-        if ("http".equals(s) || "https".equals(s) || "ftp".equals(s) || "ws".equals(s) || "wss".equals(s)) {
+        if ("blob".equals(s) || "http".equals(s) || "https".equals(s) || "ftp".equals(s) || "ws".equals(s) || "wss".equals(s)) {
             return Js.str(Origin.of(href(u)).serialize());
         }
         return Js.str("null");

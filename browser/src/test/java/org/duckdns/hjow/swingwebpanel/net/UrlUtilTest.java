@@ -236,16 +236,17 @@ public class UrlUtilTest {
         Check.equal(SchemePolicy.Kind.HTTPS, SchemePolicy.classify("HTTPS://h"), "https");
         Check.equal(SchemePolicy.Kind.FTP, SchemePolicy.classify("ftp://h/x"), "ftp");
         Check.equal(SchemePolicy.Kind.CLASSPATH, SchemePolicy.classify("classpath://a.html"), "classpath");
+        Check.equal(SchemePolicy.Kind.BLOB, SchemePolicy.classify("blob:http://h/x"), "blob lookup is handled by its store");
         Check.equal(SchemePolicy.Kind.ABOUT_BLANK, SchemePolicy.classify("about:blank"), "about:blank");
         Check.equal(SchemePolicy.Kind.ABOUT_TEXT, SchemePolicy.classify("about:text"), "about:text");
         final String[] blocked = { "file:///c:/x", "jar:file:/x.jar!/a", "mailto:a@b.c", "javascript:alert(1)",
-            "data:text/html,x", "blob:http://h/x", "ws://h/", "wss://h/", "about:srcdoc", "c:\\x", "gopher://h/" };
+            "data:text/html,x", "ws://h/", "wss://h/", "about:srcdoc", "c:\\x", "gopher://h/" };
         // 금지 스킴은 모두 BLOCKED 로 분류되어야 한다.
         for (int i = 0; i < blocked.length; i++) {
             Check.equal(SchemePolicy.Kind.BLOCKED, SchemePolicy.classify(blocked[i]), "blocked: " + blocked[i]);
             Check.isFalse(SchemePolicy.isFetchAllowed(blocked[i]), "not fetchable: " + blocked[i]);
         }
-        final String[] invalid = { null, "", "  ", "foo.html", "//h/x", "http://", "http:///x", "ftp://" };
+        final String[] invalid = { null, "", "  ", "foo.html", "//h/x", "http://", "http:///x", "ftp://", "blob:", "blob://h/x" };
         // 절대 URL 이 아닌 입력은 INVALID 이다.
         for (int i = 0; i < invalid.length; i++) {
             Check.equal(SchemePolicy.Kind.INVALID, SchemePolicy.classify(invalid[i]), "invalid: " + invalid[i]);

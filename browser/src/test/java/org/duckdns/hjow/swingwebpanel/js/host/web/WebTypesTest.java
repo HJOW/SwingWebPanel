@@ -62,6 +62,20 @@ public class WebTypesTest {
     }
 
     /**
+     * Creates object addresses for Blobs and Files and exposes their URL origin.
+     * <p>
+     * Blob과 File의 객체 주소를 만들고 URL 오리진을 노출한다.
+     */
+    public void testBlobUrlBindings() {
+        WebFixture f = new WebFixture();
+        Check.equal("blob:|http://example.test|true|true|undefined", f.js(
+                "var b=new File(['abc'],'example.txt');var a=URL.createObjectURL(b),c=URL.createObjectURL(b);"
+                + "[new URL(a).protocol,new URL(c).origin,a!==c,new URL('#id',a).href===a+'#id',String(URL.revokeObjectURL(a))].join('|')"),
+                "the Blob URL has a unique identity and its creator's origin");
+        Check.equal("TypeError", f.js("try{URL.createObjectURL({size:3});}catch(e){e.name}"), "a Blob is required");
+    }
+
+    /**
      * URLSearchParams: parsing, serialization, mutation, sort, iteration and the link with URL.
      * <p>
      * URLSearchParams: 해석, 직렬화, 변경, 정렬, 반복, URL 과의 연결.

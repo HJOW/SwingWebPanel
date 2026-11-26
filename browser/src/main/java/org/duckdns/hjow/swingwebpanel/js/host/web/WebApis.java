@@ -15,6 +15,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.HostEnvironment;
 import org.duckdns.hjow.swingwebpanel.js.host.PageScripts;
 import org.duckdns.hjow.swingwebpanel.js.host.Scheduler;
 import org.duckdns.hjow.swingwebpanel.js.host.WebRequestSource;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 
 /**
@@ -140,7 +141,7 @@ public final class WebApis {
      * <p>
      * 페이지의 {@link Host}: 모든 것을 {@link PageScripts} 에서 읽는다.
      */
-    private static final class PageHost implements Host {
+    private static final class PageHost implements ObjectUrlHost {
         /** The page. / 페이지. */
         private final PageScripts page;
 
@@ -255,6 +256,17 @@ public final class WebApis {
         public boolean hasDocuments() {
             return true;
         }
+
+        /** Returns the scope supplied by the component. / 컴포넌트가 제공한 범위를 반환한다. */
+        public BlobUrlStore.Scope getBlobUrlScope() {
+            return page.getEnvironment().getBlobUrlScope();
+        }
+    }
+
+    /** A host that supplies the component's object URL scope to a realm. / 렐름에 컴포넌트의 객체 URL 범위를 제공하는 호스트. */
+    public interface ObjectUrlHost extends Host {
+        /** Returns the realm's object URL scope, if attached. / 연결되어 있으면 렐름의 객체 URL 범위를 반환한다. */
+        BlobUrlStore.Scope getBlobUrlScope();
     }
 
     /** The context that the APIs are installed in. / API가 설치된 문맥. */
@@ -304,6 +316,9 @@ public final class WebApis {
     /** The readable streams for this realm. / 이 렐름의 읽기 스트림. */
     ReadableStreams streams;
 
+    /** Scope of object URLs owned by this realm. / 이 렐름이 보유한 객체 URL 범위. */
+    final BlobUrlStore.Scope blobUrls;
+
     /**
      * Creates the object; use {@link #install(PageScripts)} or {@link #install(Host)}.
      * <p>
@@ -315,6 +330,8 @@ public final class WebApis {
         this.host = host;
         this.realm = host.getRealm();
         this.bridge = host.getBridge();
+        BlobUrlStore.Scope scope = host instanceof ObjectUrlHost ? ((ObjectUrlHost) host).getBlobUrlScope() : null;
+        blobUrls = scope == null ? new BlobUrlStore().open(host.getDocumentUrl()) : scope;
     }
 
     /**
@@ -575,6 +592,7 @@ public final class WebApis {
             copy = new ArrayList<WebRequestSource.Call>(calls);
             calls.clear();
         }
+        blobUrls.close();
         // 복사본의 요청을 하나씩 취소한다. 취소는 기다리지 않고 요청 스레드가 알아서 끝난다.
         for (int i = 0; i < copy.size(); i++) {
             try {

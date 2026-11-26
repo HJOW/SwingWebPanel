@@ -504,7 +504,8 @@ public final class UrlUtil {
      * @return normalized parts / 정규화된 분해 결과
      */
     private static Parts normalizeParts(Parts p) {
-        String path = upperCaseEscapes(removeDotSegments(p.path));
+        // blob 경로는 불투명하므로 내부 바이트 식별자의 경로 세그먼트를 바꾸지 않는다.
+        String path = upperCaseEscapes("blob".equals(p.scheme) ? p.path : removeDotSegments(p.path));
         int port = p.port;
         if (port >= 0 && port == defaultPort(p.scheme)) {
             port = -1;
@@ -568,6 +569,10 @@ public final class UrlUtil {
                 throw new IllegalArgumentException("relative url without base: " + ref);
             }
             Parts b = parse(base);
+            // blob URL은 같은 문서의 프래그먼트 참조만 기준으로 해석할 수 있다.
+            if ("blob".equals(b.scheme) && !r.hasAuthority && r.path.length() == 0 && r.query == null && r.fragment != null) {
+                return toString(normalizeParts(b.withFragment(r.fragment)));
+            }
             if (b.scheme == null || !(b.hasAuthority || SCHEME_CLASSPATH.equals(b.scheme))) {
                 throw new IllegalArgumentException("cannot resolve relative url against " + base);
             }

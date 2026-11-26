@@ -8,6 +8,7 @@ import org.duckdns.hjow.swingwebpanel.dom.Element;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 import org.duckdns.hjow.swingwebpanel.storage.LocalStorageManager;
@@ -318,6 +319,17 @@ public abstract class HostEnvironment {
      * @return the scheduler or null / 스케줄러 또는 null
      */
     public Scheduler getScheduler() {
+        return null;
+    }
+
+    /**
+     * Returns the component's object URL scope for this document if it has one.
+     * <p>
+     * 컴포넌트가 이 문서의 객체 URL 범위를 제공하면 반환한다.
+     *
+     * @return the document scope or null / 문서 범위 또는 null
+     */
+    public BlobUrlStore.Scope getBlobUrlScope() {
         return null;
     }
 

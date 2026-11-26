@@ -50,6 +50,10 @@ public final class ResourceFetcher {
      * 클래스패스 로더.
      */
     private final ClasspathLoader classpath;
+    /** Registered object URLs for this component. / 이 컴포넌트에 등록된 객체 URL. */
+    private final BlobUrlStore blobUrls = new BlobUrlStore();
+    /** Local source of a resolved Blob response. / 조회한 Blob 응답의 로컬 소스. */
+    private final BlobResourceLoader blobs;
     /**
      * The HTTP cache of the component, or null for no caching (the default).
      * <p>
@@ -71,6 +75,12 @@ public final class ResourceFetcher {
         this.http = new HttpFetcher(ssl, l);
         this.ftp = new FtpFetcher(l);
         this.classpath = new ClasspathLoader(loader, l);
+        this.blobs = new BlobResourceLoader(blobUrls, l);
+    }
+
+    /** Returns the component's object URL store. / 컴포넌트의 객체 URL 저장소를 반환한다. */
+    public BlobUrlStore getBlobUrlStore() {
+        return blobUrls;
     }
 
     /**
@@ -190,6 +200,8 @@ public final class ResourceFetcher {
                         "a document from " + initiator.serialize() + " may not load classpath resources");
             }
             return classpath.load(req, handler);
+        case BLOB:
+            return blobs.load(req, handler);
         case ABOUT_BLANK:
             ResourceResponse blank = new ResourceResponse(url);
             blank.setStatus(200, "OK");
