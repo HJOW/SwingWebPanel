@@ -42,6 +42,7 @@ public class SwingWebPanel extends javax.swing.JPanel implements javax.swing.Scr
 | `postMessage(Object[,String])`, `addWebMessageListener`/`removeWebMessageListener`/`getWebMessageListeners()` | 메시지와 대상 오리진, 리스너 | void / 배열 | IAE, ISE | Java 호스트와 페이지 스크립트 간 `message` 통신(5.22, C-MESSAGE-1~8) |
 | `setRootWindowClosingEnabled(boolean)`/`isRootWindowClosingEnabled()` | 허용 여부 | void / boolean | ISE(폐기, 변경만) | 본 창의 `window.close()` 허용(확장, 5.23). 허용하면 기본 동작은 `System.exit(0)` |
 | `new SwingWebPanel(CookieJar)`, `getCookieJar()`, `clearCookies()`, `CookieJar` | 공유 쿠키 저장소 | - / `CookieJar` / void | IAE(null 저장소), ISE(폐기, `clearCookies`) | 컴포넌트 사이의 쿠키 공유와 쿠키 삭제(확장, 5.24) |
+| `copy()`, `cut()`, `paste()`, `selectAll()` | - | void | ISE(폐기) | 호스트의 편집 명령(확장, 5.26) |
 | `clean()` | - | void | ISE | 빈 페이지 + 캐시/저장소 삭제 |
 | `dispose()` | - | void | - | 반복 호출 안전 |
 | `addHeaders(Map<String,String>)` | 헤더 | void | IAE | 덮어쓰기 |
@@ -484,6 +485,23 @@ JavaScript 를 실행하지 않는 페이지(`setJavascriptEnabled(false)`, `tex
 - JavaScript 를 실행하지 않는 페이지의 제목은 받은 원문의 제목 그대로이다. `getContent()` 는 제목이 바뀌어도 받은 원문을 반환한다(5.9).
 - 이전에는 확정 시점의 제목에서 값이 고정되었다. 브라우저의 제목 표시줄과 탭 제목에 필요해서 P31-04 에서 바꿨다.
 
+### 5.26 확장: 호스트의 편집 명령과 명령 키의 소비 (P31-05-a, 확장이며 AGENTS.md 의 공개 메서드 목록에는 없다)
+
+`public void copy()`, `public void cut()`, `public void paste()`, `public void selectAll()`.
+
+- 메뉴 항목이나 도구 모음 단추처럼 호스트가 실행하는 편집 명령이다. 각각 Ctrl+C, Ctrl+X, Ctrl+V, Ctrl+A 의 기본 동작과 같은 일을 한다.
+  페이지에 `copy`/`cut`/`paste` 이벤트와 편집의 `beforeinput`/`input` 이벤트는 가지만 키 이벤트(`keydown` 등)는 가지 않는다.
+- 대상: 폼의 텍스트 컨트롤에 포커스가 있으면 그 컨트롤의 편집기, 편집 호스트(`contenteditable`, 디자인 모드)에 있으면 그 호스트, 그 밖에는 페이지이다.
+  편집할 수 없는 곳에서 `cut()` 은 아무 일도 하지 않고 `paste()` 는 `paste` 이벤트만 보낸다. `selectAll()` 은 페이지 전체를 선택한다.
+- 클립보드는 지금처럼 `copyToClipboard`/`readClipboard` 보호 메서드를 거친다.
+- 어느 스레드에서나 부를 수 있다. 명령은 EDT 에서 시작하고 페이지 쪽 일은 문서 큐에서 실행되므로 결과는 호출이 돌아온 조금 뒤에 나타난다.
+  폐기된 컴포넌트에서는 `IllegalStateException` 이다.
+- **명령 키의 소비(동작 변경)**: 컴포넌트가 스스로 명령으로 처리하는 키는 그 `KeyEvent` 를 소비한다. 그래서 호스트 창의 키 바인딩(메뉴 가속 키)이 같은 키로 한 번 더 실행되지 않는다.
+  어디서나 복사(Ctrl+C, Ctrl+Insert), 모두 선택(Ctrl+A), 붙여넣기(Ctrl+V, Shift+Insert), 확대 키(Ctrl 과 +, =, -, 0)가 해당하고,
+  편집 가능한 곳에 포커스가 있으면 잘라내기(Ctrl+X, Shift+Delete), 서식(Ctrl+B/I/U), 되돌리기와 다시 하기(Ctrl+Z/Y)도 해당한다.
+  폼의 텍스트 컨트롤 편집기에서 온 키는 확대 키만 소비한다(나머지는 편집기 자신의 키 바인딩이 처리한다). 그 밖의 키(Ctrl+T, F5, Alt+화살표 등)는 소비하지 않아 호스트가 쓸 수 있다.
+  이전에는 편집 호스트의 캐럿 키만 소비했다.
+
 ## 6. 허용 스킴 정책 (P01-12)
 
 | 스킴 | 정책 |
@@ -559,5 +577,6 @@ HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도�
 | C-ROOTCLOSE-1~8 | 본 창 닫기 허용(5.23, P30) | `RootWindowClosingTest`: 1 기본값·속성 통지·`clean()` 유지·폐기 뒤 ISE, 2 기본값에서 무시와 콘솔 경고, 3 허용 시 EDT 한 번·작업과 마이크로태스크 뒤(파싱 중 스크립트 포함)·`closed`·반복 호출·타이머/프라미스/인라인 핸들러, 4 프레임(같은/다른 오리진, 샌드박스, 프레임 자신), 5 페이지 이동은 취소하지 않고 호스트 조작은 취소, 6 언로드 이벤트 한 번. `core.WebContentWindowClosingTest`: 7 웹 콘텐츠가 만든 창 경로. `RootWindowClosingExitMain`(Maven `run-root-close-exit`): 8 기본 구현의 `System.exit(0)`을 별도 JVM 에서 확인(허용 시 종료 코드 0, 대조로 미허용 시 3) |
 | C-COOKIEJAR-1~4 | 쿠키 저장소 공유와 삭제(5.24, P31-04) | `CookieJarTest`: 1 같은 저장소의 컴포넌트가 요청과 `document.cookie` 에서 쿠키를 공유하고 다른 저장소·자기 저장소에는 보이지 않음, 2 폐기해도 공유 저장소는 남고 폐기된 컴포넌트는 빈 상태, 3 `clean()` 은 유지·`clearCookies()` 와 `CookieJar.clear()` 는 삭제, 4 null 저장소와 폐기 뒤 호출의 예외 |
 | C-TITLE-1~3 | 살아 있는 문서의 제목(5.25, P31-04) | `LiveTitleTest`: 1 읽은 뒤 `document.title`·텍스트 노드·요소 제거와 재생성이 `getTitle()` 과 EDT 의 `title` 속성에 순서대로 반영, 2 파싱 중에 바꾼 제목이 확정 뒤 반영, 3 프레임 문서의 제목은 영향 없고 프레임이 바꾼 부모 제목은 반영 |
+| C-EDITCMD-1~5 | 호스트의 편집 명령과 명령 키 소비(5.26, P31-05-a) | `core.EditCommandsTest`: 1 편집 호스트에서 모두 선택·복사·잘라내기·붙여넣기와 이벤트 순서, 키 이벤트 없음, 2 폼 텍스트 컨트롤, 3 편집할 수 없는 페이지와 다른 스레드의 호출, 4 폐기 뒤 예외, 5 소비하는 키와 소비하지 않는 키 |
 
 사례 ID는 구현 시 `browser/src/test/java`의 메서드 이름에 포함하고 `FEATURE_MATRIX.md`의 검증 사례 열과 일치시킨다.

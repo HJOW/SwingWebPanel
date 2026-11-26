@@ -478,6 +478,28 @@ public final class ControlOverlays {
     }
 
     /**
+     * Returns the text component of the editor that edit commands of the host go to: the open editor that has the Swing focus, else the
+     * only open editor (a text control has an editor while it has the focus of the page), else null.
+     * <p>
+     * 호스트의 편집 명령이 갈 편집기의 텍스트 컴포넌트를 반환한다: Swing 포커스를 가진 열린 편집기, 없으면 하나뿐인 열린 편집기(텍스트 컨트롤은 페이지의 포커스를
+     * 가진 동안 편집기가 있다), 그것도 없으면 null.
+     *
+     * @return the text component or null / 텍스트 컴포넌트 또는 null
+     */
+    public JTextComponent getActiveEditor() {
+        JTextComponent only = null;
+        // 열린 편집기 가운데 Swing 포커스를 가진 것을 먼저 찾는다.
+        for (ControlEditor editor : editors.values()) {
+            JTextComponent text = editor.getTextComponent();
+            if (text.isFocusOwner()) {
+                return text;
+            }
+            only = text;
+        }
+        return editors.size() == 1 ? only : null;
+    }
+
+    /**
      * Returns the number of editors that are open.
      * <p>
      * 열려 있는 편집기의 수를 반환한다.

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P31-05-a 호스트 편집 명령 (2026-11-27, 진행 중) ===
+현재 작업 번호: P31-05-a 구현과 집중 시험까지. 사용자 요청(사용 한도)으로 여기서 중단했다.
+완료한 내용: SwingWebPanel.copy()/cut()/paste()/selectAll() (계약 5.26, 기능 표 API-34). core.PageKeyboard.editCommand 가 문서 큐에서 포커스 요소에 명령을 실행하고, 폼 텍스트 컨트롤의 편집기가 열려 있으면 그 편집기가 처리한다(core.ControlOverlays.getActiveEditor). 컴포넌트가 스스로 명령으로 처리하는 키(Ctrl+C/Insert/A, 붙여넣기 키, 확대 키, 편집 가능한 곳의 Ctrl+X/B/I/U/Z/Y 와 Shift+Delete)는 KeyEvent 를 소비해 호스트 메뉴의 가속 키가 같은 일을 두 번 하지 않게 했다.
+변경 파일: browser 의 SwingWebPanel.java, core/PageKeyboard.java, core/ControlOverlays.java, 시험 core/EditCommandsTest.java(신규). docs/API_CONTRACT.md, docs/FEATURE_MATRIX.md, docs/progress/desktopapp.md, README.md, README.ko.md, AGENTS.md, 이 문서.
+검증 결과: JDK 6u45 javac 로 바뀐 소스만 덧컴파일해 자체 실행기로 core.EditCommandsTest 5건 통과(C-EDITCMD-1~5). mvn -B -o -pl desktopapp -am "-Dtest.filter=desktopapp" verify 성공(전체 모듈 컴파일, 앱 시험 15건, run-app-smoke). 키 소비를 바꾼 뒤의 브라우저 전체 회귀(mvn -B -o verify)는 실행하지 않았다.
+미해결 사항: (1) 브라우저 전체 회귀를 실행해 키 소비 변경의 영향을 확인해야 P31-05-a 를 체크할 수 있다. (2) P31-05-b(메뉴 막대)는 시작하지 않았다. 설계는 docs/progress/desktopapp.md 7.4절에 있다. 커밋하지 않은 초안 파일(Commands, BrowserMenu, ZoomSteps, PageFiles, PageFilesTest)은 git 이 무시하는 build/p31/stage 에만 있으므로 그 폴더가 없으면 7.4절의 설계로 다시 만든다.
+다음 작업 번호: P31-05-a 의 전체 회귀, 이어서 P31-05-b
+-----------------------------------------------------------------------------------------------
 === P31-04-a desktopapp 탭 브라우징 (2026-11-27) ===
 현재 작업 번호: P31-04-a 완료. P31-04-b(링크를 새 탭에서 열기)는 P31-08의 확장 지점과 함께 한다. P31-05 진행 중.
 완료한 내용: 창마다 JTabbedPane 과 탭 머리(ui.TabHeader: 제목, 읽는 중 표시, 닫기 단추, 도구 설명). 새 탭(도구 모음의 + 단추, 설정 tabs.newTabPage), 탭 닫기(닫기 단추, 가운데 클릭), 닫은 탭 다시 열기(창마다 20개), 탭 전환(selectTab, selectNextTab), 활성 탭에 따른 제목 표시줄·주소 표시줄·버튼·상태 표시줄 전환, 탭을 닫으면 dispose, 마지막 탭을 닫으면 창 닫기, 탭이 여럿인 창을 닫기 전 확인(설정 tabs.confirmClose, BrowserApp.Prompts). SwingWebPanel 에 쿠키 저장소 공유(CookieJar, new SwingWebPanel(CookieJar), getCookieJar(), clearCookies(); 계약 5.24, 기능 표 API-32)와 살아 있는 문서 제목(getTitle() 과 title 속성이 document.title 변경을 따름; 계약 5.25, API-33)을 추가했다.

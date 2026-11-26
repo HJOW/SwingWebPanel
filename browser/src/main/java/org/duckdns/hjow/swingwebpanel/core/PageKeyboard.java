@@ -214,7 +214,10 @@ public final class PageKeyboard extends KeyAdapter implements FocusListener {
             return;
         }
         boolean again = !down.add(Integer.valueOf(event.getKeyCode()));
-        zoomKey(event);
+        // 컴포넌트가 스스로 명령으로 처리하는 키는 소비해, 호스트의 메뉴 단축키 같은 창 범위의 키 바인딩이 같은 일을 한 번 더 하지 않게 한다.
+        if (zoomKey(event) || (!(event.getSource() instanceof javax.swing.text.JTextComponent) && isCommandKey(event, input.getSelection().isEditableFocus()))) {
+            event.consume();
+        }
         Key key = new Key(event, again, composing);
         // 붙여넣기 키이면 클립보드를 이벤트 디스패치 스레드에서 읽어 둔다(페이지가 편집 가능한 곳이면 문서 큐에서 붙여넣는다).
         if (isPasteKey(event)) {
@@ -225,6 +228,42 @@ public final class PageKeyboard extends KeyAdapter implements FocusListener {
             event.consume();
         }
         send("keydown", key, true);
+    }
+
+    /**
+     * Tells whether the page itself handles a key as a command, so that the key must not also run a key binding of the host window: the
+     * copy keys (Ctrl+C, Ctrl+Insert), select all (Ctrl+A) and the paste keys everywhere, and in an editable place also cut (Ctrl+X,
+     * Shift+Delete), the format keys (Ctrl+B, Ctrl+I, Ctrl+U) and undo and redo (Ctrl+Z, Ctrl+Y).
+     * <p>
+     * 페이지가 키를 스스로 명령으로 처리하는지, 그래서 그 키가 호스트 창의 키 바인딩까지 실행하면 안 되는지 알려 준다: 어디서나 복사 키(Ctrl+C, Ctrl+Insert), 모두
+     * 선택(Ctrl+A), 붙여넣기 키이고, 편집 가능한 곳에서는 잘라내기(Ctrl+X, Shift+Delete), 서식 키(Ctrl+B, Ctrl+I, Ctrl+U), 되돌리기와 다시 하기(Ctrl+Z, Ctrl+Y)도
+     * 해당한다.
+     *
+     * @param event    the AWT event / AWT 이벤트
+     * @param editable true if the keyboard focus is in an editable place / 키보드 포커스가 편집 가능한 곳에 있으면 true
+     * @return true for such a key / 그런 키이면 true
+     */
+    static boolean isCommandKey(KeyEvent event, boolean editable) {
+        int code = event.getKeyCode();
+        if (event.isAltDown() || event.isMetaDown()) {
+            return false;
+        }
+        if (isPasteKey(event)) {
+            return true;
+        }
+        boolean ctrl = event.isControlDown();
+        if (ctrl && (code == KeyEvent.VK_C || code == KeyEvent.VK_A || code == KeyEvent.VK_INSERT) && !event.isShiftDown()) {
+            return true;
+        }
+        if (!editable) {
+            return false;
+        }
+        // 편집 가능한 곳의 편집 단축키: 잘라내기, 서식, 되돌리기와 다시 하기.
+        if (code == KeyEvent.VK_DELETE && event.isShiftDown() && !ctrl) {
+            return true;
+        }
+        return ctrl && (code == KeyEvent.VK_X || code == KeyEvent.VK_B || code == KeyEvent.VK_I || code == KeyEvent.VK_U || code == KeyEvent.VK_Z
+                || code == KeyEvent.VK_Y);
     }
 
     /**
@@ -261,11 +300,12 @@ public final class PageKeyboard extends KeyAdapter implements FocusListener {
      * 이 키도 <code>keydown</code> 으로 페이지에 보낸다.
      *
      * @param event the AWT event / AWT 이벤트
+     * @return true if the key was a zoom key and changed the zoom / 확대 키여서 확대를 바꿨으면 true
      */
-    private void zoomKey(KeyEvent event) {
+    private boolean zoomKey(KeyEvent event) {
         ZoomControl zoomer = zoomControl;
         if (zoomer == null || !event.isControlDown() || event.isAltDown()) {
-            return;
+            return false;
         }
         int code = event.getKeyCode();
         // 플러스(등호 포함), 마이너스, 0 키를 구분해 한 단계 확대, 축소, 원래 크기로 바꾼다.
@@ -275,7 +315,10 @@ public final class PageKeyboard extends KeyAdapter implements FocusListener {
             zoomer.setZoom(PageZoom.stepDown(zoomer.getZoom()));
         } else if (code == KeyEvent.VK_0 || code == KeyEvent.VK_NUMPAD0) {
             zoomer.setZoom(PageZoom.DEFAULT);
+        } else {
+            return false;
         }
+        return true;
     }
 
     /**
@@ -496,6 +539,63 @@ public final class PageKeyboard extends KeyAdapter implements FocusListener {
                 Element target = doc == null ? null : focusedOrBody(doc);
                 if (target != null) {
                     task.run(snapshot, doc, target);
+                }
+            }
+        });
+    }
+
+    /** The edit command that copies the selection. / 선택을 복사하는 편집 명령. */
+    public static final String COMMAND_COPY = "copy";
+
+    /** The edit command that cuts the selection of an editable place. / 편집 가능한 곳의 선택을 잘라내는 편집 명령. */
+    public static final String COMMAND_CUT = "cut";
+
+    /** The edit command that pastes the clipboard into an editable place. / 편집 가능한 곳에 클립보드를 붙여넣는 편집 명령. */
+    public static final String COMMAND_PASTE = "paste";
+
+    /** The edit command that selects everything. / 모두 선택하는 편집 명령. */
+    public static final String COMMAND_SELECT_ALL = "selectAll";
+
+    /**
+     * Runs an edit command of the host (a menu item, a tool bar button) on the page, as the matching key does, but without sending key
+     * events to the page: the clipboard events (<code>copy</code>, <code>cut</code>, <code>paste</code>) are still sent. Call it on the
+     * event dispatch thread (the clipboard is read there for a paste); the command itself runs on the document queue for the element
+     * that has the keyboard focus. Text controls of forms have an editor of their own and are not handled here.
+     * <p>
+     * 호스트의 편집 명령(메뉴 항목, 도구 모음 단추)을 해당 키와 같게 페이지에서 실행하되 페이지에 키 이벤트는 보내지 않는다. 클립보드 이벤트(<code>copy</code>,
+     * <code>cut</code>, <code>paste</code>)는 그대로 보낸다. 이벤트 디스패치 스레드에서 부른다(붙여넣기의 클립보드를 거기서 읽는다). 명령 자체는 문서 큐에서 키보드
+     * 포커스를 가진 요소에 대해 실행한다. 폼의 텍스트 컨트롤은 자기 편집기가 있어 여기서 다루지 않는다.
+     *
+     * @param command one of the <code>COMMAND_</code> constants / <code>COMMAND_</code> 상수 가운데 하나
+     */
+    public void editCommand(final String command) {
+        if (disposed) {
+            return;
+        }
+        final org.duckdns.hjow.swingwebpanel.dom.ClipboardData clipboard = COMMAND_PASTE.equals(command) ? input.getEditing().readClipboard() : null;
+        queueForFocused(session.getSnapshot(), new FocusedTask() {
+            /** Runs the command for the focused element. / 포커스를 가진 요소에 명령을 실행한다. */
+            public void run(PageSnapshot snapshot, Document doc, Element target) {
+                if (session.getSnapshot() != snapshot) {
+                    return;
+                }
+                PageEditing editing = input.getEditing();
+                boolean control = isFormControl(target) || PageFormHost.isTextControl(target);
+                // 명령마다 해당 키의 기본 동작과 같은 일을 한다. 편집 호스트 안이면 편집이 처리한다.
+                if (COMMAND_COPY.equals(command)) {
+                    input.getSelection().copy(snapshot);
+                } else if (COMMAND_PASTE.equals(command)) {
+                    if (!control) {
+                        editing.paste(snapshot, doc, target, clipboard);
+                    }
+                } else if (COMMAND_CUT.equals(command)) {
+                    if (!control) {
+                        editing.keyDown(snapshot, doc, target, "x", 'X', true, false, false, false);
+                    }
+                } else if (COMMAND_SELECT_ALL.equals(command)) {
+                    if (control || !editing.keyDown(snapshot, doc, target, "a", 'A', true, false, false, false)) {
+                        input.getSelection().selectAll(snapshot);
+                    }
                 }
             }
         });

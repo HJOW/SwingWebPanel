@@ -1751,6 +1751,111 @@ public class SwingWebPanel extends JPanel implements Scrollable {
     }
 
     /**
+     * Copies the selection of the page to the clipboard (extension method), as Ctrl+C does: the <code>copy</code> event is sent to the
+     * page first, and a listener may cancel it or put its own data on the clipboard. If a text control of a form has the focus, the
+     * selection of that control is copied. The page gets no key events. The command is run on the event dispatch thread (a call from
+     * another thread is queued) and the page part of it on the document queue, so the clipboard may change shortly after the call returns.
+     * <p>
+     * 페이지의 선택을 Ctrl+C 와 같게 클립보드에 복사한다(확장 메서드): 먼저 <code>copy</code> 이벤트를 페이지에 보내며, 리스너는 이를 취소하거나 자기 데이터를
+     * 클립보드에 넣을 수 있다. 폼의 텍스트 컨트롤에 포커스가 있으면 그 컨트롤의 선택을 복사한다. 페이지에 키 이벤트는 가지 않는다. 명령은 이벤트 디스패치
+     * 스레드에서 실행되고(다른 스레드의 호출은 큐에 들어간다) 그 가운데 페이지 쪽 일은 문서 큐에서 실행되므로, 클립보드는 호출이 돌아온 조금 뒤에 바뀔 수 있다.
+     *
+     * @throws IllegalStateException if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void copy() {
+        editCommand(PageKeyboard.COMMAND_COPY);
+    }
+
+    /**
+     * Cuts the selection of an editable place (a text control of a form, <code>contenteditable</code>, design mode) to the clipboard
+     * (extension method), as Ctrl+X does: the <code>cut</code> event is sent to the page first. Nothing happens where the page cannot be
+     * edited. Threads as for {@link #copy()}.
+     * <p>
+     * 편집 가능한 곳(폼의 텍스트 컨트롤, <code>contenteditable</code>, 디자인 모드)의 선택을 Ctrl+X 와 같게 클립보드로 잘라낸다(확장 메서드): 먼저
+     * <code>cut</code> 이벤트를 페이지에 보낸다. 편집할 수 없는 곳에서는 아무 일도 없다. 스레드는 {@link #copy()} 와 같다.
+     *
+     * @throws IllegalStateException if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void cut() {
+        editCommand(PageKeyboard.COMMAND_CUT);
+    }
+
+    /**
+     * Pastes the clipboard into the editable place that has the focus (extension method), as Ctrl+V does: the <code>paste</code> event is
+     * sent to the page first, and unless a listener cancels it the data is inserted. Where the page cannot be edited only the event is
+     * sent. The clipboard is read with {@link #readClipboard()}. Threads as for {@link #copy()}.
+     * <p>
+     * 포커스를 가진 편집 가능한 곳에 Ctrl+V 와 같게 클립보드를 붙여넣는다(확장 메서드): 먼저 <code>paste</code> 이벤트를 페이지에 보내고, 리스너가 취소하지 않으면
+     * 데이터를 넣는다. 편집할 수 없는 곳에서는 이벤트만 간다. 클립보드는 {@link #readClipboard()} 로 읽는다. 스레드는 {@link #copy()} 와 같다.
+     *
+     * @throws IllegalStateException if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void paste() {
+        editCommand(PageKeyboard.COMMAND_PASTE);
+    }
+
+    /**
+     * Selects everything (extension method), as Ctrl+A does: all the text of the text control or of the editable place that has the
+     * focus, else all the content of the page. Threads as for {@link #copy()}.
+     * <p>
+     * Ctrl+A 와 같게 모두 선택한다(확장 메서드): 포커스를 가진 텍스트 컨트롤이나 편집 가능한 곳의 글 전체, 그런 곳이 아니면 페이지의 모든 내용. 스레드는
+     * {@link #copy()} 와 같다.
+     *
+     * @throws IllegalStateException if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void selectAll() {
+        editCommand(PageKeyboard.COMMAND_SELECT_ALL);
+    }
+
+    /**
+     * Runs an edit command on the event dispatch thread (now if the caller is on it, else queued).
+     * <p>
+     * 편집 명령을 이벤트 디스패치 스레드에서 실행한다(호출한 쪽이 그 스레드이면 바로, 아니면 큐에 넣는다).
+     *
+     * @param command one of the command constants of {@link PageKeyboard} / {@link PageKeyboard} 의 명령 상수 가운데 하나
+     */
+    private void editCommand(final String command) {
+        checkAlive();
+        if (SwingUtilities.isEventDispatchThread()) {
+            runEditCommand(command);
+        } else {
+            SwingUtilities.invokeLater(new Runnable() {
+                /** Runs the command on the EDT. / EDT 에서 명령을 실행한다. */
+                public void run() {
+                    if (!disposed) {
+                        runEditCommand(command);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Runs an edit command (event dispatch thread): the editor of the focused text control handles it if there is one, else the page.
+     * <p>
+     * 편집 명령을 실행한다(이벤트 디스패치 스레드): 포커스를 가진 텍스트 컨트롤의 편집기가 있으면 그것이, 없으면 페이지가 처리한다.
+     *
+     * @param command one of the command constants of {@link PageKeyboard} / {@link PageKeyboard} 의 명령 상수 가운데 하나
+     */
+    private void runEditCommand(String command) {
+        javax.swing.text.JTextComponent editor = controls.getActiveEditor();
+        // 폼의 텍스트 컨트롤 편집기가 열려 있으면 그 편집기의 명령을 쓴다(클립보드 이벤트는 편집기가 페이지를 거쳐 보낸다).
+        if (editor != null) {
+            if (PageKeyboard.COMMAND_COPY.equals(command)) {
+                editor.copy();
+            } else if (PageKeyboard.COMMAND_CUT.equals(command)) {
+                editor.cut();
+            } else if (PageKeyboard.COMMAND_PASTE.equals(command)) {
+                editor.paste();
+            } else {
+                editor.selectAll();
+            }
+            return;
+        }
+        keyboard.editCommand(command);
+    }
+
+    /**
      * Puts the copied text on the clipboard. The default writes <code>text/plain</code> (and <code>text/html</code> if there is markup) to the
      * system clipboard; a host that keeps its own clipboard, or a test, overrides it. It is called on the event dispatch thread after the
      * user copied the selection (Ctrl+C or Ctrl+Insert) and no listener of the <code>copy</code> event cancelled it. An exception (no screen,

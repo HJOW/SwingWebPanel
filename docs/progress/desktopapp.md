@@ -105,6 +105,7 @@ P31-08-a(이벤트 루프 공유)와 P31-08-b(팝업의 동기 생성)는 이 �
 | 2026-11-26 | P31-02 | 모듈 골격, 실행 JAR, 시험 실행 연결. JDK 6u45 에서 앱 시험 3건과 `java -jar ... --smoke` 통과 |
 | 2026-11-26 | P31-03 | 주 창, 탐색 도구 모음, 주소 표시줄, 상태 표시줄. 앱 시험 11건 통과. 실제 창 화면 캡처로 배치 확인(JRE 6u45, Windows 10) |
 | 2026-11-27 | P31-04-a | 탭 브라우징(탭 머리, 새 탭, 닫기, 다시 열기, 전환, 활성 탭 연결, 수명, 닫기 확인). 보완 후보 (f)(g)를 `CookieJar`·`clearCookies()` 로 추가했고(계약 5.24), 목록에 없던 `getTitle()` 의 살아 있는 문서 제목(계약 5.25)을 추가했다. 앱 시험 15건 통과. 링크를 새 탭에서 열기(P31-04-b)는 P31-08 과 함께 한다 |
+| 2026-11-27 | P31-05-a | 보완 후보 (e): `copy()`/`cut()`/`paste()`/`selectAll()` 과 명령 키 소비(계약 5.26). 집중 시험 5건 통과, 전체 회귀는 남음. 메뉴 설계는 7.4절 |
 
 ## 7. 구현하면서 정한 것
 
@@ -133,3 +134,26 @@ P31-08-a(이벤트 루프 공유)와 P31-08-b(팝업의 동기 생성)는 이 �
 - 응용 프로그램의 모든 탭과 창이 `CookieJar` 하나를 쓴다. sessionStorage 와 이력은 탭마다 따로이다.
 - 배경 탭의 페이지는 계속 실행되고 `document.visibilityState` 는 `hidden` 이 된다(컴포넌트의 `isShowing()` 연결).
 - 대화 상자는 `BrowserApp.Prompts` 를 거친다. 시험은 이것을 바꿔 대화 상자 없이 답한다.
+
+### 7.4 메뉴와 단축키의 설계 (P31-05, 2026-11-27. P31-05-a 만 구현됨)
+
+- 명령: 메뉴 항목, 키 바인딩, 시험이 모두 `BrowserWindow.perform(명령 이름)` 하나로 명령을 실행한다. 이름은 `ui.Commands` 의 상수이고 메뉴 항목의 컴포넌트 이름으로도 쓴다.
+- 메뉴와 가속 키(기능이 이미 있는 것만. 나머지는 각 기능의 계획 항목이 더한다)
+  - 파일: 새 탭 Ctrl+T, 새 창 Ctrl+N, 위치 열기 Ctrl+L, 파일 열기 Ctrl+O, 페이지 저장 Ctrl+S, 탭 닫기 Ctrl+W, 창 닫기 Ctrl+Shift+W, 끝내기
+  - 편집: 잘라내기 Ctrl+X, 복사 Ctrl+C, 붙여넣기 Ctrl+V, 모두 선택 Ctrl+A
+  - 보기: 도구 모음, 상태 표시줄(체크 항목), 확대 Ctrl+=, 축소 Ctrl+-, 원래 크기 Ctrl+0
+  - 이동: 뒤로 Alt+←, 앞으로 Alt+→, 홈 Alt+Home, 새로고침 F5, 캐시 무시 새로고침 Ctrl+F5, 멈춤 Esc
+  - 탭: 다음 탭 Ctrl+Tab, 이전 탭 Ctrl+Shift+Tab, 닫은 탭 다시 열기 Ctrl+Shift+T
+  - 도움말: 정보(앱, SwingWebPanel, Java 의 판. JAR 매니페스트의 `Implementation-Version`)
+- 메뉴 항목이 없는 추가 키(루트 창의 `WHEN_IN_FOCUSED_WINDOW` 바인딩): Ctrl+숫자패드 +/-/0, Ctrl+R, Ctrl+Shift+R, Ctrl+PageDown/PageUp, Ctrl+F4, F6, Alt+D, Ctrl+1~8(그 번호의 탭), Ctrl+9(마지막 탭).
+- 키 충돌 규칙
+  1. 페이지가 스스로 처리하는 명령 키는 컴포넌트가 소비한다(계약 5.26). 메뉴 가속 키는 실행되지 않는다.
+  2. 주소 표시줄과 폼 컨트롤 같은 텍스트 필드는 자기 편집 키를 먼저 처리한다.
+  3. 그 밖의 가속 키는 브라우저가 실행한다. 페이지는 `keydown` 을 보지만 막을 수 없다.
+  4. Tab 과 Shift+Tab 은 포커스 이동이다(페이지에 포커스가 있으면 페이지 안에서 이동). Ctrl+Tab 은 탭 전환이므로 창의 포커스 이동 키에서 뺀다(`setFocusTraversalKeys`).
+  5. 탭의 `JScrollPane` 이 가진 Ctrl+PageUp/PageDown(가로 쪽 넘김) 바인딩은 끄고 탭 전환에 쓴다.
+  6. 입력기가 조합 중인 키는 입력기가 소비한다.
+- 편집 명령의 대상: 창 자체의 텍스트 필드(주소 표시줄)에 포커스가 있으면 그 필드, 아니면 활성 탭의 `SwingWebPanel.copy()` 등.
+- 페이지 저장: `getContent()` 원문을 UTF-8 로 쓴다. HTML/XHTML 은 원문의 문자셋 선언보다 우선하도록 바이트 순서 표시를 먼저 쓴다. 제안 이름은 주소 경로의 마지막 부분이고 확장자가 없으면 MIME 에 따라 붙인다.
+- 파일 선택과 알림은 `BrowserApp.Prompts` 에 `chooseFile`, `inform` 을 더해 시험이 대신 답하게 한다.
+- 시험 방법: 가속 키는 보이는 창이 있어야 실행되므로(`KeyboardManager` 가 `isShowing()` 을 본다), 포커스를 받지 않게 한 창을 보인 뒤 키 리스너 호출과 `SwingUtilities.processKeyBindings` 로 키 입력을 흉내 낸다.

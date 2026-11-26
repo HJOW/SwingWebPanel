@@ -1169,6 +1169,8 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
   - 탭: 다음 탭(Ctrl+Tab, Ctrl+PageDown), 이전 탭(Ctrl+Shift+Tab, Ctrl+PageUp), 번호로 탭 선택(Ctrl+1~8, Ctrl+9는 마지막 탭), 닫은 탭 다시 열기(Ctrl+Shift+T)
   - 북마크, 도구(설정, 개인 정보 삭제), 도움말(정보: 앱·SwingWebPanel·Java 판)
   - 메뉴 단축키와 페이지의 키 입력(입력란 편집, 한글 IME 조합, 페이지의 `keydown` 처리, 페이지 안의 Tab 포커스 이동)이 충돌하지 않는 규칙을 정하고 검증한다.
+  - [ ] P31-05-a. SwingWebPanel의 호스트 편집 명령 `copy()`/`cut()`/`paste()`/`selectAll()`(보완 후보 (e))과, 컴포넌트가 스스로 명령으로 처리하는 키(복사·모두 선택·붙여넣기·확대, 편집 가능한 곳의 편집 단축키)의 `KeyEvent` 소비. 계약 5.26, 기능 표 API-34. 진행(2026-11-27): 구현했고 `core.EditCommandsTest` 5건이 JRE 6u45에서 통과했다. 남은 일: 키 소비를 바꾼 뒤의 브라우저 전체 회귀를 실행한 뒤 체크한다.
+  - [ ] P31-05-b. 메뉴 막대와 명령(`ui.Commands`, `ui.BrowserMenu`, `BrowserWindow.perform`), 가속 키와 추가 키 바인딩, 페이지 저장(`model.PageFiles`), 확대 단계(`model.ZoomSteps`), 키 충돌 규칙의 검증. 초안은 `docs/progress/desktopapp.md` 7.4절에 적은 설계를 따른다. 북마크·설정·찾기·인쇄·원본·콘솔 항목은 각 기능의 계획 항목(P31-06~10)이 메뉴에 더한다.
 - [ ] P31-06. 북마크를 구현한다.
   - 현재 페이지 추가(Ctrl+D, 제목·주소, 중복 확인), 열린 모든 탭을 한 폴더에 추가, 북마크 메뉴에서 현재 탭·새 탭·새 창으로 열기.
   - 관리 창: 이름·주소 편집, 삭제, 순서 변경, 폴더.
