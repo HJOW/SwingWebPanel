@@ -633,4 +633,50 @@ public class AudioControlsIntegrationTest {
             server.stop();
         }
     }
+
+    /**
+     * A change to scripting-off makes implicit controls visible and usable without changing HTML attributes.
+     * <p>
+     * 스크립트를 끄면 HTML 속성을 바꾸지 않고 암묵적 컨트롤을 표시하고 조작할 수 있다.
+     * @throws Exception if setup, focus or playback failed / 준비·포커스·재생이 실패하면
+     */
+    public void testImplicitAudioControlsAppearWhenScriptsAreDisabled() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        FakeOutputs outputs = new FakeOutputs(2000);
+        SwingWebPanel panel = newPanel(outputs);
+        try {
+            String html = "<!doctype html><style>body{margin:0}"
+                    + "@media (scripting:none){audio{display:block;width:300px;height:54px}}"
+                    + "audio[controls]{display:none!important}</style>"
+                    + "<audio style='display:none' preload=none src='/hidden.wav'></audio>"
+                    + "<audio preload=none src='/clip.wav'></audio>";
+            server.routeFixed("/page", TestHttpServer.Response.html(html));
+            byte[] wav = AudioKit.wav(1, 1, 8000, 16, ScriptedDecoder.pcm(0, 24000), -1);
+            server.routeFixed("/clip.wav", new TestHttpServer.Response(200).bytes("audio/wav", wav));
+            server.start();
+            panel.setPage(server.url("/page"));
+            awaitLoaded(panel, server.url("/page"));
+            long withoutControls = stable(panel);
+
+            panel.setJavascriptEnabled(false);
+            awaitRepaint(panel, withoutControls, "the scripting-off stylesheet and UA controls redraw the page");
+            pressKey(panel, KeyEvent.VK_TAB, '\t');
+            pressKey(panel, KeyEvent.VK_SPACE, ' ');
+            FakeOutputs.Out output = outputs.await(0);
+            output.awaitWritten(64);
+            Check.equal(1, server.count("/clip.wav"), "the implicit controls are reachable and playable by keyboard");
+            Check.equal(0, server.count("/hidden.wav"), "the CSS-hidden element was skipped");
+            click(panel, 22, 27);
+            long end = System.currentTimeMillis() + 10000;
+            // 암묵적 컨트롤을 마우스로 눌러 일시정지할 수 있는지 확인한다.
+            while (output.stopCalls() == 0 && System.currentTimeMillis() < end) {
+                Thread.sleep(10);
+            }
+            Check.isTrue(output.stopCalls() > 0, "the painted implicit controller responds to the mouse");
+            Check.equal(html, panel.getContent(), "the DOM affordance does not alter the original source");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
 }

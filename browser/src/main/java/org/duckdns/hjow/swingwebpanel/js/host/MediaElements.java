@@ -1394,7 +1394,7 @@ final class MediaElements implements MediaControlSource {
             page.fireMediaEvent(target, name);
         }
         // 컨트롤 막대가 있는 요소는 상태가 바뀔 때마다(이벤트는 상태 변화를 알린다) 막대를 다시 그리게 한다.
-        if (target == m.element() && target.hasAttribute("controls")) {
+        if (target == m.element() && (target.hasAttribute("controls") || target.hasAudioControls())) {
             host().mediaControlsChanged(target);
         }
     }
@@ -1702,7 +1702,9 @@ final class MediaElements implements MediaControlSource {
      */
     private MediaEnvironment environment() {
         HostEnvironment env = host();
-        return new MediaEnvironment(env.getViewportWidth(), env.getViewportHeight());
+        MediaEnvironment conditions = new MediaEnvironment(env.getViewportWidth(), env.getViewportHeight());
+        conditions.setScripting(page != null && env.isScriptingEnabled());
+        return conditions;
     }
 
     /**

@@ -1356,7 +1356,7 @@ public final class PageInput extends MouseAdapter implements MouseMotionListener
      */
     private boolean pressMediaControls(PageSnapshot snapshot, Element target, Located loc, Pointer pointer) {
         LayoutBox box = loc.hit.getBox();
-        if (box == null || loc.doc == null || !"audio".equals(target.getLocalName()) || !target.hasAttribute("controls")) {
+        if (box == null || loc.doc == null || !target.hasAudioControls()) {
             return false;
         }
         double w = box.getContentWidth();

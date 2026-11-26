@@ -109,6 +109,8 @@ public class Document extends Node {
      * 이 문서의 창에 포커스가 있는지 알려 준다. 요소의 포커스 이벤트는 창에 포커스가 있는 동안에만 보낸다.
      */
     private volatile boolean windowFocused = true;
+    /** Whether author scripts are enabled in this document. / 이 문서에서 작성자 스크립트를 실행하는지 여부. */
+    private volatile boolean scriptingEnabled = true;
 
     /**
      * Compatibility mode.
@@ -1000,6 +1002,19 @@ public class Document extends Node {
      */
     public boolean isWindowFocused() {
         return windowFocused;
+    }
+
+    /** Returns the document's scripting flag. / 문서의 스크립트 사용 여부를 반환한다. */
+    public boolean isScriptingEnabled() {
+        return scriptingEnabled;
+    }
+
+    /**
+     * Stores the scripting flag used by the document's media and styles. / 문서의 미디어와 스타일이 사용할 스크립트 설정을 저장한다.
+     * @param enabled true when author scripts can run / 작성자 스크립트가 실행 가능하면 true
+     */
+    public void setScriptingEnabled(boolean enabled) {
+        scriptingEnabled = enabled;
     }
 
     /**

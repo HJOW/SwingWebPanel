@@ -259,6 +259,7 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
             return;
         }
         MediaEnvironment initial = new MediaEnvironment(width, height);
+        initial.setScripting(document.isScriptingEnabled());
         String type = element.getAttribute("type");
         boolean cssType = type == null || type.trim().length() == 0 || "text/css".equalsIgnoreCase(type.trim());
         String rel = element.getAttribute("rel");
@@ -297,6 +298,7 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
         if (css == null) {
             sheetsChanged.set(false);
             environment = new MediaEnvironment(width, height);
+            environment.setScripting(document.isScriptingEnabled());
             css = new CssEngine(document, new SheetLoader(true), environment);
             css.getResolver().setElementState(elementState);
             // 스크립트(CSSOM)가 규칙, 미디어, 비활성 플래그를 바꾸면 레이아웃을 무효화하고 뷰에 다시 그리게 한다.
@@ -311,6 +313,7 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
             css.loadStyleSheets();
         } else {
             environment.setViewport(width, height);
+            environment.setScripting(document.isScriptingEnabled());
             css.getResolver().setMediaEnvironment(environment);
             if (sheetsChanged.getAndSet(false)) {
                 css.loadStyleSheets();
@@ -397,6 +400,12 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
         if (!closed.get() && callback != null) {
             callback.run();
         }
+    }
+
+    /** Makes controls and styles use the scripting-off state. / 컨트롤과 스타일에 스크립트 비활성 상태를 적용한다. */
+    void scriptsDisabled() {
+        document.setScriptingEnabled(false);
+        invalidate();
     }
 
     /**
@@ -544,6 +553,7 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
         // 스타일 엔진이 아직 없으면 기본 환경으로 평가한다.
         MediaEnvironment env = environment == null ? new MediaEnvironment(width, height) : environment.copy();
         env.setViewport(width, height);
+        env.setScripting(document.isScriptingEnabled());
         return MediaQueryList.parse(query).matches(env);
     }
 

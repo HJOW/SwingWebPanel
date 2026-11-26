@@ -341,6 +341,7 @@ public final class ParsingPageLoader implements PageLoader, CacheOwner {
             final ScriptServices services, NavigationRequest request, PageRequestContext requests) {
         doc.setMarkupSupport(new HtmlMarkupSupport());
         CssSelectorEngine.install(doc);
+        doc.setScriptingEnabled(scripting);
         // 문서의 문자 인코딩은 수신 바이트를 디코딩한 인코딩이다. 파싱 중 실행되는 외부 일반 스크립트가 이것을 물려받는다.
         doc.setCharacterSet(encoding);
         if (url != null) {

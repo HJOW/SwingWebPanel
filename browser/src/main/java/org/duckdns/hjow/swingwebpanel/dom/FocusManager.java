@@ -85,7 +85,7 @@ public final class FocusManager {
         if (("a".equals(name) || "area".equals(name)) && e.hasAttribute("href")) {
             return true;
         }
-        if (control || "iframe".equals(name) || "summary".equals(name) || "audio".equals(name) && e.hasAttribute("controls")) {
+        if (control || "iframe".equals(name) || "summary".equals(name) || e.hasAudioControls()) {
             return true;
         }
         // 편집 호스트(바깥쪽 것)는 포커스를 가진다. 편집 호스트 안의 contenteditable 요소는 따로 포커스를 가지지 않는다.

@@ -319,6 +319,20 @@ public class Element extends Node {
     }
 
     /**
+     * Tells whether the user agent supplies controls for this HTML audio element.
+     * <p>
+     * 사용자 에이전트가 이 HTML 오디오 요소에 컨트롤을 제공하는지 알려 준다.
+     * @return true for explicit controls or unscripted audio / 컨트롤을 명시했거나 스크립트가 없는 오디오이면 true
+     */
+    public boolean hasAudioControls() {
+        if (!"audio".equals(getLocalName()) || !Namespaces.HTML.equals(getNamespaceURI())) {
+            return false;
+        }
+        Document owner = getOwnerDocument();
+        return hasAttribute("controls") || owner != null && !owner.isScriptingEnabled();
+    }
+
+    /**
      * Tells whether an attribute with a namespace exists.
      * <p>
      * 네임스페이스가 있는 속성이 있는지 알려 준다.

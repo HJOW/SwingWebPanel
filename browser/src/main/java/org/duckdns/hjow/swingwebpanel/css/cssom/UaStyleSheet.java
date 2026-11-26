@@ -23,7 +23,7 @@ public final class UaStyleSheet {
             + " { display: none }\n"
             + "embed[hidden] { display: inline; height: 0; width: 0 }\n"
             + "input[type=hidden i] { display: none !important }\n"
-            + "audio:not([controls]) { display: none !important }\n"
+            + "@media (scripting: enabled) { audio:not([controls]) { display: none !important } }\n"
             + "dialog:not([open]) { display: none }\n"
             + "dialog { position: absolute; inset-inline-start: 0; inset-inline-end: 0; width: fit-content; height: fit-content; margin: auto; border: solid;"
             + " padding: 1em; background-color: Canvas; color: CanvasText }\n"

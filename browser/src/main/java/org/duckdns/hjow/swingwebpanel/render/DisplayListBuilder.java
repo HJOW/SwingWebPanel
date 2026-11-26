@@ -1701,7 +1701,7 @@ final class DisplayListBuilder implements PaintWalker.Visitor, GeneratedImages.E
         ImageResource r = images == null ? null : images.getMedia(url);
         if (r != null && r.getState() == ImageResource.State.FAILED) {
             emit(new DisplayCommands.Placeholder(x, y, w, h, failureLines(url, alt), DisplayCommands.KIND_BROKEN, e));
-        } else if (e.hasAttribute("controls")) {
+        } else if (e.hasAudioControls()) {
             // 컨트롤 막대는 스크립트 호스트가 알려 주는 요소의 상태(재생 여부, 위치, 길이, 음량)를 보여 준다.
             MediaControlState state = images instanceof MediaControlSource ? ((MediaControlSource) images).getMediaControls(e) : null;
             emit(new DisplayCommands.Placeholder(x, y, w, h, new String[0], DisplayCommands.KIND_AUDIO, e, state));

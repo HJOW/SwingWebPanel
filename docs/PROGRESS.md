@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P18-08-b3c 속성을 생략한 오디오 컨트롤 (2026-11-26) ===
+현재 작업 번호: P18-08-b와 b3c 완료. P18-08 전체는 미완료.
+완료한 내용: 문서의 스크립트 상태를 미디어 질의와 배치·그리기·입력에 전달한다. 스크립트를 끄면 controls가 없어도 오디오 막대를 만들고 원문과 실제 HTML 속성은 유지한다. 작성자의 숨김 스타일은 그대로 적용된다.
+변경 파일: Document.java, Element.java, FocusManager.java, UaStyleSheet.java, PagePresentation.java, ParsingPageLoader.java, HtmlPageDocument.java, PageInput.java, DisplayListBuilder.java, MediaElements.java, AudioControlsIntegrationTest.java, AGENTS.md, FEATURE_MATRIX.md, progress/media-play.md, 이 문서.
+검증 결과: 바뀐 클래스를 JDK 6u45로 컴파일하고 JRE 6의 오디오·포커스·샌드박스·CSS 미디어 질의·UA 스타일 등 집중 회귀 92건이 통과했다. 새 사례가 동적 재배치, 숨김 요소 건너뜀, 키보드 재생·마우스 일시정지, 원문 보존을 확인한다. sourcecheck·diff 검사 위반 0건.
+미해결 사항: P18-08의 압축 자원 일괄 수신·용량과 일부 컨트롤 제약, 최신 Maven 전체 검증 및 P22-16의 적합성 항목. 스피커 청취는 사용자의 샘플 웹게임 확인으로 이월했다.
+다음 작업 번호: P22-16-c2, P18-08의 자원 적재와 P22-16의 적합성.
+-----------------------------------------------------------------------------------------------
 === P18-08-b3b 열린 문서의 JavaScript 비활성화와 오디오 재연결 (2026-11-26) ===
 현재 작업 번호: P18-08-b3b 완료. P18-08-b3 전체는 미완료.
 완료한 내용: JavaScript를 끄면 런타임과 그 출력을 닫고 동일 문서에 스크립트 없는 컨트롤을 연결한다. 현재 문서는 기존 재생을 자동 재시작하지 않으며 사용자가 재생하면 처음부터 시작한다. 파싱 중 끈 문서는 확정 때 새 문서의 리소스 정책으로 연결한다.

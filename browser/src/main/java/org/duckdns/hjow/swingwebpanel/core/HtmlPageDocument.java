@@ -261,12 +261,12 @@ public final class HtmlPageDocument implements PageDocument {
             if (document == null || audio != null || presentation == null || session.getSnapshot() != snapshot) {
                 return;
             }
+            presentation.scriptsDisabled();
             prepared = PageAudio.prepare(session, view, presentation, frame, document);
             audio = prepared;
         }
         if (prepared != null) {
             prepared.activate(snapshot, loadElements);
-            presentation.canvasChanged();
         }
     }
 
@@ -379,7 +379,7 @@ public final class HtmlPageDocument implements PageDocument {
      */
     boolean controlAudioKey(Element target, String key, boolean repeat) {
         PageAudio media = audio;
-        if (runtime == null && media == null || target.getOwnerDocument() != document || !target.isConnected() || !target.hasAttribute("controls")) {
+        if (runtime == null && media == null || target.getOwnerDocument() != document || !target.isConnected() || !target.hasAudioControls()) {
             return false;
         }
         // 누른 채로 있더라도 재생이나 음소거를 한 번만 전환한다.
