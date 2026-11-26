@@ -10,6 +10,8 @@
     var firstAsset = -1;
     var lastAsset = -1;
     var since = performance.now();
+    var observedAudio = null;
+    var soundStarts = 0;
 
     window.requestAnimationFrame = function (callback) {
         return frame.call(window, function (stamp) {
@@ -64,6 +66,16 @@
 
     window.setInterval(function () {
         var app = window.netstorm;
+        var audio = app && app._audio;
+        if (audio && audio !== observedAudio) {
+            observedAudio = audio;
+            var playSound = audio.playSound;
+            audio.playSound = function () {
+                var started = playSound.apply(this, arguments);
+                if (started) soundStarts++;
+                return started;
+            };
+        }
         var p = app && app._loadProgress;
         var now = performance.now();
         opener.postMessage([
@@ -71,7 +83,8 @@
             Math.round(now), frames, Math.round(frameTime * 100) / 100,
             Math.round(slowestFrame * 100) / 100, Math.round(now - since),
             completed, pending, assetBytes, Math.round(lastAsset < 0 ? 0 : lastAsset - firstAsset),
-            app ? app._audioStatus : "", app ? app._musicStatus : ""
+            app ? app._audioStatus : "", app ? app._musicStatus : "",
+            app && app.gameData ? app.gameData.currentTell : "", soundStarts
         ].join("|"), "*");
         since = now;
         frames = frameTime = slowestFrame = 0;
