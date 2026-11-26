@@ -1,5 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.host.webaudio;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.duckdns.hjow.swingwebpanel.js.host.PageFixture;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
@@ -34,6 +36,33 @@ final class WebAudioPage {
     WebAudioPage(boolean isolated) {
         fixture.env.crossOriginIsolated = isolated;
         fixture.load("http://example.test/dir/page.html", "<!doctype html><body><p>audio</p></body>");
+    }
+
+    /**
+     * Takes a snapshot of the live offline rendering threads. / 살아 있는 오프라인 렌더링 스레드를 스냅샷으로 얻는다.
+     * @return the live offline rendering threads / 살아 있는 오프라인 렌더링 스레드
+     */
+    static Set<Thread> offlineThreads() {
+        Set<Thread> renderers = new HashSet<Thread>();
+        // 다른 시험에서 시작한 스레드가 끝나도 현재 시험이 시작한 스레드를 식별한다.
+        for (Thread thread : Thread.getAllStackTraces().keySet()) {
+            if (thread.isAlive() && thread.getName().startsWith("swingwebpanel-audio-offline-")) {
+                renderers.add(thread);
+            }
+        }
+        return renderers;
+    }
+
+    /**
+     * Identifies the new renderer of a test. / 시험이 새로 시작한 렌더링 스레드를 찾는다.
+     * @param before threads observed before starting the render / 렌더링 시작 전에 관측한 스레드
+     * @return the sole new renderer / 새 렌더링 스레드 하나
+     */
+    static Thread newOfflineThread(Set<Thread> before) {
+        Set<Thread> renderers = offlineThreads();
+        renderers.removeAll(before);
+        Check.equal(1, renderers.size(), "this test runs on its own offline rendering thread");
+        return renderers.iterator().next();
     }
 
     /**

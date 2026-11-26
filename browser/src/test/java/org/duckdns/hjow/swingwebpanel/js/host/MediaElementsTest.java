@@ -25,6 +25,9 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
  */
 public class MediaElementsTest {
 
+    /** Pages created by the current case. / 현재 사례에서 만든 페이지. */
+    private final List<PageFixture> fixtures = new ArrayList<PageFixture>();
+
     /**
      * Creates the suite (required by the runner) and registers the scripted decoder.
      * <p>
@@ -32,6 +35,14 @@ public class MediaElementsTest {
      */
     public MediaElementsTest() {
         ScriptedDecoder.install();
+    }
+
+    /** Closes the pages and their player threads after each case. / 각 사례 뒤 페이지와 재생 스레드를 닫는다. */
+    public void tearDown() {
+        // 재생 상태를 확인하던 중 실패해도 모든 시험 페이지를 폐기한다.
+        for (PageFixture page : fixtures) {
+            page.scripts.dispose();
+        }
     }
 
     /**
@@ -180,8 +191,9 @@ public class MediaElementsTest {
      * @param outputs the outputs / 출력
      * @return the fixture (not loaded yet) / 시험 도구(아직 로드 전)
      */
-    private static PageFixture fixture(FakeMedia media, FakeOutputs outputs) {
+    private PageFixture fixture(FakeMedia media, FakeOutputs outputs) {
         PageFixture f = new PageFixture();
+        fixtures.add(f);
         f.env.media = media;
         f.env.outputs = outputs;
         return f;
@@ -806,7 +818,7 @@ public class MediaElementsTest {
      * @throws Exception on failure / 실패 시
      */
     public void testPagesWithoutServices() throws Exception {
-        PageFixture none = new PageFixture();
+        PageFixture none = fixture(null, null);
         none.load("http://example.test/p.html", PRELUDE + "<audio id=a src='s.wav'></audio>");
         settleBriefly(none);
         Check.equal("a:loadstart,a:error", js(none, "events()"), "no media service");

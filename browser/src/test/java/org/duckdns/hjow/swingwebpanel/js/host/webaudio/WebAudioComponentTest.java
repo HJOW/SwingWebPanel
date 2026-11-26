@@ -3,6 +3,7 @@ package org.duckdns.hjow.swingwebpanel.js.host.webaudio;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.ConsoleEvent;
 import org.duckdns.hjow.swingwebpanel.ConsoleListener;
@@ -364,15 +365,16 @@ public class WebAudioComponentTest {
      * @throws Exception on failure / 실패 시
      */
     public void testEventThreadStaysResponsive() throws Exception {
-        int base = threads("swingwebpanel-audio-offline-");
+        Set<Thread> before = WebAudioPage.offlineThreads();
         SwingWebPanel panel = newPanel();
         TestHttpServer server = new TestHttpServer();
+        Thread renderer;
         try {
             serve(panel, server, "<!doctype html><body><script>var ctx = new OfflineAudioContext(2, 48000 * 120, 48000); for (var i = 0; i < 100; i++) { var o = ctx.createOscillator(); o.frequency.value = 100 + i;"
                     + " var f = ctx.createBiquadFilter(); o.connect(f); f.connect(ctx.destination); o.start(); } ctx.startRendering().then(function () { sessionStorage.setItem('finished', 'yes'); });"
                     + " sessionStorage.setItem('started', 'yes');</script></body>");
             Check.equal("yes", awaitStored(panel, "started"), "the rendering started");
-            Check.equal(base + 1, threads("swingwebpanel-audio-offline-"), "on a thread of its own");
+            renderer = WebAudioPage.newOfflineThread(before);
             long worst = 0;
             // 렌더링이 도는 동안 이벤트 스레드에 작업을 올려 응답 시간을 잰다.
             for (int i = 0; i < 20; i++) {
@@ -395,6 +397,7 @@ public class WebAudioComponentTest {
             server.stop();
             panel.dispose();
         }
-        Check.equal(base, awaitThreads("swingwebpanel-audio-offline-", base, 5000), "the rendering was cancelled by dispose()");
+        renderer.join(5000);
+        Check.isFalse(renderer.isAlive(), "the rendering was cancelled by dispose()");
     }
 }

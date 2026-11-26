@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.js.host.webaudio;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
@@ -130,14 +131,19 @@ public class WebAudioLifecycleTest {
      * <p>
      * 페이지를 폐기할 때 진행 중인 오프라인 렌더링은 멈추며, 그 뒤에는 프라미스도 이벤트도 전달되지 않는다.
      */
-    public void testDisposeCancelsAnOfflineRendering() {
-        int offline = threads("swingwebpanel-audio-offline-");
+    public void testDisposeCancelsAnOfflineRendering() throws InterruptedException {
+        Set<Thread> before = WebAudioPage.offlineThreads();
         WebAudioPage p = new WebAudioPage();
-        p.run("var delivered = 0; var ctx = new OfflineAudioContext(2, 48000 * 120, 48000); for (var i = 0; i < 100; i++) { var o = ctx.createOscillator(); o.frequency.value = 100 + i;"
-                + " var f = ctx.createBiquadFilter(); o.connect(f); f.connect(ctx.destination); o.start(); } ctx.oncomplete = function () { delivered++; }; ctx.startRendering().then(function () { delivered++; }); 1");
-        Check.equal(offline + 1, threads("swingwebpanel-audio-offline-"), "the rendering thread is running");
-        p.fixture.scripts.dispose();
-        Check.equal(offline, awaitThreads("swingwebpanel-audio-offline-", offline, 5000), "the rendering thread ended after the disposal, long before the rendering would have");
+        Thread renderer;
+        try {
+            p.run("var delivered = 0; var ctx = new OfflineAudioContext(2, 48000 * 120, 48000); for (var i = 0; i < 100; i++) { var o = ctx.createOscillator(); o.frequency.value = 100 + i;"
+                    + " var f = ctx.createBiquadFilter(); o.connect(f); f.connect(ctx.destination); o.start(); } ctx.oncomplete = function () { delivered++; }; ctx.startRendering().then(function () { delivered++; }); 1");
+            renderer = WebAudioPage.newOfflineThread(before);
+        } finally {
+            p.fixture.scripts.dispose();
+        }
+        renderer.join(5000);
+        Check.isFalse(renderer.isAlive(), "the rendering thread ended after the disposal, long before the rendering would have");
         p.pumpFor(200);
         Check.isNull(p.fixture.scripts.evaluate("delivered", "after"), "no script runs after the disposal");
     }
@@ -215,11 +221,10 @@ public class WebAudioLifecycleTest {
     public void testConsoleAndErrorsFromHandlers() {
         WebAudioPage p = new WebAudioPage();
         try {
-            p.run("var ctx = new OfflineAudioContext(1, 256, 8000); var ok = false; ctx.addEventListener('statechange', function () { console.log('state=' + ctx.state); });"
+            p.run("var ctx = new OfflineAudioContext(1, 256, 8000); var ok = false; var rendered = false; ctx.addEventListener('statechange', function () { console.log('state=' + ctx.state); });"
                     + " ctx.addEventListener('statechange', function () { throw new Error('handler failure'); }); ctx.addEventListener('statechange', function () { ok = true; });"
-                    + " ctx.startRendering().then(function (b) { console.log('rendered ' + b.length); }); 1");
-            p.waitFor("ok", 5000, "the third listener runs although the second throws");
-            p.pumpFor(200);
+                    + " ctx.startRendering().then(function (b) { console.log('rendered ' + b.length); rendered = true; }); 1");
+            p.waitFor("ok && rendered", 5000, "the third listener and the promise reaction both run");
             String console = p.fixture.console.toString();
             Check.contains(console, "state=running", "the console shows what the handler printed: " + console);
             Check.contains(console, "rendered 256", "and what the promise reaction printed: " + console);

@@ -94,21 +94,26 @@ public class WebAudioOutputComponentTest {
     }
 
     /**
-     * Counts the live threads whose names start with a prefix.
+     * Counts the live threads matching a name or a prefix.
      * <p>
-     * 이름이 접두사로 시작하는 살아 있는 스레드를 센다.
+     * 이름이 일치하거나 접두사로 시작하는 살아 있는 스레드를 센다.
      *
-     * @param prefix the prefix / 접두사
+     * @param name the name or prefix / 이름 또는 접두사
+     * @param exact true for an exact name / 전체 이름을 비교하려면 true
      * @return the number of threads / 스레드 수
      */
-    private static int threads(String prefix) {
+    private static int threads(String name, boolean exact) {
         Thread[] all = new Thread[Thread.activeCount() + 32];
         int n = Thread.enumerate(all);
         int count = 0;
-        // 살아 있는 스레드 중 이름이 접두사로 시작하는 것을 센다.
+        // 살아 있는 스레드 중 지정한 이름 또는 접두사가 맞는 것을 센다.
         for (int i = 0; i < n; i++) {
-            if (all[i] != null && all[i].isAlive() && all[i].getName().startsWith(prefix)) {
-                count++;
+            Thread thread = all[i];
+            if (thread != null && thread.isAlive()) {
+                String actual = thread.getName();
+                if (exact ? name.equals(actual) : actual.startsWith(name)) {
+                    count++;
+                }
             }
         }
         return count;
@@ -122,35 +127,27 @@ public class WebAudioOutputComponentTest {
      * @return the number of threads / 스레드 수
      */
     private static int players() {
-        Thread[] all = new Thread[Thread.activeCount() + 32];
-        int n = Thread.enumerate(all);
-        int count = 0;
-        // 살아 있는 스레드 중 재생기의 스레드를 센다.
-        for (int i = 0; i < n; i++) {
-            if (all[i] != null && all[i].isAlive() && "swingwebpanel-audio".equals(all[i].getName())) {
-                count++;
-            }
-        }
-        return count;
+        return threads("swingwebpanel-audio", true);
     }
 
     /**
-     * Waits until the number of threads with a prefix is at most a number and returns the last count.
+     * Waits until the number of matching threads is at most a number and returns the last count.
      * <p>
-     * 접두사를 가진 스레드 수가 어떤 수 이하가 될 때까지 기다리고 마지막 수를 반환한다.
+     * 이름이 일치하는 스레드 수가 어떤 수 이하가 될 때까지 기다리고 마지막 수를 반환한다.
      *
-     * @param prefix the prefix / 접두사
+     * @param name the name or prefix / 이름 또는 접두사
+     * @param exact true for an exact name / 전체 이름을 비교하려면 true
      * @param most   the number that it must not exceed / 넘으면 안 되는 수
      * @return the last count / 마지막 수
      * @throws Exception if interrupted / 인터럽트되면
      */
-    private static int awaitAtMost(String prefix, int most) throws Exception {
+    private static int awaitAtMost(String name, boolean exact, int most) throws Exception {
         long end = System.currentTimeMillis() + 10000;
-        int n = threads(prefix);
+        int n = threads(name, exact);
         // 스레드 수가 줄어들 때까지 짧게 쉬며 확인한다.
         while (n > most && System.currentTimeMillis() < end) {
             Thread.sleep(10);
-            n = threads(prefix);
+            n = threads(name, exact);
         }
         return n;
     }
@@ -344,7 +341,7 @@ public class WebAudioOutputComponentTest {
      * @throws Exception on failure / 실패 시
      */
     public void testPageEndsTheContextsThePlayersAndTheOutputs() throws Exception {
-        int baseRender = threads("swingwebpanel-audio-render-");
+        int baseRender = threads("swingwebpanel-audio-render-", false);
         int basePlayers = players();
         // 컨텍스트와 재생기를 정리하는 네 가지 경로(이동, clean, 스크립트 끄기, dispose)를 차례로 확인한다.
         for (int way = 0; way < 4; way++) {
@@ -366,7 +363,7 @@ public class WebAudioOutputComponentTest {
                     Thread.sleep(10);
                 }
                 Check.isTrue(audible(out).length >= 4800, "the file is heard (way " + way + ")");
-                Check.equal(baseRender + 1, threads("swingwebpanel-audio-render-"), "the context has its rendering thread");
+                Check.equal(baseRender + 1, threads("swingwebpanel-audio-render-", false), "the context has its rendering thread");
                 Check.isTrue(players() >= basePlayers + 1, "and the element has its player");
                 if (way == 0) {
                     panel.setPage(server.url("/other"));
@@ -378,8 +375,8 @@ public class WebAudioOutputComponentTest {
                 } else {
                     panel.dispose();
                 }
-                Check.equal(baseRender, awaitAtMost("swingwebpanel-audio-render-", baseRender), "the rendering thread ended (way " + way + ")");
-                Check.isTrue(awaitAtMost("swingwebpanel-audio", baseRender + basePlayers) <= baseRender + basePlayers, "no player is left (way " + way + ")");
+                Check.isTrue(awaitAtMost("swingwebpanel-audio-render-", false, baseRender) <= baseRender, "the rendering thread ended (way " + way + ")");
+                Check.isTrue(awaitAtMost("swingwebpanel-audio", true, basePlayers) <= basePlayers, "no player is left (way " + way + ")");
                 long until = System.currentTimeMillis() + 10000;
                 // 출력이 닫힐 때까지 기다린다.
                 while (!out.isClosed() && System.currentTimeMillis() < until) {
@@ -460,7 +457,7 @@ public class WebAudioOutputComponentTest {
      * @throws Exception on failure / 실패 시
      */
     public void testManyComponentsLeaveNothingBehind() throws Exception {
-        int baseRender = threads("swingwebpanel-audio-render-");
+        int baseRender = threads("swingwebpanel-audio-render-", false);
         int basePlayers = players();
         TestHttpServer server = new TestHttpServer();
         try {
@@ -472,13 +469,16 @@ public class WebAudioOutputComponentTest {
                 ManualOutputFactory contexts = new ManualOutputFactory();
                 PacedDevice device = new PacedDevice(contexts);
                 SwingWebPanel panel = newPanel(contexts, new FakeOutputs());
-                panel.setPage(server.url("/page"));
-                awaitStored(panel, "playing");
-                panel.dispose();
-                device.close();
+                try {
+                    panel.setPage(server.url("/page"));
+                    awaitStored(panel, "playing");
+                } finally {
+                    panel.dispose();
+                    device.close();
+                }
             }
-            Check.equal(baseRender, awaitAtMost("swingwebpanel-audio-render-", baseRender), "no rendering thread is left");
-            Check.isTrue(awaitAtMost("swingwebpanel-audio", baseRender + basePlayers) <= baseRender + basePlayers, "no player thread is left: " + players() + " against " + basePlayers);
+            Check.isTrue(awaitAtMost("swingwebpanel-audio-render-", false, baseRender) <= baseRender, "no rendering thread is left");
+            Check.isTrue(awaitAtMost("swingwebpanel-audio", true, basePlayers) <= basePlayers, "no player thread is left: " + players() + " against " + basePlayers);
         } finally {
             server.stop();
         }
@@ -523,7 +523,7 @@ public class WebAudioOutputComponentTest {
             }
         });
         TestHttpServer server = new TestHttpServer();
-        int baseRender = threads("swingwebpanel-audio-render-");
+        int baseRender = threads("swingwebpanel-audio-render-", false);
         try {
             server.routeFixed("/page", TestHttpServer.Response.html("<!doctype html><body><script>var rt = new AudioContext(); var g = rt.createGain(); g.connect(rt.destination);"
                     + " setTimeout(function () { sessionStorage.setItem('state', rt.state + ':' + (rt.currentTime > 0.2) + ':' + (rt.outputLatency >= 0) + ':' + (rt.baseLatency > 0));"
@@ -533,7 +533,7 @@ public class WebAudioOutputComponentTest {
             Check.equal("running:true:true:true", awaitStored(panel, "state"), "the context runs and its time advances");
             Check.equal("closed", awaitStored(panel, "closed"), "and it can be suspended, resumed and closed");
             Check.equal("[]", errors.toString(), "no script error or console error");
-            Check.equal(baseRender, awaitAtMost("swingwebpanel-audio-render-", baseRender), "the rendering thread ended with the close");
+            Check.isTrue(awaitAtMost("swingwebpanel-audio-render-", false, baseRender) <= baseRender, "the rendering thread ended with the close");
         } finally {
             server.stop();
             panel.dispose();
