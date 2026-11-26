@@ -3,6 +3,7 @@ package org.duckdns.hjow.swingwebpanel.js.builtins.corelib;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import org.duckdns.hjow.swingwebpanel.js.Js;
+import org.duckdns.hjow.swingwebpanel.js.JsBigInt;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
 import org.duckdns.hjow.swingwebpanel.js.JsNumber;
 import org.duckdns.hjow.swingwebpanel.js.JsObject;
@@ -37,6 +38,23 @@ final class NumberLib {
     }
 
     /**
+     * Applies Number(value) conversion, including explicit BigInt-to-Number rounding (ECMA-262 17th edition 21.1.1.1).
+     * <p>
+     * BigInt를 Number로 명시적으로 반올림하는 Number(value) 변환을 적용한다(ECMA-262 제17판 21.1.1.1절).
+     *
+     * @param args arguments of Number / Number의 인수
+     * @return the converted Number value / 변환한 Number 값
+     */
+    private static JsNumber numberArgument(JsValue[] args) {
+        if (args.length == 0) {
+            return Js.num(0.0);
+        }
+        // ToNumeric은 객체의 숫자 힌트를 한 번 적용하며 BigInt 값은 명시적으로 반올림한다.
+        JsValue numeric = Ops.toNumeric(args[0]);
+        return numeric instanceof JsBigInt ? Js.num(((JsBigInt) numeric).getValue().doubleValue()) : (JsNumber) numeric;
+    }
+
+    /**
      * Installs Number into the realm.
      * <p>
      * realm 에 Number 를 설치한다.
@@ -48,12 +66,12 @@ final class NumberLib {
         JsObject proto = realm.getNumberPrototype();
         NativeFunction ctor = LibSupport.defineConstructor(realm, "Number", 1, new NativeFunction.Call() {
             public JsValue call(JsRealm r, JsValue thisValue, JsValue[] args) {
-                return Js.num(args.length == 0 ? 0 : Ops.toNumber(args[0]));
+                return numberArgument(args);
             }
         }, new NativeFunction.Construct() {
             public JsObject construct(JsRealm r, JsValue[] args, JsObject newTarget) {
-                double n = args.length == 0 ? 0 : Ops.toNumber(args[0]);
-                return new JsPrimitiveObject(Ops.getPrototypeFromConstructor(r, newTarget, r.getNumberPrototype()), Js.num(n), "Number");
+                JsNumber value = numberArgument(args);
+                return new JsPrimitiveObject(Ops.getPrototypeFromConstructor(r, newTarget, r.getNumberPrototype()), value, "Number");
             }
         }, proto, null);
         ctor.defineData("EPSILON", Js.num(Math.pow(2, -52)), false, false, false);

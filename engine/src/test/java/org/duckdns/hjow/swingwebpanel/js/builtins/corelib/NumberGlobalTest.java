@@ -118,6 +118,31 @@ public class NumberGlobalTest {
     }
 
     /**
+     * Explicit conversion accepts a BigInt primitive or an object returning one, with Number rounding.
+     * <p>
+     * 명시적 변환은 BigInt 또는 BigInt를 반환하는 객체를 Number 반올림과 함께 처리한다.
+     */
+    public void testExplicitBigIntConversion() {
+        Check.equal(21.0, evalNumber("Number(21n)"), "function conversion");
+        Check.equal(-7.0, evalNumber("new Number(-7n).valueOf()"), "constructor conversion");
+        Check.equal(9.0, evalNumber("Number({[Symbol.toPrimitive](hint){return hint==='number'?9n:0n;}})"), "numeric primitive hint");
+        Check.equal(9007199254740992.0, evalNumber("Number(9007199254740993n)"), "nearest even rounded down");
+        Check.equal(9007199254740996.0, evalNumber("Number(9007199254740995n)"), "nearest even rounded up");
+        Check.equal(Double.POSITIVE_INFINITY, evalNumber("Number(1n << 1024n)"), "overflow");
+        LibEnv.throwsKind(ErrorKind.TYPE_ERROR, new Block() {
+            /** Checks implicit ToNumber rejection. / 암시 ToNumber 거부를 확인한다. */
+            public void run() {
+                evalNumber("+1n");
+            }
+        }, "unary plus must reject BigInt");
+    }
+
+    /** Evaluates an expression whose result is a Number. / 결과가 Number인 식을 평가한다. */
+    private double evalNumber(String expression) {
+        return ((JsNumber) env.realm.evaluateScript(expression, "number-conversion.js")).getValue();
+    }
+
+    /**
      * Number.isFinite, isInteger, isNaN, isSafeInteger and the identity of parseInt/parseFloat.
      * <p>
      * Number.isFinite, isInteger, isNaN, isSafeInteger 와 parseInt/parseFloat 의 동일성.
