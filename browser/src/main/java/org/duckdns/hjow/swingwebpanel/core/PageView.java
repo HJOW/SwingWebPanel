@@ -34,6 +34,19 @@ public final class PageView {
         void viewChanged();
     }
 
+    /** Optional script time policy supplied by the Swing host. / Swing 호스트가 선택적으로 제공하는 스크립트 시간 정책. */
+    public interface HostWithScriptLimits extends Host {
+        /**
+         * Chooses the wall time limit for tasks of one top-level document.
+         * <p>
+         * 최상위 문서 하나의 작업에 적용할 경과 시간 한도를 고른다.
+         *
+         * @param url final document address / 최종 문서 주소
+         * @return positive time limit in milliseconds, or a nonpositive value for the default / 양수 밀리초. 0 이하면 기본값
+         */
+        long scriptTaskTimeLimitMillis(String url);
+    }
+
     /** Session owning the document queue. / 문서 큐를 소유하는 세션. */
     private final BrowserSession session;
     /** Scroll dimensions published on the EDT. / EDT에서 게시하는 스크롤 크기. */
@@ -112,6 +125,20 @@ public final class PageView {
         session.attachView();
         workers = new ThreadPoolExecutor(4, 4, 5, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(256), new ResourceThreadFactory());
         workers.allowCoreThreadTimeOut(true);
+    }
+
+    /**
+     * Reads the host's positive script task time or uses the engine default.
+     * <p>
+     * 호스트의 양수 스크립트 작업 시간을 읽거나 엔진 기본값을 쓴다.
+     *
+     * @param url final top-level document address / 최상위 문서의 최종 주소
+     * @param defaultMillis engine default in milliseconds / 엔진 기본값(밀리초)
+     * @return selected time in milliseconds / 선택한 밀리초
+     */
+    long scriptTaskTimeLimitMillis(String url, long defaultMillis) {
+        long limit = host instanceof HostWithScriptLimits ? ((HostWithScriptLimits) host).scriptTaskTimeLimitMillis(url) : defaultMillis;
+        return limit > 0L ? limit : defaultMillis;
     }
 
     /** Static factory without an implicit PageView/component reference. / PageView·컴포넌트의 암묵적 참조가 없는 정적 팩토리. */

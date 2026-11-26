@@ -311,7 +311,7 @@ public class SwingWebPanel extends JPanel implements Scrollable {
         session.setConsoleDispatcher(consoles);
         session.setWebMessageDispatcher(webMessages);
         controls = new ControlOverlays(this);
-        view = new PageView(session, metrics, new PageView.Host() {
+        view = new PageView(session, metrics, new PageView.HostWithScriptLimits() {
             /** Publishes new scroll dimensions and drawing on the EDT. / EDT에서 새 스크롤 크기와 그림을 게시한다. */
             public void viewChanged() {
                 revalidate();
@@ -320,6 +320,11 @@ public class SwingWebPanel extends JPanel implements Scrollable {
                 controls.layout(SwingWebPanel.this.view.getRenderedPage());
                 // 확대한 직후라면 새 크기가 알려졌으므로 기준점을 다시 제자리에 둔다.
                 keepZoomPoint(true);
+            }
+
+            /** Reads the top-level document's host policy. / 최상위 문서의 호스트 정책을 읽는다. */
+            public long scriptTaskTimeLimitMillis(String url) {
+                return SwingWebPanel.this.getScriptTaskTimeLimitMillis(url);
             }
         }, fetcher, cookies);
         view.setAudioOutputFactory(new AudioOutputFactory() {
@@ -652,6 +657,22 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      */
     protected AudioOutputFactory createAudioOutputFactory() {
         return new JavaSoundOutputFactory();
+    }
+
+    /**
+     * Selects the script task wall-clock limit for the final URL of a top-level document. A host can override this method for a known
+     * application with longer initialization. Called on a loader thread before any scripts run. The default is 10 seconds and a nonpositive
+     * override uses that same default. Frames have the default limit. The step limit and cancellation still apply.
+     * <p>
+     * 최상위 문서의 최종 URL에 스크립트 작업의 경과 시간 한도를 지정한다. 초기화가 긴 특정 애플리케이션을 위해 호스트에서 재정의할 수 있다.
+     * 스크립트가 실행되기 전에 로더 스레드에서 호출한다. 기본값은 10초이고 재정의가 0 이하를 반환할 때도 기본값을 쓴다.
+     * 프레임은 기본 한도를 사용한다. 단계 제한과 취소는 계속 적용된다.
+     *
+     * @param url final address of the top-level document / 최상위 문서의 최종 주소
+     * @return the limit in milliseconds / 시간 한도(밀리초)
+     */
+    protected long getScriptTaskTimeLimitMillis(String url) {
+        return org.duckdns.hjow.swingwebpanel.js.host.HostEnvironment.DEFAULT_TASK_TIME_LIMIT_MILLIS;
     }
 
     /**

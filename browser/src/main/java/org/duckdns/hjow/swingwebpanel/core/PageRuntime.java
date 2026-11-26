@@ -67,6 +67,8 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
     private final PageRequestContext context;
     /** Actual final document URL, independent of base elements. / base 요소와 독립적인 최종 문서 URL. */
     private final String pageUrl;
+    /** Time allowed for each script task of this document. / 이 문서의 스크립트 작업별 시간 한도. */
+    private final long taskTimeLimitMillis;
     /** Object URLs of this document in the component store. / 컴포넌트 저장소의 이 문서 객체 URL. */
     private final BlobUrlStore.Scope blobUrls;
     /** Navigation cancellation, with no reference to a history entry. / 이력 항목 참조 없는 이동 취소. */
@@ -127,6 +129,8 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         frame = request.getFrame();
         browsingContext = frame != null ? frame : session.topContext();
         pageUrl = document.getOriginUrl();
+        taskTimeLimitMillis = frame == null ? view.scriptTaskTimeLimitMillis(document.getUrl(), DEFAULT_TASK_TIME_LIMIT_MILLIS)
+                : DEFAULT_TASK_TIME_LIMIT_MILLIS;
         BlobUrlStore.Entry entry = request.getBlobUrlEntry();
         // 정상적으로 상속하는 문서는 URL 생성자의 오리진을 받고 샌드박스 문서는 새 불투명 범위를 쓴다.
         blobUrls = entry != null && (frame == null || frame.flags().allowsSameOrigin())
@@ -379,6 +383,17 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
             done = confirmed;
         }
         return session.historyLength(done, type);
+    }
+
+    /**
+     * Returns the component-selected time budget of this page.
+     * <p>
+     * 컴포넌트가 선택한 페이지의 시간 한도를 반환한다.
+     *
+     * @return the positive duration in milliseconds / 양수 시간(밀리초)
+     */
+    public long getTaskTimeLimitMillis() {
+        return taskTimeLimitMillis;
     }
 
     /**

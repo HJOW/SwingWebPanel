@@ -104,8 +104,8 @@ public final class NetstormRun implements ConsoleListener, WebMessageListener {
      * @throws Exception when setup or capture fails / 초기화나 캡처가 실패하면
      */
     public static void main(String[] args) throws Exception {
-        if (args.length != 4 || !("index".equals(args[1]) || "debug".equals(args[1]))) {
-            System.err.println("Usage: netstormrun <www directory> <index|debug> <output directory> <seconds>");
+        if ((args.length != 4 && args.length != 5) || !("index".equals(args[1]) || "debug".equals(args[1]))) {
+            System.err.println("Usage: netstormrun <www directory> <index|debug> <output directory> <seconds> [task milliseconds]");
             System.exit(2);
         }
         File web = new File(args[0]).getCanonicalFile();
@@ -114,11 +114,12 @@ public final class NetstormRun implements ConsoleListener, WebMessageListener {
             throw new IOException("Cannot open the sample or output directory");
         }
         String entry = args[1] + ".html";
+        long taskMillis = args.length == 5 ? Long.parseLong(args[4]) : 0L;
         System.out.println("runtime java=" + System.getProperty("java.version")
-                + " max_heap_bytes=" + Runtime.getRuntime().maxMemory() + " page=" + entry);
+                + " max_heap_bytes=" + Runtime.getRuntime().maxMemory() + " page=" + entry + " custom_task_ms=" + taskMillis);
         System.out.println("sample|state|loaded|total|page_ms|frames|callback_ms|max_callback_ms|interval_ms|responses|pending_headers|body_bytes|fetch_span_ms|audio|music");
         NetstormRun run = new NetstormRun(output);
-        int exit = run.measure(new ProbeResources(web, entry), entry, Integer.parseInt(args[3]));
+        int exit = run.measure(new ProbeResources(web, entry), "classpath://www/" + entry + "?lang=ko", Integer.parseInt(args[3]), taskMillis);
         System.exit(exit);
     }
 
@@ -128,12 +129,13 @@ public final class NetstormRun implements ConsoleListener, WebMessageListener {
      * 한국어 페이지를 열고 클릭하여 시작 상태에서 게임을 시작한다.
      *
      * @param resources classpath with the measuring page / 계측 페이지를 포함한 클래스패스
-     * @param entry entry file name / 진입 파일명
+     * @param page absolute entry address / 진입 절대 주소
      * @param seconds maximum duration / 최대 실행 시간(초)
+     * @param taskMillis time allowed per task of that page, 0 for default / 그 페이지의 작업별 허용 시간. 0이면 기본값
      * @return 0 if the main menu remains active without console errors, 1 otherwise / 오류 없이 메인 메뉴가 유지되면 0, 그 외 1
      * @throws Exception if Swing or output fails / Swing 또는 출력 실패 시
      */
-    private int measure(final ClassLoader resources, String entry, int seconds) throws Exception {
+    private int measure(final ClassLoader resources, final String page, int seconds, final long taskMillis) throws Exception {
         SwingUtilities.invokeAndWait(new Runnable() {
             /** Creates the browser with access to the external root. / 외부 루트를 볼 수 있는 브라우저를 만든다. */
             public void run() {
@@ -141,7 +143,13 @@ public final class NetstormRun implements ConsoleListener, WebMessageListener {
                 ClassLoader saved = edt.getContextClassLoader();
                 try {
                     edt.setContextClassLoader(resources);
-                    panel = new SwingWebPanel();
+                    panel = new SwingWebPanel() {
+                        /** Supplies the chosen time only to the sampled entry page. / 선택한 시간을 계측할 진입 페이지에만 적용한다. */
+                        @Override
+                        protected long getScriptTaskTimeLimitMillis(String url) {
+                            return page.equals(url) ? taskMillis : super.getScriptTaskTimeLimitMillis(url);
+                        }
+                    };
                     panel.setSize(WIDTH, HEIGHT);
                     panel.addConsoleListener(NetstormRun.this);
                     panel.addWebMessageListener(NetstormRun.this);
@@ -154,7 +162,7 @@ public final class NetstormRun implements ConsoleListener, WebMessageListener {
         long menu = 0;
         boolean clicked = false;
         try {
-            panel.setPage("classpath://www/" + entry + "?lang=ko");
+            panel.setPage(page);
             // 일반 페인트와 상태 메시지를 처리하며 시작 또는 메뉴에 도달했을 때 그림을 저장한다.
             while (millisSince(start) < seconds * 1000L && !"error".equals(state)) {
                 paint();

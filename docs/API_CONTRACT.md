@@ -109,6 +109,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 - 기본값 `true`. `false` 로 바꾸면 현재 페이지의 script/인라인 핸들러/타이머/후속 script 실행을 중지한다.
   HTML/CSS/링크/기본 폼 기능과 CSS 자체 애니메이션은 계속 동작한다.
 - `true` 로 되돌려도 이미 중단된 페이지의 script 는 자동 재실행하지 않는다. **다음 `setContent`/`setPage`/새로고침부터** 정상 실행한다.
+- 호스트가 관리하는 페이지에서 초기화에 10초 이상 필요한 경우 `protected long getScriptTaskTimeLimitMillis(String url)`을 재정의할 수 있다. 로더 스레드에서 최상위 문서의 최종 URL로 한 번 호출한다. 0 이하이면 기본 10초를 사용한다. 이 문서의 Worker와 AudioWorklet은 문서의 시간 한도를 사용하고, 하위 프레임은 기본값을 사용한다. 단계 제한과 이동·폐기 취소도 적용한다.
 
 ### 5.5 back / forward (C-HIST-*) (P01-07, P01-08)
 

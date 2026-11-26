@@ -24,6 +24,9 @@ import org.duckdns.hjow.swingwebpanel.storage.SessionStorage;
  */
 public abstract class HostEnvironment {
 
+    /** Default duration of one browser script task in milliseconds. / 브라우저 스크립트 작업 하나의 기본 제한(밀리초). */
+    public static final long DEFAULT_TASK_TIME_LIMIT_MILLIS = 10000L;
+
     /** Shared memory cluster for a standalone host environment. / 독립 호스트 환경의 공유 메모리 클러스터. */
     private final Object sharedMemoryCluster = new Object();
 
@@ -436,7 +439,7 @@ public abstract class HostEnvironment {
      * @return the limit / 제한
      */
     public long getTaskTimeLimitMillis() {
-        return 10000;
+        return DEFAULT_TASK_TIME_LIMIT_MILLIS;
     }
 
     /**

@@ -3,11 +3,11 @@
 외부 NetStorm 샘플을 실제 `SwingWebPanel`과 일반 클래스패스 리소스 로더로 연다. 지정한 HTML의 head에 `probe.js`를 메모리에서 추가한다. 외부 파일은 읽기 전용으로 사용한다. 게임 상태나 값은 바꾸지 않고 콘솔, 프레임 콜백, Fetch와 게임 적재 진행을 측정한다.
 
 - 먼저 제품 JAR를 만들고 `tools/netstormrun/build.bat` 또는 `build.sh`에서 JDK 6으로 도구를 컴파일한다.
-- 저장소 루트에서 `tools/netstormrun/run.bat <www 경로> <index|debug> <출력 경로> <초>`를 실행한다. 기본 JDK는 `JAVA6_HOME`의 JDK 6이며 `NETSTORM_JAVA_HOME`을 지정하면 해당 JRE로 실행한다.
+- 저장소 루트에서 `tools/netstormrun/run.bat <www 경로> <index|debug> <출력 경로> <초> [작업 한도 ms]`를 실행한다. 선택 한도는 시험하는 정확한 최상위 URL에만 적용한다. 기본 JDK는 `JAVA6_HOME`의 JDK 6이며 `NETSTORM_JAVA_HOME`을 지정하면 해당 JRE로 실행한다.
 - `sample|` 행은 상태, 로딩 크기, 페이지 경과 시간, 마지막 표본 구간의 rAF 횟수·누계·최대 시간·길이, Fetch 응답 수·대기 헤더 수·읽은 본문 크기·첫 Fetch부터 마지막 관측 지점까지의 시간, audio·music 상태를 출력한다. 앱 초기화에서 본문 크기와 게임 적재 크기는 서로 다른 집계다.
 - `console|` 행은 오류·경고와 스크립트 위치를 포함한다. `result` 행에는 마지막 상태·오류 여부·벽시계 경과·힙 사용량·컴포넌트 로딩률이 있다. 일반 `paint`를 거쳐 시작 및 마지막 상태를 PNG로 기록한다.
 - 시작 화면에서 컴포넌트에 AWT 클릭을 넣는다. 원본 시작 그림의 자동 진행을 기다린다. 종료 코드 0은 메인 메뉴에 도달해 5초 동안 유지했고 콘솔 오류가 없음을 뜻한다. 1은 제한 시간·게임 상태·콘솔·실행 오류, 2는 인수 오류다.
 
 Java 6 API로 작성한다. 오프스크린 입력과 그리기를 계측하며 OS 입력·음향 장치에 대한 판정은 별도 실제 창 실행에서 한다. 측정 중 rAF와 Fetch를 감싸므로 절대 시간에 계측 비용이 포함된다.
 
-실행 판본과 결과는 `docs/progress/netstorm.md` P28-07을 참조한다.
+JRE 6u45와 7u80에서 실행했다. 실행 결과는 `docs/progress/netstorm.md` P28-07을 참조한다.
