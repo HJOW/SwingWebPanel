@@ -15,12 +15,8 @@ import org.duckdns.hjow.swingwebpanel.media.audio.BlockPcmSource;
  */
 final class AacSource extends BlockPcmSource {
 
-    /** Encoded data. / 인코딩된 데이터. */
-    private final byte[] data;
-    /** Start offset of every raw data block. / 원시 데이터 블록마다 시작 위치. */
-    private final int[] offsets;
-    /** Length of every raw data block. / 원시 데이터 블록마다 길이. */
-    private final int[] lengths;
+    /** Indexed encoded blocks. / 색인된 인코딩 블록. */
+    private final AacBlockInput input;
     /** Stream decoder. / 스트림 디코더. */
     private final AacFrameDecoder decoder;
     /** Output channels (1 or 2). / 출력 채널 수. */
@@ -43,19 +39,15 @@ final class AacSource extends BlockPcmSource {
      * <p>
      * 소스를 만든다.
      *
-     * @param data      encoded data / 인코딩된 데이터
-     * @param offsets   block offsets / 블록 위치
-     * @param lengths   block lengths / 블록 길이
+     * @param input     indexed encoded blocks / 색인된 인코딩 블록
      * @param cfg       stream configuration / 스트림 구성
      * @param channels  output channels / 출력 채널 수
      * @param startSkip samples to drop at the start / 시작에서 버릴 샘플
      * @param total     number of output frames or -1 / 출력 프레임 수 또는 -1
      */
-    AacSource(byte[] data, int[] offsets, int[] lengths, AacConfig cfg, int channels, int startSkip, long total) {
+    AacSource(AacBlockInput input, AacConfig cfg, int channels, int startSkip, long total) {
         super(cfg.sampleRate, channels, total, 2 * AacFrameDecoder.FRAME);
-        this.data = data;
-        this.offsets = offsets;
-        this.lengths = lengths;
+        this.input = input;
         this.channels = channels;
         this.startSkip = startSkip;
         this.total = total;
@@ -70,19 +62,20 @@ final class AacSource extends BlockPcmSource {
      *
      * @param out output buffer / 출력 버퍼
      * @return bytes written, or -1 at the end / 쓴 바이트 수. 끝이면 -1
-     * @throws MediaException if the thread was interrupted / 스레드가 인터럽트되었으면
+     * @throws MediaException if interrupted or the input cannot be read / 인터럽트되었거나 입력을 읽을 수 없으면
      */
     protected int fill(byte[] out) throws MediaException {
         while (true) { // 건너뛸 샘플을 지나 출력이 나올 때까지 블록을 해독한다
             if (Thread.currentThread().isInterrupted()) {
                 throw new MediaException(MediaException.Kind.CANCELLED, "decoding was interrupted");
             }
-            if (next >= offsets.length || (total >= 0 && produced >= total)) {
+            if (next >= input.size() || (total >= 0 && produced >= total)) {
                 return -1;
             }
-            int i = next++;
+            AacBits bits = input.read(next);
+            next++;
             try {
-                decoder.decode(new AacBits(data, offsets[i], lengths[i]), block, channels);
+                decoder.decode(bits, block, channels);
             } catch (AacException e) {
                 // 해독하지 못한 블록은 무음으로 처리한다.
                 for (int c = 0; c < 2; c++) {
@@ -145,12 +138,17 @@ final class AacSource extends BlockPcmSource {
      */
     protected long seekTo(long frame) {
         long absolute = frame + startSkip;
-        int idx = (int) Math.min(offsets.length, absolute / AacFrameDecoder.FRAME);
+        int idx = (int) Math.min(input.size(), absolute / AacFrameDecoder.FRAME);
         int start = Math.max(0, idx - 1);
         decoder.reset();
         next = start;
         drop = absolute - (long) start * AacFrameDecoder.FRAME;
         produced = frame;
         return frame;
+    }
+
+    /** Closes the encoded input. / 인코딩 입력을 닫는다. */
+    protected void release() {
+        input.close();
     }
 }

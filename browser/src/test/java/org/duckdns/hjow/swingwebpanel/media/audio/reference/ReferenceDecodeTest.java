@@ -10,9 +10,12 @@ import java.util.List;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
 import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoders;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteAudioDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.ByteSourceException;
 import org.duckdns.hjow.swingwebpanel.media.audio.FileByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.aac.AacDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.mp3.Mp3Decoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
@@ -315,16 +318,17 @@ public class ReferenceDecodeTest {
      */
     public void testMp3FilePcmMatchesArrayPcm() throws Exception {
         int count = 0;
+        Mp3Decoder decoder = new Mp3Decoder();
         // MPEG 버전, 태그, 비트레이트가 다른 모든 참조 자료를 비교한다.
         for (ReferenceFixture fixture : ReferenceFixture.loadAll()) {
             if (!"mp3".equals(fixture.group) || fixture.isRefused()) {
                 continue;
             }
             byte[] data = fixture.readFile();
-            compareMp3Sources(fixture.name, data);
+            compareFileSources(decoder, fixture.name, data, false);
             // 태그가 없는 음원의 끝을 잘라 불완전 프레임을 같은 방식으로 건너뛰는지 확인한다.
             if (fixture.name.equals("mp3_cbr192_44100_notag")) {
-                compareMp3Sources(fixture.name + " truncated", Arrays.copyOf(data, data.length - 17));
+                compareFileSources(decoder, fixture.name + " truncated", Arrays.copyOf(data, data.length - 17), false);
             }
             count++;
         }
@@ -332,15 +336,57 @@ public class ReferenceDecodeTest {
     }
 
     /**
+     * Checks file-backed AAC for ADTS, edited MP4, multichannel audio and an ADTS header with CRC bytes.
+     * <p>
+     * ADTS, 편집한 MP4, 다채널 오디오와 CRC 바이트를 가진 ADTS 헤더의 파일 디코딩을 확인한다.
+     * @throws Exception on I/O or decode failure / 입출력 또는 해독에 실패하면
+     */
+    public void testAacFilePcmMatchesArrayPcm() throws Exception {
+        int count = 0;
+        AacDecoder decoder = new AacDecoder();
+        // 거부 대상으로 기록된 ALAC를 제외한 모든 ADTS·MP4 음원을 비교한다.
+        for (ReferenceFixture fixture : ReferenceFixture.ofGroup("aac")) {
+            if (fixture.isRefused()) {
+                continue;
+            }
+            byte[] data = fixture.readFile();
+            compareFileSources(decoder, fixture.name, data, true);
+            if (fixture.name.equals("aac_adts_44100_mono_24k")) {
+                int size = ((data[3] & 3) << 11) | ((data[4] & 255) << 3) | ((data[5] & 255) >> 5);
+                byte[] protectedFrame = new byte[data.length + 2];
+                System.arraycopy(data, 0, protectedFrame, 0, 7);
+                System.arraycopy(data, 7, protectedFrame, 9, data.length - 7);
+                protectedFrame[1] &= 0xFE;
+                protectedFrame[3] = (byte) ((protectedFrame[3] & 0xFC) | ((size + 2) >> 11));
+                protectedFrame[4] = (byte) ((size + 2) >> 3);
+                protectedFrame[5] = (byte) ((protectedFrame[5] & 0x1F) | (((size + 2) & 7) << 5));
+                compareFileSources(decoder, fixture.name + " with CRC field", protectedFrame, true);
+                PcmSource ordinary = decoder.open(data, DecodeLimits.DEFAULT);
+                PcmSource withCrc = decoder.open(protectedFrame, DecodeLimits.DEFAULT);
+                try {
+                    Check.isTrue(Arrays.equals(AudioKit.readAll(ordinary), AudioKit.readAll(withCrc)), "ADTS skips the CRC field before decoding");
+                } finally {
+                    ordinary.close();
+                    withCrc.close();
+                }
+            }
+            count++;
+        }
+        Check.equal(25, count, "all reference AAC files were checked");
+    }
+
+    /**
      * Compares complete PCM, backwards seeking and file ownership with the array path.
      * <p>
      * 전체 PCM과 역탐색을 배열 경로와 비교하고 파일 소유권을 확인한다.
+     * @param decoder decoder under test / 시험할 디코더
      * @param label name used in assertions / 검증 메시지의 이름
      * @param data encoded bytes / 인코딩 바이트
+     * @param wide whether to check all float channels / 모든 float 채널을 확인할지 여부
      * @throws Exception on I/O or decode failure / 입출력 또는 해독에 실패하면
      */
-    private void compareMp3Sources(String label, byte[] data) throws Exception {
-        File file = File.createTempFile("swp-reference-mp3-", ".mp3");
+    private void compareFileSources(ByteAudioDecoder decoder, String label, byte[] data, boolean wide) throws Exception {
+        File file = File.createTempFile("swp-reference-audio-", ".data");
         try {
             FileOutputStream out = new FileOutputStream(file);
             try {
@@ -348,7 +394,6 @@ public class ReferenceDecodeTest {
             } finally {
                 out.close();
             }
-            Mp3Decoder decoder = new Mp3Decoder();
             FileByteSource input = new FileByteSource(file, 31);
             try {
                 Check.isTrue(decoder.acceptsSource(input), label + " is recognized on disk");
@@ -374,8 +419,49 @@ public class ReferenceDecodeTest {
             } finally {
                 input.close();
             }
+            if (wide) {
+                compareWideFilePcm(decoder, label, data, file);
+            }
         } finally {
             Check.isTrue(file.delete(), label + " can be deleted");
+        }
+    }
+
+    /**
+     * Reads all float channels from both input representations. / 두 입력 형태에서 모든 float 채널을 읽는다.
+     * @param decoder decoder under test / 시험할 디코더
+     * @param label name used in assertions / 검증 메시지의 이름
+     * @param data array data / 배열 데이터
+     * @param file temporary file / 임시 파일
+     * @throws Exception on I/O or decode failure / 입출력 또는 해독에 실패하면
+     */
+    private void compareWideFilePcm(ByteAudioDecoder decoder, String label, byte[] data, File file) throws Exception {
+        FileByteSource input = new FileByteSource(file, 29);
+        try {
+            FloatPcmSource disk = decoder.openWideSource(input, DecodeLimits.DEFAULT);
+            FloatPcmSource mem = decoder.openWide(data, DecodeLimits.DEFAULT);
+            try {
+                Check.equal(mem.getChannels(), disk.getChannels(), label + " float channel count");
+                float[][] expected = new float[mem.getChannels()][211];
+                float[][] actual = new float[disk.getChannels()][211];
+                // 스트림 끝까지 같은 크기의 분할로 읽어 채널별 표본을 비교한다.
+                for (;;) {
+                    int frames = mem.read(expected, 0, expected[0].length);
+                    Check.equal(frames, disk.read(actual, 0, actual[0].length), label + " float frame count");
+                    if (frames < 0) {
+                        break;
+                    }
+                    // 같은 읽기 크기와 기록 순서를 사용하므로 마지막 읽기의 미사용 배열 부분도 같다.
+                    for (int ch = 0; ch < expected.length; ch++) {
+                        Check.isTrue(Arrays.equals(expected[ch], actual[ch]), label + " float PCM channel " + ch);
+                    }
+                }
+            } finally {
+                mem.close();
+                disk.close();
+            }
+        } finally {
+            input.close();
         }
     }
 
