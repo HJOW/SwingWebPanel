@@ -901,7 +901,7 @@ public final class PageScripts {
      *
      * @param hook the receiver / 받는 쪽
      */
-    void onTaskEnd(Runnable hook) {
+    public void onTaskEnd(Runnable hook) {
         taskEndHooks.add(hook);
     }
 

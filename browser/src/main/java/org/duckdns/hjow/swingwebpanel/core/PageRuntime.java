@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
+import org.duckdns.hjow.swingwebpanel.WebMessageEvent;
 import org.duckdns.hjow.swingwebpanel.content.ContentType;
 import org.duckdns.hjow.swingwebpanel.dom.Document;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
@@ -74,6 +75,10 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
     private final PageScripts scripts;
     /** The console hook of this page, or null when the component has no console dispatcher. / 이 페이지의 콘솔 연결. 컴포넌트에 콘솔 통지기가 없으면 null. */
     private final PageConsole console;
+    /** Component message dispatcher, or null without a Swing host. / 컴포넌트 메시지 통지기. Swing 호스트가 없으면 null. */
+    private final WebMessageDispatcher hostMessages;
+    /** Coalesces delivery checkpoints for sender tasks without a regular checkpoint. / 일반 검사점 없는 발신 작업의 전달 검사를 합친다. */
+    private final AtomicBoolean hostCheckpointPending = new AtomicBoolean();
     /** Final lifetime flag, also used by racing constructors and setters. / 생성자와 설정 호출 경합에도 쓰는 영구 수명 표시. */
     private final AtomicBoolean closed = new AtomicBoolean();
     /** Parser ownership barrier before final realm cleanup. / 최종 영역 해제 전 파서 소유권 장벽. */
@@ -124,7 +129,16 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         webRequests = new PageWebRequests(fetcher, cookies, context, pageUrl, resources);
         parent = request.getCancelToken();
         scheduler = new DocumentScheduler(session);
+        hostMessages = session.webMessageDispatcher();
         scripts = new PageScripts(document, this);
+        if (hostMessages != null) {
+            scripts.onTaskEnd(new Runnable() {
+                /** Releases the task's messages after its microtasks. / 마이크로태스크 뒤에 작업 메시지를 전달 가능하게 한다. */
+                public void run() {
+                    hostMessages.finishTask(PageRuntime.this);
+                }
+            });
+        }
         // 컴포넌트가 콘솔 통지기를 가졌으면 이 페이지의 콘솔 출력(스크립트, 프레임, worker, 호스트의 보고)을 그리로 보낸다.
         ConsoleDispatcher consoles = session.consoleDispatcher();
         if (consoles != null) {
@@ -209,7 +223,7 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
      * @param expected target origin, or null for a wildcard / 대상 오리진. 와일드카드면 null
      */
     void postHostMessage(ClonedValue data, Origin expected) {
-        if (isScriptingEnabled() && (expected == null || expected.isSameOrigin(Origin.of(pageUrl)))) {
+        if (acceptsHostMessages() && (expected == null || expected.isSameOrigin(Origin.of(pageUrl)))) {
             scripts.receiveHostMessage(data);
         }
     }
@@ -217,7 +231,38 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
     /** Returns the component's fixed host origin. / 컴포넌트의 고정 호스트 오리진을 반환한다. */
     @Override
     public String getHostMessageOrigin() {
-        return SwingWebPanel.HOST_ORIGIN;
+        return hostMessages == null ? null : SwingWebPanel.HOST_ORIGIN;
+    }
+
+    /** Checks whether this runtime may still exchange host messages. / 이 환경에서 아직 호스트 메시지를 주고받을 수 있는지 확인한다. */
+    boolean acceptsHostMessages() {
+        return hostMessages != null && !unloading.get() && isScriptingEnabled();
+    }
+
+    /**
+     * Captures sender metadata before asynchronous Java delivery.
+     * <p>
+     * Java에 비동기 전달하기 전에 발신자의 메타데이터를 확보한다.
+     *
+     * @param data copied Java data / 복사한 Java 데이터
+     */
+    @Override
+    public void publishHostMessage(Object data) {
+        if (!acceptsHostMessages()) {
+            return;
+        }
+        WebMessageEvent.SourceKind type = frame == null ? WebMessageEvent.SourceKind.DOCUMENT : WebMessageEvent.SourceKind.FRAME;
+        // 일반 검사점이 없는 작업도 다음 문서 큐 실행에서 이미 접수한 메시지를 전달한다.
+        if (hostMessages.enqueue(this, data, Origin.of(pageUrl), scripts.getDocument().getUrl(), type)
+                && hostCheckpointPending.compareAndSet(false, true)) {
+            scheduler.post(new Runnable() {
+                /** Releases messages after the current document task has returned. / 현재 문서 작업이 반환된 뒤 메시지를 전달 가능하게 한다. */
+                public void run() {
+                    hostCheckpointPending.set(false);
+                    hostMessages.finishTask(PageRuntime.this);
+                }
+            }, 0);
+        }
     }
 
     /** Activates buffered timers after ownership handoff and then applies the in-document navigations that the page requested while it was
@@ -713,6 +758,9 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
     void close() {
         if (!closed.compareAndSet(false, true)) {
             return;
+        }
+        if (hostMessages != null) {
+            hostMessages.discard(this);
         }
         // 페이지를 떠난 뒤 아직 도는 스크립트의 메시지가 리스너에 닿지 않도록 먼저 콘솔을 닫는다.
         if (console != null) {

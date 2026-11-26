@@ -45,6 +45,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.duckdns.hjow.swingwebpanel.core.BrowserSession;
 import org.duckdns.hjow.swingwebpanel.core.ConsoleDispatcher;
+import org.duckdns.hjow.swingwebpanel.core.WebMessageDispatcher;
 import org.duckdns.hjow.swingwebpanel.core.ClipboardSink;
 import org.duckdns.hjow.swingwebpanel.core.ControlOverlays;
 import org.duckdns.hjow.swingwebpanel.core.FormSubmitSink;
@@ -196,6 +197,9 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      */
     private final transient ConsoleDispatcher consoles = new ConsoleDispatcher(this);
 
+    /** Host web message registry and delivery queue. / 호스트 웹 메시지 등록부와 전달 큐. */
+    private final transient WebMessageDispatcher webMessages = new WebMessageDispatcher(this, consoles);
+
     /**
      * Size information from the layout engine.
      * <p>
@@ -305,6 +309,7 @@ public class SwingWebPanel extends JPanel implements Scrollable {
         PageLoader effective = loader == null ? createNetworkLoader() : loader;
         session = new BrowserSession(effective, new Observer(), cookies);
         session.setConsoleDispatcher(consoles);
+        session.setWebMessageDispatcher(webMessages);
         controls = new ControlOverlays(this);
         view = new PageView(session, metrics, new PageView.Host() {
             /** Publishes new scroll dimensions and drawing on the EDT. / EDT에서 새 스크롤 크기와 그림을 게시한다. */
@@ -942,7 +947,16 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * @throws IllegalStateException if the component was disposed / 컴포넌트가 폐기되었을 때
      */
     public void setJavascriptEnabled(boolean enabled) {
-        session.setJavascriptEnabled(enabled);
+        if (enabled) {
+            session.setJavascriptEnabled(true);
+        } else {
+            webMessages.beginReset();
+            try {
+                session.setJavascriptEnabled(false);
+            } finally {
+                webMessages.endReset();
+            }
+        }
     }
 
     /**
@@ -1212,6 +1226,47 @@ public class SwingWebPanel extends JPanel implements Scrollable {
     }
 
     /**
+     * Registers a page message listener. Call from any thread.
+     * Messages are delivered on the EDT. Validate the sender origin and shape of the data.
+     * <p>
+     * 페이지 메시지 리스너를 등록한다. 어느 스레드에서나 호출할 수 있다.
+     * EDT에서 메시지를 받는다. 송신 오리진과 데이터 형식을 검사한다.
+     *
+     * @param listener non-null listener / null이 아닌 리스너
+     * @throws IllegalArgumentException for a null listener / 리스너가 null이면
+     * @throws IllegalStateException when disposed / 폐기했으면
+     */
+    public void addWebMessageListener(WebMessageListener listener) {
+        checkAlive();
+        webMessages.add(listener);
+    }
+
+    /**
+     * Removes one registration of a web message listener.
+     * <p>
+     * 웹 메시지 리스너의 등록 하나를 제거한다.
+     *
+     * @param listener non-null listener / null이 아닌 리스너
+     * @throws IllegalArgumentException for a null listener / 리스너가 null이면
+     * @throws IllegalStateException when disposed / 폐기했으면
+     */
+    public void removeWebMessageListener(WebMessageListener listener) {
+        checkAlive();
+        webMessages.remove(listener);
+    }
+
+    /**
+     * Returns a copy of web message listeners in registration order.
+     * <p>
+     * 등록 순서로 웹 메시지 리스너 배열의 사본을 반환한다.
+     *
+     * @return registered listeners, empty after disposal / 등록한 리스너. 폐기 후에는 빈 배열
+     */
+    public WebMessageListener[] getWebMessageListeners() {
+        return webMessages.getListeners();
+    }
+
+    /**
      * Cancels all work, shows the blank page and resets the history to a single "about:blank" entry. Also clears this
      * component's caches and sessionStorage and the process-wide localStorage, which also empties the localStorage seen by
      * other components in the same JVM. User agent, extra headers, cookies, the JavaScript setting and listeners are kept.
@@ -1224,11 +1279,16 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      */
     public void clean() {
         checkAlive();
-        input.reset();
-        downloads.cancelAll();
-        session.clean();
-        view.clear();
-        fetcher.getCache().clear();
+        webMessages.beginReset();
+        try {
+            input.reset();
+            downloads.cancelAll();
+            session.clean();
+            view.clear();
+            fetcher.getCache().clear();
+        } finally {
+            webMessages.endReset();
+        }
     }
 
     /**
@@ -1246,6 +1306,7 @@ public class SwingWebPanel extends JPanel implements Scrollable {
             }
             disposed = true;
         }
+        webMessages.close();
         input.dispose();
         keyboard.dispose();
         composition.dispose();

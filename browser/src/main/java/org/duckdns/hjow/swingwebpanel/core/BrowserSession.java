@@ -84,6 +84,25 @@ public final class BrowserSession implements FormSubmitSink {
      */
     private volatile ConsoleDispatcher consoles;
 
+    /** Dispatcher shared by documents of the component. / 컴포넌트의 문서들이 공유하는 메시지 통지기. */
+    private volatile WebMessageDispatcher webMessages;
+
+    /**
+     * Installs the component's dispatcher for its subsequent documents.
+     * <p>
+     * 이후 문서에 적용할 컴포넌트 통지기를 설치한다.
+     *
+     * @param dispatcher component message dispatcher / 컴포넌트 메시지 통지기
+     */
+    public void setWebMessageDispatcher(WebMessageDispatcher dispatcher) {
+        webMessages = dispatcher;
+    }
+
+    /** Returns the dispatcher for installed documents. / 설치한 문서의 메시지 통지기를 반환한다. */
+    WebMessageDispatcher webMessageDispatcher() {
+        return webMessages;
+    }
+
     /**
      * Sets the dispatcher that receives the console output of the pages of this session; pages created later use it.
      * <p>

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P27-04 페이지에서 Java로 전달 및 문서별 응답 (2026-11-26) ===
+현재 작업 번호: P27-04-a, P27-04-b 및 P27-04 완료.
+완료한 내용: WebMessageEvent·WebMessageListener를 통지기에 연결해 스크립트 작업의 검사점 이후 EDT에서 Java 복사본과 발신 정보를 통지한다. reply는 원래 문서를 약하게 보관하고 해당 문서와 오리진에만 보낸다. 호스트 창의 오리진·옵션·전송 오류와 프레임 경로를 연결했다.
+변경 파일: WebMessageEvent.java, WebMessageListener.java, SwingWebPanel.java, WebMessageDispatcher.java, BrowserSession.java, PageRuntime.java, PageScripts.java, HostInboundMessageTest.java, AGENTS.md, 이 문서.
+검증 결과: mvn -B -o -pl browser -am test -Dtest.filter=HostInboundMessageTest에서 JDK 6u45 3건 통과. EDT 안의 왕복, 오리진·시각·일련번호, options와 ArrayBuffer 분리·오류, 같은/다른 오리진 프레임 및 프레임 교체 뒤 응답 폐기를 확인했다. sourcecheck 0 위반.
+미해결 사항: 전달 큐 한도·정리·수거의 집중 검증 및 통합 예제(P27-05~06).
+다음 작업 번호: P27-05.
+-----------------------------------------------------------------------------------------------
 === P27-03 Java에서 페이지로 메시지 전달 (2026-11-26) ===
 현재 작업 번호: P27-03-a, P27-03-b 및 P27-03 완료.
 완료한 내용: SwingWebPanel.postMessage가 호출 시의 최상위 실행 환경에 복사값을 묶는다. 파싱 중인 문서는 확정 후 큐를 실행하고, 취소한 문서는 큐를 폐기한다. 허용한 오리진으로 신뢰 MessageEvent를 전달하고 window.opener와 event.source에 문서별 제한 호스트 창을 사용한다.
