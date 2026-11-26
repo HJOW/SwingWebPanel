@@ -17,6 +17,7 @@ import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.Property;
 import org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor;
+import org.duckdns.hjow.swingwebpanel.js.host.structured.HostMessageValues;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
 
 /**
@@ -136,7 +137,7 @@ final class HostMessageWindow extends JsObject {
                 throw sender.getBridge().domError(DomException.syntax("Invalid web message target origin: " + target));
             }
         }
-        Object data = sender.messaging().copyForJava(args[0], options ? second : Js.arg(args, 2));
+        HostMessageValues.JavaMessage data = sender.messaging().copyForJava(args[0], options ? second : Js.arg(args, 2));
         // 복사와 전송 목록 처리를 마친 뒤 유효한 문서와 정확한 호스트 주소에서만 전달한다.
         if (matches && page != null && !page.isDisposed() && !sender.isDisposed()
                 && page.getEnvironment().getSharedMemoryCluster() == sender.getEnvironment().getSharedMemoryCluster()

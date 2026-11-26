@@ -51,9 +51,10 @@ final class HostMessageReader {
      *
      * @param root the serialized root / 직렬화한 루트
      * @param cells the serialized cells / 직렬화한 칸
-     * @return Java host data / Java 호스트 데이터
+     * @param bytes size estimate from serialization / 직렬화 시 산정한 크기
+     * @return Java host data and its budget / Java 호스트 데이터와 예산
      */
-    static Object read(Object root, List<Cell> cells) {
+    static HostMessageValues.JavaMessage read(Object root, List<Cell> cells, long bytes) {
         HostMessageReader reader = new HostMessageReader(cells);
         Object data = reader.convert(root, 0);
         // 루트에서 사용하지 않은 전달 버퍼도 분리하기 전에 크기를 검사한다.
@@ -62,7 +63,8 @@ final class HostMessageReader {
                 reader.charge(1L + cells.get(i).bytes.length);
             }
         }
-        return data;
+        // 희소 배열의 빈 칸도 Java 리스트 공간을 사용하므로 두 크기 추정 중 큰 값을 쓴다.
+        return new HostMessageValues.JavaMessage(data, Math.max(bytes, 8L * reader.units));
     }
 
     /**

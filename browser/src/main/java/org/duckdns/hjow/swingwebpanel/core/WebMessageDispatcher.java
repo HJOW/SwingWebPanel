@@ -12,6 +12,7 @@ import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
 import org.duckdns.hjow.swingwebpanel.WebMessageEvent;
 import org.duckdns.hjow.swingwebpanel.WebMessageListener;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
+import org.duckdns.hjow.swingwebpanel.js.host.structured.HostMessageValues;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
 
 /**
@@ -23,6 +24,8 @@ public final class WebMessageDispatcher {
 
     /** Maximum waiting messages for the component. / 컴포넌트의 최대 대기 메시지 수. */
     static final int MAX_PENDING_EVENTS = 1000;
+    /** Estimated footprint limit for all waiting data. / 대기 데이터 전체의 예상 점유 한도. */
+    static final long MAX_PENDING_BYTES = 16L * 1024L * 1024L;
     /** Maximum callbacks before yielding to other Swing work. / 다른 Swing 작업에 양보하기 전 최대 메시지 수. */
     private static final int BATCH_SIZE = 64;
 
@@ -36,6 +39,8 @@ public final class WebMessageDispatcher {
     private final List<WebMessageListener> listeners = new ArrayList<WebMessageListener>();
     /** Captured messages in send order. / 송신 순서의 메시지. */
     private final ArrayDeque<Pending> queue = new ArrayDeque<Pending>();
+    /** Estimated size of the waiting payloads. / 대기 데이터의 예상 크기. */
+    private long pendingBytes;
     /** Last sequence assigned. / 마지막 할당 일련번호. */
     private long sequence;
     /** Overflowed messages since the previous notice. / 이전 알림 이후 한도로 버린 메시지 수. */
@@ -87,8 +92,7 @@ public final class WebMessageDispatcher {
             listeners.remove(listener);
             // 듣는 사람이 없어지면 나중에 추가할 리스너를 위해 남은 메시지를 보관하지 않는다.
             if (listeners.isEmpty()) {
-                queue.clear();
-                dropped = 0;
+                clearQueue();
             }
         }
     }
@@ -128,17 +132,18 @@ public final class WebMessageDispatcher {
      * @param kind sender context kind / 송신 문맥 종류
      * @return true if a message was queued / 큐에 넣었으면 true
      */
-    boolean enqueue(PageRuntime page, Object data, Origin origin, String url, WebMessageEvent.SourceKind kind) {
+    boolean enqueue(PageRuntime page, HostMessageValues.JavaMessage data, Origin origin, String url, WebMessageEvent.SourceKind kind) {
         synchronized (lock) {
             if (closed || resetting != 0 || listeners.isEmpty() || !page.acceptsHostMessages()) {
                 return false;
             }
             // 스크립트 스레드는 느린 EDT를 기다리지 않고 넘친 메시지를 버린다.
-            if (queue.size() >= MAX_PENDING_EVENTS) {
+            if (queue.size() >= MAX_PENDING_EVENTS || data.getSize() > MAX_PENDING_BYTES - pendingBytes) {
                 dropped++;
                 return false;
             }
             queue.addLast(new Pending(page, data, origin, url, kind, ++sequence, System.currentTimeMillis()));
+            pendingBytes += data.getSize();
             return true;
         }
     }
@@ -174,8 +179,10 @@ public final class WebMessageDispatcher {
             Iterator<Pending> entries = queue.iterator();
             // 닫힌 문서 또는 이미 수거된 문서의 메시지를 제거해 후속 전달을 막지 않게 한다.
             while (entries.hasNext()) {
-                PageRuntime source = entries.next().page.get();
+                Pending pending = entries.next();
+                PageRuntime source = pending.page.get();
                 if (source == null || source == page) {
+                    pendingBytes -= pending.data.getSize();
                     entries.remove();
                 }
             }
@@ -187,8 +194,7 @@ public final class WebMessageDispatcher {
     public void beginReset() {
         synchronized (lock) {
             resetting++;
-            queue.clear();
-            dropped = 0;
+            clearQueue();
         }
     }
 
@@ -204,9 +210,15 @@ public final class WebMessageDispatcher {
         synchronized (lock) {
             closed = true;
             listeners.clear();
-            queue.clear();
-            dropped = 0;
+            clearQueue();
         }
+    }
+
+    /** Drops all queued data and accounting under the lock. / 잠금 아래에서 대기 데이터와 사용량을 버린다. */
+    private void clearQueue() {
+        queue.clear();
+        pendingBytes = 0;
+        dropped = 0;
     }
 
     /**
@@ -244,6 +256,7 @@ public final class WebMessageDispatcher {
                         break;
                     }
                     pending = queue.removeFirst();
+                    pendingBytes -= pending.data.getSize();
                     current = listeners.toArray(new WebMessageListener[listeners.size()]);
                 }
                 deliver(pending, current);
@@ -279,7 +292,7 @@ public final class WebMessageDispatcher {
         if (source == null || source.isDisposed() || page == null || !page.acceptsHostMessages()) {
             return;
         }
-        WebMessageEvent event = new WebMessageEvent(source, pending.data, pending.origin.serialize(), pending.url, pending.kind,
+        WebMessageEvent event = new WebMessageEvent(source, pending.data.getData(), pending.origin.serialize(), pending.url, pending.kind,
                 pending.sequence, pending.timestamp, pending);
         // 사용자 리스너 오류를 다음 리스너나 발신 스크립트에 전파하지 않는다.
         for (WebMessageListener listener : current) {
@@ -290,6 +303,11 @@ public final class WebMessageDispatcher {
                 listener.messageReceived(event);
             } catch (RuntimeException ignored) {
                 // 다른 리스너의 호출을 이어 간다.
+            } catch (Error e) {
+                // 실행 환경 자체의 치명적 오류는 EDT의 복구 경로에 맡긴다.
+                if (e instanceof VirtualMachineError || e instanceof ThreadDeath) {
+                    throw e;
+                }
             }
         }
     }
@@ -303,7 +321,7 @@ public final class WebMessageDispatcher {
         /** Weak exact document. / 실제 문서의 약한 참조. */
         final WeakReference<PageRuntime> page;
         /** Copied Java payload. / 복사된 Java 데이터. */
-        final Object data;
+        final HostMessageValues.JavaMessage data;
         /** Sender origin. / 송신 오리진. */
         final Origin origin;
         /** Sender document URL. / 송신 문서 URL. */
@@ -330,7 +348,7 @@ public final class WebMessageDispatcher {
          * @param sequence sequence number / 일련번호
          * @param timestamp time in milliseconds / 밀리초 시각
          */
-        Pending(PageRuntime page, Object data, Origin origin, String url, WebMessageEvent.SourceKind kind,
+        Pending(PageRuntime page, HostMessageValues.JavaMessage data, Origin origin, String url, WebMessageEvent.SourceKind kind,
                 long sequence, long timestamp) {
             this.page = new WeakReference<PageRuntime>(page);
             this.data = data;

@@ -61,7 +61,52 @@ public final class HostMessageValues {
      * @throws StructuredCloneException for an invalid transfer or an unsupported graph / 잘못된 전달이나 미지원 그래프 시
      */
     public static Object fromScript(JsValue message, List<? extends JsObject> transfer) {
+        return captureScript(message, transfer).getData();
+    }
+
+    /**
+     * Captures a message and its storage estimate for bounded delivery.
+     * <p>
+     * 전달 한도를 산정할 수 있도록 메시지와 예상 저장 크기를 확보한다.
+     *
+     * @param message the script value / 스크립트 값
+     * @param transfer ordinary buffers to transfer or null / 옮길 일반 버퍼 또는 null
+     * @return copied host message and size estimate / 복사된 호스트 메시지와 예상 크기
+     */
+    public static JavaMessage captureScript(JsValue message, List<? extends JsObject> transfer) {
         return StructuredClone.serializeToHost(message, transfer);
+    }
+
+    /** A copied page message and its estimated footprint. / 페이지 메시지 복사본과 예상 점유 크기. */
+    public static final class JavaMessage {
+
+        /** Copied payload. / 복사된 데이터. */
+        private final Object data;
+        /** Estimated bytes while queued. / 큐에 머무는 동안의 예상 바이트 수. */
+        private final long size;
+
+        /**
+         * Records the copy and its size.
+         * <p>
+         * 복사본과 크기를 기록한다.
+         *
+         * @param data copied payload / 복사된 데이터
+         * @param size estimated bytes / 예상 바이트 수
+         */
+        JavaMessage(Object data, long size) {
+            this.data = data;
+            this.size = size;
+        }
+
+        /** Returns the copied payload. / 복사된 데이터를 반환한다. */
+        public Object getData() {
+            return data;
+        }
+
+        /** Returns the estimated queued bytes. / 큐 점유 예상 바이트를 반환한다. */
+        public long getSize() {
+            return size;
+        }
     }
 
     /**

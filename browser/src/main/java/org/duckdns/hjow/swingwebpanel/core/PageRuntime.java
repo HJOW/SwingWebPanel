@@ -24,6 +24,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.Scheduler;
 import org.duckdns.hjow.swingwebpanel.js.host.ScriptSource;
 import org.duckdns.hjow.swingwebpanel.js.host.ScriptText;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
+import org.duckdns.hjow.swingwebpanel.js.host.structured.HostMessageValues;
 import org.duckdns.hjow.swingwebpanel.js.host.WebRequestSource;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
 import org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory;
@@ -247,7 +248,7 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
      * @param data copied Java data / 복사한 Java 데이터
      */
     @Override
-    public void publishHostMessage(Object data) {
+    public void publishHostMessage(HostMessageValues.JavaMessage data) {
         if (!acceptsHostMessages()) {
             return;
         }

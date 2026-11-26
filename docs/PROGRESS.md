@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P27-05 메시지 순서·부하·수명 검증 (2026-11-26) ===
+현재 작업 번호: P27-05-a, P27-05-b 및 P27-05 완료.
+완료한 내용: EDT 대기 1,000건과 복제 데이터 예상 총량 16 MiB를 함께 제한한다. 초과 수는 콘솔 HOST_ERROR로 통지한다. 발신 작업과 Promise 마이크로태스크 뒤에 EDT에서 통지하며 리스너의 비치명적 오류를 격리한다. 문서·컴포넌트 수명은 약한 참조로 연결한다.
+변경 파일: WebMessageDispatcher.java, HostMessageWindow.java, HostMessageReader.java, HostMessageValues.java, StructuredClone.java, MessagingApi.java, HostEnvironment.java, PageRuntime.java, HostMessageQueueTest.java, HostMessageLifecycleTest.java, HostInboundMessageTest.java, AGENTS.md, docs/API_CONTRACT.md, 이 문서.
+검증 결과: JDK 6u45 변경 클래스 분리 컴파일과 제품 JAR에서 HostMessageQueueTest 3건, HostMessageLifecycleTest 3건, HostInboundMessageTest 3건, HostOutboundMessageTest 2건 통과. 느린 EDT에서도 발신 완료, count·byte 한도, 두 콜백의 Promise 순서, clean·disable·dispose 및 보관한 이벤트·호스트 창의 수거를 확인했다. sourcecheck 0 위반.
+미해결 사항: 클래스패스 예제 및 모드별 통합 회귀와 P27 문서(P27-06).
+다음 작업 번호: P27-06.
+-----------------------------------------------------------------------------------------------
 === P27-04 페이지에서 Java로 전달 및 문서별 응답 (2026-11-26) ===
 현재 작업 번호: P27-04-a, P27-04-b 및 P27-04 완료.
 완료한 내용: WebMessageEvent·WebMessageListener를 통지기에 연결해 스크립트 작업의 검사점 이후 EDT에서 Java 복사본과 발신 정보를 통지한다. reply는 원래 문서를 약하게 보관하고 해당 문서와 오리진에만 보낸다. 호스트 창의 오리진·옵션·전송 오류와 프레임 경로를 연결했다.

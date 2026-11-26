@@ -492,12 +492,12 @@ public final class StructuredClone {
      * @param transfer buffers to move / 옮길 버퍼
      * @return copied host data / 복사한 호스트 데이터
      */
-    static Object serializeToHost(JsValue value, List<? extends JsObject> transfer) {
+    static HostMessageValues.JavaMessage serializeToHost(JsValue value, List<? extends JsObject> transfer) {
         Serializer s = new Serializer(128L * HostMessageValues.MAX_MESSAGE_UNITS, transfer, null, null);
         Object root = s.value(value);
         s.run();
         s.prepareTransfers();
-        Object data = HostMessageReader.read(root, s.cells);
+        HostMessageValues.JavaMessage data = HostMessageReader.read(root, s.cells, s.used);
         s.commitTransfers();
         return data;
     }

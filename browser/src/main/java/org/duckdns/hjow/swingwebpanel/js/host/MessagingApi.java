@@ -350,9 +350,9 @@ public final class MessagingApi {
      * @param transfer the transfer argument or options / 전달 목록 또는 옵션
      * @return Java host data / Java 호스트 데이터
      */
-    Object copyForJava(JsValue message, JsValue transfer) {
+    HostMessageValues.JavaMessage copyForJava(JsValue message, JsValue transfer) {
         try {
-            return HostMessageValues.fromScript(message, transferList(transfer, null));
+            return HostMessageValues.captureScript(message, transferList(transfer, null));
         } catch (StructuredCloneException e) {
             throw page.getBridge().domError(new DomException(e.getName(), DomException.DATA_CLONE_ERR, e.getMessage()));
         }

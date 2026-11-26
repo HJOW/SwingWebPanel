@@ -183,7 +183,7 @@ public final class HostInboundMessageTest {
      * <p>
      * EDT에서 받은 이벤트를 스레드 안전하게 모으는 수신함.
      */
-    private static final class Inbox implements WebMessageListener {
+    static final class Inbox implements WebMessageListener {
         /** Events in delivery order. / 전달 순서의 이벤트. */
         private final BlockingQueue<WebMessageEvent> events = new LinkedBlockingQueue<WebMessageEvent>();
         /** Whether all observed calls were on the EDT. / 모든 호출이 EDT였는지 여부. */

@@ -1,5 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.js.host;
 
+import org.duckdns.hjow.swingwebpanel.js.host.structured.HostMessageValues;
 import org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver;
 import org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment;
 import org.duckdns.hjow.swingwebpanel.css.media.MediaQueryList;
@@ -109,7 +110,7 @@ public abstract class HostEnvironment {
      *
      * @param data copied Java data / 복사한 Java 데이터
      */
-    public void publishHostMessage(Object data) {
+    public void publishHostMessage(HostMessageValues.JavaMessage data) {
     }
 
     /**
