@@ -37,17 +37,12 @@ public final class Window extends EventTarget {
      * <p>
      * 리스너를 추가하고 페이지가 언로드 순서의 이벤트를 듣는다는 것을 기억한다.
      *
-     * @param type     the event type / 이벤트 종류
-     * @param listener the callback / 콜백
-     * @param capture  the capture flag / 캡처 플래그
-     * @param once     the once flag / once 플래그
-     * @param passive  the passive flag / passive 플래그
+     * @param type the registered event type / 등록한 이벤트 종류
      */
-    public void addEventListener(String type, org.duckdns.hjow.swingwebpanel.dom.EventListener listener, boolean capture, boolean once, boolean passive) {
-        if (listener != null && ("beforeunload".equals(type) || "pagehide".equals(type) || "unload".equals(type) || "visibilitychange".equals(type))) {
+    protected void listenerAdded(String type) {
+        if ("beforeunload".equals(type) || "pagehide".equals(type) || "unload".equals(type) || "visibilitychange".equals(type)) {
             unloadListener = true;
         }
-        super.addEventListener(type, listener, capture, once, passive);
     }
 
     /**

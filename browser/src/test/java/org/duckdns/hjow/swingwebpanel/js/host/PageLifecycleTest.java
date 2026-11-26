@@ -210,6 +210,22 @@ public class PageLifecycleTest {
     }
 
     /**
+     * The lifecycle sees successful registrations made with an abort signal.
+     * <p>
+     * 수명 주기는 중단 신호를 지정하여 성공한 등록을 확인한다.
+     */
+    public void testAbortableUnloadListenersCount() {
+        PageFixture f = new PageFixture().load("<script>var log=[]; var c=new AbortController();"
+                + "document.addEventListener('visibilitychange',()=>log.push('hidden'),{signal:c.signal});"
+                + "addEventListener('unload',()=>log.push('unload'),{signal:c.signal});</script>");
+        f.env.scheduler.advance(10);
+        Check.isTrue(f.scripts.getWindow().hasUnloadListener(), "the window records an active abortable listener");
+        Check.isTrue(f.scripts.getDocument().hasVisibilityListener(), "the document records an active abortable listener");
+        f.scripts.getLifecycle().unload();
+        Check.equal("hidden,unload", f.scripts.evaluate("log.join(',')", "t"), "the lifecycle delivers both registered events");
+    }
+
+    /**
      * Nothing is fired once the scripts are switched off.
      * <p>
      * 스크립트를 끄면 아무것도 발생시키지 않는다.

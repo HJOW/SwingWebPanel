@@ -1020,17 +1020,12 @@ public class Document extends Node {
      * <p>
      * 리스너를 추가하고 <code>visibilitychange</code> 리스너가 있다는 것을 기억한다(떠나는 페이지에 알릴 상대가 있는지 호스트가 아무 스레드에서나 묻는다).
      *
-     * @param type     the event type / 이벤트 종류
-     * @param listener the callback / 콜백
-     * @param capture  the capture flag / 캡처 플래그
-     * @param once     the once flag / once 플래그
-     * @param passive  the passive flag / passive 플래그
+     * @param type the registered event type / 등록한 이벤트 종류
      */
-    public void addEventListener(String type, EventListener listener, boolean capture, boolean once, boolean passive) {
-        if (listener != null && "visibilitychange".equals(type)) {
+    protected void listenerAdded(String type) {
+        if ("visibilitychange".equals(type)) {
             visibilityListener = true;
         }
-        super.addEventListener(type, listener, capture, once, passive);
     }
 
     /**

@@ -289,6 +289,17 @@ public abstract class EventTarget {
             entry.abort = new ListenerAbort(signal, type, this, entry);
             signal.addAlgorithm(entry.abort);
         }
+        listenerAdded(type);
+    }
+
+    /**
+     * Notifies a subclass of a successful listener registration, including registrations with an abort signal.
+     * <p>
+     * 중단 신호를 지정한 경우를 포함하여 리스너 등록에 성공했음을 하위 클래스에 알린다.
+     *
+     * @param type registered event type / 등록한 이벤트 종류
+     */
+    protected void listenerAdded(String type) {
     }
 
     /**

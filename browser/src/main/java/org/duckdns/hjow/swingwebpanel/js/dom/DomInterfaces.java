@@ -1583,7 +1583,12 @@ public final class DomInterfaces {
             throw JsException.typeError("The signal option must be an AbortSignal");
         }
         if (callback.isObject()) {
-            t.addEventListener(type, new JsListener(bridge, (JsObject) callback), capture, once, passive, signal);
+            JsListener listener = new JsListener(bridge, (JsObject) callback);
+            if (signal == null) {
+                t.addEventListener(type, listener, capture, once, passive);
+            } else {
+                t.addEventListener(type, listener, capture, once, passive, signal);
+            }
         }
     }
 
