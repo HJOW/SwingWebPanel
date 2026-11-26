@@ -87,11 +87,12 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 - 허용 입력:
   - `http://`, `https://`, `ftp://` (대소문자 무관한 스킴). FTP 는 익명 접속만 한다.
   - `classpath://경로` : 클래스패스 루트 기준 리소스. 스킴 뒤 전체가 경로이며 선행 `/` 는 무시한다(`classpath://a/b.html` = `a/b.html`).
+  - `blob:` 주소는 이 컴포넌트에서 생성한 객체 URL을 연다. 해제했거나 등록되지 않은 객체의 이동은 오류 페이지를 표시한다.
     공백과 퍼센트 인코딩(`%20`)을 정규화하고, `..`/`.` 세그먼트는 정규화하되 루트 위로 나갈 수 없다. 클래스 로더의 스트림으로만 읽는다(파일 경로 변환 없음).
   - `about:blank` : 빈 페이지.
 - `setPage("about:text")` 는 거부한다(`IllegalArgumentException`). `about:text` 는 `setContent` 로 만들어진 상태를 가리키는 내부 값이다.
 - 거부 대상(`IllegalArgumentException`): `null`, 빈 문자열, 공백뿐인 문자열, 제어 문자 포함, 스킴이 없는 상대 URL, 파싱할 수 없는 URL.
-- **구문은 올바르지만 허용되지 않는 스킴**(`file`, `jar`, `mailto`, `javascript`, `data`, `blob`, `ws` 등)은 서버에 연결하지 않고 "지원하지 않는 주소" **오류 페이지로 확정**한다(이력에 기록, 상태 코드 표시 400). 허용 스킴 목록에 추가하지 않는다.
+- **구문은 올바르지만 허용되지 않는 스킴**(`jar`, `mailto`, `javascript`, `data`, `ws` 등)은 서버에 연결하지 않고 "지원하지 않는 주소" **오류 페이지로 확정**한다(이력에 기록, 상태 코드 표시 400).
 - 네트워크 실패(DNS, 연결, 제한 시간, TLS)와 HTTP 4xx/5xx, FTP 실패, 클래스패스 누락은 오류 페이지로 확정한다(예외 아님).
 - 로딩 중 `getPage()`/`getContent()`/`getHistories()` 는 **이전 확정 페이지**를 반환한다. 새 페이지가 확정되면 URL/원문/문서/이력 위치를 한 번에 교체한다.
 - 프래그먼트만 다른 같은 문서 이동(`setPage(현재 주소 + "#조각")` 포함)은 문서를 다시 받지 않고 스크롤만 이동하며, 이력에 항목을 추가하고 `hashchange` 를 발생시킨다. 이때 이전 페이지의 언로드 이벤트는 없다. 현재 주소와 완전히 같은 주소는 별도 항목으로 다시 읽는다(WEBAPI-B 가 구현을 이 계약에 맞췄다: `PageLifecycleIntegrationTest`).
@@ -389,9 +390,11 @@ panel.postMessage("hello", "https://app.example");             // 대상 오리�
 | `http`, `https` | 허용 |
 | `ftp` | 허용(익명) |
 | `classpath` | 특수 주소로 허용 |
+| `blob` | 생성자 문서·워커와 같은 컴포넌트에서 사용. 프레임·하위 리소스·Fetch/XHR·명시적 다운로드는 생성자의 오리진을 적용하고, 최상위 이동은 File API의 파티션 예외를 적용 |
 | `about:blank` | 특수 주소로 허용 |
 | `about:text` | 내부 전용, `setPage` 로 지정 불가 |
-| `file`, `jar`, `mailto`, `javascript`, `data`, `blob`, `ws(s)`, 그 밖 | **차단**. 서버/파일에 접근하지 않고 오류 페이지로 확정 |
+| `file` | P28-06-e에서 로컬 파일 경로 지원 검증 예정 |
+| `jar`, `mailto`, `javascript`, `data`, `ws(s)`, 그 밖 | **차단**. 서버/파일에 접근하지 않고 오류 페이지로 확정 |
 
 차단 정책은 최초 주소, 리디렉션 주소, 하위 리소스(이미지/CSS/스크립트/오디오/글꼴) 모두에 적용한다. 클래스패스 주소가 `file:`/`jar:` URL 로 우회 변환되지 않는다.
 
@@ -402,6 +405,7 @@ panel.postMessage("hello", "https://app.example");             // 대상 오리�
   2) 동일 오리진의 `<a download>` 링크이다.
   3) MIME 이 P17 에서 정한 표시 가능 형식(HTML/XHTML/plain/markdown/이미지/오디오/비디오 대체 표시 등)이 아니다.
 - 판정은 링크 클릭을 기준으로 하되 폼 전송, 스크립트 이동, `setPage` 도 같은 판정을 쓴다.
+- 같은 오리진의 `blob:` 링크는 DOM에 붙이지 않은 앵커의 `click()`으로도 저장할 수 있다. 샌드박스에서는 `allow-downloads`가 필요하다. 요청을 받아들인 뒤 주소를 해제해도 이미 확보한 바이트로 전송하며, 현재 페이지의 스크립트와 타이머는 계속 실행된다.
 - 다운로드는 `getPage()`/`getContent()`/이력/주 문서 진행률을 **바꾸지 않는다**.
 - 팝업은 파일명/출처 URL/크기, 저장 위치 선택(`JFileChooser`), 진행률(크기를 모르면 불확정), 취소, 완료/실패 결과를 제공한다.
 - 팝업 생성은 호스트와 시험 코드가 대체할 수 있도록 **protected 메서드**(`protected DownloadHandle createDownloadPopup(DownloadRequest)`)로 분리한다.

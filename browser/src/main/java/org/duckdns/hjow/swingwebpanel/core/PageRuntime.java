@@ -451,6 +451,25 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
     }
 
     /**
+     * Resolves the object of an anchor click, including an anchor that is detached from the tree.
+     * <p>
+     * 트리에 연결하지 않은 앵커를 포함하여 클릭한 앵커의 객체를 해석한다.
+     *
+     * @param link anchor with a download attribute / 다운로드 속성이 있는 앵커
+     */
+    public void activateObjectDownload(Element link) {
+        if (!isScriptingEnabled() || link.getOwnerDocument() != scripts.getDocument()
+                || frame != null && !frame.flags().allowsDownloads()) {
+            return;
+        }
+        String url = PageInput.resolve(link);
+        BlobUrlStore.Entry blob = "blob".equals(UrlUtil.getScheme(url)) ? blobUrls.resolve(url) : null;
+        if (blob != null) {
+            session.downloadBlobFromPage(url, link.getAttribute("download"), blob);
+        }
+    }
+
+    /**
      * Reloads the page for a script (<code>location.reload()</code>).
      * <p>스크립트를 위해 페이지를 다시 읽는다(<code>location.reload()</code>).
      */

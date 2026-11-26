@@ -257,6 +257,21 @@ public final class NetworkPageLoader implements PageLoader, CacheOwner {
         if (name.length() == 0 || header != null && header.toLowerCase().indexOf("filename") >= 0) {
             return header;
         }
+        return attachmentName(name);
+    }
+
+    /**
+     * Encodes a name suggested by an anchor as a safe attachment header.
+     * <p>
+     * 링크가 제안한 이름을 안전한 첨부 헤더로 인코딩한다.
+     *
+     * @param name the suggested name / 제안한 이름
+     * @return the header, or null if no name was suggested / 헤더. 제안한 이름이 없으면 null
+     */
+    static String attachmentName(String name) {
+        if (name == null || name.length() == 0) {
+            return null;
+        }
         StringBuilder safe = new StringBuilder();
         // 따옴표, 역슬래시, 제어 문자를 뺀 이름만 헤더에 넣는다. 경로 구분자는 다운로드 쪽 파일 이름 정리가 처리한다.
         for (int i = 0; i < name.length(); i++) {

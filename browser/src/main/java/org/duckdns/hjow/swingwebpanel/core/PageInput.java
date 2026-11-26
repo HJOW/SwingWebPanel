@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkEvent;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
 import org.duckdns.hjow.swingwebpanel.dom.UiEvent;
@@ -500,12 +501,18 @@ public final class PageInput extends MouseAdapter implements MouseMotionListener
         if (href == null || !current(snapshot)) {
             return;
         }
-        // download 속성이 있는 같은 오리진 링크는 이동 대신 저장한다(다른 오리진이면 속성을 무시하고 일반 이동). 속성 값은 제안 파일 이름이다.
-        final String downloadName = link.hasAttribute("download") && Origin.of(link.getOwnerDocument().getOriginUrl()).isSameOrigin(Origin.of(href))
-                ? link.getAttribute("download") : null;
         // 링크를 포함한 문서가 프레임의 것이면 그 프레임이 이동의 출발 문맥이다(문서 큐에서 구해 둔다).
         final HtmlPageDocument top = snapshot.getDocument() instanceof HtmlPageDocument ? (HtmlPageDocument) snapshot.getDocument() : null;
         final FrameContext source = top == null || top.frames() == null ? null : top.frames().frameOf(link.getOwnerDocument());
+        final boolean blobLink = "blob".equals(UrlUtil.getScheme(href));
+        final HtmlPageDocument originPage = source == null ? top : source.page();
+        PageRuntime runtime = originPage == null ? null : originPage.runtime();
+        // 저장소에서 확인한 객체는 불투명 오리진이어도 저장할 수 있다. 해제와 경합할 수 있어 클릭의 동작을 예약할 때 확보한다.
+        final BlobUrlStore.Entry blob = blobLink && runtime != null && link.hasAttribute("download")
+                ? runtime.getBlobUrlScope().resolve(href) : null;
+        final String downloadName = link.hasAttribute("download")
+                && (blobLink ? blob != null : Origin.of(link.getOwnerDocument().getOriginUrl()).isSameOrigin(Origin.of(href)))
+                ? link.getAttribute("download") : null;
         final Element anchor = link;
         SwingUtilities.invokeLater(new Runnable() {
             /** Notifies Swing, then runs at most one uncancelled default navigation.
@@ -517,7 +524,11 @@ public final class PageInput extends MouseAdapter implements MouseMotionListener
                 links.fire(event(HyperlinkEvent.EventType.ACTIVATED, href));
                 // DOM과 Swing 리스너가 시작한 이동·clean·dispose를 오래된 기본 동작이 덮어쓰지 못하게 한다.
                 if (!prevented && current(snapshot) && navigation == session.getNavigationCount() && allowed(snapshot, href)) {
-                    if (downloadName != null) {
+                    if (downloadName != null && blob != null) {
+                        if (source == null || source.flags().allowsDownloads()) {
+                            session.downloadBlobFromPage(href, downloadName, blob);
+                        }
+                    } else if (downloadName != null) {
                         session.downloadFromPage(href, downloadName);
                     } else if (source == null && FrameNavigator.targetOf(anchor).length() == 0) {
                         // 프레임이 없는 문서의 target 없는 링크는 전과 같이 컴포넌트의 이동이다.
@@ -915,7 +926,7 @@ public final class PageInput extends MouseAdapter implements MouseMotionListener
      * @param link link element / 링크 요소
      * @return target or null / 대상 또는 null
      */
-    private static String resolve(Element link) {
+    static String resolve(Element link) {
         String href = link.getAttribute("href");
         if (href == null) {
             return null;

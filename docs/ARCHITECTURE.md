@@ -61,7 +61,7 @@ User-Agent 기본값 `swingwebpanel/1.0`, JAR 이름 `swingwebpanel.jar`, 스레
 | --- | --- |
 | `org.duckdns.hjow.swingwebpanel` | 공개 진입점 `SwingWebPanel` |
 | `org.duckdns.hjow.swingwebpanel.core` | 컴포넌트 상태: `BrowserSession`(컴포넌트별 설정/쿠키/캐시/세션 저장소), 이동 제어기, 이력, 상태/진행률 모델, EDT 호출 도우미, 수명 토큰 |
-| `org.duckdns.hjow.swingwebpanel.net` | URL 처리, HTTP/HTTPS 요청기, 쿠키 저장소, 오리진, FTP 클라이언트, 클래스패스 로더, 리소스 응답/캐시 |
+| `org.duckdns.hjow.swingwebpanel.net` | URL 처리, HTTP/HTTPS 요청기, 쿠키 저장소, 오리진, FTP 클라이언트, 클래스패스 로더, 객체 URL 저장소, 리소스 응답/캐시 |
 | `org.duckdns.hjow.swingwebpanel.html` | 인코딩 판정, HTML 토큰화기, 트리 생성기, 문자 참조 표 |
 | `org.duckdns.hjow.swingwebpanel.dom` | Document/Element/Text 등 DOM 노드, 컬렉션, 이벤트(`Event`, `EventTarget`), 변경 통지 |
 | `org.duckdns.hjow.swingwebpanel.css` | CSS 토큰화/파서, 스타일시트, 선택자 일치기, 계산 스타일, 미디어 질의 |

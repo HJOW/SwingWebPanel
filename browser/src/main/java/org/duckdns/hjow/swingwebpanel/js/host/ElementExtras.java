@@ -310,9 +310,9 @@ final class ElementExtras {
         });
         method(he, "click", 0, new NativeFunction.Call() {
             /**
-             * Dispatches a synthetic click event (default actions of links and forms belong to plan item P11).
+             * Dispatches a synthetic click event and follows an uncancelled object download link.
              * <p>
-             * 합성 click 이벤트를 전달한다(링크와 폼의 기본 동작은 계획 P11 의 몫).
+             * 합성 click 이벤트를 전달하고 취소되지 않은 객체 다운로드 링크를 따라간다.
              *
              * @param r    the realm / realm
              * @param self this value / this 값
@@ -326,7 +326,9 @@ final class ElementExtras {
                 if (e.hasAttribute("disabled") && ("button".equals(tag) || "input".equals(tag) || "select".equals(tag) || "textarea".equals(tag))) {
                     return Js.UNDEFINED;
                 }
-                e.dispatchEvent(new MouseEvent("click", true, true));
+                if (e.dispatchEvent(new MouseEvent("click", true, true)) && "a".equals(tag) && e.hasAttribute("download")) {
+                    page.getEnvironment().activateObjectDownload(e);
+                }
                 return Js.UNDEFINED;
             }
         });

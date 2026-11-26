@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.Vector;
 import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.content.ContentClassifier;
+import org.duckdns.hjow.swingwebpanel.content.ContentKind;
+import org.duckdns.hjow.swingwebpanel.content.ContentType;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.HostMessageValues;
 import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
@@ -986,7 +988,14 @@ public final class BrowserSession implements FormSubmitSink {
      */
     public void setStatusMessage(String text) {
         if (!disposed && text != null) {
-            updateStatus(text, getProgress());
+            final String oldText;
+            final String visibleText;
+            synchronized (this) {
+                oldText = getStatusText();
+                statusText = text;
+                visibleText = getStatusText();
+            }
+            fireStatusText(oldText, visibleText);
         }
     }
 
@@ -1050,6 +1059,58 @@ public final class BrowserSession implements FormSubmitSink {
             }
             startLocked(NavigationType.NAVIGATE, target, null, null, false, null, -1, null, name == null ? "" : name);
         }
+    }
+
+    /**
+     * Sends a captured object URL to the download manager without starting a navigation.
+     * <p>
+     * 이동을 시작하지 않고 확보한 객체 URL을 다운로드 관리자에게 넘긴다.
+     *
+     * @param url the clicked URL / 클릭한 URL
+     * @param name link's suggested name, or null / 링크가 제안한 이름 또는 null
+     * @param blob the entry resolved in the initiating document's scope / 시작 문서의 범위에서 확인한 객체
+     */
+    void downloadBlobFromPage(String url, String name, BlobUrlStore.Entry blob) {
+        synchronized (lock) {
+            if (!disposed) {
+                enqueueBlobDownloadLocked(canonical(url), name, blob, DownloadRequiredException.Reason.LINK_DOWNLOAD);
+            }
+        }
+    }
+
+    /**
+     * Shares a local download with the Swing handler, preserving the current document and progress.
+     * <p>
+     * 현재 문서와 진행률을 유지하면서 로컬 다운로드를 Swing 처리기에 넘긴다.
+     *
+     * @param url the requested URL / 요청 URL
+     * @param name suggested file name, if any / 제안 파일명. 없으면 null
+     * @param blob the captured data / 확보한 데이터
+     * @param reason why the response is being saved / 응답을 저장하는 이유
+     */
+    private void enqueueBlobDownloadLocked(String url, String name, BlobUrlStore.Entry blob, DownloadRequiredException.Reason reason) {
+        final NavigationRequest request = new NavigationRequest(nav.currentId(), NavigationType.NAVIGATE, url, null, null,
+                false, null, -1, userAgent, headers.copy(), javascriptEnabled, new CancelToken(), FRAME_SINK, null, name).withBlobUrlEntry(blob);
+        final DownloadRequiredException download = new DownloadRequiredException(url, url, blobMime(blob),
+                NetworkPageLoader.attachmentName(name), blob.length(), reason);
+        SwingUtilities.invokeLater(new Runnable() {
+            /** Hands off the captured bytes without holding the session lock. / 세션 잠금 없이 확보한 바이트를 넘긴다. */
+            public void run() {
+                handleDownload(request, download);
+            }
+        });
+    }
+
+    /**
+     * Returns the media type of a blob navigation.
+     * <p>
+     * 객체 URL 이동의 미디어 타입을 반환한다.
+     *
+     * @param blob captured blob / 확보한 객체
+     * @return media type, with the loader's binary default / 로더의 기본 바이너리 타입을 포함한 미디어 타입
+     */
+    private static String blobMime(BlobUrlStore.Entry blob) {
+        return blob.getMimeType().length() == 0 ? "application/octet-stream" : ContentType.parse(blob.getMimeType()).getMime();
     }
 
     /** Discards the progress of the navigations of frames, whose status the page itself reports. / 프레임 이동의 진행률은 버린다. 페이지 자체가 상태를 보고한다. */
@@ -1683,6 +1744,11 @@ public final class BrowserSession implements FormSubmitSink {
         // URL을 검증한 뒤에 nav.begin이 기존 생성 문서의 수명을 끝내도 읽을 바이트를 유지한다.
         BlobUrlStore store = blobUrls;
         BlobUrlStore.Entry blob = store != null && "blob".equals(UrlUtil.getScheme(target)) ? store.resolve(target, null, null, true) : null;
+        // 이미 확인된 바이너리 객체를 저장할 때는 현재 문서의 이동 번호와 실행 범위를 그대로 유지한다.
+        if (blob != null && post == null && ContentClassifier.kindOfMime(blobMime(blob)) == ContentKind.DOWNLOAD) {
+            enqueueBlobDownloadLocked(target, downloadName, blob, DownloadRequiredException.Reason.NOT_DISPLAYABLE);
+            return;
+        }
         NavigationController.Ticket ticket = nav.begin();
         navigationCount++;
         final NavigationRequest request = new NavigationRequest(ticket.id, type, target, text, textMime, force, restore, targetIndex,
@@ -1769,7 +1835,7 @@ public final class BrowserSession implements FormSubmitSink {
         }
         DownloadHandler h = downloadHandler;
         if (h == null) {
-            updateStatus("Download required: " + download.getFinalUrl() + " (download is not available in this build)", 100);
+            reportDownloadStatus(request, "Download required: " + download.getFinalUrl() + " (download is not available in this build)");
             return;
         }
         // 폼 제출(POST)의 응답을 파일로 저장하려면 폼을 한 번 더 보내야 하므로 사용자가 동의해야 한다.
@@ -1777,11 +1843,27 @@ public final class BrowserSession implements FormSubmitSink {
             askAndDownload(h, request, download);
             return;
         }
-        updateStatus("Download: " + download.getFinalUrl(), 100);
+        reportDownloadStatus(request, "Download: " + download.getFinalUrl());
         try {
             h.downloadRequired(request, download);
         } catch (RuntimeException e) {
-            updateStatus("Download failed: " + e, 100);
+            reportDownloadStatus(request, "Download failed: " + e);
+        }
+    }
+
+    /**
+     * Reports the handoff while preserving any active page progress for a local object.
+     * <p>
+     * 로컬 객체를 넘길 때 실행 중인 페이지의 진행률을 보존하며 상태를 보고한다.
+     *
+     * @param request download source request / 다운로드 출처 요청
+     * @param message download status / 다운로드 상태
+     */
+    private void reportDownloadStatus(NavigationRequest request, String message) {
+        if (request.getBlobUrlEntry() == null) {
+            updateStatus(message, 100);
+        } else {
+            setStatusMessage(message);
         }
     }
 

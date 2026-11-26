@@ -303,7 +303,7 @@ public class ClasspathAndDispatchTest {
         File marker = new File(dir, "marker.txt");
         write(marker, "inside classpath dir");
         String[] blocked = { marker.toURI().toString(), "file:///" + marker.getPath().replace('\\', '/'), "jar:" + jar.toURI() + "!/jarred/readme",
-            "mailto:a@b.c", "javascript:alert(1)", "data:text/html,x", "blob:http://h/1", "ws://localhost:" + http.getPort() + "/",
+            "mailto:a@b.c", "javascript:alert(1)", "data:text/html,x", "ws://localhost:" + http.getPort() + "/",
             "wss://localhost:" + http.getPort() + "/", "about:text", "about:srcdoc", "gopher://localhost/" };
         // 금지 스킴마다 BLOCKED_SCHEME 이고 본문이 없어야 한다.
         for (int i = 0; i < blocked.length; i++) {
@@ -311,6 +311,8 @@ public class ClasspathAndDispatchTest {
             Check.equal(FailureKind.BLOCKED_SCHEME, r.getFailureKind(), "blocked: " + blocked[i]);
             Check.equal(0, r.getBody().length, "nothing was read for " + blocked[i]);
         }
+        Check.equal(FailureKind.NOT_FOUND, f.fetch(new ResourceRequest("blob:" + http.url("/unregistered"))).getFailureKind(),
+                "an unregistered object URL does not request the URL embedded in it");
         Check.equal(FailureKind.INVALID_URL, f.fetch(new ResourceRequest("relative.html")).getFailureKind(), "relative url");
         Check.equal(0, http.totalRequests(), "the server saw nothing");
     }

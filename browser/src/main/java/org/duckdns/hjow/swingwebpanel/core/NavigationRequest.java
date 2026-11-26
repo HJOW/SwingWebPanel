@@ -144,7 +144,7 @@ public final class NavigationRequest {
     }
 
     /** Returns the accepted entry, if any. / 받아들인 항목이 있으면 반환한다. */
-    BlobUrlStore.Entry getBlobUrlEntry() {
+    public BlobUrlStore.Entry getBlobUrlEntry() {
         return blobUrlEntry;
     }
 

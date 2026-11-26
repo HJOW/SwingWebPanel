@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.download;
 
 import org.duckdns.hjow.swingwebpanel.core.DownloadRequiredException;
 import org.duckdns.hjow.swingwebpanel.core.NavigationRequest;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.RequestHeaders;
 
 /**
@@ -43,6 +44,9 @@ public final class DownloadRequest {
 
     /** Address of the page that contained the form (the referrer) or null. 폼이 있던 페이지의 주소(참조 주소). 없으면 null. */
     private String postReferrer;
+
+    /** Object bytes captured before display of the popup. / 팝업을 표시하기 전에 확보한 객체 바이트. */
+    private BlobUrlStore.Entry blobUrlEntry;
 
 
     /** Safe file name. 안전한 파일 이름. */
@@ -89,6 +93,7 @@ public final class DownloadRequest {
         String finalUrl = download.getFinalUrl() == null || download.getFinalUrl().length() == 0 ? download.getUrl() : download.getFinalUrl();
         DownloadRequest r = new DownloadRequest(finalUrl, download.getUrl(), download.getMimeType(), download.getContentDisposition(), download.getLength(),
                 navigation == null ? null : navigation.getUserAgent(), navigation == null ? null : navigation.getHeaders());
+        r.blobUrlEntry = navigation == null ? null : navigation.getBlobUrlEntry();
         // 폼 제출(POST)의 응답이면 저장할 때 같은 데이터로 다시 요청해야 한다.
         if (navigation != null && navigation.getPost() != null && navigation.getPost().isResendable()) {
             r.postBody = navigation.getPost().getBody();
@@ -96,6 +101,11 @@ public final class DownloadRequest {
             r.postReferrer = navigation.getPost().getReferrer();
         }
         return r;
+    }
+
+    /** Returns the captured object for a local download, if any. / 로컬 다운로드를 위해 확보한 객체를 반환한다. 없으면 null. */
+    BlobUrlStore.Entry getBlobUrlEntry() {
+        return blobUrlEntry;
     }
 
     /**

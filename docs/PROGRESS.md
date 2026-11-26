@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-06-d2-c 객체 URL 다운로드 (2026-11-26) ===
+현재 작업 번호: P28-06-d2 완료.
+완료한 내용: 분리된 앵커의 click()과 실제 링크 활성화, Java의 바이너리 객체 이동을 기존 Swing 다운로드에 연결했다. 객체를 전송 전에 확보하고 문서 이동을 시작하지 않는다. 샌드박스는 이 링크 다운로드에 allow-downloads를 요구한다.
+변경 파일: BrowserSession.java, NavigationRequest.java, NetworkPageLoader.java, PageInput.java, PageRuntime.java, SandboxFlags.java, DownloadRequest.java, DownloadTask.java, ElementExtras.java, HostEnvironment.java, DownloadIntegrationTest.java, ClasspathAndDispatchTest.java, AGENTS.md, API_CONTRACT.md, ARCHITECTURE.md, FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45 실제 Swing 요청 계층의 DownloadIntegrationTest, LinkDownloadIntegrationTest, BlobUrlIntegrationTest, FrameSandboxTest, BlobUrlStoreTest에서 26건 통과, ClasspathAndDispatchTest와 MediaFallbackIntegrationTest에서 10건 통과. 실패·건너뜀 및 sourcecheck 위반 0. 테스트 팝업에서 전송 시작을 보류하고 원래 페이지가 URL 해제와 조회 실패를 확인한 뒤 PNG를 저장했다. 크기·색상·길이, 바이너리 원본 바이트, 취소된 링크, 페이지 실행과 이력을 확인했다.
+미해결 사항: 기본 Swing 팝업을 포함한 실제 게임 흐름은 P28-08/P22-10에서 확인한다. 등록하지 않은 객체 URL은 기존 차단 스킴과 달리 조회 실패로 판정한다.
+다음 작업 번호: P28-06-e.
+-----------------------------------------------------------------------------------------------
 === P28-06-d2-b 객체 URL 문서와 프레임 이동 (2026-11-26) ===
 현재 작업 번호: P28-06-d2-b 완료.
 완료한 내용: 이동을 시작할 때 객체 URL을 확보한다. 최상위 문서·프레임에서 생성자 오리진을 상속하고 샌드박스는 새 불투명 오리진을 받는다. 생성한 미디어 문서는 처음 확보한 이미지·오디오 소스를 사용한다.

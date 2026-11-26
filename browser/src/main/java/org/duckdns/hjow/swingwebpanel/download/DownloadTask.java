@@ -387,6 +387,7 @@ final class DownloadTask implements DownloadControl, Runnable {
         try {
             ResourceRequest rr = new ResourceRequest(request.getUrl()).setUserAgent(request.getUserAgent())
                     .setExtraHeaders(request.getHeaders()).setCookies(manager.getCookies()).setPurpose(RequestPurpose.DOWNLOAD)
+                    .setBlobUrlEntry(request.getBlobUrlEntry())
                     .setCancelToken(token);
             // 폼 제출의 응답을 저장하는 경우에만(사용자가 동의한 뒤) 같은 데이터를 다시 보낸다.
             if (request.getPostBody() != null) {

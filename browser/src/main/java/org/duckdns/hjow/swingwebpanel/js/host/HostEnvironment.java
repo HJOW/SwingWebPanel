@@ -464,6 +464,17 @@ public abstract class HostEnvironment {
     }
 
     /**
+     * Performs the object URL download action of an uncancelled synthetic anchor click.
+     * <p>
+     * 취소하지 않은 합성 앵커 클릭의 객체 URL 다운로드 기본 동작을 수행한다.
+     *
+     * @param link the anchor element / 앵커 요소
+     */
+    public void activateObjectDownload(org.duckdns.hjow.swingwebpanel.dom.Element link) {
+        // 독립 스크립트 호스트에는 다운로드 기능이 없다.
+    }
+
+    /**
      * Asks the component to reload the page.
      * <p>
      * 컴포넌트에 페이지 새로고침을 요청한다.

@@ -17,7 +17,7 @@ public final class SandboxFlags {
      * <p>
      * 샌드박스 없음: 아무것도 제한하지 않는다.
      */
-    public static final SandboxFlags NONE = new SandboxFlags(false, true, true, true, true, true);
+    public static final SandboxFlags NONE = new SandboxFlags(false, true, true, true, true, true, true);
 
     /**
      * True if a <code>sandbox</code> attribute applies (even an empty one).
@@ -61,6 +61,9 @@ public final class SandboxFlags {
      */
     private final boolean popups;
 
+    /** Whether object URL links may start downloads. / 객체 URL 링크가 다운로드를 시작할 수 있는지 여부. */
+    private final boolean downloads;
+
     /**
      * Creates a flag set.
      * <p>
@@ -72,14 +75,17 @@ public final class SandboxFlags {
      * @param forms         true if forms are allowed / 폼 허용이면 true
      * @param topNavigation true if top-level navigation is allowed / 최상위 이동 허용이면 true
      * @param popups        true if popups are allowed / 팝업 허용이면 true
+     * @param downloads     true if object URL downloads are allowed / 객체 URL 다운로드 허용이면 true
      */
-    private SandboxFlags(boolean sandboxed, boolean scripts, boolean sameOrigin, boolean forms, boolean topNavigation, boolean popups) {
+    private SandboxFlags(boolean sandboxed, boolean scripts, boolean sameOrigin, boolean forms, boolean topNavigation, boolean popups,
+            boolean downloads) {
         this.sandboxed = sandboxed;
         this.scripts = scripts;
         this.sameOrigin = sameOrigin;
         this.forms = forms;
         this.topNavigation = topNavigation;
         this.popups = popups;
+        this.downloads = downloads;
     }
 
     /**
@@ -101,6 +107,7 @@ public final class SandboxFlags {
         boolean forms = false;
         boolean top = false;
         boolean popups = false;
+        boolean downloads = false;
         String[] tokens = attribute.trim().split("[ \\t\\n\\r\\f]+");
         // 토큰을 하나씩 보며 허용 키워드를 켠다.
         for (int i = 0; i < tokens.length; i++) {
@@ -115,9 +122,11 @@ public final class SandboxFlags {
                 top = true;
             } else if ("allow-popups".equals(t)) {
                 popups = true;
+            } else if ("allow-downloads".equals(t)) {
+                downloads = true;
             }
         }
-        return new SandboxFlags(true, scripts, sameOrigin, forms, top, popups);
+        return new SandboxFlags(true, scripts, sameOrigin, forms, top, popups, downloads);
     }
 
     /**
@@ -134,7 +143,18 @@ public final class SandboxFlags {
             return this;
         }
         return new SandboxFlags(true, scripts && parent.scripts, sameOrigin && parent.sameOrigin, forms && parent.forms,
-                topNavigation && parent.topNavigation, popups && parent.popups);
+                topNavigation && parent.topNavigation, popups && parent.popups, downloads && parent.downloads);
+    }
+
+    /**
+     * Tells whether the sandbox permits an object URL download.
+     * <p>
+     * 샌드박스가 객체 URL 다운로드를 허용하는지 알려 준다.
+     *
+     * @return true if allowed / 허용이면 true
+     */
+    public boolean allowsDownloads() {
+        return downloads;
     }
 
     /**

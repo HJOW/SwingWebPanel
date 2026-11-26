@@ -2,11 +2,14 @@ package org.duckdns.hjow.swingwebpanel;
 
 import java.io.File;
 import java.io.IOException;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+import javax.imageio.ImageIO;
 import org.duckdns.hjow.swingwebpanel.download.DownloadControl;
 import org.duckdns.hjow.swingwebpanel.download.DownloadHandle;
 import org.duckdns.hjow.swingwebpanel.download.DownloadRequest;
@@ -163,7 +166,7 @@ public class DownloadIntegrationTest {
      * <p>
      * 팝업과 다운로드 디렉터리를 시험이 제어하는 컴포넌트.
      */
-    private static final class TestPanel extends SwingWebPanel {
+    private static class TestPanel extends SwingWebPanel {
         /**
          * The popups that were created.
          * <p>
@@ -301,6 +304,156 @@ public class DownloadIntegrationTest {
             Thread.sleep(10);
         }
         Thread.sleep(50);
+    }
+
+    /**
+     * Saves a canvas through the detached-anchor flow and revokes the URL before the transfer starts.
+     * <p>
+     * 연결하지 않은 앵커를 통해 캔버스를 저장하며 전송 시작 전에 객체 URL을 해제한다.
+     *
+     * @throws Exception if saving or verifying the image fails / 이미지 저장이나 검증에 실패하면
+     */
+    public void testCanvasObjectDownloadSurvivesRevocation() throws Exception {
+        File folder = tempDirectory();
+        try {
+            final CountDownLatch revoked = new CountDownLatch(1);
+            TestHttpServer server = new TestHttpServer();
+            servers.add(server);
+            server.route("/revoked", new TestHttpServer.Handler() {
+                /**
+                 * Records a request made by the page only after revocation was verified.
+                 * <p>
+                 * 객체 URL 해제가 확인된 뒤에만 페이지가 보내는 요청을 기록한다.
+                 *
+                 * @param request test request / 시험 요청
+                 * @return acknowledgement / 응답
+                 */
+                public TestHttpServer.Response handle(TestHttpServer.Request request) {
+                    revoked.countDown();
+                    return new TestHttpServer.Response(204);
+                }
+            });
+            String html = "<!doctype html><canvas id='picture' width='3' height='2'></canvas><script>"
+                    + "const c=document.getElementById('picture');const x=c.getContext('2d');"
+                    + "x.fillStyle='#153759';x.fillRect(0,0,3,2);"
+                    + "let url;onmessage=e=>{if(e.data==='save'){c.toBlob(b=>{url=URL.createObjectURL(b);"
+                    + "const a=document.createElement('a');a.href=url;a.download='screen.png';a.click();});}"
+                    + "else if(e.data==='revoke'){URL.revokeObjectURL(url);"
+                    + "fetch(url).catch(()=>fetch('/revoked'));}else opener.postMessage('page-active','*');};</script>";
+            server.routeFixed("/page", TestHttpServer.Response.html(html));
+            server.start();
+            TestPanel panel = new TestPanel(folder) {
+                /**
+                 * Holds transfer startup until the page has revoked the object URL.
+                 * <p>
+                 * 페이지가 객체 URL을 해제할 때까지 전송 시작을 기다린다.
+                 *
+                 * @param request proposed download / 시작할 다운로드
+                 * @param control download control / 다운로드 제어
+                 * @return recording popup / 기록 팝업
+                 */
+                protected DownloadHandle createDownloadPopup(DownloadRequest request, DownloadControl control) {
+                    DownloadHandle popup = super.createDownloadPopup(request, control);
+                    postMessage("revoke", "*");
+                    try {
+                        if (!revoked.await(10, TimeUnit.SECONDS)) {
+                            control.cancel();
+                        }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        control.cancel();
+                    }
+                    return popup;
+                }
+            };
+            panels.add(panel);
+            final CountDownLatch active = new CountDownLatch(1);
+            panel.addWebMessageListener(new WebMessageListener() {
+                /** Records a reply from the original document. / 원래 문서가 보낸 응답을 기록한다. */
+                public void messageReceived(WebMessageEvent event) {
+                    if ("page-active".equals(event.getData())) {
+                        active.countDown();
+                    }
+                }
+            });
+            panel.setPage(server.url("/page"));
+            settle(panel);
+            String history = panel.getHistories().toString();
+            panel.postMessage("save", "*");
+            Check.isTrue(revoked.await(12, TimeUnit.SECONDS), "the page revoked its object before the transfer");
+            Check.equal(1, panel.popups.size(), "one download for the detached link");
+            RecordingPopup popup = panel.popups.get(0);
+            Check.isTrue(popup.finished.await(10, TimeUnit.SECONDS), "the PNG transfer finished");
+            Check.equal(DownloadState.COMPLETED, popup.state, "the captured object was saved");
+            File file = new File(folder, "screen.png");
+            Check.equal(Long.valueOf(popup.request.getLength()), Long.valueOf(file.length()), "the exact object length was saved");
+            BufferedImage image = ImageIO.read(file);
+            Check.equal(3, image.getWidth(), "canvas width");
+            Check.equal(2, image.getHeight(), "canvas height");
+            Check.equal(0xff153759, image.getRGB(1, 1), "canvas pixel");
+            panel.postMessage("ping", "*");
+            Check.isTrue(active.await(10, TimeUnit.SECONDS), "the original page still processes messages");
+            Check.equal(server.url("/page"), panel.getPage(), "the page address stays");
+            Check.equal(html, panel.getContent(), "the page source stays");
+            Check.equal(history, panel.getHistories().toString(), "the history stays");
+            Check.equal(100, panel.getProgress(), "the page progress stays");
+        } finally {
+            delete(folder);
+        }
+    }
+
+    /**
+     * Downloads a binary object from an opaque page by calling the Java navigation API.
+     * <p>
+     * Java 이동 API를 호출하여 불투명 페이지의 바이너리 객체를 다운로드한다.
+     *
+     * @throws Exception if saving or verifying the file fails / 파일 저장이나 검증에 실패하면
+     */
+    public void testHostDownloadsBinaryObjectFromOpaquePage() throws Exception {
+        File folder = tempDirectory();
+        try {
+            TestPanel panel = new TestPanel(folder);
+            panels.add(panel);
+            final AtomicReference<String> url = new AtomicReference<String>();
+            final CountDownLatch ready = new CountDownLatch(1);
+            final CountDownLatch cancelled = new CountDownLatch(1);
+            panel.addWebMessageListener(new WebMessageListener() {
+                /** Receives the URL and the result of a cancelled activation. / URL과 취소한 활성화의 결과를 받는다. */
+                public void messageReceived(WebMessageEvent event) {
+                    String text = (String) event.getData();
+                    if ("cancelled".equals(text)) {
+                        cancelled.countDown();
+                    } else {
+                        url.set(text);
+                        ready.countDown();
+                    }
+                }
+            });
+            String html = "<!doctype html><script>const url=URL.createObjectURL(new Blob([new Uint8Array([8,0,253])]));"
+                    + "onmessage=()=>{const a=document.createElement('a');a.href=url;a.download='discard.bin';"
+                    + "a.onclick=e=>e.preventDefault();a.click();opener.postMessage('cancelled','*');};"
+                    + "opener.postMessage(url,'*');</script>";
+            panel.setContent(html, "text/html");
+            Check.isTrue(ready.await(10, TimeUnit.SECONDS), "the opaque page registered a binary object");
+            settle(panel);
+            panel.setPage(url.get());
+            long deadline = System.currentTimeMillis() + 10000;
+            // Swing이 바이너리 대상 팝업을 만들 때까지 짧게 기다린다.
+            while (panel.popups.isEmpty() && System.currentTimeMillis() < deadline) {
+                Thread.sleep(10);
+            }
+            Check.equal(1, panel.popups.size(), "host navigation requested a download");
+            RecordingPopup popup = panel.popups.get(0);
+            Check.isTrue(popup.finished.await(10, TimeUnit.SECONDS), "the binary transfer finished");
+            Check.equal(DownloadState.COMPLETED, popup.state, "the binary object was saved");
+            Check.isTrue(java.util.Arrays.equals(new byte[] { 8, 0, (byte) 253 }, read(popup.target)), "the saved bytes match");
+            panel.postMessage("try cancelled click", "*");
+            Check.isTrue(cancelled.await(10, TimeUnit.SECONDS), "the page was active after the download");
+            Check.equal(1, panel.popups.size(), "no download for the cancelled click");
+            Check.equal("about:text", panel.getPage(), "the original opaque page stays");
+        } finally {
+            delete(folder);
+        }
     }
 
     /**
