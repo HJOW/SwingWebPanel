@@ -1,5 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.ogg;
 
+import org.duckdns.hjow.swingwebpanel.media.audio.ArrayByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 
 /**
@@ -38,6 +40,9 @@ public final class OggPage {
      * 헤더의 고정 부분 크기.
      */
     public static final int FIXED_HEADER = 27;
+
+    /** Largest page with a full lacing table and payload. / 세그먼트 표와 페이로드를 가득 채운 페이지의 최대 크기. */
+    static final int MAX_PAGE_BYTES = FIXED_HEADER + 255 + 255 * 255;
 
     /**
      * Offset of the page in the data.
@@ -121,22 +126,34 @@ public final class OggPage {
      * @return the page, or null if there is no complete valid page header and payload at the offset / 페이지. 완전하고 올바른 헤더와 페이로드가 없으면 null
      */
     public static OggPage parse(byte[] d, int off) {
-        if (!Bytes.has(d, off, FIXED_HEADER) || !Bytes.matches(d, off, "OggS") || d[off + 4] != 0 || (d[off + 5] & 0xF8) != 0) {
+        return d == null ? null : parseSource(new ArrayByteSource(d), off);
+    }
+
+    /**
+     * Reads a page header and lacing table without loading its payload. / 페이로드를 읽지 않고 페이지 헤더와 세그먼트 표를 읽는다.
+     * @param d encoded input / 인코딩 입력
+     * @param off page offset / 페이지 위치
+     * @return a page, or null for an invalid or incomplete page / 페이지. 올바르지 않거나 불완전하면 null
+     */
+    static OggPage parseSource(ByteSource d, int off) {
+        if (off > Integer.MAX_VALUE - FIXED_HEADER || !Bytes.has(d, off, FIXED_HEADER)
+                || !Bytes.matches(d, off, "OggS") || d.get(off + 4) != 0 || (d.get(off + 5) & 0xF8) != 0) {
             return null;
         }
-        int nseg = d[off + 26] & 0xFF;
-        if (!Bytes.has(d, off + FIXED_HEADER, nseg)) {
+        int nseg = d.get(off + 26);
+        int table = off + FIXED_HEADER;
+        if (nseg > Integer.MAX_VALUE - table || !Bytes.has(d, table, nseg)) {
             return null;
         }
         int payload = 0;
         // 세그먼트 표의 값을 모두 더해 페이로드 크기를 구한다.
         for (int i = 0; i < nseg; i++) {
-            payload += d[off + FIXED_HEADER + i] & 0xFF;
+            payload += d.get(table + i);
         }
-        if (!Bytes.has(d, off + FIXED_HEADER + nseg, payload)) {
+        if (!Bytes.has(d, table + nseg, payload) || payload > Integer.MAX_VALUE - table - nseg) {
             return null;
         }
-        return new OggPage(off, d[off + 5] & 0xFF, Bytes.le64(d, off + 6), (int) Bytes.le32(d, off + 14), Bytes.le32(d, off + 18), nseg, payload);
+        return new OggPage(off, d.get(off + 5), Bytes.le64(d, off + 6), (int) Bytes.le32(d, off + 14), Bytes.le32(d, off + 18), nseg, payload);
     }
 
     /**
@@ -148,10 +165,20 @@ public final class OggPage {
      * @return true if the stored checksum matches / 저장된 체크섬이 맞으면 true
      */
     public boolean isChecksumValid(byte[] d) {
-        int crc = OggCrc.update(0, d, offset, 22);
+        return isChecksumValid(d, offset);
+    }
+
+    /**
+     * Checks the CRC against bytes of this page stored at a supplied offset. / 지정한 위치에 보관한 페이지 바이트로 CRC를 확인한다.
+     * @param d the byte buffer / 바이트 버퍼
+     * @param at start of the page in the buffer / 버퍼 안의 페이지 시작 위치
+     * @return true when the check passes / 검사가 성공하면 true
+     */
+    boolean isChecksumValid(byte[] d, int at) {
+        int crc = OggCrc.update(0, d, at, 22);
         crc = OggCrc.update(crc, ZERO4, 0, 4);
-        crc = OggCrc.update(crc, d, offset + 26, getEnd() - offset - 26);
-        return (crc & 0xFFFFFFFFL) == Bytes.le32(d, offset + 22);
+        crc = OggCrc.update(crc, d, at + 26, getEnd() - offset - 26);
+        return (crc & 0xFFFFFFFFL) == Bytes.le32(d, at + 22);
     }
 
     /**

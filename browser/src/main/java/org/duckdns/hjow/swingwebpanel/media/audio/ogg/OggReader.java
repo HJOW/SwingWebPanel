@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ArrayByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSourceException;
 import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 
 /**
@@ -50,22 +53,55 @@ public final class OggReader {
      * @throws MediaException CORRUPT if the data contains no Ogg page; CANCELLED if the thread is interrupted / 데이터에 Ogg 페이지가 없으면 CORRUPT, 스레드가 인터럽트되면 CANCELLED
      */
     public static OggReader scan(byte[] data) throws MediaException {
+        return scanSource(new ArrayByteSource(data));
+    }
+
+    /**
+     * Indexes a seekable Ogg source. The caller keeps it open while reading packets and closes it afterwards.
+     * <p>
+     * 탐색 가능한 Ogg 원천을 색인한다. 호출자가 패킷을 읽는 동안 원천을 열어 두고 다 읽은 뒤 닫는다.
+     * @param data the encoded input / 인코딩 입력
+     * @return the index / 색인
+     * @throws MediaException if the source is unreadable, invalid or cancelled / 원천을 읽을 수 없거나 손상되었거나 취소되면
+     */
+    public static OggReader scanSource(ByteSource data) throws MediaException {
+        if (data.length() > Integer.MAX_VALUE) {
+            throw new MediaException(MediaException.Kind.TOO_LARGE, "Ogg data exceeds the container-offset limit");
+        }
+        try {
+            return scanInput(data);
+        } catch (ByteSourceException e) {
+            throw e.toMediaException();
+        }
+    }
+
+    /**
+     * Builds the logical stream and page indexes. / 논리 스트림과 페이지 색인을 만든다.
+     * @param data the encoded input / 인코딩 입력
+     * @return the index / 색인
+     * @throws MediaException if the stream is invalid or cancelled / 스트림이 손상되었거나 취소되면
+     */
+    private static OggReader scanInput(ByteSource data) throws MediaException {
         List<OggStream> all = new ArrayList<OggStream>();
         Map<Integer, OggStream> current = new HashMap<Integer, OggStream>();
         int pos = 0;
         int pages = 0;
+        int end = (int) data.length();
         // 페이지를 차례로 찾아 해당 논리 스트림의 색인에 넣는다.
-        while (pos < data.length) {
+        while (pos < end) {
             if ((pages & 0xFFF) == 0 && Thread.currentThread().isInterrupted()) {
                 throw new MediaException(MediaException.Kind.CANCELLED, "Ogg scanning was interrupted");
             }
-            OggPage p = OggPage.parse(data, pos);
+            OggPage p = OggPage.parseSource(data, pos);
             // 페이지 바로 뒤에 다음 캡처 패턴이나 파일 끝이 이어지지 않으면 체크섬으로 진짜 페이지인지 확인한다(가짜 헤더가 진짜 페이지를 삼키지 않도록).
-            if (p != null && p.getEnd() < data.length && !Bytes.matches(data, p.getEnd(), "OggS") && !p.isChecksumValid(data)) {
-                p = null;
+            if (p != null && p.getEnd() < end && !Bytes.matches(data, p.getEnd(), "OggS")) {
+                byte[] isolated = Bytes.copy(data, pos, p.getEnd() - pos);
+                if (!p.isChecksumValid(isolated, 0)) {
+                    p = null;
+                }
             }
             if (p == null) {
-                pos = findCapture(data, pos + 1);
+                pos = findCapture(data, pos + 1, end);
                 if (pos < 0) {
                     break;
                 }
@@ -95,12 +131,17 @@ public final class OggReader {
      *
      * @param d    data / 데이터
      * @param from first offset to examine / 처음 검사할 위치
+     * @param end end of the available bytes / 읽을 수 있는 바이트의 끝
      * @return offset, or -1 / 위치. 없으면 -1
+     * @throws MediaException if interrupted / 인터럽트되었으면
      */
-    private static int findCapture(byte[] d, int from) {
+    private static int findCapture(ByteSource d, int from, int end) throws MediaException {
         // 바이트를 하나씩 보며 캡처 패턴을 찾는다.
-        for (int i = from; i + 4 <= d.length; i++) {
-            if (d[i] == 'O' && d[i + 1] == 'g' && d[i + 2] == 'g' && d[i + 3] == 'S') {
+        for (int i = from; i <= end - 4; i++) {
+            if ((i & 0xFFF) == 0 && Thread.currentThread().isInterrupted()) {
+                throw new MediaException(MediaException.Kind.CANCELLED, "Ogg scanning was interrupted");
+            }
+            if (d.get(i) == 'O' && Bytes.matches(d, i, "OggS")) {
                 return i;
             }
         }
@@ -149,24 +190,33 @@ public final class OggReader {
      * @return codec names in order, empty if the data does not start with an Ogg page / 순서대로의 코덱 이름. 데이터가 Ogg 페이지로 시작하지 않으면 빈 목록
      */
     public static List<String> sniffCodecs(byte[] data) {
+        return sniffSourceCodecs(new ArrayByteSource(data));
+    }
+
+    /**
+     * Lists codecs on initial beginning-of-stream pages from a seekable source. / 탐색 가능한 원천의 시작 페이지에서 코덱 목록을 읽는다.
+     * @param data the encoded input / 인코딩 입력
+     * @return codec names in stream order / 스트림 순서의 코덱 이름
+     */
+    public static List<String> sniffSourceCodecs(ByteSource data) {
         List<String> codecs = new ArrayList<String>();
         int pos = 0;
         // 스트림 시작 페이지가 이어지는 동안 첫 패킷으로 코덱을 알아본다.
         for (;;) {
-            OggPage p = OggPage.parse(data, pos);
+            OggPage p = OggPage.parseSource(data, pos);
             if (p == null || !p.isFirst()) {
                 break;
             }
             int len = 0;
             // 첫 패킷의 길이를 세그먼트에서 구한다.
             for (int i = 0; i < p.getSegmentCount(); i++) {
-                int s = data[p.getSegmentTableOffset() + i] & 0xFF;
+                int s = data.get(p.getSegmentTableOffset() + i);
                 len += s;
                 if (s < 255) {
                     break;
                 }
             }
-            codecs.add(OggStream.detectCodec(data, p.getPayloadOffset(), Math.min(len, p.getPayloadLength())));
+            codecs.add(OggStream.detectSourceCodec(data, p.getPayloadOffset(), len));
             pos = p.getEnd();
         }
         return codecs;

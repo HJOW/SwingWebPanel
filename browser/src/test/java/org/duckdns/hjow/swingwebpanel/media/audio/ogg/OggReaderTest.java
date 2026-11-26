@@ -1,9 +1,12 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.ogg;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.FileByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.OggMux;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
@@ -298,6 +301,67 @@ public class OggReaderTest {
         Check.equal(true, Arrays.equals(pk[0], got.get(0).getData()), "before the damage");
         Check.equal(true, Arrays.equals(pk[2], got.get(1).getData()), "after the damage");
         Check.equal(true, Arrays.equals(pk[3], got.get(2).getData()), "the last packet");
+    }
+
+    /**
+     * Reads a split packet, resynchronizes after garbage, and skips a CRC failure using small file windows.
+     * <p>
+     * 작은 파일 창에서 분할 패킷을 읽고 잡음 뒤에 다시 동기화하여 CRC가 틀린 페이지를 건너뛴다.
+     * @throws Exception on I/O or parser failure / 입출력이나 해석에 실패하면
+     */
+    public void testSeekableFilePageAndPacketReads() throws Exception {
+        byte[][] packets = packets(new int[] { 8, 70000, 12, 300 }, 31);
+        System.arraycopy("OpusHead".getBytes("US-ASCII"), 0, packets[0], 0, 8);
+        byte[] first = OggMux.mux(7, 0, new byte[][] { packets[0], packets[1] }, new long[] { 100, 200 }, 255, true, false);
+        OggStream start = OggReader.scan(first).getStreams().get(0);
+        int count = start.getPageCount();
+        byte[] bad = OggMux.mux(7, count, new byte[][] { packets[2] }, new long[] { 300 }, 255, false, false);
+        bad[bad.length - 1] ^= 1;
+        byte[] last = OggMux.mux(7, count + 1, new byte[][] { packets[3] }, new long[] { 400 }, 255, false, true);
+        byte[] encoded = OggMux.concat(first, new byte[] { 9, 8, 7, 6 }, bad, last);
+        File file = File.createTempFile("swp-ogg-source-", ".ogg");
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            try {
+                out.write(encoded);
+            } finally {
+                out.close();
+            }
+            FileByteSource input = new FileByteSource(file, 17);
+            try {
+                Check.equal(Arrays.asList("opus"), OggReader.sniffSourceCodecs(input), "codec from the first file page");
+                OggStream disk = OggReader.scanSource(input).findFirst("opus");
+                OggStream mem = OggReader.scan(encoded).findFirst("opus");
+                Check.equal(count + 2, disk.getPageCount(), "both indexed pages after the garbage");
+                // 캡처 위치와 그래뉼 및 분할 상태가 파일과 배열에서 같은지 확인한다.
+                for (int i = 0; i < disk.getPageCount(); i++) {
+                    Check.equal(mem.getPageOffset(i), disk.getPageOffset(i), "page offset " + i);
+                    Check.equal(mem.getPageGranule(i), disk.getPageGranule(i), "page granule " + i);
+                    Check.equal(mem.isPageContinued(i), disk.isPageContinued(i), "continuation flag " + i);
+                }
+                OggPacketStream reader = disk.openPackets(0);
+                Check.isTrue(Arrays.equals(packets[0], reader.next().getData()), "first packet");
+                Check.isTrue(Arrays.equals(packets[1], reader.next().getData()), "packet spanning multiple pages");
+                OggPacket tail = reader.next();
+                Check.isTrue(Arrays.equals(packets[3], tail.getData()) && tail.isLast(), "the final packet survives the damage");
+                Check.equal(400L, tail.getGranule(), "final granule");
+                Check.isNull(reader.next(), "end of stream");
+                Check.equal(1, reader.getDamagedPages(), "one wrong CRC");
+
+                OggPacketStream delayedRead = disk.openPackets(count + 1);
+                input.close();
+                try {
+                    delayedRead.next();
+                    Check.fail("reading a page of a closed file must fail");
+                } catch (MediaException expected) {
+                    Check.equal(MediaException.Kind.ACCESS_FAILED, expected.getKind(), "closed file is a storage error");
+                }
+            } finally {
+                input.close();
+            }
+        } finally {
+            Check.isTrue(file.delete(), "the caller can delete the fixture");
+        }
     }
 
     /**

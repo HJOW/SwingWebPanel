@@ -2,6 +2,9 @@ package org.duckdns.hjow.swingwebpanel.media.audio.ogg;
 
 import java.util.Arrays;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSourceException;
+import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 
 /**
  * Sequential reader of the packets of one logical Ogg bitstream. Packets are reassembled from the lacing segments of the pages; each page
@@ -27,7 +30,10 @@ public final class OggPacketStream {
      * <p>
      * 파일 데이터.
      */
-    private final byte[] data;
+    private final ByteSource data;
+
+    /** Reused bytes of the current page, starting at its header. / 페이지 헤더부터 시작하는 현재 페이지의 재사용 바이트 배열. */
+    private byte[] pageBytes = new byte[0];
 
     /**
      * The logical stream.
@@ -115,7 +121,7 @@ public final class OggPacketStream {
      * @param stream    the logical stream / 논리 스트림
      * @param startPage first page / 첫 페이지
      */
-    OggPacketStream(byte[] data, OggStream stream, int startPage) {
+    OggPacketStream(ByteSource data, OggStream stream, int startPage) {
         this.data = data;
         this.stream = stream;
         this.nextPage = Math.max(0, startPage);
@@ -138,7 +144,7 @@ public final class OggPacketStream {
      * 다음 패킷을 반환한다. 스트림 끝이면 null.
      *
      * @return the packet or null / 패킷 또는 null
-     * @throws MediaException CANCELLED if the thread is interrupted / 스레드가 인터럽트되면 CANCELLED
+     * @throws MediaException if interrupted or the input cannot be read / 인터럽트되었거나 입력을 읽을 수 없으면
      */
     public OggPacket next() throws MediaException {
         // 패킷이 완성될 때까지 페이지와 세그먼트를 차례로 읽는다.
@@ -148,7 +154,7 @@ public final class OggPacketStream {
             }
             // 현재 페이지의 남은 세그먼트를 처리한다.
             while (segment < page.getSegmentCount()) {
-                int len = data[page.getSegmentTableOffset() + segment] & 0xFF;
+                int len = pageBytes[OggPage.FIXED_HEADER + segment] & 0xFF;
                 segment++;
                 if (!discarding) {
                     append(payloadPos, len);
@@ -181,7 +187,7 @@ public final class OggPacketStream {
         boolean lastOnPage = true;
         // 이 뒤에도 패킷을 끝내는 세그먼트(255 미만)가 있으면 이 패킷은 페이지의 마지막이 아니다.
         for (int i = segment; i < page.getSegmentCount(); i++) {
-            if ((data[page.getSegmentTableOffset() + i] & 0xFF) < 255) {
+            if ((pageBytes[OggPage.FIXED_HEADER + i] & 0xFF) < 255) {
                 lastOnPage = false;
                 break;
             }
@@ -208,9 +214,9 @@ public final class OggPacketStream {
             return;
         }
         if (partialLength + len > partial.length) {
-            partial = Arrays.copyOf(partial, Math.max(partial.length * 2, partialLength + len));
+            partial = Arrays.copyOf(partial, Math.min(MAX_PACKET_BYTES, Math.max(partial.length * 2, partialLength + len)));
         }
-        System.arraycopy(data, from, partial, partialLength, len);
+        System.arraycopy(pageBytes, from, partial, partialLength, len);
         partialLength += len;
     }
 
@@ -220,7 +226,7 @@ public final class OggPacketStream {
      * 스트림의 다음 올바른 페이지를 읽고 이어짐 상태를 준비한다.
      *
      * @return false at the end of the stream / 스트림 끝이면 false
-     * @throws MediaException CANCELLED if the thread is interrupted / 스레드가 인터럽트되면 CANCELLED
+     * @throws MediaException if interrupted or the input cannot be read / 인터럽트되었거나 입력을 읽을 수 없으면
      */
     private boolean loadPage() throws MediaException {
         // 올바른 페이지를 찾을 때까지 페이지 번호를 올린다.
@@ -228,9 +234,10 @@ public final class OggPacketStream {
             if (Thread.currentThread().isInterrupted()) {
                 throw new MediaException(MediaException.Kind.CANCELLED, "Ogg reading was interrupted");
             }
-            int idx = nextPage++;
-            OggPage p = OggPage.parse(data, stream.getPageOffset(idx));
-            if (p == null || !p.isChecksumValid(data)) {
+            int idx = nextPage;
+            OggPage p = readPage(stream.getPageOffset(idx));
+            nextPage++;
+            if (p == null) {
                 damaged++;
                 partialLength = 0;
                 discarding = true;
@@ -253,9 +260,32 @@ public final class OggPacketStream {
             page = p;
             pageIndex = idx;
             segment = 0;
-            payloadPos = p.getPayloadOffset();
+            payloadPos = OggPage.FIXED_HEADER + p.getSegmentCount();
             return true;
         }
         return false;
+    }
+
+    /**
+     * Reads and checks one page in the reusable page buffer. / 재사용 페이지 버퍼에서 페이지 하나를 읽고 검증한다.
+     * @param offset page offset in the encoded input / 인코딩 입력의 페이지 위치
+     * @return valid page metadata or null / 올바른 페이지 메타데이터 또는 null
+     * @throws MediaException if the input cannot be read / 입력을 읽을 수 없으면
+     */
+    private OggPage readPage(int offset) throws MediaException {
+        try {
+            OggPage p = OggPage.parseSource(data, offset);
+            if (p == null) {
+                return null;
+            }
+            int length = p.getEnd() - offset;
+            if (length > pageBytes.length) {
+                pageBytes = new byte[Math.min(OggPage.MAX_PAGE_BYTES, Math.max(length, pageBytes.length * 2))];
+            }
+            Bytes.readFully(data, offset, pageBytes, 0, length);
+            return p.isChecksumValid(pageBytes, 0) ? p : null;
+        } catch (ByteSourceException e) {
+            throw e.toMediaException();
+        }
     }
 }

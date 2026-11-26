@@ -1,6 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.ogg;
 
 import java.util.Arrays;
+import java.util.BitSet;
+import org.duckdns.hjow.swingwebpanel.media.audio.ArrayByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 
 /**
@@ -25,7 +28,7 @@ public final class OggStream {
      * <p>
      * 파일 데이터.
      */
-    private final byte[] data;
+    private final ByteSource data;
 
     /**
      * Serial number.
@@ -62,6 +65,9 @@ public final class OggStream {
      */
     private long[] granules = new long[32];
 
+    /** Pages with a continued first packet. / 첫 패킷이 앞 페이지에 이어지는 페이지 표시. */
+    private final BitSet continued = new BitSet();
+
     /**
      * Number of pages.
      * <p>
@@ -84,7 +90,7 @@ public final class OggStream {
      * @param data   file data / 파일 데이터
      * @param serial serial number / 시리얼 번호
      */
-    OggStream(byte[] data, int serial) {
+    OggStream(ByteSource data, int serial) {
         this.data = data;
         this.serial = serial;
     }
@@ -106,6 +112,9 @@ public final class OggStream {
         }
         offsets[count] = p.getOffset();
         granules[count] = p.getGranule();
+        if (p.isContinued()) {
+            continued.set(count);
+        }
         count++;
         if (p.isLast()) {
             ended = true;
@@ -124,7 +133,7 @@ public final class OggStream {
         boolean complete = false;
         // 첫 패킷을 이루는 세그먼트의 길이를 더한다(255 미만인 세그먼트에서 끝난다).
         for (int i = 0; i < p.getSegmentCount(); i++) {
-            int s = data[p.getSegmentTableOffset() + i] & 0xFF;
+            int s = data.get(p.getSegmentTableOffset() + i);
             len += s;
             if (s < 255) {
                 complete = true;
@@ -132,7 +141,7 @@ public final class OggStream {
             }
         }
         if (complete) {
-            firstPacket = Arrays.copyOfRange(data, p.getPayloadOffset(), p.getPayloadOffset() + len);
+            firstPacket = Bytes.copy(data, p.getPayloadOffset(), len);
             codec = detectCodec(firstPacket, 0, len);
         }
     }
@@ -148,19 +157,30 @@ public final class OggStream {
      * @return "vorbis", "opus", "flac", "speex", "theora", "skeleton" or {@link #UNKNOWN} / "vorbis", "opus", "flac", "speex", "theora", "skeleton" 또는 {@link #UNKNOWN}
      */
     public static String detectCodec(byte[] d, int off, int len) {
-        if (len >= 7 && d[off] == 1 && Bytes.matches(d, off + 1, "vorbis")) {
+        return detectSourceCodec(new ArrayByteSource(d), off, len);
+    }
+
+    /**
+     * Reads a codec signature at a packet's start. / 패킷 시작에서 코덱 시그니처를 읽는다.
+     * @param d the encoded input / 인코딩 입력
+     * @param off packet offset / 패킷 위치
+     * @param len available packet length / 읽을 수 있는 패킷 길이
+     * @return a codec name or {@link #UNKNOWN} / 코덱 이름 또는 UNKNOWN
+     */
+    static String detectSourceCodec(ByteSource d, int off, int len) {
+        if (len >= 7 && d.get(off) == 1 && Bytes.matches(d, off + 1, "vorbis")) {
             return "vorbis";
         }
         if (len >= 8 && Bytes.matches(d, off, "OpusHead")) {
             return "opus";
         }
-        if (len >= 5 && (d[off] & 0xFF) == 0x7F && Bytes.matches(d, off + 1, "FLAC")) {
+        if (len >= 5 && d.get(off) == 0x7F && Bytes.matches(d, off + 1, "FLAC")) {
             return "flac";
         }
         if (len >= 8 && Bytes.matches(d, off, "Speex   ")) {
             return "speex";
         }
-        if (len >= 7 && (d[off] & 0xFF) == 0x80 && Bytes.matches(d, off + 1, "theora")) {
+        if (len >= 7 && d.get(off) == 0x80 && Bytes.matches(d, off + 1, "theora")) {
             return "theora";
         }
         if (len >= 8 && Bytes.matches(d, off, "fishead\0")) {
@@ -234,7 +254,7 @@ public final class OggStream {
      * @return true if the page is a continuation / 이어지는 페이지이면 true
      */
     public boolean isPageContinued(int index) {
-        return (data[offsets[index] + 5] & OggPage.FLAG_CONTINUED) != 0;
+        return continued.get(index);
     }
 
     /**
@@ -309,14 +329,4 @@ public final class OggStream {
         return new OggPacketStream(data, this, startPage);
     }
 
-    /**
-     * Returns the file data (shared, do not modify).
-     * <p>
-     * 파일 데이터를 반환한다(공유되므로 수정하지 않는다).
-     *
-     * @return data / 데이터
-     */
-    byte[] getData() {
-        return data;
-    }
 }
