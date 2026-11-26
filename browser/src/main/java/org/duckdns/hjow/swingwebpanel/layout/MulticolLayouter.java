@@ -547,19 +547,15 @@ final class MulticolLayouter {
     }
 
     /**
-     * Tells whether a break value forces a break of the columns: <code>always</code>, <code>all</code>, <code>column</code> and the
-     * page values (<code>page</code>, <code>left</code>, <code>right</code>, <code>recto</code>, <code>verso</code>), which break through all
-     * fragmentation contexts, the columns among them.
+     * Tells whether a break value forces a break in an unpaged column context (CSS Fragmentation 3 section 4.3).
      * <p>
-     * 나눔 값이 열을 강제로 나누는지 알려 준다: <code>always</code>, <code>all</code>, <code>column</code> 과 모든 분할 문맥(열 포함)을 가로질러 나누는 쪽 값
-     * (<code>page</code>, <code>left</code>, <code>right</code>, <code>recto</code>, <code>verso</code>).
+     * 쪽 매체가 없는 다단 문맥에서 나눔 값이 열을 강제로 나누는지 알려 준다(CSS Fragmentation 3 4.3절).
      *
      * @param v the keyword / 키워드
      * @return true if the break is forced / 강제이면 true
      */
     private static boolean isForced(String v) {
-        return "always".equals(v) || "all".equals(v) || "column".equals(v) || "page".equals(v) || "left".equals(v) || "right".equals(v)
-                || "recto".equals(v) || "verso".equals(v);
+        return "always".equals(v) || "all".equals(v) || "column".equals(v);
     }
 
     /**

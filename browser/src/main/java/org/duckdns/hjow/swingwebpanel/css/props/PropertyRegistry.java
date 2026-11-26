@@ -368,6 +368,9 @@ public final class PropertyRegistry implements GrammarRegistry {
         if (items.isEmpty()) {
             return INVALID;
         }
+        String breakAlias = "break-before".equals(c) || "break-after".equals(c) ? CssKeyword.lower(name) : "";
+        boolean pageAlias = breakAlias.startsWith("page-break-");
+        boolean columnAlias = breakAlias.startsWith("-webkit-column-break-");
         if (items.size() == 1 && items.get(0) instanceof CssToken && ((CssToken) items.get(0)).is(CssToken.IDENT)) {
             CssKeyword k = CssKeyword.of(((CssToken) items.get(0)).getValue());
             if (k.isCssWide()) {
@@ -377,12 +380,18 @@ public final class PropertyRegistry implements GrammarRegistry {
                 }
                 return OK;
             }
+            // 예전 이름의 always는 이름이 가리키는 분할 종류를 강제한다(CSS Fragmentation 3 3.4절).
+            if ((pageAlias || columnAlias) && "always".equals(k.getName())) {
+                out.put(Integer.valueOf(ids[0]), CssKeyword.of(pageAlias ? "page" : "column"));
+                return OK;
+            }
         }
         if (c.equals("all")) {
             return INVALID;
         }
         if (containsVar(items)) {
-            CssPending pending = new CssPending(c, CssParser.trim(value), env.getBaseUrl());
+            // 치환 결과가 always일 수도 있으므로 이 두 별칭은 재파싱할 때도 보존한다.
+            CssPending pending = new CssPending(pageAlias || columnAlias ? breakAlias : c, CssParser.trim(value), env.getBaseUrl());
             // var() 가 든 값은 모든 개별 속성에 대해 치환 대기 값이 된다.
             for (int i = 0; i < ids.length; i++) {
                 out.put(Integer.valueOf(ids[i]), pending);

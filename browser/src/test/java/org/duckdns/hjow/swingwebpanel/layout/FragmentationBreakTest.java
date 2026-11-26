@@ -1,6 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.layout;
 
 import java.util.List;
+import org.duckdns.hjow.swingwebpanel.css.cssom.CssStyleDeclaration;
 import org.duckdns.hjow.swingwebpanel.css.props.Prop;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
@@ -8,14 +9,14 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
 /**
  * Tests of the break properties in a multi-column container (plan item P10-08, CSS Fragmentation Module Level 3,
  * https://www.w3.org/TR/css-break-3/): a forced break from <code>break-before</code> and <code>break-after</code> (<code>column</code>,
- * <code>always</code>, <code>page</code> and the other forcing values, the legacy names <code>page-break-*</code> and
- * <code>-webkit-column-break-*</code>), no break at the start of the container, the propagation of the value of a first or last child,
+ * <code>always</code>, <code>all</code> and legacy names), page and region values in screen columns, no break at the start of the
+ * container, the propagation of the value of a first or last child,
  * <code>avoid</code> before and after a box and <code>break-inside: avoid</code> that moves a box to the next column when it would
  * be split.
  * <p>
  * 다단 컨테이너에서 나눔 속성 시험(계획 P10-08, CSS Fragmentation Module Level 3, https://www.w3.org/TR/css-break-3/): <code>break-before</code> 와
- * <code>break-after</code> 의 강제 나눔(<code>column</code>, <code>always</code>, <code>page</code> 와 그 밖의 강제 값, 예전 이름 <code>page-break-*</code>,
- * <code>-webkit-column-break-*</code>), 컨테이너 시작에서는 나누지 않음, 첫 자식과 마지막 자식 값의 전파, 상자 앞뒤의 <code>avoid</code>,
+ * <code>break-after</code> 의 강제 나눔(<code>column</code>, <code>always</code>, <code>all</code>과 예전 이름), 화면의 쪽과 영역 값,
+ * 컨테이너 시작에서는 나누지 않음, 첫 자식과 마지막 자식 값의 전파, 상자 앞뒤의 <code>avoid</code>,
  * 나뉘게 될 상자를 다음 열로 옮기는 <code>break-inside: avoid</code>.
  */
 public class FragmentationBreakTest {
@@ -117,9 +118,9 @@ public class FragmentationBreakTest {
     }
 
     /**
-     * There is no break at the start of the container, and the other forcing values and the legacy names force a break too.
+     * There is no break at the start of the container, and generic and legacy column values force a break elsewhere.
      * <p>
-     * 컨테이너 시작에서는 나누지 않으며 다른 강제 값과 예전 이름도 나눔을 강제한다.
+     * 컨테이너 시작에서는 나누지 않으며 일반 값과 예전 열 나눔 값은 다른 위치에서 강제로 나눈다.
      */
     public void testStartValuesAndAliases() {
         // 열 높이가 고정이고 column-fill:auto 이면 내용이 첫 열을 채운다(균형을 맞추면 상자가 열마다 하나씩 놓인다).
@@ -127,22 +128,41 @@ public class FragmentationBreakTest {
         LayoutResult first = run(fixed, blk("b1", 20, "break-before:column") + blk("b2", 20, ""));
         Check.near(0, b(first, "b1").getX(), T, "no break before the first box");
         Check.near(0, b(first, "b2").getX(), T, "so b2 follows in the first column");
-        String[] values = {"always", "all", "page", "left", "right", "recto", "verso"};
+        String[] values = {"always", "all", "column"};
         // 열을 강제로 나누는 값마다 b2 가 둘째 열에서 시작하는지 확인한다.
         for (int i = 0; i < values.length; i++) {
-            LayoutResult r = run("", blk("b1", 20, "") + blk("b2", 20, "break-before:" + values[i]));
+            LayoutResult r = run(fixed, blk("b1", 20, "") + blk("b2", 20, "break-before:" + values[i]));
             Check.near(110, b(r, "b2").getX(), T, "break-before:" + values[i] + " forces a break");
         }
-        LayoutResult legacy = run("", blk("b1", 20, "page-break-after:always") + blk("b2", 20, ""));
-        Check.near(110, b(legacy, "b2").getX(), T, "page-break-after:always");
-        LayoutResult legacyBefore = run("", blk("b1", 20, "") + blk("b2", 20, "page-break-before:always"));
-        Check.near(110, b(legacyBefore, "b2").getX(), T, "page-break-before:always");
-        LayoutResult webkit = run("", blk("b1", 20, "-webkit-column-break-after:always") + blk("b2", 20, ""));
+        LayoutResult webkit = run(fixed, blk("b1", 20, "-webkit-column-break-after:always") + blk("b2", 20, ""));
         Check.near(110, b(webkit, "b2").getX(), T, "-webkit-column-break-after:always");
+        LayoutResult webkitBefore = run(fixed, blk("b1", 20, "") + blk("b2", 20, "--force:always;-webkit-column-break-before:var(--force)"));
+        Check.equal("column", b(webkitBefore, "b2").getStyle().keyword(Prop.BREAK_BEFORE), "the column alias survives variable substitution");
+        Check.near(110, b(webkitBefore, "b2").getX(), T, "the substituted column alias starts a column");
         LayoutResult none = run(fixed, blk("b1", 20, "break-after:auto") + blk("b2", 20, "break-before:avoid"));
         Check.near(0, b(none, "b2").getX(), T, "auto and avoid do not force a break");
         LayoutResult pageAvoid = run(fixed, blk("b1", 20, "break-after:avoid-page") + blk("b2", 20, "break-before:avoid-page"));
         Check.near(0, b(pageAvoid, "b2").getX(), T, "avoid-page does not force a break");
+    }
+
+    /**
+     * Paged and regional breaks require a matching ancestor context. / 쪽과 영역 나눔에는 해당 종류의 조상 문맥이 필요하다.
+     */
+    public void testPageAndRegionBreaksLeaveScreenColumnsIntact() {
+        String fixed = "height:100px;column-fill:auto;";
+        String[] values = {"page", "left", "right", "recto", "verso", "region"};
+        // 쪽·영역 분할 값은 앞과 뒤 어느 쪽에 지정해도 화면의 열을 나누지 않는다.
+        for (String value : values) {
+            LayoutResult before = run(fixed, blk("b1", 20, "") + blk("b2", 20, "break-before:" + value));
+            Check.near(0, b(before, "b2").getX(), T, "break-before:" + value + " leaves the following box in the first column");
+            LayoutResult after = run(fixed, blk("b1", 20, "break-after:" + value) + blk("b2", 20, ""));
+            Check.near(0, b(after, "b2").getX(), T, "break-after:" + value + " leaves the following box in the first column");
+        }
+        CssStyleDeclaration declaration = CssStyleDeclaration.parse("--force:always;page-break-before:var(--force)", null, null);
+        LayoutResult legacy = run(fixed, blk("b1", 20, "page-break-after:always") + blk("b2", 20, declaration.getCssText()));
+        Check.equal("page", b(legacy, "b1").getStyle().keyword(Prop.BREAK_AFTER), "legacy always computes to page");
+        Check.equal("page", b(legacy, "b2").getStyle().keyword(Prop.BREAK_BEFORE), "variable substitution preserves the page alias");
+        Check.near(0, b(legacy, "b2").getX(), T, "legacy page values stay in the first column on screen");
     }
 
     /**

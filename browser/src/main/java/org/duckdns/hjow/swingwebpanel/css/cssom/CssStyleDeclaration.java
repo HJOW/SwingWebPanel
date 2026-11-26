@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.duckdns.hjow.swingwebpanel.css.CssDiagnostics;
+import org.duckdns.hjow.swingwebpanel.css.props.Property;
 import org.duckdns.hjow.swingwebpanel.css.props.PropertyRegistry;
 import org.duckdns.hjow.swingwebpanel.css.props.Shorthand;
 import org.duckdns.hjow.swingwebpanel.css.syntax.ComponentValue;
 import org.duckdns.hjow.swingwebpanel.css.syntax.CssBlock;
 import org.duckdns.hjow.swingwebpanel.css.syntax.CssParser;
 import org.duckdns.hjow.swingwebpanel.css.syntax.SyntaxDeclaration;
+import org.duckdns.hjow.swingwebpanel.css.values.CssPending;
 import org.duckdns.hjow.swingwebpanel.css.values.CssValue;
 import org.duckdns.hjow.swingwebpanel.css.values.ParseEnv;
 
@@ -560,7 +562,18 @@ public final class CssStyleDeclaration {
                 sb.append(' ');
             }
             String pri = getPropertyPriority(n);
-            sb.append(n).append(": ").append(getPropertyValue(n)).append(pri.length() > 0 ? " !important" : "").append(';');
+            Property property = reg.byName(n);
+            CssValue value = property == null ? null : (pri.length() > 0 ? important : normal).get(Integer.valueOf(property.getId()));
+            String name = n;
+            // 다시 파싱할 때 var() 결과의 문법이 달라지는 별칭은 쓰인 이름을 보존한다.
+            if (value instanceof CssPending) {
+                String original = ((CssPending) value).getProperty();
+                if (n.equals(reg.canonicalName(original))) {
+                    name = original;
+                }
+            }
+            sb.append(name).append(": ").append(value == null ? getPropertyValue(n) : value.toCssText())
+                    .append(pri.length() > 0 ? " !important" : "").append(';');
         }
         return sb.toString();
     }
