@@ -1029,7 +1029,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
 
 아래 P30-01~03은 이 문제를 막도록 고친 구현 방안이다. P30에서 판정 구조와 두 갈래의 닫기 경로를 먼저 만들고, P31-08은 "웹 콘텐츠가 만든 창" 표시만 붙인다.
 
-- [ ] P30-01. 공개 API 계약을 `docs/API_CONTRACT.md` 5.23절(확장 메서드)과 2절 요약표·3절 초기 상태·5.13/5.14절의 유지·제거 표에 확정한다. `tools/webfetch`로 HTML Standard의 `window.close()`·`closed`·script-closable 정의를 조회하여 URL·조회 날짜를 기능 표에 고정한다. 기본안은 다음과 같다.
+- [x] P30-01. 공개 API 계약을 `docs/API_CONTRACT.md` 5.23절(확장 메서드)과 2절 요약표·3절 초기 상태·5.13/5.14절의 유지·제거 표에 확정한다. `tools/webfetch`로 HTML Standard의 `window.close()`·`closed`·script-closable 정의를 조회하여 URL·조회 날짜를 기능 표에 고정한다. 기본안은 다음과 같다. 완료(2026-11-26): 계약 5.23절과 2·3·4절, 5.13/5.14절, 10절(C-ROOTCLOSE-1~8)에 확정했고, `tools/webfetch`로 조회한 판본(Last Updated 26 November 2026)을 기능 표 API-31에 고정했다. 아래 기본안을 그대로 채택했으며, 추가로 정한 것은 두 가지이다. 무시할 때의 콘솔 경고는 `warn` 수준으로 호출한 문서에 보낸다. 아무 일도 하지 않는 `back`/`forward`는 닫기를 취소하지 않는다.
   - 메서드와 상태: `public void setRootWindowClosingEnabled(boolean enabled)`, `public boolean isRootWindowClosingEnabled()`.
     - 생성 직후 값은 false이다. 어느 스레드에서나 호출할 수 있고, 바뀐 값은 다음 닫기 판정부터 적용한다.
     - 값이 바뀌면 속성 변경 알림(`PROPERTY_ROOT_WINDOW_CLOSING_ENABLED` = `"rootWindowClosingEnabled"`)을 EDT에서 발생시킨다.

@@ -40,6 +40,7 @@ public class SwingWebPanel extends javax.swing.JPanel implements javax.swing.Scr
 | `removeHyperlinkEvents()` | - | void | - | 모든 하이퍼링크 리스너 제거 |
 | `addConsoleListener`/`removeConsoleListener`/`getConsoleListeners()` | 리스너 | void / 배열 | IAE(null), ISE(폐기, 등록만) | 콘솔 출력 통지(확장, 5.20) |
 | `postMessage(Object[,String])`, `addWebMessageListener`/`removeWebMessageListener`/`getWebMessageListeners()` | 메시지와 대상 오리진, 리스너 | void / 배열 | IAE, ISE | Java 호스트와 페이지 스크립트 간 `message` 통신(5.22, C-MESSAGE-1~8) |
+| `setRootWindowClosingEnabled(boolean)`/`isRootWindowClosingEnabled()` | 허용 여부 | void / boolean | ISE(폐기, 변경만) | 본 창의 `window.close()` 허용(확장, 5.23). 허용하면 기본 동작은 `System.exit(0)` |
 | `clean()` | - | void | ISE | 빈 페이지 + 캐시/저장소 삭제 |
 | `dispose()` | - | void | - | 반복 호출 안전 |
 | `addHeaders(Map<String,String>)` | 헤더 | void | IAE | 덮어쓰기 |
@@ -62,13 +63,14 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 | `getHeaders()` | 빈 맵 |
 | `getCookies()` | `""` |
 | JavaScript | **활성**(`true`). 사용자 문서에도 기록한다 |
+| `isRootWindowClosingEnabled()` | `false`(본 창의 `window.close()` 는 무시한다, 5.23) |
 | `getProgress()` | 100 |
 | `getStatusText()` | `""` |
 | `getLocalStorage()`/`getSessionStorage()` | 빈 컬렉션(저장된 것이 없을 때) |
 
 ## 4. 속성 변경 통지 (P03-06)
 
-`PropertyChangeListener` 로 `"page"`(String), `"statusText"`(String), `"progress"`(Integer), `"title"`(String)를 EDT 에서 통지한다.
+`PropertyChangeListener` 로 `"page"`(String), `"statusText"`(String), `"progress"`(Integer), `"title"`(String), `"rootWindowClosingEnabled"`(Boolean, 5.23)를 EDT 에서 통지한다.
 값이 실제로 달라졌을 때만 통지한다.
 
 ## 5. 메서드별 상세
@@ -193,7 +195,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 
 - 진행 중 작업(요청, 스크립트, 타이머, 미디어, 다운로드 팝업과 다운로드)을 취소하고 `about:blank` 로 전환, **이력을 `about:blank` 하나로 초기화**한다.
 - 이 컴포넌트의 모든 **캐시**와 **sessionStorage**, 그리고 **프로세스 공용 localStorage 전체**를 비운다.
-- **유지**: User-Agent, 추가 헤더, **쿠키**, JavaScript 설정, 사용자 리스너(하이퍼링크·콘솔·웹 메시지 포함). 대기 중인 웹 메시지는 비운다.
+- **유지**: User-Agent, 추가 헤더, **쿠키**, JavaScript 설정, 본 창 닫기 허용 설정(5.23), 사용자 리스너(하이퍼링크·콘솔·웹 메시지 포함). 대기 중인 웹 메시지는 비운다. 예약된 창 닫기(5.23)는 취소한다.
 - 공유 localStorage 삭제는 같은 JVM 의 **다른 컴포넌트에도 영향**을 준다(그 컴포넌트의 이후 조회가 빈 값을 반환하고, 같은 오리진의 문서에는 storage 이벤트가 전달된다). 이 영향은 사용자 문서에 명시한다.
 - 완료된 다운로드 파일은 지우지 않는다. 이미 폐기된 컴포넌트에서의 호출은 `IllegalStateException`.
 
@@ -201,9 +203,9 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 
 - 한 번만 자원을 해제한다. **반복 호출은 안전**하게 끝난다(예외 없음).
 - `clean()` 과 같은 정리 후, 이 객체에 등록된 모든 사용자 리스너와 자체 생성 이벤트 연결, 타이머, 작업, 미디어, 하위 프레임을 제거한다.
-- 폐기 후 **변경 메서드**(`setPage`, `setContent`, `back`, `forward`, `refresh`, `setUserAgent`, `addHeaders`, `setJavascriptEnabled`, `clean`, `postMessage`, 리스너 등록)는 `IllegalStateException`.
+- 폐기 후 **변경 메서드**(`setPage`, `setContent`, `back`, `forward`, `refresh`, `setUserAgent`, `addHeaders`, `setJavascriptEnabled`, `setRootWindowClosingEnabled`, `clean`, `postMessage`, 리스너 등록)는 `IllegalStateException`.
   **조회 메서드**는 마지막 빈 상태를 반환한다: `getPage()`=`about:blank`, `getContent()`=`""`, `getHistories()`=`[about:blank]`, `getStatusText()`=`""`, `getProgress()`=100,
-  `getHeaders()`=빈 맵, `getCookies()`=`""`, 저장소 조회=빈 컬렉션, `getUserAgent()`=마지막으로 설정한 값.
+  `getHeaders()`=빈 맵, `getCookies()`=`""`, 저장소 조회=빈 컬렉션, `getUserAgent()`=마지막으로 설정한 값, `isRootWindowClosingEnabled()`=마지막으로 설정한 값.
 - 제거 대상 표:
 
 | 대상 | dispose 시 | 구분 방법 |
@@ -385,6 +387,69 @@ panel.postMessage("hello", "https://app.example");             // 대상 오리�
 | 객체·배열 및 함수 | 메시지는 문서 수명과 독립된 복사본을 보낸다. 살아 있는 엔진 핸들, 임의 Java 객체와 호스트 함수는 거부된다. |
 | 날짜와 바이트 | 메시지는 날짜와 바이트를 복사값으로 바꾼다. Java의 `byte[]`는 JS ArrayBuffer다. |
 
+### 5.23 확장 메서드: 본 창 닫기 허용 (P30, 확장이며 AGENTS.md 의 공개 메서드 목록에는 없다)
+
+`public void setRootWindowClosingEnabled(boolean enabled)`, `public boolean isRootWindowClosingEnabled()`,
+`protected void closeRootWindow()`, 속성 이름 상수 `PROPERTY_ROOT_WINDOW_CLOSING_ENABLED`(`"rootWindowClosingEnabled"`).
+
+기준 규격: WHATWG HTML Living Standard [7.2.2.1 Opening and closing windows](https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-window-close)
+(`close()`, `closed`, script-closable; Last Updated 26 November 2026, `tools/webfetch` 로 2026-11-26 조회, 응답 `last-modified: Thu, 26 Nov 2026 00:20:43 GMT`).
+
+**무엇을 하는가.** `true` 로 지정하면 이 컴포넌트에 띄운 페이지가 팝업이 아닌 본 창에서 `window.close()` 를 불러 창을 닫을 수 있다.
+이때 기본 동작은 `System.exit(0)` 으로 프로그램을 끝내는 것이다. 기본값은 `false` 이며 이때 본 창의 `window.close()` 는 무시된다.
+
+**설정.**
+
+- 생성 직후 `false`. 어느 스레드에서나 호출할 수 있고, 바뀐 값은 다음 `window.close()` 판정부터 적용한다.
+- 값이 실제로 바뀌면 `"rootWindowClosingEnabled"` 속성 변경을 EDT 에서 통지한다(`Boolean`).
+- `clean()` 은 값을 유지한다. `dispose()` 뒤의 변경은 `IllegalStateException` 이고 조회는 마지막 값을 반환한다.
+- **보안**: 신뢰할 수 없는 페이지를 띄우는 컴포넌트에서 켜면 그 페이지가 프로그램을 종료할 수 있다. 호스트가 내용을 통제하는 페이지에서만 켠다.
+
+**창을 만든 주체.** 표준에서 스크립트가 닫을 수 있는(script-closable) 창은 "웹 콘텐츠가 만든 창"이거나 세션 이력 항목이 하나인 최상위 창이다.
+이 컴포넌트는 창(컴포넌트의 최상위 브라우징 문맥)마다 만든 주체를 기록한다.
+
+| 창 | 닫을 수 있는 조건 | 닫는 동작 |
+| --- | --- | --- |
+| 호스트가 만든 창(공개 생성자로 만든 `SwingWebPanel`. 이 절이 말하는 "본 창") | `setRootWindowClosingEnabled(true)` 일 때만 | EDT 에서 `closeRootWindow()` 한 번. 기본 구현은 `System.exit(0)` |
+| 웹 콘텐츠가 만든 창(P31 의 `window.open` 팝업, `_blank` 링크·폼으로 연 창) | 이 설정과 무관하게 표준대로 | 그 창을 담은 쪽만 닫는다. `closeRootWindow()` 와 `System.exit(0)` 은 부르지 않는다 |
+
+- 본 창에는 표준의 "세션 이력 항목이 하나" 규칙을 적용하지 않는다. 이 컴포넌트의 이력은 처음 `about:blank` 항목을 남기고(3절), 본 창은 호스트가 연 창이기 때문이다.
+  이 때문에 이력이 하나뿐인 창을 스크립트가 닫게 하는 브라우저(Chromium)와 다르다.
+- P30 시점에는 모든 컴포넌트가 "호스트가 만든 창"이다. 웹 콘텐츠가 만든 창을 실제로 만드는 경로는 P31-08 이 추가한다.
+
+**호출한 쪽의 조건.**
+
+- 공통(표준): 최상위 창의 `close()` 만 처리한다. 하위 프레임 자기 자신의 `window.close()` 는 무시한다. 이미 닫는 중이면 무시한다.
+- 본 창(호스트가 만든 창)은 닫으면 프로그램이 끝나므로 표준보다 좁게 받는다.
+  - 받는 호출: 그 컴포넌트의 최상위 문서 자신, 그리고 최상위 문서와 같은 오리진이며 샌드박스가 최상위 이동을 막지 않는 하위 프레임의 `top.close()`/`parent.close()`.
+  - 무시하는 호출: 교차 오리진 하위 프레임의 `top.close()`, `allow-top-navigation` 없는 샌드박스 프레임의 `top.close()`, 다른 창의 스크립트가 부른 `close()`.
+  - 표준은 교차 오리진 하위 프레임(자기 최상위와 "familiar")과 같은 오리진의 다른 창이 부르는 것도 허용한다. 다른 문서가 프로그램 전체를 끝내지 못하게 하려는 프로젝트 정책이다.
+- 웹 콘텐츠가 만든 창에는 표준 조건(호출한 문서가 대상과 familiar 이고 샌드박스가 대상의 이동을 허용)만 적용한다.
+- Worker 와 AudioWorklet 에는 `close()` 로 창을 닫는 길이 없다.
+
+**무시할 때.** 아무 동작도 하지 않고 `closed` 는 `false` 로 남는다. 호출한 문서의 콘솔에 `warn` 수준으로 이유를 알린다(5.20 의 콘솔 리스너로 받을 수 있다).
+표준에는 경고 규정이 없으며 Chromium 과 같은 구현 선택이다. 프레임 자기 자신의 `close()` 와 이미 닫는 중인 창의 반복 호출은 경고 없이 무시한다.
+
+**닫을 때(표준의 닫기 절차).**
+
+1. `close()` 를 부른 즉시 창이 "닫는 중"이 된다. `closed` 는 표준대로 "창이 없거나(폐기) 닫는 중"이면 `true` 이다.
+   최상위 창의 `closed`, 프레임에서 본 `top.closed`, 교차 오리진에서 본 `closed` 가 모두 같은 값을 읽는다.
+2. 실제 닫기는 호출한 스크립트 작업과 그 마이크로태스크 검사점이 끝난 뒤, 문서 큐의 다음 작업으로 수행한다.
+   즉 "바로 종료"는 "호출한 스크립트 작업이 끝난 직후 종료"이다. `window.close()` 뒤에 같은 작업에서 실행되는 문장은 끝까지 실행된다.
+3. 닫기 작업은 지금 보이는 페이지의 언로드 이벤트(`beforeunload`, `pagehide`, `visibilitychange`, `unload`)를 확인 대화 상자 없이 한 번 실행한다.
+   그 뒤의 `dispose()`/`clean()` 은 이 이벤트를 다시 보내지 않는다.
+4. 그 뒤 EDT 에서 닫는 동작을 한 번 수행한다(위 표).
+
+**취소.** 페이지 스크립트의 이동(`location`, 링크, 폼)과 진행 중인 로딩은 닫기를 취소하지 않는다(표준과 같다).
+닫기를 취소하는 것은 닫는 동작이 시작되기 전의 호스트 조작뿐이다: Java 의 `setPage`, `setContent`, `back`, `forward`, `refresh`, `clean()`, `dispose()`,
+`setJavascriptEnabled(false)`, 그리고 본 창에서의 `setRootWindowClosingEnabled(false)`. 취소하면 닫는 중 상태가 풀리고 `closed` 는 다시 `false` 가 된다.
+아무 일도 하지 않는 `back`/`forward`(이동할 칸이 없음)는 취소하지 않는다.
+
+**확장 지점.** `closeRootWindow()` 는 `configureSsl` 처럼 호스트와 시험이 재정의할 수 있다(예: 프로그램을 끝내지 않고 그 창이나 탭만 닫기).
+재정의한 메서드가 반환하면 컴포넌트와 페이지는 그대로 남고 `closed` 는 `true` 를 유지한다(이미 언로드 이벤트를 들은 페이지이다).
+그 뒤 컴포넌트를 폐기할지 다른 페이지로 이동시킬지는 호스트가 정한다. 호스트가 이동시키면 위 취소 규칙대로 닫는 중 상태가 풀린다.
+JavaScript 를 실행하지 않는 페이지(`setJavascriptEnabled(false)`, `text/plain` 등)에는 `window.close()` 를 부를 스크립트가 없으므로 해당하지 않는다.
+
 ## 6. 허용 스킴 정책 (P01-12)
 
 | 스킴 | 정책 |
@@ -457,5 +522,6 @@ HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도�
 | C-SSL-1~3 | SSL | protected 재정의 호출, HTTPS 실패 후 HTTP 재시도, 404 비재시도 |
 | C-CONSOLE-1~8 | 콘솔 리스너(5.20) | log/error 수준·문자열·인수·위치·EDT, 모든 콘솔 메서드의 수준, Swing 등록 규칙, 리스너 예외 격리, 브라우저 보고의 종류, 모든 스크립트 실행 위치, 프레임/Worker 표시, 대량 출력 상한, 이동·clean·dispose·JavaScript 설정 |
 | C-MESSAGE-1~8 | 호스트 메시지(5.22, P27) | `HostOutboundMessageTest`: 1 대상 오리진·신뢰 이벤트, 2 파싱 중 발신·이동 취소. `HostInboundMessageTest`: 3 준비 알림·EDT 응답, 4 값과 전달 오류, 5 프레임·Worker·교체 응답. `HostMessageQueueTest`: 6 마이크로태스크와 리스너 예외, 7 대기 건수·바이트. `HostMessageLifecycleTest`: 8 비활성·정리·폐기와 약한 수명. 클래스패스 왕복은 `MessageExample --smoke`. |
+| C-ROOTCLOSE-1~8 | 본 창 닫기 허용(5.23, P30) | `RootWindowClosingTest`: 1 기본값·속성 통지·폐기 뒤 ISE, 2 기본값에서 무시와 콘솔 경고, 3 허용 시 EDT 한 번·작업과 마이크로태스크 뒤·`closed`·반복 호출, 4 프레임(같은/다른 오리진, 샌드박스, 프레임 자신), 5 페이지 이동은 취소하지 않고 호스트 조작은 취소, 6 언로드 이벤트 한 번, 7 웹 콘텐츠가 만든 창 경로, 8 기본 구현의 `System.exit(0)`(별도 JVM) |
 
 사례 ID는 구현 시 `browser/src/test/java`의 메서드 이름에 포함하고 `FEATURE_MATRIX.md`의 검증 사례 열과 일치시킨다.
