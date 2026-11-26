@@ -36,7 +36,7 @@ SwingWebPanel 컴포넌트 사용 시 다음 사항을 dependencies 에 넣습�
 <dependency>
     <groupId>org.duckdns.hjow</groupId>
     <artifactId>swingwebpanel</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
 </dependency>
 ```
 만약 Swing 컴포넌트가 아닌 스크립트 엔진으로만 사용한다면 다음과 같이 사용하면 됩니다.
@@ -44,7 +44,7 @@ SwingWebPanel 컴포넌트 사용 시 다음 사항을 dependencies 에 넣습�
 <dependency>
     <groupId>org.duckdns.hjow</groupId>
     <artifactId>swingwebpanel-js</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
 </dependency>
 ```
     
