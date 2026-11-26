@@ -2,10 +2,11 @@ package org.duckdns.hjow.swingwebpanel.media.audio.pcm;
 
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
-import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteAudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
 
 /**
  * Decoder of AIFF and AIFF-C files (plan item P18-07, FEATURE_MATRIX AUD-02): big-endian PCM of 1 to 32 bits, and the AIFF-C
@@ -19,7 +20,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
  * <code>ulaw</code>, <code>alaw</code>, <code>ima4</code>(QuickTime IMA ADPCM). 샘플링 주파수는 80비트 확장 수에서 읽는다. 다른 압축 유형은 지원하지 않는
  * 형식으로 보고한다. 소리 데이터 청크가 선언한 프레임 수보다 짧으면(잘린 파일) 스트림이 일찍 끝난다.
  */
-public final class AiffDecoder implements WideAudioDecoder {
+public final class AiffDecoder extends ByteAudioDecoder {
 
     /**
      * Creates the decoder.
@@ -59,36 +60,8 @@ public final class AiffDecoder implements WideAudioDecoder {
      * @param data the data / 데이터
      * @return true if it matches / 맞으면 true
      */
-    public boolean accepts(byte[] data) {
+    public boolean acceptsSource(ByteSource data) {
         return Bytes.matches(data, 0, "FORM") && (Bytes.matches(data, 8, "AIFF") || Bytes.matches(data, 8, "AIFC"));
-    }
-
-    /**
-     * Opens the file for decoding.
-     * <p>
-     * 디코딩을 위해 파일을 연다.
-     *
-     * @param data   the data / 데이터
-     * @param limits limits / 제한
-     * @return PCM source / PCM 소스
-     * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
-     */
-    public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
-        return (PcmSource) create(data, false);
-    }
-
-    /**
-     * Opens the data with every channel of the file and the precision of its samples (see {@link WideAudioDecoder}).
-     * <p>
-     * 파일의 모든 채널과 표본의 정밀도로 데이터를 연다({@link WideAudioDecoder} 참조).
-     *
-     * @param data   the whole encoded data / 인코딩된 전체 데이터
-     * @param limits limits to respect / 지켜야 할 제한
-     * @return a float source positioned at the start / 처음에 위치한 float 소스
-     * @throws MediaException the failures of {@link #open} / {@link #open} 의 실패
-     */
-    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
-        return (FloatPcmSource) create(data, true);
     }
 
     /**
@@ -97,11 +70,12 @@ public final class AiffDecoder implements WideAudioDecoder {
      * 헤더를 해석하고 요청한 형태의 소스({@link PcmSource} 또는 {@link FloatPcmSource})를 만든다.
      *
      * @param data the whole file / 파일 전체
+     * @param limits resource limits / 리소스 제한
      * @param wide true for the wide path / 넓은 경로이면 true
      * @return the source / 소스
      * @throws MediaException on a damaged or unsupported file / 손상되었거나 지원하지 않는 파일이면
      */
-    private Object create(byte[] data, boolean wide) throws MediaException {
+    protected Object create(ByteSource data, DecodeLimits limits, boolean wide) throws MediaException {
         boolean aifc = Bytes.matches(data, 8, "AIFC");
         int pos = 12;
         int comm = -1;
@@ -113,7 +87,7 @@ public final class AiffDecoder implements WideAudioDecoder {
             String id = Bytes.ascii(data, pos, 4);
             long size = Bytes.be32(data, pos + 4);
             int body = pos + 8;
-            long remaining = data.length - body;
+            long remaining = data.length() - body;
             if ("COMM".equals(id) && comm < 0) {
                 comm = body;
                 commSize = (int) Math.min(size, remaining);
@@ -177,13 +151,13 @@ public final class AiffDecoder implements WideAudioDecoder {
      * @return PCM source / PCM 소스
      * @throws MediaException for a missing or invalid sound chunk / SSND 청크가 없거나 올바르지 않으면
      */
-    private static Object openIma4(boolean wide, byte[] data, int sound, long soundSize, int channels, double rate) throws MediaException {
+    private static Object openIma4(boolean wide, ByteSource data, int sound, long soundSize, int channels, double rate) throws MediaException {
         if (sound < 0 || soundSize < 8) {
             throw new MediaException(MediaException.Kind.CORRUPT, "the AIFF file has no sound data chunk");
         }
         long offset = Bytes.be32(data, sound);
         long start = sound + 8 + offset;
-        long end = Math.min(sound + soundSize, data.length);
+        long end = Math.min(sound + soundSize, data.length());
         if (start > end) {
             throw new MediaException(MediaException.Kind.CORRUPT, "invalid AIFF sound data offset");
         }
@@ -262,7 +236,7 @@ public final class AiffDecoder implements WideAudioDecoder {
      * @param p offset of the 10 bytes / 10바이트의 위치
      * @return the value, or NaN for an invalid number / 값. 올바르지 않으면 NaN
      */
-    static double extended(byte[] d, int p) {
+    static double extended(ByteSource d, int p) {
         int se = Bytes.be16(d, p);
         int exp = se & 0x7FFF;
         double mant = Bytes.be32(d, p + 2) * 4294967296.0 + Bytes.be32(d, p + 6);

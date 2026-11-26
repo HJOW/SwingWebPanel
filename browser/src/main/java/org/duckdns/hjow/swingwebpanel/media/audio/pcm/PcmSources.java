@@ -1,7 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.pcm;
 
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.ArrayByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.ByteSourceException;
 import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
@@ -29,25 +28,6 @@ final class PcmSources {
     }
 
     /**
-     * Creates the source of uncompressed or companded samples.
-     * <p>
-     * 비압축이나 압신 표본의 소스를 만든다.
-     *
-     * @param wide       true for the wide path / 넓은 경로이면 true
-     * @param data       file data / 파일 데이터
-     * @param start      offset of the first sample / 첫 샘플의 위치
-     * @param end        end offset of the samples / 샘플의 끝 위치
-     * @param format     sample encoding / 샘플 인코딩
-     * @param channels   channels / 채널 수
-     * @param sampleRate frames per second / 초당 프레임 수
-     * @param mixer      the mixer of the 16 bit path for more than two channels, or null (the wide path does not mix) / 채널이 둘보다 많을 때 16비트 경로의 믹서. 또는 null(넓은 경로는 섞지 않는다)
-     * @return a {@link RawFloatSource} or a {@link RawPcmSource} / {@link RawFloatSource} 또는 {@link RawPcmSource}
-     */
-    static Object raw(boolean wide, byte[] data, int start, int end, SampleFormat format, int channels, int sampleRate, ChannelMixer mixer) {
-        return raw(wide, new ArrayByteSource(data), start, end, format, channels, sampleRate, mixer);
-    }
-
-    /**
      * Creates a source that owns an encoded PCM input. / 인코딩된 PCM 입력을 소유하는 소스를 만든다.
      * @param wide true for float samples / 부동 소수점 표본이면 true
      * @param data the input to own / 소유할 입력
@@ -64,29 +44,6 @@ final class PcmSources {
             return new RawFloatSource(data, start, end, format, channels, sampleRate);
         }
         return new RawPcmSource(data, start, end, format, channels, sampleRate, mixer);
-    }
-
-    /**
-     * Creates the source of ADPCM samples.
-     * <p>
-     * ADPCM 표본의 소스를 만든다.
-     *
-     * @param wide            true for the wide path / 넓은 경로이면 true
-     * @param data            file data / 파일 데이터
-     * @param start           offset of the first block / 첫 블록의 위치
-     * @param end             end offset of the blocks / 블록의 끝 위치
-     * @param kind            the ADPCM kind of {@link AdpcmSource} / {@link AdpcmSource} 의 ADPCM 종류
-     * @param channels        channels / 채널 수
-     * @param sampleRate      frames per second / 초당 프레임 수
-     * @param blockAlign      bytes per block / 블록당 바이트 수
-     * @param samplesPerBlock frames per block / 블록당 프레임 수
-     * @param coefs           coefficients of Microsoft ADPCM or null / Microsoft ADPCM 의 계수 또는 null
-     * @param mixer           the mixer of the 16 bit path for more than two channels, or null / 채널이 둘보다 많을 때 16비트 경로의 믹서. 또는 null
-     * @return an {@link AdpcmFloatSource} or an {@link AdpcmSource} / {@link AdpcmFloatSource} 또는 {@link AdpcmSource}
-     */
-    static Object adpcm(boolean wide, byte[] data, int start, int end, int kind, int channels, int sampleRate, int blockAlign, int samplesPerBlock, int[] coefs,
-            ChannelMixer mixer) {
-        return adpcm(wide, new ArrayByteSource(data), start, end, kind, channels, sampleRate, blockAlign, samplesPerBlock, coefs, mixer);
     }
 
     /**

@@ -2,11 +2,12 @@ package org.duckdns.hjow.swingwebpanel.media.audio.pcm;
 
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
-import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteAudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 import org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
 
 /**
  * Decoder of RIFF/WAVE files, including the 64-bit forms RF64 and BW64 (plan item P18-07, FEATURE_MATRIX AUD-01): PCM of 8 (unsigned), 16, 24 and
@@ -20,7 +21,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
  * 0xFFFFFFFF 이거나 파일보다 큰 <code>data</code> 청크(스트리밍 또는 잘린 파일)는 파일 끝까지로 본다. 불완전한 마지막 프레임은 무시한다. 채널이 둘보다
  * 많으면 스테레오로 다운믹스한다(확장 헤더의 스피커 마스크가 배치를 정한다). 압축 태그(MP3, AAC 등)는 지원하지 않는 형식으로 보고한다.
  */
-public final class WavDecoder implements WideAudioDecoder {
+public final class WavDecoder extends ByteAudioDecoder {
 
     /**
      * Largest supported number of channels.
@@ -74,7 +75,7 @@ public final class WavDecoder implements WideAudioDecoder {
      * @param data the data / 데이터
      * @return true for RIFF....WAVE, RF64....WAVE or BW64....WAVE / RIFF....WAVE, RF64....WAVE, BW64....WAVE 면 true
      */
-    public boolean accepts(byte[] data) {
+    public boolean acceptsSource(ByteSource data) {
         return (Bytes.matches(data, 0, "RIFF") || Bytes.matches(data, 0, "RF64") || Bytes.matches(data, 0, "BW64")) && Bytes.matches(data, 8, "WAVE");
     }
 
@@ -142,44 +143,17 @@ public final class WavDecoder implements WideAudioDecoder {
     }
 
     /**
-     * Opens the file for decoding.
-     * <p>
-     * 디코딩을 위해 파일을 연다.
-     *
-     * @param data   the data / 데이터
-     * @param limits limits / 제한
-     * @return PCM source / PCM 소스
-     * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
-     */
-    public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
-        return (PcmSource) create(data, false);
-    }
-
-    /**
-     * Opens the data with every channel of the file and the precision of its samples (see {@link WideAudioDecoder}).
-     * <p>
-     * 파일의 모든 채널과 표본의 정밀도로 데이터를 연다({@link WideAudioDecoder} 참조).
-     *
-     * @param data   the whole encoded data / 인코딩된 전체 데이터
-     * @param limits limits to respect / 지켜야 할 제한
-     * @return a float source positioned at the start / 처음에 위치한 float 소스
-     * @throws MediaException the failures of {@link #open} / {@link #open} 의 실패
-     */
-    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
-        return (FloatPcmSource) create(data, true);
-    }
-
-    /**
      * Parses the headers and creates the source of the form that was asked for (a {@link PcmSource} or a {@link FloatPcmSource}).
      * <p>
      * 헤더를 해석하고 요청한 형태의 소스({@link PcmSource} 또는 {@link FloatPcmSource})를 만든다.
      *
      * @param data the whole file / 파일 전체
+     * @param limits resource limits / 리소스 제한
      * @param wide true for the wide path / 넓은 경로이면 true
      * @return the source / 소스
      * @throws MediaException on a damaged or unsupported file / 손상되었거나 지원하지 않는 파일이면
      */
-    private Object create(byte[] data, boolean wide) throws MediaException {
+    protected Object create(ByteSource data, DecodeLimits limits, boolean wide) throws MediaException {
         int pos = 12;
         Fmt fmt = null;
         int dataStart = -1;
@@ -190,7 +164,7 @@ public final class WavDecoder implements WideAudioDecoder {
             String id = Bytes.ascii(data, pos, 4);
             long size = Bytes.le32(data, pos + 4);
             int body = pos + 8;
-            long remaining = data.length - body;
+            long remaining = data.length() - body;
             if ("fmt ".equals(id) && fmt == null) {
                 if (size < 16 || remaining < 16) {
                     throw new MediaException(MediaException.Kind.CORRUPT, "the WAV format chunk is too short");
@@ -257,7 +231,7 @@ public final class WavDecoder implements WideAudioDecoder {
      * @param size usable bytes of the chunk, at least 16 / 쓸 수 있는 청크 바이트 수(16 이상)
      * @return the fields / 필드
      */
-    private static Fmt parseFmt(byte[] d, int p, int size) {
+    private static Fmt parseFmt(ByteSource d, int p, int size) {
         Fmt f = new Fmt();
         f.tag = Bytes.le16(d, p);
         f.channels = Bytes.le16(d, p + 2);
@@ -315,7 +289,7 @@ public final class WavDecoder implements WideAudioDecoder {
      * @return source / 소스
      * @throws MediaException if the format values are invalid / 형식 값이 올바르지 않으면
      */
-    private static Object openIma(boolean wide, byte[] d, int start, int end, Fmt f, ChannelMixer mixer) throws MediaException {
+    private static Object openIma(boolean wide, ByteSource d, int start, int end, Fmt f, ChannelMixer mixer) throws MediaException {
         if (f.channels > 8 || f.blockAlign < 4 * f.channels + 4 * f.channels) {
             throw new MediaException(MediaException.Kind.CORRUPT, "invalid IMA ADPCM block size");
         }
@@ -338,7 +312,7 @@ public final class WavDecoder implements WideAudioDecoder {
      * @return source / 소스
      * @throws MediaException if the format values are invalid / 형식 값이 올바르지 않으면
      */
-    private static Object openMs(boolean wide, byte[] d, int start, int end, Fmt f, ChannelMixer mixer) throws MediaException {
+    private static Object openMs(boolean wide, ByteSource d, int start, int end, Fmt f, ChannelMixer mixer) throws MediaException {
         if (f.channels > 8 || f.blockAlign < 7 * f.channels + 1) {
             throw new MediaException(MediaException.Kind.CORRUPT, "invalid MS ADPCM block size");
         }

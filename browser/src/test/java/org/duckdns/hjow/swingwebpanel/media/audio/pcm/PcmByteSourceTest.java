@@ -3,12 +3,17 @@ package org.duckdns.hjow.swingwebpanel.media.audio.pcm;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Arrays;
+import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ArrayByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteAudioDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.ByteSourceException;
 import org.duckdns.hjow.swingwebpanel.media.audio.FileByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
@@ -65,7 +70,7 @@ public final class PcmByteSourceTest {
         try {
             FileByteSource input = new FileByteSource(file, 31);
             PcmSource disk = (PcmSource) PcmSources.raw(false, input, start, encoded.length, SampleFormat.S16LE, 2, 8000, null);
-            PcmSource mem = (PcmSource) PcmSources.raw(false, encoded, start, encoded.length, SampleFormat.S16LE, 2, 8000, null);
+            PcmSource mem = (PcmSource) PcmSources.raw(false, new ArrayByteSource(encoded), start, encoded.length, SampleFormat.S16LE, 2, 8000, null);
             try {
                 Check.equal(frames, disk.getFrameCount(), "incomplete final frame is ignored");
                 comparePcm(mem, disk, frames * 4);
@@ -85,7 +90,8 @@ public final class PcmByteSourceTest {
 
             FloatPcmSource diskWide = (FloatPcmSource) PcmSources.raw(true, new FileByteSource(file, 37), start, encoded.length,
                     SampleFormat.S16LE, 2, 8000, null);
-            FloatPcmSource memWide = (FloatPcmSource) PcmSources.raw(true, encoded, start, encoded.length, SampleFormat.S16LE, 2, 8000, null);
+            FloatPcmSource memWide = (FloatPcmSource) PcmSources.raw(true, new ArrayByteSource(encoded), start, encoded.length,
+                    SampleFormat.S16LE, 2, 8000, null);
             try {
                 float[][] actual = new float[2][frames];
                 float[][] expected = new float[2][frames];
@@ -111,7 +117,7 @@ public final class PcmByteSourceTest {
         byte[] encoded = {9, 8, 7, 1, 0, 0, 0, 0x23, 0x45, 0x67, 0x12, 7, 0, 0, 0};
         File file = fixture(encoded);
         FileByteSource input = new FileByteSource(file, 5);
-        PcmSource mem = (PcmSource) PcmSources.adpcm(false, encoded, 3, encoded.length, AdpcmSource.IMA, 1, 8000, 8, 9, null, null);
+        PcmSource mem = (PcmSource) PcmSources.adpcm(false, new ArrayByteSource(encoded), 3, encoded.length, AdpcmSource.IMA, 1, 8000, 8, 9, null, null);
         PcmSource disk = (PcmSource) PcmSources.adpcm(false, input, 3, encoded.length, AdpcmSource.IMA, 1, 8000, 8, 9, null, null);
         try {
             Check.equal(10, disk.getFrameCount(), "one complete block and one predictor sample");
@@ -131,6 +137,101 @@ public final class PcmByteSourceTest {
             disk.close();
             mem.close();
             Check.isTrue(file.delete(), "the ADPCM fixture can be deleted");
+        }
+    }
+
+    /**
+     * Decodes complete WAV, AIFF and AU headers from file windows and rejects their truncated headers consistently.
+     * <p>
+     * 파일 창에서 WAV·AIFF·AU 헤더를 읽어 디코딩하고 잘린 헤더를 같은 오류로 거부한다.
+     * @throws Exception if I/O or decoding fails / 입출력 또는 디코딩에 실패하면
+     */
+    public void testContainerHeadersFromFile() throws Exception {
+        byte[] bytes = {0x34, 0x12, 0x40, 0, 0x10, 0x70, 0x19, 0x54};
+        ByteAudioDecoder[] decoders = {new WavDecoder(), new AiffDecoder(), new AuDecoder()};
+        byte[][] container = {AudioKit.wav(1, 1, 8000, 16, bytes, -1), AudioKit.aiff(null, 1, 16, 8000, 4, bytes),
+                AudioKit.au(3, 1, 8000, bytes, bytes.length)};
+        // 형식별 배열과 파일의 표본 및 잘린 헤더를 확인한다.
+        for (int i = 0; i < decoders.length; i++) {
+            ByteAudioDecoder decoder = decoders[i];
+            File file = fixture(container[i]);
+            try {
+                FileByteSource input = new FileByteSource(file, 7);
+                Check.isTrue(decoder.acceptsSource(input), "the container signature is recognized on disk");
+                PcmSource mem = decoder.open(container[i], DecodeLimits.DEFAULT);
+                PcmSource disk = decoder.openSource(input, DecodeLimits.DEFAULT);
+                try {
+                    comparePcm(mem, disk, bytes.length);
+                } finally {
+                    mem.close();
+                    disk.close();
+                }
+
+                FloatPcmSource diskWide = decoder.openWideSource(new FileByteSource(file, 5), DecodeLimits.DEFAULT);
+                try {
+                    Check.equal(4, diskWide.read(new float[1][4], 0, 4), "float PCM reads the complete file data");
+                } finally {
+                    diskWide.close();
+                }
+            } finally {
+                Check.isTrue(file.delete(), "the container file was released");
+            }
+
+            File truncated = fixture(Arrays.copyOf(container[i], 12));
+            FileByteSource input = new FileByteSource(truncated, 7);
+            try {
+                PcmSource opened = decoder.openSource(input, DecodeLimits.DEFAULT);
+                opened.close();
+                Check.fail("the truncated header should be rejected");
+            } catch (MediaException expected) {
+                Check.equal(MediaException.Kind.CORRUPT, expected.getKind(), "the incomplete header is corrupt");
+            } finally {
+                input.close();
+                Check.isTrue(truncated.delete(), "the caller can release a failed input");
+            }
+        }
+    }
+
+    /**
+     * Opens and seeks a WAV file bigger than the small-heap test JVM with bounded reads.
+     * <p>
+     * 작은 힙 시험 JVM보다 큰 WAV를 한정된 읽기로 열고 탐색한다.
+     * @throws Exception if I/O or decoding fails / 입출력 또는 디코딩에 실패하면
+     */
+    public void testLargeFileWavCanSeekInBothDirections() throws Exception {
+        int payload = 72 * 1024 * 1024;
+        byte[] header = AudioKit.wav(1, 1, 8000, 16, new byte[0], payload);
+        File file = fixture(header);
+        try {
+            RandomAccessFile writable = new RandomAccessFile(file, "rw");
+            try {
+                writable.setLength(header.length + payload);
+                writable.seek(4);
+                writable.writeInt(Integer.reverseBytes(header.length + payload - 8));
+                writable.seek(header.length);
+                writable.writeShort(0x3412);
+                writable.seek(header.length + payload - 2);
+                writable.writeShort(0x7856);
+            } finally {
+                writable.close();
+            }
+            PcmSource source = new WavDecoder().openSource(new FileByteSource(file), DecodeLimits.DEFAULT);
+            try {
+                Check.equal(payload / 2, source.getFrameCount(), "the complete file is represented in the frame count");
+                byte[] sample = new byte[2];
+                Check.equal(2, source.read(sample, 0, 2), "the first frame is readable");
+                Check.isTrue(Arrays.equals(new byte[] {0x34, 0x12}, sample), "first frame contents");
+                source.seekToFrame(payload / 2 - 1);
+                Check.equal(2, source.read(sample, 0, 2), "the last frame is readable");
+                Check.isTrue(Arrays.equals(new byte[] {0x78, 0x56}, sample), "last frame contents");
+                source.seekToFrame(0);
+                Check.equal(2, source.read(sample, 0, 2), "reading again after a reverse seek");
+                Check.isTrue(Arrays.equals(new byte[] {0x34, 0x12}, sample), "first frame contents after seek");
+            } finally {
+                source.close();
+            }
+        } finally {
+            Check.isTrue(file.delete(), "the large WAV was released");
         }
     }
 
