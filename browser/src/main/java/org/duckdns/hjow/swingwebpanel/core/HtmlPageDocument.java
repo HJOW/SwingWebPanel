@@ -31,6 +31,8 @@ public final class HtmlPageDocument implements PageDocument {
 
     /** Optional script host, disposed with this document. / 이 문서와 함께 폐기하는 선택적 스크립트 호스트. */
     private final PageRuntime runtime;
+    /** Optional media host for a document without scripts. / 스크립트 없는 문서의 선택적 미디어 호스트. */
+    private final PageAudio audio;
     /** Shared parser/drawing state, optional for standalone loaders. / 파서·그리기 공유 상태이며 독립 로더에서는 선택 사항. */
     private final PagePresentation presentation;
 
@@ -61,21 +63,23 @@ public final class HtmlPageDocument implements PageDocument {
      * @param requests copied resource settings / 복사한 리소스 설정
      */
     HtmlPageDocument(Document document, PageRequestContext requests) {
-        this(document, requests, null, null);
+        this(document, requests, null, null, null);
     }
 
     /** Creates the parsed document with its already installed script host. / 이미 설치한 스크립트 호스트와 파싱한 문서를 만든다.
      * @param document parsed DOM / 파싱한 DOM
      * @param requests resource settings / 리소스 설정
      * @param runtime optional script host / 선택적 스크립트 호스트
-     * @param presentation optional page-owned presentation / 선택적 페이지 소유 표현 상태 */
-    HtmlPageDocument(Document document, PageRequestContext requests, PageRuntime runtime, PagePresentation presentation) {
+     * @param presentation optional page-owned presentation / 선택적 페이지 소유 표현 상태
+     * @param audio optional media host without scripts / 스크립트 없는 문서의 선택적 미디어 호스트 */
+    HtmlPageDocument(Document document, PageRequestContext requests, PageRuntime runtime, PagePresentation presentation, PageAudio audio) {
         if (document == null) {
             throw new IllegalArgumentException("document must not be null");
         }
         this.document = document;
         this.requests = requests;
         this.runtime = runtime;
+        this.audio = audio;
         this.presentation = presentation;
     }
 
@@ -105,10 +109,10 @@ public final class HtmlPageDocument implements PageDocument {
      * 이 문서의 스크립트 로딩이 끝났는지(window <code>load</code> 이벤트가 발생했는지) 또는 더 실행될 수 없는지 알려 준다. 그러면 스크립트와
      * 관련해 더 기다릴 것이 없다. 스크립트 호스트가 없는 문서는 기다릴 것이 없다.
      *
-     * @return true if nothing script-related is awaited / 스크립트와 관련해 기다리는 것이 없으면 true
+     * @return true if scripts and the unscripted media host are both ready / 스크립트와 스크립트 없는 미디어 호스트가 모두 준비됐으면 true
      */
     boolean isLoadComplete() {
-        return runtime == null || runtime.isLoadComplete();
+        return (runtime == null || runtime.isLoadComplete()) && (audio == null || audio.media.isLoadComplete());
     }
 
     /** Returns page presentation without transferring DOM ownership. / DOM 소유권 이전 없이 페이지 표현을 반환한다.
@@ -227,7 +231,7 @@ public final class HtmlPageDocument implements PageDocument {
     /** Activates timers after the session confirms this exact snapshot. / 세션이 바로 이 스냅샷을 확정한 뒤 타이머를 활성화한다.
      * @param snapshot confirmed snapshot / 확정된 스냅샷 */
     void activate(PageSnapshot snapshot) {
-        if (document == null || (runtime != null && !runtime.activate(snapshot))) {
+        if (document == null || runtime != null && !runtime.activate(snapshot) || audio != null && !audio.activate(snapshot)) {
             return;
         }
         startMetaRefresh();
@@ -318,12 +322,9 @@ public final class HtmlPageDocument implements PageDocument {
     }
 
     /**
-     * Applies an action of the user on the control bar of an <code>audio</code> element of this document (see
-     * {@link org.duckdns.hjow.swingwebpanel.js.host.PageScripts#controlMedia(Element, int, double)}); a document without scripts has no media elements that
-     * play, so nothing happens there.
+     * Applies an action of the user on the control bar of an <code>audio</code> element of this document.
      * <p>
-     * 이 문서의 <code>audio</code> 요소의 컨트롤 막대에서 사용자가 한 동작을 적용한다({@link org.duckdns.hjow.swingwebpanel.js.host.PageScripts#controlMedia(Element, int, double)}
-     * 참고). 스크립트가 없는 문서에는 재생하는 미디어 요소가 없으므로 아무 일도 일어나지 않는다.
+     * 이 문서의 <code>audio</code> 요소의 컨트롤 막대에서 사용자가 한 동작을 적용한다.
      *
      * @param target   the <code>audio</code> element / <code>audio</code> 요소
      * @param part     the part of the bar / 막대의 부분
@@ -332,6 +333,8 @@ public final class HtmlPageDocument implements PageDocument {
     void controlMedia(Element target, int part, double fraction) {
         if (runtime != null) {
             runtime.scripts().controlMedia(target, part, fraction);
+        } else if (audio != null) {
+            audio.media.control(target, part, fraction);
         }
     }
 
@@ -346,7 +349,7 @@ public final class HtmlPageDocument implements PageDocument {
      * @return true if the control accepts the key / 컨트롤에서 처리하는 키이면 true
      */
     boolean controlAudioKey(Element target, String key, boolean repeat) {
-        if (runtime == null || target.getOwnerDocument() != document || !target.isConnected() || !target.hasAttribute("controls")) {
+        if (runtime == null && audio == null || target.getOwnerDocument() != document || !target.isConnected() || !target.hasAttribute("controls")) {
             return false;
         }
         // 누른 채로 있더라도 재생이나 음소거를 한 번만 전환한다.
@@ -362,7 +365,7 @@ public final class HtmlPageDocument implements PageDocument {
         if (!seek && !volume) {
             return false;
         }
-        MediaControlState state = runtime.scripts().mediaControlSource().getMediaControls(target);
+        MediaControlState state = audio == null ? runtime.scripts().mediaControlSource().getMediaControls(target) : audio.media.getMediaControls(target);
         if (state != null) {
             // 좌우는 5초씩 탐색하고 위아래는 음량을 10%씩 바꾼다. 범위는 기존 컨트롤이 제한한다.
             if (volume) {
@@ -521,6 +524,9 @@ public final class HtmlPageDocument implements PageDocument {
         }
         if (runtime != null) {
             runtime.close();
+        }
+        if (audio != null) {
+            audio.close();
         }
         if (presentation != null) {
             presentation.retire();

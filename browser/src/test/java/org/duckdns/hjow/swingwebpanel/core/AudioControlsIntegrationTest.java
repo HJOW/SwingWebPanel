@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
@@ -418,6 +419,92 @@ public class AudioControlsIntegrationTest {
             pressKey(panel, KeyEvent.VK_TAB, '\t');
             await(panel, "focus@after-visible", 1, "the next Tab moves off the audio");
             Check.equal(0, count(panel, "script-catch"), "audio controls do not call the author's Promise methods");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
+     * Waits for a top-level document and its required loads. / 최상위 문서와 필수 리소스의 로딩을 기다린다.
+     * @param panel the component / 컴포넌트
+     * @param url the expected page / 기대하는 페이지
+     * @throws InterruptedException if interrupted / 인터럽트되면
+     */
+    private static void awaitLoaded(SwingWebPanel panel, String url) throws InterruptedException {
+        long end = System.currentTimeMillis() + 30000;
+        // 상태가 확정되고 필수 로드가 끝날 때까지 상태를 읽는다.
+        while ((!url.equals(panel.getPage()) || panel.getProgress() != 100) && System.currentTimeMillis() < end) {
+            Thread.sleep(10);
+        }
+        Check.equal(url, panel.getPage(), "the expected document is current");
+        Check.equal(100, panel.getProgress(), "the required page resources finished");
+    }
+
+    /**
+     * A script-disabled document plays deferred audio on request and releases its output on clean.
+     * <p>
+     * 스크립트를 끈 문서는 조작할 때 지연된 오디오를 재생하고 clean으로 출력 장치를 해제한다.
+     * @throws Exception if setup or playback failed / 준비 또는 재생이 실패하면
+     */
+    public void testDeferredAudioPlaysWithJavaScriptDisabled() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        FakeOutputs outputs = new FakeOutputs(2000);
+        SwingWebPanel panel = newPanel(outputs);
+        try {
+            String html = "<!doctype html><body style='margin:0'><script src='/author.js'></script>"
+                    + "<audio controls preload=none src='/clip.wav' style='display:block;width:300px;height:54px'></audio>";
+            byte[] pcm = ScriptedDecoder.pcm(0, 24000);
+            server.routeFixed("/page", TestHttpServer.Response.html(html));
+            server.routeFixed("/clip.wav", new TestHttpServer.Response(200).bytes("audio/wav", AudioKit.wav(1, 1, 8000, 16, pcm, -1)));
+            server.start();
+            panel.setJavascriptEnabled(false);
+            panel.setPage(server.url("/page"));
+            awaitLoaded(panel, server.url("/page"));
+            Check.equal(0, server.count("/author.js"), "author scripts never load");
+            Check.equal(0, server.count("/clip.wav"), "preload none waits for the user");
+
+            click(panel, 22, 27);
+            FakeOutputs.Out output = outputs.await(0);
+            output.awaitWritten(64);
+            Check.equal(1, server.count("/clip.wav"), "the control requests the audio");
+            Check.isTrue(Arrays.equals(Arrays.copyOf(pcm, 64), Arrays.copyOf(output.written(), 64)), "the output receives the decoded PCM");
+            Check.equal(html, panel.getContent(), "the received source is preserved");
+
+            panel.clean();
+            awaitLoaded(panel, "about:blank");
+            Check.equal(1, output.closeCalls(), "clean closed the sound output");
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
+     * Preloading and autoplay run without scripts, and a failed audio request ends the wait for the page.
+     * <p>
+     * 스크립트 없이 로딩과 자동 재생이 동작하며 오디오 요청 실패로도 페이지의 기다림이 끝난다.
+     * @throws Exception if setup or playback failed / 준비 또는 재생이 실패하면
+     */
+    public void testAutoplayAndFailedAudioWithJavaScriptDisabled() throws Exception {
+        TestHttpServer server = new TestHttpServer();
+        FakeOutputs outputs = new FakeOutputs(2000);
+        SwingWebPanel panel = newPanel(outputs);
+        try {
+            String html = "<!doctype html><audio controls autoplay src='/clip.wav'></audio>"
+                    + "<audio controls src='/missing.wav' alt='Missing audio'></audio>";
+            byte[] wav = AudioKit.wav(1, 1, 8000, 16, ScriptedDecoder.pcm(0, 24000), -1);
+            server.routeFixed("/page", TestHttpServer.Response.html(html));
+            server.routeFixed("/clip.wav", new TestHttpServer.Response(200).bytes("audio/wav", wav));
+            server.routeFixed("/missing.wav", new TestHttpServer.Response(404));
+            server.start();
+            panel.setJavascriptEnabled(false);
+            panel.setPage(server.url("/page"));
+            awaitLoaded(panel, server.url("/page"));
+            Check.equal(1, server.count("/missing.wav"), "the failing resource was tried once");
+            FakeOutputs.Out output = outputs.await(0);
+            output.awaitWritten(64);
+            Check.isTrue(output.isStarted(), "autoplay starts without a script or click");
         } finally {
             panel.dispose();
             server.stop();

@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment;
 import org.duckdns.hjow.swingwebpanel.css.media.MediaQueryList;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
+import org.duckdns.hjow.swingwebpanel.dom.Event;
 import org.duckdns.hjow.swingwebpanel.dom.MutationRecord;
 import org.duckdns.hjow.swingwebpanel.dom.Namespaces;
 import org.duckdns.hjow.swingwebpanel.dom.Node;
@@ -923,6 +924,9 @@ final class MediaElements implements MediaControlSource {
      */
     private final PageScripts page;
 
+    /** Host for a document without a script realm. / 스크립트 렐름이 없는 문서의 호스트. */
+    private final HostEnvironment unscripted;
+
     /**
      * The result queue of the page.
      * <p>
@@ -956,7 +960,7 @@ final class MediaElements implements MediaControlSource {
      * <p>
      * load 이벤트를 늦추는 요소의 수.
      */
-    private int delaying;
+    private volatile int delaying;
 
     /**
      * True after {@link #dispose()}.
@@ -981,9 +985,52 @@ final class MediaElements implements MediaControlSource {
      * @param loads the result queue of the page / 페이지의 결과 줄
      */
     MediaElements(PageScripts page, ScriptLoads loads) {
+        this(page, null, loads);
+    }
+
+    /**
+     * Creates media for a document without author scripts. / 작성자 스크립트가 없는 문서의 미디어를 만든다.
+     * @param host the media services / 미디어 서비스
+     * @param loads the document's result queue / 문서의 결과 큐
+     */
+    MediaElements(HostEnvironment host, ScriptLoads loads) {
+        this(null, host, loads);
+    }
+
+    /**
+     * Stores the one host of the media elements. / 미디어 요소의 호스트 하나를 보관한다.
+     * @param page the script host or null / 스크립트 호스트 또는 null
+     * @param unscripted the host without scripts or null / 스크립트 없는 호스트 또는 null
+     * @param loads the document's result queue / 문서 결과 큐
+     */
+    private MediaElements(PageScripts page, HostEnvironment unscripted, ScriptLoads loads) {
         this.page = page;
+        this.unscripted = unscripted;
         this.loads = loads;
+        // 스크립트 없는 호스트는 파싱한 오디오만 설치하므로 TextTracks에는 스크립트나 트랙이 등록되지 않는다.
         this.textTracks = new TextTracks(page, this);
+    }
+
+    /** Returns the hosting services. / 호스트 서비스를 반환한다. */
+    private HostEnvironment host() {
+        return page == null ? unscripted : page.getEnvironment();
+    }
+
+    /**
+     * Runs a media task with the document's lifetime guard. / 문서 수명에 맞춰 미디어 작업을 실행한다.
+     * @param task the work on the document thread / 문서 스레드의 작업
+     */
+    private void runMediaTask(Runnable task) {
+        if (page != null) {
+            page.runTask(task);
+        } else {
+            // 스크립트 없는 문서에서는 같은 잠금으로 작업과 다른 스레드의 페이지 폐기를 조정한다.
+            synchronized (this) {
+                if (!disposed) {
+                    task.run();
+                }
+            }
+        }
     }
 
     /**
@@ -1220,7 +1267,7 @@ final class MediaElements implements MediaControlSource {
         if (disposed || (!t.sticky && t.epoch != t.media.epoch)) {
             return;
         }
-        page.runTask(new Runnable() {
+        runMediaTask(new Runnable() {
             /**
              * Handles the task under the page lock, with the microtask checkpoint of a task.
              * <p>
@@ -1341,10 +1388,14 @@ final class MediaElements implements MediaControlSource {
         if (target == null) {
             return;
         }
-        page.fireMediaEvent(target, name);
+        if (page == null) {
+            target.dispatchTrustedEvent(new Event(name, false, false));
+        } else {
+            page.fireMediaEvent(target, name);
+        }
         // 컨트롤 막대가 있는 요소는 상태가 바뀔 때마다(이벤트는 상태 변화를 알린다) 막대를 다시 그리게 한다.
         if (target == m.element() && target.hasAttribute("controls")) {
-            page.getEnvironment().mediaControlsChanged(target);
+            host().mediaControlsChanged(target);
         }
     }
 
@@ -1650,7 +1701,8 @@ final class MediaElements implements MediaControlSource {
      * @return the environment / 환경
      */
     private MediaEnvironment environment() {
-        return new MediaEnvironment(page.getEnvironment().getViewportWidth(), page.getEnvironment().getViewportHeight());
+        HostEnvironment env = host();
+        return new MediaEnvironment(env.getViewportWidth(), env.getViewportHeight());
     }
 
     /**
@@ -1792,7 +1844,7 @@ final class MediaElements implements MediaControlSource {
     private void beginFetch(final Media m, String url) {
         m.networkState = NETWORK_LOADING;
         final int epoch = m.epoch;
-        MediaRequestSource source = page.getEnvironment().getMediaRequestSource();
+        MediaRequestSource source = host().getMediaRequestSource();
         if (source == null) {
             Task t = new Task(m, epoch, K_FETCHED);
             t.error = "this page cannot load media";
@@ -1846,7 +1898,7 @@ final class MediaElements implements MediaControlSource {
      */
     private void armStall(final Media m) {
         cancelStall(m);
-        Scheduler scheduler = page.getEnvironment().getScheduler();
+        Scheduler scheduler = host().getScheduler();
         if (scheduler == null || disposed) {
             return;
         }
@@ -1858,7 +1910,7 @@ final class MediaElements implements MediaControlSource {
              * 같은 전송이 아직 데이터를 기다리면 <code>stalled</code> 를 발생시킨다.
              */
             public void run() {
-                page.runTask(new Runnable() {
+                runMediaTask(new Runnable() {
                     /** Fires the event under the page lock. / 페이지 잠금 아래에서 이벤트를 발생시킨다. */
                     public void run() {
                         if (!disposed && epoch == m.epoch && m.fetch != null && m.networkState == NETWORK_LOADING) {
@@ -1918,7 +1970,7 @@ final class MediaElements implements MediaControlSource {
             return;
         }
         PlayerLink link = new PlayerLink(m, m.epoch);
-        MediaPlayer p = new MediaPlayer(new ElementOutputs(m, page.getEnvironment().getAudioOutputFactory()), link);
+        MediaPlayer p = new MediaPlayer(new ElementOutputs(m, host().getAudioOutputFactory()), link);
         m.link = link;
         m.player = p;
         // 그래프에 연결된 요소는 새 리소스가 페이지에 읽혀도 되는 것인지(같은 오리진인지) 다시 정한다.
@@ -2125,7 +2177,7 @@ final class MediaElements implements MediaControlSource {
         }
         String url = absolute(e, src.trim());
         if (url != null) {
-            page.getEnvironment().mediaStateChanged(url, error);
+            host().mediaStateChanged(url, error);
         }
     }
 
@@ -2453,7 +2505,7 @@ final class MediaElements implements MediaControlSource {
      *
      * @param e the element / 요소
      */
-    private void insertedMedia(Element e) {
+    void insertedMedia(Element e) {
         Media m = state(e);
         if (!m.everLoaded && m.networkState == NETWORK_EMPTY && (e.hasAttribute("src") || firstSourceChild(e) != null)) {
             load(m);

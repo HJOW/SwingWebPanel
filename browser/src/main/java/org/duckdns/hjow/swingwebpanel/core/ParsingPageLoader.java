@@ -9,6 +9,8 @@ import org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlResult;
 import org.duckdns.hjow.swingwebpanel.css.selector.CssSelectorEngine;
 import org.duckdns.hjow.swingwebpanel.dom.Document;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
+import org.duckdns.hjow.swingwebpanel.dom.ElementCollection;
+import org.duckdns.hjow.swingwebpanel.dom.Namespaces;
 import org.duckdns.hjow.swingwebpanel.html.HtmlMarkupSupport;
 import org.duckdns.hjow.swingwebpanel.html.HtmlParser;
 import org.duckdns.hjow.swingwebpanel.html.ParserListenerAdapter;
@@ -443,7 +445,15 @@ public final class ParsingPageLoader implements PageLoader, CacheOwner {
                 runtime.scripts().completeParsing();
             }
             complete = true;
-            HtmlPageDocument page = new HtmlPageDocument(doc, requests, runtime, presentation);
+            PageAudio audio = null;
+            // 스크립트 호스트가 없는 최상위 문서에도 마크업의 오디오를 준비한다.
+            if (runtime == null && services != null && frame == null) {
+                ElementCollection elements = doc.getElementsByTagNameNS(Namespaces.HTML, "audio");
+                if (elements.getLength() != 0) {
+                    audio = new PageAudio(services.session, services.view, presentation, elements);
+                }
+            }
+            HtmlPageDocument page = new HtmlPageDocument(doc, requests, runtime, presentation, audio);
             // 문서에 meta refresh 가 있으면 페이지가 확정될 때 시작하도록 맡긴다(JavaScript 설정과 무관하다).
             if (refresh[0] != null && services != null) {
                 page.setMetaRefresh(refresh[0], services.session, frame);
