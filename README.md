@@ -127,6 +127,7 @@ Call `panel.dispose()` when closing the window. Property notifications, includin
 | `setUserAgent(String)`, `getUserAgent()` | Set or read the User-Agent. The default is `swingwebpanel/1.0`. |
 | `addHeaders(Map<String,String>)`, `getHeaders()` | Merge headers by case-insensitive name. Set User-Agent through its own method. |
 | `getCookies()` | Return unexpired cookies from the component's cookie jar as one string of name-value pairs. |
+| `new SwingWebPanel(CookieJar)`, `getCookieJar()`, `clearCookies()` | Let several components share cookies: create one `CookieJar` and pass it to each constructor, so that a login in one component holds in the others (the tabs of a browser). A shared jar survives the disposal of a component. `clearCookies()` and `CookieJar.clear()` remove the cookies (`clean()` keeps them). |
 | `setJavascriptEnabled(boolean)`, `isJavascriptEnabled()` | JavaScript starts enabled. Disabling it stops scripts, inline handlers and timers. HTML, CSS, links and forms keep working. Re-enabling takes effect on the next load. |
 | `getStatusText()`, `getProgress()` | Read status text and navigation progress. |
 | `addHyperlinkListener`, `removeHyperlinkListener`, `removeHyperlinkEvents()` | Manage Swing listeners for link enter, exit and activation. Link navigation works without listeners. |
@@ -136,7 +137,7 @@ Call `panel.dispose()` when closing the window. Property notifications, includin
 | `getLocalStorage()`, `getSessionStorage()` | Return read-only copies of the origin, key and value of each storage entry. |
 | `clean()` | Cancel current work, return to `about:blank` and clear cache, session storage and all process-wide local storage. Preserve cookies, headers, User-Agent, scripting settings and listeners. |
 | `dispose()` | Clean up the component and release user listeners, timers, media, downloads and other resources. Repeated calls are safe. |
-| Additional methods | `getTitle()`, `getMimeType()`, `getHistoryIndex()`, `stop()`, `isDisposed()` |
+| Additional methods | `getTitle()` (follows `document.title` when a script changes it and is announced as the `title` property), `getMimeType()`, `getHistoryIndex()`, `stop()`, `isDisposed()` |
 
 A new panel starts at `about:blank` with an empty source, one history entry, empty cookies and headers, JavaScript enabled and progress `100`. [Method arguments, return values and lifecycle](docs/API_CONTRACT.md)
 

@@ -68,11 +68,11 @@ public final class PageSnapshot {
     private final PageKind kind;
 
     /**
-     * Document title, empty if unknown.
+     * Document title, empty if unknown. It follows <code>document.title</code> of the live document ({@link #changeTitle(String)}).
      * <p>
-     * 문서 제목. 모르면 빈 문자열.
+     * 문서 제목. 모르면 빈 문자열. 살아 있는 문서의 <code>document.title</code> 을 따라간다({@link #changeTitle(String)}).
      */
-    private final String title;
+    private volatile String title;
 
     /**
      * HTTP status code, or 0 when not applicable.
@@ -409,6 +409,17 @@ public final class PageSnapshot {
         this.url = newUrl;
         this.state = newState;
         this.post = newPost;
+    }
+
+    /**
+     * Changes the title of the entry of the current page in place, because a script changed <code>document.title</code>.
+     * <p>
+     * 스크립트가 <code>document.title</code> 을 바꿨으므로 현재 페이지 항목의 제목을 그 자리에서 바꾼다.
+     *
+     * @param newTitle the new title / 새 제목
+     */
+    void changeTitle(String newTitle) {
+        this.title = newTitle == null ? "" : newTitle;
     }
 
     /**

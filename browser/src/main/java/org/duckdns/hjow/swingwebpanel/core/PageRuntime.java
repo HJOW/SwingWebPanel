@@ -12,6 +12,9 @@ import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
 import org.duckdns.hjow.swingwebpanel.WebMessageEvent;
 import org.duckdns.hjow.swingwebpanel.content.ContentType;
 import org.duckdns.hjow.swingwebpanel.dom.Document;
+import org.duckdns.hjow.swingwebpanel.dom.DomMutationListener;
+import org.duckdns.hjow.swingwebpanel.dom.MutationRecord;
+import org.duckdns.hjow.swingwebpanel.dom.Node;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
 import org.duckdns.hjow.swingwebpanel.css.CssEngine;
 import org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver;
@@ -107,6 +110,8 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
     private final boolean crossOriginIsolated;
     /** The name assigned by this top-level document. / 이 최상위 문서에서 설정한 이름. */
     private volatile String topWindowName = "";
+    /** True when the title of the top-level document may differ from the one that the component reports. / 최상위 문서의 제목이 컴포넌트가 알려 주는 제목과 다를 수 있으면 true. */
+    private volatile boolean titleDirty = true;
 
     /**
      * Installs script services before the parser starts; call close on every abandoned parse.
@@ -156,6 +161,25 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
                 }
             });
         }
+        // 최상위 문서의 제목이 바뀌면(document.title, title 요소의 변경) 작업이 끝날 때 컴포넌트의 제목에 반영한다.
+        if (frame == null) {
+            document.addMutationListener(new DomMutationListener() {
+                /** Notes a change that may alter the title. / 제목을 바꿀 수 있는 변경을 기억한다. */
+                public void mutated(MutationRecord record, boolean connected) {
+                    if (!titleDirty && touchesTitle(record)) {
+                        titleDirty = true;
+                        // 다른 문서(프레임 등)의 작업이 이 문서의 제목을 바꿨을 수 있으므로, 이 문서의 작업 끝만 기다리지 않고 문서 큐에도 맡긴다.
+                        postTitleReport();
+                    }
+                }
+            });
+            scripts.onTaskEnd(new Runnable() {
+                /** Reports a changed title after the task. / 작업 뒤에 바뀐 제목을 알린다. */
+                public void run() {
+                    reportTitle();
+                }
+            });
+        }
         // 컴포넌트가 콘솔 통지기를 가졌으면 이 페이지의 콘솔 출력(스크립트, 프레임, worker, 호스트의 보고)을 그리로 보낸다.
         ConsoleDispatcher consoles = session.consoleDispatcher();
         if (consoles != null) {
@@ -191,6 +215,95 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
      * @return the component state / 컴포넌트 상태 */
     BrowserSession session() {
         return session;
+    }
+
+    /**
+     * Tells whether a DOM change may alter the title of the document: a change inside a <code>title</code> element, or a
+     * <code>title</code> element that was added or removed (alone or inside an added or removed subtree).
+     * <p>
+     * DOM 변경이 문서의 제목을 바꿀 수 있는지 알려 준다: <code>title</code> 요소 안의 변경, 또는 추가되거나 제거된 <code>title</code> 요소(단독이거나
+     * 추가·제거된 하위 트리 안에 있는 경우).
+     *
+     * @param record the change / 변경
+     * @return true if the title may have changed / 제목이 바뀌었을 수 있으면 true
+     */
+    private static boolean touchesTitle(MutationRecord record) {
+        // 대상이나 그 조상이 title 요소이면 제목의 글이 바뀐 것이다.
+        for (Node n = record.getTarget(); n != null; n = n.getParentNode()) {
+            if (isTitle(n)) {
+                return true;
+            }
+        }
+        return holdsTitle(record.getAddedNodes()) || holdsTitle(record.getRemovedNodes());
+    }
+
+    /**
+     * Tells whether a node is a <code>title</code> element.
+     * <p>
+     * 노드가 <code>title</code> 요소인지 알려 준다.
+     *
+     * @param n the node / 노드
+     * @return true for a title element / title 요소이면 true
+     */
+    private static boolean isTitle(Node n) {
+        return n instanceof Element && "title".equalsIgnoreCase(((Element) n).getLocalName());
+    }
+
+    /**
+     * Tells whether one of the nodes is a <code>title</code> element or contains one.
+     * <p>
+     * 노드 중 하나가 <code>title</code> 요소이거나 그것을 포함하는지 알려 준다.
+     *
+     * @param nodes the added or removed nodes / 추가되거나 제거된 노드
+     * @return true if a title element is among them / 그 안에 title 요소가 있으면 true
+     */
+    private static boolean holdsTitle(List<Node> nodes) {
+        // 노드마다 자신이 title 이거나 하위 트리에 title 이 있는지 본다.
+        for (int i = 0; i < nodes.size(); i++) {
+            Node n = nodes.get(i);
+            if (isTitle(n) || (n instanceof Element && ((Element) n).getElementsByTagName("title").getLength() > 0)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Queues a task of the document queue that reports the title. It is needed when no task of this page is running: a script of
+     * another document (a frame) changed the title, or the page has just been confirmed.
+     * <p>
+     * 제목을 알리는 문서 큐 작업을 올린다. 이 페이지의 작업이 실행 중이 아닐 때 필요하다: 다른 문서(프레임)의 스크립트가 제목을 바꿨거나 페이지가 막
+     * 확정된 경우이다.
+     */
+    private void postTitleReport() {
+        try {
+            scheduler.post(new Runnable() {
+                /** Brings the title of the component up to date. / 컴포넌트의 제목을 최신으로 맞춘다. */
+                public void run() {
+                    reportTitle();
+                }
+            }, 0);
+        } catch (RejectedExecutionException e) {
+            // 그 사이 페이지가 닫혔으면 알릴 제목이 없다.
+            titleDirty = false;
+        }
+    }
+
+    /**
+     * Tells the component the title of the document if it may have changed. Until the page is the confirmed one the component does not
+     * take it, and the next task tries again.
+     * <p>
+     * 문서의 제목이 바뀌었을 수 있으면 컴포넌트에 알린다. 페이지가 확정된 페이지가 되기 전에는 컴포넌트가 받지 않으며 다음 작업이 다시 시도한다.
+     */
+    private void reportTitle() {
+        if (!titleDirty || closed.get()) {
+            return;
+        }
+        titleDirty = false;
+        String title = org.duckdns.hjow.swingwebpanel.js.dom.DocumentExtras.titleOf(scripts.getDocument());
+        if (!session.titleFromPage(this, title)) {
+            titleDirty = true;
+        }
     }
 
     /**
@@ -297,6 +410,10 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         }
         if (!scheduler.activate(snapshot)) {
             return authorDisabled && enableUnscriptedAudio(snapshot, true);
+        }
+        // 파싱 중에 스크립트가 제목을 바꿨으면 확정된 뒤의 첫 문서 큐 작업에서 컴포넌트의 제목에 반영한다.
+        if (frame == null) {
+            postTitleReport();
         }
         List<Object[]> waiting;
         synchronized (waitingFragments) {

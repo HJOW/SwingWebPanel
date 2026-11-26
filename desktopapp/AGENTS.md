@@ -25,7 +25,8 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 | `src/main/java/.../desktopapp/BrowserApp.java` | 프로세스 전체 상태(설정, 열린 창, 마지막 창이 닫힐 때의 종료) |
 | `src/main/java/.../desktopapp/Texts.java` | UI 글의 언어 선택. 글은 쓰는 곳에 `Texts.of("English", "한국어")` 로 함께 적는다 |
 | `src/main/java/.../desktopapp/model/` | `AddressInput`(주소 입력 정규화), `Settings`(설정 값과 리스너) |
-| `src/main/java/.../desktopapp/ui/BrowserWindow.java` | 브라우저 창(JFrame). `NavigationBar.Actions` 와 `BrowserTab.Listener` 를 구현한다 |
+| `src/main/java/.../desktopapp/ui/BrowserWindow.java` | 브라우저 창(JFrame). `NavigationBar.Actions` 와 `BrowserTab.Listener` 를 구현한다. 탭 목록(`JTabbedPane`)과 닫은 탭 목록을 가진다 |
+| `src/main/java/.../desktopapp/ui/TabHeader.java` | 탭 줄의 탭 머리(제목, 읽는 중 표시, 닫기 단추) |
 | `src/main/java/.../desktopapp/ui/BrowserTab.java` | 페이지 하나(SwingWebPanel + JScrollPane)와 그 상태(읽는 중인 주소, 알림 문구) |
 | `src/main/java/.../desktopapp/ui/NavigationBar.java`, `StatusBar.java`, `Icons.java` | 탐색 도구 모음(버튼, 주소 표시줄, 이력 메뉴), 상태 표시줄, Java2D 로 그린 아이콘 |
 | `src/test/java/.../desktopapp/ui/TestPages.java` | 창 시험 도우미: 임시 파일 페이지, 루프백 HTTP 서버, EDT 조건 대기 |

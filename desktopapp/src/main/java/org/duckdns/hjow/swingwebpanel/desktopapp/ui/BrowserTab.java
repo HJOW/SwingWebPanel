@@ -67,7 +67,8 @@ public final class BrowserTab {
      */
     public BrowserTab(BrowserApp app) {
         this.app = app;
-        panel = new SwingWebPanel();
+        // 응용 프로그램의 모든 탭은 쿠키 저장소 하나를 함께 쓴다.
+        panel = new SwingWebPanel(app.getCookieJar());
         scroll = new JScrollPane(panel);
         scroll.setBorder(null);
         PropertyChangeListener changes = new PropertyChangeListener() {

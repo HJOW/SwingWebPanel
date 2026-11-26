@@ -121,8 +121,14 @@ final class TestPages {
 
     /**
      * Starts the HTTP server: every request is answered, after the delay, with a small HTML page whose title is the request path.
+     * Some paths give special pages: <code>/set?name</code> sets a cookie, <code>/echo</code> shows the received cookies as
+     * <code>got:...</code>, <code>/vis</code> shows <code>vis:</code> and the visibility state of the document and follows its changes,
+     * <code>/session</code> shows <code>session:</code> and the stored value of this tab and then stores one.
      * <p>
-     * HTTP 서버를 시작한다: 모든 요청에 지연 뒤, 요청 경로를 제목으로 하는 작은 HTML 페이지로 응답한다.
+     * HTTP 서버를 시작한다: 모든 요청에 지연 뒤, 요청 경로를 제목으로 하는 작은 HTML 페이지로 응답한다. 몇 경로는 특별한 페이지를 준다:
+     * <code>/set?이름</code> 은 쿠키를 설정하고, <code>/echo</code> 는 받은 쿠키를 <code>got:...</code> 으로 보이며, <code>/vis</code> 는
+     * <code>vis:</code> 와 문서의 가시성 상태를 보이고 그 변화를 따라가며, <code>/session</code> 은 <code>session:</code> 과 이 탭에 저장된 값을
+     * 보인 뒤 값을 저장한다.
      *
      * @param delay the delay before each answer in milliseconds / 응답 전 지연(밀리초)
      * @return the address prefix of the server, for example <code>http://127.0.0.1:1234</code> / 서버의 주소 앞부분. 예:
@@ -200,9 +206,25 @@ final class TestPages {
                 if (wait > 0) {
                     Thread.sleep(wait);
                 }
-                byte[] body = ("<!doctype html><title>" + path + "</title><p>served " + path + "</p>").getBytes("UTF-8");
+                String extra = "";
+                String html = "<!doctype html><title>" + path + "</title><p>served " + path + "</p>";
+                // 몇 경로는 탭 시험을 위한 특별한 페이지를 준다.
+                if (path.startsWith("/set?")) {
+                    extra = "Set-Cookie: " + path.substring("/set?".length()) + "=1; Path=/\r\n";
+                    html = "<!doctype html><title>set</title><p>cookie set</p>";
+                } else if (path.equals("/echo")) {
+                    html = "<!doctype html><title>got:" + header(request, "Cookie") + "</title><p>cookies</p>";
+                } else if (path.equals("/vis")) {
+                    html = "<!doctype html><title>vis</title><p>visibility</p><script>"
+                            + "function show() { document.title = 'vis:' + document.visibilityState; }"
+                            + "document.addEventListener('visibilitychange', show); show();</" + "script>";
+                } else if (path.equals("/session")) {
+                    html = "<!doctype html><title>session</title><p>session storage</p><script>"
+                            + "document.title = 'session:' + sessionStorage.getItem('k'); sessionStorage.setItem('k', 'set');</" + "script>";
+                }
+                byte[] body = html.getBytes("UTF-8");
                 OutputStream out = s.getOutputStream();
-                out.write(("HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: " + body.length
+                out.write(("HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\n" + extra + "Content-Length: " + body.length
                         + "\r\nConnection: close\r\n\r\n").getBytes("ISO-8859-1"));
                 out.write(body);
                 out.flush();
@@ -215,6 +237,27 @@ final class TestPages {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    /**
+     * Returns the value of a header of a request head, or the empty string.
+     * <p>
+     * 요청 머리에서 헤더의 값을 반환한다. 없으면 빈 문자열이다.
+     *
+     * @param request the request head / 요청 머리
+     * @param name    the header name / 헤더 이름
+     * @return the value or the empty string / 값 또는 빈 문자열
+     */
+    private static String header(String request, String name) {
+        String[] lines = request.split("\r\n");
+        // 줄마다 이름이 같은 헤더인지 본다(대소문자 무시).
+        for (int i = 1; i < lines.length; i++) {
+            int colon = lines[i].indexOf(':');
+            if (colon > 0 && lines[i].substring(0, colon).trim().equalsIgnoreCase(name)) {
+                return lines[i].substring(colon + 1).trim();
+            }
+        }
+        return "";
     }
 
     /**

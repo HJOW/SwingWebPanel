@@ -148,7 +148,8 @@ panel.dispose();                          // 창을 닫을 때 반드시 호출�
 | `refresh()`, `refresh(boolean force)` | 새로고침. `force` 는 이 컴포넌트가 읽는 주 문서와 하위 리소스의 캐시를 우회한다. |
 | `setUserAgent(String)` / `getUserAgent()` | 기본값 `swingwebpanel/1.0`. |
 | `addHeaders(Map<String,String>)` / `getHeaders()` | 모든 요청에 붙는 추가 헤더(이름은 대소문자 무시, 기존 값을 덮어씀, `User-Agent` 는 받지 않고 조회에서도 제외). |
-| `getCookies()` | 이 컴포넌트의 만료되지 않은 쿠키 전부(`name=value; name=value`). 쿠키 저장소는 컴포넌트별이다. |
+| `getCookies()` | 이 컴포넌트의 만료되지 않은 쿠키 전부(`name=value; name=value`). 쿠키 저장소는 기본적으로 컴포넌트별이다. |
+| `new SwingWebPanel(CookieJar)`, `getCookieJar()`, `clearCookies()` | 여러 컴포넌트가 쿠키를 공유하게 합니다. `CookieJar` 하나를 만들어 각 컴포넌트의 생성자에 넘기면 한 컴포넌트의 로그인이 나머지에서도 유효합니다(브라우저의 탭). 공유 저장소는 컴포넌트를 폐기해도 남습니다. `clearCookies()` 와 `CookieJar.clear()` 는 쿠키를 지웁니다(`clean()` 은 쿠키를 유지합니다). |
 | `setJavascriptEnabled(boolean)` / `isJavascriptEnabled()` | 기본 켜짐. 끄면 스크립트, 인라인 핸들러, 타이머가 멈추고 HTML/CSS/링크/폼은 계속 동작한다. 다시 켜도 이미 중단한 페이지의 스크립트를 되살리지 않으며 다음 이동부터 실행한다. |
 | `getStatusText()`, `getProgress()` | 상태바 메시지와 진행률(아래 표). |
 | `addHyperlinkListener`, `removeHyperlinkListener`, `removeHyperlinkEvents()` | `javax.swing.event.HyperlinkListener` 로 링크 진입/이탈/활성화를 받는다. 통지를 모두 제거해도 링크 이동 자체는 계속 동작한다. |
@@ -158,7 +159,7 @@ panel.dispose();                          // 창을 닫을 때 반드시 호출�
 | `getLocalStorage()`, `getSessionStorage()` | Web Storage 항목의 읽기 전용 복사본(`StorageEntry`: origin, key, value). |
 | `clean()` | 진행 중인 작업을 취소하고 `about:blank` 로 돌아가며 캐시, sessionStorage, **프로세스 공용 localStorage 전체**를 비운다(다른 컴포넌트도 영향을 받는다). User-Agent, 추가 헤더, 쿠키, JavaScript 설정, 사용자 리스너는 유지한다. |
 | `dispose()` | `clean()` 후 이 컴포넌트에 등록된 모든 사용자 리스너와 내부 자원(타이머, 하위 작업, 미디어, 다운로드)을 해제한다. 반복 호출은 안전하다. 이후 변경 메서드는 `IllegalStateException`, 조회는 빈 상태를 돌려준다. |
-| 그 밖 | `getTitle()`, `getMimeType()`, `getHistoryIndex()`, `stop()`, `isDisposed()` |
+| 그 밖 | `getTitle()`(스크립트가 `document.title` 을 바꾸면 따라 바뀌고 `title` 속성으로 알립니다), `getMimeType()`, `getHistoryIndex()`, `stop()`, `isDisposed()` |
 
 생성 직후 상태: 주소 `about:blank`, 원문 빈 문자열, 이력 `about:blank` 하나, 추가 헤더/쿠키 없음, JavaScript 켜짐, 진행률 100.
 

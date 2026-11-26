@@ -342,6 +342,13 @@ public final class BrowserSession implements FormSubmitSink {
     private volatile boolean disposed;
 
     /**
+     * True if the cookie store belongs to a jar that other components share; it is then left alone at dispose.
+     * <p>
+     * 쿠키 저장소가 다른 컴포넌트와 공유하는 저장소이면 true. 이때는 폐기할 때 건드리지 않는다.
+     */
+    private volatile boolean cookiesShared;
+
+    /**
      * Whether scripts may close the window of a component that the host created (API contract 5.23).
      * <p>
      * 호스트가 만든 컴포넌트의 창을 스크립트가 닫을 수 있는지 여부(API 계약 5.23).
@@ -533,7 +540,19 @@ public final class BrowserSession implements FormSubmitSink {
      * @return cookies, empty if none / 쿠키. 없으면 빈 문자열
      */
     public String getCookies() {
-        return cookies.getCookies();
+        // 폐기된 컴포넌트는 빈 상태를 알려 준다. 공유 저장소는 폐기 때 비우지 않으므로 여기서 가린다.
+        return disposed && cookiesShared ? "" : cookies.getCookies();
+    }
+
+    /**
+     * Tells the session that its cookie store is shared with other components, so that disposing this session must not clear it.
+     * <p>
+     * 쿠키 저장소를 다른 컴포넌트와 공유함을 세션에 알린다. 이 세션을 폐기할 때 저장소를 비우면 안 된다.
+     *
+     * @param shared true if the store is shared / 저장소를 공유하면 true
+     */
+    public void setCookiesShared(boolean shared) {
+        cookiesShared = shared;
     }
 
     /**
@@ -2212,6 +2231,48 @@ public final class BrowserSession implements FormSubmitSink {
     }
 
     /**
+     * Takes over the title of the live top-level document after a script changed <code>document.title</code>, and announces it like the
+     * title of a new page. A page that is not the confirmed one yet is not accepted; its host tries again later.
+     * <p>
+     * 스크립트가 <code>document.title</code> 을 바꾼 뒤 살아 있는 최상위 문서의 제목을 받아들이고, 새 페이지의 제목처럼 알린다. 아직 확정된 페이지가
+     * 아니면 받지 않으며 그 호스트가 나중에 다시 시도한다.
+     *
+     * @param runtime the host of the page whose title changed / 제목이 바뀐 페이지의 호스트
+     * @param title   the new title / 새 제목
+     * @return true if the page is the confirmed one (or the session is gone), false if it has to be tried again / 페이지가 확정된
+     *         페이지이면(또는 세션이 없어졌으면) true, 다시 시도해야 하면 false
+     */
+    boolean titleFromPage(PageRuntime runtime, String title) {
+        final String old;
+        final String now = title == null ? "" : title;
+        synchronized (lock) {
+            if (disposed) {
+                return true;
+            }
+            PageSnapshot shown = current;
+            // 확정된 페이지의 문서가 이 호스트의 것일 때만 제목을 받는다.
+            if (!(shown.getDocument() instanceof HtmlPageDocument) || ((HtmlPageDocument) shown.getDocument()).runtime() != runtime) {
+                return false;
+            }
+            old = shown.getTitle();
+            if (old.equals(now)) {
+                return true;
+            }
+            shown.changeTitle(now);
+        }
+        final SessionListener l = listener;
+        if (l != null) {
+            SwingUtilities.invokeLater(new Runnable() {
+                /** Announces the new title on the EDT. / EDT 에서 새 제목을 알린다. */
+                public void run() {
+                    l.titleChanged(old, now);
+                }
+            });
+        }
+        return true;
+    }
+
+    /**
      * Returns the confirmed page snapshot.
      * <p>
      * 확정된 페이지 스냅샷을 반환한다.
@@ -2601,7 +2662,10 @@ public final class BrowserSession implements FormSubmitSink {
         }
         nav.shutdown();
         headers.clear();
-        cookies.clear();
+        // 다른 컴포넌트와 공유하는 저장소는 남긴다.
+        if (!cookiesShared) {
+            cookies.clear();
+        }
         listener = null;
     }
 

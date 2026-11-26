@@ -28,6 +28,18 @@ public final class Settings {
     /** Key of the search address template (<code>%s</code> is the query); empty for none. / 검색 주소 서식의 키(<code>%s</code> 가 질의). 없으면 빈 값. */
     public static final String SEARCH_TEMPLATE = "search.template";
 
+    /** Key of what a new tab shows: {@link #NEW_TAB_BLANK} or {@link #NEW_TAB_HOME}. / 새 탭이 보이는 것의 키: {@link #NEW_TAB_BLANK} 또는 {@link #NEW_TAB_HOME}. */
+    public static final String NEW_TAB_PAGE = "tabs.newTabPage";
+
+    /** Value of {@link #NEW_TAB_PAGE}: a new tab shows the empty page. / {@link #NEW_TAB_PAGE} 의 값: 새 탭이 빈 페이지를 보인다. */
+    public static final String NEW_TAB_BLANK = "blank";
+
+    /** Value of {@link #NEW_TAB_PAGE}: a new tab shows the home page. / {@link #NEW_TAB_PAGE} 의 값: 새 탭이 홈 페이지를 보인다. */
+    public static final String NEW_TAB_HOME = "home";
+
+    /** Key of whether closing a window with several tabs asks first (<code>true</code> or <code>false</code>). / 탭이 여럿인 창을 닫을 때 먼저 묻는지의 키(<code>true</code> 또는 <code>false</code>). */
+    public static final String CONFIRM_CLOSE_TABS = "tabs.confirmClose";
+
     /**
      * Receives the changes of the settings.
      * <p>
@@ -51,6 +63,8 @@ public final class Settings {
     static {
         DEFAULTS.put(HOME_PAGE, "about:blank");
         DEFAULTS.put(SEARCH_TEMPLATE, "");
+        DEFAULTS.put(NEW_TAB_PAGE, NEW_TAB_BLANK);
+        DEFAULTS.put(CONFIRM_CLOSE_TABS, "true");
     }
 
     /** The values that differ from nothing: every key that was set. / 설정한 값들. */
@@ -102,6 +116,23 @@ public final class Settings {
     public synchronized String get(String key) {
         String v = values.get(key);
         return v == null ? defaultOf(key) : v;
+    }
+
+    /**
+     * Returns the value of a key as a truth value: <code>true</code> or <code>false</code>; anything else gives the default of the key.
+     * <p>
+     * 키의 값을 참/거짓으로 반환한다: <code>true</code> 또는 <code>false</code>. 그 밖의 값이면 키의 기본값을 준다.
+     *
+     * @param key the key / 키
+     * @return the truth value / 참/거짓 값
+     */
+    public boolean getBoolean(String key) {
+        String v = get(key).trim();
+        // 저장된 값을 이해할 수 없으면 기본값을 쓴다.
+        if (!"true".equalsIgnoreCase(v) && !"false".equalsIgnoreCase(v)) {
+            v = defaultOf(key);
+        }
+        return "true".equalsIgnoreCase(v);
     }
 
     /**

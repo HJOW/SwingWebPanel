@@ -233,11 +233,15 @@ public class SwingWebPanel extends JPanel implements Scrollable {
     private final transient ControlOverlays controls;
 
     /**
-     * Cookies of this component (shared with the network page loader).
+     * Cookies of this component (shared with the network page loader): a store of its own, or the store of the {@link CookieJar} that
+     * the host passed.
      * <p>
-     * 이 컴포넌트의 쿠키(네트워크 페이지 로더와 공유한다).
+     * 이 컴포넌트의 쿠키(네트워크 페이지 로더와 공유한다): 자기 저장소, 또는 호스트가 넘긴 {@link CookieJar} 의 저장소.
      */
-    private final transient CookieStore cookies = new CookieStore();
+    private final transient CookieStore cookies;
+
+    /** The jar that the host passed, or null when the component has a store of its own. / 호스트가 넘긴 저장소. 컴포넌트가 자기 저장소를 가지면 null. */
+    private final transient CookieJar cookieJar;
 
     /** Fetcher and cache shared by main documents and subresources. / 주 문서와 하위 리소스가 공유하는 가져오기 객체와 캐시. */
     private final transient ResourceFetcher fetcher;
@@ -296,7 +300,45 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * 빈 페이지를 보여 주는 컴포넌트를 만든다.
      */
     public SwingWebPanel() {
-        this((PageLoader) null);
+        this((PageLoader) null, null);
+    }
+
+    /**
+     * Creates a component that shows the blank page and keeps its cookies in a jar that it shares with the other components created
+     * with the same jar (extension, API contract 5.24): a cookie that a page of one of them sets is sent by the requests of all of
+     * them. Disposing this component does not clear the jar. Everything else (history, cache, session storage) stays separate.
+     * <p>
+     * 빈 페이지를 보여 주며, 같은 저장소로 만든 다른 컴포넌트와 공유하는 저장소에 쿠키를 두는 컴포넌트를 만든다(확장, API 계약 5.24): 그중 한
+     * 컴포넌트의 페이지가 설정한 쿠키를 모든 컴포넌트의 요청이 보낸다. 이 컴포넌트를 폐기해도 저장소는 비워지지 않는다. 그 밖의 것(이력, 캐시,
+     * sessionStorage)은 따로이다.
+     * <p>
+     * 사용 예 / Example:
+     * <pre>
+     * CookieJar jar = new CookieJar();
+     * SwingWebPanel tab1 = new SwingWebPanel(jar);
+     * SwingWebPanel tab2 = new SwingWebPanel(jar);
+     * </pre>
+     *
+     * @param jar the shared cookie jar / 공유할 쿠키 저장소
+     * @throws IllegalArgumentException if the jar is null / 저장소가 null 이면
+     */
+    public SwingWebPanel(CookieJar jar) {
+        this((PageLoader) null, requireJar(jar));
+    }
+
+    /**
+     * Rejects a missing jar before the component is built.
+     * <p>
+     * 컴포넌트를 만들기 전에 없는 저장소를 거부한다.
+     *
+     * @param jar the jar / 저장소
+     * @return the jar / 저장소
+     */
+    private static CookieJar requireJar(CookieJar jar) {
+        if (jar == null) {
+            throw new IllegalArgumentException("jar must not be null");
+        }
+        return jar;
     }
 
     /**
@@ -308,13 +350,29 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * @param loader page loader, or null for the standard loader that uses the network layer / 페이지 로더. 네트워크 계층을 쓰는 표준 로더이면 null
      */
     protected SwingWebPanel(PageLoader loader) {
+        this(loader, null);
+    }
+
+    /**
+     * Creates the component with a page loader and a cookie jar.
+     * <p>
+     * 페이지 로더와 쿠키 저장소로 컴포넌트를 만든다.
+     *
+     * @param loader page loader, or null for the standard loader / 페이지 로더. 표준 로더이면 null
+     * @param jar    the shared cookie jar, or null for a store of its own / 공유 쿠키 저장소. 자기 저장소를 쓰면 null
+     */
+    private SwingWebPanel(PageLoader loader, CookieJar jar) {
         super(null);
+        cookieJar = jar;
+        cookies = jar == null ? new CookieStore() : jar.store();
         setOpaque(true);
         setBackground(java.awt.Color.WHITE);
         setFocusable(true);
         fetcher = createFetcher();
         PageLoader effective = loader == null ? createNetworkLoader() : loader;
         session = new BrowserSession(effective, new Observer(), cookies);
+        // 공유 저장소는 이 컴포넌트를 폐기해도 비우지 않는다.
+        session.setCookiesShared(jar != null);
         session.setConsoleDispatcher(consoles);
         session.setWebMessageDispatcher(webMessages);
         session.setWindowCloseHandler(new org.duckdns.hjow.swingwebpanel.core.WindowCloseHandler() {
@@ -1513,6 +1571,31 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      */
     public String getCookies() {
         return session.getCookies();
+    }
+
+    /**
+     * Returns the cookie jar that this component was created with (extension, API contract 5.24).
+     * <p>
+     * 이 컴포넌트를 만들 때 넘긴 쿠키 저장소를 반환한다(확장, API 계약 5.24).
+     *
+     * @return the shared jar, or null if the component has a cookie store of its own / 공유 저장소. 컴포넌트가 자기 쿠키 저장소를 가지면 null
+     */
+    public CookieJar getCookieJar() {
+        return cookieJar;
+    }
+
+    /**
+     * Removes all cookies of this component (extension, API contract 5.24); {@link #clean()} keeps them. If the component shares a
+     * {@link CookieJar}, the cookies of the jar are removed for all components that share it. The page that is shown keeps running.
+     * <p>
+     * 이 컴포넌트의 모든 쿠키를 지운다(확장, API 계약 5.24). {@link #clean()} 은 쿠키를 유지한다. 컴포넌트가 {@link CookieJar} 를 공유하면 그
+     * 저장소의 쿠키가 공유하는 모든 컴포넌트에서 지워진다. 보이는 페이지는 계속 실행된다.
+     *
+     * @throws IllegalStateException if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void clearCookies() {
+        checkAlive();
+        cookies.clear();
     }
 
     /**

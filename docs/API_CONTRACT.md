@@ -41,6 +41,7 @@ public class SwingWebPanel extends javax.swing.JPanel implements javax.swing.Scr
 | `addConsoleListener`/`removeConsoleListener`/`getConsoleListeners()` | 리스너 | void / 배열 | IAE(null), ISE(폐기, 등록만) | 콘솔 출력 통지(확장, 5.20) |
 | `postMessage(Object[,String])`, `addWebMessageListener`/`removeWebMessageListener`/`getWebMessageListeners()` | 메시지와 대상 오리진, 리스너 | void / 배열 | IAE, ISE | Java 호스트와 페이지 스크립트 간 `message` 통신(5.22, C-MESSAGE-1~8) |
 | `setRootWindowClosingEnabled(boolean)`/`isRootWindowClosingEnabled()` | 허용 여부 | void / boolean | ISE(폐기, 변경만) | 본 창의 `window.close()` 허용(확장, 5.23). 허용하면 기본 동작은 `System.exit(0)` |
+| `new SwingWebPanel(CookieJar)`, `getCookieJar()`, `clearCookies()`, `CookieJar` | 공유 쿠키 저장소 | - / `CookieJar` / void | IAE(null 저장소), ISE(폐기, `clearCookies`) | 컴포넌트 사이의 쿠키 공유와 쿠키 삭제(확장, 5.24) |
 | `clean()` | - | void | ISE | 빈 페이지 + 캐시/저장소 삭제 |
 | `dispose()` | - | void | - | 반복 호출 안전 |
 | `addHeaders(Map<String,String>)` | 헤더 | void | IAE | 덮어쓰기 |
@@ -50,7 +51,7 @@ public class SwingWebPanel extends javax.swing.JPanel implements javax.swing.Scr
 
 IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 부가 메서드(요구 목록 밖, 편의 확장): `getTitle()`, `getHistoryIndex()`, `getMimeType()`, `isJavascriptEnabled()`, `stop()`.
-`stop()` 은 진행 중 로딩을 취소한다. 이 확장은 필수 메서드의 동작을 바꾸지 않는다.
+`stop()` 은 진행 중 로딩을 취소한다. `getTitle()` 은 살아 있는 문서의 제목을 따른다(5.25). 이 확장은 필수 메서드의 동작을 바꾸지 않는다.
 
 ## 3. 생성 직후 초기 상태 (P01-02)
 
@@ -71,7 +72,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 ## 4. 속성 변경 통지 (P03-06)
 
 `PropertyChangeListener` 로 `"page"`(String), `"statusText"`(String), `"progress"`(Integer), `"title"`(String), `"rootWindowClosingEnabled"`(Boolean, 5.23)를 EDT 에서 통지한다.
-값이 실제로 달라졌을 때만 통지한다.
+값이 실제로 달라졌을 때만 통지한다. `"title"` 은 새 페이지가 확정될 때와, 스크립트가 문서의 제목을 바꿀 때 통지한다(5.25).
 
 ## 5. 메서드별 상세
 
@@ -229,7 +230,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 
 ### 5.16 getCookies() (C-COOKIE-*) (P01-11)
 
-- 쿠키 저장소는 **컴포넌트별**이다. `name=value; name=value` 형식으로 이 저장소의 **만료되지 않은 쿠키 전부**(도메인과 무관)를 반환한다.
+- 쿠키 저장소는 기본적으로 **컴포넌트별**이다(호스트가 `CookieJar` 를 넘겨 여러 컴포넌트가 공유하게 할 수 있다, 5.24). `name=value; name=value` 형식으로 이 저장소의 **만료되지 않은 쿠키 전부**(도메인과 무관)를 반환한다.
 - 정렬: 도메인 → 경로 → 이름 순. 같은 이름의 쿠키도 도메인/경로가 다르면 모두 포함한다.
 - 비어 있으면 `""`. JavaScript `document.cookie` 는 현재 URL 에 적용되는 쿠키만 반환하고 `HttpOnly` 쿠키는 숨긴다.
 
@@ -453,6 +454,36 @@ panel.postMessage("hello", "https://app.example");             // 대상 오리�
 그 뒤 컴포넌트를 폐기할지 다른 페이지로 이동시킬지는 호스트가 정한다. 호스트가 이동시키면 위 취소 규칙대로 닫는 중 상태가 풀린다.
 JavaScript 를 실행하지 않는 페이지(`setJavascriptEnabled(false)`, `text/plain` 등)에는 `window.close()` 를 부를 스크립트가 없으므로 해당하지 않는다.
 
+### 5.24 확장: 쿠키 저장소 공유와 쿠키 삭제 (P31-04, 확장이며 AGENTS.md 의 공개 메서드 목록에는 없다)
+
+`public final class CookieJar`(`new CookieJar()`, `getCookies()`, `clear()`), `public SwingWebPanel(CookieJar jar)`,
+`public CookieJar getCookieJar()`, `public void clearCookies()`.
+
+**무엇을 하는가.** 기본적으로 쿠키 저장소는 컴포넌트마다 따로이다(5.16). 그래서 한 컴포넌트에서 로그인해도 다른 컴포넌트에는 보이지 않는다.
+한 사용자의 여러 페이지를 보여 주는 호스트(브라우저의 탭과 창)는 `CookieJar` 하나를 만들어 모든 컴포넌트의 생성자에 넘긴다.
+
+| 항목 | 동작 |
+| --- | --- |
+| `new SwingWebPanel(jar)` | 같은 `jar` 로 만든 컴포넌트들이 쿠키를 공유한다. 한 컴포넌트의 응답이나 스크립트(`document.cookie`)가 설정한 쿠키를 나머지의 요청과 스크립트가 본다. `jar` 가 null 이면 `IllegalArgumentException` |
+| `new SwingWebPanel()` | 지금처럼 자기 저장소를 가진다. `getCookieJar()` 는 null |
+| 공유 범위 | 쿠키만 공유한다. 이력, HTTP 캐시, sessionStorage, 추가 헤더, User-Agent 는 컴포넌트마다 따로이다(localStorage 는 원래 프로세스 공용이다, 5.17) |
+| `getCookies()` | 공유 저장소의 쿠키 전부를 5.16 의 형식으로 반환한다. `CookieJar.getCookies()` 와 같은 값이다 |
+| `dispose()` | 공유 저장소를 비우지 않는다. 폐기된 컴포넌트의 `getCookies()` 는 `""` 이다(5.14 의 빈 상태). 자기 저장소를 가진 컴포넌트는 지금처럼 폐기할 때 쿠키를 잃는다 |
+| `clean()` | 지금처럼 쿠키를 유지한다(5.13) |
+| `clearCookies()` | 이 컴포넌트의 쿠키를 모두 지운다. 공유 저장소이면 공유하는 모든 컴포넌트에서 지워진다. 보이는 페이지는 계속 실행되고 이후 요청은 지운 쿠키 없이 나간다. 폐기된 컴포넌트에서는 `IllegalStateException` |
+| `CookieJar.clear()` | 저장소의 쿠키를 모두 지운다(컴포넌트 없이도 부를 수 있다) |
+| 수명 | 저장소는 참조되는 동안 살아 있다. 모든 컴포넌트를 폐기한 뒤 같은 저장소로 새 컴포넌트를 만들면 쿠키가 그대로 있다 |
+| 스레드 | `CookieJar` 의 메서드와 `clearCookies()` 는 어느 스레드에서나 부를 수 있다 |
+
+### 5.25 `getTitle()` 과 `title` 속성은 살아 있는 문서의 제목을 따른다 (P31-04)
+
+- `getTitle()` 은 확정된 최상위 문서의 현재 제목(`document.title` 과 같은 값: 첫 `title` 요소의 글, 공백 정리)을 반환한다.
+  페이지를 읽은 뒤 스크립트가 `document.title` 을 바꾸거나 `title` 요소의 글을 고치거나 요소를 추가·제거하면 값이 바뀌고, `"title"` 속성 변경을 EDT 에서 통지한다(4절).
+- 파싱 중에 스크립트가 바꾼 제목은 페이지가 확정된 뒤 반영된다. 확정 전에는 이전 페이지의 제목을 반환한다(5.3 의 확정 규칙과 같다).
+- 하위 프레임 문서의 제목은 컴포넌트의 제목에 영향이 없다. 프레임의 스크립트가 부모 문서의 제목을 바꾸면 반영된다.
+- JavaScript 를 실행하지 않는 페이지의 제목은 받은 원문의 제목 그대로이다. `getContent()` 는 제목이 바뀌어도 받은 원문을 반환한다(5.9).
+- 이전에는 확정 시점의 제목에서 값이 고정되었다. 브라우저의 제목 표시줄과 탭 제목에 필요해서 P31-04 에서 바꿨다.
+
 ## 6. 허용 스킴 정책 (P01-12)
 
 | 스킴 | 정책 |
@@ -526,5 +557,7 @@ HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도�
 | C-CONSOLE-1~8 | 콘솔 리스너(5.20) | log/error 수준·문자열·인수·위치·EDT, 모든 콘솔 메서드의 수준, Swing 등록 규칙, 리스너 예외 격리, 브라우저 보고의 종류, 모든 스크립트 실행 위치, 프레임/Worker 표시, 대량 출력 상한, 이동·clean·dispose·JavaScript 설정 |
 | C-MESSAGE-1~8 | 호스트 메시지(5.22, P27) | `HostOutboundMessageTest`: 1 대상 오리진·신뢰 이벤트, 2 파싱 중 발신·이동 취소. `HostInboundMessageTest`: 3 준비 알림·EDT 응답, 4 값과 전달 오류, 5 프레임·Worker·교체 응답. `HostMessageQueueTest`: 6 마이크로태스크와 리스너 예외, 7 대기 건수·바이트. `HostMessageLifecycleTest`: 8 비활성·정리·폐기와 약한 수명. 클래스패스 왕복은 `MessageExample --smoke`. |
 | C-ROOTCLOSE-1~8 | 본 창 닫기 허용(5.23, P30) | `RootWindowClosingTest`: 1 기본값·속성 통지·`clean()` 유지·폐기 뒤 ISE, 2 기본값에서 무시와 콘솔 경고, 3 허용 시 EDT 한 번·작업과 마이크로태스크 뒤(파싱 중 스크립트 포함)·`closed`·반복 호출·타이머/프라미스/인라인 핸들러, 4 프레임(같은/다른 오리진, 샌드박스, 프레임 자신), 5 페이지 이동은 취소하지 않고 호스트 조작은 취소, 6 언로드 이벤트 한 번. `core.WebContentWindowClosingTest`: 7 웹 콘텐츠가 만든 창 경로. `RootWindowClosingExitMain`(Maven `run-root-close-exit`): 8 기본 구현의 `System.exit(0)`을 별도 JVM 에서 확인(허용 시 종료 코드 0, 대조로 미허용 시 3) |
+| C-COOKIEJAR-1~4 | 쿠키 저장소 공유와 삭제(5.24, P31-04) | `CookieJarTest`: 1 같은 저장소의 컴포넌트가 요청과 `document.cookie` 에서 쿠키를 공유하고 다른 저장소·자기 저장소에는 보이지 않음, 2 폐기해도 공유 저장소는 남고 폐기된 컴포넌트는 빈 상태, 3 `clean()` 은 유지·`clearCookies()` 와 `CookieJar.clear()` 는 삭제, 4 null 저장소와 폐기 뒤 호출의 예외 |
+| C-TITLE-1~3 | 살아 있는 문서의 제목(5.25, P31-04) | `LiveTitleTest`: 1 읽은 뒤 `document.title`·텍스트 노드·요소 제거와 재생성이 `getTitle()` 과 EDT 의 `title` 속성에 순서대로 반영, 2 파싱 중에 바꾼 제목이 확정 뒤 반영, 3 프레임 문서의 제목은 영향 없고 프레임이 바꾼 부모 제목은 반영 |
 
 사례 ID는 구현 시 `browser/src/test/java`의 메서드 이름에 포함하고 `FEATURE_MATRIX.md`의 검증 사례 열과 일치시킨다.

@@ -108,6 +108,13 @@ final class NavigationBar extends JPanel {
         boolean open(String text);
 
         /**
+         * Opens a new tab.
+         * <p>
+         * 새 탭을 연다.
+         */
+        void newTab();
+
+        /**
          * Returns the addresses of the history entries behind the current one, the nearest first.
          * <p>
          * 현재 항목 뒤쪽의 이력 주소를 가까운 것부터 반환한다.
@@ -145,6 +152,9 @@ final class NavigationBar extends JPanel {
     /** The home button. / 홈 버튼. */
     private final JButton home = button(Icons.HOME, Texts.of("Home (Alt+Home)", "홈 (Alt+Home)"));
 
+    /** The new tab button. / 새 탭 버튼. */
+    private final JButton newTab = button(Icons.PLUS, Texts.of("New tab (Ctrl+T)", "새 탭 (Ctrl+T)"));
+
     /** The address bar. / 주소 표시줄. */
     private final JTextField address = new JTextField();
 
@@ -176,6 +186,7 @@ final class NavigationBar extends JPanel {
         buttons.add(reload);
         buttons.add(stop);
         buttons.add(home);
+        buttons.add(newTab);
         add(buttons, BorderLayout.WEST);
         add(address, BorderLayout.CENTER);
         address.setToolTipText(Texts.of("Address (Ctrl+L)", "주소 (Ctrl+L)"));
@@ -234,6 +245,12 @@ final class NavigationBar extends JPanel {
             /** Opens the home page. / 홈 페이지를 연다. */
             public void actionPerformed(ActionEvent e) {
                 actions.home();
+            }
+        });
+        newTab.addActionListener(new ActionListener() {
+            /** Opens a new tab. / 새 탭을 연다. */
+            public void actionPerformed(ActionEvent e) {
+                actions.newTab();
             }
         });
         back.addMouseListener(new HistoryMenu(true));
@@ -527,8 +544,9 @@ final class NavigationBar extends JPanel {
      * <p>
      * 아이콘의 종류로 도구 모음의 버튼을 반환한다. 시험용이다.
      *
-     * @param icon one of {@link Icons#BACK}, {@link Icons#FORWARD}, {@link Icons#RELOAD}, {@link Icons#STOP}, {@link Icons#HOME} /
-     *             {@link Icons#BACK}, {@link Icons#FORWARD}, {@link Icons#RELOAD}, {@link Icons#STOP}, {@link Icons#HOME} 중 하나
+     * @param icon one of {@link Icons#BACK}, {@link Icons#FORWARD}, {@link Icons#RELOAD}, {@link Icons#STOP}, {@link Icons#HOME},
+     *             {@link Icons#PLUS} / {@link Icons#BACK}, {@link Icons#FORWARD}, {@link Icons#RELOAD}, {@link Icons#STOP},
+     *             {@link Icons#HOME}, {@link Icons#PLUS} 중 하나
      * @return the button / 버튼
      */
     JButton getButton(int icon) {
@@ -542,6 +560,8 @@ final class NavigationBar extends JPanel {
             return reload;
         case Icons.STOP:
             return stop;
+        case Icons.PLUS:
+            return newTab;
         default:
             return home;
         }

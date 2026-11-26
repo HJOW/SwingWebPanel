@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P31-04-a desktopapp 탭 브라우징 (2026-11-27) ===
+현재 작업 번호: P31-04-a 완료. P31-04-b(링크를 새 탭에서 열기)는 P31-08의 확장 지점과 함께 한다. P31-05 진행 중.
+완료한 내용: 창마다 JTabbedPane 과 탭 머리(ui.TabHeader: 제목, 읽는 중 표시, 닫기 단추, 도구 설명). 새 탭(도구 모음의 + 단추, 설정 tabs.newTabPage), 탭 닫기(닫기 단추, 가운데 클릭), 닫은 탭 다시 열기(창마다 20개), 탭 전환(selectTab, selectNextTab), 활성 탭에 따른 제목 표시줄·주소 표시줄·버튼·상태 표시줄 전환, 탭을 닫으면 dispose, 마지막 탭을 닫으면 창 닫기, 탭이 여럿인 창을 닫기 전 확인(설정 tabs.confirmClose, BrowserApp.Prompts). SwingWebPanel 에 쿠키 저장소 공유(CookieJar, new SwingWebPanel(CookieJar), getCookieJar(), clearCookies(); 계약 5.24, 기능 표 API-32)와 살아 있는 문서 제목(getTitle() 과 title 속성이 document.title 변경을 따름; 계약 5.25, API-33)을 추가했다.
+변경 파일: browser 의 CookieJar.java(신규), SwingWebPanel.java, core/BrowserSession.java, core/PageSnapshot.java, core/PageRuntime.java, 시험 CookieJarTest·LiveTitleTest(신규). desktopapp 의 BrowserApp.java, model/Settings.java, ui/BrowserTab.java, ui/BrowserWindow.java, ui/NavigationBar.java, ui/TabHeader.java(신규), 시험 ui/BrowserTabsTest(신규)·ui/TestPages. docs/API_CONTRACT.md, docs/FEATURE_MATRIX.md, docs/progress/desktopapp.md, README.md, README.ko.md, desktopapp/README.md, desktopapp/AGENTS.md, AGENTS.md, 이 문서.
+검증 결과: JDK 8u202 의 mvn -B -o verify(JDK 6u45 javac·java). 엔진 892건 통과/0 실패. 브라우저 3,837건 통과/4 실패/12 건너뜀. 실패 4건은 모두 Web Audio 실시간 출력 스레드 시험이다: WebAudioComponentTest.testNavigationEndsTheContexts, WebAudioOutputComponentTest.testDefaultOutputLetsAContextRunWithoutAScriptError, OutputRenderDriverTest.testNoDeviceIsSilentButTheTimeRunsAtRealSpeed(이 3건은 P22-16-c4 에 기록된 기존 실패), WebAudioComponentTest.testScriptsOffAndDispose(같은 스위트에서 렌더링 스레드 수 기대 3, 실제 2. 이번 실행에서 처음 보았고 따로 다시 실행해 보지 못했다). 브라우저 단계가 실패로 끝나 이 실행에서는 desktopapp 단계가 돌지 않았으므로 mvn -B -o -pl desktopapp -am "-Dtest.filter=desktopapp" verify 를 따로 실행했다: 성공, JRE 6u45 에서 앱 시험 15건 통과(AddressInputTest 4, BrowserWindowTest 4, BrowserTabsTest 4, BrowserAppTest 2, AppBoundaryTest 1), run-app-smoke 통과(이 실행의 작업 트리에는 P31-05-a 의 변경도 들어 있었다). 실제 창 화면 캡처(JRE 6u45, Windows 10)로 탭 줄과 탭 머리를 확인했다.
+미해결 사항: P31-04-b(링크의 가운데 클릭, Ctrl+클릭, 문맥 메뉴로 새 탭 열기)와 탭 전환 단축키(P31-05)가 남았다. WebAudioComponentTest.testScriptsOffAndDispose 의 원인은 확인하지 않았다(P22-16-c4 와 함께 볼 것). 쿠키는 파일에 저장하지 않으므로 프로그램을 끝내면 사라진다. 실제 마우스·키보드 조작 확인은 P31-11 에 남는다.
+다음 작업 번호: P31-05
+-----------------------------------------------------------------------------------------------
 === P31-03 desktopapp 주 창과 탐색 도구 모음 (2026-11-26) ===
 현재 작업 번호: P31-03 완료. P31-04 진행 중.
 완료한 내용: 제목 표시줄(페이지 제목 또는 주소 + 앱 이름), 탐색 도구 모음(뒤로·앞으로·새로고침·멈춤·홈 버튼, 이력 메뉴, Shift+새로고침), 주소 표시줄(입력 정규화, 편집 중인 글 보호, Enter/Esc, 읽는 중인 주소 표시), 상태 표시줄(상태 문구, 진행 막대, 확대 비율). 설정 모델(홈 페이지, 검색 주소 서식; 파일 저장은 P31-07)과 UI 글의 영어·한국어 선택을 넣었다.
