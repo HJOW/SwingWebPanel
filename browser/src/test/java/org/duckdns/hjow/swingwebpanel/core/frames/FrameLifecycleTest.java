@@ -211,13 +211,17 @@ public class FrameLifecycleTest {
         SwingWebPanel p = FrameTestSupport.newPanel(400, 300);
         try {
             server.routeFixed("/tick", TestHttpServer.Response.ok("text/plain", "t"));
-            server.routeFixed("/gone", TestHttpServer.Response.html("<body><script>setInterval(function(){var x=new XMLHttpRequest();x.open('GET','/gone-tick');x.send()},30)"
+            // 프레임은 첫 HTTP 응답을 받은 뒤에만 부모에게 제거 가능하다고 알린다.
+            server.routeFixed("/gone", TestHttpServer.Response.html("<body><script>var notified=false;setInterval(function(){"
+                    + "var x=new XMLHttpRequest();x.open('GET','/gone-tick');"
+                    + "x.onload=function(){if(!notified&&x.status===200){notified=true;parent.postMessage('frame-tick','*')}};x.send()},30)"
                     + "</script></body>"));
             server.routeFixed("/gone-tick", TestHttpServer.Response.ok("text/plain", "t"));
-            server.routeFixed("/page", TestHttpServer.Response.html("<!DOCTYPE html><html><body><iframe id=\"f\" src=\"/gone\" width=\"50\" height=\"30\"></iframe>"
-                    + "<script>window.onload=function(){setTimeout(function(){sessionStorage.setItem('removing','yes');"
-                    + "document.body.removeChild(document.getElementById('f'));"
-                    + "setInterval(function(){var x=new XMLHttpRequest();x.open('GET','/tick');x.send()},30)},600)}</script></body></html>"));
+            server.routeFixed("/page", TestHttpServer.Response.html("<!DOCTYPE html><html><body><script>"
+                    + "window.addEventListener('message',function(e){var frame=document.getElementById('f');"
+                    + "if(e.data!=='frame-tick'||!frame)return;document.body.removeChild(frame);sessionStorage.setItem('removing','yes');"
+                    + "setInterval(function(){var x=new XMLHttpRequest();x.open('GET','/tick');x.send()},30)})</script>"
+                    + "<iframe id=\"f\" src=\"/gone\" width=\"50\" height=\"30\"></iframe></body></html>"));
             server.start();
             p.setPage(server.url("/page"));
             FrameTestSupport.awaitStored(p, "removing", "yes");
