@@ -191,7 +191,7 @@ java Swing 에서 사용할 수 있는 웹브라우저 컴포넌트 개발.
 - [x] P01-09. `refresh(false)`는 현재 원문/리소스의 캐시 정책을 따르고, `refresh(true)`는 주 문서와 그 이동에서 요청하는 하위 리소스의 캐시를 우회한다. `about:text`는 저장한 입력 원문으로 다시 구성하고 `about:blank`는 빈 상태를 유지한다. force가 다른 컴포넌트의 캐시까지 삭제하는 것으로 구현하지 않는다.
 - [x] P01-10. 헤더 이름은 대소문자를 구분하지 않고 기존 값을 덮어쓴다. 어떠한 대소문자의 `User-Agent`도 `addHeaders`에서 받지 않고 무시하며 조회 결과에서도 제외한다. null, String 이외의 키/값, 헤더의 CR/LF 입력은 거부한다. `getHeaders()`는 복사본을 반환한다.
 - [x] P01-11. 쿠키 저장소는 컴포넌트별로 분리한다. `getCookies()`는 해당 저장소의 만료되지 않은 쿠키 전부를 `name=value; name=value` 형식으로 반환한다. 도메인/경로/이름 순으로 정렬하고 동명 쿠키도 보존한다. JavaScript의 `document.cookie`는 현재 URL에 적용되는 쿠키만 반환하고 HttpOnly를 숨긴다.
-- [x] P01-12. 페이지 이동은 HTTP/HTTPS/FTP 및 `blob:`을 허용하고, `classpath://`, `about:blank`, 내부 `about:text`는 명시적 특수 주소로 처리한다. `setPage("about:text")`로 임의 원문을 만들지는 않는다. `file`, `jar`, `mailto`, `javascript`, `data` 등은 차단하고 정책을 기록한다. 2026-11-26 사용자 결정에 따라 유효한 `blob:` 주소를 `setPage`, 링크·프레임 이동, 하위 리소스, 웹 요청 및 다운로드에서 지원한다. File API의 생성·해제와 오리진 규칙을 적용하고 P28-06에서 구현·검증한다.
+- [x] P01-12. 페이지 이동은 HTTP/HTTPS/FTP, `classpath://`, `file:`, `blob:`을 지원 대상으로 정하고, `about:blank`와 내부 `about:text`는 특수 주소로 처리한다. `setPage("about:text")`로 임의 원문을 만들지는 않는다. `jar`, `mailto`, `javascript`, `data` 등 나머지 스키마는 차단한다. 2026-11-26 사용자 결정에 따라 유효한 `blob:` 주소를 `setPage`, 링크·프레임 이동, 하위 리소스, 웹 요청 및 다운로드에서 지원하고, File API의 생성·해제와 오리진 규칙을 적용한다. 같은 날 사용자가 상단에 추가한 `file:` 정책도 로컬 문서와 리소스의 접근 주체를 구분해 P28-06에서 구현·검증한다.
 - [x] P01-13. `classpath://` 경로는 클래스패스 루트 기준으로 해석하고 클래스 로더의 스트림으로 읽는다. 공백과 퍼센트 인코딩, 상대 리소스, 루트 경로를 정규화한다. `about:text`의 상대 주소에는 외부 기준 URL이 없으므로 `<base>`가 없으면 해석 실패로 처리한다.
 - [x] P01-14. sessionStorage는 컴포넌트별/오리진별로, localStorage는 같은 JVM 프로세스의 컴포넌트들이 공유하되 오리진별로 분리한다. Java 조회 메서드는 각 저장소의 모든 오리진 항목을 복사하여 반환한다. 웹 스크립트에는 현재 오리진 영역만 노출한다.
 - [x] P01-15. `clean()`은 진행 중 작업을 취소하고 빈 페이지로 전환하며 이력을 `about:blank` 하나로 초기화한다. 이 컴포넌트의 모든 캐시와 sessionStorage 및 프로세스 공용 localStorage 전체를 비운다. User-Agent, 추가 헤더, 쿠키, JavaScript 설정, 사용자 리스너는 유지하도록 정한다. 공유 localStorage 삭제의 다른 컴포넌트 영향도 문서화한다.
@@ -733,6 +733,14 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
   2. `fetch` 응답의 `body`(`ReadableStream`과 기본 리더의 `getReader/read/cancel/releaseLock`, Streams Standard 판본 기록). 게임은 `getReader`가 없으면 `arrayBuffer()`로 대신 읽으므로 구동이 막히지는 않는다. 다만 적재 진행률이 덜 세밀해진다.
   3. `navigator.clipboard.readText/writeText`(Clipboard API). 보안 문맥과 사용자 활성화 조건을 정하고, P11-08의 시스템 클립보드 연결을 재사용한다.
   4. `URL.createObjectURL/revokeObjectURL`과 `blob:` 주소 처리. 2026-11-26 사용자 결정에 따른 P01-12의 지원 범위를 적용한다. 최상위 문서·프레임 이동, 리소스, Fetch/XHR 및 다운로드에서 조회를 연결한다. 같은 오리진에서 읽은 바이트, File API가 정하는 접근 범위, 해제된 URL의 실패 및 Netstorm 화면 저장 다운로드를 검증한다.
+
+  - [ ] P28-06-a. 입력: DOM·Window에서 중단 전후의 `signal`, 중복 등록, `once`와 수동 제거. 기대: 이미 중단됐으면 건너뛰며 중단 알고리즘이 `abort` 이벤트 전에 해당 등록만 제거. 구현: `EventTarget`, `DomInterfaces`, `AbortSignal`. 완료 조건: 실제 페이지와 기존 DOM·Worker·Fetch 시험 통과.
+  - [ ] P28-06-b1. 입력: 바이트 청크, 읽기 대기, 닫기·오류·취소·잠금 해제, `for await`와 `Array.fromAsync`. 기대: 같은 청크를 순서대로 전달하고 async iterator 종료 시 리더를 해제. 구현: `js.host.web`의 스트림과 기본 리더. 완료 조건: Streams Standard 판본 및 정상·오류·취소 사례 검증.
+  - [ ] P28-06-b2. 입력: Fetch 응답, `clone`, `bodyUsed`, null body, 취소 및 HTTP의 지연 청크. 기대: 공통 바디 상태와 조각별 읽기, 기존 `arrayBuffer()`·텍스트·JSON 소비 동작 유지. 구현: `FetchApi`, `PageWebRequests`, 공통 요청 계층. 완료 조건: 클래스패스와 로컬 HTTP 페이지에서 스트림·일괄 소비를 검증.
+  - [ ] P28-06-c. 입력: 신뢰 입력의 읽기·쓰기, 활성화 없는 호출, 비보안 문맥, 클립보드가 비어 있거나 사용할 수 없는 환경. 기대: `navigator.clipboard`의 보안 문맥 처리 및 Promise 결과. 구현: `WindowGlobals`, 페이지 입력 및 P11-08 클립보드 연결. 완료 조건: 실제 페이지 입력과 제어 가능한 클립보드 시험 통과.
+  - [ ] P28-06-d1. 입력: Blob의 객체 URL 생성·해제, 캐시와 문서 수명, 쿼리·프래그먼트, 같은·다른 오리진. 기대: 등록된 동일 객체의 바이트와 생성자 오리진을 File API에 따라 처리. 구현: `UrlApi`, `ResourceFetcher`, 문서와 세션 수명. 완료 조건: 브라우저 내부 조회, 취소, 접근이 끝난 뒤의 정리 시험 통과.
+  - [ ] P28-06-d2. 입력: Java `setPage`, 링크·프레임·리소스·Fetch/XHR 및 화면 저장 다운로드에서 `blob:` 사용. 기대: 유효한 URL과 해제한 URL을 각 요청의 계약대로 처리하며, 시작된 다운로드는 캡처한 내용을 저장. 구현: 페이지·프레임 이동, 공통 리소스·웹 요청 및 다운로드 계층. 완료 조건: 실제 페이지의 요청 종류별 통합 시험 통과.
+  - [ ] P28-06-e. 입력: 로컬 HTML과 상대 경로, 같은 로컬 문맥의 리소스 요청, 원격 문서의 `file:` 접근. 기대: Java 호스트의 로컬 파일 열기와 로컬 문서의 상대 리소스 사용을 지원하고 원격 페이지에 로컬 파일 접근 권한을 부여하지 않음. 구현: `SchemePolicy`, `ResourceFetcher`, 이동·하위 리소스·웹 요청 계층. 완료 조건: 임시 파일을 사용한 실제 페이지 시험과 보안 경계 시험 통과.
 
   완료 조건: 실제 컴포넌트 페이지 시험이 통과하고 기능 표 5.4절을 갱신한다.
 - [ ] P28-07. 큰 스크립트의 실행 성능과 실행 제한을 측정하고 개선한다. 번들 하나가 약 327만 자이고, private 이름 3만여 곳과 클래스 필드 6천여 곳을 쓰며, `requestAnimationFrame` 프레임 루프로 돈다. JDK 6u45와 7u80에서 다음을 측정해 기록한다.
