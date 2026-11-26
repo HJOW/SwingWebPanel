@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
@@ -29,6 +32,10 @@ public class HostIndependenceTest {
     private static final String[] FORBIDDEN = { "javax/script", "org/mozilla", "sun/org/mozilla", "jdk/nashorn", "com/oracle/truffle",
         "com/oracle/graal", "com/sun/", "Lsun/", "java/lang/ProcessBuilder", "java/lang/Process", "loadLibrary", "javafx/", "java/awt/Desktop" };
 
+    /** Paths of the script bindings inspected by this test. / 이 시험이 검사하는 스크립트 연결 경로. */
+    private static final String[] BINDINGS = { "org/duckdns/hjow/swingwebpanel/js/host/", "org/duckdns/hjow/swingwebpanel/js/dom/",
+        "org/duckdns/hjow/swingwebpanel/js/worker/" };
+
     /**
      * Creates the suite.
      * <p>
@@ -38,32 +45,31 @@ public class HostIndependenceTest {
     }
 
     /**
-     * Finds the directory that holds the compiled classes of the product (null if they run from a jar).
+     * Finds the JAR or directory that supplied the product class.
      * <p>
-     * 제품의 컴파일된 클래스가 있는 디렉터리를 찾는다(jar 에서 실행 중이면 null).
+     * 제품 클래스를 제공한 JAR 또는 디렉터리를 찾는다.
      *
-     * @return the class root directory or null / 클래스 루트 디렉터리 또는 null
+     * @return class source / 클래스 원천
+     * @throws IOException if its location cannot be read / 위치를 읽을 수 없으면
      */
-    private File classRoot() {
+    private File classSource() throws IOException {
         try {
-            File f = new File(PageScripts.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-            return f.isDirectory() ? f : null;
+            return new File(PageScripts.class.getProtectionDomain().getCodeSource().getLocation().toURI());
         } catch (Exception e) {
-            return null;
+            throw new IOException("cannot find the browser class source", e);
         }
     }
 
     /**
-     * Reads a whole file.
+     * Reads one class and closes its stream.
      * <p>
-     * 파일 전체를 읽는다.
+     * 클래스 하나를 읽고 스트림을 닫는다.
      *
-     * @param f the file / 파일
+     * @param in class input / 클래스 입력
      * @return the bytes / 바이트
      * @throws IOException on read failure / 읽기 실패 시
      */
-    private byte[] read(File f) throws IOException {
-        InputStream in = new FileInputStream(f);
+    private byte[] read(InputStream in) throws IOException {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             byte[] buf = new byte[8192];
@@ -99,13 +105,57 @@ public class HostIndependenceTest {
             if (f.isDirectory()) {
                 scan(f, report, count);
             } else if (f.getName().endsWith(".class")) {
-                String text = new String(read(f), "ISO-8859-1");
-                count[0]++;
-                for (int k = 0; k < FORBIDDEN.length; k++) { // 금지 이름을 하나씩 찾아 본다.
-                    if (text.indexOf(FORBIDDEN[k]) >= 0) {
-                        report.append("\n  ").append(f.getName()).append(" references ").append(FORBIDDEN[k]);
+                scanClass(f.getName(), new FileInputStream(f), report, count);
+            }
+        }
+    }
+
+    /**
+     * Scans script binding classes inside the packaged product. / 패키징된 제품의 스크립트 연결 클래스를 검사한다.
+     * @param file product JAR / 제품 JAR
+     * @param report findings / 발견 사항
+     * @param count running class count / 검사한 클래스 수
+     * @throws IOException on reading failure / 읽기 실패 시
+     */
+    private void scanJar(File file, StringBuilder report, int[] count) throws IOException {
+        JarFile jar = new JarFile(file);
+        try {
+            Enumeration<JarEntry> entries = jar.entries();
+            // 패키징된 JAR에서 대상 패키지의 클래스만 검사한다.
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                String name = entry.getName();
+                if (!name.endsWith(".class")) {
+                    continue;
+                }
+                // 동일한 경계 목록을 디렉터리 검사와 공유한다.
+                for (String binding : BINDINGS) {
+                    if (name.startsWith(binding)) {
+                        scanClass(name, jar.getInputStream(entry), report, count);
+                        break;
                     }
                 }
+            }
+        } finally {
+            jar.close();
+        }
+    }
+
+    /**
+     * Looks for forbidden references in a single class. / 클래스 하나의 금지 참조를 찾는다.
+     * @param name class path / 클래스 경로
+     * @param in class byte stream / 클래스 바이트 스트림
+     * @param report findings / 발견 사항
+     * @param count running class count / 검사한 클래스 수
+     * @throws IOException on reading failure / 읽기 실패 시
+     */
+    private void scanClass(String name, InputStream in, StringBuilder report, int[] count) throws IOException {
+        String text = new String(read(in), "ISO-8859-1");
+        count[0]++;
+        // 같은 목록으로 모든 클래스의 바이트를 확인한다.
+        for (String forbidden : FORBIDDEN) {
+            if (text.indexOf(forbidden) >= 0) {
+                report.append("\n  ").append(name).append(" references ").append(forbidden);
             }
         }
     }
@@ -118,15 +168,17 @@ public class HostIndependenceTest {
      * @throws IOException on read failure / 읽기 실패 시
      */
     public void testNoForbiddenReferencesInTheBrowserScriptBindings() throws IOException {
-        File root = classRoot();
-        if (root == null) {
-            Check.skip("the classes are not in a directory (running from a jar), nothing to scan");
-        }
+        File source = classSource();
         StringBuilder report = new StringBuilder();
         int[] count = new int[1];
-        scan(new File(root, "org/duckdns/hjow/swingwebpanel/js/host"), report, count);
-        scan(new File(root, "org/duckdns/hjow/swingwebpanel/js/dom"), report, count);
-        scan(new File(root, "org/duckdns/hjow/swingwebpanel/js/worker"), report, count);
+        if (source.isDirectory()) {
+            // 개별 클래스 파일로 실행하는 경우에도 같은 패키지를 검사한다.
+            for (String binding : BINDINGS) {
+                scan(new File(source, binding), report, count);
+            }
+        } else {
+            scanJar(source, report, count);
+        }
         Check.isTrue(count[0] > 100, "scanned a plausible number of class files (" + count[0] + ")");
         Check.equal("", report.toString(), "forbidden references in the browser's script bindings");
     }

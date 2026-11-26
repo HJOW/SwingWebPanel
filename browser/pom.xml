@@ -16,6 +16,8 @@
     <swp.jdk6.checkPhase>none</swp.jdk6.checkPhase>
     <swp.implementationTitle>SwingWebPanel browser component (requires swingwebpanel-js.jar)</swp.implementationTitle>
     <swp.test.engineJar>${org.duckdns.hjow:swingwebpanel-js:jar}</swp.test.engineJar>
+    <!-- 배포와 같은 JAR에서 브라우저를 먼저 읽는다. test 단계 전에 합본이 만들어진다. -->
+    <swp.test.runtimePath>${swp.test.jar}</swp.test.runtimePath>
   </properties>
   <dependencies>
     <dependency>
