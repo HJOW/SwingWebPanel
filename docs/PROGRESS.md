@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P27-02-b 페이지 메시지의 Java 변환 (2026-11-26) ===
+현재 작업 번호: P27-02-b와 P27-02 완료.
+완료한 내용: 구조화 복제 기록을 Java 읽기 전용 컬렉션, 날짜와 유효 바이트의 복사본으로 해석한다. 참조 정체성과 삽입 순서를 보존한다. Java 결과 변환과 한도 검사를 마치고 나서 ArrayBuffer를 분리한다.
+변경 파일: StructuredClone.java, HostMessageValues.java, HostMessageReader.java, HostCollectionMap.java, HostMessageReaderTest.java, AGENTS.md, docs/API_CONTRACT.md, 이 문서.
+검증 결과: JDK 6u45에서 변경 클래스를 제품 JAR와 함께 분리 컴파일해 HostMessageReaderTest 5건, HostMessageValuesTest 3건, StructuredCloneTest 21건, StructuredCloneSharedMemoryTest 3건(합계 32건) 통과. sourcecheck 0 위반.
+미해결 사항: Java → 페이지 송신과 페이지 → Java 통지(P27-03~06).
+다음 작업 번호: P27-03.
+-----------------------------------------------------------------------------------------------
 === P27-02-a Java 송신값의 호출 스레드 복사 (2026-11-26) ===
 현재 작업 번호: P27-02-a 완료.
 완료한 내용: Java 원시값·문자열·Map·Collection·배열·Date를 렐름에 독립적인 구조화 복제 형식에 보관하고 수신 렐름에 복원한다. 반복 참조는 보존하며 순환, 살아 있는 핸들, 허용하지 않는 값과 메시지 한도를 검사한다.

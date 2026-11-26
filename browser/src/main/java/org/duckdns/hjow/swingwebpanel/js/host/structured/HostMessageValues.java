@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
+import org.duckdns.hjow.swingwebpanel.js.JsObject;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.date.DateMath;
 import org.duckdns.hjow.swingwebpanel.js.embed.JsHandle;
@@ -44,6 +46,22 @@ public final class HostMessageValues {
         Object root = snapshot.capture(message, 0);
         Cell[] cells = snapshot.cells.toArray(new Cell[snapshot.cells.size()]);
         return new ClonedValue(root, cells, 2L * snapshot.units, null);
+    }
+
+    /**
+     * Converts a script message to copied Java data on the sending realm's thread.
+     * A successful transfer detaches the listed buffers.
+     * <p>
+     * 송신 렐름의 스레드에서 스크립트 메시지를 Java 복사본으로 바꾼다.
+     * 전달이 성공하면 목록의 버퍼를 분리한다.
+     *
+     * @param message the script value / 스크립트 값
+     * @param transfer ordinary buffers to transfer, or null / 전달할 일반 버퍼. 없으면 null
+     * @return copied Java data / Java 복사값
+     * @throws StructuredCloneException for an invalid transfer or an unsupported graph / 잘못된 전달이나 미지원 그래프 시
+     */
+    public static Object fromScript(JsValue message, List<? extends JsObject> transfer) {
+        return StructuredClone.serializeToHost(message, transfer);
     }
 
     /**

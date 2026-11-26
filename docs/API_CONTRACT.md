@@ -363,6 +363,24 @@ panel.postMessage("hello", "https://app.example");             // 대상 오리�
 
 값·키·문자 단위와 바이트에 적용하는 메시지 한도는 `HostMessageValues.MAX_MESSAGE_UNITS`(262,144)이다. 중첩은 128단계까지 허용한다. Java → 페이지에서 사용한 Java 컬렉션·배열·날짜는 복사 후 바꿔도 수신값에 영향이 없다.
 
+| 페이지 송신값 | Java 수신값 |
+| --- | --- |
+| undefined, null, boolean, number, bigint, string | `JsEngine.UNDEFINED`, null, `Boolean`, `Double`, `BigInteger`, `String`. 원시값 래퍼도 각각의 Java 값으로 복원한다. |
+| Array, 일반 객체 | 읽기 전용 `List<Object>`와 `Map<String,Object>`. 배열의 빈 슬롯은 undefined이며 인덱스 외 속성은 리스트에 포함하지 않는다. |
+| Map, Set | 삽입 순서의 읽기 전용 `Map<Object,Object>` 및 `Set<Object>`. 스크립트의 원시 키는 값으로, 객체에서 변환한 키는 Java 참조 정체성으로 조회한다. |
+| 유효한 Date | `java.util.Date` 복사본 |
+| ArrayBuffer, TypedArray, DataView | 현재 유효 바이트 구간의 `byte[]` 복사본 |
+| 함수, DOM, 심볼, Invalid Date, RegExp, 오류 객체, Blob·File 등 별도 타입 | `DataCloneError` |
+| SharedArrayBuffer·공유 뷰, MessagePort 전송 | `DataCloneError`. Java 호스트는 브라우저 에이전트 클러스터의 공유 메모리에 참여하지 않는다. |
+
+전송 목록의 일반 ArrayBuffer는 메시지 전체가 Java 변환과 한도 검사를 통과하면 원본에서 분리된다. 날짜와 바이트 배열은 수신 측이 수정할 수 있는 복사본이다.
+
+| 독립 엔진 API(P26)와 비교 | 호스트 메시지의 규칙 |
+| --- | --- |
+| 공통 원시값 | `Double`, `BigInteger`, 문자열·불리언·null 및 Java 수신의 undefined 표식은 독립 엔진과 같다. |
+| 객체·배열 및 함수 | 메시지는 문서 수명과 독립된 복사본을 보낸다. 살아 있는 엔진 핸들, 임의 Java 객체와 호스트 함수는 거부된다. |
+| 날짜와 바이트 | 메시지는 날짜와 바이트를 복사값으로 바꾼다. Java의 `byte[]`는 JS ArrayBuffer다. |
+
 ## 6. 허용 스킴 정책 (P01-12)
 
 | 스킴 | 정책 |

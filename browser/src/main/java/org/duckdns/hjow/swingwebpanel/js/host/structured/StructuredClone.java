@@ -478,8 +478,46 @@ public final class StructuredClone {
         Serializer s = new Serializer(maxBytes, transfer, handler, sharedScope);
         Object root = s.value(value);
         s.run();
-        s.finish();
+        s.prepareTransfers();
+        s.commitTransfers();
         return new ClonedValue(root, s.cells.toArray(new Cell[s.cells.size()]), s.used, s.containsShared ? sharedScope : null);
+    }
+
+    /**
+     * Serializes and converts a page message before committing any buffer transfer.
+     * <p>
+     * 페이지 메시지를 직렬화해 Java 값으로 바꾼 뒤 버퍼 전달을 확정한다.
+     *
+     * @param value sending script value / 발신 스크립트 값
+     * @param transfer buffers to move / 옮길 버퍼
+     * @return copied host data / 복사한 호스트 데이터
+     */
+    static Object serializeToHost(JsValue value, List<? extends JsObject> transfer) {
+        Serializer s = new Serializer(128L * HostMessageValues.MAX_MESSAGE_UNITS, transfer, null, null);
+        Object root = s.value(value);
+        s.run();
+        s.prepareTransfers();
+        Object data = HostMessageReader.read(root, s.cells);
+        s.commitTransfers();
+        return data;
+    }
+
+    /**
+     * Finds the element type named in a serialized typed array.
+     * <p>
+     * 직렬화한 형식화 배열의 이름에 해당하는 원소 타입을 찾는다.
+     *
+     * @param name typed array constructor name / 형식화 배열 생성자 이름
+     * @return element type / 원소 타입
+     */
+    static ElementType elementType(String name) {
+        // 생성자 이름이 같은 형식을 고른다.
+        for (ElementType type : ElementType.values()) {
+            if (type.getConstructorName().equals(name)) {
+                return type;
+            }
+        }
+        throw new IllegalStateException("unknown typed array " + name);
     }
 
     /**
@@ -1090,12 +1128,11 @@ public final class StructuredClone {
         }
 
         /**
-         * Finishes a successful serialization: the buffers of the transfer list are included even if the value does not reach them, and
-         * every transferred buffer is detached.
+         * Checks the final state of every transfer and records its data, including values the root does not reach.
          * <p>
-         * 성공한 직렬화를 마무리한다: 값이 닿지 않는 전달 목록의 버퍼도 포함하고, 옮긴 버퍼는 모두 분리한다.
+         * 모든 전달 대상의 최종 상태를 확인하고 루트가 닿지 않는 버퍼도 데이터를 기록한다.
          */
-        void finish() {
+        void prepareTransfers() {
             // 값에서 닿지 않은 전달 대상 버퍼도 칸으로 만든다.
             for (int i = 0; i < transferList.size(); i++) {
                 ref(transferList.get(i));
@@ -1116,6 +1153,14 @@ public final class StructuredClone {
                 charge(c.bytes.length);
                 c.maxByteLength = buffer.isResizable() ? buffer.getMaxByteLength() : -1;
             }
+        }
+
+        /**
+         * Releases the originals after the entire message has been accepted.
+         * <p>
+         * 전체 메시지가 검증을 통과한 뒤 원본을 분리한다.
+         */
+        void commitTransfers() {
             // 모든 전달 대상이 유효하면 원본 버퍼를 분리한다.
             for (int i = 0; i < transferList.size(); i++) {
                 transferList.get(i).detach();
@@ -1534,15 +1579,8 @@ public final class StructuredClone {
             if (c.kind == VIEW) {
                 return new DataViewObject(realm.getIntrinsic("%DataViewPrototype%"), b, c.offset, c.length);
             }
-            ElementType[] types = ElementType.values();
-            // 생성자 이름이 같은 요소 형식을 찾는다.
-            for (int i = 0; i < types.length; i++) {
-                if (types[i].getConstructorName().equals(c.text)) {
-                    JsObject prototype = realm.getIntrinsic("%" + c.text + "Prototype%");
-                    return new TypedArrayObject(prototype, types[i], b, c.offset, c.length);
-                }
-            }
-            throw new IllegalStateException("unknown typed array " + c.text);
+            JsObject prototype = realm.getIntrinsic("%" + c.text + "Prototype%");
+            return new TypedArrayObject(prototype, elementType(c.text), b, c.offset, c.length);
         }
 
         /**
