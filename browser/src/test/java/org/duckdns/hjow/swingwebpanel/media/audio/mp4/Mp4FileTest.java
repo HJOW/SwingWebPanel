@@ -1,9 +1,12 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.mp4;
 
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.FileByteSource;
 import org.duckdns.hjow.swingwebpanel.testing.Block;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
@@ -96,6 +99,80 @@ public class Mp4FileTest {
             byte[] copy = Arrays.copyOfRange(file, (int) t.getOffset(i), (int) t.getOffset(i) + t.getSize(i));
             Check.isTrue(Arrays.equals(s.get(i), copy), "content of sample " + i);
             Check.equal(1024, t.getDuration(i), "duration " + i);
+        }
+    }
+
+    /**
+     * Compares file-backed and array-backed tracks and reads a large opaque media box with a small heap.
+     * <p>
+     * 파일과 배열의 트랙을 비교하고 큰 미디어 박스를 작은 힙으로 읽는다.
+     * @throws Exception on failure / 실패 시
+     */
+    public void testFileSampleTablesAndLargeMediaBox() throws Exception {
+        File file = File.createTempFile("swp-mp4-source-", ".m4a");
+        try {
+            // 일반 파일은 mdat을 늘리고, 조각 파일은 여러 moof의 샘플을 파일 창을 건너 읽는다.
+            for (int mode = 0; mode < 2; mode++) {
+                Mp4TestBuilder builder = new Mp4TestBuilder();
+                builder.fragmented = mode == 1;
+                builder.perFragment = 4;
+                builder.config = new byte[] { 0x12, 0x10 };
+                byte[] encoded = builder.build(samples(17));
+                Mp4Track memory = Mp4File.parse(encoded).firstAudioTrack();
+                RandomAccessFile writable = new RandomAccessFile(file, "rw");
+                try {
+                    writable.setLength(0);
+                    writable.write(encoded);
+                    if (!builder.fragmented) {
+                        long mdat = memory.getOffset(0) - 8;
+                        int mdatLength = 72 * 1024 * 1024;
+                        writable.setLength(mdat + mdatLength);
+                        writable.seek(mdat);
+                        writable.writeInt(mdatLength);
+                    }
+                } finally {
+                    writable.close();
+                }
+                FileByteSource source = new FileByteSource(file, 19);
+                try {
+                    Check.isTrue(Mp4File.looksLikeMp4Source(source), "recognized MP4 header");
+                    Mp4Track disk = Mp4File.parseSource(source).firstAudioTrack();
+                    Check.equal(memory.getSampleCount(), disk.getSampleCount(), "sample count");
+                    Check.isTrue(Arrays.equals(memory.getConfig(), disk.getConfig()), "codec config");
+                    // 파일과 배열의 위치·길이·시간 정보를 샘플마다 비교한다.
+                    for (int i = 0; i < disk.getSampleCount(); i++) {
+                        Check.equal(memory.getOffset(i), disk.getOffset(i), "sample offset " + i);
+                        Check.equal(memory.getSize(i), disk.getSize(i), "sample size " + i);
+                        Check.equal(memory.getDuration(i), disk.getDuration(i), "sample duration " + i);
+                    }
+                    Check.isTrue(source.get(0) >= 0, "the caller still owns the input");
+                } finally {
+                    source.close();
+                }
+            }
+
+            RandomAccessFile writable = new RandomAccessFile(file, "rw");
+            try {
+                writable.setLength(0);
+                writable.writeInt(8);
+                writable.writeBytes("free");
+                writable.writeInt(1);
+                writable.writeBytes("mdat");
+                writable.writeLong(Long.MAX_VALUE);
+            } finally {
+                writable.close();
+            }
+            FileByteSource source = new FileByteSource(file, 13);
+            try {
+                Mp4File.parseSource(source);
+                Check.fail("an overflowing extended box size must be rejected");
+            } catch (MediaException expected) {
+                Check.equal(MediaException.Kind.CORRUPT, expected.getKind(), "invalid extended box length");
+            } finally {
+                source.close();
+            }
+        } finally {
+            Check.isTrue(file.delete(), "fixture is released");
         }
     }
 

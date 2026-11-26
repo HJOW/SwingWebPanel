@@ -3,6 +3,10 @@ package org.duckdns.hjow.swingwebpanel.media.audio.mp4;
 import java.util.ArrayList;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ArrayByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSourceException;
+import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 
 /**
  * A demultiplexer of the ISO base media file format (MP4, M4A, ISO/IEC 14496-12): it reads the box structure, the tracks with their sample
@@ -18,8 +22,11 @@ public final class Mp4File {
     /** Largest number of samples accepted in one track. / 트랙 하나에서 받아들이는 최대 샘플 수. */
     private static final int MAX_SAMPLES = 8 * 1000 * 1000;
 
+    /** Largest retained codec initialization record. / 보관할 코덱 초기화 레코드의 최대 크기. */
+    private static final int MAX_CODEC_CONFIG = 64 * 1024;
+
     /** The data. / 데이터. */
-    private final byte[] d;
+    private final ByteSource d;
     /** Tracks found. / 찾은 트랙. */
     private final List<Mp4Track> tracks = new ArrayList<Mp4Track>();
     /** Movie time scale. / 영상 시간 단위. */
@@ -38,7 +45,7 @@ public final class Mp4File {
      *
      * @param d data / 데이터
      */
-    private Mp4File(byte[] d) {
+    private Mp4File(ByteSource d) {
         this.d = d;
     }
 
@@ -51,7 +58,16 @@ public final class Mp4File {
      * @return true if it looks like MP4 / MP4 처럼 보이면 true
      */
     public static boolean looksLikeMp4(byte[] d) {
-        if (d.length < 12) {
+        return d != null && looksLikeMp4Source(new ArrayByteSource(d));
+    }
+
+    /**
+     * Checks the first box of a seekable ISO base media file. / 탐색 가능한 ISO 기본 미디어 파일의 첫 박스를 확인한다.
+     * @param d the encoded input / 인코딩 입력
+     * @return true for a plausible MP4 header / MP4 헤더로 보이면 true
+     */
+    public static boolean looksLikeMp4Source(ByteSource d) {
+        if (d.length() < 12) {
             return false;
         }
         String t = type(d, 4);
@@ -59,7 +75,7 @@ public final class Mp4File {
             return true;
         }
         long size = u32(d, 0);
-        return ("moov".equals(t) || "mdat".equals(t) || "free".equals(t) || "skip".equals(t)) && size >= 8 && size <= d.length + 0L;
+        return ("moov".equals(t) || "mdat".equals(t) || "free".equals(t) || "skip".equals(t)) && size >= 8 && size <= d.length();
     }
 
     /**
@@ -72,9 +88,28 @@ public final class Mp4File {
      * @throws MediaException CORRUPT if the box structure is damaged / 박스 구조가 손상되었으면 CORRUPT
      */
     public static Mp4File parse(byte[] d) throws MediaException {
-        Mp4File f = new Mp4File(d);
-        f.boxes(0, d.length, 0, null);
-        return f;
+        return parseSource(new ArrayByteSource(d));
+    }
+
+    /**
+     * Parses box and sample tables; the caller keeps ownership of the input. / 박스와 샘플 표를 해석한다. 입력은 호출자가 소유한다.
+     * @param d the encoded input / 인코딩 입력
+     * @return the parsed metadata / 해석된 메타데이터
+     * @throws MediaException if the structure or input is invalid / 구조나 입력이 올바르지 않으면
+     */
+    public static Mp4File parseSource(ByteSource d) throws MediaException {
+        if (d.length() > Integer.MAX_VALUE) {
+            throw new MediaException(MediaException.Kind.TOO_LARGE, "MP4 data exceeds the container-offset limit");
+        }
+        Mp4File parsed = new Mp4File(d);
+        try {
+            parsed.boxes(0, (int) d.length(), 0, null);
+            return parsed;
+        } catch (ByteSourceException e) {
+            throw e.toMediaException();
+        } catch (IndexOutOfBoundsException e) {
+            throw new MediaException(MediaException.Kind.CORRUPT, "MP4 data is truncated", e);
+        }
     }
 
     /**
@@ -111,8 +146,8 @@ public final class Mp4File {
      * @param p position / 위치
      * @return value / 값
      */
-    private static long u32(byte[] d, int p) {
-        return ((d[p] & 0xFFL) << 24) | ((d[p + 1] & 0xFF) << 16) | ((d[p + 2] & 0xFF) << 8) | (d[p + 3] & 0xFF);
+    private static long u32(ByteSource d, int p) {
+        return Bytes.be32(d, p);
     }
 
     /**
@@ -124,10 +159,10 @@ public final class Mp4File {
      * @param p position / 위치
      * @return the code / 코드
      */
-    private static String type(byte[] d, int p) {
+    private static String type(ByteSource d, int p) {
         char[] c = new char[4];
         for (int i = 0; i < 4; i++) { // 바이트를 문자로 바꾼다
-            c[i] = (char) (d[p + i] & 0xFF);
+            c[i] = (char) d.get(p + i);
         }
         return new String(c);
     }
@@ -145,16 +180,17 @@ public final class Mp4File {
     }
 
     /**
-     * Checks that a range lies inside the data.
+     * Checks that a range lies inside a box.
      * <p>
-     * 범위가 데이터 안에 있는지 확인한다.
+     * 범위가 박스 안에 있는지 확인한다.
      *
      * @param p   start / 시작
      * @param len length / 길이
+     * @param end box end / 박스 끝
      * @throws MediaException CORRUPT if outside / 밖이면 CORRUPT
      */
-    private void need(long p, long len) throws MediaException {
-        if (p < 0 || len < 0 || p + len > d.length) {
+    private static void need(int p, int len, int end) throws MediaException {
+        if (p < 0 || p > end - len) {
             throw new MediaException(MediaException.Kind.CORRUPT, "MP4 box is truncated");
         }
     }
@@ -175,18 +211,23 @@ public final class Mp4File {
             throw new MediaException(MediaException.Kind.CORRUPT, "MP4 boxes are nested too deeply");
         }
         int p = start;
-        while (p + 8 <= end) { // 박스를 하나씩 읽는다
+        while (p <= end - 8) { // 박스를 하나씩 읽는다
+            if (Thread.currentThread().isInterrupted()) {
+                throw new MediaException(MediaException.Kind.CANCELLED, "MP4 parsing was interrupted");
+            }
             long size = u32(d, p);
             String t = type(d, p + 4);
             int header = 8;
             if (size == 1) {
-                need(p, 16);
+                if (p > end - 16) {
+                    throw new MediaException(MediaException.Kind.CORRUPT, "MP4 extended box size is truncated");
+                }
                 size = u64(p + 8);
                 header = 16;
             } else if (size == 0) {
                 size = end - p;
             }
-            if (size < header || p + size > end) {
+            if (size < header || size > end - p) {
                 throw new MediaException(MediaException.Kind.CORRUPT, "MP4 box '" + t + "' has an invalid size");
             }
             int body = p + header;
@@ -203,18 +244,18 @@ public final class Mp4File {
                 finishTrack(trk);
                 tracks.add(trk);
             } else if ("mvhd".equals(t)) {
-                need(body, 24);
-                int v = d[body] & 0xFF;
+                need(body, 24, boxEnd);
+                int v = d.get(body);
                 movieTimescale = (int) u32(d, body + (v == 1 ? 20 : 12));
             } else if ("tkhd".equals(t) && ctx != null) {
-                need(body, 24);
-                int v = d[body] & 0xFF;
+                need(body, 24, boxEnd);
+                int v = d.get(body);
                 ctx.id = (int) u32(d, body + (v == 1 ? 20 : 12));
             } else if ("mdhd".equals(t) && ctx != null) {
-                need(body, 24);
-                int v = d[body] & 0xFF;
+                need(body, 24, boxEnd);
+                int v = d.get(body);
                 if (v == 1) {
-                    need(body, 36);
+                    need(body, 36, boxEnd);
                     ctx.timescale = (int) u32(d, body + 20);
                     ctx.duration = u64(body + 24);
                 } else {
@@ -225,7 +266,7 @@ public final class Mp4File {
                     ctx.timescale = 1;
                 }
             } else if ("hdlr".equals(t) && ctx != null) {
-                need(body, 12);
+                need(body, 12, boxEnd);
                 ctx.handler = type(d, body + 8);
             } else if ("elst".equals(t) && ctx != null) {
                 readElst(body, boxEnd, ctx);
@@ -240,7 +281,7 @@ public final class Mp4File {
             } else if (("stco".equals(t) || "co64".equals(t)) && ctx != null) {
                 readStco(body, boxEnd, "co64".equals(t));
             } else if ("trex".equals(t)) {
-                need(body, 24);
+                need(body, 24, boxEnd);
                 trex.put(Integer.valueOf((int) u32(d, body + 4)), new int[] { (int) u32(d, body + 8), (int) u32(d, body + 12),
                         (int) u32(d, body + 16), (int) u32(d, body + 20) });
             } else if ("moof".equals(t)) {
@@ -261,11 +302,11 @@ public final class Mp4File {
      * @throws MediaException on truncation / 잘렸을 때
      */
     private void readElst(int p, int end, Mp4Track trk) throws MediaException {
-        need(p, 8);
-        int v = d[p] & 0xFF;
+        need(p, 8, end);
+        int v = d.get(p);
         long count = u32(d, p + 4);
         int q = p + 8;
-        for (long i = 0; i < count && q + (v == 1 ? 20 : 12) <= end; i++) { // 편집 항목 중 비어 있지 않은 첫 항목을 찾는다
+        for (long i = 0; i < count && q <= end - (v == 1 ? 20 : 12); i++) { // 편집 항목 중 비어 있지 않은 첫 항목을 찾는다
             long segment;
             long mediaTime;
             if (v == 1) {
@@ -296,7 +337,7 @@ public final class Mp4File {
      * @throws MediaException on a damaged structure / 구조가 손상되었을 때
      */
     private void readStsd(int p, int end, Mp4Track trk) throws MediaException {
-        need(p, 16);
+        need(p, 16, end);
         long count = u32(d, p + 4);
         if (count < 1) {
             return;
@@ -312,38 +353,33 @@ public final class Mp4File {
             return;
         }
         int q = e + 8 + 6 + 2;
-        int version = ((d[q] & 0xFF) << 8) | (d[q + 1] & 0xFF);
-        trk.channels = ((d[q + 8] & 0xFF) << 8) | (d[q + 9] & 0xFF);
+        int version = Bytes.be16(d, q);
+        trk.channels = Bytes.be16(d, q + 8);
         trk.sampleRate = (int) (u32(d, q + 16) >> 16);
-        q += 20;
-        if (version == 1) {
-            q += 16;
-        } else if (version == 2) {
-            q += 36;
-        }
-        if (q > entryEnd) {
+        int entryHeader = 20 + (version == 1 ? 16 : version == 2 ? 36 : 0);
+        if (q > entryEnd - entryHeader) {
             return;
         }
-        int cp = q;
-        while (cp + 8 <= entryEnd) { // 샘플 엔트리 안의 하위 박스(esds, dOps ...)를 읽는다
+        int cp = q + entryHeader;
+        while (cp <= entryEnd - 8) { // 샘플 엔트리 안의 하위 박스(esds, dOps ...)를 읽는다
             long bs = u32(d, cp);
             if (bs < 8 || cp + bs > entryEnd) {
                 break;
             }
             String bt = type(d, cp + 4);
-            if ("esds".equals(bt)) {
+            if ("esds".equals(bt) && bs >= 12) {
                 readEsds(cp + 12, (int) (cp + bs), trk);
             } else if ("dOps".equals(bt)) {
                 trk.config = copy(cp + 8, (int) (cp + bs));
             } else if ("wave".equals(bt)) {
                 int w = cp + 8;
                 int we = (int) (cp + bs);
-                while (w + 8 <= we) { // QuickTime 의 wave 박스 안의 esds 를 찾는다
+                while (w <= we - 8) { // QuickTime 의 wave 박스 안의 esds 를 찾는다
                     long ws = u32(d, w);
                     if (ws < 8 || w + ws > we) {
                         break;
                     }
-                    if ("esds".equals(type(d, w + 4))) {
+                    if (ws >= 12 && "esds".equals(type(d, w + 4))) {
                         readEsds(w + 12, (int) (w + ws), trk);
                     }
                     w += (int) ws;
@@ -354,18 +390,20 @@ public final class Mp4File {
     }
 
     /**
-     * Copies a byte range.
+     * Copies an initialization record after checking its size.
      * <p>
-     * 바이트 범위를 복사한다.
+     * 초기화 레코드의 크기를 검사한 뒤 복사한다.
      *
      * @param from start / 시작
      * @param to   end / 끝
      * @return the bytes / 바이트
+     * @throws MediaException if the record is too large / 레코드가 너무 크면
      */
-    private byte[] copy(int from, int to) {
-        byte[] r = new byte[Math.max(0, to - from)];
-        System.arraycopy(d, from, r, 0, r.length);
-        return r;
+    private byte[] copy(int from, int to) throws MediaException {
+        if (to - from > MAX_CODEC_CONFIG) {
+            throw new MediaException(MediaException.Kind.TOO_LARGE, "MP4 codec configuration is too large");
+        }
+        return Bytes.copy(d, from, to - from);
     }
 
     /**
@@ -380,7 +418,7 @@ public final class Mp4File {
     private int descLen(int[] pos, int end) {
         int len = 0;
         for (int i = 0; i < 4 && pos[0] < end; i++) { // 연속 비트가 있는 동안 7비트씩 모은다
-            int b = d[pos[0]++] & 0xFF;
+            int b = d.get(pos[0]++);
             len = (len << 7) | (b & 0x7F);
             if ((b & 0x80) == 0) {
                 break;
@@ -397,32 +435,39 @@ public final class Mp4File {
      * @param p   start of the descriptors / 서술자 시작
      * @param end end / 끝
      * @param trk track / 트랙
+     * @throws MediaException if the record is too large / 레코드가 너무 크면
      */
-    private void readEsds(int p, int end, Mp4Track trk) {
+    private void readEsds(int p, int end, Mp4Track trk) throws MediaException {
         int[] pos = { p };
-        while (pos[0] + 2 <= end) { // 서술자를 차례로 읽는다
-            int tag = d[pos[0]++] & 0xFF;
+        while (pos[0] <= end - 2) { // 서술자를 차례로 읽는다
+            int tag = d.get(pos[0]++);
             int len = descLen(pos, end);
             int bodyStart = pos[0];
+            // 잘린 서술자나 그 안의 고정 헤더가 다음 박스까지 넘어가면 무시한다.
+            if (len > end - bodyStart || (tag == 0x03 && len < 3) || (tag == 0x04 && len < 13)) {
+                return;
+            }
             if (tag == 0x03) {
                 int q = bodyStart + 2;
-                int flags = d[q++] & 0xFF;
-                if ((flags & 0x80) != 0) {
-                    q += 2;
+                int flags = d.get(q++);
+                int descriptorEnd = bodyStart + len;
+                int extra = (flags & 0x80) != 0 ? 2 : 0;
+                if ((flags & 0x40) != 0) {
+                    if (extra >= descriptorEnd - q) {
+                        return;
+                    }
+                    extra += 1 + d.get(q + extra);
                 }
-                if ((flags & 0x40) != 0 && q < end) {
-                    q += 1 + (d[q] & 0xFF);
+                extra += (flags & 0x20) != 0 ? 2 : 0;
+                if (extra > descriptorEnd - q) {
+                    return;
                 }
-                if ((flags & 0x20) != 0) {
-                    q += 2;
-                }
-                pos[0] = q;
+                pos[0] = q + extra;
             } else if (tag == 0x04) {
-                trk.objectType = d[bodyStart] & 0xFF;
+                trk.objectType = d.get(bodyStart);
                 pos[0] = bodyStart + 13;
             } else if (tag == 0x05) {
-                int e2 = Math.min(end, bodyStart + len);
-                trk.config = copy(bodyStart, e2);
+                trk.config = copy(bodyStart, bodyStart + len);
                 return;
             } else {
                 pos[0] = bodyStart + len;
@@ -441,7 +486,7 @@ public final class Mp4File {
      * @throws MediaException on a damaged table / 표가 손상되었을 때
      */
     private void readStts(int p, int end, Mp4Track trk) throws MediaException {
-        need(p, 8);
+        need(p, 8, end);
         long count = u32(d, p + 4);
         if (count * 8 > end - (p + 8)) {
             throw new MediaException(MediaException.Kind.CORRUPT, "stts is truncated");
@@ -479,7 +524,7 @@ public final class Mp4File {
      * @throws MediaException on a damaged table / 표가 손상되었을 때
      */
     private void readStsc(int p, int end) throws MediaException {
-        need(p, 8);
+        need(p, 8, end);
         long count = u32(d, p + 4);
         if (count * 12 > end - (p + 8)) {
             throw new MediaException(MediaException.Kind.CORRUPT, "stsc is truncated");
@@ -503,19 +548,19 @@ public final class Mp4File {
      * @throws MediaException on a damaged table / 표가 손상되었을 때
      */
     private void readStsz(int p, int end, Mp4Track trk) throws MediaException {
-        need(p, 12);
+        need(p, 12, end);
         long fixed = u32(d, p + 4);
         long count = u32(d, p + 8);
         if (count > MAX_SAMPLES) {
             throw new MediaException(MediaException.Kind.TOO_LARGE, "too many samples");
         }
+        if (fixed == 0 && count * 4 > end - (p + 12)) {
+            throw new MediaException(MediaException.Kind.CORRUPT, "stsz is truncated");
+        }
         int[] sizes = new int[(int) count];
         if (fixed != 0) {
             java.util.Arrays.fill(sizes, (int) fixed);
         } else {
-            if (count * 4 > end - (p + 12)) {
-                throw new MediaException(MediaException.Kind.CORRUPT, "stsz is truncated");
-            }
             for (int i = 0; i < count; i++) { // 샘플마다 크기를 읽는다
                 sizes[i] = (int) u32(d, p + 12 + 4 * i);
             }
@@ -534,7 +579,7 @@ public final class Mp4File {
      * @throws MediaException on a damaged table / 표가 손상되었을 때
      */
     private void readStco(int p, int end, boolean wide) throws MediaException {
-        need(p, 8);
+        need(p, 8, end);
         long count = u32(d, p + 4);
         int w = wide ? 8 : 4;
         if (count * w > end - (p + 8)) {
@@ -601,7 +646,7 @@ public final class Mp4File {
      */
     private void readMoof(int moofStart, int p, int end) throws MediaException {
         int q = p;
-        while (q + 8 <= end) { // moof 안의 traf 를 찾는다
+        while (q <= end - 8) { // moof 안의 traf 를 찾는다
             long size = u32(d, q);
             if (size < 8 || q + size > end) {
                 throw new MediaException(MediaException.Kind.CORRUPT, "invalid fragment box");
@@ -631,16 +676,19 @@ public final class Mp4File {
         int q = p;
         Mp4Track target = null;
         long dataCursor = -1;
-        while (q + 8 <= end) { // tfhd 와 trun 박스를 차례로 읽는다
+        while (q <= end - 8) { // tfhd 와 trun 박스를 차례로 읽는다
             long size = u32(d, q);
             if (size < 8 || q + size > end) {
                 throw new MediaException(MediaException.Kind.CORRUPT, "invalid track fragment box");
             }
             String t = type(d, q + 4);
             int body = q + 8;
+            int boxEnd = (int) (q + size);
             if ("tfhd".equals(t)) {
-                need(body, 8);
+                need(body, 8, boxEnd);
                 long flags = u32(d, body) & 0xFFFFFF;
+                int optional = ((flags & 1) != 0 ? 8 : 0) + 4 * Integer.bitCount((int) (flags & 0x3A));
+                need(body + 8, optional, boxEnd);
                 trackId = (int) u32(d, body + 4);
                 int r = body + 8;
                 if ((flags & 1) != 0) {
@@ -666,7 +714,7 @@ public final class Mp4File {
                     }
                 }
             } else if ("trun".equals(t) && target != null) {
-                dataCursor = readTrun(body, (int) (q + size), target, baseOffset, dataCursor, defDur, defSize);
+                dataCursor = readTrun(body, boxEnd, target, baseOffset, dataCursor, defDur, defSize);
             }
             q += (int) size;
         }
@@ -688,8 +736,9 @@ public final class Mp4File {
      * @throws MediaException on a damaged run / 런이 손상되었을 때
      */
     private long readTrun(int p, int end, Mp4Track trk, long baseOffset, long cursor, int defDur, int defSize) throws MediaException {
-        need(p, 8);
+        need(p, 8, end);
         long flags = u32(d, p) & 0xFFFFFF;
+        need(p + 8, 4 * Integer.bitCount((int) (flags & 5)), end);
         long count = u32(d, p + 4);
         int q = p + 8;
         long off = cursor;
