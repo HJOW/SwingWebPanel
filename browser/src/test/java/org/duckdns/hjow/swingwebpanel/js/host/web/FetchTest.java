@@ -140,6 +140,30 @@ public class FetchTest {
     }
 
     /**
+     * Reads a constructed streaming response and waits for both cloned branches to cancel the source.
+     * <p>
+     * 스트림에서 만든 응답을 읽고, 복제한 두 갈래가 모두 취소할 때 소스를 취소하는지 확인한다.
+     */
+    public void testConstructedStreamingResponse() {
+        WebFixture f = new WebFixture();
+        f.js("var log=[], saved; var input=new ReadableStream({start(c){saved=c;}});"
+                + "var res=new Response(input);log.push(res.body===input);res.arrayBuffer().then(b=>log.push(new Uint8Array(b).join('|')));");
+        f.js("saved.enqueue(new Uint8Array([11,12]));saved.close();");
+        f.run();
+        Check.equal("true,11|12", f.js("log.join(',')"), "a response consumes a supplied byte stream");
+        f.js("var a=new Response(new ReadableStream({cancel(reasons){log.push(reasons.join('|'));throw 'failed';}}));"
+                + "var b=a.clone();a.body.cancel('a').catch(e=>log.push(e));");
+        f.run();
+        Check.equal("true,11|12", f.js("log.join(',')"), "one branch does not cancel the source");
+        f.js("b.body.cancel('b').catch(e=>log.push(e));");
+        f.run();
+        Check.equal("true,11|12,a|b,failed,failed", f.js("log.join(',')"), "both branches share the source cancellation result");
+        f.js("new Response(new ReadableStream({start(c){c.enqueue('invalid');}})).text().catch(e=>log.push(e.name));");
+        f.run();
+        Check.equal("TypeError", f.js("log.pop()"), "Fetch body data must be bytes");
+    }
+
+    /**
      * HTTP error statuses resolve; network errors reject with a TypeError and are logged.
      * <p>
      * HTTP 오류 상태는 이행하고 네트워크 오류는 TypeError 로 거부하며 기록된다.

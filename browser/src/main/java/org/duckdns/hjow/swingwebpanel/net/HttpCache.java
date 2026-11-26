@@ -552,7 +552,8 @@ public final class HttpCache {
         if (r.getFailureKind() == FailureKind.NONE && !CrossOriginPolicy.permits(req, r)) {
             return CrossOriginPolicy.blocked(r);
         }
-        if (handler == null || r.getFailureKind() != FailureKind.NONE || r.getStatus() >= 400) {
+        boolean observe = handler instanceof ResponseHandler.BodyObserver;
+        if (handler == null || r.getFailureKind() != FailureKind.NONE || (r.getStatus() >= 400 && !observe)) {
             return r;
         }
         OutputStream sink;
@@ -573,6 +574,10 @@ public final class HttpCache {
             }
         } catch (IOException e) {
             return ResourceResponse.failure(r.getRequestUrl(), FailureKind.IO, e.getMessage());
+        }
+        // 본문 관찰자에게 사본을 전달한 경우 저장 응답의 기존 정보와 바이트를 유지한다.
+        if (observe) {
+            return r;
         }
         // 본문을 스트림으로 보냈으므로 메모리 본문이 없는 같은 응답을 새로 만든다.
         ResourceResponse streamed = new ResourceResponse(r.getRequestUrl());

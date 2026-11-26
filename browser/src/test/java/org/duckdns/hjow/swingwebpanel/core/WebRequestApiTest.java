@@ -3,6 +3,8 @@ package org.duckdns.hjow.swingwebpanel.core;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HttpsURLConnection;
 import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
@@ -578,6 +580,101 @@ public class WebRequestApiTest {
             Check.equal("ERR:TypeError", await(panel, "cph"), "a web request from a class path page needs CORS and is refused here");
         } finally {
             panel.dispose();
+        }
+    }
+
+    /**
+     * Receives headers and the first byte chunk while the test server is still waiting to send the rest.
+     * <p>
+     * 시험 서버가 나머지를 보내기 전에 응답 머리와 첫 바이트 청크를 받는다.
+     *
+     * @throws Exception if the server or the page fails / 서버나 페이지가 실패하면
+     */
+    public void testFetchStreamBeforeResponseEnd() throws Exception {
+        final CountDownLatch sendFirst = new CountDownLatch(1);
+        final CountDownLatch sendRest = new CountDownLatch(1);
+        TestHttpServer server = new TestHttpServer();
+        SwingWebPanel panel = newPanel();
+        try {
+            server.routeFixed("/body", new TestHttpServer.Response(200).header("Content-Type", "text/plain").streamedBy(new TestHttpServer.Streamer() {
+                /** Sends each chunk only after the test observes the previous result. / 시험이 앞 결과를 관찰한 뒤에 청크를 보낸다. */
+                public void produce(TestHttpServer.Sink sink) throws Exception {
+                    if (!sendFirst.await(15, TimeUnit.SECONDS)) {
+                        throw new IOException("the page did not observe the response head");
+                    }
+                    sink.write("first");
+                    if (!sendRest.await(15, TimeUnit.SECONDS)) {
+                        throw new IOException("the page did not observe the first chunk");
+                    }
+                    sink.write("-last");
+                }
+            }));
+            server.routeFixed("/page", TestHttpServer.Response.html(page(
+                    "(async()=>{const r=await fetch('/body');put('head',r.status+':'+r.bodyUsed);"
+                            + "const copy=r.clone();const copyText=copy.text().then(t=>put('copy',t));"
+                            + "const reader=r.body.getReader();const decode=new TextDecoder();"
+                            + "const first=await reader.read();put('first',decode.decode(first.value));first.value[0]=88;"
+                            + "const last=await reader.read();put('rest',decode.decode(last.value)+':'+(await reader.read()).done);"
+                            + "await copyText;reader.releaseLock();})().catch(e=>put('streamFailure',e.name+':'+e.message));")));
+            server.start();
+            panel.setPage(server.url("/page"));
+            Check.equal("200:false", await(panel, "head"), "the Fetch response arrives before its body");
+            sendFirst.countDown();
+            Check.equal("first", await(panel, "first"), "the first chunk arrives while the connection is still open");
+            sendRest.countDown();
+            Check.equal("-last:true", await(panel, "rest"), "second chunk then end");
+            Check.equal("first-last", await(panel, "copy"), "the clone reads its own bytes without the mutation");
+            Check.isNull(value(panel, "streamFailure"), "no streaming error");
+        } finally {
+            sendFirst.countDown();
+            sendRest.countDown();
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
+     * Checks read cancellation, signal abort after the headers and an incomplete HTTP body.
+     * <p>
+     * 읽기 취소, 헤더 도착 뒤 신호 중단 및 불완전한 HTTP 본문을 검사한다.
+     *
+     * @throws Exception if the server or the page fails / 서버나 페이지가 실패하면
+     */
+    public void testFetchStreamAbortAndTransportFailure() throws Exception {
+        final CountDownLatch release = new CountDownLatch(1);
+        final CountDownLatch serverWaitExpired = new CountDownLatch(1);
+        TestHttpServer server = new TestHttpServer();
+        SwingWebPanel panel = newPanel();
+        try {
+            server.routeFixed("/open", new TestHttpServer.Response(200).streamedBy(new TestHttpServer.Streamer() {
+                /** Leaves the response open after the first chunk. / 첫 청크를 보낸 뒤 응답을 열어 둔다. */
+                public void produce(TestHttpServer.Sink sink) throws Exception {
+                    sink.write("a");
+                    if (!release.await(15, TimeUnit.SECONDS)) {
+                        serverWaitExpired.countDown();
+                    }
+                }
+            }));
+            server.routeFixed("/truncated", TestHttpServer.Response.ok("text/plain", "too short").truncateAt(2));
+            server.routeFixed("/page", TestHttpServer.Response.html(page(
+                    "(async()=>{const c=new AbortController(), r=await fetch('/open',{signal:c.signal});"
+                            + "const reader=r.body.getReader();await reader.read();const pending=reader.read();c.abort('stopped');"
+                            + "try{await pending;}catch(e){put('abort',e);} })();"
+                            + "(async()=>{const r=await fetch('/open'),reader=r.body.getReader();await reader.read();"
+                            + "const pending=reader.read();await reader.cancel('stop');put('cancel',(await pending).done+':'+r.bodyUsed);})();"
+                            + "fetch('/truncated').then(r=>{put('truncated-head',r.status);return r.text()})"
+                            + ".catch(e=>put('truncated',e.name));")));
+            server.start();
+            panel.setPage(server.url("/page"));
+            Check.equal("stopped", await(panel, "abort"), "signal reason after the initial response");
+            Check.equal("true:true", await(panel, "cancel"), "reader cancellation closes the pending read before the server finishes");
+            Check.equal(Long.valueOf(1L), Long.valueOf(serverWaitExpired.getCount()), "cancellation does not wait for the connection's next chunk");
+            Check.equal("200", await(panel, "truncated-head"), "a body error follows the successful headers");
+            Check.equal("TypeError", await(panel, "truncated"), "a truncated body rejects full consumption");
+        } finally {
+            release.countDown();
+            panel.dispose();
+            server.stop();
         }
     }
 

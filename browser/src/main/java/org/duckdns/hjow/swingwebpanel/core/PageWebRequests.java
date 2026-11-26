@@ -220,6 +220,9 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
         /** The answer that the stream listener refused or that failed the page rules (set on the request thread). / 스트림의 받는 쪽이 거부했거나 페이지 규칙에 어긋난 응답(요청 스레드에서 정한다). */
         private WebResponse refusal;
 
+        /** Whether a Fetch receiver accepted the streamed body. / Fetch 수신자가 스트림 본문을 받아들였는지 여부. */
+        private boolean observedBody;
+
         /**
          * Creates the job.
          * <p>
@@ -329,6 +332,8 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
             if (stream != null) {
                 rr.setReadTimeoutMs(STREAM_READ_TIMEOUT_MS).setStreaming(true);
                 early = streamHandler();
+            } else if (callback instanceof WebRequestSource.BodyCallback && (kind == SchemePolicy.Kind.HTTP || kind == SchemePolicy.Kind.HTTPS)) {
+                early = bodyObserver((WebRequestSource.BodyCallback) callback);
             } else {
                 early = new ResponseHandler() {
                     public OutputStream onResponse(ResourceResponse head) {
@@ -351,7 +356,30 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
             if (token.isCancelled()) {
                 return WebResponse.error("request cancelled", true);
             }
-            return filter(r, stream == null);
+            return filter(r, stream == null && !observedBody);
+        }
+
+        /**
+         * Applies the scripted request rules to the head before exposing any live HTTP bytes.
+         * <p>
+         * 도착한 HTTP 바이트를 노출하기 전에 응답 머리에 스크립트 요청 정책을 적용한다.
+         *
+         * @param receiver optional body consumer / 선택 본문 소비자
+         * @return HTTP observer / HTTP 관찰자
+         */
+        private ResponseHandler bodyObserver(final WebRequestSource.BodyCallback receiver) {
+            return new ResponseHandler.BodyObserver() {
+                /** Passes the filtered response and selects the body destination. / 걸러진 응답을 건네고 본문의 목적지를 선택한다. */
+                public OutputStream onResponse(ResourceResponse head) {
+                    WebResponse response = filter(head, false);
+                    if (response.isError() || token.isCancelled()) {
+                        return null;
+                    }
+                    OutputStream sink = receiver.onBody(response);
+                    observedBody = sink != null;
+                    return sink;
+                }
+            };
         }
 
         /**

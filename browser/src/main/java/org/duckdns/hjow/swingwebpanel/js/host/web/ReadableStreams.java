@@ -144,7 +144,7 @@ final class ReadableStreams {
      * @return the stream / 스트림
      */
     ReadableStreamObject buffered(byte[] bytes, boolean used) {
-        ReadableStreamObject stream = new ReadableStreamObject(realm, streamPrototype, 0);
+        ReadableStreamObject stream = incoming();
         if (used) {
             consumeBuffered(stream);
         } else if (bytes.length == 0) {
@@ -153,6 +153,17 @@ final class ReadableStreams {
             stream.source = new BufferedBody(stream, bytes);
         }
         return stream;
+    }
+
+    /**
+     * Creates an open stream for chunks delivered by a host request or forwarding source.
+     * <p>
+     * 호스트 요청이나 전달 소스가 보내는 청크를 받을 열린 스트림을 만든다.
+     *
+     * @return open stream / 열린 스트림
+     */
+    ReadableStreamObject incoming() {
+        return new ReadableStreamObject(realm, streamPrototype, 0);
     }
 
     /**

@@ -457,10 +457,11 @@ public class HttpFetcher {
             if (denied != null) {
                 return fail(st, FailureKind.CORS, denied);
             }
-            conn = open(st.current, sendsOrigin(st) || "PATCH".equals(st.method) || st.req.isStreaming());
+            boolean streamed = st.req.isStreaming() || st.handler instanceof ResponseHandler.BodyObserver;
+            conn = open(st.current, sendsOrigin(st) || "PATCH".equals(st.method) || streamed);
             final HttpURLConnection c = conn;
             // 오래 열려 있는 스트림을 JRE 연결로 읽는 중이면(프록시 때문에) disconnect 가 읽기 잠금을 기다릴 수 있으므로 별도 스레드에서 끊는다.
-            final boolean detached = st.req.isStreaming() && !(conn instanceof SocketHttpURLConnection) && !(conn instanceof SocketHttpsURLConnection);
+            final boolean detached = streamed && !(conn instanceof SocketHttpURLConnection) && !(conn instanceof SocketHttpsURLConnection);
             hook = new CancelToken.Hook() {
                 /**
                  * Disconnects so that blocked reads end. The JRE connection cannot be closed while another thread waits in a read of it
@@ -1064,26 +1065,30 @@ public class HttpFetcher {
         }
         boolean noBody = "HEAD".equals(st.method) || status == 204 || status == 304 || (status >= 100 && status < 200);
 
+        boolean observe = st.handler instanceof ResponseHandler.BodyObserver;
         OutputStream sink = null;
-        if (st.handler != null && status < 400) {
+        if (st.handler != null && (status < 400 || observe)) {
             sink = st.handler.onResponse(res);
         }
+        boolean keepBody = sink == null || observe;
         ProgressListener progress = st.req.getProgressListener();
         long total = encoded ? -1 : declared;
-        if (sink == null && !encoded && declared > limits.getMaxMemoryBytes()) {
+        if (keepBody && !encoded && declared > limits.getMaxMemoryBytes()) {
+            closeQuietly(sink);
             fail(st, FailureKind.TOO_LARGE, "Content-Length " + declared + " exceeds " + limits.getMaxMemoryBytes());
             return false;
         }
         InputStream in = null;
-        if (!noBody) {
-            in = status >= 400 ? conn.getErrorStream() : conn.getInputStream();
-        }
-        ByteArrayOutputStream mem = sink == null ? new ByteArrayOutputStream() : null;
+        ByteArrayOutputStream mem = keepBody ? new ByteArrayOutputStream() : null;
         long received = 0;
         CancelToken token = st.req.getCancelToken();
         st.inBody = true;
         InputStream dec = null;
         try {
+            // 스트림을 열지 못한 경우에도 본문 목적지를 닫고 이미 받은 헤더 뒤에 본문 오류로 보고한다.
+            if (!noBody) {
+                in = status >= 400 ? conn.getErrorStream() : conn.getInputStream();
+            }
             if (progress != null) {
                 progress.onProgress(0, total);
             }
@@ -1100,7 +1105,9 @@ public class HttpFetcher {
                             return false;
                         }
                         mem.write(buf, 0, n);
-                    } else {
+                    }
+                    // Fetch 관찰자는 캐시용 바이트와 함께 도착한 조각도 받는다.
+                    if (sink != null) {
                         sink.write(buf, 0, n);
                     }
                     received += n;
@@ -1115,9 +1122,11 @@ public class HttpFetcher {
             }
             if (sink != null) {
                 sink.flush();
-                res.setStreamed(received);
-            } else {
+            }
+            if (keepBody) {
                 res.setBody(mem.toByteArray());
+            } else {
+                res.setStreamed(received);
             }
             if (progress != null) {
                 progress.onProgress(received, received);

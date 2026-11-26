@@ -1,6 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.js.host.web;
 
+import java.io.OutputStream;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +15,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsRealm;
 import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrays;
 import org.duckdns.hjow.swingwebpanel.js.host.WebRequest;
 import org.duckdns.hjow.swingwebpanel.js.host.WebRequestSource;
 import org.duckdns.hjow.swingwebpanel.js.host.WebResponse;
@@ -21,8 +26,9 @@ import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
  * Installs the Fetch API (Fetch Standard, section 5): the global <code>fetch()</code> function and the <code>Request</code> and
  * <code>Response</code> interfaces with their Body mixin. <code>fetch()</code> builds a <code>Request</code>, hands a {@link WebRequest} to the
  * component's request layer (which applies User-Agent, extra headers, cookies by the credentials mode, the SSL hook, the scheme
- * policy, the HTTP cache and the same-origin policy with CORS) and resolves its promise with a <code>Response</code> when the
- * headers and the body have arrived, or rejects it with a <code>TypeError</code> for a network error and with the signal's reason when an
+ * policy, the HTTP cache and the same-origin policy with CORS) and resolves its promise with a <code>Response</code> after the
+ * filtered HTTP headers arrive. Other resource kinds and integrity-checked responses may be buffered. It rejects with a
+ * <code>TypeError</code> for a network error and with the signal's reason when an
  * <code>AbortSignal</code> aborts. A non-simple cross-origin request is announced with a CORS preflight by the request layer. Not supported,
  * and reported honestly instead of ignored: <code>redirect: "manual"</code>, <code>cache: "only-if-cached"</code>, and streaming request bodies.
  * A response can expose its received bytes as a <code>ReadableStream</code>. <code>keepalive</code> and <code>priority</code> are accepted
@@ -30,8 +36,8 @@ import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
  * <p>
  * Fetch API 를 설치한다(Fetch 표준 5절): 전역 <code>fetch()</code> 함수와 Body mixin 을 가진 <code>Request</code>, <code>Response</code> 인터페이스.
  * <code>fetch()</code> 는 <code>Request</code> 를 만들고 컴포넌트의 요청 계층에 {@link WebRequest} 를 넘기며(요청 계층이 User-Agent, 추가 헤더, 자격 증명
- * 모드에 따른 쿠키, SSL 훅, 스킴 정책, HTTP 캐시, CORS 를 포함한 동일 출처 정책을 적용한다) 헤더와 본문이 도착하면 <code>Response</code> 로 프라미스를
- * 이행하고 네트워크 오류는 <code>TypeError</code> 로, <code>AbortSignal</code> 이 중단되면 신호의 이유로 거부한다. 단순하지 않은 교차 오리진 요청은 요청 계층이 CORS
+ * 모드에 따른 쿠키, SSL 훅, 스킴 정책, HTTP 캐시, CORS 를 포함한 동일 출처 정책을 적용한다) 걸러진 HTTP 응답의 헤더가 도착하면 <code>Response</code>로
+ * 이행한다. 다른 리소스 또는 무결성 검사 응답은 버퍼에 담을 수 있다. 네트워크 오류에는 <code>TypeError</code>로, 신호 중단에는 그 이유로 거부한다. 단순하지 않은 교차 오리진 요청은 CORS
  * 사전 요청으로 미리 알린다. 지원하지 않는 것은 무시하지 않고 솔직하게 알린다: <code>redirect: "manual"</code>, <code>cache: "only-if-cached"</code>,
  * 스트리밍 요청 본문. 받은 응답 바이트는 <code>ReadableStream</code>으로 노출할 수 있다. <code>keepalive</code> 와 <code>priority</code> 는 받아들이되 효과가 없다.
  */
@@ -126,7 +132,7 @@ final class FetchApi {
      * <p>
      * 실행 중인 <code>fetch()</code> 호출 하나: 프라미스, 요청, 취소 방법.
      */
-    private final class Pending implements WebRequestSource.Callback {
+    private final class Pending implements WebRequestSource.BodyCallback, ReadableStreamObject.Source {
         /** The promise. / 프라미스. */
         final Promises.Deferred deferred;
 
@@ -139,8 +145,16 @@ final class FetchApi {
         /** The abort algorithm registered on the signal. / 신호에 등록한 중단 알고리즘. */
         Runnable abortStep;
 
-        /** True once the promise was settled. / 프라미스가 확정된 뒤에는 true. */
-        boolean done;
+        /** True after the request ends or is cancelled. / 요청이 끝나거나 취소되면 true. */
+        volatile boolean done;
+
+        /** Body stream once the HTTP response has been exposed on the realm thread. / 렐름 스레드에서 HTTP 응답을 노출한 뒤의 본문 스트림. */
+        ReadableStreamObject stream;
+
+        /** Protects byte batches handed over from the request thread. / 요청 스레드가 넘기는 바이트 묶음을 보호한다. */
+        private final Object bodyLock = new Object();
+        /** Bytes awaiting one scheduled body task, guarded by bodyLock. / 한 본문 작업이 처리할 대기 바이트. bodyLock으로 보호한다. */
+        private Deque<byte[]> chunks = new ArrayDeque<byte[]>();
 
         /**
          * Creates the record.
@@ -156,13 +170,133 @@ final class FetchApi {
         }
 
         /**
-         * Ignores the early headers (the promise resolves when the whole response is there).
+         * Ignores heads from request services that do not deliver live body chunks.
          * <p>
-         * 이른 헤더 알림은 무시한다(전체 응답이 도착하면 프라미스를 이행한다).
+         * 본문 청크를 실시간으로 전달하지 않는 요청 서비스의 머리는 무시한다.
          *
          * @param head the head / 머리
          */
         public void onHeaders(WebResponse head) {
+        }
+
+        /**
+         * Accepts a filtered HTTP body and queues the response before its data chunks.
+         * <p>
+         * 걸러진 HTTP 본문을 받고 데이터 청크 전에 응답을 큐에 넣는다.
+         *
+         * @param head response head / 응답 머리
+         * @return a body sink, or null to use buffered completion / 본문 목적지. 버퍼 완료를 사용하면 null
+         */
+        public OutputStream onBody(final WebResponse head) {
+            // 무결성 확인이 필요한 응답은 전체 바이트를 검증한 후 노출한다.
+            if (done || request.integrity.length() != 0 || "HEAD".equals(request.method) || nullBodyStatus(head.getStatus())
+                    || WebResponse.TYPE_OPAQUE.equals(head.getType())) {
+                return null;
+            }
+            api.post(new Runnable() {
+                /** Exposes the response before the body has ended. / 본문이 끝나기 전에 응답을 노출한다. */
+                public void run() {
+                    if (!done) {
+                        ResponseObject response = fromWeb(head, true);
+                        stream = api.streams.incoming();
+                        stream.source = Pending.this;
+                        response.stream = stream;
+                        deferred.resolve(response);
+                    }
+                }
+            });
+            return new OutputStream() {
+                /** Queues one byte. / 바이트 하나를 큐에 넣는다. */
+                public void write(int value) {
+                    write(new byte[] { (byte) value }, 0, 1);
+                }
+
+                /** Copies and queues incoming bytes in order. / 도착한 바이트를 복사해 순서대로 큐에 넣는다. */
+                public void write(byte[] bytes, int offset, int length) {
+                    int end = offset + length;
+                    // HTTP 캐시에서 받은 큰 버퍼도 일반 네트워크 읽기와 같은 크기로 나눈다.
+                    for (int start = offset; start < end && !done; ) {
+                        int last = start + Math.min(8192, end - start);
+                        postChunk(Arrays.copyOfRange(bytes, start, last));
+                        start = last;
+                    }
+                }
+            };
+        }
+
+        /**
+         * Moves decoded bytes to the realm thread before creating the script-visible array.
+         * <p>
+         * 스크립트에서 볼 배열을 만들기 전에 디코딩한 바이트를 렐름 스레드로 옮긴다.
+         *
+         * @param bytes owned chunk / 소유한 청크
+         */
+        private void postChunk(final byte[] bytes) {
+            synchronized (bodyLock) {
+                if (done) {
+                    return;
+                }
+                // 앞 청크가 예약한 작업이 남아 있으면 같은 묶음에 추가한다.
+                boolean needsTask = chunks.isEmpty();
+                chunks.addLast(bytes);
+                if (!needsTask) {
+                    return;
+                }
+            }
+            api.post(new Runnable() {
+                /** Delivers the current batch in arrival order. / 현재 묶음을 도착 순서대로 전달한다. */
+                public void run() {
+                    Deque<byte[]> batch;
+                    synchronized (bodyLock) {
+                        batch = chunks;
+                        chunks = new ArrayDeque<byte[]>();
+                    }
+                    // 다음 묶음은 별도 작업에서 받고 이 묶음은 순서대로 전달한다.
+                    while (!batch.isEmpty() && !done && stream != null && stream.acceptsChunks()) {
+                        byte[] chunk = batch.removeFirst();
+                        stream.enqueue(TypedArrays.newUint8Array(api.realm(), chunk), chunk.length);
+                    }
+                }
+            });
+        }
+
+        /** The request thread submits chunks as they arrive. / 요청 스레드가 청크를 도착하는 대로 보낸다. */
+        public void request() {
+        }
+
+        /**
+         * Stops the HTTP transfer on reader cancellation.
+         * <p>
+         * 리더를 취소하면 HTTP 전송을 중단한다.
+         *
+         * @param reason cancellation reason / 취소 이유
+         * @return fulfilled cancellation promise / 이행된 취소 프라미스
+         */
+        public JsValue cancel(JsValue reason) {
+            end(true);
+            return Promises.resolved(api.realm(), Js.UNDEFINED);
+        }
+
+        /**
+         * Detaches the signal and the request handle, optionally cancelling the transfer.
+         * <p>
+         * 신호와 요청 핸들을 해제하고 필요한 경우 전송을 취소한다.
+         *
+         * @param cancelTransfer true to abort the connection / 연결을 중단하려면 true
+         */
+        void end(boolean cancelTransfer) {
+            done = true;
+            synchronized (bodyLock) {
+                chunks.clear();
+            }
+            request.signal.removeAlgorithm(abortStep);
+            if (call != null) {
+                api.untrack(call);
+                if (cancelTransfer) {
+                    call.cancel();
+                }
+                call = null;
+            }
         }
 
         /**
@@ -767,7 +901,7 @@ final class FetchApi {
         c.referrerPolicy = s.referrerPolicy;
         c.integrity = s.integrity;
         c.keepalive = s.keepalive;
-        bodies.cloneBuffered(s, c);
+        bodies.cloneBody(s, c);
         List<AbortSignal> sources = new ArrayList<AbortSignal>();
         sources.add(s.signal);
         c.signal = api.abort.dependent(sources);
@@ -868,7 +1002,16 @@ final class FetchApi {
     private ResponseObject newResponse(JsValue body, JsValue init, JsObject proto) {
         ResponseObject r = new ResponseObject(proto);
         r.headers = api.headers.create("response");
-        initResponse(r, init, body.isNullOrUndefined() ? null : bodies.extract(body));
+        if (body instanceof ReadableStreamObject) {
+            ReadableStreamObject stream = (ReadableStreamObject) body;
+            initResponse(r, init, null);
+            if (nullBodyStatus(r.status) || stream.reader != null || stream.disturbed) {
+                throw JsException.typeError("Response cannot use a stream that is unavailable for the body");
+            }
+            r.stream = stream;
+        } else {
+            initResponse(r, init, body.isNullOrUndefined() ? null : bodies.extract(body));
+        }
         return r;
     }
 
@@ -1006,7 +1149,7 @@ final class FetchApi {
         c.redirected = s.redirected;
         c.status = s.status;
         c.statusText = s.statusText;
-        bodies.cloneBuffered(s, c);
+        bodies.cloneBody(s, c);
         c.headers = api.headers.create(s.headers.guard);
         // 헤더 목록을 복사한다.
         for (int i = 0; i < s.headers.list.size(); i++) {
@@ -1189,12 +1332,14 @@ final class FetchApi {
         if (p.done) {
             return;
         }
-        p.done = true;
-        if (p.call != null) {
-            p.call.cancel();
-            api.untrack(p.call);
+        p.end(true);
+        JsValue reason = p.request.signal.getReason();
+        // 헤더를 이미 전달한 경우에는 그 응답의 본문 읽기에 중단 이유를 알린다.
+        if (p.stream != null) {
+            p.stream.error(reason);
+        } else {
+            p.deferred.reject(reason);
         }
-        p.deferred.reject(p.request.signal.getReason());
     }
 
     /**
@@ -1209,14 +1354,19 @@ final class FetchApi {
         if (p.done) {
             return;
         }
-        p.done = true;
-        p.request.signal.removeAlgorithm(p.abortStep);
-        if (p.call != null) {
-            api.untrack(p.call);
-        }
+        p.end(false);
         if (response.isError()) {
             api.realm().getConsole().message("error", "Failed to fetch " + p.request.url + ": " + response.getErrorMessage());
-            p.deferred.reject(JsException.typeError("Failed to fetch").getValue(api.realm()));
+            JsValue error = JsException.typeError("Failed to fetch").getValue(api.realm());
+            if (p.stream != null) {
+                p.stream.error(error);
+            } else {
+                p.deferred.reject(error);
+            }
+            return;
+        }
+        if (p.stream != null) {
+            p.stream.close();
             return;
         }
         if (p.request.integrity.length() > 0 && (WebResponse.TYPE_OPAQUE.equals(response.getType()) || !integrityOk(p.request.integrity, response.getBody()))) {

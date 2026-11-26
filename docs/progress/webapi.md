@@ -69,7 +69,8 @@
     JRE `HttpURLConnection` 이 `Origin`, `Access-Control-Request-Method/Headers` 를 제한 헤더로 보내지 않아(JRE 6 에서 확인된 제약) 이 net 계층으로는 사전 요청을 보낼 수 없다. 같은 이유로 **교차 오리진 요청에 `Origin` 헤더가 실제로는 전송되지 않을 수 있어**
     `Origin` 을 확인해야 `Access-Control-Allow-Origin` 을 내는 서버는 허용 응답을 주지 않는다(`*` 또는 고정 오리진을 주는 서버는 동작).
   - 동기 XHR(`open(..., false)`) 은 `InvalidAccessError`. `PATCH` 등 `HttpURLConnection` 이 보낼 수 없는 메서드와 DELETE/OPTIONS/PATCH 의 본문은 요청을 조용히 바꾸지 않고 네트워크 오류. 본문은 POST/PUT 에만 전송.
-  - `fetch` 의 `redirect: "manual"`, `cache: "only-if-cached"` 는 `TypeError` 로 거부(`no-cache` 는 `reload` 와 같게 처리), 스트리밍 요청 본문과 `ReadableStream`(`response.body` 는 항상 `null`, `textStream` 없음), `keepalive`/`priority`/`duplex` 는 받되 효과 없음.
+  - `fetch`의 `redirect: "manual"`과 `cache: "only-if-cached"`는 `TypeError`로 거부한다. `no-cache`는 `reload`와 같게 처리하며 `keepalive`·`priority`·`duplex`는 효과가 없다. 요청 본문 스트리밍은 지원하지 않는다.
+  - P28-06-b2에서 `Response.body`에 기본 `ReadableStream`을 연결했다. HTTP 응답은 필터링을 마친 헤더 뒤에 디코딩 청크를 전달한다. 캐시와 16 MiB 한도를 유지하며 무결성 검사 및 클래스패스의 본문은 일괄 적재 뒤 청크로 제공한다. 기본 리더, 비동기 반복, 응답 복제 및 전송 중 취소를 Java 6에서 검증했다. BYOB 리더, 파이프, 변환 및 스트림 전송은 미지원이다. [Streams Standard 4.2~4.4절](https://streams.spec.whatwg.org/)은 2026-11-26에 Last-Modified 2026-10-25 14:00:25 GMT 판본을 확인했다.
   - XHR: 본문은 완성된 뒤 한 번에 전달된다(LOADING 동안 `responseText` 는 빈 문자열, progress 는 전송 바이트 수만). 업로드 이벤트(`xhr.upload`)는 서버가 응답을 시작할 때 한 번에 발생한다(요청 계층이 전송 진행을 알리지 않음).
     `open()` 의 username/password 인수는 무시한다. `send(Document)` 는 루트 요소의 outerHTML 로 직렬화한다(doctype 제외).
   - 교차 오리진 리디렉션의 중간 구간은 CORS 검사를 하지 않고 최종 응답만 검사한다. `FormData(form)` 은 컨트롤의 콘텐츠 속성(value/checked/selected/disabled)만 읽는다(실제 사용자 입력 상태는 P11-05 후속).

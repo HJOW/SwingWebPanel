@@ -1,5 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.host;
 
+import java.io.OutputStream;
+
 /**
  * The asynchronous request service of a page, parallel to {@link ScriptSource}: the component implements it with its common request
  * layer, so User-Agent, extra headers, cookies, SSL hook, scheme limits, cache, same-origin policy and cancellation apply to
@@ -65,6 +67,23 @@ public interface WebRequestSource {
          * @param response the final response, possibly an error response / 최종 응답. 오류 응답일 수 있다
          */
         void onComplete(WebResponse response);
+    }
+
+    /**
+     * Optional extension for a receiver that can consume filtered HTTP body chunks before completion.
+     * <p>
+     * 완료 전에 걸러진 HTTP 본문 청크를 읽을 수 있는 수신 측의 선택 확장이다.
+     */
+    interface BodyCallback extends Callback {
+        /**
+         * Chooses a destination for the decoded body as it arrives. The destination and this callback run on the request thread.
+         * <p>
+         * 압축을 푼 본문이 도착할 목적지를 선택한다. 목적지와 콜백은 요청 스레드에서 실행한다.
+         *
+         * @param head filtered final response head / 걸러진 최종 응답의 머리
+         * @return a sink or null for ordinary buffered delivery / 본문 목적지. 버퍼로 전달하려면 null
+         */
+        OutputStream onBody(WebResponse head);
     }
 
     /**

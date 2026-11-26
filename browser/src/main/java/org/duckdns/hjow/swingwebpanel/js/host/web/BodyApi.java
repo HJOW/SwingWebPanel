@@ -1,5 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.js.host.web;
 
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.js.Js;
@@ -9,6 +10,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrays;
 import org.duckdns.hjow.swingwebpanel.net.ContentType;
+import org.duckdns.hjow.swingwebpanel.net.FetchLimits;
 
 /**
  * The body support that <code>Request</code> and <code>Response</code> share (Fetch Standard, sections 5.2 and 5.3): extracting the bytes and the
@@ -93,6 +95,63 @@ final class BodyApi {
 
     /** The page APIs. / 페이지 API. */
     private final WebApis api;
+
+    /**
+     * Gathers the input chunks for a one-shot Body mixin conversion.
+     * <p>
+     * 한 번 실행하는 body mixin 변환에 쓸 입력 청크를 모은다.
+     */
+    private final class Collector extends BodyStreamReader {
+        /** Body whose headers provide the conversion metadata. / 변환에 필요한 정보를 헤더로 제공하는 본문. */
+        private final BodyObject body;
+        /** Body mixin conversion to apply. / 적용할 body mixin 변환. */
+        private final int kind;
+        /** Bounded aggregate body buffer. / 크기를 제한한 전체 본문 버퍼. */
+        private final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        /** Pending result of the conversion. / 변환의 대기 결과. */
+        final Promises.Deferred result;
+
+        /**
+         * Locks the body stream for full consumption.
+         * <p>
+         * 전체 소비를 위해 본문 스트림을 잠근다.
+         *
+         * @param body stream-owning body / 스트림을 소유한 본문
+         * @param kind requested conversion / 요청한 변환
+         */
+        Collector(BodyObject body, int kind) {
+            super(api.streams, body.stream);
+            this.body = body;
+            this.kind = kind;
+            result = Promises.create(api.realm());
+        }
+
+        /** Continues reading until the stream ends. / 스트림이 끝날 때까지 계속 읽는다. */
+        boolean needsData() {
+            return true;
+        }
+
+        /** Adds safe-sized byte chunks to the conversion buffer. / 크기가 한도 이내인 바이트 청크를 변환 버퍼에 추가한다. */
+        void accept(byte[] chunk) {
+            if ((long) bytes.size() + chunk.length > FetchLimits.DEFAULT_MAX_MEMORY_BYTES) {
+                throw JsException.rangeError("The body is too large to read into memory");
+            }
+            bytes.write(chunk, 0, chunk.length);
+        }
+
+        /** Converts the entire body or rejects on error. / 본문 전체를 변환하거나 오류로 거부한다. */
+        void finish(JsValue error) {
+            if (error != null) {
+                result.reject(error);
+                return;
+            }
+            try {
+                result.resolve(convert(body, bytes.toByteArray(), kind));
+            } catch (JsException e) {
+                result.reject(e.getValue(api.realm()));
+            }
+        }
+    }
 
     /**
      * Creates the helper.
@@ -189,18 +248,26 @@ final class BodyApi {
     }
 
     /**
-     * Clones an unused buffered body. An already exposed stream stays locked as the source of the two independent branches.
+     * Clones an unused body. An already exposed stream stays locked as the source of the two independent branches.
      * <p>
-     * 사용하지 않은 버퍼 본문을 복제한다. 노출했던 스트림은 두 개의 독립적인 갈래에 대한 원본으로 잠긴다.
+     * 사용하지 않은 본문을 복제한다. 노출했던 스트림은 두 개의 독립적인 갈래에 대한 원본으로 잠긴다.
      *
      * @param original the original body / 원본 본문
      * @param copy the copy that receives the other branch / 다른 갈래를 받는 복제본
      */
-    void cloneBuffered(BodyObject original, BodyObject copy) {
+    void cloneBody(BodyObject original, BodyObject copy) {
         copy.body = original.body;
-        if (original.stream != null) {
+        if (original.stream == null) {
+            return;
+        }
+        // 버퍼의 독립적인 범위를 만들 수 있으면 청크를 복제 대기열에 쌓지 않는다.
+        if (original.body != null) {
             api.streams.lock(original.stream);
             original.stream = null;
+        } else {
+            BodyStreamTee tee = new BodyStreamTee(api.streams, original.stream);
+            original.stream = tee.first.stream;
+            copy.stream = tee.second.stream;
         }
     }
 
@@ -312,6 +379,11 @@ final class BodyApi {
         BodyObject o = (BodyObject) self;
         if (o.unusable()) {
             return Promises.rejectedTypeError(api.realm(), "Failed to execute body method: body stream is locked or disturbed");
+        }
+        if (o.body == null && o.stream != null) {
+            Collector collector = new Collector(o, kind);
+            collector.request();
+            return collector.result.promise;
         }
         consumeBuffered(o);
         byte[] bytes = o.body == null ? new byte[0] : o.body;

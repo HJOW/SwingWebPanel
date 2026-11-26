@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-06-b2-b HTTP 응답의 헤더와 진행 중 청크 (2026-11-26) ===
+현재 작업 번호: P28-06-b2-b 및 P28-06-b2 완료.
+완료한 내용: 필터링한 HTTP 응답 헤더와 청크를 본문이 도착하는 중에 페이지로 넘긴다. 기존 HTTP 캐시·16 MiB 제한과 무결성 검사를 유지한다. 읽기 취소·신호 중단·전송 오류와 복제된 본문의 독립적인 바이트를 연결했다.
+변경 파일: PageWebRequests.java, WebRequestSource.java, BodyApi.java, BodyStreamReader.java, BodyStreamTee.java, FetchApi.java, ReadableStreams.java, HttpCache.java, HttpFetcher.java, ResponseHandler.java, WebRequestApiTest.java, FetchTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, docs/progress/webapi.md, 이 문서.
+검증 결과: JDK 6u45에서 분리 컴파일 후 Fetch·스트림·캐시·HTTP·EventSource·정적 상태 회귀 79건 통과, 실패와 건너뜀 0건. 송신 서버가 대기 중일 때 헤더와 첫 청크가 각각 도착했고, 취소와 신호 중단도 서버가 본문을 끝내기 전에 전달됐다. 첫 실행의 JRE 연결이 취소 시 읽기 잠금을 기다려 기존 스트리밍 소켓 경로를 사용하도록 수정했다. sourcecheck 0 위반.
+미해결 사항: 클립보드, blob: 및 file: 주소에서의 후속 검증. BYOB·파이프·변환·스트림 전송은 기능 표의 제약 참조.
+다음 작업 번호: P28-06-c.
+-----------------------------------------------------------------------------------------------
 === P28-06-b2-a 버퍼 응답의 본문 스트림 (2026-11-26) ===
 현재 작업 번호: P28-06-b2-a 완료.
 완료한 내용: 생성자·클래스패스·일괄 수신 응답의 본문에 ReadableStream을 연결했다. 기존 일괄 소비와 읽기·취소가 bodyUsed를 공유하며, 잠금 중에는 복제와 일괄 읽기를 거부한다. 복제된 응답에서 한쪽 청크를 변경해도 다른 쪽에 영향을 주지 않는다.
