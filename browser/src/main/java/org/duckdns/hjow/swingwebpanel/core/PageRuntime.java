@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
 import org.duckdns.hjow.swingwebpanel.content.ContentType;
 import org.duckdns.hjow.swingwebpanel.dom.Document;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
@@ -197,6 +198,26 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
      * @return script host / 스크립트 호스트 */
     PageScripts scripts() {
         return scripts;
+    }
+
+    /**
+     * Enqueues a Java message only for this document's origin.
+     * <p>
+     * 이 문서의 오리진이 일치할 때만 Java 메시지를 큐에 올린다.
+     *
+     * @param data captured host value / 호스트에서 복사한 값
+     * @param expected target origin, or null for a wildcard / 대상 오리진. 와일드카드면 null
+     */
+    void postHostMessage(ClonedValue data, Origin expected) {
+        if (isScriptingEnabled() && (expected == null || expected.isSameOrigin(Origin.of(pageUrl)))) {
+            scripts.receiveHostMessage(data);
+        }
+    }
+
+    /** Returns the component's fixed host origin. / 컴포넌트의 고정 호스트 오리진을 반환한다. */
+    @Override
+    public String getHostMessageOrigin() {
+        return SwingWebPanel.HOST_ORIGIN;
     }
 
     /** Activates buffered timers after ownership handoff and then applies the in-document navigations that the page requested while it was

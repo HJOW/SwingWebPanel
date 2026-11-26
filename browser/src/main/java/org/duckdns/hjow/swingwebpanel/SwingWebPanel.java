@@ -130,6 +130,9 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      */
     public static final String PROPERTY_PAGE = "page";
 
+    /** Origin of messages from the Java host. / Java 호스트에서 온 메시지의 오리진. */
+    public static final String HOST_ORIGIN = "swingwebpanel://host";
+
     /**
      * Name of the property that announces the status bar text.
      * <p>
@@ -884,6 +887,35 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      */
     public void setPage(String url) {
         session.setPage(url);
+    }
+
+    /**
+     * Posts a copied value to the current top-level script document with the specified target origin.
+     * Call from any thread. Register the page listener first, for example by waiting for a ready message from the page.
+     * Use the expected absolute target URL when sending data that belongs to a specific origin.
+     * <p>
+     * 복사한 값을 지정한 대상 오리진의 현재 최상위 스크립트 문서에 보낸다. 어느 스레드에서나 호출할 수 있다.
+     * 페이지에서 준비 메시지를 받은 뒤 호출하면 리스너 등록을 확인할 수 있다. 특정 오리진의 데이터에는 대상 절대 주소를 지정한다.
+     *
+     * @param message plain Java data to copy / 복사할 Java 데이터
+     * @param targetOrigin an absolute URL or <code>"*"</code> / 절대 주소 또는 <code>"*"</code>
+     * @throws IllegalArgumentException when the origin or message is invalid / 주소나 값이 잘못되었으면
+     * @throws IllegalStateException when the panel has been disposed / 컴포넌트를 폐기했으면
+     */
+    public void postMessage(Object message, String targetOrigin) {
+        checkAlive();
+        session.postMessage(message, targetOrigin);
+    }
+
+    /**
+     * Posts to the current top-level document using the wildcard target origin.
+     * <p>
+     * 와일드카드 대상 오리진으로 현재 최상위 문서에 보낸다.
+     *
+     * @param message plain Java data to copy / 복사할 Java 데이터
+     */
+    public void postMessage(Object message) {
+        postMessage(message, "*");
     }
 
     /**

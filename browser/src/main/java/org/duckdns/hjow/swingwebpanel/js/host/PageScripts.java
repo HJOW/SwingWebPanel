@@ -43,6 +43,7 @@ import org.duckdns.hjow.swingwebpanel.js.ModuleLoader;
 import org.duckdns.hjow.swingwebpanel.js.ModuleRequest;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
+import org.duckdns.hjow.swingwebpanel.js.Property;
 import org.duckdns.hjow.swingwebpanel.js.RealmExecution;
 import org.duckdns.hjow.swingwebpanel.js.ScriptAbortedException;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomBridge;
@@ -277,6 +278,9 @@ public final class PageScripts {
      */
     private volatile boolean disposed;
 
+    /** Stable, restricted host window for messages to this document. / 이 문서의 메시지에 쓰는 고정 제한 호스트 창. */
+    private final HostMessageWindow hostMessageWindow;
+
     /**
      * True once the page fired <code>pageshow</code> (a page that was shown can be unloaded with the events of the unloading sequence).
      * <p>
@@ -496,6 +500,8 @@ public final class PageScripts {
         }
         this.bridge = new DomBridge(realm);
         this.window = new Window();
+        String hostOrigin = env.getHostMessageOrigin();
+        hostMessageWindow = hostOrigin == null ? null : new HostMessageWindow(this, hostOrigin);
         realm.getLimits().setMaxTimeMillis(env.getTaskTimeLimitMillis());
         // 처리기 없이 거부된 promise 를 기억해 두었다가 마이크로태스크 검사점이 끝날 때 콘솔에 보고한다.
         PromiseJobs.setRejectionTracker(realm, new PromiseRejectionTracker() {
@@ -963,6 +969,43 @@ public final class PageScripts {
      */
     MessagingApi messaging() {
         return globals.messaging();
+    }
+
+    /**
+     * Returns the initial opener of this document.
+     * <p>
+     * 이 문서의 초기 opener를 반환한다.
+     *
+     * @return host window for a top-level document, or null as a script value / 최상위 문서의 호스트 창 또는 스크립트 null
+     */
+    JsValue initialHostOpener() {
+        BrowsingContext context = env.getBrowsingContext();
+        return hostMessageWindow != null && (context == null || context.getParent() == null) ? hostMessageWindow : Js.NULL;
+    }
+
+    /**
+     * Reads only the host-installed opener across origins without invoking a document property getter.
+     * <p>
+     * 문서의 프로퍼티 getter를 실행하지 않고 호스트가 설치한 opener만 교차 오리진에서 읽는다.
+     *
+     * @return current host opener or null as a script value / 현재 호스트 opener 또는 스크립트 null
+     */
+    JsValue crossOriginHostOpener() {
+        Property slot = realm.getGlobalObject().getOwnPropertySlot("opener");
+        return hostMessageWindow != null && slot != null && !slot.accessor && slot.value == hostMessageWindow ? hostMessageWindow : Js.NULL;
+    }
+
+    /**
+     * Schedules a copied message from the Java host.
+     * <p>
+     * Java 호스트가 복사한 메시지를 문서 큐에 올린다.
+     *
+     * @param data copied message / 복사한 메시지
+     */
+    public void receiveHostMessage(ClonedValue data) {
+        if (hostMessageWindow != null) {
+            messaging().receiveHost(data, env.getHostMessageOrigin(), hostMessageWindow);
+        }
     }
 
     /**

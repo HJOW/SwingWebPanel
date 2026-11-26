@@ -92,6 +92,27 @@ public abstract class HostEnvironment {
     }
 
     /**
+     * Returns the Java host message origin when this document belongs to a messaging component.
+     * <p>
+     * 이 문서가 메시지를 쓰는 컴포넌트에 있으면 Java 호스트 메시지의 오리진을 반환한다.
+     *
+     * @return host origin or null / 호스트 오리진 또는 null
+     */
+    public String getHostMessageOrigin() {
+        return null;
+    }
+
+    /**
+     * Offers a script message to the Java host.
+     * <p>
+     * Java 호스트에 스크립트 메시지를 전달한다.
+     *
+     * @param data copied Java data / 복사한 Java 데이터
+     */
+    public void publishHostMessage(Object data) {
+    }
+
+    /**
      * Returns the source of external scripts, or null if scripts cannot be fetched (they then fail with an <code>error</code> event).
      * <p>
      * 외부 스크립트의 공급원을 반환한다. 가져올 수 없으면 null 이며 스크립트는 <code>error</code> 이벤트로 실패한다.

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P27-03 Java에서 페이지로 메시지 전달 (2026-11-26) ===
+현재 작업 번호: P27-03-a, P27-03-b 및 P27-03 완료.
+완료한 내용: SwingWebPanel.postMessage가 호출 시의 최상위 실행 환경에 복사값을 묶는다. 파싱 중인 문서는 확정 후 큐를 실행하고, 취소한 문서는 큐를 폐기한다. 허용한 오리진으로 신뢰 MessageEvent를 전달하고 window.opener와 event.source에 문서별 제한 호스트 창을 사용한다.
+변경 파일: SwingWebPanel.java, BrowserSession.java, PageRuntime.java, Origin.java, HostEnvironment.java, HostMessageWindow.java, PageScripts.java, MessagingApi.java, FrameApi.java, CrossOriginWindow.java, HostOutboundMessageTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: mvn -B -o -pl browser -am test -Dtest.filter=HostOutboundMessageTest에서 JDK 6u45 실제 컴포넌트 2건 통과. 후속 패키지에서 FrameWindowTest, FrameNavigationTest, TopWindowNavigationTest, WorkerGlobalScopeTest, MessagingApiTest, StaticStateAuditTest 총 38건 통과. sourcecheck 0 위반.
+미해결 사항: 호스트 창에서 Java로의 메시지 리스너 연결, 수명·통지 한도와 왕복 예제(P27-04~06).
+다음 작업 번호: P27-04.
+-----------------------------------------------------------------------------------------------
 === P27-02-b 페이지 메시지의 Java 변환 (2026-11-26) ===
 현재 작업 번호: P27-02-b와 P27-02 완료.
 완료한 내용: 구조화 복제 기록을 Java 읽기 전용 컬렉션, 날짜와 유효 바이트의 복사본으로 해석한다. 참조 정체성과 삽입 순서를 보존한다. Java 결과 변환과 한도 검사를 마치고 나서 ArrayBuffer를 분리한다.

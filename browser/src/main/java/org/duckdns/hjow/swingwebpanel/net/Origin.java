@@ -85,6 +85,25 @@ public final class Origin {
     }
 
     /**
+     * Checks an absolute message target and returns its origin.
+     * A valid address with an opaque origin will never match a tuple origin.
+     * <p>
+     * 절대 메시지 주소를 확인하고 오리진을 반환한다.
+     * 주소가 유효해도 오리진이 불투명이면 튜플 오리진과 일치하지 않는다.
+     *
+     * @param url target address / 대상 주소
+     * @return origin of the target address / 대상 주소의 오리진
+     * @throws IllegalArgumentException if the address is invalid or relative / 잘못된 주소 또는 상대 주소이면
+     */
+    public static Origin ofAbsoluteMessageUrl(String url) {
+        if (SchemePolicy.classify(url) == SchemePolicy.Kind.INVALID) {
+            throw new IllegalArgumentException("Expected an absolute web message target URL");
+        }
+        UrlUtil.parse(url);
+        return of(url);
+    }
+
+    /**
      * Tells whether this origin is opaque.
      * <p>
      * 이 오리진이 불투명한지 알려 준다.

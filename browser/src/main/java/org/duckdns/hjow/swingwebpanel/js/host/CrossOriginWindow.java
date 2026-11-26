@@ -157,7 +157,8 @@ final class CrossOriginWindow extends JsObject {
             return Js.num(target.getChildren().size());
         }
         if ("opener".equals(k)) {
-            return Js.NULL;
+            PageScripts targetPage = target.getScripts();
+            return targetPage == null ? Js.NULL : targetPage.crossOriginHostOpener();
         }
         if ("closed".equals(k)) {
             return Js.bool(target.isClosed());

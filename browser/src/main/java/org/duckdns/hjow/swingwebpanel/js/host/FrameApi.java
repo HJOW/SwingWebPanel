@@ -271,7 +271,7 @@ final class FrameApi {
                 return Js.UNDEFINED;
             }
         }), true, true);
-        g.defineData("opener", Js.NULL, true, true, true);
+        g.defineData("opener", page.initialHostOpener(), true, true, true);
         g.defineData("open", realm.newFunction("open", 0, new NativeFunction.Call() {
             /**
              * Opens a window: the target selects an existing browsing context (a frame of the page, the page itself, its parent or its top),

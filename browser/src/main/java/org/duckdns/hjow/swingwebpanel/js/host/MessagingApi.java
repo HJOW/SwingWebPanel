@@ -14,6 +14,8 @@ import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomBridge;
 import org.duckdns.hjow.swingwebpanel.js.dom.HostObject;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
+import org.duckdns.hjow.swingwebpanel.js.host.structured.HostMessageValues;
+import org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredCloneException;
 import org.duckdns.hjow.swingwebpanel.js.worker.PortApi;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
@@ -337,6 +339,36 @@ public final class MessagingApi {
      */
     ClonedValue cloneForPost(JsValue message, JsValue transfer) {
         return cloneMessage(message, transferList(transfer, null));
+    }
+
+    /**
+     * Copies the supported script data and transfers eligible buffers to Java.
+     * <p>
+     * 지원하는 스크립트 데이터를 복사하고 허용된 버퍼를 Java에 전달한다.
+     *
+     * @param message the script value / 스크립트 값
+     * @param transfer the transfer argument or options / 전달 목록 또는 옵션
+     * @return Java host data / Java 호스트 데이터
+     */
+    Object copyForJava(JsValue message, JsValue transfer) {
+        try {
+            return HostMessageValues.fromScript(message, transferList(transfer, null));
+        } catch (StructuredCloneException e) {
+            throw page.getBridge().domError(new DomException(e.getName(), DomException.DATA_CLONE_ERR, e.getMessage()));
+        }
+    }
+
+    /**
+     * Adds an already origin-checked Java message to the document task queue.
+     * <p>
+     * 대상 오리진을 이미 확인한 Java 메시지를 문서 작업 큐에 올린다.
+     *
+     * @param message serialized payload / 직렬화한 데이터
+     * @param origin Java host origin / Java 호스트 오리진
+     * @param source the host window / 호스트 창
+     */
+    void receiveHost(ClonedValue message, String origin, JsObject source) {
+        queue(message, origin, source);
     }
 
     /**

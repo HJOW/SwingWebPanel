@@ -9,10 +9,12 @@ import java.util.Vector;
 import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.content.ContentClassifier;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
+import org.duckdns.hjow.swingwebpanel.js.host.structured.HostMessageValues;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.CancelledException;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.RequestHeaders;
+import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.net.SchemePolicy;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 import org.duckdns.hjow.swingwebpanel.storage.LocalStorageManager;
@@ -203,6 +205,12 @@ public final class BrowserSession implements FormSubmitSink {
 
     /** Current and still-parsing script hosts, guarded by lock. / lock으로 보호하는 현재 및 파싱 중 스크립트 호스트. */
     private final Set<PageRuntime> runtimes = new HashSet<PageRuntime>();
+
+    /** Most recently installed top-level script runtime, guarded by lock. / 최근 설치한 최상위 스크립트 환경. lock으로 보호한다. */
+    private PageRuntime installedMessageRuntime;
+
+    /** Navigation id of the installed message runtime. / 설치한 메시지 환경의 이동 번호. */
+    private int installedMessageRequest;
 
     /**
      * Status bar text.
@@ -558,8 +566,56 @@ public final class BrowserSession implements FormSubmitSink {
                 return false;
             }
             runtimes.add(runtime);
+            // 프레임 설치는 Java 발신의 최상위 수신 문서를 바꾸지 않는다.
+            if (runtime.getBrowsingContext() == topContext) {
+                installedMessageRuntime = runtime;
+                installedMessageRequest = requestId;
+            }
             return true;
         }
+    }
+
+    /**
+     * Captures one target before copying the caller's value and schedules the message.
+     * <p>
+     * 호출자의 값을 복사하기 전에 수신 문서 하나를 정하고 메시지 작업을 예약한다.
+     *
+     * @param message supported Java message data / 지원하는 Java 메시지 데이터
+     * @param targetOrigin a wildcard or an absolute URL / 와일드카드 또는 절대 주소
+     * @throws IllegalArgumentException for invalid origin or data / 잘못된 주소 또는 값이면
+     * @throws IllegalStateException when disposed / 폐기되었으면
+     */
+    public void postMessage(Object message, String targetOrigin) {
+        PageRuntime target;
+        synchronized (lock) {
+            checkAlive();
+            target = messageRuntime();
+        }
+        Origin origin = "*".equals(targetOrigin) ? null : Origin.ofAbsoluteMessageUrl(targetOrigin);
+        ClonedValue copied = HostMessageValues.fromJava(message);
+        // 복사 중 이동이 일어나도 잡아 둔 문서의 큐에만 보낸다.
+        if (target != null) {
+            target.postHostMessage(copied, origin);
+        }
+    }
+
+    /**
+     * Selects the installed top-level runtime, falling back to the confirmed document.
+     * The caller holds the session lock.
+     * <p>
+     * 설치된 최상위 실행 환경을 택하며, 없으면 확정 문서를 확인한다. 호출자가 세션 잠금을 쥔다.
+     *
+     * @return one target, or null when scripts cannot run / 수신 환경 하나. 스크립트를 실행할 수 없으면 null
+     */
+    private PageRuntime messageRuntime() {
+        if (!javascriptEnabled) {
+            return null;
+        }
+        if (installedMessageRuntime != null && nav.isCurrent(installedMessageRequest) && !installedMessageRuntime.isClosed()) {
+            return installedMessageRuntime;
+        }
+        PageDocument page = current.getDocument();
+        return page instanceof HtmlPageDocument ? ((HtmlPageDocument) page).runtime() : null;
     }
 
     /**
@@ -697,6 +753,9 @@ public final class BrowserSession implements FormSubmitSink {
     void unregisterRuntime(PageRuntime runtime) {
         synchronized (lock) {
             runtimes.remove(runtime);
+            if (installedMessageRuntime == runtime) {
+                installedMessageRuntime = null;
+            }
         }
     }
 
