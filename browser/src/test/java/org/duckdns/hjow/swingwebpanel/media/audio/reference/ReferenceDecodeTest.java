@@ -23,6 +23,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.FlacWriter;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.OggMux;
 import org.duckdns.hjow.swingwebpanel.media.audio.vorbis.VorbisDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.webm.WebmDecoder;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
@@ -448,6 +449,22 @@ public class ReferenceDecodeTest {
             Check.equal(samples[0][20000], decoded[40000], "following frame starts in the expanded window");
         } finally {
             pcm.close();
+        }
+    }
+
+    /**
+     * Compares file-backed WebM Vorbis and Opus, including the initial and final trim.
+     * <p>
+     * 파일 기반 WebM Vorbis와 Opus를 비교한다. 시작과 끝 자르기도 확인한다.
+     * @throws Exception on I/O or decode failure / 입출력 또는 해독에 실패하면
+     */
+    public void testWebmFilePcmMatchesArrayPcm() throws Exception {
+        WebmDecoder decoder = new WebmDecoder();
+        List<ReferenceFixture> files = ReferenceFixture.ofGroup("webm");
+        Check.equal(2, files.size(), "one fixture for each WebM codec");
+        // 각 코덱의 참조 파일을 디스크에서 열어 출력과 탐색을 비교한다.
+        for (ReferenceFixture fixture : files) {
+            compareFileSources(decoder, fixture.name, fixture.readFile(), true);
         }
     }
 

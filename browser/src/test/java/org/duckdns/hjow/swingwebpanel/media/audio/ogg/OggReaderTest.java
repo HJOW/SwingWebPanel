@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.media.audio.ogg;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -98,6 +99,34 @@ public class OggReaderTest {
         Check.isFalse(p.isChecksumValid(file), "a changed payload byte is detected");
         Check.equal(0L, OggMux.crc(new byte[0]), "empty data");
         Check.equal(0x04C11DB7L, OggMux.crc(new byte[] { 0, 0, 0, 1 }) , "the polynomial itself comes out of one bit shifted through");
+    }
+
+    /**
+     * Writes an exact-full page followed by a packet that spans pages, preserving both boundary flags and granules.
+     * <p>
+     * 가득 찬 페이지와 다음 페이지들에 걸친 패킷을 쓰고 경계 플래그와 그라뉼을 보존하는지 확인한다.
+     * @throws Exception if the write or read fails / 쓰기나 읽기에 실패하면
+     */
+    public void testPageWriterExactFullAndContinuedPages() throws Exception {
+        byte[][] expected = packets(new int[] { 255 * 254 + 1, 50, 70000 }, 41);
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        OggPageWriter writer = new OggPageWriter(bytes, 11);
+        writer.packet(expected[0], 100);
+        writer.packet(expected[1], 200);
+        writer.packet(expected[2], 300);
+        writer.flush(true);
+        OggStream stream = OggReader.scan(bytes.toByteArray()).getStreams().get(0);
+        Check.equal(3, stream.getPageCount(), "three pages");
+        Check.isFalse(stream.isPageContinued(1), "full page ended at a packet boundary");
+        Check.isTrue(stream.isPageContinued(2), "third page continues the last packet");
+        List<OggPacket> actual = new java.util.ArrayList<OggPacket>();
+        readAll(stream, 0, actual);
+        Check.equal(3, actual.size(), "packet count");
+        // 선행 패킷의 그라뉼이 부분 패킷이 이어지기 전에 보존되어야 한다.
+        for (int i = 0; i < expected.length; i++) {
+            Check.isTrue(Arrays.equals(expected[i], actual.get(i).getData()), "packet " + i);
+            Check.equal((i + 1) * 100L, actual.get(i).getGranule(), "packet granule " + i);
+        }
     }
 
     /**

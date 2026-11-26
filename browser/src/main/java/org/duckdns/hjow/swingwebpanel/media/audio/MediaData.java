@@ -158,6 +158,42 @@ public final class MediaData {
     }
 
     /**
+     * Opens a reader that will release this data on close. Use for a temporary resource with one owner.
+     * <p>
+     * 닫힐 때 이 데이터를 해제할 원천을 연다. 소유자가 하나인 임시 리소스에 사용한다.
+     * @return the owning source / 데이터를 소유하는 원천
+     * @throws IOException if the data cannot be opened / 데이터를 열 수 없으면
+     */
+    public ByteSource openOwned() throws IOException {
+        final ByteSource input = open();
+        return new ByteSource() {
+            /** Returns the source length. / 원천 길이를 반환한다. */
+            public long length() {
+                return input.length();
+            }
+
+            /** Reads a byte at the given position. / 주어진 위치에서 바이트를 읽는다. */
+            public int get(long position) {
+                return input.get(position);
+            }
+
+            /** Reads bytes into the caller's buffer. / 호출자의 버퍼에 바이트를 읽는다. */
+            public int read(long position, byte[] buffer, int offset, int count) {
+                return input.read(position, buffer, offset, count);
+            }
+
+            /** Closes the source and releases the stored data. / 원천을 닫고 보관한 데이터를 해제한다. */
+            public void close() {
+                try {
+                    input.close();
+                } finally {
+                    release();
+                }
+            }
+        };
+    }
+
+    /**
      * Closes the open sources and deletes the temporary file (idempotent). Reads of a source that is still in use fail afterwards with a
      * {@link ByteSourceException}.
      * <p>

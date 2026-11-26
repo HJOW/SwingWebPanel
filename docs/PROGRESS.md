@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P18-08-c2d2 WebM의 페이지 단위 재포장과 파생 파일 (2026-11-26) ===
+현재 작업 번호: P18-08-c2d2, P18-08-c2d 및 P18-08-c2 완료.
+완료한 내용: WebM의 Vorbis·Opus 패킷을 공통 Ogg 페이지 작성기로 스풀에 쓰고 파생 자료를 디코더가 소유한다. 페이지 경계와 CRC, 시작·끝 샘플 보정을 유지한다. 원본 파일 핸들은 재포장 후 닫고 파생 파일은 PCM을 닫을 때 지운다.
+변경 파일: MediaData.java, OggPageWriter.java, OpusInOgg.java, VorbisInOgg.java, WebmDecoder.java, OggReaderTest.java, WebmDecoderTest.java, ReferenceDecodeTest.java, AGENTS.md, progress/media-play.md, 이 문서.
+검증 결과: JDK 6u45로 변경 클래스를 컴파일했다. JRE 6u45의 -Xmx32m에서 파일과 배열의 실제 WebM, 두 경계의 Ogg 페이지·그라뉼, 1 MiB를 넘는 파생 Ogg의 탐색·삭제, 다른 오디오 참조 포함 47건 통과. sourcecheck·diff 검사 위반 0건.
+미해결 사항: 파일 디코더 레지스트리와 브라우저 재생의 요청·수명 연결.
+다음 작업 번호: P18-08-c3a.
+-----------------------------------------------------------------------------------------------
 === P18-08-c2d1 WebM/Matroska의 파일 색인 (2026-11-26) ===
 현재 작업 번호: P18-08-c2d1 완료.
 완료한 내용: EBML 요소, 트랙 및 레이싱 오프셋을 바이트 원천에서 읽고 페이로드는 복사하지 않는다. 산술 범위를 검사하고 형식·코덱 식별자와 초기화 레코드의 크기를 제한한다.

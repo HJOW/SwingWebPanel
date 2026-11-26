@@ -5,12 +5,19 @@ import java.io.File;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ArrayByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.FileByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaData;
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaSpool;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.opus.OpusDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.reference.ReferenceFixture;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.VorbisWriter;
 import org.duckdns.hjow.swingwebpanel.testing.Block;
@@ -201,6 +208,54 @@ public class WebmDecoderTest {
         Check.isTrue(Arrays.equals(b.codecPrivate, t.getCodecPrivate()), "codec private data");
         Check.equal(6500000L, t.getCodecDelay(), "codec delay");
         Check.near(48000.0, t.getSampleRate(), 0.001, "sampling frequency");
+    }
+
+    /**
+     * Remuxes a track beyond the memory threshold and verifies that closing its PCM source deletes the Ogg file.
+     * <p>
+     * 메모리 문턱보다 큰 트랙을 재포장하고 PCM을 닫으면 Ogg 임시 파일이 삭제되는지 확인한다.
+     * @throws Exception if I/O or decoding fails / 입출력 또는 해독에 실패하면
+     */
+    public void testDerivedOggSpillsAndClosesWithPcm() throws Exception {
+        byte[] original = null;
+        WebmFile.Track originalTrack = null;
+        // 참조 WebM에서 실제 Opus 패킷과 초기화 기록을 가져온다.
+        for (ReferenceFixture fixture : ReferenceFixture.ofGroup("webm")) {
+            if (fixture.name.equals("opus_audio_64k_48000_webm_native")) {
+                original = fixture.readFile();
+                originalTrack = WebmFile.parse(original).firstAudioTrack();
+            }
+        }
+        Check.notNull(originalTrack, "Opus fixture track");
+        int offset = originalTrack.getOffset(0);
+        byte[] frame = Arrays.copyOfRange(original, offset, offset + originalTrack.getSize(0));
+        int repeats = (int) (MediaSpool.MEMORY_LIMIT / frame.length + 2);
+        WebmTestBuilder builder = new WebmTestBuilder();
+        builder.codecId = "A_OPUS";
+        builder.codecPrivate = originalTrack.getCodecPrivate();
+        builder.rate = 48000;
+        byte[] encoded = builder.build(Collections.nCopies(repeats, frame), times(repeats));
+        ByteSource input = new ArrayByteSource(encoded);
+        WebmFile.Track longTrack = WebmFile.parseSource(input).firstAudioTrack();
+        MediaData derived = WebmDecoder.remux(longTrack, input, true);
+        try {
+            File stored = derived.getFile();
+            Check.notNull(stored, "derived audio spills to disk");
+            Check.isTrue(stored.isFile() && derived.length() > MediaSpool.MEMORY_LIMIT, "derived Ogg exceeds the memory threshold");
+            PcmSource pcm = new OpusDecoder().openSource(derived.openOwned(), DecodeLimits.DEFAULT);
+            try {
+                byte[] bytes = new byte[64];
+                Check.equal(bytes.length, pcm.read(bytes, 0, bytes.length), "first frames from the derived file");
+                pcm.seekToFrame(pcm.getFrameCount() - 32);
+                Check.equal(bytes.length, pcm.read(bytes, 0, bytes.length), "frames near the end of the derived file");
+            } finally {
+                pcm.close();
+            }
+            Check.isTrue(derived.isReleased() && !stored.exists(), "closing PCM releases the derived file");
+        } finally {
+            derived.release();
+            input.close();
+        }
     }
 
     /**

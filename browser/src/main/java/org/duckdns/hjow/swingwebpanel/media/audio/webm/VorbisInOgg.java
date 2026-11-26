@@ -1,34 +1,24 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.webm;
 
-import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPageWriter;
 
 /**
- * Wraps the Vorbis packets of a WebM / Matroska track into an in-memory Ogg stream so that the Vorbis decoder (which reads Ogg) can play
+ * Wraps the Vorbis packets of a WebM / Matroska track into an Ogg stream so that the Vorbis decoder (which reads Ogg) can play
  * them. The three header packets come from the Xiph-laced codec private data; every audio packet gets its own Ogg page whose granule position
  * is computed exactly from the block sizes: the identification header gives the two block sizes and the mode table found at the end of the
  * setup header tells which block size a packet uses (the same backwards scan as other Matroska demultiplexers use, because the setup header
  * has no length field for the mode list).
  * <p>
- * WebM / Matroska 트랙의 Vorbis 패킷을 메모리 안의 Ogg 스트림으로 감싸 Ogg 를 읽는 Vorbis 디코더가 재생할 수 있게 한다. 헤더 패킷 3개는 Xiph 레이싱된
+ * WebM / Matroska 트랙의 Vorbis 패킷을 Ogg 스트림으로 감싸 Ogg 를 읽는 Vorbis 디코더가 재생할 수 있게 한다. 헤더 패킷 3개는 Xiph 레이싱된
  * 코덱 비공개 데이터에서 가져오고 오디오 패킷마다 Ogg 페이지 하나를 만들며 그래뉼 위치는 블록 크기에서 정확히 계산한다: 식별 헤더가 두 블록 크기를 주고
  * 설정 헤더 끝의 모드 표가 패킷이 쓰는 블록 크기를 알려 준다(설정 헤더에는 모드 목록의 길이 필드가 없으므로 다른 Matroska 역다중화기와 같이 뒤에서부터
  * 훑는다).
  */
 final class VorbisInOgg {
-
-    /** CRC-32 table of Ogg (polynomial 0x04C11DB7, no reflection). / Ogg 의 CRC-32 표(다항식 0x04C11DB7, 반사 없음). */
-    private static final int[] CRC = new int[256];
-
-    static {
-        for (int i = 0; i < 256; i++) { // 표의 항목마다 8번 시프트하며 계산한다
-            int r = i << 24;
-            for (int k = 0; k < 8; k++) {
-                r = (r & 0x80000000) != 0 ? (r << 1) ^ 0x04C11DB7 : r << 1;
-            }
-            CRC[i] = r;
-        }
-    }
 
     /**
      * Private constructor: static helpers. / 비공개 생성자: 정적 도우미.
@@ -43,10 +33,11 @@ final class VorbisInOgg {
      *
      * @param t    the track / 트랙
      * @param data the file data holding the frames / 프레임이 있는 파일 데이터
-     * @return the Ogg bytes / Ogg 바이트
+     * @param out the Ogg stream output / Ogg 스트림 출력
      * @throws MediaException CORRUPT or UNSUPPORTED_FORMAT for damaged headers / 헤더가 손상되었으면 CORRUPT 또는 UNSUPPORTED_FORMAT
+     * @throws IOException if writing fails / 쓰기에 실패하면
      */
-    static byte[] build(WebmFile.Track t, byte[] data) throws MediaException {
+    static void write(WebmFile.Track t, ByteSource data, OutputStream out) throws MediaException, IOException {
         byte[][] headers = splitHeaders(t.getCodecPrivate());
         if (headers[0].length < 30 || headers[0][0] != 1) {
             throw new MediaException(MediaException.Kind.CORRUPT, "invalid Vorbis identification header");
@@ -59,10 +50,12 @@ final class VorbisInOgg {
         while ((1 << modeBits) < longFlags.length) { // 모드 번호에 쓰는 비트 수
             modeBits++;
         }
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        int seq = 0;
-        page(out, 0x02, 0L, seq++, new byte[][] { headers[0] });
-        page(out, 0x00, 0L, seq++, new byte[][] { headers[1], headers[2] });
+        OggPageWriter writer = new OggPageWriter(out, 1);
+        writer.packet(headers[0], 0);
+        writer.flush(false);
+        writer.packet(headers[1], 0);
+        writer.packet(headers[2], 0);
+        writer.flush(false);
         long granule = 0;
         int prev = -1;
         int n = t.getFrameCount();
@@ -70,13 +63,17 @@ final class VorbisInOgg {
         long rate = (headers[0][12] & 0xFFL) | ((headers[0][13] & 0xFFL) << 8) | ((headers[0][14] & 0xFFL) << 16) | ((headers[0][15] & 0xFFL) << 24);
         long discard = t.getDiscardPadding() > 0 ? (t.getDiscardPadding() * rate + 500000000L) / 1000000000L : 0;
         for (int i = 0; i < n; i++) { // 오디오 패킷마다 블록 크기로 그래뉼 위치를 구해 페이지를 쓴다
-            byte[] p = new byte[t.getSize(i)];
-            System.arraycopy(data, t.getOffset(i), p, 0, p.length);
+            if (Thread.currentThread().isInterrupted()) {
+                throw new MediaException(MediaException.Kind.CANCELLED, "Vorbis remux was interrupted");
+            }
+            int offset = t.getOffset(i);
+            int size = t.getSize(i);
+            int first = size > 0 ? data.get(offset) : 1;
             int block = prev;
-            if (p.length > 0 && (p[0] & 1) == 0) {
-                int mode = (p[0] & 0xFF) >> 1 & ((1 << modeBits) - 1);
-                if (modeBits > 7 && p.length > 1) {
-                    mode = ((p[0] & 0xFF) >> 1) | ((p[1] & 0xFF) << 7);
+            if ((first & 1) == 0) {
+                int mode = first >> 1 & ((1 << modeBits) - 1);
+                if (modeBits > 7 && size > 1) {
+                    mode = (first >> 1) | (data.get(offset + 1) << 7);
                     mode &= (1 << modeBits) - 1;
                 }
                 boolean isLong = mode < longFlags.length && longFlags[mode];
@@ -88,9 +85,10 @@ final class VorbisInOgg {
             if (block >= 0) {
                 prev = block;
             }
-            page(out, i == n - 1 ? 0x04 : 0x00, i == n - 1 ? Math.max(0L, granule - discard) : granule, seq++, new byte[][] { p });
+            boolean last = i == n - 1;
+            writer.packet(data, offset, size, last ? Math.max(0L, granule - discard) : granule);
+            writer.flush(last);
         }
-        return out.toByteArray();
     }
 
     /**
@@ -205,128 +203,4 @@ final class VorbisInOgg {
         return v;
     }
 
-    /**
-     * Writes Ogg pages that hold the given packets (a packet that needs more than 255 segments continues on the next page).
-     * <p>
-     * 주어진 패킷을 담는 Ogg 페이지를 쓴다(세그먼트가 255개를 넘는 패킷은 다음 페이지로 이어진다).
-     *
-     * @param out     output / 출력
-     * @param type    header type flags of the first page / 첫 페이지의 헤더 종류 플래그
-     * @param granule granule position / 그래뉼 위치
-     * @param seq     page sequence number (the first page uses this value) / 페이지 순번(첫 페이지가 이 값을 쓴다)
-     * @param packets the packets / 패킷
-     */
-    private static void page(ByteArrayOutputStream out, int type, long granule, int seq, byte[][] packets) {
-        ByteArrayOutputStream segs = new ByteArrayOutputStream();
-        ByteArrayOutputStream body = new ByteArrayOutputStream();
-        for (byte[] p : packets) { // 패킷마다 255 단위 세그먼트로 나눈다
-            int len = p.length;
-            while (len >= 255) {
-                segs.write(255);
-                len -= 255;
-            }
-            segs.write(len);
-            body.write(p, 0, p.length);
-        }
-        byte[] st = segs.toByteArray();
-        byte[] bd = body.toByteArray();
-        int n = Math.min(255, st.length);
-        int bodyLen = 0;
-        for (int i = 0; i < n; i++) { // 이 페이지에 담기는 세그먼트의 바이트 수
-            bodyLen += st[i] & 0xFF;
-        }
-        byte[] hdr = new byte[27 + n];
-        hdr[0] = 'O';
-        hdr[1] = 'g';
-        hdr[2] = 'g';
-        hdr[3] = 'S';
-        hdr[5] = (byte) type;
-        for (int i = 0; i < 8; i++) { // 그래뉼 위치(리틀 엔디언)
-            hdr[6 + i] = (byte) (granule >> (8 * i));
-        }
-        hdr[14] = 1;
-        hdr[18] = (byte) seq;
-        hdr[19] = (byte) (seq >> 8);
-        hdr[26] = (byte) n;
-        System.arraycopy(st, 0, hdr, 27, n);
-        byte[] pageBody = java.util.Arrays.copyOf(bd, bodyLen);
-        int crc = 0;
-        for (int i = 0; i < hdr.length; i++) { // 헤더와 본문에 대해 CRC 를 구한다(CRC 필드는 0)
-            crc = (crc << 8) ^ CRC[((crc >>> 24) ^ (hdr[i] & 0xFF)) & 0xFF];
-        }
-        for (int i = 0; i < pageBody.length; i++) { // 본문 바이트를 CRC 에 넣는다
-            crc = (crc << 8) ^ CRC[((crc >>> 24) ^ (pageBody[i] & 0xFF)) & 0xFF];
-        }
-        hdr[22] = (byte) crc;
-        hdr[23] = (byte) (crc >> 8);
-        hdr[24] = (byte) (crc >> 16);
-        hdr[25] = (byte) (crc >> 24);
-        out.write(hdr, 0, hdr.length);
-        out.write(pageBody, 0, pageBody.length);
-        if (st.length > n) {
-            // 남은 세그먼트는 이어지는 페이지에 쓴다(드문 경우: 매우 큰 패킷).
-            byte[] restSegs = java.util.Arrays.copyOfRange(st, n, st.length);
-            byte[] restBody = java.util.Arrays.copyOfRange(bd, bodyLen, bd.length);
-            ByteArrayOutputStream rest = new ByteArrayOutputStream();
-            rest.write(restBody, 0, restBody.length);
-            continuation(out, restSegs, rest.toByteArray(), granule, seq + 1);
-        }
-    }
-
-    /**
-     * Writes the continuation pages of a very large packet.
-     * <p>
-     * 매우 큰 패킷의 이어지는 페이지를 쓴다.
-     *
-     * @param out     output / 출력
-     * @param segs    remaining segment table / 남은 세그먼트 표
-     * @param body    remaining body / 남은 본문
-     * @param granule granule position / 그래뉼 위치
-     * @param seq     page sequence number / 페이지 순번
-     */
-    private static void continuation(ByteArrayOutputStream out, byte[] segs, byte[] body, long granule, int seq) {
-        int pos = 0;
-        int bp = 0;
-        int page = seq;
-        while (pos < segs.length) { // 남은 세그먼트를 255개씩 페이지로 나눈다
-            int n = Math.min(255, segs.length - pos);
-            int bl = 0;
-            for (int i = 0; i < n; i++) { // 이 페이지에 담기는 세그먼트의 바이트 수를 센다
-                bl += segs[pos + i] & 0xFF;
-            }
-            byte[] hdr = new byte[27 + n];
-            hdr[0] = 'O';
-            hdr[1] = 'g';
-            hdr[2] = 'g';
-            hdr[3] = 'S';
-            hdr[5] = 0x01;
-            boolean lastPage = pos + n >= segs.length;
-            long g = lastPage ? granule : -1L;
-            for (int i = 0; i < 8; i++) { // 그래뉼 위치
-                hdr[6 + i] = (byte) (g >> (8 * i));
-            }
-            hdr[14] = 1;
-            hdr[18] = (byte) page;
-            hdr[19] = (byte) (page >> 8);
-            hdr[26] = (byte) n;
-            System.arraycopy(segs, pos, hdr, 27, n);
-            byte[] pb = java.util.Arrays.copyOfRange(body, bp, bp + bl);
-            int crc = 0;
-            for (int i = 0; i < hdr.length; i++) { // 헤더 바이트를 CRC 에 넣는다
-                crc = (crc << 8) ^ CRC[((crc >>> 24) ^ (hdr[i] & 0xFF)) & 0xFF];
-            }
-            for (int i = 0; i < pb.length; i++) { // 본문 바이트를 CRC 에 넣는다
-                crc = (crc << 8) ^ CRC[((crc >>> 24) ^ (pb[i] & 0xFF)) & 0xFF];
-            }
-            hdr[22] = (byte) crc;
-            hdr[23] = (byte) (crc >> 8);
-            hdr[24] = (byte) (crc >> 16);
-            hdr[25] = (byte) (crc >> 24);
-            out.write(hdr, 0, hdr.length);
-            out.write(pb, 0, pb.length);
-            pos += n;
-            bp += bl;
-            page++;
-        }
-    }
 }

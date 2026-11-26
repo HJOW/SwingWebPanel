@@ -1,10 +1,15 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.webm;
 
+import java.io.IOException;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteAudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSourceException;
 import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaData;
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaSpool;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
-import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.opus.OpusDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.opus.OpusInOgg;
 import org.duckdns.hjow.swingwebpanel.media.audio.vorbis.VorbisDecoder;
@@ -19,7 +24,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.vorbis.VorbisDecoder;
  * 트랙(이 프로젝트의 Opus 디코더 사용)을 해독한다. 다른 오디오 코덱의 Matroska 파일은 인식하되 미지원으로 보고한다. 레지스트리가 리플렉션으로 등록하며
  * 인수 없는 공개 생성자가 있다.
  */
-public final class WebmDecoder implements WideAudioDecoder {
+public final class WebmDecoder extends ByteAudioDecoder {
 
     /**
      * Creates the decoder. / 디코더를 만든다.
@@ -38,34 +43,18 @@ public final class WebmDecoder implements WideAudioDecoder {
     }
 
     /** Tells whether the data is an EBML file with an audio track. / 데이터가 오디오 트랙이 있는 EBML 파일인지 알려 준다. */
-    public boolean accepts(byte[] data) {
-        if (!WebmFile.looksLikeEbml(data)) {
+    public boolean acceptsSource(ByteSource data) {
+        if (!WebmFile.looksLikeEbmlSource(data)) {
             return false;
         }
         try {
-            return WebmFile.parse(data).firstAudioTrack() != null;
+            return WebmFile.parseSource(data).firstAudioTrack() != null;
         } catch (MediaException e) {
+            if (e.getCause() instanceof ByteSourceException) {
+                throw (ByteSourceException) e.getCause();
+            }
             return false;
         }
-    }
-
-    /** Opens the file and the decoder of its first audio track. / 파일과 첫 오디오 트랙의 디코더를 연다. */
-    public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
-        return (PcmSource) create(data, limits, false);
-    }
-
-    /**
-     * Opens the file with every channel and the float output of the decoder of its first audio track (see {@link WideAudioDecoder}).
-     * <p>
-     * 첫 오디오 트랙의 디코더의 모든 채널과 float 출력으로 파일을 연다({@link WideAudioDecoder} 참조).
-     *
-     * @param data   the file / 파일
-     * @param limits limits / 제한
-     * @return float source / float 소스
-     * @throws MediaException the failures of {@link #open} / {@link #open} 의 실패
-     */
-    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
-        return (FloatPcmSource) create(data, limits, true);
     }
 
     /**
@@ -79,23 +68,60 @@ public final class WebmDecoder implements WideAudioDecoder {
      * @return a {@link PcmSource} or a {@link FloatPcmSource} / {@link PcmSource} 또는 {@link FloatPcmSource}
      * @throws MediaException on a damaged or unsupported file / 손상되었거나 지원하지 않는 파일이면
      */
-    private Object create(byte[] data, DecodeLimits limits, boolean wide) throws MediaException {
-        if (data.length > limits.getMaxBytes()) {
+    protected Object create(ByteSource data, DecodeLimits limits, boolean wide) throws MediaException {
+        if (data.length() > limits.getMaxBytes()) {
             throw new MediaException(MediaException.Kind.TOO_LARGE, "audio data is too large");
         }
-        WebmFile f = WebmFile.parse(data);
+        WebmFile f = WebmFile.parseSource(data);
         WebmFile.Track t = f.firstAudioTrack();
         if (t == null) {
             throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "the file has no audio track");
         }
-        if ("A_VORBIS".equals(t.getCodecId())) {
-            byte[] ogg = VorbisInOgg.build(t, data);
-            return wide ? (Object) new VorbisDecoder().openWide(ogg, limits) : new VorbisDecoder().open(ogg, limits);
+        boolean opus = "A_OPUS".equals(t.getCodecId());
+        if (!opus && !"A_VORBIS".equals(t.getCodecId())) {
+            throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "the WebM audio codec " + t.getCodecId() + " is not supported");
         }
-        if ("A_OPUS".equals(t.getCodecId())) {
-            byte[] ogg = OpusInOgg.build(t, data);
-            return wide ? (Object) new OpusDecoder().openWide(ogg, limits) : new OpusDecoder().open(ogg, limits);
+        ByteAudioDecoder codec = opus ? new OpusDecoder() : new VorbisDecoder();
+        MediaData derived = remux(t, data, opus);
+        boolean opened = false;
+        try {
+            ByteSource packets = derived.openOwned();
+            Object pcm = wide ? codec.openWideSource(packets, limits) : codec.openSource(packets, limits);
+            data.close();
+            opened = true;
+            return pcm;
+        } catch (IOException e) {
+            throw new MediaException(MediaException.Kind.ACCESS_FAILED, "could not open derived Ogg data", e);
+        } finally {
+            if (!opened) {
+                derived.release();
+            }
         }
-        throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "the WebM audio codec " + t.getCodecId() + " is not supported");
+    }
+
+    /**
+     * Writes Ogg pages to bounded storage. The caller owns the returned resource.
+     * <p>
+     * 제한된 저장소에 Ogg 페이지를 쓴다. 반환한 리소스는 호출자가 소유한다.
+     * @param track parsed audio track / 해석한 오디오 트랙
+     * @param data source of the packets / 패킷 원천
+     * @param opus true for Opus, false for Vorbis / Opus이면 true, Vorbis이면 false
+     * @return the derived Ogg resource / 파생 Ogg 리소스
+     * @throws MediaException if remuxing fails / 재포장에 실패하면
+     */
+    static MediaData remux(WebmFile.Track track, ByteSource data, boolean opus) throws MediaException {
+        MediaSpool spool = new MediaSpool();
+        try {
+            if (opus) {
+                OpusInOgg.write(track, data, spool);
+            } else {
+                VorbisInOgg.write(track, data, spool);
+            }
+            return spool.finish();
+        } catch (IOException e) {
+            throw new MediaException(MediaException.Kind.ACCESS_FAILED, "could not spool derived Ogg data", e);
+        } finally {
+            spool.discard();
+        }
     }
 }
