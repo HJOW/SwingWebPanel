@@ -2,6 +2,9 @@ package org.duckdns.hjow.swingwebpanel.media.audio.mp3;
 
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSourceException;
+import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
 
 /**
@@ -34,11 +37,16 @@ final class Mp3Source implements PcmSource {
     /** Largest distance searched for a frame after garbage. / 쓰레기 뒤에서 프레임을 찾는 최대 거리. */
     private static final int MAX_RESYNC = 256 * 1024;
 
+    /** Size of the frame-signature search window. / 프레임 시그니처를 검색하는 범위의 크기. */
+    private static final int SNIFF_BYTES = 64 * 1024;
+
     /** Decoder delay of the synthesis filter bank in samples. / 합성 필터 뱅크의 디코더 지연(샘플). */
     private static final int DECODER_DELAY = 529;
 
     /** Encoded data. / 인코딩된 데이터. */
-    private final byte[] data;
+    private final ByteSource data;
+    /** Reused buffer for one encoded frame. / 인코딩 프레임 한 개를 보관하는 재사용 버퍼. */
+    private byte[] encodedFrame = new byte[0];
     /** Offsets of the audio frames. / 오디오 프레임의 위치. */
     private final int[] offsets;
     /** Number of channels of the output. / 출력의 채널 수. */
@@ -81,22 +89,22 @@ final class Mp3Source implements PcmSource {
      * <p>
      * 데이터를 연다.
      *
-     * @param data   whole file / 파일 전체
+     * @param data   encoded input / 인코딩 입력
      * @param limits limits / 제한
      * @throws MediaException if no Layer III frame is found / Layer III 프레임이 없으면
      */
-    Mp3Source(byte[] data, DecodeLimits limits) throws MediaException {
-        if (data.length > limits.getMaxBytes()) {
+    Mp3Source(ByteSource data, DecodeLimits limits) throws MediaException {
+        if (data.length() > limits.getMaxBytes()) {
             throw new MediaException(MediaException.Kind.TOO_LARGE, "audio data is too large");
         }
         this.data = data;
         int start = skipId3v2(data);
-        int end = data.length;
+        int end = (int) data.length();
         // 끝의 ID3v1 태그(128바이트)는 오디오가 아니다.
-        if (end - 128 >= start && data[end - 128] == 'T' && data[end - 127] == 'A' && data[end - 126] == 'G') {
+        if (end - 128 >= start && Bytes.matches(data, end - 128, "TAG")) {
             end -= 128;
         }
-        int first = findFirst(data, start, end);
+        int first = findFirst(data, start, end, MAX_RESYNC);
         if (first < 0) {
             // Layer III 프레임이 없을 때 Layer I/II 프레임이 있으면 미지원 형식으로 보고한다.
             if (findFirstAnyLayer(data, start, end)) {
@@ -112,9 +120,12 @@ final class Mp3Source implements PcmSource {
         int count = 0;
         int p = first;
         // 프레임 길이만큼 건너뛰며 프레임 위치를 모으고, 어긋나면 다시 동기화한다.
-        while (p + 4 <= end) {
+        while (p <= end - 4) {
+            if (Thread.currentThread().isInterrupted()) {
+                throw new MediaException(MediaException.Kind.CANCELLED, "indexing was interrupted");
+            }
             Mp3Header h = Mp3Header.parse(data, p);
-            if (h != null && h.layer == 3 && h.sameStream(fh) && p + h.frameBytes <= end) {
+            if (h != null && h.sameStream(fh) && h.frameBytes <= end - p) {
                 if (count == list.length) {
                     int[] bigger = new int[count * 2];
                     System.arraycopy(list, 0, bigger, 0, count);
@@ -133,13 +144,14 @@ final class Mp3Source implements PcmSource {
         int delay = -1;
         int padding = 0;
         int skipFirst = 0;
-        int xo = first + 4 + (fh.crc ? 2 : 0) + fh.sideInfoBytes();
+        long xo = (long) first + 4 + (fh.crc ? 2 : 0) + fh.sideInfoBytes();
         // 첫 프레임이 Xing/Info/VBRI 정보 프레임이면 오디오에서 빼고 LAME 지연을 읽는다.
-        if (count > 0 && (matches(data, xo, "Xing") || matches(data, xo, "Info") || matches(data, first + 36, "VBRI"))) {
+        boolean xing = Bytes.matches(data, xo, "Xing") || Bytes.matches(data, xo, "Info");
+        if (count > 0 && (xing || Bytes.matches(data, (long) first + 36, "VBRI"))) {
             skipFirst = 1;
-            if (matches(data, xo, "Xing") || matches(data, xo, "Info")) {
-                int flags = readInt(data, xo + 4);
-                int q = xo + 8;
+            if (xing && Bytes.has(data, xo + 4, 4)) {
+                long flags = Bytes.be32(data, xo + 4);
+                long q = xo + 8;
                 if ((flags & 1) != 0) {
                     q += 4;
                 }
@@ -152,10 +164,10 @@ final class Mp3Source implements PcmSource {
                 if ((flags & 8) != 0) {
                     q += 4;
                 }
-                if (q + 24 <= data.length && data[q] == 'L') {
-                    int b0 = data[q + 21] & 0xFF;
-                    int b1 = data[q + 22] & 0xFF;
-                    int b2 = data[q + 23] & 0xFF;
+                if (Bytes.has(data, q, 24) && data.get(q) == 'L') {
+                    int b0 = data.get(q + 21);
+                    int b1 = data.get(q + 22);
+                    int b2 = data.get(q + 23);
                     delay = (b0 << 4) | (b1 >> 4);
                     padding = ((b1 & 15) << 8) | b2;
                 }
@@ -191,11 +203,11 @@ final class Mp3Source implements PcmSource {
      * @param d data / 데이터
      * @return position after the tag (0 if none) / 태그 뒤의 위치(없으면 0)
      */
-    static int skipId3v2(byte[] d) {
-        if (d.length >= 10 && d[0] == 'I' && d[1] == 'D' && d[2] == '3') {
-            int size = ((d[6] & 0x7F) << 21) | ((d[7] & 0x7F) << 14) | ((d[8] & 0x7F) << 7) | (d[9] & 0x7F);
-            int total = 10 + size + ((d[5] & 0x10) != 0 ? 10 : 0);
-            if (total <= d.length) {
+    private static int skipId3v2(ByteSource d) {
+        if (Bytes.has(d, 0, 10) && Bytes.matches(d, 0, "ID3")) {
+            int size = ((d.get(6) & 0x7F) << 21) | ((d.get(7) & 0x7F) << 14) | ((d.get(8) & 0x7F) << 7) | (d.get(9) & 0x7F);
+            int total = 10 + size + ((d.get(5) & 0x10) != 0 ? 10 : 0);
+            if (total <= d.length()) {
                 return total;
             }
         }
@@ -210,10 +222,11 @@ final class Mp3Source implements PcmSource {
      * @param d     data / 데이터
      * @param start start of the search / 검색 시작
      * @param end   end of the audio / 오디오 끝
+     * @param distance farthest candidate offset from start / 시작에서 후보까지의 최대 거리
      * @return position or -1 / 위치 또는 -1
      */
-    static int findFirst(byte[] d, int start, int end) {
-        int limit = Math.min(end - 4, start + MAX_RESYNC);
+    private static int findFirst(ByteSource d, int start, int end, int distance) {
+        int limit = (int) Math.min(end - 4, (long) start + distance);
         // 한 바이트씩 옮기며 헤더가 두 프레임 연속으로 맞는 곳을 찾는다.
         for (int p = start; p <= limit; p++) {
             Mp3Header h = Mp3Header.parse(d, p);
@@ -234,8 +247,8 @@ final class Mp3Source implements PcmSource {
      * @param end   end of the audio / 오디오 끝
      * @return true if found / 찾으면 true
      */
-    private static boolean findFirstAnyLayer(byte[] d, int start, int end) {
-        int limit = Math.min(end - 4, start + MAX_RESYNC);
+    private static boolean findFirstAnyLayer(ByteSource d, int start, int end) {
+        int limit = (int) Math.min(end - 4, (long) start + MAX_RESYNC);
         for (int p = start; p <= limit; p++) { // 한 바이트씩 옮기며 프레임 연속을 찾는다
             Mp3Header h = Mp3Header.parse(d, p);
             if (h != null && chainOk(d, p, h, end)) {
@@ -256,8 +269,8 @@ final class Mp3Source implements PcmSource {
      * @param ref  header of the stream / 스트림의 헤더
      * @return position or -1 / 위치 또는 -1
      */
-    private static int resync(byte[] d, int from, int end, Mp3Header ref) {
-        int limit = Math.min(end - 4, from + MAX_RESYNC);
+    private static int resync(ByteSource d, int from, int end, Mp3Header ref) {
+        int limit = (int) Math.min(end - 4, (long) from + MAX_RESYNC);
         // 다음 프레임을 찾을 때까지 한 바이트씩 옮긴다.
         for (int p = from; p <= limit; p++) {
             Mp3Header h = Mp3Header.parse(d, p);
@@ -279,54 +292,16 @@ final class Mp3Source implements PcmSource {
      * @param end end of the audio / 오디오 끝
      * @return true if plausible / 그럴듯하면 true
      */
-    private static boolean chainOk(byte[] d, int p, Mp3Header h, int end) {
-        int next = p + h.frameBytes;
-        if (next > end) {
+    private static boolean chainOk(ByteSource d, int p, Mp3Header h, int end) {
+        if (h.frameBytes > end - p) {
             return false;
         }
-        if (next + 4 > end) {
+        int next = p + h.frameBytes;
+        if (next > end - 4) {
             return true;
         }
         Mp3Header n = Mp3Header.parse(d, next);
         return n != null && n.sameStream(h);
-    }
-
-    /**
-     * Tells whether ASCII text is at a position.
-     * <p>
-     * 위치에 ASCII 문자열이 있는지 알려 준다.
-     *
-     * @param d   data / 데이터
-     * @param p   position / 위치
-     * @param tag text / 문자열
-     * @return true if equal / 같으면 true
-     */
-    private static boolean matches(byte[] d, int p, String tag) {
-        if (p < 0 || p + tag.length() > d.length) {
-            return false;
-        }
-        for (int i = 0; i < tag.length(); i++) { // 문자열의 글자를 비교한다
-            if (d[p + i] != tag.charAt(i)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Reads a big-endian 32-bit integer.
-     * <p>
-     * 빅 엔디언 32비트 정수를 읽는다.
-     *
-     * @param d data / 데이터
-     * @param p position / 위치
-     * @return value / 값
-     */
-    private static int readInt(byte[] d, int p) {
-        if (p + 4 > d.length) {
-            return 0;
-        }
-        return ((d[p] & 0xFF) << 24) | ((d[p + 1] & 0xFF) << 16) | ((d[p + 2] & 0xFF) << 8) | (d[p + 3] & 0xFF);
     }
 
     /**
@@ -337,10 +312,9 @@ final class Mp3Source implements PcmSource {
      * @param d data / 데이터
      * @return true if an MP3 stream is found / MP3 스트림이 있으면 true
      */
-    static boolean looksLikeMp3(byte[] d) {
+    static boolean looksLikeMp3(ByteSource d) {
         int start = skipId3v2(d);
-        int found = findFirst(d, start, d.length);
-        return found >= 0 && found - start < 65536;
+        return findFirst(d, start, (int) Math.min(d.length(), Integer.MAX_VALUE), SNIFF_BYTES - 1) >= 0;
     }
 
     /** Returns the sampling frequency in Hz. / 샘플링 주파수(Hz)를 반환한다. */
@@ -483,17 +457,28 @@ final class Mp3Source implements PcmSource {
         if (nextFrame >= offsets.length || outPos >= totalFrames) {
             return false;
         }
-        int off = offsets[nextFrame++];
-        Mp3Header h = Mp3Header.parse(data, off);
-        int srcCh = h == null ? channels : h.channels();
+        int off = offsets[nextFrame];
+        Mp3Header h;
         boolean ok = false;
-        if (h != null) {
-            try {
-                ok = decoder.decode(data, off, h, frameBuf);
-            } catch (Mp3FrameDecoder.FormatException e) {
-                ok = false;
+        try {
+            h = Mp3Header.parse(data, off);
+            // 유효한 프레임의 바이트만 읽고 앞 프레임의 비트 저장소는 디코더에 유지한다.
+            if (h != null && h.frameBytes <= data.length() - off) {
+                if (encodedFrame.length < h.frameBytes) {
+                    encodedFrame = new byte[h.frameBytes];
+                }
+                Bytes.readFully(data, off, encodedFrame, 0, h.frameBytes);
+                try {
+                    ok = decoder.decode(encodedFrame, 0, h, frameBuf);
+                } catch (Mp3FrameDecoder.FormatException e) {
+                    ok = false;
+                }
             }
+        } catch (ByteSourceException e) {
+            throw e.toMediaException();
         }
+        nextFrame++;
+        int srcCh = h == null ? channels : h.channels();
         if (!ok) {
             // 해독하지 못한 프레임은 무음으로 처리한다.
             for (int c = 0; c < 2; c++) {
@@ -553,7 +538,12 @@ final class Mp3Source implements PcmSource {
         long target = Math.max(0, Math.min(frame, totalFrames));
         long absolute = target + startSkip;
         int fi = (int) Math.min(offsets.length, absolute / spf);
-        int start = prerollStart(fi);
+        int start;
+        try {
+            start = prerollStart(fi);
+        } catch (ByteSourceException e) {
+            throw e.toMediaException();
+        }
         decoder.reset();
         nextFrame = start;
         pcmPos = 0;
@@ -567,5 +557,7 @@ final class Mp3Source implements PcmSource {
     public void close() {
         closed = true;
         pcm = new byte[0];
+        encodedFrame = new byte[0];
+        data.close();
     }
 }

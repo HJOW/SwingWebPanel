@@ -1,5 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.mp3;
 
+import org.duckdns.hjow.swingwebpanel.media.audio.ArrayByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
+
 /**
  * The 4-byte header of an MPEG audio frame (ISO/IEC 11172-3 and 13818-3). Only Layer III is accepted by the decoder; Layer I and II
  * headers are parsed so that the caller can report them as unsupported. Immutable.
@@ -145,17 +149,27 @@ final class Mp3Header {
      * @return header or null / 헤더 또는 null
      */
     static Mp3Header parse(byte[] d, int off) {
-        if (off < 0 || off + 4 > d.length) {
+        return parse(new ArrayByteSource(d), off);
+    }
+
+    /**
+     * Parses four header bytes from a seekable input. / 탐색 가능한 입력의 헤더 4바이트를 해석한다.
+     * @param d encoded input / 인코딩 입력
+     * @param off header position / 헤더 위치
+     * @return header or null / 헤더 또는 null
+     */
+    static Mp3Header parse(ByteSource d, int off) {
+        // 동기 바이트가 없거나 헤더가 잘렸으면 뒤의 바이트를 읽지 않는다.
+        if (!Bytes.has(d, off, 4) || d.get(off) != 0xFF) {
             return null;
         }
-        int b0 = d[off] & 0xFF;
-        int b1 = d[off + 1] & 0xFF;
-        int b2 = d[off + 2] & 0xFF;
-        int b3 = d[off + 3] & 0xFF;
+        int b1 = d.get(off + 1);
         // 11비트 동기 워드가 모두 1 이어야 한다.
-        if (b0 != 0xFF || (b1 & 0xE0) != 0xE0) {
+        if ((b1 & 0xE0) != 0xE0) {
             return null;
         }
+        int b2 = d.get(off + 2);
+        int b3 = d.get(off + 3);
         int verBits = (b1 >> 3) & 3;
         int layerBits = (b1 >> 1) & 3;
         int brIndex = (b2 >> 4) & 15;

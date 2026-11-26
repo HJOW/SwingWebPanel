@@ -2,9 +2,8 @@ package org.duckdns.hjow.swingwebpanel.media.audio.mp3;
 
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
-import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
-import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteAudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 
 /**
  * The MP3 decoder (plan item P18-07, FEATURE_MATRIX AUD-04): MPEG-1/2/2.5 Layer III with ID3v2/ID3v1 tags, Xing/Info/VBRI and LAME
@@ -20,7 +19,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
  *
  * Usage / 사용법: <code>PcmSource s = new Mp3Decoder().open(bytes, DecodeLimits.DEFAULT); s.read(buf, 0, buf.length);</code>
  */
-public final class Mp3Decoder implements WideAudioDecoder {
+public final class Mp3Decoder extends ByteAudioDecoder {
 
     /**
      * Creates the decoder. / 디코더를 만든다.
@@ -38,27 +37,21 @@ public final class Mp3Decoder implements WideAudioDecoder {
         return new String[] { "audio/mpeg", "audio/mp3", "audio/x-mpeg", "audio/mpeg3", "audio/x-mp3" };
     }
 
-    /** Tells whether the data is an MP3 stream (ID3v2 tag or a chain of Layer III frames). / 데이터가 MP3 스트림인지(ID3v2 태그 또는 이어지는 Layer III 프레임) 알려 준다. */
-    public boolean accepts(byte[] data) {
+    /** Looks for consecutive Layer III frames after any ID3v2 tag. / ID3v2 태그가 있다면 그 뒤에서 연속한 Layer III 프레임을 찾는다. */
+    public boolean acceptsSource(ByteSource data) {
         return Mp3Source.looksLikeMp3(data);
     }
 
-    /** Opens the data and reads the headers; frames are decoded on demand. / 데이터를 열어 헤더를 읽으며 프레임은 요청할 때 해독한다. */
-    public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
-        return new Mp3Source(data, limits);
-    }
-
     /**
-     * Opens the data and reads the headers; frames are decoded on demand and delivered as the floats of the decoder (see {@link WideAudioDecoder}).
-     * <p>
-     * 데이터를 열어 헤더를 읽으며 프레임은 요청할 때 해독하여 디코더의 float 로 준다({@link WideAudioDecoder} 참조).
-     *
-     * @param data   the data / 데이터
+     * Builds a frame index and returns an on-demand PCM decoder. / 프레임 색인을 만들고 요청할 때 PCM을 해독하는 소스를 반환한다.
+     * @param data encoded input / 인코딩 입력
      * @param limits limits / 제한
-     * @return float source / float 소스
+     * @param wide true for float PCM / float PCM이면 true
+     * @return 16-bit or float PCM source / 16비트 또는 float PCM 소스
      * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
      */
-    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
-        return new Mp3FloatSource(new Mp3Source(data, limits));
+    protected Object create(ByteSource data, DecodeLimits limits, boolean wide) throws MediaException {
+        Mp3Source source = new Mp3Source(data, limits);
+        return wide ? new Mp3FloatSource(source) : source;
     }
 }

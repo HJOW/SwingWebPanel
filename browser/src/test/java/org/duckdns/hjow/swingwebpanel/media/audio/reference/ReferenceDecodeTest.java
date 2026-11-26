@@ -1,13 +1,19 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.reference;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
 import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoders;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSourceException;
+import org.duckdns.hjow.swingwebpanel.media.audio.FileByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.mp3.Mp3Decoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
@@ -299,6 +305,78 @@ public class ReferenceDecodeTest {
      */
     public void testMp3MatchesFfmpeg() throws Exception {
         checkGroup("mp3");
+    }
+
+    /**
+     * Checks all real MP3 fixtures through file windows and includes an incomplete final frame.
+     * <p>
+     * 실제 MP3 시험 자료 전체를 파일 창으로 확인하며 끝 프레임이 잘린 경우도 비교한다.
+     * @throws Exception on I/O or decode failure / 입출력 또는 해독에 실패하면
+     */
+    public void testMp3FilePcmMatchesArrayPcm() throws Exception {
+        int count = 0;
+        // MPEG 버전, 태그, 비트레이트가 다른 모든 참조 자료를 비교한다.
+        for (ReferenceFixture fixture : ReferenceFixture.loadAll()) {
+            if (!"mp3".equals(fixture.group) || fixture.isRefused()) {
+                continue;
+            }
+            byte[] data = fixture.readFile();
+            compareMp3Sources(fixture.name, data);
+            // 태그가 없는 음원의 끝을 잘라 불완전 프레임을 같은 방식으로 건너뛰는지 확인한다.
+            if (fixture.name.equals("mp3_cbr192_44100_notag")) {
+                compareMp3Sources(fixture.name + " truncated", Arrays.copyOf(data, data.length - 17));
+            }
+            count++;
+        }
+        Check.equal(16, count, "all reference MP3 files were checked");
+    }
+
+    /**
+     * Compares complete PCM, backwards seeking and file ownership with the array path.
+     * <p>
+     * 전체 PCM과 역탐색을 배열 경로와 비교하고 파일 소유권을 확인한다.
+     * @param label name used in assertions / 검증 메시지의 이름
+     * @param data encoded bytes / 인코딩 바이트
+     * @throws Exception on I/O or decode failure / 입출력 또는 해독에 실패하면
+     */
+    private void compareMp3Sources(String label, byte[] data) throws Exception {
+        File file = File.createTempFile("swp-reference-mp3-", ".mp3");
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            try {
+                out.write(data);
+            } finally {
+                out.close();
+            }
+            Mp3Decoder decoder = new Mp3Decoder();
+            FileByteSource input = new FileByteSource(file, 31);
+            try {
+                Check.isTrue(decoder.acceptsSource(input), label + " is recognized on disk");
+                PcmSource disk = decoder.openSource(input, DecodeLimits.DEFAULT);
+                PcmSource mem = decoder.open(data, DecodeLimits.DEFAULT);
+                try {
+                    Check.equal(mem.getFrameCount(), disk.getFrameCount(), label + " sample count after trimming");
+                    Check.isTrue(Arrays.equals(AudioKit.readAll(mem), AudioKit.readAll(disk)), label + " complete PCM");
+                    long target = disk.getFrameCount() / 2;
+                    disk.seekToFrame(target);
+                    mem.seekToFrame(target);
+                    Check.isTrue(Arrays.equals(AudioKit.readAll(mem), AudioKit.readAll(disk)), label + " PCM after seeking back");
+                } finally {
+                    mem.close();
+                    disk.close();
+                }
+                try {
+                    input.get(0);
+                    Check.fail(label + " PCM close must close its input");
+                } catch (ByteSourceException expected) {
+                    Check.equal(MediaException.Kind.ACCESS_FAILED, expected.toMediaException().getKind(), label + " closed source access");
+                }
+            } finally {
+                input.close();
+            }
+        } finally {
+            Check.isTrue(file.delete(), label + " can be deleted");
+        }
     }
 
     /**
