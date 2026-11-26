@@ -9,6 +9,10 @@ x.onload = function () { sessionStorage.setItem('cpx', x.status + ':' + x.respon
 x.onerror = function () { sessionStorage.setItem('cpx', 'error'); };
 x.send();
 fetch('data.txt').then(function (r) { return r.text(); }).then(function (t) { sessionStorage.setItem('cpf', t); });
+fetch('data.txt').then(async function (r) {
+    var chunks = await Array.fromAsync(r.body);
+    sessionStorage.setItem('cps', new TextDecoder().decode(chunks[0]) + ':' + r.bodyUsed + ':' + !r.body.locked);
+});
 fetch('missing.txt').then(function (r) { sessionStorage.setItem('cpm', String(r.status)); }, function () { sessionStorage.setItem('cpm', 'ERR'); });
 fetch('http://localhost:1/x').then(function () { sessionStorage.setItem('cph', 'resolved'); }, function (e) { sessionStorage.setItem('cph', 'ERR:' + e.name); });
 </script>

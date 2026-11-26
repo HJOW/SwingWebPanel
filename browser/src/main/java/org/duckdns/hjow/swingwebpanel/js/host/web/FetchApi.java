@@ -24,8 +24,8 @@ import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
  * policy, the HTTP cache and the same-origin policy with CORS) and resolves its promise with a <code>Response</code> when the
  * headers and the body have arrived, or rejects it with a <code>TypeError</code> for a network error and with the signal's reason when an
  * <code>AbortSignal</code> aborts. A non-simple cross-origin request is announced with a CORS preflight by the request layer. Not supported,
- * and reported honestly instead of ignored: <code>redirect: "manual"</code>, <code>cache: "only-if-cached"</code>, streaming request bodies and the
- * <code>ReadableStream</code> <code>body</code> of a response (it is <code>null</code>), <code>keepalive</code> and <code>priority</code> are accepted
+ * and reported honestly instead of ignored: <code>redirect: "manual"</code>, <code>cache: "only-if-cached"</code>, and streaming request bodies.
+ * A response can expose its received bytes as a <code>ReadableStream</code>. <code>keepalive</code> and <code>priority</code> are accepted
  * and have no effect.
  * <p>
  * Fetch API 를 설치한다(Fetch 표준 5절): 전역 <code>fetch()</code> 함수와 Body mixin 을 가진 <code>Request</code>, <code>Response</code> 인터페이스.
@@ -33,7 +33,7 @@ import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
  * 모드에 따른 쿠키, SSL 훅, 스킴 정책, HTTP 캐시, CORS 를 포함한 동일 출처 정책을 적용한다) 헤더와 본문이 도착하면 <code>Response</code> 로 프라미스를
  * 이행하고 네트워크 오류는 <code>TypeError</code> 로, <code>AbortSignal</code> 이 중단되면 신호의 이유로 거부한다. 단순하지 않은 교차 오리진 요청은 요청 계층이 CORS
  * 사전 요청으로 미리 알린다. 지원하지 않는 것은 무시하지 않고 솔직하게 알린다: <code>redirect: "manual"</code>, <code>cache: "only-if-cached"</code>,
- * 스트리밍 요청 본문, 응답의 <code>ReadableStream</code> <code>body</code>(<code>null</code>). <code>keepalive</code> 와 <code>priority</code> 는 받아들이되 효과가 없다.
+ * 스트리밍 요청 본문. 받은 응답 바이트는 <code>ReadableStream</code>으로 노출할 수 있다. <code>keepalive</code> 와 <code>priority</code> 는 받아들이되 효과가 없다.
  */
 final class FetchApi {
 
@@ -437,7 +437,7 @@ final class FetchApi {
                         + "been used.");
             }
             r.body = inputBody;
-            src.used = true;
+            bodies.consumeBuffered(src);
         }
         return r;
     }
@@ -767,7 +767,7 @@ final class FetchApi {
         c.referrerPolicy = s.referrerPolicy;
         c.integrity = s.integrity;
         c.keepalive = s.keepalive;
-        c.body = s.body;
+        bodies.cloneBuffered(s, c);
         List<AbortSignal> sources = new ArrayList<AbortSignal>();
         sources.add(s.signal);
         c.signal = api.abort.dependent(sources);
@@ -1006,7 +1006,7 @@ final class FetchApi {
         c.redirected = s.redirected;
         c.status = s.status;
         c.statusText = s.statusText;
-        c.body = s.body;
+        bodies.cloneBuffered(s, c);
         c.headers = api.headers.create(s.headers.guard);
         // 헤더 목록을 복사한다.
         for (int i = 0; i < s.headers.list.size(); i++) {
@@ -1122,9 +1122,7 @@ final class FetchApi {
             return d.promise;
         }
         final Pending p = new Pending(d, req);
-        if (req.body != null) {
-            req.used = true;
-        }
+        bodies.consumeBuffered(req);
         p.abortStep = new Runnable() {
             public void run() {
                 abortFetch(p);

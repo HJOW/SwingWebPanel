@@ -301,6 +301,9 @@ public final class WebApis {
     /** The Headers installer. / Headers 설치기. */
     HeadersApi headers;
 
+    /** The readable streams for this realm. / 이 렐름의 읽기 스트림. */
+    ReadableStreams streams;
+
     /**
      * Creates the object; use {@link #install(PageScripts)} or {@link #install(Host)}.
      * <p>
@@ -352,7 +355,8 @@ public final class WebApis {
         w.headers.install(g);
         new EncodingApi(w).install(g);
         new FileReaderApi(w).install(g);
-        new ReadableStreams(w.realm).install(g);
+        w.streams = new ReadableStreams(w.realm);
+        w.streams.install(g);
         new FetchApi(w).install(g);
         new XhrApi(w).install(g);
         new WebSocketApi(w).install(g);

@@ -573,6 +573,7 @@ public class WebRequestApiTest {
             panel.setPage("classpath://org/duckdns/hjow/swingwebpanel/webapi/page.html");
             Check.equal("200:from classpath", await(panel, "cpx"), "XHR from the class path");
             Check.equal("from classpath", await(panel, "cpf"), "fetch from the class path");
+            Check.equal("from classpath:true:true", await(panel, "cps"), "a class path response can be consumed as byte chunks");
             Check.equal("ERR", await(panel, "cpm"), "a missing class path resource is a network error, there is no HTTP status");
             Check.equal("ERR:TypeError", await(panel, "cph"), "a web request from a class path page needs CORS and is refused here");
         } finally {

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-06-b2-a 버퍼 응답의 본문 스트림 (2026-11-26) ===
+현재 작업 번호: P28-06-b2-a 완료.
+완료한 내용: 생성자·클래스패스·일괄 수신 응답의 본문에 ReadableStream을 연결했다. 기존 일괄 소비와 읽기·취소가 bodyUsed를 공유하며, 잠금 중에는 복제와 일괄 읽기를 거부한다. 복제된 응답에서 한쪽 청크를 변경해도 다른 쪽에 영향을 주지 않는다.
+변경 파일: BodyApi.java, FetchApi.java, ReadableStreams.java, WebApis.java, FetchTest.java, WebRequestApiTest.java, 시험 리소스 webapi/page.html, AGENTS.md, 이 문서.
+검증 결과: JDK 6u45에서 변경 클래스와 제품 JAR를 함께 분리 컴파일. FetchTest, ReadableStreamTest, WebRequestApiTest 31건 통과. 실제 classpath 페이지에서 Array.fromAsync로 받은 바이트와 반복 이후 잠금 해제를 확인했다. sourcecheck 0 위반.
+미해결 사항: HTTP 응답 헤더·청크를 수신하는 중에 전달하는 P28-06-b2-b.
+다음 작업 번호: P28-06-b2-b.
+-----------------------------------------------------------------------------------------------
 === P28-06-b1 기본 읽기 스트림과 비동기 반복 (2026-11-26) ===
 현재 작업 번호: P28-06-b1 완료.
 완료한 내용: ReadableStream의 기본 소스와 기본 리더, 청크·오류·닫기 큐, 잠금과 취소, 순서대로 실행하는 비동기 반복자를 연결했다. 기본 컨트롤러는 start·pull·cancel 및 큐 전략을 사용한다.

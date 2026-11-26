@@ -8,6 +8,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.builtins.typed.TypedArrays;
 import org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseInterop;
 import org.duckdns.hjow.swingwebpanel.js.host.web.ReadableStreamObject.Reader;
 
@@ -17,6 +18,9 @@ import org.duckdns.hjow.swingwebpanel.js.host.web.ReadableStreamObject.Reader;
  * 기본 읽기 스트림, 컨트롤러, 리더와 비동기 반복자 인터페이스를 설치한다.
  */
 final class ReadableStreams {
+    /** Maximum byte count delivered in one buffered-body chunk. / 버퍼 본문의 청크 하나로 전달할 최대 바이트 수. */
+    private static final int BODY_CHUNK_SIZE = 65536;
+
     /** Realm receiving the interfaces. / 인터페이스를 받는 렐름. */
     final JsRealm realm;
     /** ReadableStream prototype. / ReadableStream 프로토타입. */
@@ -27,6 +31,56 @@ final class ReadableStreams {
     private JsObject controllerPrototype;
     /** Shared stream iterator prototype. / 공용 스트림 반복자 프로토타입. */
     private JsObject iteratorPrototype;
+
+    /**
+     * Delivers a buffered Fetch body on demand using independent script-visible chunks.
+     * <p>
+     * 요청이 있을 때 버퍼에 담긴 Fetch 본문을 스크립트에서 독립적으로 바꿀 수 있는 청크로 전달한다.
+     */
+    private static final class BufferedBody implements ReadableStreamObject.Source {
+        /** Stream to read from. / 읽을 스트림. */
+        private final ReadableStreamObject stream;
+        /** Immutable input bytes. / 변경하지 않는 입력 바이트. */
+        private final byte[] data;
+        /** Position of the next unread byte. / 읽지 않은 다음 바이트의 위치. */
+        private int position;
+
+        /**
+         * Prepares the buffered body.
+         * <p>
+         * 버퍼에 담긴 본문을 준비한다.
+         *
+         * @param stream receiving stream / 받는 스트림
+         * @param data body bytes / 본문의 바이트
+         */
+        BufferedBody(ReadableStreamObject stream, byte[] data) {
+            this.stream = stream;
+            this.data = data;
+        }
+
+        /** Delivers a chunk to each waiting read, then signals end of body. / 대기하는 읽기에 청크를 전달하고 본문의 끝을 알린다. */
+        public void request() {
+            // 읽기 요청이 있을 때만 복사하며 복제한 응답의 원본 바이트는 공유하지 않는다.
+            if (!stream.acceptsChunks() || !stream.hasPendingRead()) {
+                return;
+            }
+            int count = Math.min(BODY_CHUNK_SIZE, data.length - position);
+            if (count > 0) {
+                byte[] chunk = new byte[count];
+                System.arraycopy(data, position, chunk, 0, count);
+                position += count;
+                stream.enqueue(TypedArrays.newUint8Array(stream.realm, chunk), count);
+            }
+            if (position == data.length && stream.acceptsChunks()) {
+                stream.close();
+            }
+        }
+
+        /** Settles cancellation of a buffered source. / 버퍼 소스 취소를 확정한다. */
+        public JsValue cancel(JsValue reason) {
+            return Promises.resolved(stream.realm, Js.UNDEFINED);
+        }
+    }
 
     /**
      * Creates the installer for one realm.
@@ -78,6 +132,50 @@ final class ReadableStreams {
         Natives.method(realm, controllerPrototype, "error", 0, this, "error");
         iteratorPrototype.defineData("next", Natives.function(realm, "next", 0, this, "next"), true, false, true);
         iteratorPrototype.defineData("return", Natives.function(realm, "return", 0, this, "returnValue"), true, false, true);
+    }
+
+    /**
+     * Creates the stream of an existing immutable byte buffer.
+     * <p>
+     * 기존의 변경하지 않는 바이트 버퍼에서 스트림을 만든다.
+     *
+     * @param bytes immutable body bytes / 변경하지 않는 본문 바이트
+     * @param used true if the body was already consumed / 본문을 이미 소비했으면 true
+     * @return the stream / 스트림
+     */
+    ReadableStreamObject buffered(byte[] bytes, boolean used) {
+        ReadableStreamObject stream = new ReadableStreamObject(realm, streamPrototype, 0);
+        if (used) {
+            consumeBuffered(stream);
+        } else if (bytes.length == 0) {
+            stream.close();
+        } else {
+            stream.source = new BufferedBody(stream, bytes);
+        }
+        return stream;
+    }
+
+    /**
+     * Locks a stream with a reader owned by an internal algorithm.
+     * <p>
+     * 내부 알고리즘이 보유하는 리더로 스트림을 잠근다.
+     *
+     * @param stream stream to lock / 잠글 스트림
+     */
+    void lock(ReadableStreamObject stream) {
+        new Reader(readerPrototype, stream);
+    }
+
+    /**
+     * Marks a host-buffered stream used after the same bytes were consumed through a body method.
+     * <p>
+     * 본문 메서드가 같은 바이트를 소비하면 호스트에서 버퍼링한 스트림을 사용된 것으로 표시한다.
+     *
+     * @param stream stream backed by the consumed bytes / 소비한 바이트를 사용하는 스트림
+     */
+    void consumeBuffered(ReadableStreamObject stream) {
+        lock(stream);
+        stream.cancel(Js.UNDEFINED);
     }
 
     /**

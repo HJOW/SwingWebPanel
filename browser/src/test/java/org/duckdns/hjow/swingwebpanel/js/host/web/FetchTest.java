@@ -44,7 +44,8 @@ public class FetchTest {
         Check.equal("200|OK|true|basic|false|http://example.test/dir/data|text/plain;charset=utf-8|hello",
                 f.js("[res.status, res.statusText, res.ok, res.type, res.redirected, res.url, res.headers.get('content-type'), text].join('|')"),
                 "response properties");
-        Check.equal("true|true", f.js("[res instanceof Response, res.body === null].join('|')"), "Response object, no stream");
+        Check.equal("true|true|true", f.js("[res instanceof Response,res.body instanceof ReadableStream,res.body.locked].join('|')"),
+                "the consumed response still exposes its locked stream");
     }
 
     /**
@@ -111,6 +112,31 @@ public class FetchTest {
         f.answer(4, WebFixture.response(200, "multipart/form-data; boundary=XX", "--XX\r\nContent-Disposition: form-data; name=\"k\"\r\n\r\nvalue\r\n"
                 + "--XX\r\nContent-Disposition: form-data; name=\"file\"; filename=\"a.txt\"\r\nContent-Type: text/plain\r\n\r\nfile body\r\n--XX--\r\n"));
         Check.equal("value:true:a.txt", f.js("o5.v"), "multipart formData()");
+    }
+
+    /**
+     * Checks stream identity, lock versus disturbance and byte independence after cloning.
+     * <p>
+     * 스트림 동일성, 잠금과 소비 상태, 복제 뒤 바이트 독립성을 검사한다.
+     */
+    public void testBufferedBodyStream() {
+        WebFixture f = new WebFixture();
+        f.js("var log=[]; (async()=>{const res=new Response(new Uint8Array([65,66]));"
+                + "const original=res.body;log.push(original===res.body,res.bodyUsed);"
+                + "const hold=original.getReader();log.push(res.bodyUsed,original.locked);"
+                + "try{await res.text();}catch(e){log.push(e.name); }"
+                + "try{res.clone();}catch(e){log.push(e.name); } hold.releaseLock();"
+                + "const clone=res.clone();log.push(original.locked,res.body!==original,clone.body!==res.body);"
+                + "const reader=res.body.getReader();const chunk=await reader.read();"
+                + "log.push(chunk.value instanceof Uint8Array,res.bodyUsed,clone.bodyUsed);chunk.value[0]=33;"
+                + "log.push(await clone.text(),(await reader.read()).done,clone.body.locked);"
+                + "reader.releaseLock();try{await res.arrayBuffer();}catch(e){log.push(e.name); }})();");
+        f.run();
+        Check.equal("true,false,false,true,TypeError,TypeError,true,true,true,true,true,false,AB,true,true,TypeError", f.js("log.join(',')"),
+                "body streams and one-shot readers use the same consumption state");
+        f.js("var done; var empty=new Response('');empty.body.getReader().read().then(r=>done=r.done);");
+        f.run();
+        Check.equal("true|true|true", f.js("[done,empty.bodyUsed,new Response().body===null].join('|')"), "empty body versus missing body");
     }
 
     /**

@@ -14,13 +14,13 @@ import org.duckdns.hjow.swingwebpanel.net.ContentType;
  * The body support that <code>Request</code> and <code>Response</code> share (Fetch Standard, sections 5.2 and 5.3): extracting the bytes and the
  * content type from a <code>BodyInit</code> value (string, <code>Blob</code>, buffer, <code>FormData</code>, <code>URLSearchParams</code>), and the
  * <em>Body mixin</em> (<code>bodyUsed</code>, <code>text()</code>, <code>json()</code>, <code>arrayBuffer()</code>, <code>bytes()</code>, <code>blob()</code>,
- * <code>formData()</code>) that reads the body once, as a promise. The whole body is in memory, so there are no streams: <code>body</code> is
- * always <code>null</code> and there is no <code>ReadableStream</code>.
+ * <code>formData()</code>) that reads the body once, as a promise. When a body is buffered, the stream serves byte chunks from the same
+ * immutable data and shares the body mixin's consumption state.
  * <p>
  * <code>Request</code> 와 <code>Response</code> 가 공유하는 본문 지원(Fetch 표준 5.2절, 5.3절): <code>BodyInit</code> 값(문자열, <code>Blob</code>, 버퍼,
  * <code>FormData</code>, <code>URLSearchParams</code>)에서 바이트와 콘텐츠 타입을 뽑는 일, 본문을 프라미스로 한 번 읽는 <em>Body mixin</em>
  * (<code>bodyUsed</code>, <code>text()</code>, <code>json()</code>, <code>arrayBuffer()</code>, <code>bytes()</code>, <code>blob()</code>, <code>formData()</code>).
- * 본문 전체가 메모리에 있으므로 스트림은 없다: <code>body</code> 는 항상 <code>null</code> 이며 <code>ReadableStream</code> 은 없다.
+ * 버퍼에 담긴 본문은 같은 변경 불가 데이터에서 바이트 청크를 제공하고 스트림과 body mixin이 소비 상태를 공유한다.
  */
 final class BodyApi {
 
@@ -59,6 +59,9 @@ final class BodyApi {
         /** The body bytes, or null if there is no body. / 본문 바이트. 본문이 없으면 null. */
         byte[] body;
 
+        /** Stream exposed by the body getter, created on demand for buffered data. / 본문 게터에서 노출하는 스트림. 버퍼 자료에서는 필요할 때 만든다. */
+        ReadableStreamObject stream;
+
         /** True after the body was read. / 본문을 읽은 뒤에는 true. */
         boolean used;
 
@@ -81,10 +84,10 @@ final class BodyApi {
          * <p>
          * 본문을 더 읽을 수 없는지 알려 준다.
          *
-         * @return true if a body exists and was used / 본문이 있고 이미 사용했으면 true
+         * @return true if the body was used or is locked / 본문이 사용됐거나 잠겨 있으면 true
          */
         boolean unusable() {
-            return body != null && used;
+            return used || (stream != null && (stream.disturbed || stream.reader != null));
         }
     }
 
@@ -113,6 +116,9 @@ final class BodyApi {
      * @return the data / 데이터
      */
     BodyData extract(JsValue v) {
+        if (v instanceof ReadableStreamObject) {
+            throw JsException.typeError("A ReadableStream cannot be used as a body here");
+        }
         if (v instanceof BlobApi.BlobObject) {
             BlobApi.BlobObject b = (BlobApi.BlobObject) v;
             return new BodyData(b.data, b.type.length() == 0 ? null : b.type);
@@ -150,17 +156,52 @@ final class BodyApi {
     }
 
     /**
-     * Returns <code>body</code>: always null because the component has no streams.
+     * Returns the stream of a body, or null when no body exists.
      * <p>
-     * <code>body</code> 를 반환한다: 컴포넌트에 스트림이 없으므로 항상 null.
+     * 본문의 스트림을 반환한다. 본문이 없으면 null을 반환한다.
      *
      * @param self this value / this 값
      * @param args arguments / 인수
-     * @return null / null
+     * @return the stream or null / 스트림 또는 null
      */
     JsValue bodyStream(JsValue self, JsValue[] args) {
-        Natives.self(self, BodyObject.class);
-        return Js.NULL;
+        BodyObject body = Natives.self(self, BodyObject.class);
+        if (body.stream == null && body.body != null) {
+            body.stream = api.streams.buffered(body.body, body.used);
+        }
+        return body.stream == null ? Js.NULL : body.stream;
+    }
+
+    /**
+     * Marks an existing buffered body as consumed through the body mixin or handed over to a request.
+     * <p>
+     * 기존 버퍼 본문을 body mixin에서 소비했거나 요청으로 넘겼다고 표시한다.
+     *
+     * @param body the enclosing request or response / 본문을 가진 요청 또는 응답
+     */
+    void consumeBuffered(BodyObject body) {
+        if (body.body != null) {
+            body.used = true;
+            if (body.stream != null) {
+                api.streams.consumeBuffered(body.stream);
+            }
+        }
+    }
+
+    /**
+     * Clones an unused buffered body. An already exposed stream stays locked as the source of the two independent branches.
+     * <p>
+     * 사용하지 않은 버퍼 본문을 복제한다. 노출했던 스트림은 두 개의 독립적인 갈래에 대한 원본으로 잠긴다.
+     *
+     * @param original the original body / 원본 본문
+     * @param copy the copy that receives the other branch / 다른 갈래를 받는 복제본
+     */
+    void cloneBuffered(BodyObject original, BodyObject copy) {
+        copy.body = original.body;
+        if (original.stream != null) {
+            api.streams.lock(original.stream);
+            original.stream = null;
+        }
     }
 
     /**
@@ -174,7 +215,7 @@ final class BodyApi {
      */
     JsValue bodyUsed(JsValue self, JsValue[] args) {
         BodyObject o = Natives.self(self, BodyObject.class);
-        return Js.bool(o.body != null && o.used);
+        return Js.bool(o.used || (o.stream != null && o.stream.disturbed));
     }
 
     /**
@@ -270,11 +311,9 @@ final class BodyApi {
         }
         BodyObject o = (BodyObject) self;
         if (o.unusable()) {
-            return Promises.rejectedTypeError(api.realm(), "Failed to execute body method: body stream already read");
+            return Promises.rejectedTypeError(api.realm(), "Failed to execute body method: body stream is locked or disturbed");
         }
-        if (o.body != null) {
-            o.used = true;
-        }
+        consumeBuffered(o);
         byte[] bytes = o.body == null ? new byte[0] : o.body;
         try {
             return Promises.resolved(api.realm(), convert(o, bytes, kind));
