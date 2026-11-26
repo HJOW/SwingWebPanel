@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.media.audio.flac;
 
 import java.util.LinkedList;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPacket;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPacketStream;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream;
@@ -50,14 +51,15 @@ final class OggFlacSource extends FlacPcmSource {
      * <p>
      * 헤더 패킷을 읽은 뒤에 소스를 만든다.
      *
+     * @param data       the encoded input / 인코딩 입력
      * @param stream     the logical stream / 논리 스트림
      * @param info       stream parameters / 스트림 파라미터
      * @param headerPage page on which the last header packet ends / 마지막 헤더 패킷이 끝나는 페이지
      * @param packets    reader positioned at the first audio packet / 첫 오디오 패킷에 위치한 읽기 객체
      * @param first      the first audio packet that was already read, or null / 이미 읽은 첫 오디오 패킷. 없으면 null
      */
-    OggFlacSource(OggStream stream, FlacStreamInfo info, int headerPage, OggPacketStream packets, OggPacket first) {
-        super(info, info.totalSamples > 0 ? info.totalSamples : stream.getLastGranule());
+    OggFlacSource(ByteSource data, OggStream stream, FlacStreamInfo info, int headerPage, OggPacketStream packets, OggPacket first) {
+        super(data, info, info.totalSamples > 0 ? info.totalSamples : stream.getLastGranule());
         this.stream = stream;
         this.headerPage = headerPage;
         this.packets = packets;

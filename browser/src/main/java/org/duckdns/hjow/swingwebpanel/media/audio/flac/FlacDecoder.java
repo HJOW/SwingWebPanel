@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
-import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteAudioDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
-import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
-import org.duckdns.hjow.swingwebpanel.media.audio.WideAudioDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPacket;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPacketStream;
 import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggReader;
@@ -23,7 +22,7 @@ import org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream;
  * 배정, 4~32비트 샘플 크기(16비트로 반올림), 고정/가변 블록 크기, 프레임 CRC-8/CRC-16 확인, 탐색(SEEKTABLE 또는 프레임 색인)을 지원한다. 손상된
  * 데이터를 다루는 정책은 {@link NativeFlacSource} 에 있다.
  */
-public final class FlacDecoder implements WideAudioDecoder {
+public final class FlacDecoder extends ByteAudioDecoder {
 
     /**
      * Creates the decoder.
@@ -63,11 +62,11 @@ public final class FlacDecoder implements WideAudioDecoder {
      * @param data the data / 데이터
      * @return true if it is FLAC / FLAC 이면 true
      */
-    public boolean accepts(byte[] data) {
+    public boolean acceptsSource(ByteSource data) {
         if (Bytes.matches(data, nativeStart(data), "fLaC")) {
             return true;
         }
-        return OggReader.startsWithOgg(data) && OggReader.sniffCodecs(data).contains("flac");
+        return OggReader.sniffSourceCodecs(data).contains("flac");
     }
 
     /**
@@ -78,61 +77,31 @@ public final class FlacDecoder implements WideAudioDecoder {
      * @param d data / 데이터
      * @return offset / 위치
      */
-    private static int nativeStart(byte[] d) {
+    private static int nativeStart(ByteSource d) {
         if (Bytes.matches(d, 0, "ID3") && Bytes.has(d, 0, 10)) {
-            int size = ((d[6] & 0x7F) << 21) | ((d[7] & 0x7F) << 14) | ((d[8] & 0x7F) << 7) | (d[9] & 0x7F);
-            boolean footer = (d[5] & 0x10) != 0;
+            int size = ((d.get(6) & 0x7F) << 21) | ((d.get(7) & 0x7F) << 14) | ((d.get(8) & 0x7F) << 7) | (d.get(9) & 0x7F);
+            boolean footer = (d.get(5) & 0x10) != 0;
             long off = 10L + size + (footer ? 10 : 0);
-            return off > d.length ? d.length : (int) off;
+            return (int) Math.min(off, d.length());
         }
         return 0;
     }
 
     /**
-     * Opens the data for decoding.
+     * Opens native FLAC or Ogg FLAC as 16-bit or full-depth float PCM.
      * <p>
-     * 디코딩을 위해 데이터를 연다.
+     * 네이티브 FLAC이나 Ogg FLAC을 16비트 또는 전체 정밀도의 float PCM으로 연다.
      *
      * @param data   the data / 데이터
      * @param limits limits / 제한
+     * @param wide true for full-depth float PCM in file channel order / 파일 채널 순서의 전체 정밀도 float PCM이면 true
      * @return PCM source / PCM 소스
      * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
      */
-    public PcmSource open(byte[] data, DecodeLimits limits) throws MediaException {
-        return create(data);
-    }
-
-    /**
-     * Opens the data with every channel of the file and the full bit depth of its samples (see {@link WideAudioDecoder}): a sample of a file of N bits is
-     * exactly <code>sample / 2^(N-1)</code>. The channels keep the order of the file, which is the order of the speaker mask.
-     * <p>
-     * 파일의 모든 채널과 표본의 전체 비트 깊이로 데이터를 연다({@link WideAudioDecoder} 참조). N비트 파일의 표본은 정확히 <code>표본 / 2^(N-1)</code> 이다. 채널은 파일의
-     * 순서를 유지하며 이는 스피커 마스크의 순서이다.
-     *
-     * @param data   the data / 데이터
-     * @param limits limits / 제한
-     * @return float source / float 소스
-     * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
-     */
-    public FloatPcmSource openWide(byte[] data, DecodeLimits limits) throws MediaException {
-        return new FlacFloatSource(create(data));
-    }
-
-    /**
-     * Parses the headers of a native or an Ogg FLAC file and creates the block decoder that both paths use.
-     * <p>
-     * 네이티브나 Ogg FLAC 파일의 헤더를 해석하고 두 경로가 쓰는 블록 디코더를 만든다.
-     *
-     * @param data the data / 데이터
-     * @return the source that decodes frame after frame / 프레임을 차례로 디코딩하는 소스
-     * @throws MediaException on damaged or unsupported data / 손상되었거나 지원하지 않는 데이터일 때
-     */
-    private static FlacPcmSource create(byte[] data) throws MediaException {
+    protected Object create(ByteSource data, DecodeLimits limits, boolean wide) throws MediaException {
         int start = nativeStart(data);
-        if (Bytes.matches(data, start, "fLaC")) {
-            return openNative(data, start + 4);
-        }
-        return openOgg(data);
+        FlacPcmSource source = Bytes.matches(data, start, "fLaC") ? openNative(data, start + 4) : openOgg(data);
+        return wide ? new FlacFloatSource(source) : source;
     }
 
     /**
@@ -145,18 +114,22 @@ public final class FlacDecoder implements WideAudioDecoder {
      * @return the source / 소스
      * @throws MediaException on damaged data / 손상된 데이터일 때
      */
-    private static FlacPcmSource openNative(byte[] d, int pos) throws MediaException {
+    private static FlacPcmSource openNative(ByteSource d, int pos) throws MediaException {
         FlacStreamInfo info = null;
         List<long[]> points = new ArrayList<long[]>();
         boolean last = false;
         int p = pos;
         // 마지막 블록 표시가 나올 때까지 메타데이터 블록을 하나씩 읽는다.
         while (!last) {
+            if (Thread.currentThread().isInterrupted()) {
+                throw new MediaException(MediaException.Kind.CANCELLED, "FLAC metadata reading was interrupted");
+            }
             if (!Bytes.has(d, p, 4)) {
                 throw new MediaException(MediaException.Kind.CORRUPT, "the FLAC metadata is cut off");
             }
-            last = (d[p] & 0x80) != 0;
-            int type = d[p] & 0x7F;
+            int flags = d.get(p);
+            last = (flags & 0x80) != 0;
+            int type = flags & 0x7F;
             int len = Bytes.be24(d, p + 1);
             int body = p + 4;
             if (type == 127 || !Bytes.has(d, body, len)) {
@@ -166,7 +139,7 @@ public final class FlacDecoder implements WideAudioDecoder {
                 if (type != 0 || len != FlacStreamInfo.SIZE) {
                     throw new MediaException(MediaException.Kind.CORRUPT, "the first FLAC metadata block is not STREAMINFO");
                 }
-                info = new FlacStreamInfo(d, body);
+                info = new FlacStreamInfo(Bytes.copy(d, body, FlacStreamInfo.SIZE), 0);
             } else if (type == 3) {
                 // 탐색 표의 18바이트 항목에서 자리 표시(샘플 번호가 모두 1)가 아닌 것만 모은다.
                 for (int i = 0; i + 18 <= len; i += 18) {
@@ -198,8 +171,8 @@ public final class FlacDecoder implements WideAudioDecoder {
      * @return the source / 소스
      * @throws MediaException on damaged data / 손상된 데이터일 때
      */
-    private static FlacPcmSource openOgg(byte[] d) throws MediaException {
-        OggReader reader = OggReader.scan(d);
+    private static FlacPcmSource openOgg(ByteSource d) throws MediaException {
+        OggReader reader = OggReader.scanSource(d);
         OggStream stream = reader.findFirst("flac");
         if (stream == null) {
             throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "no FLAC stream in the Ogg file");
@@ -226,6 +199,6 @@ public final class FlacDecoder implements WideAudioDecoder {
             }
             headerPage = p.getPageIndex();
         }
-        return new OggFlacSource(stream, info, headerPage, packets, firstAudio);
+        return new OggFlacSource(d, stream, info, headerPage, packets, firstAudio);
     }
 }

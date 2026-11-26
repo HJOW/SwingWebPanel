@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.media.audio.flac;
 
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
 import org.duckdns.hjow.swingwebpanel.media.audio.BlockPcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmConverter;
 
@@ -13,6 +14,9 @@ import org.duckdns.hjow.swingwebpanel.media.audio.PcmConverter;
  * 둘보다 많으면 {@link ChannelMixer} 의 기본 배치와 같은 FLAC 스피커 배치로 다운믹스한다).
  */
 abstract class FlacPcmSource extends BlockPcmSource {
+
+    /** Owned encoded input. / 소유한 인코딩 입력. */
+    protected final ByteSource data;
 
     /**
      * The stream parameters.
@@ -54,11 +58,13 @@ abstract class FlacPcmSource extends BlockPcmSource {
      * <p>
      * 소스를 만든다.
      *
+     * @param data       the encoded input / 인코딩 입력
      * @param info       stream parameters / 스트림 파라미터
      * @param frameCount total frames or -1 / 전체 프레임 수 또는 -1
      */
-    FlacPcmSource(FlacStreamInfo info, long frameCount) {
+    FlacPcmSource(ByteSource data, FlacStreamInfo info, long frameCount) {
         super(info.sampleRate, Math.min(info.channels, 2), frameCount, info.maxBlock >= 16 ? info.maxBlock : 65535);
+        this.data = data;
         this.info = info;
         this.decoder = new FlacFrameDecoder(info);
         this.mixer = info.channels > 2 ? ChannelMixer.forChannels(info.channels) : null;
@@ -134,5 +140,9 @@ abstract class FlacPcmSource extends BlockPcmSource {
             }
         }
         return o;
+    }
+    /** Closes the owned input. / 소유한 입력을 닫는다. */
+    protected void release() {
+        data.close();
     }
 }

@@ -16,9 +16,11 @@ import org.duckdns.hjow.swingwebpanel.media.audio.FileByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.FloatPcmSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.aac.AacDecoder;
+import org.duckdns.hjow.swingwebpanel.media.audio.flac.FlacDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.mp3.Mp3Decoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.opus.OpusDecoder;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
+import org.duckdns.hjow.swingwebpanel.media.audio.testkit.FlacWriter;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.OggMux;
 import org.duckdns.hjow.swingwebpanel.media.audio.vorbis.VorbisDecoder;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
@@ -410,6 +412,43 @@ public class ReferenceDecodeTest {
         Check.notNull(stereo, "stereo Opus fixture");
         Check.notNull(mono, "mono Opus fixture");
         compareFileSources(opusDecoder, "Opus chain with a channel layout change", OggMux.concat(stereo, mono), true);
+    }
+
+    /**
+     * Compares native and Ogg FLAC from disk and checks a native frame larger than the initial decoding window.
+     * <p>
+     * 디스크의 네이티브·Ogg FLAC을 비교하고 첫 디코딩 창보다 큰 네이티브 프레임을 확인한다.
+     * @throws Exception on I/O or decode failure / 입출력 또는 해독에 실패하면
+     */
+    public void testFlacFilePcmMatchesArrayPcm() throws Exception {
+        FlacDecoder decoder = new FlacDecoder();
+        List<ReferenceFixture> reference = ReferenceFixture.ofGroup("flac");
+        Check.equal(15, reference.size(), "FLAC fixture count");
+        // 참조 파일마다 네이티브 또는 Ogg 컨테이너의 전체 출력을 비교한다.
+        for (ReferenceFixture fixture : reference) {
+            compareFileSources(decoder, fixture.name, fixture.readFile(), true);
+        }
+        long[][] samples = new long[2][26000];
+        // 원시 스테레오 표본으로 처음 64 KiB를 넘는 80,000바이트 이상의 프레임을 만든다.
+        for (int i = 0; i < samples[0].length; i++) {
+            samples[0][i] = (short) (13 * i + 41);
+            samples[1][i] = (short) (12345 - 27 * i);
+        }
+        FlacWriter.Options options = new FlacWriter.Options();
+        options.strategy = "verbatim";
+        options.blockSize = 20000;
+        FlacWriter.Result encoded = FlacWriter.encode(samples, options);
+        Check.isTrue(encoded.frames[0].length > 64 * 1024, "oversized initial-window fixture");
+        compareFileSources(decoder, "wide native FLAC frame", encoded.file, true);
+        PcmSource pcm = decoder.open(encoded.file, DecodeLimits.DEFAULT);
+        try {
+            short[] decoded = AudioKit.toShorts(AudioKit.readAll(pcm));
+            Check.equal(samples[0].length * 2, decoded.length, "all samples decoded");
+            Check.equal(samples[1][19999], decoded[39999], "large frame's final right sample");
+            Check.equal(samples[0][20000], decoded[40000], "following frame starts in the expanded window");
+        } finally {
+            pcm.close();
+        }
     }
 
     /**

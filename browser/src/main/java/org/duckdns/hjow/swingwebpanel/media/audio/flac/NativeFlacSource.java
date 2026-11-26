@@ -2,6 +2,9 @@ package org.duckdns.hjow.swingwebpanel.media.audio.flac;
 
 import java.util.Arrays;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSourceException;
+import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 
 /**
  * Source of a native FLAC file (<code>fLaC</code> followed by metadata and frames). Frames are decoded one at a time. Bytes after the
@@ -17,12 +20,23 @@ import org.duckdns.hjow.swingwebpanel.media.MediaException;
  */
 final class NativeFlacSource extends FlacPcmSource {
 
-    /**
-     * The file data.
-     * <p>
-     * 파일 데이터.
-     */
-    private final byte[] data;
+    /** Initial frame window size. / 처음 프레임 읽기 창 크기. */
+    private static final int INITIAL_WINDOW = 64 * 1024;
+
+    /** Largest representable FLAC frame size in STREAMINFO. / STREAMINFO가 표현할 수 있는 가장 큰 프레임 크기. */
+    private static final int MAX_FRAME_BYTES = 0xFFFFFF;
+
+    /** Largest possible frame header. / 가장 큰 프레임 헤더의 길이. */
+    private final byte[] headerBytes = new byte[16];
+
+    /** Reusable encoded window, retained when the following frame is already present. / 다음 프레임이 들어 있으면 재사용하는 인코딩 창. */
+    private byte[] window = new byte[0];
+
+    /** Position in the file of the first byte of the window, or -1. / 읽기 창의 파일 시작 위치. 아직 없으면 -1. */
+    private int windowStart = -1;
+
+    /** Valid bytes in the window. / 읽기 창의 유효 바이트 수. */
+    private int windowLength;
 
     /**
      * End of the data.
@@ -98,10 +112,9 @@ final class NativeFlacSource extends FlacPcmSource {
      * @param pointSamples seek table sample numbers / 탐색 표의 샘플 번호
      * @param pointOffsets seek table offsets / 탐색 표의 위치
      */
-    NativeFlacSource(byte[] data, FlacStreamInfo info, int audioStart, long[] pointSamples, long[] pointOffsets) {
-        super(info, info.totalSamples > 0 ? info.totalSamples : -1);
-        this.data = data;
-        this.end = data.length;
+    NativeFlacSource(ByteSource data, FlacStreamInfo info, int audioStart, long[] pointSamples, long[] pointOffsets) {
+        super(data, info, info.totalSamples > 0 ? info.totalSamples : -1);
+        this.end = (int) data.length();
         this.audioStart = audioStart;
         this.pointSamples = pointSamples;
         this.pointOffsets = pointOffsets;
@@ -121,7 +134,7 @@ final class NativeFlacSource extends FlacPcmSource {
             return null;
         }
         try {
-            FlacFrameDecoder.Header h = decoder.parseHeader(data, pos, end);
+            FlacFrameDecoder.Header h = readHeader(pos);
             if (h == null) {
                 // 올바른 헤더가 이어지지 않는다: 뒤에 올바른 프레임이 있으면 쓰레기가 끼어든 것이고, 없으면 꼬리표 같은 뒤쪽 데이터이다.
                 if (findHeader(pos + 1) >= 0) {
@@ -130,7 +143,7 @@ final class NativeFlacSource extends FlacPcmSource {
                 pos = end;
                 return null;
             }
-            int len = decoder.decodeFrame(data, pos, end, h);
+            int len = decodeFrame(h);
             record(cursor, pos);
             pos += len;
             cursor += h.blockSize;
@@ -138,7 +151,84 @@ final class NativeFlacSource extends FlacPcmSource {
         } catch (FlacFrameDecoder.Truncated t) {
             pos = end;
             return null;
+        } catch (ByteSourceException e) {
+            throw e.toMediaException();
         }
+    }
+
+    /**
+     * Reads a complete frame header out of the current window or a small input read. / 현재 창 또는 작은 입력 읽기에서 프레임 헤더를 확인한다.
+     * @param at absolute file offset / 파일의 절대 위치
+     * @return a valid header, or null / 올바른 헤더 또는 null
+     * @throws MediaException if the input cannot be read / 입력을 읽을 수 없으면
+     */
+    private FlacFrameDecoder.Header readHeader(int at) throws MediaException {
+        int count = Math.min(headerBytes.length, end - at);
+        int relative = windowStart >= 0 ? at - windowStart : -1;
+        if (relative >= 0 && relative <= windowLength - count) {
+            return decoder.parseHeader(window, relative, windowLength);
+        }
+        try {
+            Bytes.readFully(data, at, headerBytes, 0, count);
+            return decoder.parseHeader(headerBytes, 0, count);
+        } catch (ByteSourceException e) {
+            throw e.toMediaException();
+        }
+    }
+
+    /**
+     * Tries the current window and expands it if decoding needs more input. / 현재 창으로 디코딩을 시도하고 더 필요한 경우 늘린다.
+     * @param header the validated frame header / 검증한 프레임 헤더
+     * @return bytes consumed / 사용한 바이트 수
+     * @throws MediaException on a damaged frame or size limit / 손상 프레임이거나 크기 제한을 초과하면
+     */
+    private int decodeFrame(FlacFrameDecoder.Header header) throws MediaException {
+        int available = end - pos;
+        int limit = Math.min(MAX_FRAME_BYTES, available);
+        if (windowStart < 0 || pos < windowStart || pos - windowStart >= windowLength) {
+            fillWindow(pos, Math.min(INITIAL_WINDOW, limit));
+        }
+        // 잘린 위치가 파일 끝이 아니면 창을 확장해서 같은 프레임을 다시 해독한다.
+        for (;;) {
+            int offset = pos - windowStart;
+            try {
+                return decoder.decodeFrame(window, offset, windowLength, header);
+            } catch (FlacFrameDecoder.Truncated e) {
+                int count = windowLength - offset;
+                if (count >= available) {
+                    throw e;
+                }
+                if (count >= limit) {
+                    throw new MediaException(MediaException.Kind.TOO_LARGE, "FLAC frame exceeds the decoding window limit");
+                }
+                fillWindow(pos, Math.min(limit, Math.max(INITIAL_WINDOW, count * 2)));
+            }
+        }
+    }
+
+    /**
+     * Keeps any overlapping bytes and reads only the missing suffix. / 겹치는 바이트를 유지하고 없는 뒷부분만 읽는다.
+     * @param at start of the wanted bytes / 필요한 바이트의 시작
+     * @param count number of bytes wanted / 필요한 바이트 수
+     */
+    private void fillWindow(int at, int count) {
+        int relative = windowStart >= 0 ? at - windowStart : -1;
+        if (relative >= 0 && relative <= windowLength) {
+            int remaining = windowLength - relative;
+            if (remaining >= count) {
+                return;
+            }
+            System.arraycopy(window, relative, window, 0, remaining);
+            windowLength = remaining;
+        } else {
+            windowLength = 0;
+        }
+        if (window.length < count) {
+            window = Arrays.copyOf(window, count);
+        }
+        windowStart = at;
+        Bytes.readFully(data, at + windowLength, window, windowLength, count - windowLength);
+        windowLength = count;
     }
 
     /**
@@ -148,13 +238,17 @@ final class NativeFlacSource extends FlacPcmSource {
      *
      * @param from first offset to examine / 처음 검사할 위치
      * @return offset or -1 / 위치. 없으면 -1
+     * @throws MediaException if the scan cannot finish / 검색을 끝낼 수 없으면
      */
-    private int findHeader(int from) {
+    private int findHeader(int from) throws MediaException {
         // 동기 코드가 나오는 위치마다 헤더 CRC 까지 확인한다.
-        for (int i = from; i + 1 < end; i++) {
-            if (FlacFrameDecoder.isSync(data[i], data[i + 1])) {
+        for (int i = from; i < end - 1; i++) {
+            if ((i & 0xFFF) == 0 && Thread.currentThread().isInterrupted()) {
+                throw new MediaException(MediaException.Kind.CANCELLED, "FLAC resynchronization was interrupted");
+            }
+            if (data.get(i) == 0xFF && FlacFrameDecoder.isSync(0xFF, data.get(i + 1))) {
                 try {
-                    if (decoder.parseHeader(data, i, end) != null) {
+                    if (readHeader(i) != null) {
                         return i;
                     }
                 } catch (FlacFrameDecoder.Truncated t) {
@@ -204,8 +298,9 @@ final class NativeFlacSource extends FlacPcmSource {
      *
      * @param frame the wanted sample / 원하는 샘플
      * @return the sample number at which decoding resumes / 디코딩을 다시 시작하는 샘플 번호
+     * @throws MediaException if a seek header cannot be read / 탐색 헤더를 읽을 수 없으면
      */
-    protected long seekTo(long frame) {
+    protected long seekTo(long frame) throws MediaException {
         long bestSample = 0;
         int bestPos = audioStart;
         // 색인에서 원하는 샘플 이하의 마지막 항목을 이분 탐색한다.
@@ -242,14 +337,14 @@ final class NativeFlacSource extends FlacPcmSource {
      * @param sample sample number / 샘플 번호
      * @param offset offset relative to the first frame / 첫 프레임에 대한 상대 위치
      * @return true if the point is valid / 올바른 지점이면 true
+     * @throws MediaException if the input cannot be read / 입력을 읽을 수 없으면
      */
-    private boolean validPoint(long sample, long offset) {
-        long abs = audioStart + offset;
-        if (offset < 0 || abs >= end - 6) {
+    private boolean validPoint(long sample, long offset) throws MediaException {
+        if (offset < 0 || offset >= (long) end - 6 - audioStart) {
             return false;
         }
         try {
-            FlacFrameDecoder.Header h = decoder.parseHeader(data, (int) abs, end);
+            FlacFrameDecoder.Header h = readHeader(audioStart + (int) offset);
             if (h == null) {
                 return false;
             }
@@ -258,5 +353,11 @@ final class NativeFlacSource extends FlacPcmSource {
         } catch (FlacFrameDecoder.Truncated t) {
             return false;
         }
+    }
+
+    /** Releases the encoded window and source. / 인코딩 창과 원천을 해제한다. */
+    protected void release() {
+        window = new byte[0];
+        super.release();
     }
 }
