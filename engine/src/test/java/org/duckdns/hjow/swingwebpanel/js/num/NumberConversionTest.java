@@ -29,6 +29,9 @@ public class NumberConversionTest {
      * Number::toString(10) 의 형식 규칙(1e21, 1e-7 경계, 정수, 소수, 극단 값)을 확인한다.
      */
     public void testToStringDecimal() {
+        Check.equal("9007199254740991", NumberConversion.toString(9007199254740991.0), "largest safe integer");
+        Check.equal("-9007199254740991", NumberConversion.toString(-9007199254740991.0), "smallest safe integer");
+        Check.equal("4294967295", NumberConversion.toString(4294967295.0), "integer beyond the signed index range");
         String[][] cases = {
             { "0.1", "0.1" }, { "0.30000000000000004", "0.30000000000000004" }, { "100", "100" },
             { "1e21", "1e+21" }, { "1e20", "100000000000000000000" }, { "1.2345678901234568e20", "123456789012345680000" },

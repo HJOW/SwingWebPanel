@@ -214,6 +214,10 @@ public final class NumberConversion {
         if (Double.isInfinite(v)) {
             return v > 0 ? "Infinity" : "-Infinity";
         }
+        // 안전 정수의 십진 문자열은 이미 최단 왕복 표기이며 지수 표기 범위보다 작다.
+        if (v >= -MAX_SAFE_INTEGER && v <= MAX_SAFE_INTEGER && v == (long) v) {
+            return Long.toString((long) v);
+        }
         if (v < 0) {
             return "-" + toString(-v);
         }
