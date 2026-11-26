@@ -565,6 +565,15 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         return presentation.rangeText(range, getViewportWidth(), getViewportHeight());
     }
 
+    /**
+     * Returns the rendered text after applying pending layout changes. / 대기 중인 배치 변경을 적용한 뒤 렌더링 텍스트를 반환한다.
+     * @param element the queried element / 조회할 요소
+     * @return the text or null after retirement / 텍스트. 폐기 후에는 null
+     */
+    public String getInnerText(Element element) {
+        return presentation.innerText(element, getViewportWidth(), getViewportHeight());
+    }
+
     /** Returns the border boxes of an element in viewport coordinates, one per box. / 뷰포트 좌표로 요소의 border box 를 상자마다 하나씩 반환한다.
      * @param element queried element / 조회할 요소
      * @return rectangles of x, y, width, height / 사각형 목록 */

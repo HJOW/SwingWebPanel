@@ -316,9 +316,9 @@ final class ElementExtras {
         }, null);
         accessor(he, "innerText", new NativeFunction.Call() {
             /**
-             * Returns the text of the element (the rendered text once layout exists; now the text content).
+             * Returns the rendered text of the element, or its DOM text when there is no layout.
              * <p>
-             * 요소의 텍스트를 반환한다(레이아웃이 생기면 렌더링된 텍스트, 지금은 텍스트 콘텐츠).
+             * 요소의 렌더링 텍스트를 반환한다. 배치가 없으면 DOM 텍스트를 반환한다.
              *
              * @param r    the realm / realm
              * @param self this value / this 값
@@ -326,7 +326,9 @@ final class ElementExtras {
              * @return the text / 텍스트
              */
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
-                return Js.str(element(self).getTextContent());
+                Element target = element(self);
+                String text = page.getEnvironment().getInnerText(target);
+                return Js.str(text == null ? target.getTextContent() : text);
             }
         }, new NativeFunction.Call() {
             /**

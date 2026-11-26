@@ -193,7 +193,7 @@
 | DOM-02 | 변경: `appendChild insertBefore removeChild replaceChild cloneNode importNode adoptNode`, 순환/오류 검출, 변경 통지 | `dom.Node` | `dom.TreeMutationTest` | 검증 완료 |
 | DOM-03 | ParentNode/ChildNode: `append prepend before after replaceWith remove replaceChildren children firstElementChild` 등 | `dom.*` | `dom.NodeApiTest` | 검증 완료 |
 | DOM-04 | 속성: `getAttribute setAttribute removeAttribute hasAttribute toggleAttribute attributes(NamedNodeMap) id className classList` | `dom.Element` | `dom.NodeApiTest`, `js.dom.DomBindingTest` | 검증 완료 |
-| DOM-05 | `textContent innerText nodeValue data` (이스케이프, HTML 로 실행하지 않음) | `dom.*`, `js.host.ElementExtras` | `dom.NodeApiTest`, `js.dom.DomBindingTest`, `js.host.ElementExtrasTest` | 부분 구현 (textContent/nodeValue/data 는 검증 완료. **`innerText` 의 읽기는 `textContent` 와 같다**: 렌더링 줄바꿈을 넣거나 `display:none`·script 의 텍스트를 빼지 않는다. 쓰기는 WHATWG HTML §3.2.7(2026-11-26 조회)에 따라 CRLF·CR·LF를 HTML br로, 나머지를 텍스트 노드로 바꿔 한 번에 교체한다. ElementExtrasTest.testInnerTextSetter가 null과 변경 관찰을 포함해 검증한다) |
+| DOM-05 | `textContent innerText nodeValue data` (이스케이프, HTML 로 실행하지 않음) | `dom.*`, `js.host.ElementExtras`, `core.PagePresentation`, `render.RenderedText` | `NodeApiTest`, `DomBindingTest`, `ElementExtrasTest.testInnerTextSetter`, `PageRuntimeIntegrationTest.testInnerTextReadsCurrentLayout` | 부분 구현 | `textContent`/`nodeValue`/`data` 검증 완료. `innerText`는 [WHATWG HTML §3.2.7](https://html.spec.whatwg.org/multipage/dom.html#the-innertext-idl-attribute)(2026-11-26 조회) 기준으로 CRLF·CR·LF를 HTML br로 바꿔 자식을 교체한다. 읽기는 현재 레이아웃의 표시 상태, 텍스트 변환·공백, 단락·블록·br·표 구분자, 기본 select 옵션을 반영하고 분리한 요소나 자체 CSS 상자가 없는 요소에는 원문 텍스트를 반환한다. 옵션 개별 CSS 줄 처리·문자 변환, `text-overflow`에서 잘린 조각과 익명 표 상자 일부는 남았다. |
 | DOM-06 | 조회: `getElementById getElementsByTagName(NS) getElementsByClassName`, live HTMLCollection/NodeList | `dom.*` | `dom.NodeApiTest`, `js.dom.DomBindingTest` | 검증 완료 |
 | DOM-07 | `querySelector querySelectorAll matches closest` (정적 NodeList) | `css.selector.*`, `dom.SelectorEngine`, `dom.*` | `css.SelectorTest`, `dom.NodeApiTest`, `js.dom.DomBindingTest`, `core.CssomIntegrationTest` | 검증 완료 (P08-09: 잘못된 선택자의 `SyntaxError`, 첫 일치/전체 일치, 문서 순서, `querySelectorAll` 의 고정 결과. 선택자는 Level 3 와 Level 4 의 일부) |
 | DOM-08 | 네임스페이스(HTML/SVG/MathML/XML), 이름 대소문자 | `dom.*` | `dom.TreeMutationTest` | 검증 완료 |
@@ -675,7 +675,7 @@ AGENTS.md 상단 "목표 - 지원 기능"의 각 행이 이 표의 어느 기능
 **남은 호환성 차이(요약)**: 위 13절의 부분 구현·미구현 행과 3절의 예외, 그리고 아래 자동 검증으로 확인할 수 없는 것.
 1. **실제 환경 확인**(2026-11-19 갱신): 실제 Swing 창·OS 마우스·키보드·**Windows 한국어 입력기**·OS 클립보드·`JFileChooser`·다운로드 팝업을 `tools/uicheck` 로 조작해 확인했고, 오디오는 OS 오디오 엔진의 피크 미터로 실제 장치 출력의 크기·음량·음소거·혼합을 쟀다(`docs/progress/uicheck.md`, `docs/progress/p22.md`). **사람의 귀로 듣는 확인은 하지 않았다.**
 2. **네트워크**: JRE 6u45 의 TLS 1.0 한계로 요즘 HTTPS 전용 사이트는 열 수 없다(JRE 8 에서는 같은 JAR 로 열린다). 교차 오리진 요청의 `Origin` 헤더는 JVM 프록시가 없을 때만 보낸다.
-3. **엔진 한계**: MathML 수식 배치 없음, 인라인 SVG 의 페이지 스타일시트 미적용, Custom Elements/Shadow DOM 없음, `innerText` 가 `textContent` 와 같음, `alert/confirm/prompt` 는 대화 상자 없이 콘솔 리스너에만 알림(P24). 스크립트를 끈 페이지의 `meta refresh`는 `MetaRefreshIntegrationTest`에서 검증했다.
+3. **엔진 한계**: MathML 수식 배치 없음, 인라인 SVG 의 페이지 스타일시트 미적용, Custom Elements/Shadow DOM 없음. `innerText`는 일반적인 레이아웃을 반영하며 특수 서식 제약은 DOM-05에 기록한다. `alert/confirm/prompt`는 콘솔 리스너에 알린다(P24). 스크립트를 끈 페이지의 `meta refresh`는 `MetaRefreshIntegrationTest`에서 검증했다.
 4. **규격 판본 차이**: HTML5 2014 REC 기준으로 구현한 부분이 현행 WHATWG 와 다르다(예: `isindex` 확장, `li value` 의 적용 범위: LEG-03/08). Chromium 과 다른 선택은 각 행의 `제약` 과 `docs/progress/*.md` 에 있다.
 
 

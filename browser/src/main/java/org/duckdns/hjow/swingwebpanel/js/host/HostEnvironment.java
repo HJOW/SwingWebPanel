@@ -647,6 +647,15 @@ public abstract class HostEnvironment {
     }
 
     /**
+     * Reads the rendered text of an element, or null without a layout. / 요소의 렌더링 텍스트를 읽는다. 배치가 없으면 null을 반환한다.
+     * @param element the element whose descendants are read / 자손을 읽을 요소
+     * @return the text or null / 텍스트 또는 null
+     */
+    public String getInnerText(Element element) {
+        return null;
+    }
+
+    /**
      * Returns the border boxes of an element in viewport pixels, one <code>{x, y, width, height}</code> per box (the layout hook for
      * <code>getClientRects</code>; an inline element that wraps has one per line). Null means that the host has no layout.
      * <p>

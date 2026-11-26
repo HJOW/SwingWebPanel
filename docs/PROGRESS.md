@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P22-16-b2 innerText의 렌더링 텍스트 (2026-11-26) ===
+현재 작업 번호: P22-16-b 완료. 최종 적합성 항목 P22-16은 미완료.
+완료한 내용: 현재 배치를 반영해 CSS 공백·문자 변환·가시성, 블록·단락·br·표, 소프트 하이픈과 기본 select 옵션을 읽는다. 분리되었거나 상자가 없는 요소에는 DOM 텍스트를 반환한다.
+변경 파일: RenderedText.java, PagePresentation.java, PageRuntime.java, HostEnvironment.java, ElementExtras.java, PageRuntimeIntegrationTest.java, AGENTS.md, FEATURE_MATRIX.md, progress/p22.md, 이 문서.
+검증 결과: JDK 6u45로 컴파일하여 실제 SwingWebPanel 파싱 중·스타일 변경 직후 조회와 선택·편집·기하 회귀를 실행했다. 64건 통과, 실패 0, 시스템 클립보드 1건은 헤드리스 환경에서 건너뜀. WHATWG HTML §3.2.7의 2026-11-26 응답을 참조했다.
+미해결 사항: DOM-05의 특수 서식 사례, P22-16의 HTML/CSS 부분 구현, 실장치 확인. 앞선 결과와 최신 산출물의 전체 검증을 최종 인계에 기록한다.
+다음 작업 번호: P22-15.
+-----------------------------------------------------------------------------------------------
 === P22-16-b1 innerText 쓰기 (2026-11-26) ===
 현재 작업 번호: P22-16-b1 완료.
 완료한 내용: innerText에 null을 쓰면 기존 자식을 비우고 CRLF·CR·LF는 각각 HTML br 하나로 바꾼다. 그 사이의 문자열은 텍스트 노드가 되고 기존 자식은 문서 조각으로 한 번에 교체된다.

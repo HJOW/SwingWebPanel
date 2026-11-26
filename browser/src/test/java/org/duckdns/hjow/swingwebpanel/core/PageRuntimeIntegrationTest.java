@@ -711,6 +711,42 @@ public class PageRuntimeIntegrationTest {
         }
     }
 
+    /**
+     * Reads rendered inner text while parsing and after a style change. / 파싱 중과 스타일 변경 뒤 렌더링된 innerText를 읽는다.
+     * @throws Exception on failure / 실패 시
+     */
+    public void testInnerTextReadsCurrentLayout() throws Exception {
+        SwingWebPanel panel = sizedPanel();
+        BrowserSession state = session(panel);
+        try {
+            panel.setContent("<!doctype html><style>.skip{display:none}.caps{text-transform:uppercase;user-select:none}"
+                    + "#wrap{width:38px;overflow-wrap:anywhere}</style>"
+                    + "<div id=probe>plain <span class=caps>mixed   case</span><span class=skip>X<br>Y</span>"
+                    + "<p>first<br>second</p><div>last</div><span style='display:contents'>tail</span>"
+                    + "<span style='visibility:hidden'>omit<span style='visibility:visible'>!</span></span></div>"
+                    + "<table id=table><thead><tr><td>A</td><td>B</td></tr></thead><tbody><tr><td>C</td><td>D</td></tr></tbody></table>"
+                    + "<pre id=pre>line  x\n\nend\n</pre><div id=wrap>extraordinary word</div>"
+                    + "<div id=soft>inter&shy;national</div><textarea id=area>first\nsecond</textarea>"
+                    + "<select id=choices><option>One</option><optgroup label='group'><option>Two</option>"
+                    + "<option class=skip>Hidden</option></optgroup></select>"
+                    + "<script>var el = document.getElementById('probe');var before = el.innerText;</script>", "text/html");
+            TestSupport.settle(state);
+            Check.equal("plain MIXED CASE\n\nfirst\nsecond\n\nlast\ntail!", evaluate(state, "before"), "visible text with paragraph and br boundaries");
+            Check.equal("A\tB\nC\tD", evaluate(state, "document.getElementById('table').innerText"), "table cells and row groups");
+            Check.equal("line  x\n\nend\n", evaluate(state, "document.getElementById('pre').innerText"), "preserved white space and line feeds");
+            Check.equal("extraordinary word", evaluate(state, "document.getElementById('wrap').innerText"), "soft wrapping without inserted word breaks");
+            Check.equal("inter" + (char) 0x00ad + "national", evaluate(state, "document.getElementById('soft').innerText"), "preserved soft hyphen");
+            Check.equal("", evaluate(state, "document.getElementById('area').innerText"), "textarea text is not a rendered CSS child");
+            Check.equal("One\nTwo", evaluate(state, "document.getElementById('choices').innerText"), "visible options are included");
+            Check.equal("true|true|shown", evaluate(state, "var detached=document.createElement('div');detached.textContent='  raw ';"
+                    + "el.style.display='none';var hidden=el.innerText===el.textContent;el.style.display='block';"
+                    + "el.innerHTML='<span class=skip>hidden</span>shown';[detached.innerText==='  raw ', hidden, el.innerText].join('|')"),
+                    "raw text fallback and immediate layout invalidation");
+        } finally {
+            panel.dispose();
+        }
+    }
+
     /** Disabling scripts keeps pending CSS and viewport rendering alive. / 스크립트를 꺼도 대기 CSS와 뷰포트 렌더링을 유지한다.
      * @throws Exception on failure / 실패 시 */
     public void testDisabledScriptsKeepPendingStylesAndRendering() throws Exception {

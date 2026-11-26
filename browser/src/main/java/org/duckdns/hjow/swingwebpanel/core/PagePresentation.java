@@ -597,6 +597,21 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
         return page == null ? null : geometryOf(page).text(range);
     }
 
+    /**
+     * Reads HTML rendered text from the current document layout. / 현재 문서 배치에서 HTML 렌더링 텍스트를 읽는다.
+     * @param element the queried element / 조회할 요소
+     * @param width viewport width / 뷰포트 폭
+     * @param height viewport height / 뷰포트 높이
+     * @return text, or null if there is no active rendering / 텍스트. 활성 렌더링이 없으면 null
+     */
+    synchronized String innerText(Element element, int width, int height) {
+        if (element.getOwnerDocument() != document) {
+            return null;
+        }
+        RenderedPage page = render(width, height);
+        return page == null ? null : org.duckdns.hjow.swingwebpanel.render.RenderedText.get(element, page.getLayout(), css.getResolver());
+    }
+
     /** Returns the border boxes of an element, one per box, in viewport coordinates (<code>getClientRects</code>). / 요소의 border box 를 상자마다 하나씩 뷰포트 좌표로 반환한다(<code>getClientRects</code>).
      * @param element queried element / 조회할 요소
      * @param width viewport width / 뷰포트 폭
