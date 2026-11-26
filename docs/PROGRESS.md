@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-06-b1 기본 읽기 스트림과 비동기 반복 (2026-11-26) ===
+현재 작업 번호: P28-06-b1 완료.
+완료한 내용: ReadableStream의 기본 소스와 기본 리더, 청크·오류·닫기 큐, 잠금과 취소, 순서대로 실행하는 비동기 반복자를 연결했다. 기본 컨트롤러는 start·pull·cancel 및 큐 전략을 사용한다.
+변경 파일: ReadableStreamObject.java, ReadableStreams.java, ReadableStreamIterator.java, ScriptReadableSource.java, WebApis.java, ReadableStreamTest.java, AGENTS.md, 이 문서.
+검증 결과: JDK 6u45 변경 클래스와 제품 JAR 분리 컴파일. ReadableStreamTest 4건 및 Fetch·Worker·DOM·정적 상태 회귀 31건 통과. Streams Standard 4.2~4.4절(https://streams.spec.whatwg.org/, 2026-10-25 응답 판본, 2026-11-26 조회)과 기본 읽기·취소·반복 동작을 대조했다. sourcecheck 0 위반.
+미해결 사항: Fetch 본문과 네트워크 청크 연결은 P28-06-b2에서 진행한다. byte stream 전용 BYOB 리더, 파이프·변환·스트림 전송은 이 구현에 없다.
+다음 작업 번호: P28-06-b2-a.
+-----------------------------------------------------------------------------------------------
 === P28-06-a 중단 신호를 사용한 이벤트 리스너 (2026-11-26) ===
 현재 작업 번호: P28-06-a 완료.
 완료한 내용: 공통 DOM 리스너 등록에서 signal을 검증하고, 중단 이벤트 전에 정확한 등록을 제거하도록 연결했다. 수동 제거, once 및 페이지 정리에서 신호 연결도 제거한다.

@@ -352,6 +352,7 @@ public final class WebApis {
         w.headers.install(g);
         new EncodingApi(w).install(g);
         new FileReaderApi(w).install(g);
+        new ReadableStreams(w.realm).install(g);
         new FetchApi(w).install(g);
         new XhrApi(w).install(g);
         new WebSocketApi(w).install(g);
