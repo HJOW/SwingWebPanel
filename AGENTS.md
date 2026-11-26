@@ -1186,13 +1186,13 @@ P29 완료(2026-11-26). JDK 6u45에서 엔진 891건과 브라우저 3,737건이
       - sessionStorage는 표준대로 여는 창의 것을 복사한다.
     - [ ] P31-08-d. 수명과 닫기를 처리한다.
       - 팝업의 `window.close()`는 표준의 script-closable 규칙에 따라 그 창(또는 탭)만 닫는다. P30 설정과는 무관하다. 여는 창에서 `w.closed`가 true가 된다.
-      - 여는 창이 닫혀도 팝업은 남고, 팝업의 `opener` 창은 닫힌 상태가 된다. 그룹의 이벤트 루프는 마지막 창이 닫힐 때 끝난다.
+      - 여는 페이지(탭이나 SwingWebPanel)가 닫혀도 팝업은 남고, 팝업의 `opener` 창은 닫힌 상태가 된다. 그룹의 이벤트 루프는 마지막 창이 닫힐 때 끝난다. 다만 팝업을 담은 `JDialog`의 소유자 Swing 창이 닫히면 팝업도 함께 닫힌다(P31-08-g).
       - 닫힌 창의 `WindowProxy`가 DOM과 세션을 계속 붙잡지 않게 한다(P21).
     - [ ] P31-08-e. 검증한다(JRE 6, 실제 SwingWebPanel 두 개 이상, 시험용 호스트 처리기).
       - 동작: `window.open`의 반환값으로 `document.write`·DOM 변경·`location` 이동·`close()`·`closed`·`postMessage`, 팝업 쪽의 `opener` 접근, 이름 있는 창의 재사용.
       - 제한: 교차 오리진 제한, `noopener`/`noreferrer`, 샌드박스·COOP.
       - 수명: 여는 창이나 팝업을 먼저 폐기하는 경우, 같은 그룹에서 무한 반복이 일어나는 경우(실행 제한으로 끝나는지), EDT와 문서 스레드 사이 교착이 없는지, 수거.
-      - 차단과 위치(P31-08-f·g): 실제 AWT 클릭 안의 `window.open`은 열리고 타이머·로드 이벤트 안의 것은 막히는지, 한 번의 클릭으로 하나만 열리는지(활성화 소비), 설정을 끈 경우, 샌드박스, `popupBlocked` 알림. 기본 팝업 창의 크기·제목·닫기와 headless에서 null 반환, 재정의한 위치(시험용 호스트).
+      - 차단과 위치(P31-08-f·g): 실제 AWT 클릭 안의 `window.open`은 열리고 타이머·로드 이벤트 안의 것은 막히는지, 한 번의 클릭으로 하나만 열리는지(활성화 소비), 설정을 끈 경우, 샌드박스, `popupBlocked` 알림. 기본 팝업 창(`JDialog`)의 소유자·크기·제목·닫기, 모달 대화 상자 안의 SwingWebPanel에서 연 팝업을 조작할 수 있는지, 소유자 창을 닫을 때 팝업 SwingWebPanel의 `dispose()`, headless에서 null 반환, 재정의한 위치(시험용 호스트).
       - 기존 프레임·메시지·P27 시험이 그대로 통과하는지 확인한다.
     - [ ] P31-08-f. 팝업 차단을 구현한다. 사용자 결정(2026-11-26): 사용자 조작 없이 연 팝업은 기본적으로 차단하고, SwingWebPanel의 메서드로 바꿀 수 있어야 한다.
       - 공개 API: `public void setPopupBlockingEnabled(boolean enabled)`, `public boolean isPopupBlockingEnabled()`(기본안 이름).
@@ -1211,13 +1211,16 @@ P29 완료(2026-11-26). JDK 6u45에서 엔진 891건과 브라우저 3,737건이
       - 데스크톱 앱: 상태 표시줄(또는 알림 막대)에 차단 사실과 "이 팝업 열기" 단추를 보인다. 이 단추로 연 창은 원래 스크립트의 실행이 이미 끝났으므로 여는 창과 관계가 없는 창(`noopener`와 같음)으로 연다. 이 차이를 기능 표에 기록한다.
     - [ ] P31-08-g. 팝업을 열 위치를 구현한다. 사용자 결정(2026-11-26): 기본은 팝업 창이고, 데스크톱 앱의 설정에서 바꿀 수 있어야 한다.
       - SwingWebPanel 기본 동작: 다운로드 팝업(P11-09)과 같이 재정의할 수 있는 보호 메서드(기본안: `protected void openPopupWindow(PopupRequest request)`)로 연다.
-        - 기본 구현은 새 SwingWebPanel을 담은 단순한 Swing 팝업 창(`JFrame`)이다. 창 기능 문자열의 `width`/`height`/`left`/`top`을 화면 안으로 줄여 적용하고, 제목은 팝업 문서의 제목을 따른다.
-        - 창을 닫으면 그 SwingWebPanel을 `dispose()`한다. 팝업의 `window.close()`도 이 창을 닫는다.
+        - 기본 구현은 새 SwingWebPanel을 `JScrollPane`에 담은 비모달 `JDialog`(`Dialog.ModalityType.MODELESS`)이다. 소유자는 여는 SwingWebPanel이 속한 창(`SwingUtilities.getWindowAncestor`)이다. 소유자가 없으면 null 소유자로 연다. 다운로드 팝업(`download.SwingDownloadDialog`)과 같은 방식이다.
+        - `JFrame` 대신 `JDialog`를 쓰는 이유: 호스트가 SwingWebPanel을 모달 대화 상자 안에 넣어 쓰는 경우가 있다. 이때 `JFrame` 팝업은 그 모달 대화 상자에 막혀 조작할 수 없다. 반면 그 대화 상자가 소유한 `JDialog`는 조작할 수 있다. 또 팝업이 여는 창 위에 머물고 작업 표시줄에 따로 생기지 않아서, 부품으로 끼워 쓰는 프로그램에 어울린다.
+        - `JDialog`의 차이(계약에 적는다): Windows에서는 최소화·최대화 단추가 없다(크기 조절은 할 수 있다). 소유자 창을 닫으면 그 창이 소유한 팝업도 함께 닫힌다. 독립된 일반 창이 필요한 호스트는 보호 메서드를 재정의하여 `JFrame`을 쓸 수 있다.
+        - 창 기능 문자열의 `width`/`height`/`left`/`top`을 화면 안으로 줄여 적용하고, 제목은 팝업 문서의 제목을 따른다.
+        - 창이 닫히면(사용자의 닫기, 팝업의 `window.close()`, 소유자 창과 함께 닫힘) 그 SwingWebPanel을 `dispose()`한다.
         - 화면이 없는 환경(headless)에서는 팝업을 열지 않고 `window.open`이 null을 반환한다.
         - 호스트는 `PopupRequest`에서 팝업 세션에 붙은 SwingWebPanel을 받아 원하는 곳에 둘 수 있다.
       - 데스크톱 앱: 메서드를 재정의하여 설정값(팝업 창 기본 / 새 창 / 새 탭, P31-07)에 따라 연다.
-        - 팝업 창: 요청한 크기의 작은 브라우저 창이다. 제목 표시줄, 읽기 전용 주소 표시줄, 상태 표시줄만 두고 탭·도구 모음·북마크는 없다.
-        - 새 창: 일반 브라우저 창이다.
+        - 팝업 창: 요청한 크기의 작은 브라우저 창이다. 제목 표시줄, 읽기 전용 주소 표시줄, 상태 표시줄만 두고 탭·도구 모음·북마크는 없다. 여는 브라우저 창을 소유자로 하는 비모달 `JDialog`로 만든다. 따라서 그 브라우저 창을 닫으면 팝업도 닫힌다. 이는 브라우저 창과 따로 남는 실제 브라우저의 팝업과 다르므로 기능 표에 기록한다.
+        - 새 창: 일반 브라우저 창(`JFrame`)이다. 최소화·최대화와 작업 표시줄 항목이 있다.
         - 새 탭: 여는 창의 새 탭이다.
         - 어느 위치에 열든 opener 관계와 `window.close()` 동작은 같다(P31-08-c·d).
   - 창과 탭 닫기:
