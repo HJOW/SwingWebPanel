@@ -375,6 +375,17 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
     }
 
     /**
+     * Associates subresource loads with the active document's object URL environment.
+     * <p>
+     * 하위 리소스 로드를 활성 문서의 객체 URL 환경에 연결한다.
+     *
+     * @param scope document scope / 문서 범위
+     */
+    void setBlobUrlScope(org.duckdns.hjow.swingwebpanel.net.BlobUrlStore.Scope scope) {
+        resources.setBlobUrlScope(scope);
+    }
+
+    /**
      * Records that the picture of a canvas changed and asks the view for a new rendering, without invalidating the layout. It only posts work
      * and may be called from any thread.
      * <p>

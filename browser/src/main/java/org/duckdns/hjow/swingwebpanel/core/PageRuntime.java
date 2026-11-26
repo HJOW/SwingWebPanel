@@ -133,7 +133,8 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         crossOriginIsolated = origin.isPotentiallyTrustworthy() && policy.getEmbedder() != CrossOriginPolicy.Embedder.UNSAFE_NONE
                 && policy.allowsIsolation(origin)
                 && (frame == null ? "same-origin".equals(policy.getOpener()) : frame.inheritsIsolation(origin));
-        webRequests = new PageWebRequests(fetcher, cookies, context, pageUrl, resources);
+        webRequests = new PageWebRequests(fetcher, cookies, context, pageUrl, resources, blobUrls);
+        presentation.setBlobUrlScope(blobUrls);
         parent = request.getCancelToken();
         scheduler = new DocumentScheduler(session);
         hostMessages = session.webMessageDispatcher();
@@ -1228,6 +1229,7 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         resources.throwIfCancelled();
         ResourceRequest request = new ResourceRequest(url).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                 .setCookies(cookies).setCancelToken(resources).setReferrer(pageUrl).setInitiator(Origin.of(pageUrl))
+                .setBlobUrlScope(blobUrls)
                 .setEmbedderPolicy(policy)
                 .setPurpose(RequestPurpose.SCRIPT)
                 .setCacheMode(context.force ? ResourceRequest.CacheMode.FORCE_RELOAD : ResourceRequest.CacheMode.DEFAULT);
@@ -1273,6 +1275,7 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         // 자격 증명 모드를 리디렉션마다 적용하도록 요청에 넘긴다.
         ResourceRequest request = new ResourceRequest(url).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                 .setCookies(cookies).setCancelToken(resources).setReferrer(pageUrl).setInitiator(initiator)
+                .setBlobUrlScope(blobUrls)
                 .setPurpose(workerEntry ? RequestPurpose.WORKER_MODULE : RequestPurpose.MODULE)
                 .setSendCredentials(credentials != Credentials.OMIT).setSameOriginCredentialsOnly(credentials == Credentials.SAME_ORIGIN)
                 .setCacheMode(context.force ? ResourceRequest.CacheMode.FORCE_RELOAD : ResourceRequest.CacheMode.DEFAULT);
@@ -1284,10 +1287,11 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         String finalUrl = response.getFinalUrl() == null ? url : response.getFinalUrl();
         // 다른 오리진의 모듈은 서버가 CORS 로 허용해야 하고, 쿠키를 보냈다면 자격 증명까지 허용해야 한다.
         Origin target = Origin.of(finalUrl);
-        if (workerEntry && !initiator.isSameOrigin(target)) {
+        boolean ownBlob = response.getBlobUrlEntry() != null;
+        if (workerEntry && !ownBlob && !initiator.isSameOrigin(target)) {
             throw new IOException("worker module entry must be same-origin: " + finalUrl);
         }
-        if (!OriginPolicy.mayUse(initiator, target, RequestPurpose.MODULE, response, credentials == Credentials.INCLUDE)) {
+        if (!ownBlob && !OriginPolicy.mayUse(initiator, target, RequestPurpose.MODULE, response, credentials == Credentials.INCLUDE)) {
             throw new IOException("blocked by CORS policy: " + finalUrl);
         }
         String mime = response.getMimeType();

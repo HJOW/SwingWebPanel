@@ -13,6 +13,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.StreamingWebRequestSource;
 import org.duckdns.hjow.swingwebpanel.js.host.WebRequest;
 import org.duckdns.hjow.swingwebpanel.js.host.WebRequestSource;
 import org.duckdns.hjow.swingwebpanel.js.host.WebResponse;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.FailureKind;
@@ -124,6 +125,9 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
     /** Counts the streams that are open. / 열려 있는 스트림 수를 센다. */
     private final AtomicInteger streams = new AtomicInteger();
 
+    /** The document's object URL access scope. / 문서의 객체 URL 접근 범위. */
+    private final BlobUrlStore.Scope blobUrls;
+
     /**
      * Creates the service of a page.
      * <p>
@@ -134,13 +138,16 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
      * @param context   the copied request settings / 복사한 요청 설정
      * @param pageUrl   the URL of the page / 페이지의 URL
      * @param resources the cancellation token of the page's resources / 페이지 리소스의 취소 토큰
+     * @param blobUrls the document's object URL scope / 문서의 객체 URL 범위
      */
-    PageWebRequests(ResourceFetcher fetcher, CookieStore cookies, PageRequestContext context, String pageUrl, CancelToken resources) {
+    PageWebRequests(ResourceFetcher fetcher, CookieStore cookies, PageRequestContext context, String pageUrl, CancelToken resources,
+            BlobUrlStore.Scope blobUrls) {
         this.fetcher = fetcher;
         this.cookies = cookies;
         this.context = context;
         this.pageUrl = pageUrl;
         this.resources = resources;
+        this.blobUrls = blobUrls;
     }
 
     /**
@@ -217,6 +224,9 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
         /** The page origin. / 페이지의 오리진. */
         private final Origin initiator = Origin.of(pageUrl);
 
+        /** The object URL entry accepted when the caller started the request. / 호출자가 요청을 시작할 때 받아들인 객체 URL 항목. */
+        private final BlobUrlStore.Entry blob;
+
         /** The answer that the stream listener refused or that failed the page rules (set on the request thread). / 스트림의 받는 쪽이 거부했거나 페이지 규칙에 어긋난 응답(요청 스레드에서 정한다). */
         private WebResponse refusal;
 
@@ -236,6 +246,7 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
             this.request = request;
             this.callback = callback;
             this.stream = stream;
+            blob = "blob".equals(UrlUtil.getScheme(request.getUrl())) ? blobUrls.resolve(request.getUrl()) : null;
         }
 
         /**
@@ -311,7 +322,8 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
             String url = request.getUrl();
             SchemePolicy.Kind kind = SchemePolicy.classify(url);
             boolean classpathPage = UrlUtil.SCHEME_CLASSPATH.equals(initiator.getScheme());
-            if (!(kind == SchemePolicy.Kind.HTTP || kind == SchemePolicy.Kind.HTTPS || (kind == SchemePolicy.Kind.CLASSPATH && classpathPage))) {
+            if (!(kind == SchemePolicy.Kind.HTTP || kind == SchemePolicy.Kind.HTTPS || (kind == SchemePolicy.Kind.CLASSPATH && classpathPage)
+                    || (kind == SchemePolicy.Kind.BLOB && blob != null))) {
                 return WebResponse.futileError("scheme is not allowed for scripted requests: " + url);
             }
             String method = request.getMethod();
@@ -322,7 +334,7 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
                 return WebResponse.futileError("the request layer sends a body only with POST, PUT and PATCH, not with " + method);
             }
             Origin target = Origin.of(url);
-            boolean same = initiator.isSameOrigin(target);
+            boolean same = blob != null || initiator.isSameOrigin(target);
             String mode = request.getMode();
             if (WebRequest.MODE_SAME_ORIGIN.equals(mode) && !same) {
                 return WebResponse.futileError("cross-origin request to " + url + " is blocked by the same-origin mode");
@@ -451,6 +463,7 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
             boolean noCors = WebRequest.MODE_NO_CORS.equals(request.getMode());
             ResourceRequest rr = new ResourceRequest(url).setMethod(request.getMethod()).setUserAgent(context.userAgent).setExtraHeaders(extra)
                     .setCookies(cookies).setCancelToken(token).setInitiator(initiator)
+                    .setBlobUrlEntry(blob)
                     .setEmbedderPolicy(request.getEmbedderPolicy() == null ? context.crossOriginPolicy.getEmbedder() : request.getEmbedderPolicy())
                     .setPurpose(noCors ? RequestPurpose.OTHER : RequestPurpose.XHR).setSendCredentials(!omit)
                     .setSameOriginCredentialsOnly(!omit && !include).setCorsAuthorHeaders(corsDeciding(author));
@@ -575,7 +588,7 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
                 return WebResponse.futileError("the request was redirected to " + finalUrl + " but the redirect mode is error");
             }
             Origin finalOrigin = Origin.of(finalUrl);
-            boolean same = initiator.isSameOrigin(finalOrigin);
+            boolean same = (blob != null && r.getBlobUrlEntry() == blob) || initiator.isSameOrigin(finalOrigin);
             String mode = request.getMode();
             String credentials = request.getCredentials();
             boolean withCredentials = WebRequest.CREDENTIALS_INCLUDE.equals(credentials);

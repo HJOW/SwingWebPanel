@@ -95,6 +95,18 @@ public final class BlobUrlStore {
             store.revoke(this, url);
         }
 
+        /**
+         * Resolves an object URL readable from this environment.
+         * <p>
+         * 이 환경에서 읽을 수 있는 객체 URL을 조회한다.
+         *
+         * @param url requested URL / 요청 URL
+         * @return the accepted entry or null / 받아들인 항목 또는 null
+         */
+        public Entry resolve(String url) {
+            return store.resolve(url, this, null, false);
+        }
+
         /** Removes this environment's URLs. / 이 환경의 URL을 제거한다. */
         public void close() {
             store.close(this);

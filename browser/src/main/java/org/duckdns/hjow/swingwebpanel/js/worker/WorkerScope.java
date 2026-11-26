@@ -47,6 +47,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.structured.SharedMemoryScope;
 import org.duckdns.hjow.swingwebpanel.js.host.web.WebApis;
 import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
+import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 
 /**
  * One dedicated worker (HTML Standard "Web workers"): a script context of its own that runs on a daemon thread of its own
@@ -409,7 +410,8 @@ final class WorkerScope implements ScriptContext {
             entry = module ? ModuleSources.fetch(env.getScriptSource(), new ModuleRequest(scriptUrl), credentials, true)
                     : fetchScript(scriptUrl, env.getEmbedderPolicy());
             Origin scriptOrigin = Origin.of(entry.getUrl());
-            if (!Origin.of(scriptUrl).isSameOrigin(scriptOrigin)) {
+            boolean localBlob = "blob".equals(UrlUtil.getScheme(scriptUrl)) && scriptUrl.equals(entry.getUrl());
+            if (!localBlob && !Origin.of(scriptUrl).isSameOrigin(scriptOrigin)) {
                 throw new IOException("worker entry must be same-origin");
             }
             CrossOriginPolicy policy = entry.getCrossOriginPolicy();

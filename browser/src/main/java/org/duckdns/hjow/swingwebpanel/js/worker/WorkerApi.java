@@ -15,6 +15,7 @@ import org.duckdns.hjow.swingwebpanel.js.dom.HostObject;
 import org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials;
 import org.duckdns.hjow.swingwebpanel.js.host.ModuleSources;
 import org.duckdns.hjow.swingwebpanel.js.host.PageScripts;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 
@@ -249,10 +250,9 @@ public final class WorkerApi {
         } catch (RuntimeException e) {
             throw bridge.domError(DomException.syntax("Failed to construct 'SharedWorker': Script at '" + text + "' cannot be resolved."));
         }
-        Origin mine = Origin.of(page.getDocument().getUrl() == null ? "about:blank" : page.getDocument().getUrl());
-        Origin theirs = Origin.of(absolute);
-        // 스크립트는 페이지와 같은 오리진에서만 가져올 수 있다(불투명 오리진 페이지와 data:, blob: 주소는 허용하지 않는다).
-        if (mine.isOpaque() || theirs.isOpaque() || !mine.isSameOrigin(theirs)) {
+        Origin mine = Origin.of(page.getDocument().getOriginUrl());
+        // blob URL은 같은 오리진과 파티션에서 등록한 스크립트로 확인한다.
+        if (!workerScriptAllowed(mine, absolute)) {
             throw bridge.domError(DomException.security("Failed to construct 'SharedWorker': Script at '" + absolute + "' cannot be accessed from origin '"
                     + (mine.isOpaque() ? "null" : mine.serialize()) + "'."));
         }
@@ -318,10 +318,9 @@ public final class WorkerApi {
         } catch (RuntimeException e) {
             throw bridge.domError(DomException.syntax("Failed to construct 'Worker': Script at '" + text + "' cannot be resolved."));
         }
-        Origin mine = Origin.of(page.getDocument().getUrl() == null ? "about:blank" : page.getDocument().getUrl());
-        Origin theirs = Origin.of(absolute);
-        // 스크립트는 페이지와 같은 오리진에서만 가져올 수 있다(불투명 오리진 페이지와 data:, blob: 주소는 허용하지 않는다).
-        if (mine.isOpaque() || theirs.isOpaque() || !mine.isSameOrigin(theirs)) {
+        Origin mine = Origin.of(page.getDocument().getOriginUrl());
+        // 스크립트는 페이지와 같은 오리진의 것만 쓴다.
+        if (!workerScriptAllowed(mine, absolute)) {
             throw bridge.domError(DomException.security("Failed to construct 'Worker': Script at '" + absolute + "' cannot be accessed from origin '"
                     + (mine.isOpaque() ? "null" : mine.serialize()) + "'."));
         }
@@ -359,6 +358,23 @@ public final class WorkerApi {
      */
     private static Credentials workerCredentials(JsValue options) {
         return ModuleSources.credentials(ScriptUtil.text(options, "credentials", "same-origin"));
+    }
+
+    /**
+     * Checks a worker entry's origin, including object URLs created by an opaque document.
+     * <p>
+     * 불투명 문서가 만든 객체 URL을 포함하여 워커 진입 스크립트의 오리진을 검사한다.
+     *
+     * @param owner creator origin / 생성자 오리진
+     * @param url script URL / 스크립트 URL
+     * @return true if the entry is same-origin / 진입 스크립트가 동일 오리진이면 true
+     */
+    private boolean workerScriptAllowed(Origin owner, String url) {
+        if (owner.isSameOrigin(Origin.of(url))) {
+            return true;
+        }
+        BlobUrlStore.Scope scope = page.getEnvironment().getBlobUrlScope();
+        return scope != null && "blob".equals(UrlUtil.getScheme(url)) && scope.resolve(url) != null;
     }
 
     /**

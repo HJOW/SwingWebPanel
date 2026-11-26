@@ -15,6 +15,7 @@ import org.duckdns.hjow.swingwebpanel.js.host.MediaRequestSource;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.image.DecodedImage;
 import org.duckdns.hjow.swingwebpanel.media.image.ImageDecoders;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
@@ -23,6 +24,7 @@ import org.duckdns.hjow.swingwebpanel.net.RequestPurpose;
 import org.duckdns.hjow.swingwebpanel.net.ResourceFetcher;
 import org.duckdns.hjow.swingwebpanel.net.ResourceRequest;
 import org.duckdns.hjow.swingwebpanel.net.ResourceResponse;
+import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 import org.duckdns.hjow.swingwebpanel.render.CanvasSource;
 import org.duckdns.hjow.swingwebpanel.render.ImageResource;
 import org.duckdns.hjow.swingwebpanel.render.CorsImageSource;
@@ -156,6 +158,20 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
     void setMediaControlSource(org.duckdns.hjow.swingwebpanel.render.MediaControlSource source) {
         // 이미 닫힌 리소스는 공급원을 받지 않는다.
         mediaControls = cancel.isCancelled() ? null : source;
+    }
+
+    /** Object URL scope shared with the document script host. / 문서 스크립트 호스트와 공유하는 객체 URL 범위. */
+    private volatile BlobUrlStore.Scope blobUrls;
+
+    /**
+     * Assigns the document's scope before fetching subresources.
+     * <p>
+     * 하위 리소스를 가져오기 전에 문서 범위를 지정한다.
+     *
+     * @param scope document scope / 문서 범위
+     */
+    void setBlobUrlScope(BlobUrlStore.Scope scope) {
+        blobUrls = scope;
     }
 
     /**
@@ -445,6 +461,7 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
             }
             ResourceRequest request = new ResourceRequest(url).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                     .setCookies(cookies).setCancelToken(cancel).setReferrer(pageUrl).setInitiator(Origin.of(pageUrl))
+                    .setBlobUrlScope(blobUrls)
                     .setEmbedderPolicy(context.crossOriginPolicy.getEmbedder())
                     .setPurpose(font ? RequestPurpose.FONT : (stylesheet ? RequestPurpose.STYLESHEET : RequestPurpose.IMAGE))
                     .setCacheMode(context.force ? ResourceRequest.CacheMode.FORCE_RELOAD : ResourceRequest.CacheMode.DEFAULT);
@@ -485,7 +502,7 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
                 size = bytes.length;
             } else if (stylesheet) {
                 String text = StyleSheetDecoder.decode(response.getBody(), response.getCharset(), "UTF-8");
-                sheet = new LoadedStyleSheet(text, response.getFinalUrl());
+                sheet = new LoadedStyleSheet(text, response.getFinalUrl(), response.getBlobUrlEntry() != null);
                 size = (long) text.length() * 2;
             } else {
                 DecodedImage decoded = ImageDecoders.decode(response.getBody(), response.getMimeType(), IMAGE_LIMITS);
@@ -541,6 +558,9 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
      * @return true if the image may be used and read / 이미지를 쓰고 읽어도 되면 true
      */
     private boolean corsGranted(ResourceResponse response, boolean credentials) {
+        if (response.getBlobUrlEntry() != null) {
+            return true;
+        }
         Origin page = Origin.of(pageUrl);
         Origin from = Origin.of(response.getFinalUrl());
         if (!page.isOpaque() && page.isSameOrigin(from)) {
@@ -594,6 +614,10 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
      * @return true if allowed / 허용되면 true
      */
     private boolean fontAllowed(String url) {
+        if ("blob".equals(UrlUtil.getScheme(url))) {
+            BlobUrlStore.Scope scope = blobUrls;
+            return scope != null && scope.resolve(url) != null;
+        }
         if (pageUrl != null && pageUrl.startsWith("classpath:")) {
             return url.startsWith("classpath:");
         }
@@ -685,6 +709,7 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
                 try {
                     ResourceRequest request = new ResourceRequest(absoluteUrl).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                             .setCookies(cookies).setCancelToken(token).setReferrer(pageUrl).setInitiator(Origin.of(pageUrl))
+                            .setBlobUrlScope(blobUrls)
                             .setEmbedderPolicy(context.crossOriginPolicy.getEmbedder())
                             .setPurpose(RequestPurpose.AUDIO)
                             .setCacheMode(context.force ? ResourceRequest.CacheMode.FORCE_RELOAD : ResourceRequest.CacheMode.DEFAULT);

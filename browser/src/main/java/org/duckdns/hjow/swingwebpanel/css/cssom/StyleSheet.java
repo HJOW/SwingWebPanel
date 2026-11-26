@@ -70,6 +70,8 @@ public final class StyleSheet {
 
     /** The location the sheet was loaded from (the CSSOM <code>href</code>), or null for an inline or constructed sheet. / 시트를 읽은 위치(CSSOM <code>href</code>). 인라인이나 생성한 시트이면 null. */
     private String href;
+    /** Whether the loader verified this sheet against the document's origin. / 로더가 이 시트와 문서 오리진의 관계를 확인했는지 여부. */
+    private boolean originClean;
 
     /** The sheet that imported this one, or null. / 이 시트를 가져온 시트. 없으면 null. */
     private StyleSheet parentSheet;
@@ -367,6 +369,22 @@ public final class StyleSheet {
      */
     public void setHref(String h) {
         this.href = h;
+    }
+
+    /** Returns the explicit origin access granted when this sheet was read. / 시트를 읽을 때 명시적으로 허용한 오리진 접근을 반환한다. */
+    public boolean isOriginClean() {
+        return originClean;
+    }
+
+    /**
+     * Records the loader's origin access decision for use by CSSOM.
+     * <p>
+     * CSSOM에서 사용할 로더의 오리진 접근 판정을 기록한다.
+     *
+     * @param clean true for a confirmed same-origin sheet / 동일 오리진으로 확인한 시트이면 true
+     */
+    void setOriginClean(boolean clean) {
+        originClean = clean;
     }
 
     /**

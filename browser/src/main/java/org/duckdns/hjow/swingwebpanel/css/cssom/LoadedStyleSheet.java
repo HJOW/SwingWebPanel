@@ -12,6 +12,8 @@ public final class LoadedStyleSheet {
 
     /** The final URL. / 최종 URL. */
     private final String url;
+    /** Whether the loader established same-origin access independently of the textual URL. / 로더가 URL 문자열과 별도로 동일 오리진 접근을 확인했는지 여부. */
+    private final boolean originClean;
 
     /**
      * Creates a result.
@@ -22,8 +24,27 @@ public final class LoadedStyleSheet {
      * @param url  the final URL / 최종 URL
      */
     public LoadedStyleSheet(String text, String url) {
+        this(text, url, false);
+    }
+
+    /**
+     * Creates a result with explicit same-origin access information.
+     * <p>
+     * 명시적인 동일 오리진 접근 정보로 결과를 만든다.
+     *
+     * @param text decoded CSS / 디코딩한 CSS
+     * @param url final URL / 최종 URL
+     * @param originClean true if origin access has been independently established / 오리진 접근을 별도로 확인했으면 true
+     */
+    public LoadedStyleSheet(String text, String url, boolean originClean) {
         this.text = text;
         this.url = url;
+        this.originClean = originClean;
+    }
+
+    /** Returns the loader's explicit origin access decision. / 로더가 명시적으로 허용한 오리진 접근 여부를 반환한다. */
+    boolean isOriginClean() {
+        return originClean;
     }
 
     /**

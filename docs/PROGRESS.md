@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-06-d2-a 객체 URL 웹 요청과 하위 리소스 (2026-11-26) ===
+현재 작업 번호: P28-06-d2-a 완료.
+완료한 내용: Fetch·XHR가 시작 때 유효한 blob 바이트를 확보한다. 문서의 객체 URL 범위를 이미지·스타일·오디오·글꼴, 일반·모듈 스크립트와 워커에 전달했다. CSSOM은 로더가 검증한 동일 오리진의 시트를 불투명 URL에서도 읽는다.
+변경 파일: BlobUrlStore.java, PageWebRequests.java, PageRuntime.java, PagePresentation.java, PageResources.java, CssomBindings.java, CSSOM의 LoadedStyleSheet·StyleSheet·DocumentStyleSheets·StyleSheetBuilder, WorkerApi.java, WorkerScope.java, BlobUrlIntegrationTest.java, AGENTS.md, 이 문서.
+검증 결과: JDK 6u45에서 실제 페이지의 Fetch·XHR·중간 해제·다른 오리진 차단, 불투명 문서의 스크립트·CSSOM·SVG·WAV 메타데이터·워커를 확인했다. 인접 회귀를 합쳐 38건 통과, 실패와 건너뜀 0건. sourcecheck 0 위반.
+미해결 사항: 최상위 문서·링크·프레임의 이동과 다운로드. WAV는 메타데이터 로딩을 확인했으며 실제 장치 재생은 P22-10에서 검증한다.
+다음 작업 번호: P28-06-d2-b.
+-----------------------------------------------------------------------------------------------
 === P28-06-d1 객체 URL의 등록과 리소스 응답 (2026-11-26) ===
 현재 작업 번호: P28-06-d1 완료.
 완료한 내용: File API 객체 URL을 컴포넌트 내부에 등록하고 오리진·파티션을 적용했다. 문서·워커별 수명과 해제, 조회한 요청의 바이트 보존, 조각·쿼리 구별, 단일 바이트 범위와 취소를 공통 리소스 계층에 추가했다.

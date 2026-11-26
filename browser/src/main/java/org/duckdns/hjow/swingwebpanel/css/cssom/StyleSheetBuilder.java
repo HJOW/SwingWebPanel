@@ -743,6 +743,7 @@ final class StyleSheetBuilder {
             StyleSheet imported = new StyleSheetBuilder(finalUrl, origin, scoped, diag, importStack, importCount, quirks).build(l.getText());
             // 가져온 시트는 읽은 위치(href)와 그 안에 나중에 넣을 가져오기를 읽을 로더를 가진다.
             imported.setHref(finalUrl);
+            imported.setOriginClean(l.isOriginClean());
             imported.setLoader(scoped);
             return imported;
         } catch (IOException e) {

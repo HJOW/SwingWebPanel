@@ -163,6 +163,7 @@ public final class DocumentStyleSheets {
             String finalUrl = l.getUrl() != null ? l.getUrl() : abs;
             StyleSheet s = StyleSheet.parse(l.getText(), finalUrl, StyleSheet.ORIGIN_AUTHOR, loader, diag, quirks);
             s.setHref(finalUrl);
+            s.setOriginClean(l.isOriginClean());
             s.setSourceKey(abs);
             s.applyOwnerAttributes(attrs.get("media"), attrs.get("title"), false);
             s.setOwner(pi);
@@ -289,6 +290,7 @@ public final class DocumentStyleSheets {
             String finalUrl = l.getUrl() != null ? l.getUrl() : abs;
             StyleSheet s = StyleSheet.parse(l.getText(), finalUrl, StyleSheet.ORIGIN_AUTHOR, loader, diag, quirks);
             s.setHref(finalUrl);
+            s.setOriginClean(l.isOriginClean());
             return s;
         } catch (IOException ex) {
             CssDiagnostics.report(diag, CssDiagnostics.INVALID, "<link href=" + href + ">", "could not be loaded: " + ex.getMessage());

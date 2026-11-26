@@ -278,7 +278,7 @@ final class CssomBindings {
     private void checkReadable(StyleSheet sheet) {
         String href = sheet.getHref();
         // 인라인 시트나 생성한 시트는 항상 읽을 수 있다.
-        if (href == null) {
+        if (href == null || sheet.isOriginClean()) {
             return;
         }
         Origin doc = Origin.of(page.getDocument().getOriginUrl());
