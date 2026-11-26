@@ -4,11 +4,13 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle;
 import org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver;
+import org.duckdns.hjow.swingwebpanel.dom.Document;
 import org.duckdns.hjow.swingwebpanel.dom.DocumentFragment;
 import org.duckdns.hjow.swingwebpanel.dom.Element;
 import org.duckdns.hjow.swingwebpanel.dom.Event;
 import org.duckdns.hjow.swingwebpanel.dom.FocusManager;
 import org.duckdns.hjow.swingwebpanel.dom.MouseEvent;
+import org.duckdns.hjow.swingwebpanel.dom.Namespaces;
 import org.duckdns.hjow.swingwebpanel.html.ParserNodeData;
 import org.duckdns.hjow.swingwebpanel.js.Js;
 import org.duckdns.hjow.swingwebpanel.js.JsException;
@@ -96,6 +98,40 @@ final class ElementExtras {
             throw JsException.typeError("Illegal invocation");
         }
         return e;
+    }
+
+    /**
+     * Replaces an element's children with a rendered text fragment (HTML §3.2.7).
+     * <p>
+     * 요소의 자식을 렌더링 텍스트 조각으로 교체한다(HTML §3.2.7).
+     *
+     * @param target element receiving the new children / 새 자식을 받는 요소
+     * @param value value converted to a legacy DOMString / 레거시 DOMString으로 변환할 값
+     */
+    private static void setInnerText(Element target, JsValue value) {
+        String text = value == Js.NULL ? "" : Ops.toString(value);
+        Document owner = target.getOwnerDocument();
+        DocumentFragment fragment = owner.createDocumentFragment();
+        int start = 0;
+        // CRLF, CR, LF를 각각 하나의 HTML br로 바꾸고 사이 문자열은 그대로 텍스트로 넣는다.
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (c != '\r' && c != '\n') {
+                continue;
+            }
+            if (start < i) {
+                fragment.appendChild(owner.createTextNode(text.substring(start, i)));
+            }
+            fragment.appendChild(owner.createElementNS(Namespaces.HTML, "br"));
+            if (c == '\r' && i + 1 < text.length() && text.charAt(i + 1) == '\n') {
+                i++;
+            }
+            start = i + 1;
+        }
+        if (start < text.length()) {
+            fragment.appendChild(owner.createTextNode(text.substring(start)));
+        }
+        target.replaceChildren(fragment);
     }
 
     /**
@@ -294,9 +330,9 @@ final class ElementExtras {
             }
         }, new NativeFunction.Call() {
             /**
-             * Replaces the content with text.
+             * Replaces the children with text and HTML line breaks.
              * <p>
-             * 내용을 텍스트로 바꾼다.
+             * 자식을 텍스트와 HTML 줄바꿈으로 바꾼다.
              *
              * @param r    the realm / realm
              * @param self this value / this 값
@@ -304,7 +340,7 @@ final class ElementExtras {
              * @return undefined / undefined
              */
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
-                element(self).setTextContent(Ops.toString(Js.arg(args, 0)));
+                setInnerText(element(self), Js.arg(args, 0));
                 return Js.UNDEFINED;
             }
         });

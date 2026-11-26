@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P22-16-b1 innerText 쓰기 (2026-11-26) ===
+현재 작업 번호: P22-16-b1 완료.
+완료한 내용: innerText에 null을 쓰면 기존 자식을 비우고 CRLF·CR·LF는 각각 HTML br 하나로 바꾼다. 그 사이의 문자열은 텍스트 노드가 되고 기존 자식은 문서 조각으로 한 번에 교체된다.
+변경 파일: ElementExtras.java, ElementExtrasTest.java, AGENTS.md, FEATURE_MATRIX.md, 이 문서.
+검증 결과: 실제 JDK 6u45 javac 및 JRE 6u45에서 ElementExtrasTest, PageScriptsTest, NodeApiTest 34건 통과. 마크업 모양의 텍스트, 줄바꿈 순서·네임스페이스, null·undefined, MutationObserver 단일 기록을 확인했다. 기준은 WHATWG HTML §3.2.7의 2026-11-26 응답이다.
+미해결 사항: DOM-05 읽기의 렌더링 텍스트 수집은 후속 항목이다.
+다음 작업 번호: P22-16-b2.
+-----------------------------------------------------------------------------------------------
 === P22-14 재집계 및 P22-16-a 최종 조건 대조 (2026-11-26) ===
 현재 작업 번호: P22-16-a 완료. P22-07·P22-10 검증 계층 기록.
 완료한 내용: 상단 요구사항 대응과 실제 구현·시험을 비교했다. 스크립트 비활성 상태의 meta refresh, 문서 이탈 이벤트, 마우스 드래그·포인터, EventSource와 요소 기하의 낡은 판정을 정정했다. 현재 Maven 산출물의 OS·Swing 확인과 오디오 장치 제약을 기록했다.

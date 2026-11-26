@@ -25,6 +25,18 @@ public class ElementExtrasTest {
     public ElementExtrasTest() {
     }
 
+    /** Checks the rendered text fragment and its single child-list record. / 렌더링 텍스트 조각과 단일 자식 목록 기록을 확인한다. */
+    public void testInnerTextSetter() {
+        PageFixture f = new PageFixture().load("<div id=d><span>old</span></div>");
+        Check.equal("1|1|6|br|<x>|br|br|z|br|http://www.w3.org/1999/xhtml|<x>z",
+                f.scripts.evaluate("var d = document.getElementById('d'); var o = new MutationObserver(function () {});"
+                        + "o.observe(d, {childList: true}); d.innerText = '\\r\\n<x>\\r\\r\\nz\\n'; var r = o.takeRecords(); var n = d.childNodes;"
+                        + "[r.length,r[0].removedNodes.length,r[0].addedNodes.length,n[0].localName,n[1].data,n[2].localName,n[3].localName,n[4].data,"
+                        + "n[5].localName,n[5].namespaceURI,d.textContent].join('|')", "t"), "text, line breaks, and one replacement");
+        Check.equal("0|undefined", f.scripts.evaluate("d.innerText = null; var count = d.childNodes.length;"
+                + "d.innerText = undefined; [count,d.firstChild.data].join('|')", "t"), "legacy null conversion and ordinary undefined conversion");
+    }
+
     /**
      * P15-03: the inline style reads and writes the style attribute and understands camel-case, dashed and custom property names.
      * <p>
