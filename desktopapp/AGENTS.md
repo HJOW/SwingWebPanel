@@ -22,8 +22,13 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 | `pom.xml` | 모듈 POM. 부모의 JDK 6 컴파일 설정을 쓴다. `package` 에서 실행 JAR 을 만들고 `verify` 에서 JDK 6 으로 `--smoke` 실행 |
 | `src/assembly/app.xml` | 앱 + `swingwebpanel` + `swingwebpanel-js` 클래스를 합친 실행 JAR 의 구성 |
 | `src/main/java/.../desktopapp/Main.java` | 진입점. `[주소]` 또는 `--smoke` |
-| `src/main/java/.../desktopapp/BrowserApp.java` | 프로세스 전체 상태(열린 창, 마지막 창이 닫힐 때의 종료) |
-| `src/main/java/.../desktopapp/ui/BrowserWindow.java` | 브라우저 창(JFrame) |
+| `src/main/java/.../desktopapp/BrowserApp.java` | 프로세스 전체 상태(설정, 열린 창, 마지막 창이 닫힐 때의 종료) |
+| `src/main/java/.../desktopapp/Texts.java` | UI 글의 언어 선택. 글은 쓰는 곳에 `Texts.of("English", "한국어")` 로 함께 적는다 |
+| `src/main/java/.../desktopapp/model/` | `AddressInput`(주소 입력 정규화), `Settings`(설정 값과 리스너) |
+| `src/main/java/.../desktopapp/ui/BrowserWindow.java` | 브라우저 창(JFrame). `NavigationBar.Actions` 와 `BrowserTab.Listener` 를 구현한다 |
+| `src/main/java/.../desktopapp/ui/BrowserTab.java` | 페이지 하나(SwingWebPanel + JScrollPane)와 그 상태(읽는 중인 주소, 알림 문구) |
+| `src/main/java/.../desktopapp/ui/NavigationBar.java`, `StatusBar.java`, `Icons.java` | 탐색 도구 모음(버튼, 주소 표시줄, 이력 메뉴), 상태 표시줄, Java2D 로 그린 아이콘 |
+| `src/test/java/.../desktopapp/ui/TestPages.java` | 창 시험 도우미: 임시 파일 페이지, 루프백 HTTP 서버, EDT 조건 대기 |
 | `src/test/java/...` | 자체 실행기(`testing.TestRunner`, 엔진 모듈의 시험 JAR)로 실행하는 시험 |
 | `run.sh`, `run.bat` | 빌드 후 JDK 6 의 `java -jar` 로 실행 |
 
@@ -38,6 +43,7 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 
 - 산출물: `desktopapp/target/swingwebpanel-desktopapp.jar`(실행 JAR), `desktopapp/target/swingwebpanel-desktopapp-<판>.jar`(앱 클래스만).
 - 종료 코드(`--smoke`): 0 성공, 1 실패.
+- 창 시험은 버튼을 `doClick()` 으로 누르고 창을 보이지 않게 만든다. 실제 마우스·키보드 확인은 `tools/uicheck` 로 따로 한다(P31-11).
 - 프레임이 필요한 시험은 headless JVM 에서 `Check.skip` 으로 건너뛴다. 건너뛴 경우 이유를 `docs/PROGRESS.md` 에 기록한다.
 - 사용자 데이터 위치는 시스템 속성 `swingwebpanel.desktopapp.home` 으로 바꾼다. 시험과 smoke 실행은 `target` 아래를 쓴다.
 

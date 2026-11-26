@@ -2,14 +2,15 @@ package org.duckdns.hjow.swingwebpanel.desktopapp;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
 import org.duckdns.hjow.swingwebpanel.desktopapp.ui.BrowserWindow;
 
 /**
- * The state of the whole browser program: the open browser windows and what happens when the last one is closed. One instance exists per
- * process. Create it and call its methods on the event dispatch thread.
+ * The state of the whole browser program: the settings, the open browser windows and what happens when the last one is closed. One
+ * instance exists per process. Create it and call its methods on the event dispatch thread.
  * <p>
- * 브라우저 프로그램 전체의 상태: 열린 브라우저 창들과, 마지막 창이 닫힐 때 일어나는 일. 프로세스에 인스턴스가 하나 있다. 이벤트 디스패치 스레드에서
- * 만들고 그 메서드를 부른다.
+ * 브라우저 프로그램 전체의 상태: 설정, 열린 브라우저 창들, 마지막 창이 닫힐 때 일어나는 일. 프로세스에 인스턴스가 하나 있다. 이벤트 디스패치
+ * 스레드에서 만들고 그 메서드를 부른다.
  * <p>
  * 사용 예 / Example:
  * <pre>
@@ -24,6 +25,9 @@ public final class BrowserApp {
 
     /** The address of the empty page. / 빈 페이지의 주소. */
     public static final String BLANK = "about:blank";
+
+    /** The settings shared by all windows. / 모든 창이 공유하는 설정. */
+    private final Settings settings = new Settings();
 
     /** The open windows in the order they were opened. / 열린 순서대로의 창. */
     private final List<BrowserWindow> windows = new ArrayList<BrowserWindow>();
@@ -50,6 +54,17 @@ public final class BrowserApp {
     }
 
     /**
+     * Returns the settings of the application.
+     * <p>
+     * 응용 프로그램의 설정을 반환한다.
+     *
+     * @return the settings shared by all windows / 모든 창이 공유하는 설정
+     */
+    public Settings getSettings() {
+        return settings;
+    }
+
+    /**
      * Opens a new browser window that shows an address. The window is created but not shown; the caller makes it visible.
      * <p>
      * 주소를 보여 주는 새 브라우저 창을 연다. 창은 만들기만 하고 보이게 하지는 않는다. 보이게 하는 것은 호출자이다.
@@ -60,7 +75,10 @@ public final class BrowserApp {
     public BrowserWindow openWindow(String url) {
         BrowserWindow window = new BrowserWindow(this);
         windows.add(window);
-        window.navigate(url == null ? BLANK : url);
+        // 빈 페이지는 컴포넌트의 처음 상태이므로 다시 읽지 않는다.
+        if (url != null && !BLANK.equals(url)) {
+            window.getActiveTab().open(url);
+        }
         return window;
     }
 

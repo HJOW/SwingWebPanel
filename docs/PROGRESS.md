@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P31-03 desktopapp 주 창과 탐색 도구 모음 (2026-11-26) ===
+현재 작업 번호: P31-03 완료. P31-04 진행 중.
+완료한 내용: 제목 표시줄(페이지 제목 또는 주소 + 앱 이름), 탐색 도구 모음(뒤로·앞으로·새로고침·멈춤·홈 버튼, 이력 메뉴, Shift+새로고침), 주소 표시줄(입력 정규화, 편집 중인 글 보호, Enter/Esc, 읽는 중인 주소 표시), 상태 표시줄(상태 문구, 진행 막대, 확대 비율). 설정 모델(홈 페이지, 검색 주소 서식; 파일 저장은 P31-07)과 UI 글의 영어·한국어 선택을 넣었다.
+변경 파일: desktopapp의 Texts.java, model/AddressInput.java, model/Settings.java, model/package-info.java, ui/BrowserTab.java, ui/NavigationBar.java, ui/StatusBar.java, ui/Icons.java(신규), BrowserApp.java, ui/BrowserWindow.java, 시험 model/AddressInputTest.java, ui/BrowserWindowTest.java, ui/TestPages.java(신규), AppBoundaryTest.java, desktopapp/README.md, desktopapp/AGENTS.md, docs/progress/desktopapp.md, AGENTS.md, 이 문서.
+검증 결과: JDK 8u202의 mvn -B -o -pl desktopapp -am "-Dtest.filter=desktopapp" verify 성공. JRE 6u45에서 앱 시험 11건 통과, 건너뜀 0건(AddressInputTest 4, BrowserWindowTest 4, BrowserAppTest 2, AppBoundaryTest 1). run-app-smoke 통과. sourcecheck desktopapp 위반 0건. 로그 build/p31/p3103.log. 실제 창 확인: JRE 6u45, Windows 10에서 창을 띄워 classpath 예제 페이지를 읽고 화면을 캡처했다(build/p31/shot/p3103.png: 제목 표시줄, 아이콘 버튼의 활성·비활성, 주소, 상태 문구 Done, 100%).
+미해결 사항: 창 시험은 버튼을 doClick()으로 눌렀다. 실제 마우스·키보드·한글 입력기 조작은 확인하지 않았다(P31-11). 링크 위 주소 표시는 컴포넌트의 상태 문구에 맡겼고 실제 포인터로는 확인하지 않았다.
+다음 작업 번호: P31-04
+-----------------------------------------------------------------------------------------------
 === P31-02 desktopapp 모듈 골격 (2026-11-26) ===
 현재 작업 번호: P31-02 완료. P31-03 진행 중.
 완료한 내용: Maven 모듈 desktopapp(swingwebpanel-desktopapp)을 만들어 부모 POM에 등록했다. Main(주소 인수, --smoke), BrowserApp(열린 창 목록, 마지막 창이 닫히면 종료), ui.BrowserWindow(JScrollPane 안의 SwingWebPanel, 제목 표시줄에 페이지 제목과 앱 이름). 실행 JAR desktopapp/target/swingwebpanel-desktopapp.jar는 앱과 SwingWebPanel, 엔진 클래스를 합친 단일 JAR이다. run.sh/run.bat, README.md, AGENTS.md를 두었다. sourcecheck 기본 경로와 ARCHITECTURE, 루트 README에 모듈을 추가했다.
