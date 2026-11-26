@@ -263,6 +263,7 @@
 | WEB-13 | `console` 전체: `log info warn error debug assert clear count countReset dir dirxml group groupCollapsed groupEnd table time timeEnd timeLog trace`, 서식 문자열(`%s %d %i %f %o %O %c %%`) | WHATWG Console Standard | `js.builtins.ConsoleBuiltins`, `js.builtins.GlobalBuiltins` | `js.interp.ConsoleApiTest`(8건), `js.interp.ConsoleRecordTest`(6건, 구조화된 기록), `js.interp.HostApiTest`(기존 출력 형식 유지) | 검증 완료 (한계: `trace` 는 호출 스택이 없고, `table` 은 `Map`/`Set` 을 일반 객체로 다루며, 객체는 스크립트 코드를 실행하지 않고 출력한다) |
 | WEB-14 | 작은 창·문서·요소 API와 폐기된 멤버: `window.event/external/moveTo/resizeTo/bars`, `document.elementsFromPoint/applets/fgColor 계열`, `Node.lookupNamespaceURI/lookupPrefix/isDefaultNamespace`, `Element.clientTop/clientLeft/offsetParent`, `window.applicationCache`, `navigator.registerProtocolHandler 계열/taintEnabled`, `crypto`, 폐기된 IDL 반영 속성 | HTML5 2014 REC 3.1·4·5.7·6.6·11.2, CSSOM View, DOM | `js.host.LegacyWebApi`, `dom.NamespaceLookup`, `js.dom.DomInterfaces`, `js.dom.DomBridge`(window.event) | `js.host.LegacyWebApiTest`(7건), `core.LegacyWebApiIntegrationTest`(3건: 실제 레이아웃) | 검증 완료 (제약: `elementsFromPoint` 는 최상위 요소와 그 조상만(그 아래에만 겹친 요소는 없음), `scrollIntoViewIfNeeded` 는 `scrollIntoView` 와 같음, 핸들러 등록은 검사만 하고 효과 없음, `applicationCache` 는 항상 `UNCACHED`) |
 | WEB-15 | `EventSource`(서버 전송 이벤트): `text/event-stream` 스트리밍 읽기, `open/message/error`, `event/data/id/retry` 필드, 재연결과 `Last-Event-ID`, `readyState`, `close()`, `withCredentials`, 교차 오리진(CORS) | HTML LS 9.2 Server-sent events (조회 2026-11-17, Last-Modified 2026-11-16), W3C REC 2015-02-03 | `js.host.web.{EventSourceApi,EventStreamParser}`, `js.host.StreamingWebRequestSource`, `core.PageWebRequests`, `net.{HttpFetcher,ResourceRequest}`, `js.worker.WorkerWebHost` | `js.host.web.EventStreamParserTest`(10), `js.host.web.EventSourceTest`(14), `core.EventSourceIntegrationTest`(6: 실제 HTTP 와 CORS, 이동·폐기 때 연결 닫힘), `js.worker.WorkerEventSourceTest`(2) | 검증 완료 | 새 연결의 마지막 이벤트 ID 는 소스의 마지막 ID 로 시작(Chromium 방식), 재연결 시간 3초에서 시작하고 지수 백오프 없음, 읽기 제한 5분(침묵한 연결은 끊고 재연결), 열린 스트림은 페이지당 6개, 줄과 이벤트 데이터는 8 MiB 한도(넘으면 연결 실패). 프록시가 적용되는 URL 은 JRE 연결을 쓰므로 교차 오리진 `Origin` 이 실리지 않는다 |
+| WEB-16 | `navigator.clipboard.readText/writeText` | [Clipboard API 7.3·9절](https://w3c.github.io/clipboard-apis/) (2026-06-24 응답 판본, 조회 2026-11-26) | `js.host.web.ClipboardApi`, `WindowGlobals`, `PageScripts`, `PageRuntime`, `PageKeyboard`, `SwingWebPanel` | `ClipboardApiIntegrationTest`, `EditingClipboardTest`, `FormClipboardTest` | 검증 완료(일반 텍스트) | HTTPS·루프백·호스트 제공 클래스패스의 보안 Window에서 노출. 쓰기는 신뢰 사용자 입력, 읽기는 Ctrl+V 또는 Shift+Insert에서 하며 해당 작업과 마이크로태스크에 활성화를 한정한다. 교차 오리진 프레임 호출은 거부. ClipboardItem과 파일·HTML 읽기/쓰기, 권한 위임은 미지원. |
 
 ## 6. CSS 모듈 (CSS) — 기준 CSS Snapshot 2026 (W3C Group Note, 2026-06-22) (P00-05)
 
@@ -463,7 +464,7 @@ P29-02에서 `ESX-SYNTAX-2018`, `ESX-SEMANTICS-2019`, `ESX-GLOBALTHIS`를 검증
 | ES-COMPAT-TRANSITION | ECMA-262 제17판 부속서 E·F | 구판과 ES2015~ES2026 표준이 충돌하는 지점(`ToNumber("0b10")`, `U+180E` 비공백, 함수 `length` configurable, `Object.keys` 원시값 강제 변환, `Date(-0)` `+0` 정규화, `RegExp.prototype`/`Date.prototype` 비인스턴스, ES2016 `Reflect.enumerate` 제거 등)은 최신 정본인 ES2026 의미를 따름 | `js.*`, `js.builtins.meta.ReflectBuiltins` | `EditionTransitionTest` (P29-09) | 검증 완료 | 폐기된 Reflect.enumerate와 프록시 트랩 제거, 현대 Reflect 태그, 숫자·공백, 배열 길이 변환 부작용, 문법·프로토타입·정렬을 검증했다. |
 
 ES2027 이후(제17판 이후의 차기 Stage 4 제안, 예: Temporal 등 제17판 본문에 포함되지 않은 규격)는 이 프로젝트의 ES2026 완료 판정 범위 밖으로 분리한다.
-게임에 쓰이는 중단 가능 이벤트 리스너는 EVT-01, Fetch 응답 스트림은 WEB-07에 기록했다. `navigator.clipboard`와 `URL.createObjectURL`은 P28-06에서 5.4절을 갱신한다.
+게임에 쓰이는 중단 가능 이벤트 리스너는 EVT-01, Fetch 응답 스트림은 WEB-07, `navigator.clipboard`는 WEB-16에 기록했다. `URL.createObjectURL`은 P28-06에서 5.4절을 갱신한다.
 
 ## 8. 미디어: 이미지·오디오·비디오 (MED) (P00-07)
 
@@ -557,7 +558,7 @@ AGENTS.md 상단 "목표 - 지원 기능"의 각 행이 이 표의 어느 기능
 | 요구사항 (AGENTS.md 상단) | 추적 기능 ID |
 | --- | --- |
 | HTML5 지원 (이전 버전 모두 지원) | HTML-01~21, LEG-01~15 |
-| CSS3, ES2026 지원 (DOM 객체/DOM 이벤트 모두 지원, 이전 버전의 ES 호환 필요, 하이퍼링크 지원), 자체 JS 엔진/DOM/렌더링 엔진 | CSS-01~47, ES-*, ESX-*, ES26-*, ES-COMPAT-*, DOM-01~14, EVT-01~11, HEI-01~09, WEB-01~15, API-17~19 |
+| CSS3, ES2026 지원 (DOM 객체/DOM 이벤트 모두 지원, 이전 버전의 ES 호환 필요, 하이퍼링크 지원), 자체 JS 엔진/DOM/렌더링 엔진 | CSS-01~47, ES-*, ESX-*, ES26-*, ES-COMPAT-*, DOM-01~14, EVT-01~11, HEI-01~09, WEB-01~16, API-17~19 |
 | 이미지, 오디오 지원; 비디오는 미지원 표시 | IMG-01~10, AUD-01~10, VID-01~02, EXC-01 |
 | 이미지/오디오 URL 실패 시 미지원 URL 및 alt 표시 | REQ-05 |
 | 메서드 지원(setUserAgent … getSessionStorage) | API-01~26 |

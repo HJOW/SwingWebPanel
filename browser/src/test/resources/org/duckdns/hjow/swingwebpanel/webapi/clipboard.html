@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="UTF-8"><title>클립보드 시험</title></head>
+<body>
+<button style="width:100px;height:46px">복사</button>
+<script>
+sessionStorage.setItem('clipboard-secure', String(isSecureContext));
+document.querySelector('button').onclick = function () {
+    navigator.clipboard.writeText('로컬 문서').then(function () {
+        sessionStorage.setItem('classpath-copy', 'copied');
+    }, function (error) {
+        sessionStorage.setItem('classpath-copy', error.name);
+    });
+};
+</script>
+</body>
+</html>

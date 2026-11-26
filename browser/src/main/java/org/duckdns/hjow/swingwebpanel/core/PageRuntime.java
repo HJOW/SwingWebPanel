@@ -5,7 +5,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
 import org.duckdns.hjow.swingwebpanel.WebMessageEvent;
 import org.duckdns.hjow.swingwebpanel.content.ContentType;
@@ -1119,6 +1121,64 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
      * @return true while active and enabled / 활성·허용 상태이면 true */
     public boolean isScriptingEnabled() {
         return !closed.get() && session.isJavascriptEnabled() && !session.isDisposed();
+    }
+
+    /**
+     * Runs a clipboard operation on the EDT and returns its result to this document's queue.
+     * <p>
+     * EDT에서 클립보드 작업을 실행하고 이 문서의 큐에 결과를 돌려준다.
+     *
+     * @param write text to write or null to read / 쓸 텍스트. 읽으려면 null
+     * @param result receiver in this document / 이 문서에서 결과를 받는 곳
+     */
+    public void requestClipboardText(final String write, final ClipboardResult result) {
+        SwingUtilities.invokeLater(new Runnable() {
+            /** Runs the platform access while this document remains active. / 문서가 활성일 때 플랫폼에 접근한다. */
+            public void run() {
+                if (!isScriptingEnabled()) {
+                    return;
+                }
+                String text = "";
+                boolean failed = false;
+                try {
+                    text = session.clipboardText(write);
+                } catch (Exception e) {
+                    failed = true;
+                } catch (java.awt.AWTError e) {
+                    failed = true;
+                }
+                completeClipboardText(result, text, failed);
+            }
+        });
+    }
+
+    /**
+     * Schedules clipboard completion so promise reactions stay on the original document thread.
+     * <p>
+     * 프라미스 반응이 원래 문서 스레드에서 실행되도록 클립보드 완료를 예약한다.
+     *
+     * @param result receiver / 수신자
+     * @param text read text or empty / 읽은 텍스트 또는 빈 문자열
+     * @param failed whether clipboard access failed / 클립보드 접근 실패 여부
+     */
+    private void completeClipboardText(final ClipboardResult result, final String text, final boolean failed) {
+        try {
+            scheduler.post(new Runnable() {
+                /** Settles the request in its original realm. / 원래 렐름에서 요청을 확정한다. */
+                public void run() {
+                    if (isScriptingEnabled()) {
+                        scripts.runTask(new Runnable() {
+                            /** Reports the platform result. / 플랫폼 결과를 알린다. */
+                            public void run() {
+                                result.complete(text, failed);
+                            }
+                        });
+                    }
+                }
+            }, 0);
+        } catch (RejectedExecutionException e) {
+            // 문서가 교체되거나 폐기되어 큐가 닫혔으면 결과를 전달하지 않는다.
+        }
     }
 
     /**

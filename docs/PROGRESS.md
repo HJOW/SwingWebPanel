@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-06-c 비동기 일반 텍스트 클립보드 (2026-11-26) ===
+현재 작업 번호: P28-06-c 완료.
+완료한 내용: Secure Window의 navigator.clipboard를 P11-08 호스트 클립보드에 연결했다. 실제 클릭·키 입력에서 쓰기, Ctrl+V·Shift+Insert에서 읽기를 허용한다. 활성화는 입력 작업과 마이크로태스크 동안 유지한다. 호스트 제공 클래스패스도 보안 Window 문맥에 포함하며 네트워크의 교차 오리진 격리 판정은 기존 함수를 사용한다.
+변경 파일: ClipboardApi.java, SwingWebPanel.java, BrowserSession.java, HtmlPageDocument.java, PageRuntime.java, PageInput.java, PageKeyboard.java, HostEnvironment.java, PageScripts.java, WindowGlobals.java, ClipboardApiIntegrationTest.java, 시험 리소스 webapi/clipboard.html, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45에서 제품 검증 JAR로 실제 Swing 입력과 대체 클립보드의 4건 및 인접 회귀 29건 통과. 비보안 문맥, 교차 오리진 프레임, 합성 입력, 타이머, 비어 있거나 사용할 수 없는 클립보드를 확인했다. Clipboard API 7.3·9절(https://w3c.github.io/clipboard-apis/, 2026-06-24 응답 판본, 2026-11-26 조회) 및 sourcecheck 0 위반.
+미해결 사항: live OS 클립보드 수동 검증은 P22-10에서 다룬다. blob: 및 file: 지원이 남았다.
+다음 작업 번호: P28-06-d1.
+-----------------------------------------------------------------------------------------------
 === P28-06-a 이벤트 등록 후 페이지 수명 주기 회귀 수정 (2026-11-26) ===
 현재 작업 번호: P28-06-a 후속 보완 완료.
 완료한 내용: 중단 신호 옵션을 추가한 등록 경로가 Document와 Window의 언로드 리스너 표시를 건너뛰던 문제를 공통 등록 훅으로 수정했다. 중단 신호가 없는 호출의 기존 등록 경로도 유지했다.

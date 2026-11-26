@@ -535,7 +535,7 @@ public final class PageKeyboard extends KeyAdapter implements FocusListener {
                 event.setStates(key.repeat, key.composing);
                 event.setModifiers(key.has(KeyEvent.CTRL_DOWN_MASK), key.has(KeyEvent.SHIFT_DOWN_MASK), key.has(KeyEvent.ALT_DOWN_MASK),
                         key.has(KeyEvent.META_DOWN_MASK));
-                boolean allowed = PageInput.fire(snapshot, target, event);
+                boolean allowed = PageInput.fire(snapshot, target, event, key.clipboard != null);
                 if ("keydown".equals(type)) {
                     typedSuppressed = !allowed;
                 } else if ("keyup".equals(type)) {

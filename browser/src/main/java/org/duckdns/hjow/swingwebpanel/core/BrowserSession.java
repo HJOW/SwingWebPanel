@@ -1,5 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.core;
 
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -174,6 +176,11 @@ public final class BrowserSession implements FormSubmitSink {
      * 다운로드해야 하는 이동을 받는 핸들러. 없으면 null.
      */
     private volatile DownloadHandler downloadHandler;
+
+    /** System clipboard writer installed by the component. / 컴포넌트가 설치한 시스템 클립보드 쓰기. */
+    private volatile ClipboardSink clipboardSink;
+    /** System clipboard reader installed by the component. / 컴포넌트가 설치한 시스템 클립보드 읽기. */
+    private volatile ClipboardSource clipboardSource;
 
     /**
      * Extra request headers (user agent excluded).
@@ -481,6 +488,50 @@ public final class BrowserSession implements FormSubmitSink {
      */
     public void setDownloadHandler(DownloadHandler handler) {
         this.downloadHandler = handler;
+    }
+
+    /**
+     * Shares the component's clipboard service with its document runtimes.
+     * <p>
+     * 컴포넌트의 클립보드 서비스를 문서 런타임과 공유한다.
+     *
+     * @param writer plain text writer / 일반 텍스트 쓰기
+     * @param reader clipboard reader / 클립보드 읽기
+     */
+    public void setClipboard(ClipboardSink writer, ClipboardSource reader) {
+        clipboardSink = writer;
+        clipboardSource = reader;
+    }
+
+    /**
+     * Executes a plain text clipboard operation on the Swing event thread.
+     * <p>
+     * Swing 이벤트 스레드에서 일반 텍스트 클립보드 작업을 실행한다.
+     *
+     * @param write text to write or null to read / 쓸 텍스트. 읽으면 null
+     * @return the text, or an empty string after a write or when there is no text / 읽은 텍스트. 쓰기 뒤나 텍스트가 없으면 빈 문자열
+     * @throws Exception when the clipboard is unavailable / 클립보드를 사용할 수 없으면
+     */
+    String clipboardText(String write) throws Exception {
+        // 쓰기는 일반 텍스트 종류만 전달하며 읽기는 플랫폼의 문자열 형식만 요청한다.
+        if (write != null) {
+            ClipboardSink writer = clipboardSink;
+            if (writer == null) {
+                throw new IllegalStateException("Clipboard is unavailable");
+            }
+            writer.write(write, null);
+            return "";
+        }
+        ClipboardSource reader = clipboardSource;
+        if (reader == null) {
+            throw new IllegalStateException("Clipboard is unavailable");
+        }
+        Transferable data = reader.read();
+        if (data == null || !data.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+            return "";
+        }
+        Object value = data.getTransferData(DataFlavor.stringFlavor);
+        return value instanceof String ? (String) value : "";
     }
 
     /**

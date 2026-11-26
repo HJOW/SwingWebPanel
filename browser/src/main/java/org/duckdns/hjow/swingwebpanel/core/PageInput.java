@@ -1115,10 +1115,25 @@ public final class PageInput extends MouseAdapter implements MouseMotionListener
      * @return false if a listener cancelled it / 리스너가 취소했으면 false
      */
     static boolean fire(PageSnapshot snapshot, Element target, UiEvent event) {
+        return fire(snapshot, target, event, false);
+    }
+
+    /**
+     * Dispatches trusted input and passes a platform paste shortcut to the target's own document.
+     * <p>
+     * 신뢰 입력을 전달하며 플랫폼 붙여넣기 단축키를 대상의 문서에 알린다.
+     *
+     * @param snapshot active rendered page / 활성 렌더링 페이지
+     * @param target event target / 이벤트 대상
+     * @param event trusted input / 신뢰 입력
+     * @param pasteAction whether this was a platform paste shortcut / 플랫폼 붙여넣기 단축키 여부
+     * @return true if the event was not cancelled / 이벤트가 취소되지 않았으면 true
+     */
+    static boolean fire(PageSnapshot snapshot, Element target, UiEvent event, boolean pasteAction) {
         PageDocument document = snapshot.getDocument();
         if (document instanceof HtmlPageDocument) {
             // 대상 요소가 프레임의 문서에 있으면 그 문서의 스크립트 호스트로 보낸다.
-            return ((HtmlPageDocument) document).ownerOf(target).dispatchInput(target, event);
+            return ((HtmlPageDocument) document).ownerOf(target).dispatchInput(target, event, pasteAction);
         }
         return target.dispatchTrustedEvent(event);
     }

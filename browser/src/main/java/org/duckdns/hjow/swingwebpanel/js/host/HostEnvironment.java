@@ -322,6 +322,35 @@ public abstract class HostEnvironment {
     }
 
     /**
+     * Receives the result of an asynchronous clipboard text operation on the document thread.
+     * <p>
+     * 비동기 클립보드 텍스트 작업 결과를 문서 스레드에서 받는다.
+     */
+    public interface ClipboardResult {
+        /**
+         * Reports the text or the unavailability of the clipboard.
+         * <p>
+         * 텍스트 또는 클립보드를 사용할 수 없음을 알린다.
+         *
+         * @param text text for a read, or empty for a successful write / 읽은 텍스트. 쓰기에 성공하면 빈 문자열
+         * @param unavailable true when the host could not access the clipboard / 호스트가 클립보드에 접근하지 못하면 true
+         */
+        void complete(String text, boolean unavailable);
+    }
+
+    /**
+     * Requests access to plain clipboard text after the caller checked user activation.
+     * <p>
+     * 호출자가 사용자 활성화를 검증한 뒤 클립보드의 일반 텍스트 접근을 요청한다.
+     *
+     * @param write text to write, or null for a read / 쓸 텍스트. 읽으려면 null
+     * @param result completion on the document thread / 문서 스레드에서 받을 완료 결과
+     */
+    public void requestClipboardText(String write, ClipboardResult result) {
+        result.complete("", true);
+    }
+
+    /**
      * Returns the cookie store of the component, or null for no cookies.
      * <p>
      * 컴포넌트의 쿠키 저장소를 반환한다. 쿠키가 없으면 null.

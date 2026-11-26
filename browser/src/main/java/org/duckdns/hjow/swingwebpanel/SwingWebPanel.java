@@ -481,6 +481,7 @@ public class SwingWebPanel extends JPanel implements Scrollable {
         input.getSelection().setClipboard(clipboardSink);
         input.getEditing().setClipboardSource(clipboardSource);
         controls.setClipboard(clipboardSink, clipboardSource);
+        session.setClipboard(clipboardSink, clipboardSource);
         controls.setKeyboard(keyboard);
         view.setControlOverlays(controls);
         view.setFormSubmitSink(new FormSubmitSink() {

@@ -18,6 +18,8 @@ import org.duckdns.hjow.swingwebpanel.dom.Element;
 import org.duckdns.hjow.swingwebpanel.dom.Event;
 import org.duckdns.hjow.swingwebpanel.dom.PageTransitionEvent;
 import org.duckdns.hjow.swingwebpanel.dom.EventTarget;
+import org.duckdns.hjow.swingwebpanel.dom.KeyboardEvent;
+import org.duckdns.hjow.swingwebpanel.dom.MouseEvent;
 import org.duckdns.hjow.swingwebpanel.dom.HashChangeEvent;
 import org.duckdns.hjow.swingwebpanel.dom.MutationRecord;
 import org.duckdns.hjow.swingwebpanel.dom.Namespaces;
@@ -399,6 +401,11 @@ public final class PageScripts {
      * 않으므로 마이크로태스크 검사점은 가장 바깥 것만 갖는다.
      */
     private int depth;
+
+    /** Clipboard write permission through this trusted input task and its microtasks. / 이 신뢰 입력과 마이크로태스크에서의 클립보드 쓰기 권한. */
+    private boolean clipboardWriteActivation;
+    /** Clipboard read permission from an explicit host paste shortcut. / 명시적인 호스트 붙여넣기 단축키에서 온 읽기 권한. */
+    private boolean clipboardReadActivation;
 
     /**
      * The parallel fetches of external scripts. Their completion reaches the thread that owns the page's DOM only through this set.
@@ -1205,6 +1212,11 @@ public final class PageScripts {
             }
         } finally {
             depth--;
+            // 오류나 실행 제한에서도 실제 입력의 권한은 다음 작업으로 넘어가지 않는다.
+            if (depth == 0) {
+                clipboardWriteActivation = false;
+                clipboardReadActivation = false;
+            }
             clearEntry(outermost);
             lock.unlock();
         }
@@ -1537,7 +1549,7 @@ public final class PageScripts {
      * @return true if no listener cancelled it / 어떤 리스너도 취소하지 않았으면 true
      */
     public boolean dispatchEvent(final EventTarget target, final Event event) {
-        return dispatchEvent(target, event, false);
+        return dispatchEvent(target, event, false, false);
     }
 
     /**
@@ -1550,18 +1562,67 @@ public final class PageScripts {
      * @return true if not cancelled / 취소되지 않았으면 true
      */
     public boolean dispatchTrustedEvent(EventTarget target, Event event) {
+        return dispatchTrustedEvent(target, event, false);
+    }
+
+    /**
+     * Dispatches host input, marking an explicit platform paste action if present.
+     * <p>
+     * 호스트 입력을 전달하며 명시적인 플랫폼 붙여넣기 동작이 있으면 표시한다.
+     *
+     * @param target event target / 이벤트 대상
+     * @param event host input / 호스트 입력
+     * @param pasteAction explicit platform paste shortcut / 명시적인 플랫폼 붙여넣기 단축키
+     * @return true if not cancelled / 취소되지 않았으면 true
+     */
+    public boolean dispatchTrustedEvent(EventTarget target, Event event, boolean pasteAction) {
         if (disposed) {
             return target.dispatchTrustedEvent(event);
         }
-        return dispatchEvent(target, event, true);
+        return dispatchEvent(target, event, true, pasteAction);
+    }
+
+    /**
+     * Checks this document's task-local clipboard activation.
+     * <p>
+     * 현재 문서 작업의 클립보드 활성화를 검사한다.
+     *
+     * @param read true for reading, false for writing / 읽으면 true, 쓰면 false
+     * @return true while the current input grants the operation / 현재 입력이 동작을 허용하면 true
+     */
+    public boolean hasClipboardActivation(boolean read) {
+        return !disposed && env.isScriptingEnabled() && (read ? clipboardReadActivation : clipboardWriteActivation);
+    }
+
+    /**
+     * Checks the input types that activate clipboard writing.
+     * <p>
+     * 클립보드 쓰기를 활성화하는 입력 종류를 검사한다.
+     *
+     * @param event trusted host event / 신뢰 호스트 이벤트
+     * @return true for deliberate pointer or keyboard input / 직접 누른 포인터나 키 입력이면 true
+     */
+    private boolean activatesClipboardWrite(Event event) {
+        String type = event.getType();
+        if (event instanceof MouseEvent) {
+            return ((MouseEvent) event).getButton() == 0 && ("mousedown".equals(type) || "pointerdown".equals(type) || "click".equals(type));
+        }
+        if (event instanceof KeyboardEvent && "keydown".equals(type)) {
+            KeyboardEvent key = (KeyboardEvent) event;
+            String name = key.getKey();
+            return !key.isRepeat() && !key.isComposing() && !"Escape".equals(name) && !"Shift".equals(name) && !"Alt".equals(name)
+                    && !"Control".equals(name) && !"Meta".equals(name);
+        }
+        return false;
     }
 
     /** Dispatches inside one page task without changing the origin of the event. / 이벤트의 출처를 바꾸지 않고 페이지 작업 하나 안에서 전달한다.
      * @param target event target / 이벤트 대상
      * @param event dispatched event / 전달할 이벤트
      * @param trusted host input flag / 호스트 입력 표시
+     * @param pasteAction whether this was a platform paste / 플랫폼 붙여넣기 여부
      * @return cancellation result / 취소 결과 */
-    private boolean dispatchEvent(final EventTarget target, final Event event, final boolean trusted) {
+    private boolean dispatchEvent(final EventTarget target, final Event event, final boolean trusted, final boolean pasteAction) {
         final boolean[] result = { true };
         runTask(new Runnable() {
             /**
@@ -1571,6 +1632,11 @@ public final class PageScripts {
              */
             public void run() {
                 try {
+                    // JavaScript의 dispatchEvent나 요소 click 호출에는 호스트 입력 권한을 부여하지 않는다.
+                    if (trusted) {
+                        clipboardReadActivation |= pasteAction;
+                        clipboardWriteActivation |= pasteAction || activatesClipboardWrite(event);
+                    }
                     result[0] = trusted ? target.dispatchTrustedEvent(event) : target.dispatchEvent(event);
                 } catch (DomException e) {
                     throw bridge.domError(e);

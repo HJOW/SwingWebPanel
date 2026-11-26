@@ -18,6 +18,7 @@ import org.duckdns.hjow.swingwebpanel.js.dom.DomBridge;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomInterfaces;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomExceptionObjects;
 import org.duckdns.hjow.swingwebpanel.js.dom.EventHandlers;
+import org.duckdns.hjow.swingwebpanel.js.host.web.ClipboardApi;
 import org.duckdns.hjow.swingwebpanel.js.host.web.WebApis;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
@@ -1029,6 +1030,10 @@ final class WindowGlobals {
         nav.defineData("maxTouchPoints", Js.num(0), false, true, true);
         nav.defineData("plugins", realm.newArray(), false, true, true);
         nav.defineData("mimeTypes", realm.newArray(), false, true, true);
+        // 클립보드 인터페이스는 보안 컨텍스트의 Window에만 설치한다.
+        if (isSecureContext()) {
+            ClipboardApi.install(page, nav);
+        }
         method(nav, "javaEnabled", 0, new NativeFunction.Call() {
             /**
              * Java applets are not supported.
@@ -1362,17 +1367,29 @@ final class WindowGlobals {
      * @return true for a secure document context / 문서가 보안 컨텍스트이면 true
      */
     private boolean isSecureContext() {
-        if (!origin().isPotentiallyTrustworthy()) {
+        if (!isSecureDocumentOrigin(origin())) {
             return false;
         }
         BrowsingContext current = page.getEnvironment().getBrowsingContext();
         // 자기 오리진이 안전해도 상위 문서가 안전하지 않으면 보안 컨텍스트가 아니다.
         for (BrowsingContext parent = current == null ? null : current.getParent(); parent != null; parent = parent.getParent()) {
-            if (!Origin.of(parent.getOriginUrl()).isPotentiallyTrustworthy()) {
+            if (!isSecureDocumentOrigin(Origin.of(parent.getOriginUrl()))) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Includes application resources installed by the host in the secure Window context policy.
+     * <p>
+     * 호스트가 설치한 애플리케이션 리소스를 보안 Window 문맥 정책에 포함한다.
+     *
+     * @param origin a document origin / 문서 오리진
+     * @return true for trustworthy network and classpath origins / 신뢰 가능한 네트워크·클래스패스 오리진이면 true
+     */
+    private static boolean isSecureDocumentOrigin(Origin origin) {
+        return UrlUtil.SCHEME_CLASSPATH.equals(origin.getScheme()) || origin.isPotentiallyTrustworthy();
     }
 
     /**

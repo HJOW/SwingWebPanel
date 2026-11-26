@@ -295,7 +295,21 @@ public final class HtmlPageDocument implements PageDocument {
      * @param event trusted input / 신뢰 입력
      * @return false if cancelled / 취소되었으면 false */
     boolean dispatchInput(EventTarget target, Event event) {
-        return runtime == null ? target.dispatchTrustedEvent(event) : runtime.scripts().dispatchTrustedEvent(target, event);
+        return dispatchInput(target, event, false);
+    }
+
+    /**
+     * Dispatches trusted input on this document, recording an explicit platform paste action.
+     * <p>
+     * 이 문서에서 신뢰 입력을 전달하고 플랫폼의 명시적인 붙여넣기를 기록한다.
+     *
+     * @param target input target / 입력 대상
+     * @param event host input event / 호스트 입력 이벤트
+     * @param pasteAction whether the host recognized its paste shortcut / 호스트가 붙여넣기 단축키로 인식했는지 여부
+     * @return true if allowed / 입력이 취소되지 않았으면 true
+     */
+    boolean dispatchInput(EventTarget target, Event event, boolean pasteAction) {
+        return runtime == null ? target.dispatchTrustedEvent(event) : runtime.scripts().dispatchTrustedEvent(target, event, pasteAction);
     }
 
     /**
