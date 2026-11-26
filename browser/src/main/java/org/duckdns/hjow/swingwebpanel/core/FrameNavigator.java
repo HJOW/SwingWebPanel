@@ -256,7 +256,8 @@ final class FrameNavigator {
         } else if (choice.top) {
             session.navigateFromPage(href, false);
         } else if (choice.frame != null) {
-            choice.frame.scriptNavigate(href, false);
+            PageScripts requester = source != null ? source.getScripts() : top == null ? null : top.scripts();
+            choice.frame.scriptNavigate(href, false, requester);
         }
     }
 

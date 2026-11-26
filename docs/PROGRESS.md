@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-06-d2-b 객체 URL 문서와 프레임 이동 (2026-11-26) ===
+현재 작업 번호: P28-06-d2-b 완료.
+완료한 내용: 이동을 시작할 때 객체 URL을 확보한다. 최상위 문서·프레임에서 생성자 오리진을 상속하고 샌드박스는 새 불투명 오리진을 받는다. 생성한 미디어 문서는 처음 확보한 이미지·오디오 소스를 사용한다.
+변경 파일: BrowserSession.java, FrameContext.java, FrameNavigator.java, NavigationPolicy.java, NavigationRequest.java, NetworkPageLoader.java, PageRequestContext.java, PageResources.java, PageRuntime.java, ParsingPageLoader.java, FrameApi.java, BlobUrlStore.java, BlobUrlIntegrationTest.java, AGENTS.md, 이 문서.
+검증 결과: JDK 6u45로 변경 소스를 컴파일했다. TestRunner의 BlobUrlIntegrationTest, BlobUrlStoreTest, FrameNavigationTest, FrameWindowTest, FrameSandboxTest, TopWindowNavigationTest에서 43건 통과, 실패·건너뜀 0. Java setPage, 링크 클릭, SVG 픽셀, 해제된 URL, 불투명 오리진 상속과 교차 오리진 프레임 차단을 확인했다. sourcecheck 0 위반.
+미해결 사항: 다운로드 요청에 확보한 객체를 넘기고 저장 중 페이지가 계속 실행되는지 확인한다.
+다음 작업 번호: P28-06-d2-c.
+-----------------------------------------------------------------------------------------------
 === P28-06-d2-a 객체 URL 웹 요청과 하위 리소스 (2026-11-26) ===
 현재 작업 번호: P28-06-d2-a 완료.
 완료한 내용: Fetch·XHR가 시작 때 유효한 blob 바이트를 확보한다. 문서의 객체 URL 범위를 이미지·스타일·오디오·글꼴, 일반·모듈 스크립트와 워커에 전달했다. CSSOM은 로더가 검증한 동일 오리진의 시트를 불투명 URL에서도 읽는다.

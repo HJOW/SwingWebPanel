@@ -16,9 +16,11 @@ import org.duckdns.hjow.swingwebpanel.dom.Event;
 import org.duckdns.hjow.swingwebpanel.js.host.BrowsingContext;
 import org.duckdns.hjow.swingwebpanel.js.host.PageScripts;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.CancelledException;
 import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
+import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.render.FramePicture;
 import org.duckdns.hjow.swingwebpanel.render.FrameScroll;
@@ -326,9 +328,27 @@ final class FrameContext implements BrowsingContext {
      * @param force   true to bypass the caches / 캐시를 우회하려면 true
      */
     void navigate(String url, String srcdoc, PostData post, boolean replace, boolean force) {
+        navigate(url, srcdoc, post, replace, force, owner.runtime == null ? null : owner.runtime.scripts());
+    }
+
+    /**
+     * Navigates with the initiating document's object URL scope.
+     * <p>
+     * 시작한 문서의 객체 URL 범위를 사용하여 이동한다.
+     *
+     * @param url absolute address / 절대 주소
+     * @param srcdoc inline frame source or null / 인라인 프레임 원문 또는 null
+     * @param post form submission or null / 폼 제출 또는 null
+     * @param replace whether to replace history / 이력을 교체하는지 여부
+     * @param force whether to bypass caches / 캐시 우회 여부
+     * @param requester initiating script environment or null / 시작한 스크립트 환경 또는 null
+     */
+    private void navigate(String url, String srcdoc, PostData post, boolean replace, boolean force, PageScripts requester) {
         if (destroyed || owner.isClosed()) {
             return;
         }
+        BlobUrlStore.Scope scope = requester == null ? null : requester.getEnvironment().getBlobUrlScope();
+        BlobUrlStore.Entry blob = scope != null && "blob".equals(UrlUtil.getScheme(url)) ? scope.resolve(url) : null;
         generation++;
         final int gen = generation;
         if (token != null) {
@@ -353,7 +373,8 @@ final class FrameContext implements BrowsingContext {
         }
         final FrameSet.Tree tree = owner.tree;
         // 페이지를 강제로 새로 고쳤으면(refresh(true)) 그 페이지의 프레임 문서도 캐시를 우회한다.
-        final NavigationRequest request = tree.session.frameRequest(tree.requestId, url, force || tree.force, cancel, this, post, flags.allowsScripts());
+        final NavigationRequest request = tree.session.frameRequest(tree.requestId, url, force || tree.force, cancel, this, post, flags.allowsScripts())
+                .withBlobUrlEntry(blob);
         String base = owner.document.getBaseUri();
         if (problem != null) {
             commitLater(gen, errorSnapshot(url, problem), request);
@@ -1056,6 +1077,20 @@ final class FrameContext implements BrowsingContext {
      * @param replace true to replace the entry / 항목을 바꾸려면 true
      */
     void scriptNavigate(String url, boolean replace) {
+        BrowsingContext entry = PageScripts.entryContext();
+        scriptNavigate(url, replace, entry == null ? getScripts() : entry.getScripts());
+    }
+
+    /**
+     * Navigates with the script environment of the triggering link or caller.
+     * <p>
+     * 이동을 일으킨 링크 또는 호출자의 스크립트 환경을 사용하여 이동한다.
+     *
+     * @param url absolute address / 절대 주소
+     * @param replace whether to replace history / 이력을 교체하는지 여부
+     * @param requester the initiating document / 시작한 문서
+     */
+    void scriptNavigate(String url, boolean replace, PageScripts requester) {
         if (destroyed) {
             return;
         }
@@ -1078,7 +1113,7 @@ final class FrameContext implements BrowsingContext {
             moveInsideDocument(current, url, null, false);
             return;
         }
-        navigate(url, null, null, replace, false);
+        navigate(url, null, null, replace, false, requester);
     }
 
     /**

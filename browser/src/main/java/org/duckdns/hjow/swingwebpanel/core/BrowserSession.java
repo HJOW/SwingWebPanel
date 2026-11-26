@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.content.ContentClassifier;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue;
 import org.duckdns.hjow.swingwebpanel.js.host.structured.HostMessageValues;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.CancelledException;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
@@ -62,6 +63,19 @@ public final class BrowserSession implements FormSubmitSink {
      * 페이지를 읽는 전략.
      */
     private final PageLoader loader;
+    /** The component's registered object URLs when standard services are attached. / 표준 서비스가 연결된 컴포넌트의 등록 객체 URL. */
+    private volatile BlobUrlStore blobUrls;
+
+    /**
+     * Shares the resource loader's object URL store with navigation.
+     * <p>
+     * 리소스 로더의 객체 URL 저장소를 이동에 연결한다.
+     *
+     * @param store the store for this component / 이 컴포넌트의 저장소
+     */
+    void bindBlobUrls(BlobUrlStore store) {
+        blobUrls = store;
+    }
 
     /**
      * Request numbering and the document thread.
@@ -1666,10 +1680,13 @@ public final class BrowserSession implements FormSubmitSink {
                 textMime = restore.getMimeType();
             }
         }
+        // URL을 검증한 뒤에 nav.begin이 기존 생성 문서의 수명을 끝내도 읽을 바이트를 유지한다.
+        BlobUrlStore store = blobUrls;
+        BlobUrlStore.Entry blob = store != null && "blob".equals(UrlUtil.getScheme(target)) ? store.resolve(target, null, null, true) : null;
         NavigationController.Ticket ticket = nav.begin();
         navigationCount++;
         final NavigationRequest request = new NavigationRequest(ticket.id, type, target, text, textMime, force, restore, targetIndex,
-                userAgent, headers.copy(), javascriptEnabled, ticket.token, sink, post, downloadName);
+                userAgent, headers.copy(), javascriptEnabled, ticket.token, sink, post, downloadName).withBlobUrlEntry(blob);
         updateStatus("Loading " + target, 0);
         boolean queued = nav.submit(new Runnable() {
             /**

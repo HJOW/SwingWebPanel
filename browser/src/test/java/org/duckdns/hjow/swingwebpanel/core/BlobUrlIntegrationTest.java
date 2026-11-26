@@ -99,6 +99,167 @@ public final class BlobUrlIntegrationTest {
     }
 
     /**
+     * A host navigation can consume a document before the creating page is discarded.
+     * <p>
+     * 호스트 이동은 생성한 페이지를 폐기하기 전에 대상 문서를 확보할 수 있다.
+     *
+     * @throws Exception if navigation or message delivery fails / 이동이나 메시지 전달이 실패하면
+     */
+    public void testHostNavigatesToBlobDocument() throws Exception {
+        SwingWebPanel panel = FrameTestSupport.newPanel(300, 180);
+        Inbox inbox = new Inbox();
+        String html = "<!doctype html><script>opener.postMessage(location.protocol+'|'+origin,'*');</script>";
+        try {
+            panel.addWebMessageListener(inbox);
+            panel.setContent("<!doctype html><script>const url=URL.createObjectURL(new Blob(["
+                    + "'" + html.replace("'", "\\'").replace("</script>", "<\\/script>") + "'],{type:'text/html'}));"
+                    + "opener.postMessage(url,'*');</script>", "text/html");
+            String url = (String) inbox.next().getData();
+            panel.setPage(url + "#document");
+            Check.equal("blob:|null", inbox.next().getData(), "opaque origin and address of the displayed document");
+            awaitPage(panel, url + "#document");
+            Check.equal(html, panel.getContent(), "host navigation retains the original HTML");
+            panel.setPage("about:blank");
+            awaitPage(panel, "about:blank");
+            panel.setPage(url);
+            awaitPage(panel, url);
+            Check.isTrue(panel.getContent().contains("404"), "closed creator removed the registered document");
+        } finally {
+            panel.dispose();
+        }
+    }
+
+    /**
+     * The media document renders a captured image after the creator is gone.
+     * <p>
+     * 미디어 문서는 생성자가 사라진 뒤에도 확보한 이미지를 그린다.
+     *
+     * @throws Exception if the rendered image cannot be checked / 그려진 이미지를 검증할 수 없으면
+     */
+    public void testHostNavigatesToBlobImage() throws Exception {
+        SwingWebPanel panel = FrameTestSupport.newPanel(300, 180);
+        Inbox inbox = new Inbox();
+        try {
+            panel.addWebMessageListener(inbox);
+            panel.setContent("<!doctype html><script>const image='<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"40\" height=\"40\">"
+                    + "<rect width=\"40\" height=\"40\" fill=\"#123456\"/></svg>';"
+                    + "opener.postMessage(URL.createObjectURL(new Blob([image],{type:'image/svg+xml'})),'*');</script>", "text/html");
+            String url = (String) inbox.next().getData();
+            panel.setPage(url);
+            awaitPage(panel, url);
+            FrameTestSupport.awaitPixel(panel, 10, 10, 0x123456, "standalone object URL image");
+        } finally {
+            panel.dispose();
+        }
+    }
+
+    /**
+     * A same-origin frame and an activated link display HTML from object URLs.
+     * <p>
+     * 같은 오리진 프레임과 활성화한 링크는 객체 URL의 HTML을 표시한다.
+     *
+     * @throws Exception if navigation or message delivery fails / 이동이나 메시지 전달이 실패하면
+     */
+    public void testLinkAndFrameDisplayBlobDocument() throws Exception {
+        TestHttpServer site = new TestHttpServer();
+        SwingWebPanel panel = FrameTestSupport.newPanel(300, 180);
+        Inbox inbox = new Inbox();
+        try {
+            String parent = "<!doctype html><body><a id='open' style='display:block;width:120px;height:35px'>Open</a>"
+                    + "<iframe id='frame'></iframe><script>const make=html=>URL.createObjectURL(new Blob([html],{type:'text/html'}));"
+                    + "const f=document.getElementById('frame');f.onload=()=>{if(f.contentDocument.getElementById('payload'))"
+                    + "opener.postMessage(f.contentDocument.getElementById('payload').textContent,'*');};"
+                    + "f.src=make('<!doctype html><p id=payload>framed</p>');"
+                    + "document.getElementById('open').href=make(\"<!doctype html><script>opener.postMessage(origin+'|'+location.href,'*');<\\/script>\");"
+                    + "</script>";
+            site.routeFixed("/parent", TestHttpServer.Response.html(parent));
+            site.start();
+            panel.addWebMessageListener(inbox);
+            panel.setPage(site.url("/parent"));
+            Check.equal("framed", inbox.next().getData(), "the object's tuple origin permits frame DOM access");
+            FrameTestSupport.awaitProgress(panel, 100);
+            FrameTestSupport.click(panel, 25, 20);
+            String result = (String) inbox.next().getData();
+            String destination = result.substring(result.indexOf('|') + 1);
+            Check.equal(site.url("") + "|", result.substring(0, result.indexOf('|') + 1), "link inherits the creator's tuple origin");
+            Check.isTrue(destination.startsWith("blob:"), "link's document address is an object URL");
+            awaitPage(panel, destination);
+        } finally {
+            panel.dispose();
+            site.stop();
+        }
+    }
+
+    /**
+     * An opaque document can reach its own blob frame; a sandbox starts with a fresh opaque origin.
+     * <p>
+     * 불투명 문서는 자체 객체 URL 프레임에 접근할 수 있고 샌드박스는 별도의 불투명 오리진을 사용한다.
+     *
+     * @throws Exception if the frame does not load / 프레임을 읽지 못하면
+     */
+    public void testOpaqueBlobFrameOrigin() throws Exception {
+        Check.equal("framed|true", fromPage("new Promise(resolve=>{const f=document.createElement('iframe');"
+                + "const s=document.createElement('iframe');s.setAttribute('sandbox','allow-scripts');"
+                + "const url=URL.createObjectURL(new Blob(['<!doctype html><p id=payload>framed</p>'],{type:'text/html'}));"
+                + "f.src=url;s.src=url;f.onload=()=>{const p=f.contentDocument&&f.contentDocument.getElementById('payload');"
+                + "if(p){s.onload=()=>resolve(p.textContent+'|'+(s.contentDocument===null));document.body.appendChild(s);}};"
+                + "document.body.appendChild(f);})"), "an inherited opaque origin retains access only outside a sandbox");
+    }
+
+    /**
+     * A remote frame cannot navigate its own child to a blob URL from a different origin.
+     * <p>
+     * 원격 프레임은 자기 자식 프레임을 다른 오리진의 객체 URL로 이동할 수 없다.
+     *
+     * @throws Exception if test page loading or message delivery fails / 시험 페이지 로딩이나 메시지 전달이 실패하면
+     */
+    public void testOtherOriginCannotEmbedBlobDocument() throws Exception {
+        TestHttpServer site = new TestHttpServer();
+        TestHttpServer frame = new TestHttpServer();
+        SwingWebPanel panel = FrameTestSupport.newPanel(300, 180);
+        Inbox inbox = new Inbox();
+        try {
+            frame.routeFixed("/frame", TestHttpServer.Response.html("<!doctype html><body><script>"
+                    + "onmessage=e=>{const f=document.createElement('iframe');f.src=e.data;f.onload=()=>{"
+                    + "parent.postMessage('settled:'+(f.contentDocument===null),'*');};document.body.appendChild(f);};"
+                    + "parent.postMessage('ready','*');</script>"));
+            frame.start();
+            String page = "<!doctype html><script>const source='<scr'+'ipt>top.postMessage(\"ran\",\"*\");<\\/script>';"
+                    + "const url=URL.createObjectURL(new Blob([source],{type:'text/html'}));"
+                    + "onmessage=e=>{if(e.data==='ready')e.source.postMessage(url,e.origin);else opener.postMessage(e.data,'*');};</script>"
+                    + "<iframe src='" + frame.url("/frame") + "'></iframe>";
+            site.routeFixed("/site", TestHttpServer.Response.html(page));
+            site.start();
+            panel.addWebMessageListener(inbox);
+            panel.setPage(site.url("/site"));
+            Check.equal("settled:true", inbox.next().getData(), "the other origin does not run the blob script or expose frame DOM");
+        } finally {
+            panel.dispose();
+            site.stop();
+            frame.stop();
+        }
+    }
+
+    /**
+     * Waits for the requested URL and a settled navigation.
+     * <p>
+     * 요청한 URL의 이동이 확정될 때까지 기다린다.
+     *
+     * @param panel the component / 컴포넌트
+     * @param url the destination / 대상 주소
+     * @throws InterruptedException if interrupted / 인터럽트되면
+     */
+    private static void awaitPage(SwingWebPanel panel, String url) throws InterruptedException {
+        long deadline = System.currentTimeMillis() + 10000;
+        // 이전 페이지가 남아 있거나 요청이 진행 중이면 잠시 기다린다.
+        while ((!url.equals(panel.getPage()) || panel.getProgress() != 100) && System.currentTimeMillis() < deadline) {
+            Thread.sleep(10);
+        }
+        Check.equal(url, panel.getPage(), "committed destination");
+        Check.equal(100, panel.getProgress(), "completed destination");
+    }
+
+    /**
      * Runs an opaque page and returns the expression's asynchronous result.
      * <p>
      * 불투명 페이지를 실행하고 식의 비동기 결과를 반환한다.

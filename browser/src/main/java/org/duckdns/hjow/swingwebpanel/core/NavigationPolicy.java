@@ -1,5 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.core;
 
+import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.net.SchemePolicy;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 
@@ -36,6 +37,9 @@ final class NavigationPolicy {
             return false;
         }
         String source = UrlUtil.getScheme(sourceUrl);
+        if ("blob".equals(source)) {
+            source = Origin.of(sourceUrl).getScheme();
+        }
         return !"classpath".equals(UrlUtil.getScheme(target)) || !("http".equals(source) || "https".equals(source) || "ftp".equals(source));
     }
 

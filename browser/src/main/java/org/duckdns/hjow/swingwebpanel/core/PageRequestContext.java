@@ -1,5 +1,8 @@
 package org.duckdns.hjow.swingwebpanel.core;
 
+import org.duckdns.hjow.swingwebpanel.content.ContentClassifier;
+import org.duckdns.hjow.swingwebpanel.content.ContentKind;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy;
 import org.duckdns.hjow.swingwebpanel.net.RequestHeaders;
 
@@ -17,6 +20,8 @@ final class PageRequestContext {
     final boolean force;
     /** The policies of the document issuing subresource requests. / 하위 리소스를 요청하는 문서의 정책. */
     final CrossOriginPolicy crossOriginPolicy;
+    /** Captured bytes for the generated document of a media object. / 미디어 객체의 생성 문서에 확보한 바이트. */
+    final BlobUrlStore.Entry documentMedia;
 
     /**
      * Captures settings, using defaults for documents attached by standalone tests or custom loaders.
@@ -40,6 +45,9 @@ final class PageRequestContext {
         headers = request == null ? new RequestHeaders() : request.getHeaders().copy();
         force = request != null && request.isForce();
         crossOriginPolicy = policy;
+        BlobUrlStore.Entry entry = request == null ? null : request.getBlobUrlEntry();
+        ContentKind kind = entry == null ? null : ContentClassifier.kindOfMime(entry.getMimeType());
+        documentMedia = kind == ContentKind.IMAGE || kind == ContentKind.AUDIO ? entry : null;
     }
 
     /** Returns a copy so request construction cannot mutate this context. / 요청 구성이 문맥을 바꾸지 않도록 복사본을 반환한다.

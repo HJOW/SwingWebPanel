@@ -16,6 +16,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomBridge;
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.Origin;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 
@@ -99,7 +100,14 @@ final class FrameApi {
         if (c == context()) {
             return true;
         }
-        return Origin.of(page.getDocument().getOriginUrl()).isSameOrigin(Origin.of(c.getOriginUrl()));
+        // 튜플 오리진을 비교하고 객체 URL로 상속된 불투명 오리진을 식별한다.
+        if (Origin.of(page.getDocument().getOriginUrl()).isSameOrigin(Origin.of(c.getOriginUrl()))) {
+            return true;
+        }
+        BlobUrlStore.Scope caller = page.getEnvironment().getBlobUrlScope();
+        PageScripts target = c.getScripts();
+        return caller != null && target != null && !target.isDisposed()
+                && caller.sharesOpaqueOrigin(target.getEnvironment().getBlobUrlScope());
     }
 
     /**

@@ -127,7 +127,10 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         frame = request.getFrame();
         browsingContext = frame != null ? frame : session.topContext();
         pageUrl = document.getOriginUrl();
-        blobUrls = fetcher.getBlobUrlStore().open(pageUrl);
+        BlobUrlStore.Entry entry = request.getBlobUrlEntry();
+        // 정상적으로 상속하는 문서는 URL 생성자의 오리진을 받고 샌드박스 문서는 새 불투명 범위를 쓴다.
+        blobUrls = entry != null && (frame == null || frame.flags().allowsSameOrigin())
+                ? entry.openDocumentScope() : fetcher.getBlobUrlStore().open(pageUrl);
         Origin origin = Origin.of(pageUrl);
         CrossOriginPolicy policy = context.crossOriginPolicy;
         crossOriginIsolated = origin.isPotentiallyTrustworthy() && policy.getEmbedder() != CrossOriginPolicy.Embedder.UNSAFE_NONE

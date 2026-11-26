@@ -139,14 +139,15 @@ public final class NetworkPageLoader implements PageLoader, CacheOwner {
             return restoreStored(stored);
         }
         final String url = request.getUrl();
-        SchemePolicy.Kind kind = SchemePolicy.classify(url);
-        if (kind != SchemePolicy.Kind.HTTP && kind != SchemePolicy.Kind.HTTPS && kind != SchemePolicy.Kind.FTP
-                && kind != SchemePolicy.Kind.CLASSPATH) {
+        if (!SchemePolicy.isFetchAllowed(url)) {
             return local.load(request);
         }
         final DownloadRequiredException[] download = new DownloadRequiredException[1];
+        // 객체 URL의 최상위 이동만 File API의 파티션 예외를 적용한다.
+        RequestPurpose purpose = request.getFrame() == null ? RequestPurpose.DOCUMENT : RequestPurpose.FRAME;
         ResourceRequest req = new ResourceRequest(url).setUserAgent(request.getUserAgent()).setExtraHeaders(request.getHeaders())
-                .setCookies(cookies).setPurpose(RequestPurpose.DOCUMENT)
+                .setCookies(cookies).setPurpose(purpose)
+                .setBlobUrlEntry(request.getBlobUrlEntry())
                 .setCacheMode(cacheModeFor(request))
                 .setCancelToken(request.getCancelToken()).setProgressListener(new ProgressListener() {
                     /**

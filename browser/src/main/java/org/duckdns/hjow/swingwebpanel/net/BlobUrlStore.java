@@ -57,6 +57,18 @@ public final class BlobUrlStore {
         }
 
         /**
+         * Checks whether two scopes share an inherited opaque origin.
+         * <p>
+         * 두 범위가 상속된 동일한 불투명 오리진을 공유하는지 확인한다.
+         *
+         * @param other the scope being checked / 비교할 범위
+         * @return true for the same opaque origin / 동일한 불투명 오리진이면 true
+         */
+        public boolean sharesOpaqueOrigin(Scope other) {
+            return origin.isOpaque() && other != null && store == other.store && opaqueKey == other.opaqueKey;
+        }
+
+        /**
          * Opens a distinct lifetime for a worker that shares this scope's origin.
          * <p>
          * 이 범위의 오리진을 공유하는 워커에 별도 수명을 연다.
@@ -148,6 +160,17 @@ public final class BlobUrlStore {
         /** Returns the creator's document address for origin isolation. / 오리진 격리의 기준인 생성자 문서 주소를 반환한다. */
         public String getOriginUrl() {
             return owner.originUrl;
+        }
+
+        /**
+         * Starts the new document's lifetime with the origin of this accepted URL.
+         * <p>
+         * 받아들인 URL의 오리진을 사용해 새 문서의 수명을 시작한다.
+         *
+         * @return the independent document scope / 새 문서의 독립 범위
+         */
+        public Scope openDocumentScope() {
+            return new Scope(owner.store, owner.originUrl, owner.origin, owner.opaqueKey);
         }
 
         /** Returns the blob media type. / blob 미디어 타입을 반환한다. */

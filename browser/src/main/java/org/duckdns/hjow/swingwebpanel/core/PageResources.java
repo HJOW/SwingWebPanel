@@ -462,6 +462,7 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
             ResourceRequest request = new ResourceRequest(url).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                     .setCookies(cookies).setCancelToken(cancel).setReferrer(pageUrl).setInitiator(Origin.of(pageUrl))
                     .setBlobUrlScope(blobUrls)
+                    .setBlobUrlEntry(!font && !stylesheet ? context.documentMedia : null)
                     .setEmbedderPolicy(context.crossOriginPolicy.getEmbedder())
                     .setPurpose(font ? RequestPurpose.FONT : (stylesheet ? RequestPurpose.STYLESHEET : RequestPurpose.IMAGE))
                     .setCacheMode(context.force ? ResourceRequest.CacheMode.FORCE_RELOAD : ResourceRequest.CacheMode.DEFAULT);
@@ -710,6 +711,7 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
                     ResourceRequest request = new ResourceRequest(absoluteUrl).setUserAgent(context.userAgent).setExtraHeaders(context.headers())
                             .setCookies(cookies).setCancelToken(token).setReferrer(pageUrl).setInitiator(Origin.of(pageUrl))
                             .setBlobUrlScope(blobUrls)
+                            .setBlobUrlEntry(context.documentMedia)
                             .setEmbedderPolicy(context.crossOriginPolicy.getEmbedder())
                             .setPurpose(RequestPurpose.AUDIO)
                             .setCacheMode(context.force ? ResourceRequest.CacheMode.FORCE_RELOAD : ResourceRequest.CacheMode.DEFAULT);

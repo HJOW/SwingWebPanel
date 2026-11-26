@@ -1,5 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.core;
 
+import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
 import org.duckdns.hjow.swingwebpanel.net.CancelToken;
 import org.duckdns.hjow.swingwebpanel.net.RequestHeaders;
 
@@ -125,6 +126,27 @@ public final class NavigationRequest {
      * 이 이동이 로드되는 중첩 브라우징 문맥. 컴포넌트의 최상위 문서의 이동이면 null.
      */
     private FrameContext frame;
+
+    /** Object URL entry accepted before the previous document could be unloaded. / 이전 문서가 언로드되기 전에 받아들인 객체 URL 항목. */
+    private BlobUrlStore.Entry blobUrlEntry;
+
+    /**
+     * Associates an entry before giving the request to a loader thread.
+     * <p>
+     * 요청을 로더 스레드에 넘기기 전에 항목을 연결한다.
+     *
+     * @param entry resolved entry or null / 조회한 항목 또는 null
+     * @return this request / 이 요청
+     */
+    NavigationRequest withBlobUrlEntry(BlobUrlStore.Entry entry) {
+        blobUrlEntry = entry;
+        return this;
+    }
+
+    /** Returns the accepted entry, if any. / 받아들인 항목이 있으면 반환한다. */
+    BlobUrlStore.Entry getBlobUrlEntry() {
+        return blobUrlEntry;
+    }
 
     /**
      * Marks this request as the navigation of a frame (set once when the session builds the request of a frame).

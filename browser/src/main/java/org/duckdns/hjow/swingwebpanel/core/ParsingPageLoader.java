@@ -16,6 +16,7 @@ import org.duckdns.hjow.swingwebpanel.html.ParserControl;
 import org.duckdns.hjow.swingwebpanel.html.ParserListener;
 import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.ResourceFetcher;
+import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 
 /**
  * A page loader that completes the snapshots of another loader with a DOM tree (plan items P07, P17-02, P17-04): <code>text/html</code> source
@@ -151,6 +152,7 @@ public final class ParsingPageLoader implements PageLoader, CacheOwner {
             throw new IllegalStateException("script services already bound");
         }
         services = new ScriptServices(session, fetcher, cookies, view, this);
+        session.bindBlobUrls(fetcher.getBlobUrlStore());
     }
 
     /**
@@ -343,6 +345,10 @@ public final class ParsingPageLoader implements PageLoader, CacheOwner {
         doc.setCharacterSet(encoding);
         if (url != null) {
             doc.setUrl(url);
+        }
+        // 등록된 객체를 받지 못한 오류 문서는 주소 문자열에 적힌 오리진을 획득하지 않는다.
+        if ("blob".equals(UrlUtil.getScheme(url)) && (request == null || request.getBlobUrlEntry() == null)) {
+            doc.setOriginUrl("about:blank");
         }
         // 프레임의 문서는 주소, 기준 URL, 오리진을 프레임이 정한다(about:blank/srcdoc 은 생성자의 것을 물려받고 샌드박스는 오리진이 불투명).
         final FrameContext frame = request == null ? null : request.getFrame();
