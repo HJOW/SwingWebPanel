@@ -1012,39 +1012,75 @@ P29 완료(2026-11-26). JDK 6u45에서 엔진 891건과 브라우저 3,737건이
 현재(2026-11-26 확인) 상태와 표준 동작은 다음과 같다.
 - `window.close()`는 `js.host.WindowGlobals`에서 아무 동작도 하지 않는 함수이고, 최상위 창에는 `closed` 속성이 없다.
 - 이 컴포넌트에는 팝업 창이 없다. `js.host.FrameApi`의 `window.open`은 새 창이 필요하면 null을 반환하고, `core.FrameNavigator`는 링크·폼의 `_blank`를 현재 문맥에서 연다.
-- HTML Standard의 `window.close()`는 스크립트가 닫을 수 있는(script-closable) 창만 닫고 그 밖의 호출은 무시한다. Chromium은 이때 "Scripts may close only the windows that were opened by them." 경고를 콘솔에 낸다.
+- HTML Standard(Living Standard, 2026-11-26 갱신본 조회)의 `window.close()`는 스크립트가 닫을 수 있는(script-closable) 창만 닫고 그 밖의 호출은 무시한다.
+  - 닫을 수 있는 창: 최상위 창이면서, 웹 콘텐츠가 만들었거나(`is created by web content`) 세션 이력 항목이 하나인 창이다.
+  - 웹 콘텐츠가 만든 창: `window.open`의 새 창과 `_blank` 링크·폼으로 연 창 모두 해당한다. `noopener` 여부와 상관없다.
+  - `closed`는 창이 없거나 "닫는 중(is closing)"이면 true이다.
+  - 무시할 때 경고하라는 규정은 없다. Chromium은 "Scripts may close only the windows that were opened by them." 경고를 콘솔에 낸다.
 
-따라서 기본값 `false`는 표준 동작을 유지하고, `true`는 사용자가 연 본 창도 스크립트가 닫게 하는 프로젝트 확장이다.
+따라서 기본값 `false`는 호스트가 만든 창을 스크립트가 닫지 못하게 하는 동작이고, `true`는 사용자가 연 본 창도 스크립트가 닫게 하는 프로젝트 확장이다.
+
+P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "웹 콘텐츠가 만든 창"도 각각 SwingWebPanel이 된다. 처음 설계대로 "컴포넌트의 최상위 문서는 모두 본 창"으로 구현하면 다음 문제가 생긴다.
+- 팝업의 `window.close()`가 `closeRootWindow()`를 거쳐 `System.exit(0)`으로 프로그램 전체를 끝낼 수 있다.
+- 같은 오리진 팝업의 `opener.close()`가 프로그램을 끝낼 수 있다.
+- `w = window.open(url); w.close()`처럼 로딩 중에 닫으면, "이동하면 예약 취소" 규칙 때문에 팝업이 닫히지 않는다.
+- Swing 부품이 붙기 전의 팝업(P31-08-b)에는 닫기를 전달할 SwingWebPanel이 없다.
+- 닫기 뒤의 `dispose()`가 언로드 이벤트를 두 번 보낼 수 있다.
+
+아래 P30-01~03은 이 문제를 막도록 고친 구현 방안이다. P30에서 판정 구조와 두 갈래의 닫기 경로를 먼저 만들고, P31-08은 "웹 콘텐츠가 만든 창" 표시만 붙인다.
 
 - [ ] P30-01. 공개 API 계약을 `docs/API_CONTRACT.md` 5.23절(확장 메서드)과 2절 요약표·3절 초기 상태·5.13/5.14절의 유지·제거 표에 확정한다. `tools/webfetch`로 HTML Standard의 `window.close()`·`closed`·script-closable 정의를 조회하여 URL·조회 날짜를 기능 표에 고정한다. 기본안은 다음과 같다.
   - 메서드와 상태: `public void setRootWindowClosingEnabled(boolean enabled)`, `public boolean isRootWindowClosingEnabled()`.
     - 생성 직후 값은 false이다. 어느 스레드에서나 호출할 수 있고, 바뀐 값은 다음 닫기 판정부터 적용한다.
     - 값이 바뀌면 속성 변경 알림(`PROPERTY_ROOT_WINDOW_CLOSING_ENABLED` = `"rootWindowClosingEnabled"`)을 EDT에서 발생시킨다.
     - `clean()`은 값을 유지한다(P01-15의 유지 대상에 추가). `dispose()` 뒤 변경은 `IllegalStateException`이고 조회는 마지막 값을 반환한다.
-  - 적용 대상: 컴포넌트의 최상위 문서 창(본 창)에만 적용한다.
-    - 대상인 호출: 최상위 문서 자신의 `window.close()`/`self.close()`, 그리고 본 창을 이동시킬 수 있는 같은 오리진 하위 프레임의 `top.close()`.
-    - 무시하는 호출: 하위 프레임 자기 자신의 `window.close()`(표준과 같다), 교차 오리진 프레임의 `top.close()`, `allow-top-navigation`이 없는 샌드박스 프레임의 `top.close()`. 교차 오리진 프레임을 막는 것은 다른 사이트의 문서가 프로그램을 끝내지 못하게 하려는 것으로, 표준보다 좁은 프로젝트 정책이므로 계약에 근거를 적는다.
-    - Worker와 AudioWorklet에는 해당하지 않는다. 본 창은 호스트가 연 창이므로 표준의 "세션 이력 항목이 하나인 최상위 창" 규칙은 적용하지 않는다.
-  - 설정이 false인 경우: 아무 동작도 하지 않고 `closed`는 false로 남는다. 콘솔 리스너(P24)에 무시한 이유를 경고 수준으로 알린다(Chromium 문구와 같은 취지).
-  - 설정이 true인 경우: 표준의 닫기 절차를 따른다.
-    - `close()`를 호출하면 즉시 `closed`가 true(닫는 중)가 되고, 반복 호출은 무시한다.
-    - 실제 닫기는 호출한 스크립트 작업과 마이크로태스크 검사점이 끝난 뒤 문서 큐 작업으로 수행한다. 사용자 요구의 "바로 종료"는 "호출한 스크립트 작업이 끝난 직후 종료"로 계약에 적는다.
-    - 닫기 전에 페이지 수명 이벤트(P20-13의 `beforeunload`/`pagehide`/`unload`)를 보낼지, `beforeunload` 취소를 존중할지 정한다. 기본안은 이동과 같은 언로드 절차를 거치되 확인 대화 상자 없이 진행하는 것이다.
-    - 그 뒤 EDT에서 `protected void closeRootWindow()`를 한 번 호출한다. 기본 구현은 `System.exit(0)`이다.
-    - 닫기를 예약한 뒤 실행 전에 페이지 이동, `clean()`, `dispose()`, JavaScript 비활성화, 설정 해제(false)가 일어나면 예약을 취소한다.
-  - 확장 지점: `closeRootWindow()`는 `configureSsl`처럼 호스트와 시험이 재정의할 수 있다(예: 그 창만 닫기, P31의 데스크톱 앱). 재정의한 메서드가 반환하면 컴포넌트와 페이지는 그대로 남고 `closed`는 true를 유지하며, 이후 처리(`dispose()` 등)는 호스트가 정한다.
-  - 팝업: P31에서 추가할 팝업 창(스크립트가 연 보조 브라우징 문맥)의 `window.close()`는 이 설정과 무관하게 표준의 script-closable 규칙을 따른다.
+  - 창을 만든 주체: 표준의 "웹 콘텐츠가 만든 창" 표시를 창(최상위 문맥, `BrowserSession`)마다 기록하고, 이에 따라 닫을 수 있는지 판정한다.
+    - 호스트가 만든 창: 공개 생성자로 만든 SwingWebPanel이다. desktopapp의 본 창과 사용자가 직접 연 탭·창이 여기에 해당한다. 이 설정이 말하는 "본 창"이 이것이며, `setRootWindowClosingEnabled(true)`일 때만 닫을 수 있다. 컴포넌트의 이력은 처음 `about:blank` 항목을 남기므로(P01-02) 표준의 "이력 항목 하나" 규칙은 적용하지 않는다.
+    - 웹 콘텐츠가 만든 창: P31의 `window.open` 팝업과, `_blank` 링크·폼으로 연 탭·창이다. 이 설정과 상관없이 표준대로 닫을 수 있다.
+    - P30에서는 이 구분과 판정 구조만 만든다. 이때 모든 창은 "호스트가 만든 창"이고, 웹 콘텐츠가 만든 창을 실제로 만드는 경로는 P31-08이 붙인다.
+  - 호출한 쪽의 조건:
+    - 공통(표준): 최상위 창의 `close()`만 처리하고, 하위 프레임 자기 자신의 `window.close()`는 무시한다. 이미 닫는 중이면 무시한다. 호출한 문서가 대상 창과 "familiar" 관계여야 하고, 샌드박스가 대상 창의 이동을 허용해야 한다.
+    - 호스트가 만든 창에는 프로젝트 제한을 더한다. 닫으면 프로그램이 끝나기 때문이다.
+      - 그 컴포넌트 안의 문서가 부른 경우만 받는다. 즉 최상위 문서 자신, 그리고 같은 오리진이며 샌드박스가 최상위 이동을 허용하는 하위 프레임의 `top.close()`이다.
+      - 교차 오리진 하위 프레임의 `top.close()`는 무시한다. 다른 창의 스크립트도 무시한다(P31 팝업이 부르는 `opener.close()`, 이벤트 루프를 함께 쓰는 다른 창).
+      - 표준은 교차 오리진 하위 프레임과 같은 오리진 팝업의 호출도 허용한다. 이 제한은 다른 문서가 프로그램 전체를 끝내지 못하게 하려는 정책이므로 계약에 근거를 적는다.
+    - 웹 콘텐츠가 만든 창에는 표준 조건만 적용한다.
+    - Worker와 AudioWorklet에는 해당하지 않는다.
+  - 닫을 수 없는 경우: 아무 동작도 하지 않고 `closed`는 false로 남는다. 콘솔 리스너(P24)에 무시한 이유를 경고 수준으로 알린다. 표준에는 경고 규정이 없으며 Chromium과 같은 구현 선택이다.
+  - 닫을 수 있는 경우(표준의 닫기 절차):
+    - "닫는 중" 상태는 페이지가 아니라 창(`BrowserSession`/`TopContext`)에 둔다. `closed`는 표준대로 창이 없거나 닫는 중이면 true이다. 최상위 창의 `closed`와, 다른 창이나 프레임에서 보는 `WindowProxy`/`CrossOriginWindow`의 `closed`가 모두 같은 값(`BrowsingContext.isClosed()`)을 읽게 한다.
+    - `close()`를 호출하면 즉시 닫는 중이 되고, 반복 호출은 무시한다.
+    - 실제 닫기는 호출한 스크립트 작업과 마이크로태스크 검사점이 끝난 뒤, 그 창의 문서 큐 작업으로 수행한다. 사용자 요구의 "바로 종료"는 "호출한 스크립트 작업이 끝난 직후 종료"로 계약에 적는다.
+    - 닫기 전에 언로드 절차(P20-13의 `beforeunload`/`pagehide`/`unload`)를 확인 대화 상자 없이 한 번 거친다. 그 뒤의 `dispose()`가 언로드 이벤트를 다시 보내지 않게 한다. `BrowserSession.unloadCurrentPage()`가 `clean()`/`dispose()`에서 이미 언로드 이벤트를 보내므로 중복을 막아야 한다.
+    - 페이지 스크립트의 이동이나 진행 중인 로딩은 닫기를 취소하지 않는다. 표준과 같으며, `w = window.open(url); w.close()`나 `window.close(); location.href = ...` 같은 경우이다.
+    - 닫기를 취소하는 것은 호스트의 조작뿐이다. Java의 `setPage`/`back`/`forward`/`refresh`/`setContent`, `clean()`, `dispose()`, JavaScript 비활성화, 그리고 호스트가 만든 창에서의 설정 해제(false)이다. 취소하면 닫는 중 상태를 풀고 `closed`는 다시 false가 된다.
+    - 닫기 요청은 `SwingWebPanel` 인스턴스가 아니라 세션 수준의 닫기 처리기를 거쳐 EDT로 전달한다. P31-08-b의 팝업은 Swing 부품이 붙기 전에도 닫힐 수 있기 때문이다.
+  - 닫는 동작(창을 만든 주체에 따라 다르다):
+    - 호스트가 만든 창: EDT에서 `protected void closeRootWindow()`를 한 번 호출한다. 기본 구현은 `System.exit(0)`이다. `configureSsl`처럼 호스트와 시험이 재정의할 수 있다(예: desktopapp은 그 탭만 닫는다, P31-08). 재정의한 메서드가 반환하면 컴포넌트와 페이지는 그대로 남고 `closed`는 true를 유지하며, 이후 처리(`dispose()` 등)는 호스트가 정한다.
+    - 웹 콘텐츠가 만든 창: `closeRootWindow()`와 `System.exit(0)`을 부르지 않는다. 그 창을 담은 쪽(P31-08-g의 기본 팝업 `JDialog`, desktopapp의 탭·창)에 알려 그 창만 닫고 `dispose()`한다. 부품이 붙기 전이면 붙이기를 취소한다.
+  - 다른 설정과의 관계:
+    - 이 설정은 웹 콘텐츠가 만든 창에 영향이 없으므로 팝업에 물려주지 않는다.
+    - 이벤트 루프를 함께 쓰는 그룹(P31-08-a)에서도 동작하도록, 닫기 작업은 그 창의 수명 토큰에 묶는다. "문서 스레드 = 이 컴포넌트"를 가정하지 않는다(`isDocumentThread()`로 자기 세션을 판정하지 않는다).
 - [ ] P30-02. 구현한다.
-  - `WindowGlobals`의 빈 `close`를 실제 구현으로 바꾸고 최상위 창에 `closed` 접근자를 추가한다.
-  - 교차 오리진 창(`CrossOriginWindow`)과 프레임 창(`FrameApi`)의 `close`/`closed` 경로를 같은 판정에 연결한다.
-  - 판정과 예약은 문서 스레드(`PageScripts`/`PageRuntime`)에서 한다. 실제 호출은 페이지 수명 토큰으로 묶어 `BrowserSession`을 거쳐 EDT의 `SwingWebPanel.closeRootWindow()`로 전달한다. EDT와 문서 스레드 사이에 순환 대기를 만들지 않는다.
-  - 예약 상태가 페이지와 컴포넌트의 수거를 막지 않게 한다(P21).
+  - 스크립트 쪽:
+    - `WindowGlobals`의 빈 `close`를 실제 구현으로 바꾸고 최상위 창에 `closed` 접근자를 추가한다.
+    - `CrossOriginWindow`·`FrameApi`·`WindowProxy`의 `close`/`closed` 경로를 같은 판정에 연결한다.
+  - 창 상태: "닫는 중" 상태와 "창을 만든 주체" 표시는 `BrowserSession`/`TopContext`에 둔다. `TopContext.isClosed()`는 지금 `session.isDisposed()`만 보므로, 닫는 중 상태도 반영하게 바꾼다.
+  - 실행과 전달:
+    - 판정과 예약은 문서 스레드에서 한다. 닫기 작업은 그 창의 수명 토큰에 묶어 문서 큐에 넣는다.
+    - 결과는 세션 수준의 닫기 처리기를 거쳐 EDT로 전달한다. 호스트가 만든 창이면 `SwingWebPanel.closeRootWindow()`를 부르고, 웹 콘텐츠가 만든 창이면 그 창을 담은 쪽에 알린다(P31-08에서 연결).
+    - EDT와 문서 스레드 사이에 순환 대기를 만들지 않는다.
+  - 언로드 중복 방지: 언로드 이벤트를 한 번만 보내도록 닫기 경로와 `clean()`/`dispose()`의 언로드(`BrowserSession.unloadCurrentPage()`)를 정리한다.
+  - 수명: 예약 상태가 페이지와 컴포넌트의 수거를 막지 않게 한다(P21).
 - [ ] P30-03. 검증하고 문서화한 뒤 P30을 완료 처리한다.
   - 자동 검증(JRE 6): `closeRootWindow()`를 재정의한 시험 하위 클래스와 실제 `SwingWebPanel` 페이지(로컬 HTTP 서버 두 오리진, classpath)로 다음을 확인한다.
     - 기본값 false에서 호출을 무시하고 경고를 알리는지.
     - true에서 EDT에서 정확히 한 번 호출되고, 호출한 작업과 마이크로태스크가 끝난 뒤에 실행되는지. `closed` 값과 반복 호출, 인라인 핸들러·타이머·Promise 안의 호출.
-    - 같은 오리진·다른 오리진 하위 프레임과 샌드박스 프레임의 `top.close()`, 프레임 자기 자신의 `close()`.
-    - 예약 뒤 이동·`clean()`·`dispose()`·JavaScript 비활성화·설정 해제에 따른 취소, JavaScript를 실행하지 않는 페이지, 폐기 뒤 수거.
+    - 같은 오리진·다른 오리진 하위 프레임과 샌드박스 프레임의 `top.close()`, 프레임 자기 자신의 `close()`. 프레임에서 본 `top.closed`가 최상위 창의 `closed`와 같은지.
+    - 페이지 스크립트의 이동과 진행 중인 로딩은 닫기를 취소하지 않는지(`window.close(); location.href = ...`). 호스트 조작(`setPage`·`clean()`·`dispose()`·JavaScript 비활성화·설정 해제)은 취소하고 `closed`가 false로 돌아오는지.
+    - 닫기 뒤 `dispose()`를 불러도 `beforeunload`/`pagehide`/`unload`가 한 번만 오는지.
+    - "웹 콘텐츠가 만든 창" 경로(P31 전 단계): 시험용으로 그 표시를 켠 세션에서 설정과 무관하게 닫히는지, `closeRootWindow()`가 불리지 않고 닫기 처리기만 불리는지.
+    - JavaScript를 실행하지 않는 페이지, 폐기 뒤 수거.
   - 실제 종료 확인: 기본 구현의 종료는 시험이 JDK 6 `java`로 별도 JVM 프로세스를 띄워 종료 코드 0과 프로세스 종료를 확인한다. 외부 프로세스 실행은 시험 코드에만 둔다.
   - 문서: `docs/API_CONTRACT.md`, `docs/FEATURE_MATRIX.md`(API-31 행과 관련 행의 제약), README(신뢰할 수 없는 페이지에서 켜면 페이지가 프로그램을 종료할 수 있다는 경고), 예제를 갱신한다.
 
@@ -1158,6 +1194,7 @@ P29 완료(2026-11-26). JDK 6u45에서 엔진 891건과 브라우저 3,737건이
 - [ ] P31-08. 새 탭·새 창·팝업과 창·탭 닫기를 구현한다.
   - 확장 지점: SwingWebPanel에 새 브라우징 문맥 요청을 호스트에 넘기는 확장 지점(보호 메서드 또는 리스너)을 추가한다.
     - 대상: 링크·폼의 `target="_blank"`나 없는 이름, 사용자의 "새 탭에서 열기"·"새 창에서 열기"(Ctrl/Shift/가운데 클릭, 링크 문맥 메뉴), `window.open`의 새 창.
+    - 페이지가 요청한 창(`window.open`, 링크·폼의 `_blank`와 없는 이름)은 SwingWebPanel의 요청 객체로 만들어, P30의 "웹 콘텐츠가 만든 창" 표시를 붙인다. `noopener`여도 같다. 그래야 그 창의 `window.close()`가 표준대로 그 창만 닫는다. 사용자가 고른 "새 탭에서 열기"·가운데 클릭으로 연 창은 "호스트가 만든 창"이다.
     - 호스트가 재정의하지 않으면 스크립트가 연 창은 SwingWebPanel이 기본으로 제공하는 팝업 창에 연다(P31-08-g). 링크·폼의 `_blank`는 지금처럼 현재 문맥에서 이동하고, 호스트가 새 창 요청을 처리할 때만 새 탭·새 창으로 연다.
   - 먼저 구현하는 부분: 여는 창과의 관계가 필요 없는 경로(링크·폼의 `_blank`, 사용자의 새 탭·새 창 열기)를 새 탭 또는 새 창으로 연결한다. 표준대로 `_blank` 링크는 `noopener` 의미로 연다.
   - **사용자 결정(2026-11-26)**: `window.open`은 웹 브라우저와 같이 새 창의 `WindowProxy`를 돌려주고, 여는 창은 그 객체로 팝업을 제어할 수 있어야 한다(`w.document` 접근·변경, `w.document.write`, `w.location` 이동, `w.close()`/`w.closed`, `w.postMessage`, 팝업 쪽의 `window.opener`, 이름 있는 창의 재사용). `noopener`와 같은 의미로 줄여 구현하는 안은 채택하지 않는다.
@@ -1185,12 +1222,14 @@ P29 완료(2026-11-26). JDK 6u45에서 엔진 891건과 브라우저 3,737건이
       - 샌드박스의 `allow-popups`/`allow-popups-to-escape-sandbox`에 따라 샌드박스를 물려준다. COOP(P29-10-c3)이면 관계를 끊는다.
       - sessionStorage는 표준대로 여는 창의 것을 복사한다.
     - [ ] P31-08-d. 수명과 닫기를 처리한다.
-      - 팝업의 `window.close()`는 표준의 script-closable 규칙에 따라 그 창(또는 탭)만 닫는다. P30 설정과는 무관하다. 여는 창에서 `w.closed`가 true가 된다.
+      - 팝업과 `_blank`로 연 탭·창의 `window.close()`는 P30의 "웹 콘텐츠가 만든 창" 경로로 그 창(또는 탭)만 닫는다. P30 설정과는 무관하고, `closeRootWindow()`와 `System.exit(0)`은 불리지 않는다. 여는 창이 `w.close()`를 불러도 같다(표준의 familiar·샌드박스 조건). 여는 창에서 `w.closed`가 true가 된다.
+      - 로딩 중(`w = window.open(url); w.close()`)이나 Swing 부품이 붙기 전에 닫아도 닫힌다(P30의 취소 규칙).
       - 여는 페이지(탭이나 SwingWebPanel)가 닫혀도 팝업은 남고, 팝업의 `opener` 창은 닫힌 상태가 된다. 그룹의 이벤트 루프는 마지막 창이 닫힐 때 끝난다. 다만 팝업을 담은 `JDialog`의 소유자 Swing 창이 닫히면 팝업도 함께 닫힌다(P31-08-g).
       - 닫힌 창의 `WindowProxy`가 DOM과 세션을 계속 붙잡지 않게 한다(P21).
     - [ ] P31-08-e. 검증한다(JRE 6, 실제 SwingWebPanel 두 개 이상, 시험용 호스트 처리기).
       - 동작: `window.open`의 반환값으로 `document.write`·DOM 변경·`location` 이동·`close()`·`closed`·`postMessage`, 팝업 쪽의 `opener` 접근, 이름 있는 창의 재사용.
       - 제한: 교차 오리진 제한, `noopener`/`noreferrer`, 샌드박스·COOP.
+      - 닫기(P30 연계): 팝업의 `window.close()`와 여는 창의 `w.close()`가 그 팝업만 닫고 `closeRootWindow()`를 부르지 않는지. 로딩 중이거나 부품이 붙기 전의 닫기. 설정이 true인 본 창을 팝업의 `opener.close()`가 끝내지 못하는지.
       - 수명: 여는 창이나 팝업을 먼저 폐기하는 경우, 같은 그룹에서 무한 반복이 일어나는 경우(실행 제한으로 끝나는지), EDT와 문서 스레드 사이 교착이 없는지, 수거.
       - 차단과 위치(P31-08-f·g): 실제 AWT 클릭 안의 `window.open`은 열리고 타이머·로드 이벤트 안의 것은 막히는지, 한 번의 클릭으로 하나만 열리는지(활성화 소비), 설정을 끈 경우, 샌드박스, `popupBlocked` 알림. 기본 팝업 창(`JDialog`)의 소유자·크기·제목·닫기, 모달 대화 상자 안의 SwingWebPanel에서 연 팝업을 조작할 수 있는지, 소유자 창을 닫을 때 팝업 SwingWebPanel의 `dispose()`, headless에서 null 반환, 재정의한 위치(시험용 호스트).
       - 기존 프레임·메시지·P27 시험이 그대로 통과하는지 확인한다.
@@ -1225,7 +1264,9 @@ P29 완료(2026-11-26). JDK 6u45에서 엔진 891건과 브라우저 3,737건이
         - 어느 위치에 열든 opener 관계와 `window.close()` 동작은 같다(P31-08-c·d).
   - 창과 탭 닫기:
     - 창의 닫기 단추는 창의 모든 탭의 SwingWebPanel을 `dispose()`한다. 마지막 창을 닫으면 프로그램을 끝낸다.
-    - 본 창의 스크립트 닫기(P30)는 설정을 따른다. 데스크톱 앱은 `closeRootWindow()`를 재정의하여, 프로세스에 다른 탭이 남아 있으면 그 탭만 닫고(창의 마지막 탭이면 창도 닫는다), 프로세스의 마지막 탭이면 기본 동작(`System.exit(0)`)을 쓰는 것을 기본안으로 한다.
+    - 본 창의 스크립트 닫기(P30)는 설정을 따르며, 호스트가 만든 탭·창에만 해당한다. 데스크톱 앱은 `closeRootWindow()`를 재정의하여, 프로세스에 다른 탭이 남아 있으면 그 탭만 닫고(창의 마지막 탭이면 창도 닫는다), 프로세스의 마지막 탭이면 기본 동작(`System.exit(0)`)을 쓰는 것을 기본안으로 한다.
+    - 웹 콘텐츠가 만든 탭·창은 `closeRootWindow()`를 거치지 않고(P31-08-d), 사용자가 그 탭을 닫을 때와 똑같이 처리한다. 창의 마지막 탭이면 창을 닫고, 그 창이 마지막 창이면 사용자가 마지막 창을 닫을 때와 같이 프로그램이 끝난다.
+    - 표준과의 차이(기능 표에 기록): 사용자가 직접 연 탭은 "호스트가 만든 창"이므로, 설정이 false이면 이력이 하나뿐이어도 스크립트가 닫지 못한다. 실제 브라우저(Chromium)는 이력 항목이 하나인 탭을 스크립트가 닫게 한다.
 - [ ] P31-09. 페이지 보조 기능을 구현한다.
   - 확대·축소: `setZoom`/`getZoom`, `PROPERTY_ZOOM`.
   - 페이지 원본 보기: `getContent()`와 `getMimeType()`의 원문을 읽기 전용 창에 고정폭 글꼴로 표시하며 HTML로 해석하지 않는다.

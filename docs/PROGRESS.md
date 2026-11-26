@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P30 구현 방안 수정: P31 팝업·탭과의 충돌 제거 (2026-11-26) ===
+현재 작업 번호: 계획 문서 작업. P30·P31 구현은 시작하지 않았다.
+완료한 내용: P30이 P31에서 일으킬 문제를 검토해 P30-01~03을 고쳤다. 찾은 문제: 팝업의 window.close()가 closeRootWindow()를 거쳐 System.exit(0)로 프로그램을 끝낼 수 있음, 같은 오리진 팝업의 opener.close()로 종료 가능, "이동하면 예약 취소" 규칙 때문에 로딩 중인 팝업(w = window.open(url); w.close())이 닫히지 않음, Swing 부품이 붙기 전의 팝업에 닫기를 전달할 곳이 없음, 닫기 뒤 dispose()의 언로드 이벤트 중복. 수정: 창마다 표준의 "웹 콘텐츠가 만든 창" 표시를 두고, 호스트가 만든 창만 설정과 closeRootWindow()를 쓴다. 웹 콘텐츠가 만든 창은 담은 쪽만 닫는다. 호스트가 만든 창은 같은 컴포넌트 안의 호출만 받는다. 닫는 중 상태는 창(BrowserSession/TopContext)에 두고 isClosed()로 통일한다. 페이지 이동은 닫기를 취소하지 않고 호스트 조작만 취소한다. 닫기는 세션 수준 처리기로 전달한다. 언로드는 한 번만 보낸다. P31-08(요청 객체로 만든 창의 표시, 닫기 경로, 시험)과 창·탭 닫기 문구도 맞췄다.
+변경 파일: AGENTS.md, 이 문서.
+검증 결과: 문서만 변경했다. 표준은 HTML Living Standard(nav-history-apis, document-sequences, 2026-11-26 갱신본)를 조회해 script-closable·is created by web content·closed·window.close() 단계를 확인했다(P30-01에서 tools/webfetch로 다시 고정한다). 코드: TopContext.isClosed()는 session.isDisposed()만 본다. clean()/dispose()는 BrowserSession.unloadCurrentPage()로 언로드 이벤트를 보낸다.
+미해결 사항: P22-16-c4, P18-08-d, P22-16-e는 P31 뒤에 진행한다.
+다음 작업 번호: P30-01
+-----------------------------------------------------------------------------------------------
 === P31-08-g 기본 팝업 창을 JDialog로 변경 (2026-11-26) ===
 현재 작업 번호: 계획 문서 작업. P30·P31 구현은 시작하지 않았다.
 완료한 내용: 사용자 질문에 따라 SwingWebPanel 기본 팝업 창과 desktopapp의 "팝업 창"을 JFrame 대신 비모달 JDialog(소유자: 여는 패널의 창, 다운로드 팝업과 같은 방식)로 바꿨다. 근거: 모달 대화 상자 안의 SwingWebPanel에서도 팝업을 조작할 수 있고, 여는 창 위에 머물며 작업 표시줄에 따로 생기지 않는다. 차이(최소화·최대화 단추 없음, 소유자 창과 함께 닫힘)는 계약과 기능 표에 기록하도록 했다. desktopapp의 "새 창"은 JFrame으로 유지했다.
