@@ -1,6 +1,6 @@
 # SwingWebPanel
 
-[한국어](README.ko.md) [English](README.md)
+한국어 · [English](README.md)
 
 ## 소개
 
