@@ -1,12 +1,15 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.webm;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.FileByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.VorbisWriter;
@@ -100,6 +103,83 @@ public class WebmDecoderTest {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Indexes laced blocks from disk across file-window boundaries and ignores incomplete trailing data.
+     * <p>
+     * 파일 창 경계를 가로지르는 레이싱 블록을 디스크에서 색인하고 끝의 불완전 데이터를 건너뛴다.
+     * @throws Exception if writing or parsing fails / 파일 쓰기나 해석에 실패하면
+     */
+    public void testFileIndexWithLacingAndTruncation() throws Exception {
+        File file = File.createTempFile("swp-webm-source-", ".webm");
+        try {
+            // 일반·Xiph·고정·EBML 레이싱에서 완전한 파일과 끝이 잘린 파일을 확인한다.
+            for (int mode = 0; mode < 4; mode++) {
+                WebmTestBuilder builder = new WebmTestBuilder();
+                builder.codecId = "A_OPUS";
+                builder.codecPrivate = new byte[] { 'O', 'p', 'u', 's' };
+                builder.blockGroups = true;
+                builder.unknownSizes = true;
+                builder.lacing = mode;
+                List<byte[]> packets = frames(9);
+                if (mode == 2) {
+                    // 고정 레이싱은 블록 내 길이를 같게 쓴다.
+                    for (int i = 0; i < packets.size(); i++) {
+                        packets.set(i, new byte[] { 3, (byte) i, 7 });
+                    }
+                }
+                byte[] encoded = builder.build(packets, times(packets.size()));
+                RandomAccessFile writable = new RandomAccessFile(file, "rw");
+                try {
+                    writable.setLength(0);
+                    writable.write(encoded);
+                } finally {
+                    writable.close();
+                }
+                compareWebmIndex(file, encoded, packets.size());
+                int cut = encoded.length - 2;
+                writable = new RandomAccessFile(file, "rw");
+                try {
+                    writable.setLength(cut);
+                } finally {
+                    writable.close();
+                }
+                compareWebmIndex(file, Arrays.copyOf(encoded, cut), packets.size() - 1);
+            }
+        } finally {
+            Check.isTrue(file.delete(), "caller can release the disk source");
+        }
+    }
+
+    /**
+     * Compares metadata and bounded packet positions for one fixture. / 시험 파일 하나의 메타데이터와 패킷 범위를 비교한다.
+     * @param file encoded file / 인코딩 파일
+     * @param encoded encoded array / 인코딩 배열
+     * @param maxPackets maximum expected number of complete packets / 완전한 패킷의 최대 기대 개수
+     * @throws Exception if the source cannot be opened or parsed / 원천을 열거나 해석할 수 없으면
+     */
+    private static void compareWebmIndex(File file, byte[] encoded, int maxPackets) throws Exception {
+        WebmFile.Track mem = WebmFile.parse(encoded).firstAudioTrack();
+        FileByteSource input = new FileByteSource(file, 13);
+        try {
+            Check.isTrue(WebmFile.looksLikeEbmlSource(input), "file signature is recognized");
+            WebmFile.Track disk = WebmFile.parseSource(input).firstAudioTrack();
+            Check.notNull(disk, "audio track in file");
+            Check.equal(mem.getCodecId(), disk.getCodecId(), "codec");
+            Check.isTrue(Arrays.equals(mem.getCodecPrivate(), disk.getCodecPrivate()), "codec private");
+            Check.equal(mem.getFrameCount(), disk.getFrameCount(), "packet count");
+            Check.isTrue(disk.getFrameCount() <= maxPackets, "truncated final block is not indexed");
+            // 파일에서 읽은 범위가 배열의 색인과 일치하며 끝을 넘지 않아야 한다.
+            for (int i = 0; i < disk.getFrameCount(); i++) {
+                Check.equal(mem.getOffset(i), disk.getOffset(i), "packet offset");
+                Check.equal(mem.getSize(i), disk.getSize(i), "packet size");
+                Check.equal(mem.getTime(i), disk.getTime(i), "packet time");
+                Check.isTrue(disk.getOffset(i) + disk.getSize(i) <= input.length(), "complete packet bytes");
+            }
+        } finally {
+            input.close();
         }
     }
 

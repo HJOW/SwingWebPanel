@@ -3,6 +3,10 @@ package org.duckdns.hjow.swingwebpanel.media.audio.webm;
 import java.util.ArrayList;
 import java.util.List;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ArrayByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSourceException;
+import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 
 /**
  * A demultiplexer of WebM / Matroska files (EBML, RFC 8794 and the Matroska specification): it reads the segment info (time scale), the
@@ -15,6 +19,12 @@ import org.duckdns.hjow.swingwebpanel.media.MediaException;
  * 방식)가 있는 파일도 다룬다. 프레임은 원본 데이터 안의 위치로 보관하므로 복사하지 않는다.
  */
 public final class WebmFile {
+
+    /** Largest retained format or codec identifier. / 보관할 형식·코덱 식별자의 최대 크기. */
+    private static final int MAX_IDENTIFIER_BYTES = 128;
+
+    /** Largest retained codec initialization record. / 보관할 코덱 초기화 레코드의 최대 크기. */
+    private static final int MAX_CODEC_PRIVATE_BYTES = 1024 * 1024;
 
     /** Largest number of frames accepted. / 받아들이는 최대 프레임 수. */
     private static final int MAX_FRAMES = 4 * 1000 * 1000;
@@ -204,7 +214,7 @@ public final class WebmFile {
     }
 
     /** The data. / 데이터. */
-    private final byte[] d;
+    private final ByteSource d;
     /** Audio and other tracks by file order. / 파일 순서대로의 트랙. */
     private final List<Track> tracks = new ArrayList<Track>();
     /** Time scale in nanoseconds per tick. / 틱당 나노초(시간 단위). */
@@ -222,7 +232,7 @@ public final class WebmFile {
      *
      * @param d data / 데이터
      */
-    private WebmFile(byte[] d) {
+    private WebmFile(ByteSource d) {
         this.d = d;
     }
 
@@ -235,7 +245,16 @@ public final class WebmFile {
      * @return true for EBML / EBML 이면 true
      */
     public static boolean looksLikeEbml(byte[] d) {
-        return d.length >= 4 && (d[0] & 0xFF) == 0x1A && (d[1] & 0xFF) == 0x45 && (d[2] & 0xFF) == 0xDF && (d[3] & 0xFF) == 0xA3;
+        return d != null && looksLikeEbmlSource(new ArrayByteSource(d));
+    }
+
+    /**
+     * Checks the EBML signature from a seekable source. / 탐색 가능한 원천의 EBML 시그니처를 확인한다.
+     * @param d encoded input / 인코딩 입력
+     * @return true for EBML / EBML이면 true
+     */
+    public static boolean looksLikeEbmlSource(ByteSource d) {
+        return Bytes.has(d, 0, 4) && Bytes.be32(d, 0) == 0x1A45DFA3L;
     }
 
     /**
@@ -248,9 +267,28 @@ public final class WebmFile {
      * @throws MediaException CORRUPT if the structure is damaged / 구조가 손상되었으면 CORRUPT
      */
     public static WebmFile parse(byte[] d) throws MediaException {
+        return parseSource(new ArrayByteSource(d));
+    }
+
+    /**
+     * Reads track metadata and frame indexes while the caller retains input ownership.
+     * <p>
+     * 호출자가 입력을 소유하는 동안 트랙 메타데이터와 프레임 색인을 읽는다.
+     * @param d encoded input / 인코딩 입력
+     * @return the parsed file / 해석된 파일
+     * @throws MediaException if the data cannot be parsed / 데이터를 해석할 수 없으면
+     */
+    public static WebmFile parseSource(ByteSource d) throws MediaException {
+        if (d.length() > Integer.MAX_VALUE) {
+            throw new MediaException(MediaException.Kind.TOO_LARGE, "WebM data exceeds the container-offset limit");
+        }
         WebmFile f = new WebmFile(d);
-        f.level(0, d.length, 0);
-        return f;
+        try {
+            f.level(0, (int) d.length(), 0);
+            return f;
+        } catch (ByteSourceException e) {
+            throw e.toMediaException();
+        }
     }
 
     /**
@@ -298,14 +336,14 @@ public final class WebmFile {
         if (pos[0] >= end) {
             return -1;
         }
-        int b = d[pos[0]] & 0xFF;
+        int b = d.get(pos[0]);
         int len = Integer.numberOfLeadingZeros(b) - 24 + 1;
-        if (len < 1 || len > 4 || pos[0] + len > end) {
+        if (len < 1 || len > 4 || len > end - pos[0]) {
             return -1;
         }
         int id = 0;
         for (int i = 0; i < len; i++) { // 길이만큼 바이트를 모은다
-            id = (id << 8) | (d[pos[0] + i] & 0xFF);
+            id = (id << 8) | d.get(pos[0] + i);
         }
         pos[0] += len;
         return id;
@@ -324,15 +362,15 @@ public final class WebmFile {
         if (pos[0] >= end) {
             return -2;
         }
-        int b = d[pos[0]] & 0xFF;
+        int b = d.get(pos[0]);
         int len = Integer.numberOfLeadingZeros(b) - 24 + 1;
-        if (len < 1 || len > 8 || pos[0] + len > end) {
+        if (len < 1 || len > 8 || len > end - pos[0]) {
             return -2;
         }
         long v = b & (0xFF >> len);
         boolean allOnes = v == (0xFF >> len);
         for (int i = 1; i < len; i++) { // 나머지 바이트를 이어 붙인다
-            int x = d[pos[0] + i] & 0xFF;
+            int x = d.get(pos[0] + i);
             v = (v << 8) | x;
             if (x != 0xFF) {
                 allOnes = false;
@@ -354,7 +392,7 @@ public final class WebmFile {
     private long uint(int p, int size) {
         long v = 0;
         for (int i = 0; i < size && i < 8; i++) { // 빅 엔디언으로 모은다
-            v = (v << 8) | (d[p + i] & 0xFF);
+            v = (v << 8) | d.get(p + i);
         }
         return v;
     }
@@ -394,6 +432,9 @@ public final class WebmFile {
         }
         int[] pos = { start };
         while (pos[0] < end) { // 요소를 하나씩 읽는다
+            if (Thread.currentThread().isInterrupted()) {
+                throw new MediaException(MediaException.Kind.CANCELLED, "WebM indexing was interrupted");
+            }
             int id = readId(pos, end);
             if (id < 0) {
                 return;
@@ -434,10 +475,14 @@ public final class WebmFile {
      * @param start start of the body / 본문 시작
      * @param end   end of the data / 데이터 끝
      * @return position / 위치
+     * @throws MediaException if interrupted / 인터럽트되었으면
      */
-    private int clusterEnd(int start, int end) {
+    private int clusterEnd(int start, int end) throws MediaException {
         int[] pos = { start };
         while (pos[0] < end) { // 요소를 훑다가 세그먼트 자식 id 가 나오면 거기서 끝난다
+            if (Thread.currentThread().isInterrupted()) {
+                throw new MediaException(MediaException.Kind.CANCELLED, "WebM indexing was interrupted");
+            }
             int before = pos[0];
             int id = readId(pos, end);
             if (id < 0) {
@@ -467,8 +512,9 @@ public final class WebmFile {
      *
      * @param start start / 시작
      * @param end   end / 끝
+     * @throws MediaException if the document type is too long / 문서 종류가 너무 길면
      */
-    private void readHeader(int start, int end) {
+    private void readHeader(int start, int end) throws MediaException {
         int[] pos = { start };
         while (pos[0] < end) { // 하위 요소를 읽어 DocType 을 찾는다
             int id = readId(pos, end);
@@ -477,11 +523,7 @@ public final class WebmFile {
                 return;
             }
             if (id == 0x4282) {
-                char[] c = new char[(int) size];
-                for (int i = 0; i < c.length; i++) { // 문자열 바이트를 문자로 바꾼다
-                    c[i] = (char) (d[pos[0] + i] & 0xFF);
-                }
-                docType = new String(c);
+                docType = identifier(pos[0], (int) size);
             }
             pos[0] += (int) size;
         }
@@ -520,8 +562,9 @@ public final class WebmFile {
      *
      * @param start start / 시작
      * @param end   end / 끝
+     * @throws MediaException if the track metadata is too large / 트랙 메타데이터가 너무 크면
      */
-    private void readTracks(int start, int end) {
+    private void readTracks(int start, int end) throws MediaException {
         int[] pos = { start };
         while (pos[0] < end) { // 트랙 항목을 하나씩 읽는다
             int id = readId(pos, end);
@@ -544,8 +587,9 @@ public final class WebmFile {
      * @param start start / 시작
      * @param end   end / 끝
      * @return the track / 트랙
+     * @throws MediaException if the track metadata is too large / 트랙 메타데이터가 너무 크면
      */
-    private Track readTrack(int start, int end) {
+    private Track readTrack(int start, int end) throws MediaException {
         Track t = new Track();
         int[] pos = { start };
         while (pos[0] < end) { // 하위 요소를 읽어 트랙 속성을 채운다
@@ -561,13 +605,12 @@ public final class WebmFile {
             } else if (id == 0x83) {
                 t.type = (int) uint(p, s);
             } else if (id == 0x86) {
-                char[] c = new char[s];
-                for (int i = 0; i < s; i++) { // 코덱 id 문자열
-                    c[i] = (char) (d[p + i] & 0xFF);
-                }
-                t.codecId = new String(c);
+                t.codecId = identifier(p, s);
             } else if (id == 0x63A2) {
-                t.codecPrivate = java.util.Arrays.copyOfRange(d, p, p + s);
+                if (s > MAX_CODEC_PRIVATE_BYTES) {
+                    throw new MediaException(MediaException.Kind.TOO_LARGE, "WebM codec initialization data is too large");
+                }
+                t.codecPrivate = Bytes.copy(d, p, s);
             } else if (id == 0x56AA) {
                 t.codecDelay = uint(p, s);
             } else if (id == 0x56BB) {
@@ -578,6 +621,20 @@ public final class WebmFile {
             pos[0] += s;
         }
         return t;
+    }
+
+    /**
+     * Reads a bounded ASCII identifier. / 제한된 길이의 ASCII 식별자를 읽는다.
+     * @param at identifier offset / 식별자 위치
+     * @param count its length / 식별자 길이
+     * @return the identifier / 식별자
+     * @throws MediaException if the identifier is too large / 식별자가 너무 크면
+     */
+    private String identifier(int at, int count) throws MediaException {
+        if (count > MAX_IDENTIFIER_BYTES) {
+            throw new MediaException(MediaException.Kind.TOO_LARGE, "WebM identifier is too large");
+        }
+        return Bytes.ascii(d, at, count);
     }
 
     /**
@@ -619,6 +676,9 @@ public final class WebmFile {
         clusterTime = 0;
         int[] pos = { start };
         while (pos[0] < end) { // 클러스터의 하위 요소를 읽는다
+            if (Thread.currentThread().isInterrupted()) {
+                throw new MediaException(MediaException.Kind.CANCELLED, "WebM indexing was interrupted");
+            }
             int id = readId(pos, end);
             long size = readSize(pos, end);
             if (id < 0 || size < 0 || pos[0] + size > end) {
@@ -689,11 +749,11 @@ public final class WebmFile {
     private void readBlock(int start, int end, long duration) throws MediaException {
         int[] pos = { start };
         long track = readSize(pos, end);
-        if (track < 0 || pos[0] + 3 > end) {
+        if (track < 0 || pos[0] > end - 3) {
             return;
         }
-        int rel = (short) (((d[pos[0]] & 0xFF) << 8) | (d[pos[0] + 1] & 0xFF));
-        int flags = d[pos[0] + 2] & 0xFF;
+        int rel = (short) Bytes.be16(d, pos[0]);
+        int flags = d.get(pos[0] + 2);
         pos[0] += 3;
         Track t = null;
         for (Track x : tracks) { // 트랙 번호로 대상 트랙을 찾는다
@@ -716,37 +776,49 @@ public final class WebmFile {
         if (pos[0] >= end) {
             return;
         }
-        int n = (d[pos[0]++] & 0xFF) + 1;
+        int n = d.get(pos[0]++) + 1;
         int[] sizes = new int[n];
         int total = end - pos[0];
         if (lacing == 2) {
+            if (total % n != 0) {
+                throw new MediaException(MediaException.Kind.CORRUPT, "uneven fixed lacing");
+            }
             int each = total / n;
             for (int i = 0; i < n; i++) { // 고정 크기 레이싱
                 sizes[i] = each;
             }
         } else if (lacing == 1) {
-            int used = 0;
+            long used = 0;
             for (int i = 0; i < n - 1; i++) { // Xiph 레이싱: 255 가 이어지는 동안 더한다
-                int s = 0;
+                long s = 0;
                 int b;
                 do { // 255 가 이어지는 동안 크기를 더한다
                     if (pos[0] >= end) {
                         return;
                     }
-                    b = d[pos[0]++] & 0xFF;
+                    b = d.get(pos[0]++);
                     s += b;
                 } while (b == 255);
-                sizes[i] = s;
+                if (s > end - pos[0]) {
+                    throw new MediaException(MediaException.Kind.CORRUPT, "invalid Xiph laced frame size");
+                }
+                sizes[i] = (int) s;
                 used += s;
             }
-            sizes[n - 1] = end - pos[0] - used;
+            if (used > end - pos[0]) {
+                throw new MediaException(MediaException.Kind.CORRUPT, "invalid Xiph lacing total");
+            }
+            sizes[n - 1] = (int) (end - pos[0] - used);
         } else {
             long first = readSize(pos, end);
             if (first < 0) {
                 return;
             }
+            if (first > end - pos[0]) {
+                throw new MediaException(MediaException.Kind.CORRUPT, "invalid first EBML laced frame size");
+            }
             sizes[0] = (int) first;
-            int used = sizes[0];
+            long used = first;
             for (int i = 1; i < n - 1; i++) { // EBML 레이싱: 앞 크기와의 부호 있는 차이
                 int p0 = pos[0];
                 long raw = readSize(pos, end);
@@ -755,15 +827,22 @@ public final class WebmFile {
                 }
                 int len = pos[0] - p0;
                 long bias = (1L << (7 * len - 1)) - 1;
-                sizes[i] = (int) (sizes[i - 1] + (raw - bias));
+                long size = sizes[i - 1] + (raw - bias);
+                if (size < 0 || size > end - pos[0]) {
+                    throw new MediaException(MediaException.Kind.CORRUPT, "invalid EBML laced frame size");
+                }
+                sizes[i] = (int) size;
                 used += sizes[i];
             }
-            sizes[n - 1] = end - pos[0] - used;
+            if (used > end - pos[0]) {
+                throw new MediaException(MediaException.Kind.CORRUPT, "invalid EBML lacing total");
+            }
+            sizes[n - 1] = (int) (end - pos[0] - used);
         }
         long frameDuration = duration > 0 ? duration * timecodeScale / n : 0;
         int p = pos[0];
         for (int i = 0; i < n; i++) { // 프레임을 하나씩 추가한다
-            if (sizes[i] < 0 || p + sizes[i] > end) {
+            if (sizes[i] < 0 || sizes[i] > end - p) {
                 throw new MediaException(MediaException.Kind.CORRUPT, "invalid laced frame size");
             }
             t.add(p, sizes[i], time + frameDuration * i, frameDuration);

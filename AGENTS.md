@@ -526,7 +526,7 @@ java Swing 에서 사용할 수 있는 웹브라우저 컴포넌트 개발.
           - [x] P18-08-c2c2a. 입력: 파일의 Ogg Vorbis 및 Opus, 다채널과 연쇄 스트림. 기대: Ogg 코덱이 파일 패킷을 직접 읽으며 기존 PCM·탐색·연쇄 정책을 유지한다. 구현: `VorbisDecoder`, `VorbisSource`, `OpusDecoder`, `OpusSource`. 완료(2026-11-26): Vorbis 9개, Opus 12개 및 채널 배치가 바뀌는 연쇄의 파일·배열 PCM·탐색·닫힘을 비교했다. JRE 6 회귀 64건 통과.
           - [x] P18-08-c2c2b. 입력: 파일의 네이티브 및 Ogg FLAC, 다른 비트 깊이·채널, CRC 오류. 기대: 헤더와 디코딩에 필요한 범위만 읽고 기존 PCM·탐색·손상 정책을 유지한다. 구현: `FlacDecoder`, `NativeFlacSource`, `OggFlacSource`. 완료(2026-11-26): 참조 15개와 64 KiB를 초과하는 프레임을 비교했다. JRE 6 32 MiB 힙의 파일 시험과 FLAC·Ogg·참조 회귀 44건 통과.
       - [ ] P18-08-c2d. 입력: 파일의 WebM/Matroska Vorbis·Opus, lacing 및 손상 사본. 기대: EBML 샘플을 디스크에서 읽고 파생 Ogg도 크기 한도 안에서 파일에 둘 수 있다. 구현: `WebmFile`, `WebmDecoder`, `VorbisInOgg`, `OpusInOgg`. 완료 조건: 파일/배열의 PCM·탐색·파생 자료 정리 검증.
-        - [ ] P18-08-c2d1. 입력: 파일의 일반·lacing 블록과 잘린 EBML. 기대: 트랙과 패킷 위치를 원천에서 읽고 인코딩 패킷 본문을 복사하지 않는다. 구현: `WebmFile`과 컨테이너 시험. 완료 조건: 배열·파일 트랙 및 오프셋 비교, 잘린 자료 정리.
+        - [x] P18-08-c2d1. 입력: 파일의 일반·lacing 블록과 잘린 EBML. 기대: 트랙과 패킷 위치를 원천에서 읽고 인코딩 패킷 본문을 복사하지 않는다. 구현: `WebmFile`과 컨테이너 시험. 완료(2026-11-26): 네 가지 블록 방식의 완전/잘린 배열·파일 위치 비교와 WebM·Opus 회귀 12건 통과.
         - [ ] P18-08-c2d2. 입력: Vorbis·Opus WebM, 메모리 문턱을 넘는 파생 Ogg와 중단. 기대: 패킷을 읽어 파생 Ogg를 스풀에 쓰고 닫힘·실패 때 정리한다. 구현: `WebmDecoder`, `VorbisInOgg`, `OpusInOgg`. 완료 조건: 파일과 배열의 참조 PCM·탐색, 원천과 생성 파일 수명.
     - [ ] P18-08-c3. 입력: 긴 오디오를 실제 페이지에서 다운로드·재생·탐색·취소. 기대: 공통 요청 정책으로 임시 파일에 보관하고 내용을 작은 블록으로 디코딩하며 문서 교체·실패·정리 때 파일을 지운다. 구현: `PageResources`, `MediaRequestSource`, `MediaElements`, `MediaPlayer`. 완료 조건: JRE 6 작은 힙의 통합 재생과 임시 파일 수명 및 미디어 회귀 통과.
 - [x] P18-09. video 요소는 원래 위치/크기를 확보하여 미지원 비디오 문구를 표시한다. 비디오 디코더나 외부 재생기를 실행하지 않고, 비디오 관련 DOM 호출에는 명시적인 미지원 결과를 제공한다.
