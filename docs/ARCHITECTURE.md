@@ -146,6 +146,7 @@ bat 는 MS949(현재는 ASCII 만 사용), sh/java/md 는 UTF-8 이다.
 | --- | --- | --- |
 | `tools/sourcecheck` | 인코딩(UTF-8/MS949), 금지 API/네이티브/Java 6 위반, 영어+한국어 Javadoc, 반복문 한국어 주석 검사(P02-07/08/09, P22-08). `tools/sourcecheck/run.sh` 또는 `run.bat` | `tools/sourcecheck/AGENTS.md`, `README.md` |
 | `tools/webfetch` | 규격/Chromium 소스 등 웹 자료 조회. 출처 URL, 조회 날짜, JRE 를 stderr 에 기록. JDK 6u45 의 HTTPS 는 실패하므로 `WEBFETCH_JAVA_HOME` 에 새 JRE 를 지정해 실행 | `tools/webfetch/AGENTS.md`, `README.md` |
+| `tools/netstormparse`, `tools/netstormrun` | 외부 NetStorm의 번들·모듈 파싱과 실제 Swing 페이지의 적재·프레임 계측. 샘플을 원래 경로에서 읽음 | `tools/netstormparse/AGENTS.md`, `tools/netstormrun/AGENTS.md` |
 | `tools/entitygen` | HTML 문자 참조와 인코딩 라벨 JSON에서 Java 상수 표 생성(P07-01/04). 입력 옆 메타데이터의 출처와 조회일을 생성 소스에 기록 | `tools/entitygen/AGENTS.md`, `README.md` |
 | `tools/vogen` | Unicode `VerticalOrientation.txt`(UAX #50)에서 세로쓰기 글자 방향 표를 생성(P10-03-e). 입력 판본 Unicode 18.0.0, 조회 2026-11-17. 사용법은 `tools/vogen/AGENTS.md`, `README.md` |
 | `tools/uicheck` | 실제 Swing 창(JFrame+JScrollPane+SwingWebPanel 또는 예제 창)을 띄우고 단계(열기/스크롤/클릭/뒤·앞/새로고침/폐기)를 실행하며 `java.awt.Robot` 으로 실제 화면 스크린샷을 저장(P09-08-b-2, P22-10). 기본은 AWT 이벤트 큐로 클릭하고 `--realmouse` 는 OS 마우스를 쓴다. 사용법은 `tools/uicheck/AGENTS.md`, `README.md`, 결과는 `docs/progress/uicheck.md` |

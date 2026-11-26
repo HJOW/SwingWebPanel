@@ -10,6 +10,7 @@ NetstormReborn의 외부 소스와 webpack 번들을 SwingWebPanel 자체 JavaSc
 - JDK 6(`JAVA6_HOME`)과 먼저 빌드한 `engine/target/swingwebpanel-js.jar`가 필요하다.
 - 빌드: `tools/netstormparse/build.bat` 또는 `tools/netstormparse/build.sh`
 - 실행: `tools/netstormparse/run.bat "H:\Workspace\git\NetstormReborn\webpj\www"`
+- 선택 계측: 위 경로 뒤에 `--bundle-profile`을 주면 모듈 검사를 생략하고 새 프로세스에서 번들 하나의 파싱 밀리초, 최대 힙, 파싱 전후 사용량을 출력한다. JRE 7도 같은 클래스 파일을 직접 실행하여 비교한다.
 
 도구는 번들을 Script로, `debug.html`의 inline module과 `dist` 밖 모든 `.js` 파일을 Module로 파싱한다.
 모듈의 상대 static import도 실제 파일에 연결되는지 검사한다.

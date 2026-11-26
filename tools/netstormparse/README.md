@@ -21,5 +21,6 @@ tools\netstormparse\run.bat "H:\Workspace\git\NetstormReborn\webpj\www"
 성공하면 번들 문자 수, inline module 수, 원본 모듈 수, static import 수와 오류 0을 출력합니다.
 구문 오류 또는 import가 가리키는 파일이 없으면 종료 코드 1로 끝납니다. 입력 경로나 엔진 JAR가 없으면 종료 코드 2입니다.
 
-이 도구는 파서만 확인합니다. JavaScript 실행, 게임 화면, 입력, 오디오는 P28의 후속 단계에서 확인합니다.
+위 명령의 마지막에 `--bundle-profile`을 붙이면 번들 하나의 파싱 시간, 최대 힙과 파싱 전후 힙 사용량을 출력합니다.
+실제 Swing 페이지의 실행 시간과 화면은 [netstormrun](../netstormrun/README.md)에서 확인합니다.
 

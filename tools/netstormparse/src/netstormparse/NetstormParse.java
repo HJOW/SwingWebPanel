@@ -88,8 +88,9 @@ public final class NetstormParse {
      * @throws Exception on usage or I/O failure / 사용법 또는 입출력 실패
      */
     public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            System.err.println("Usage: netstormparse <netstorm www directory>");
+        boolean profile = args.length == 2 && "--bundle-profile".equals(args[1]);
+        if (args.length != 1 && !profile) {
+            System.err.println("Usage: netstormparse <netstorm www directory> [--bundle-profile]");
             System.exit(2);
         }
         File root = new File(args[0]).getCanonicalFile();
@@ -98,8 +99,31 @@ public final class NetstormParse {
             System.exit(2);
         }
         NetstormParse check = new NetstormParse(root);
-        int exit = check.run();
+        int exit = profile ? check.profileBundle() : check.run();
         System.exit(exit);
+    }
+
+    /**
+     * Measures one bundle parse with the current JVM heap settings.
+     * <p>
+     * 현재 JVM 힙 설정으로 번들 파싱 한 번을 계측한다.
+     *
+     * @return success or syntax failure code / 성공 또는 구문 실패 코드
+     * @throws IOException if the bundle cannot be read / 번들을 읽을 수 없으면
+     */
+    private int profileBundle() throws IOException {
+        File bundle = new File(root, "dist/netstorm.bundle.js");
+        String source = readUtf8(bundle);
+        Runtime vm = Runtime.getRuntime();
+        long heapBefore = vm.totalMemory() - vm.freeMemory();
+        long start = System.nanoTime();
+        Node tree = Parser.parseScript(source, bundle.getPath());
+        long elapsed = System.nanoTime() - start;
+        long heapAfter = vm.totalMemory() - vm.freeMemory();
+        System.out.println("parse java=" + System.getProperty("java.version") + " chars=" + source.length()
+                + " time_ms=" + elapsed / 1000000.0 + " max_heap_bytes=" + vm.maxMemory()
+                + " heap_before_bytes=" + heapBefore + " heap_after_bytes=" + heapAfter + " parsed=" + (tree != null));
+        return tree == null ? 1 : 0;
     }
 
     /**
