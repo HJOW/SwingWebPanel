@@ -357,6 +357,12 @@ async/동적 스크립트, 동적으로 생성한 스타일 및 비활성/미일
 P15-04의 기존 async 목록 구현은 준비 시 실행과 병렬 가져오기를 충족하지 않아 재개방했다. 다음 단계는 취소 가능한 외부 소스 요청 상태,
 파서 대기/EOF와 문서 큐 사이의 실행 소유권, DOMContentLoaded/load의 별도 완료 조건이다. ES2015 모듈 언어와 브라우저 module MIME/CORS/credentials를 구분하여 추적한다.
 
+## Java 호스트 메시지 (P27)
+
+`BrowserSession`은 호출 시점에 최상위 `PageRuntime`을 선택한다. `HostMessageValues`의 복사 과정은 Java 호출 스레드에서 실행하고, 수신 렐름의 복원과 `MessageEvent`는 같은 문서의 `DocumentScheduler`에 맡긴다. 파서가 소유한 문서의 작업은 확정 후 문서 큐로 넘긴다.
+
+문서별 `HostMessageWindow`는 문서를 약하게 참조하고, `MessagingApi`는 실제 발신 렐름에서 값 변환과 전송 검사를 실행한다. `HostMessageReader`는 구조화 복제 기록을 Java 데이터로 만들며 성공 시에만 ArrayBuffer 전송을 확정한다. 페이지의 작업 또는 파서 스크립트에서 마이크로태스크 검사점이 끝나면 `WebMessageDispatcher`가 EDT에 순서대로 전달한다. 메시지 `reply`는 약하게 보관한 원래 실행 환경을 확인한다. 등록부는 컴포넌트가 소유하며 JavaScript 비활성·정리·폐기에서는 대기를 지운다. [메시지 API 계약](API_CONTRACT.md#522-java-호스트와-페이지-스크립트-간-메시지-p27)
+
 ## 비동기 웹 요청 API와 서비스 계층 (P20-08)
 
 `js.host.WebRequestSource`(`HostEnvironment.getWebRequestSource()`)는 페이지가 요청(`WebRequest`: URL, 메서드, 작성자 헤더, 본문, 자격 증명/요청/캐시/리디렉션 모드, 참조 정책)을 주고 컴포넌트가 요청 스레드에서 실행하여 `WebResponse` 를 돌려주는 계약이다. `core.PageWebRequests` 가 이를 구현하며 문서·스크립트·스타일·이미지와 같은 `ResourceFetcher` 를 쓰므로 User-Agent, 추가 헤더, SSL 훅, HTTP 캐시, 쿠키 저장소, 스키마·크기 제한과 취소가 그대로 적용되고 동일 출처 정책과 CORS 응답 검사(`net.OriginPolicy`)를 집행한다. `js.host.web.WebApis` 가 페이지마다 하나 설치되어 XHR/fetch/AbortController/FormData/Blob/URL/TextEncoder 등을 만들고, 결과는 페이지 `Scheduler` 의 페이지 작업으로 한 건씩 실행한다. 페이지 교체/폐기/스크립트 중단은 `requestDisposal()` → 요청 취소로 이어져 늦은 응답이 스크립트를 실행하지 못한다. `net.ResourceRequest` 에 `sameOriginCredentialsOnly`, `corsHeadersChecked` 플래그가 추가되었다. 교차 오리진 사전 요청은 JRE 6 `HttpURLConnection` 의 제한(`Origin` 을 보낼 수 없음) 때문에 아직 지원하지 않는다(P20-08-c).

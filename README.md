@@ -152,6 +152,7 @@ panel.dispose();                          // 창을 닫을 때 반드시 호출�
 | `getStatusText()`, `getProgress()` | 상태바 메시지와 진행률(아래 표). |
 | `addHyperlinkListener`, `removeHyperlinkListener`, `removeHyperlinkEvents()` | `javax.swing.event.HyperlinkListener` 로 링크 진입/이탈/활성화를 받는다. 통지를 모두 제거해도 링크 이동 자체는 계속 동작한다. |
 | `addConsoleListener`, `removeConsoleListener`, `getConsoleListeners()` | 페이지 스크립트의 `console.log`/`console.error` 등 콘솔 출력을 `ConsoleListener` 로 받는다(아래 "콘솔 출력 받기"). `clean()` 은 유지하고 `dispose()` 는 제거한다. |
+| `postMessage(Object[,String])`, `addWebMessageListener`, `removeWebMessageListener`, `getWebMessageListeners()` | 현재 최상위 문서에 복사한 값을 보내고, 페이지의 호스트 메시지를 EDT에서 받는다. |
 | `getLocalStorage()`, `getSessionStorage()` | Web Storage 항목의 읽기 전용 복사본(`StorageEntry`: origin, key, value). |
 | `clean()` | 진행 중인 작업을 취소하고 `about:blank` 로 돌아가며 캐시, sessionStorage, **프로세스 공용 localStorage 전체**를 비운다(다른 컴포넌트도 영향을 받는다). User-Agent, 추가 헤더, 쿠키, JavaScript 설정, 사용자 리스너는 유지한다. |
 | `dispose()` | `clean()` 후 이 컴포넌트에 등록된 모든 사용자 리스너와 내부 자원(타이머, 하위 작업, 미디어, 다운로드)을 해제한다. 반복 호출은 안전하다. 이후 변경 메서드는 `IllegalStateException`, 조회는 빈 상태를 돌려준다. |
@@ -230,6 +231,28 @@ panel.addConsoleListener(new ConsoleListener() {
 - 잡히지 않은 예외와 처리되지 않은 promise 거부도 `ERROR` 수준으로 알립니다(`console.error` 호출과는 `getKind()` 로 구분). `alert/confirm/prompt` 는 대화 상자를 띄우지 않고 `DIALOG` 종류로 알립니다.
 - 리스너가 느려 1000개 넘게 쌓이면 그 뒤 메시지는 버리고, 큐가 비면 `MESSAGES_DROPPED` 이벤트 하나가 버린 개수를 알립니다. 스크립트 실행은 리스너를 기다리지 않습니다.
 - **리스너가 하나도 없으면 콘솔 출력은 버려집니다**(표준 출력에 쓰지 않습니다). 예제: `examples/run.sh ConsoleExample`. 자세한 규칙은 `docs/API_CONTRACT.md` 5.20 절.
+
+### Java와 페이지 사이에 메시지 보내기
+
+Java의 `postMessage(message, targetOrigin)`는 대상 오리진과 일치하는 최상위 문서에 `MessageEvent`를 보냅니다. 문서가 리스너를 등록한 뒤 먼저 준비 메시지를 보내면 Java에서 응답을 시작할 수 있습니다. 페이지는 `window.opener.postMessage(data, "swingwebpanel://host")`로 전송하고, 받은 메시지는 `event.source.postMessage(reply, event.origin)`로 답할 수 있습니다.
+
+```java
+panel.addWebMessageListener(new WebMessageListener() {
+    public void messageReceived(WebMessageEvent event) {
+        if (!"https://app.example".equals(event.getOrigin())
+                || event.getSourceKind() != WebMessageEvent.SourceKind.DOCUMENT) {
+            return;
+        }
+        if ("ready".equals(event.getData())) {
+            event.reply("hello");
+        }
+    }
+});
+```
+
+네트워크 페이지나 그 하위 프레임에서 메시지가 올 수 있으므로 오리진과 데이터 형식을 먼저 확인하세요. Java가 특정 사이트에 값을 보낼 때는 해당 절대 오리진을 지정합니다. `reply`는 이벤트가 기록한 원래 문서에만 응답합니다. [값 변환과 수명 계약](docs/API_CONTRACT.md#522-java-호스트와-페이지-스크립트-간-메시지-p27)
+
+Windows에서는 `examples\run.bat MessageExample`로 클래스패스 왕복 예제를 열 수 있습니다. `--smoke`를 붙이면 화면 없이 메시지를 주고받습니다. [예제 목록](examples/README.md)
 
 ### 독립 JavaScript 엔진과 `javax.script`
 

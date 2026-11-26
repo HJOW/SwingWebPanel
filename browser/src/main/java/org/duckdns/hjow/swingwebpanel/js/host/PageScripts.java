@@ -1447,6 +1447,15 @@ public final class PageScripts {
             }
         }
         reportUnhandledRejections();
+        notifyTaskEnd();
+    }
+
+    /**
+     * Notifies listeners once the outermost task or parser script has finished its checkpoint.
+     * <p>
+     * 가장 바깥 작업이나 파서 스크립트가 검사점을 끝내면 수신자에게 알린다.
+     */
+    private void notifyTaskEnd() {
         // 작업이 끝날 때 알려 받는 쪽(예: 하이라이트의 범위 변경 확인)을 부른다.
         for (int i = 0; i < taskEndHooks.size(); i++) {
             taskEndHooks.get(i).run();
@@ -2296,6 +2305,7 @@ public final class PageScripts {
                 }
                 // 이 검사점이 끝날 때까지 처리기를 얻지 못한 거부된 promise 를 보고한다.
                 reportUnhandledRejections();
+                notifyTaskEnd();
             }
         } finally {
             depth--;

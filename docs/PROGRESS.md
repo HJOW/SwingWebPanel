@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P27-06 클래스패스 예제와 파싱 중 왕복 (2026-11-26) ===
+현재 작업 번호: P27-06 진행 중.
+완료한 내용: MessageExample과 클래스패스 페이지를 추가했다. 파서의 별도 마이크로태스크 검사점이 작업 종료 훅을 호출하도록 하여 확정 전 준비 알림을 전달한다. 파서 대기 중의 EDT 응답, Worker에 호스트 창이 없는 동작, API·사용자 문서를 확인했다.
+변경 파일: PageScripts.java, WebMessageEvent.java, HostInboundMessageTest.java, HostOutboundMessageTest.java, MessageExample.java, messages.html, README.md, examples/README.md, docs/API_CONTRACT.md, docs/FEATURE_MATRIX.md, docs/ARCHITECTURE.md, 이 문서.
+검증 결과: JDK 6u45에서 변경 클래스를 제품 JAR와 함께 분리 컴파일했다. HostInboundMessageTest·HostOutboundMessageTest·HostMessageQueueTest·HostMessageLifecycleTest 합계 12건 및 클래스패스 MessageExample --smoke 통과. sourcecheck 0 위반. mvn -B -o verify 실행 중.
+미해결 사항: 최종 엔진·브라우저 전체 회귀와 최종 배포 JAR의 클래스패스 예제 확인.
+다음 작업 번호: P27-06, 이후 P28-06.
+-----------------------------------------------------------------------------------------------
 === P27-05 메시지 순서·부하·수명 검증 (2026-11-26) ===
 현재 작업 번호: P27-05-a, P27-05-b 및 P27-05 완료.
 완료한 내용: EDT 대기 1,000건과 복제 데이터 예상 총량 16 MiB를 함께 제한한다. 초과 수는 콘솔 HOST_ERROR로 통지한다. 발신 작업과 Promise 마이크로태스크 뒤에 EDT에서 통지하며 리스너의 비치명적 오류를 격리한다. 문서·컴포넌트 수명은 약한 참조로 연결한다.

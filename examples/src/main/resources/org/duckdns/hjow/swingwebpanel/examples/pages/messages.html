@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Java and page messages</title>
+<style>
+  body { margin: 24px; color: #1e293b; background: #f8fafc; font: 16px sans-serif; }
+  h1 { margin: 0 0 12px; font-size: 24px; }
+  output { display: block; padding: 10px; background: white; border: 1px solid #cbd5e1; margin-bottom: 12px; }
+  button { background: #1d4ed8; color: white; border: 1px solid #1e40af; padding: 8px 12px; }
+</style>
+</head>
+<body>
+<h1>Page messages</h1>
+<output id="received">Waiting for a message from Java</output>
+<button id="send" type="button">Send to Java</button>
+<script>
+  (function() {
+    const host = window.opener;
+    const origin = "swingwebpanel://host";
+    if (!host) return;
+
+    window.addEventListener("message", function(event) {
+      if (event.origin !== origin || event.source !== host ||
+          !event.data || typeof event.data.text !== "string") return;
+      document.getElementById("received").textContent = event.data.text;
+      event.source.postMessage({type: "echo", text: event.data.text}, event.origin);
+    });
+
+    document.getElementById("send").addEventListener("click", function() {
+      host.postMessage({type: "note", text: "Hello from the page"}, origin);
+    });
+    host.postMessage({type: "ready"}, origin);
+  })();
+</script>
+</body>
+</html>

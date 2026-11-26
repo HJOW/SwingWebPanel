@@ -161,7 +161,7 @@ public final class HostOutboundMessageTest {
      * @param release signals when the server may answer / 서버가 응답해도 되는 신호
      * @return signals when the request arrived / 요청이 도착한 신호
      */
-    private static CountDownLatch routeGate(TestHttpServer site, String path, final CountDownLatch release) {
+    static CountDownLatch routeGate(TestHttpServer site, String path, final CountDownLatch release) {
         final CountDownLatch entered = new CountDownLatch(1);
         site.route(path, new TestHttpServer.Handler() {
             /** Pauses until the test releases the response. / 시험이 응답을 풀 때까지 기다린다. */

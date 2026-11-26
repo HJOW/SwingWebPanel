@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import javax.swing.SwingUtilities;
@@ -35,10 +36,12 @@ public final class HostInboundMessageTest {
     public void testRoundTripFromEdt() throws Exception {
         TestHttpServer site = new TestHttpServer();
         SwingWebPanel panel = FrameTestSupport.newPanel(320, 240);
+        CountDownLatch release = new CountDownLatch(1);
         try {
             site.routeFixed("/room", TestHttpServer.Response.html("<script>var openerAtStart=opener;"
                     + "onmessage=e=>e.source.postMessage({data:e.data,host:e.origin,same:e.source===openerAtStart},e.origin);"
-                    + "openerAtStart.postMessage('ready','*');</script>"));
+                    + "openerAtStart.postMessage('ready','*');</script><script src='/holding.js'></script>"));
+            CountDownLatch waiting = HostOutboundMessageTest.routeGate(site, "/holding.js", release);
             site.start();
             final Inbox inbox = new Inbox();
             final String allowed = site.url("");
@@ -53,6 +56,7 @@ public final class HostInboundMessageTest {
             panel.addWebMessageListener(inbox);
             long started = System.currentTimeMillis();
             panel.setPage(site.url("/room"));
+            Check.isTrue(waiting.await(10, TimeUnit.SECONDS), "the parser is waiting for its script");
             WebMessageEvent ready = inbox.next();
             Check.equal("ready", ready.getData(), "first message");
             Check.same(panel, ready.getSource(), "Swing component source");
@@ -60,6 +64,8 @@ public final class HostInboundMessageTest {
             Check.equal(site.url("/room"), ready.getDocumentUrl(), "original document URL");
             Check.equal(WebMessageEvent.SourceKind.DOCUMENT, ready.getSourceKind(), "top-level sender");
             Check.isTrue(ready.getTimestamp() >= started && ready.getTimestamp() <= System.currentTimeMillis(), "epoch milliseconds");
+            Check.equal("about:blank", panel.getPage(), "the ready message arrived before the new document confirmed");
+            release.countDown();
             WebMessageEvent reply = inbox.next();
             Check.isTrue(reply.getSequence() > ready.getSequence(), "component acceptance order");
             Map<?, ?> echo = (Map<?, ?>) reply.getData();
@@ -68,6 +74,7 @@ public final class HostInboundMessageTest {
             Check.equal(Boolean.TRUE, echo.get("same"), "same host window as the opener");
             Check.isTrue(inbox.allEdt, "all listeners run on the EDT");
         } finally {
+            release.countDown();
             panel.dispose();
             site.stop();
         }
@@ -105,6 +112,33 @@ public final class HostInboundMessageTest {
             Check.isTrue(Arrays.equals(new byte[] {1, 7, 9}, (byte[]) bytes.getData()), "transferred bytes");
             Check.equal("SyntaxError,DataCloneError,false,DataCloneError,true", inbox.next().getData(),
                     "target, failed transfer and successful transfer results");
+        } finally {
+            panel.dispose();
+            site.stop();
+        }
+    }
+
+    /**
+     * Checks that a worker cannot see the Java host window.
+     * <p>
+     * Worker에서는 Java 호스트 창이 보이지 않는지 확인한다.
+     *
+     * @throws Exception on network or waiting failure / 네트워크 또는 대기 실패 시
+     */
+    public void testWorkerHasNoHostWindow() throws Exception {
+        TestHttpServer site = new TestHttpServer();
+        SwingWebPanel panel = FrameTestSupport.newPanel(320, 240);
+        try {
+            site.routeFixed("/worker.js", TestHttpServer.Response.ok("application/javascript", "postMessage(typeof self.opener);"));
+            site.routeFixed("/owner", TestHttpServer.Response.html("<script>const w=new Worker('/worker.js');"
+                    + "w.onmessage=e=>{opener.postMessage(e.data,'*');w.terminate();};</script>"));
+            site.start();
+            Inbox inbox = new Inbox();
+            panel.addWebMessageListener(inbox);
+            panel.setPage(site.url("/owner"));
+            WebMessageEvent result = inbox.next();
+            Check.equal("undefined", result.getData(), "no host opener in a worker");
+            Check.equal(WebMessageEvent.SourceKind.DOCUMENT, result.getSourceKind(), "the document relayed the value");
         } finally {
             panel.dispose();
             site.stop();

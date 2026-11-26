@@ -97,7 +97,7 @@ public final class WebMessageEvent extends EventObject {
         return data;
     }
 
-    /** Returns the origin or the string `"null"` for an opaque origin. / 오리진 또는 불투명 오리진을 나타내는 문자열 `"null"`을 반환한다. */
+    /** Returns the origin or the string <code>"null"</code> for an opaque origin. / 오리진 또는 불투명 오리진 문자열 <code>"null"</code>을 반환한다. */
     public String getOrigin() {
         return origin;
     }
