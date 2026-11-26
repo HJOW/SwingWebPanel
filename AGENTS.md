@@ -584,6 +584,7 @@ java Swing 에서 사용할 수 있는 웹브라우저 컴포넌트 개발.
     - [x] P22-16-b1. 입력: `null`, 문자열 안의 CRLF/CR/LF 및 마크업 모양의 문자열. 기대: 레거시 DOMString 변환, HTML 네임스페이스의 `br`과 안전한 텍스트로 기존 자식을 한 번에 교체. 구현: `js.host.ElementExtras`. 완료(2026-11-26): 새 노드·순서·문자열·단일 MutationObserver 기록 및 인접 회귀 34건이 JRE 6에서 통과했다.
     - [x] P22-16-b2. 입력: 표시·비표시 자손, 분리한 요소, 단락·블록·`br`·표 및 CSS 텍스트 처리. 기대: 레이아웃을 반영하고 렌더링하지 않는 요소 자체를 조회할 때는 `textContent` 사용. 구현: `js.host.ElementExtras`, `core.PagePresentation`, `render.RenderedText`. 완료(2026-11-26): 새 SwingWebPanel 사례와 선택·편집·기하 회귀 64건이 JRE 6에서 통과했다. 시스템 클립보드 사례 1건은 헤드리스 실행에서 건너뛰었다.
   - [ ] P22-16-c. 입력: 문서가 로드된 뒤 예약한 0초 meta refresh와 동시에 완료되는 async/defer/차단 스크립트 요청. 기대: JRE 6의 Swing 타이머가 이동을 누락하지 않고 스크립트 검증은 `load`가 전달된 상태를 읽는다. 구현: `core.HtmlPageDocument`, `MetaRefreshIntegrationTest`, `ParallelScriptLoadingTest`. 완료 조건: 집중 통합 회귀와 전체 Maven 재검증. 기록(2026-11-26): 관련 집중 회귀 18건과 마지막 Maven 실행의 해당 사례가 통과했다. 전체 브라우저 회귀의 별도 실패가 남았다(`docs/progress/p22.md` 5절).
+    - [x] P22-16-c1. 입력: 무작위 크기와 취소 시점의 디코딩 요청 150건 및 별도의 대기 한도 초과 요청. 기대: 의도한 취소만 콜백을 막으며, 용량을 시험하는 사례에서만 요청이 거부된다. 구현: `AudioDecodeServiceTest`. 완료 조건: 실제 JRE 6에서 반복 취소 회귀와 한도 시험 통과, 시험 실패 시에도 작업자 종료.
   - [x] P22-16-d. 입력: 페이지 확정 직후 다른 스레드가 `clean` 또는 `dispose`로 교체하는 경우. 기대: 이미 교체된 스냅샷의 타이머와 하위 문서를 시작하지 않고 문서 스레드가 예외 없이 진행. 구현: `core.DocumentScheduler`, `PageRuntime`, `HtmlPageDocument`. 완료(2026-11-26): 확정 스냅샷 교체 회귀와 페이지 수명·프레임·메시지 54건이 JRE 6에서 통과했다.
 
 ### P23~P29 목표의 공통 사항과 진행 순서

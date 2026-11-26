@@ -907,45 +907,52 @@ public class AudioDecodeServiceTest {
      * a request whose cancellation returned <code>true</code> never calls back, every other one calls back exactly once, and in the end the
      * service has nothing pending and no thread is left after the closing.
      *
+     * 임의 크기와 시점으로 요청을 취소하여 콜백 횟수와 작업자 정리를 확인한다.
+     *
      * @throws Exception if the wait fails / 기다림이 실패하면
      */
     public void testRandomCancellationKeepsTheBooks() throws Exception {
         final int before = liveDecodeThreads();
-        final AudioDecodeService s = service(3);
         Random rnd = new Random(20261122L);
         int n = 150;
+        int maxFrames = 30100;
+        // 디코딩이 늦어도 모든 요청을 받을 수 있게 하여 취소 계약만 검증한다.
+        final AudioDecodeService s = new AudioDecodeService(3, 300, n, n * (44L + 2L * maxFrames));
         Recorder[] recorders = new Recorder[n];
-        DecodeRequest[] requests = new DecodeRequest[n];
         boolean[] cancelledOk = new boolean[n];
-        // 요청을 만들면서 일부는 곧바로, 일부는 잠시 뒤에 취소한다.
-        for (int i = 0; i < n; i++) {
-            recorders[i] = new Recorder();
-            requests[i] = s.decode(smallWav(100 + rnd.nextInt(30000)), null, 8000f, recorders[i], null);
-            int what = rnd.nextInt(4);
-            if (what == 0) {
-                cancelledOk[i] = requests[i].cancel();
-            } else if (what == 1) {
-                Thread.sleep(rnd.nextInt(3));
-                cancelledOk[i] = requests[i].cancel();
+        try {
+            // 요청을 만들면서 일부는 곧바로, 일부는 잠시 뒤에 취소한다.
+            for (int i = 0; i < n; i++) {
+                recorders[i] = new Recorder();
+                DecodeRequest request = s.decode(smallWav(100 + rnd.nextInt(maxFrames - 100)), null, 8000f, recorders[i], null);
+                int what = rnd.nextInt(4);
+                // 일부 취소에 지연을 두어 디코딩과 콜백이 시작될 기회를 준다.
+                if (what == 1) {
+                    Thread.sleep(rnd.nextInt(3));
+                }
+                if (what == 0 || what == 1) {
+                    cancelledOk[i] = request.cancel();
+                }
             }
-        }
-        // 취소하지 않았거나 취소에 실패한 요청은 모두 콜백이 와야 한다.
-        for (int i = 0; i < n; i++) {
-            if (!cancelledOk[i]) {
-                Check.isTrue(recorders[i].await(), "the callback of request " + i + " came");
+            // 취소하지 않았거나 취소에 실패한 요청은 모두 콜백이 와야 한다.
+            for (int i = 0; i < n; i++) {
+                if (!cancelledOk[i]) {
+                    Check.isTrue(recorders[i].await(), "the callback of request " + i + " came");
+                }
             }
-        }
-        Check.isTrue(await(new Condition() {
-            boolean holds() {
-                return s.getActiveRequestCount() == 0 && s.getPendingRequestCount() == 0;
+            Check.isTrue(await(new Condition() {
+                boolean holds() {
+                    return s.getActiveRequestCount() == 0 && s.getPendingRequestCount() == 0;
+                }
+            }, 30000), "nothing pending: " + s.getActiveRequestCount() + " active, " + s.getPendingRequestCount() + " pending");
+            Thread.sleep(50);
+            // 요청마다 콜백 횟수가 취소 결과와 맞는지 확인한다.
+            for (int i = 0; i < n; i++) {
+                Check.equal(cancelledOk[i] ? 0 : 1, recorders[i].calls.get(), "calls of request " + i + " (cancelled: " + cancelledOk[i] + ")");
             }
-        }, 30000), "nothing pending: " + s.getActiveRequestCount() + " active, " + s.getPendingRequestCount() + " pending");
-        Thread.sleep(50);
-        // 요청마다 콜백 횟수가 취소 결과와 맞는지 확인한다.
-        for (int i = 0; i < n; i++) {
-            Check.equal(cancelledOk[i] ? 0 : 1, recorders[i].calls.get(), "calls of request " + i + " (cancelled: " + cancelledOk[i] + ")");
+        } finally {
+            s.close();
         }
-        s.close();
         Check.isTrue(await(new Condition() {
             boolean holds() {
                 return liveDecodeThreads() <= before;
