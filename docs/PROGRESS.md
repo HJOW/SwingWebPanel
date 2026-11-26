@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-08-b 클래스패스 Fetch의 큰 자산 스트림 (2026-11-26) ===
+현재 작업 번호: P28-08-b 완료.
+완료한 내용: 클래스패스 Fetch 응답은 전체 사본을 만들기 전에 리더에 청크를 주고 자산별 32 MiB로 제한한다. HTTP와 일괄 응답 소비의 16 MiB 한도, 무결성 검사, Java의 다운로드 경로를 유지한다.
+변경 파일: ClasspathLoader.java, ResponseHandler.java, PageWebRequests.java, FetchApi.java, ClasspathFetchStreamTest.java, AGENTS.md, FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45에서 17 MiB를 넘는 생성 자료의 청크·정확한 바이트 수·일괄 소비 RangeError·취소와 인접 회귀 31건이 통과했다. JRE 6 번들과 JRE 7 모듈이 음악 17,988,172바이트를 포함해 총 26,571,744바이트를 읽었고, 메인 메뉴 5초 및 music=playing을 콘솔 오류 없이 확인했다.
+미해결 사항: 나머지 JVM·진입점 조합, 실제 창의 입력과 장치 출력, 병목 수치를 이어서 확인한다.
+다음 작업 번호: P28-07-b 및 P28-08 최종 비교.
+-----------------------------------------------------------------------------------------------
 === P28-08-a Number의 명시적 BigInt 변환 (2026-11-26) ===
 현재 작업 번호: P28-08-a 완료.
 완료한 내용: ECMA-262 제17판 21.1.1.1절에 맞춰 Number 함수와 생성자가 ToNumeric의 BigInt 값을 IEEE 754 Number로 반올림한다. 다른 암시적 ToNumber의 BigInt 거부는 유지한다.

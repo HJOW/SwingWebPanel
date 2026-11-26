@@ -38,6 +38,9 @@ import java.util.List;
  */
 public final class ClasspathLoader {
 
+    /** Upper bound for chunks of a single application-supplied Fetch body. / 애플리케이션 제공 Fetch 본문 한 건의 청크 한도. */
+    private static final long MAX_SCRIPT_STREAM_BYTES = 32L * 1024L * 1024L;
+
     /**
      * Class loader used to find resources.
      * <p>
@@ -168,6 +171,8 @@ public final class ClasspathLoader {
         try {
             sink = handler == null ? null : handler.onResponse(res);
             ByteArrayOutputStream mem = sink == null ? new ByteArrayOutputStream() : null;
+            long bodyLimit = mem != null ? limits.getMaxMemoryBytes()
+                    : handler instanceof ResponseHandler.BodyObserver ? MAX_SCRIPT_STREAM_BYTES : Long.MAX_VALUE;
             byte[] buf = new byte[8192];
             long count = 0;
             int n;
@@ -176,12 +181,13 @@ public final class ClasspathLoader {
             while ((n = in.read(buf)) >= 0) {
                 req.getCancelToken().throwIfCancelled();
                 count += n;
+                // 클래스패스의 Fetch는 본문을 모으지 않고 전달하되 느린 소비자의 대기열도 제한한다.
+                if (count > bodyLimit) {
+                    res.setStatus(0, "");
+                    res.setFailure(FailureKind.TOO_LARGE, "resource exceeds " + bodyLimit + " bytes");
+                    return res;
+                }
                 if (mem != null) {
-                    if (count > limits.getMaxMemoryBytes()) {
-                        res.setStatus(0, "");
-                        res.setFailure(FailureKind.TOO_LARGE, "resource exceeds " + limits.getMaxMemoryBytes() + " bytes");
-                        return res;
-                    }
                     mem.write(buf, 0, n);
                 } else {
                     sink.write(buf, 0, n);

@@ -346,7 +346,8 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
             if (stream != null) {
                 rr.setReadTimeoutMs(STREAM_READ_TIMEOUT_MS).setStreaming(true);
                 early = streamHandler();
-            } else if (callback instanceof WebRequestSource.BodyCallback && (kind == SchemePolicy.Kind.HTTP || kind == SchemePolicy.Kind.HTTPS)) {
+            } else if (callback instanceof WebRequestSource.BodyCallback
+                    && (kind == SchemePolicy.Kind.HTTP || kind == SchemePolicy.Kind.HTTPS || kind == SchemePolicy.Kind.CLASSPATH)) {
                 early = bodyObserver((WebRequestSource.BodyCallback) callback);
             } else {
                 early = new ResponseHandler() {
@@ -374,12 +375,12 @@ final class PageWebRequests implements WebRequestSource, StreamingWebRequestSour
         }
 
         /**
-         * Applies the scripted request rules to the head before exposing any live HTTP bytes.
+         * Applies the scripted request rules to the head before exposing any live bytes.
          * <p>
-         * 도착한 HTTP 바이트를 노출하기 전에 응답 머리에 스크립트 요청 정책을 적용한다.
+         * 도착한 바이트를 노출하기 전에 응답 머리에 스크립트 요청 정책을 적용한다.
          *
          * @param receiver optional body consumer / 선택 본문 소비자
-         * @return HTTP observer / HTTP 관찰자
+         * @return body observer / 본문 관찰자
          */
         private ResponseHandler bodyObserver(final WebRequestSource.BodyCallback receiver) {
             return new ResponseHandler.BodyObserver() {

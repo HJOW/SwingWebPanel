@@ -9,20 +9,21 @@ import java.io.OutputStream;
  * with a head-only response. Returning an {@link OutputStream} makes the body stream into it without any memory limit
  * (downloads); returning <code>null</code> keeps the normal in-memory handling (documents, images, ...). The stream is
  * closed by the fetch layer. Throwing {@link IOException} aborts the request. An HTTP {@link BodyObserver} can receive a copy of
- * the body on arrival, including HTTP error statuses, while retaining the normal cache and memory limits.
+ * the body on arrival, including HTTP error statuses, while retaining the normal cache and memory limits. Classpath observers
+ * receive a bounded stream directly.
  * <p>
  * 응답 머리를 안 뒤에, 본문을 먼저 읽지 않고도 호출자가 본문의 처리 방식을 정하게 한다. 가져오기 계층은 최종 비오류 응답
  * (상태 400 미만)마다 본문 없는 응답으로 {@link #onResponse(ResourceResponse)} 를 한 번 호출한다. {@link OutputStream} 을 돌려주면
  * 본문이 메모리 제한 없이 그 스트림으로 흐르고(다운로드), <code>null</code> 을 돌려주면 평소처럼 메모리에 읽는다(문서, 이미지 등).
  * 스트림은 가져오기 계층이 닫는다. {@link IOException} 을 던지면 요청을 중단한다. HTTP {@link BodyObserver}는 오류 상태를 포함한
- * 본문 사본을 도착하는 대로 받고 기존 캐시와 메모리 한도를 유지할 수 있다.
+ * 본문 사본을 도착하는 대로 받고 기존 캐시와 메모리 한도를 유지할 수 있다. 클래스패스 관찰자는 크기가 제한된 스트림을 직접 받는다.
  */
 public interface ResponseHandler {
 
     /**
-     * Receives HTTP body data while keeping a bounded, cacheable copy in the response.
+     * Observes a bounded body. HTTP keeps a cacheable copy, while classpath resources are delivered directly.
      * <p>
-     * HTTP 본문 데이터를 받으며 응답에 캐싱 가능한 크기 제한 사본을 유지한다.
+     * 크기가 제한된 본문을 관찰한다. HTTP는 캐시용 사본을 유지하고 클래스패스 리소스는 바로 전달한다.
      */
     interface BodyObserver extends ResponseHandler {
     }

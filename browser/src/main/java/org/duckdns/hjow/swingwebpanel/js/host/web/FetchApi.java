@@ -148,7 +148,7 @@ final class FetchApi {
         /** True after the request ends or is cancelled. / 요청이 끝나거나 취소되면 true. */
         volatile boolean done;
 
-        /** Body stream once the HTTP response has been exposed on the realm thread. / 렐름 스레드에서 HTTP 응답을 노출한 뒤의 본문 스트림. */
+        /** Body stream once the response has been exposed on the realm thread. / 렐름 스레드에서 응답을 노출한 뒤의 본문 스트림. */
         ReadableStreamObject stream;
 
         /** Protects byte batches handed over from the request thread. / 요청 스레드가 넘기는 바이트 묶음을 보호한다. */
@@ -180,9 +180,9 @@ final class FetchApi {
         }
 
         /**
-         * Accepts a filtered HTTP body and queues the response before its data chunks.
+         * Accepts a filtered body and queues the response before its data chunks.
          * <p>
-         * 걸러진 HTTP 본문을 받고 데이터 청크 전에 응답을 큐에 넣는다.
+         * 걸러진 본문을 받고 데이터 청크 전에 응답을 큐에 넣는다.
          *
          * @param head response head / 응답 머리
          * @return a body sink, or null to use buffered completion / 본문 목적지. 버퍼 완료를 사용하면 null
