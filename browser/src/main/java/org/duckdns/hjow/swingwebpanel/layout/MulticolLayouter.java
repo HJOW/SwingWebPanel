@@ -55,6 +55,12 @@ final class MulticolLayouter {
     private static final int MAX_COLUMNS = 1000;
     /** Number of halvings of the search for the balanced column height. 균형 잡힌 열 높이를 찾는 이분 탐색의 횟수. */
     private static final int BALANCE_STEPS = 40;
+    /** An unrestricted break opportunity. / 제약 없는 분할 지점. */
+    private static final int ALLOWED = 0;
+    /** A break opportunity used when stronger constraints require it. / 다른 제약으로 필요할 때만 쓰는 분할 지점. */
+    private static final int AVOID = 1;
+    /** A mandatory column break. / 반드시 열을 나눌 지점. */
+    private static final int FORCED = 2;
 
     /** The block layouter that lays out the flow. 흐름을 배치하는 블록 레이아웃. */
     private final BlockLayouter bl;
@@ -377,27 +383,39 @@ final class MulticolLayouter {
      * @return true if it can be split / 나눌 수 있으면 true
      */
     private static boolean breakable(LayoutBox k) {
-        return (k.type == LayoutBox.Type.BLOCK || k.type == LayoutBox.Type.ANONYMOUS_BLOCK) && !k.inlineLevel && !k.flexContainer && !k.gridContainer && !k.multicol
-                && k.floatSide == LayoutBox.FLOAT_NONE && !k.isAbsolutelyPositioned() && !k.children.isEmpty() && inFlowChildren(k) > 0;
+        return continuesFlow(k) && edgeChild(k, true) != null;
     }
 
     /**
-     * Counts the in-flow children of a box.
+     * Tests whether an in-flow box shares the surrounding block flow.
      * <p>
-     * 상자의 정상 흐름 자식 수를 센다.
-     *
-     * @param k the box / 상자
-     * @return the number / 수
+     * 정상 흐름의 상자가 바깥 블록 흐름을 공유하는지 확인한다.
+     * @param box the box / 상자
+     * @return true if the column layouter can continue through the box / 다단 배치가 상자 내부로 이어지면 true
      */
-    private static int inFlowChildren(LayoutBox k) {
-        int count = 0;
-        // 자식 중 정상 흐름에 참여하는 것을 센다.
-        for (int i = 0; i < k.children.size(); i++) {
-            if (inFlow(k.children.get(i))) {
-                count++;
+    private static boolean continuesFlow(LayoutBox box) {
+        return (box.type == LayoutBox.Type.BLOCK || box.type == LayoutBox.Type.ANONYMOUS_BLOCK) && !box.inlineLevel
+                && !box.flexContainer && !box.gridContainer && !box.multicol && inFlow(box);
+    }
+
+    /**
+     * Returns the in-flow child at the requested edge. / 지정한 가장자리에 있는 정상 흐름 자식을 반환한다.
+     *
+     * @param box the parent box / 부모 상자
+     * @param atStart true for the first child, false for the last / 첫 자식이면 true, 마지막이면 false
+     * @return the matching child or null / 해당 자식. 없으면 null
+     */
+    private static LayoutBox edgeChild(LayoutBox box, boolean atStart) {
+        int i = atStart ? 0 : box.children.size() - 1;
+        int step = atStart ? 1 : -1;
+        // 지정한 가장자리부터 정상 흐름에 속하는 자식이 나올 때까지 찾는다.
+        for (; i >= 0 && i < box.children.size(); i += step) {
+            LayoutBox child = box.children.get(i);
+            if (inFlow(child)) {
+                return child;
             }
         }
-        return count;
+        return null;
     }
 
     /**
@@ -447,17 +465,11 @@ final class MulticolLayouter {
                     ok = seen >= orphans && lines - seen >= widows;
                 }
                 // 두 형제 사이의 break-after 와 break-before 가 정하는 종류: 강제(2), 피함(1), 허용(0)이다(CSS Fragmentation 3 3.1 절).
-                int kind = avoidInside ? 1 : 0;
+                int kind = avoidInside ? AVOID : ALLOWED;
                 if (prev.type != LayoutBox.Type.LINE || k.type != LayoutBox.Type.LINE) {
-                    String after = breakAfter(prev, 0);
-                    String before = breakBefore(k, 0);
-                    if (isForced(after) || isForced(before)) {
-                        kind = 2;
-                    } else if (isAvoid(after) || isAvoid(before)) {
-                        kind = 1;
-                    }
+                    kind = Math.max(kind, Math.max(edgeBreak(prev, false), edgeBreak(k, true)));
                 }
-                if (ok || kind == 2) {
+                if (ok || kind == FORCED) {
                     out.add(new double[] { prevBottom, t, kind, bottomClone, topClone });
                 }
             }
@@ -476,60 +488,29 @@ final class MulticolLayouter {
     }
 
     /**
-     * Returns the value of <code>break-before</code> that applies at the start of a box: its own value, or, if that is <code>auto</code>,
-     * the value of its first in-flow child (a break value of a first child propagates to the parent, CSS Fragmentation 3 section 3.1).
+     * Combines column break values on the box and along the first or last in-flow child edge (CSS Fragmentation 3 sections 3.1.1 and 4.3).
      * <p>
-     * 상자의 시작에 적용되는 <code>break-before</code> 값을 반환한다: 자신의 값, 그것이 <code>auto</code> 이면 첫 정상 흐름 자식의 값(첫 자식의 나눔 값은 부모에게
-     * 전파된다. CSS Fragmentation 3 3.1 절).
+     * 상자와 첫째 또는 마지막 정상 흐름 자식이 이어지는 가장자리에서 다단 분할 값을 합친다(CSS Fragmentation 3 3.1.1절과 4.3절).
      *
-     * @param k     the box / 상자
-     * @param depth the depth of the propagation / 전파 깊이
-     * @return the keyword / 키워드
+     * @param box the outer box / 바깥 상자
+     * @param atStart true for break-before, false for break-after / break-before이면 true, break-after이면 false
+     * @return the strongest break applicable to this column context / 이 다단 문맥에 적용할 가장 강한 분할 값
      */
-    private static String breakBefore(LayoutBox k, int depth) {
-        String v = keyword(k, Prop.BREAK_BEFORE);
-        if (!"auto".equals(v) || depth > 8) {
-            return v;
-        }
-        // 첫 정상 흐름 자식에게서 전파되는 값을 찾는다.
-        for (int i = 0; i < k.children.size(); i++) {
-            LayoutBox c = k.children.get(i);
-            if (inFlow(c) && c.type != LayoutBox.Type.LINE) {
-                return breakBefore(c, depth + 1);
+    private static int edgeBreak(LayoutBox box, boolean atStart) {
+        int property = atStart ? Prop.BREAK_BEFORE : Prop.BREAK_AFTER;
+        int kind = ALLOWED;
+        // 같은 흐름의 가장자리만 따라간다. 별도 다단 등에서는 안쪽 값이 바깥으로 퍼지지 않는다.
+        for (LayoutBox child = box; child != null && child.type != LayoutBox.Type.LINE;
+                child = continuesFlow(child) ? edgeChild(child, atStart) : null) {
+            String value = keyword(child, property);
+            if (isForced(value)) {
+                return FORCED;
             }
-            if (inFlow(c)) {
-                return "auto";
-            }
-        }
-        return "auto";
-    }
-
-    /**
-     * Returns the value of <code>break-after</code> that applies at the end of a box: its own value, or, if that is <code>auto</code>, the
-     * value of its last in-flow child.
-     * <p>
-     * 상자의 끝에 적용되는 <code>break-after</code> 값을 반환한다: 자신의 값, 그것이 <code>auto</code> 이면 마지막 정상 흐름 자식의 값.
-     *
-     * @param k     the box / 상자
-     * @param depth the depth of the propagation / 전파 깊이
-     * @return the keyword / 키워드
-     */
-    private static String breakAfter(LayoutBox k, int depth) {
-        String v = keyword(k, Prop.BREAK_AFTER);
-        if (!"auto".equals(v) || depth > 8) {
-            return v;
-        }
-        // 마지막 정상 흐름 자식에게서 전파되는 값을 찾는다.
-        for (int i = k.children.size() - 1; i >= 0; i--) {
-            LayoutBox c = k.children.get(i);
-            if (inFlow(c) && c.type != LayoutBox.Type.LINE) {
-                return breakAfter(c, depth + 1);
-            }
-            if (inFlow(c)) {
-                return "auto";
+            if (isAvoid(value)) {
+                kind = AVOID;
             }
         }
-        return "auto";
+        return kind;
     }
 
     /**
@@ -643,7 +624,7 @@ final class MulticolLayouter {
                 if (cd[0] > limit + EPS) {
                     break;
                 }
-                if (cd[2] == 2) {
+                if (cd[2] == FORCED) {
                     forced = i;
                     break;
                 }
@@ -680,7 +661,7 @@ final class MulticolLayouter {
                 if (cd.length > 3 && cd[0] + cd[3] > limit + EPS) {
                     continue;
                 }
-                if (cd[2] == 0) {
+                if (cd[2] == ALLOWED) {
                     best = i;
                 } else {
                     bestAvoid = i;

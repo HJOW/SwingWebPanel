@@ -181,6 +181,39 @@ public class FragmentationBreakTest {
     }
 
     /**
+     * A forced column break reaches the outer block edge through other break declarations. / 강제 열 분할은 다른 분할 선언이 있어도 바깥 블록까지 전파된다.
+     */
+    public void testForcedChildBreakCombinesWithAncestorValues() {
+        String fixed = "height:100px;column-fill:auto;";
+        String nested = blk("edge", 20, "break-before:column");
+        // 보통 블록을 여러 겹 쌓아도 첫 자식의 강제 분할이 맨 바깥 가장자리에 닿는다.
+        for (int i = 0; i < 12; i++) {
+            nested = "<div>" + nested + "</div>";
+        }
+        LayoutResult before = run(fixed, blk("prefix", 20, "break-after:avoid-column")
+                + "<div id=wrap style='break-before:avoid-column'>" + nested + "</div>");
+        Check.near(110, b(before, "wrap").getX(), T, "a deeply nested forced break overrides the avoidance at the same edge");
+        Check.near(0, b(before, "edge").getY(), T, "the first child starts the column");
+        LayoutResult after = run(fixed, "<div id=wrap style='break-after:page'>" + blk("edge", 20, "break-after:column") + "</div>"
+                + blk("last", 20, ""));
+        Check.near(110, b(after, "last").getX(), T, "the propagated column break also applies after the parent");
+    }
+
+    /**
+     * A nested multicol context keeps its own column breaks. / 중첩 다단 문맥의 열 분할은 해당 문맥 안에서 처리한다.
+     */
+    public void testNestedColumnBreaksDoNotPropagateAcrossContext() {
+        String fixed = "height:100px;column-fill:auto;";
+        LayoutResult result = run(fixed, blk("prefix", 20, "")
+                + "<div id=nested style='column-count:2;column-gap:0;height:40px;column-fill:auto'>"
+                + blk("first", 10, "break-before:column") + blk("second", 10, "break-before:column;break-after:column")
+                + "</div>" + blk("last", 20, ""));
+        Check.near(0, b(result, "nested").getX(), T, "the inner context remains in the first outer column");
+        Check.near(50, b(result, "second").getX(), T, "the inner break starts the second inner column");
+        Check.near(0, b(result, "last").getX(), T, "the last inner child does not force an outer column break");
+    }
+
+    /**
      * <code>break-inside: avoid</code> moves a box that would be split to the next column when it fits there; without it the box is
      * split. A box that is taller than a column is split anyway.
      * <p>

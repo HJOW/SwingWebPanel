@@ -588,6 +588,7 @@ java Swing 에서 사용할 수 있는 웹브라우저 컴포넌트 개발.
   - [x] P22-16-d. 입력: 페이지 확정 직후 다른 스레드가 `clean` 또는 `dispose`로 교체하는 경우. 기대: 이미 교체된 스냅샷의 타이머와 하위 문서를 시작하지 않고 문서 스레드가 예외 없이 진행. 구현: `core.DocumentScheduler`, `PageRuntime`, `HtmlPageDocument`. 완료(2026-11-26): 확정 스냅샷 교체 회귀와 페이지 수명·프레임·메시지 54건이 JRE 6에서 통과했다.
   - [ ] P22-16-e. CSS-20·CSS-39 다단 분할을 기준 판본과 대조한다. 첫 하위 작업에서 열을 강제하는 값과 쪽 전용 값을 구분하고, 남은 분할 제약은 기능 표에서 추적한다.
     - [x] P22-16-e1. 입력: 화면의 고정 높이 다단 상자, `break-before/after`의 쪽·영역·열 키워드, `page-break-*`·`-webkit-column-break-*`의 `always` 및 `var()` 선언. 기대: 화면에서 열 분할을 요구하는 값만 새 열을 만들며 별칭 값을 해당 분할 종류로 해석한다. 구현: `css.props.PropertyRegistry`, `css.cssom.CssStyleDeclaration`, `layout.MulticolLayouter`, `FragmentationBreakTest`. 완료(2026-11-26): JRE 6의 기존 다단 배치·조각·CSS 값 및 CSSOM 직렬화 회귀 포함 68건 통과. 구현 범위와 남은 제약은 CSS-20·CSS-39에 기록했다.
+    - [x] P22-16-e2. 입력: 첫째·마지막 정상 흐름 블록에 지정한 `break-before/after`, 부모의 회피·쪽 값, 여러 겹의 보통 블록 및 별도 다단 컨테이너. 기대: 같은 흐름의 값들이 합쳐지고 열 강제 값이 회피보다 우선하며 별도 다단 컨테이너의 안쪽 열 나눔은 바깥으로 전파되지 않는다. 구현: `layout.MulticolLayouter`, `FragmentationBreakTest`. 완료(2026-11-26): JRE 6에서 앞·뒤 전파와 독립 분할 문맥 및 기존 다단 조각·렌더링 회귀 포함 70건 통과.
 
 ### P23~P29 목표의 공통 사항과 진행 순서
 
