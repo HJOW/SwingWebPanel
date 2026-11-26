@@ -1,9 +1,13 @@
 package org.duckdns.hjow.swingwebpanel.media.playback;
 
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.Map;
+import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaData;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
@@ -196,6 +200,103 @@ public class MediaPlayerTest {
             Check.equal("loaded,started,ended", l.summary(), "reports");
         } finally {
             p.close();
+        }
+    }
+
+    /**
+     * Plays the tail of a WAV larger than the test heap and releases its encoded file on close.
+     * <p>
+     * 시험 힙보다 큰 WAV 끝을 재생하고 재생기를 닫을 때 인코딩 파일을 해제하는지 확인한다.
+     * @throws Exception if file creation or playback fails / 파일 생성이나 재생에 실패하면
+     */
+    public void testFileBackedWavPlaysAndCloses() throws Exception {
+        int payload = 72 * 1024 * 1024;
+        byte[] header = AudioKit.wav(1, 1, RATE, 16, new byte[0], payload);
+        File file = File.createTempFile("swp-player-source-", ".wav");
+        FakeOutputs outputs = new FakeOutputs();
+        RecordingListener events = new RecordingListener();
+        DecodeLimits large = new DecodeLimits(DecodeLimits.DEFAULT_MAX_PIXELS, header.length + payload,
+                DecodeLimits.DEFAULT_MAX_FRAMES, DecodeLimits.DEFAULT_MAX_TOTAL_PIXELS);
+        MediaPlayer player = new MediaPlayer(outputs, events, large);
+        try {
+            RandomAccessFile writable = new RandomAccessFile(file, "rw");
+            try {
+                writable.write(header);
+                writable.setLength(header.length + payload);
+                writable.seek(4);
+                writable.writeInt(Integer.reverseBytes(header.length + payload - 8));
+                writable.seek(header.length + payload - 4);
+                writable.writeShort(0x3412);
+                writable.writeShort(0x7856);
+            } finally {
+                writable.close();
+            }
+            MediaData data = MediaData.ofTemporaryFile(file);
+            try {
+                player.loadMedia(data, "audio/ogg");
+                events.await("loaded", 1);
+                Check.equal(payload / 2, events.info().getFrameCount(), "WAV signature wins over the hint");
+                player.seek((payload / 2 - 2) / (double) RATE);
+                events.await("seeked", 1);
+                player.play();
+                events.await("ended", 1);
+                Check.isTrue(Arrays.equals(new byte[] { 0x34, 0x12, 0x78, 0x56 }, outputs.await(0).written()), "only the chosen tail was played");
+                Check.isTrue(file.isFile(), "encoded file is retained for replay");
+                player.close();
+                Check.isTrue(data.isReleased() && !file.exists(), "closing releases the encoded file");
+            } finally {
+                data.release();
+            }
+        } finally {
+            player.close();
+            file.delete();
+        }
+    }
+
+    /**
+     * Releases a rejected file and keeps legacy array-only decoders available for spooled playback.
+     * <p>
+     * 거부한 파일을 해제하며 기존 배열 전용 디코더도 스풀 재생에서 사용할 수 있는지 확인한다.
+     * @throws Exception if fixture creation or playback fails / 시험 파일 생성이나 재생에 실패하면
+     */
+    public void testFileBackedFailureAndLegacyDecoder() throws Exception {
+        byte[][] files = { new byte[] { 1, 2, 3 }, ScriptedDecoder.data('U', 160) };
+        // 미지원 시그니처와 배열 디코더의 재열기 경로를 각각 디스크에서 실행한다.
+        for (int i = 0; i < files.length; i++) {
+            File file = File.createTempFile("swp-player-legacy-", ".data");
+            FakeOutputs outputs = new FakeOutputs();
+            RecordingListener events = new RecordingListener();
+            MediaPlayer player = new MediaPlayer(outputs, events);
+            MediaData data = null;
+            try {
+                RandomAccessFile writable = new RandomAccessFile(file, "rw");
+                try {
+                    writable.write(files[i]);
+                } finally {
+                    writable.close();
+                }
+                data = MediaData.ofTemporaryFile(file);
+                player.loadMedia(data, i == 0 ? "audio/wav" : "audio/x-script");
+                if (i == 0) {
+                    events.await("loadFailed", 1);
+                    Check.equal(MediaException.Kind.UNSUPPORTED_FORMAT, events.error().getKind(), "unsupported file");
+                } else {
+                    events.await("loaded", 1);
+                    player.seek(0.01);
+                    events.await("seeked", 1);
+                    player.play();
+                    events.await("ended", 1);
+                    Check.isTrue(Arrays.equals(ScriptedDecoder.pcm(80, 160), outputs.await(0).written()), "array-only codec reopened the file");
+                }
+                player.close();
+                Check.isTrue(data.isReleased() && !file.exists(), "the spooled input was released");
+            } finally {
+                player.close();
+                if (data != null) {
+                    data.release();
+                }
+                file.delete();
+            }
         }
     }
 

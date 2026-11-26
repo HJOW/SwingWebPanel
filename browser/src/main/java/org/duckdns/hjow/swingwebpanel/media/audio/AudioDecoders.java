@@ -1,5 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.media.audio;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,6 +32,9 @@ import org.duckdns.hjow.swingwebpanel.media.audio.vorbis.VorbisDecoder;
  * 건너뛴다. 등록부는 스레드 안전하다.
  */
 public final class AudioDecoders {
+
+    /** Former buffered response limit retained for array-only registered codecs. / 배열만 받는 등록 코덱에 유지하는 기존 응답 버퍼 한도. */
+    private static final int LEGACY_ARRAY_MAX_BYTES = 16 * 1024 * 1024;
 
     /**
      * Class names of optional decoders of the other audio families, loaded by reflection when present.
@@ -158,6 +162,64 @@ public final class AudioDecoders {
     }
 
     /**
+     * Opens playback PCM from a fetched memory or file resource. The caller still owns the resource and may open it again.
+     * <p>
+     * 메모리나 파일로 가져온 리소스를 재생 PCM으로 연다. 리소스는 호출자가 계속 소유하며 다시 열 수 있다.
+     * @param data encoded media resource / 인코딩된 미디어 리소스
+     * @param mimeHint MIME type hint or null / MIME 타입 힌트 또는 null
+     * @param limits resource limits, null for defaults / 리소스 제한. null이면 기본값
+     * @return PCM positioned at the start / 시작 위치의 PCM 소스
+     * @throws MediaException for invalid, unsupported or unreadable data / 손상·미지원·읽기 실패 시
+     */
+    public static PcmSource openMedia(MediaData data, String mimeHint, DecodeLimits limits) throws MediaException {
+        DecodeLimits lim = limits == null ? DecodeLimits.DEFAULT : limits;
+        checkSize(data == null ? 0 : data.length(), lim);
+        byte[] memory = data.inMemoryBytes();
+        if (memory != null) {
+            return open(memory, mimeHint, lim);
+        }
+        String hint = normalizeMime(mimeHint);
+        ByteSource input = null;
+        try {
+            input = data.open();
+            byte[] legacy = null;
+            // 힌트 우선순위를 유지하면서 파일을 바로 읽을 수 있는 디코더부터 각각 그 진입점으로 연다.
+            for (AudioDecoder decoder : preferredDecoders(hint)) {
+                if (decoder instanceof ByteAudioDecoder) {
+                    ByteAudioDecoder seekable = (ByteAudioDecoder) decoder;
+                    if (accepts(seekable, input)) {
+                        PcmSource pcm;
+                        try {
+                            pcm = seekable.openSource(input, lim);
+                        } catch (RuntimeException e) {
+                            throw damaged(decoder, e);
+                        }
+                        input = null;
+                        return pcm;
+                    }
+                } else if (input.length() <= LEGACY_ARRAY_MAX_BYTES) {
+                    // 배열 API만 등록한 코덱에는 필요한 경우에만 기존 전송 한도 안에서 복사한 입력을 준다.
+                    if (legacy == null) {
+                        legacy = Bytes.copy(input, 0, (int) input.length());
+                    }
+                    if (accepts(decoder, legacy)) {
+                        return openWith(decoder, legacy, lim);
+                    }
+                }
+            }
+            throw unsupported(hint);
+        } catch (ByteSourceException e) {
+            throw e.toMediaException();
+        } catch (IOException e) {
+            throw new MediaException(MediaException.Kind.ACCESS_FAILED, "could not open encoded audio", e);
+        } finally {
+            if (input != null) {
+                input.close();
+            }
+        }
+    }
+
+    /**
      * Opens encoded audio for decoding with the channels and the precision of the file (plan item P25-05): the decoder is chosen exactly as
      * {@link #open} chooses it (by the signature of the data, the MIME type is only a hint); a decoder that implements {@link WideAudioDecoder} delivers
      * 32 bit float samples in every channel of the file, any other decoder is used through its 16 bit path ({@link PcmFloatAdapter}, at most two
@@ -181,7 +243,7 @@ public final class AudioDecoders {
             try {
                 return ((WideAudioDecoder) d).openWide(data, lim);
             } catch (RuntimeException e) {
-                throw new MediaException(MediaException.Kind.CORRUPT, "damaged " + d.getFormatName() + " data: " + e, e);
+                throw damaged(d, e);
             }
         }
         return new PcmFloatAdapter(openWith(d, data, lim));
@@ -200,13 +262,38 @@ public final class AudioDecoders {
      * @throws MediaException CORRUPT for empty data, TOO_LARGE over the limits, UNSUPPORTED_FORMAT if no decoder recognizes the data / 빈 데이터는 CORRUPT, 제한 초과는 TOO_LARGE, 어떤 디코더도 알아보지 못하면 UNSUPPORTED_FORMAT
      */
     private static AudioDecoder choose(byte[] data, String mimeHint, DecodeLimits lim) throws MediaException {
-        if (data == null || data.length == 0) {
+        checkSize(data == null ? 0 : data.length, lim);
+        String hint = normalizeMime(mimeHint);
+        // 시그니처가 맞는 첫 디코더로 연다.
+        for (AudioDecoder decoder : preferredDecoders(hint)) {
+            if (accepts(decoder, data)) {
+                return decoder;
+            }
+        }
+        throw unsupported(hint);
+    }
+
+    /**
+     * Rejects empty or excess-size input. / 비었거나 너무 큰 입력을 거부한다.
+     * @param size encoded length / 인코딩 길이
+     * @param limits decoding limits / 해독 제한
+     * @throws MediaException if size is invalid / 크기가 올바르지 않으면
+     */
+    private static void checkSize(long size, DecodeLimits limits) throws MediaException {
+        if (size == 0) {
             throw new MediaException(MediaException.Kind.CORRUPT, "the audio data is empty");
         }
-        if (data.length > lim.getMaxBytes()) {
+        if (size > limits.getMaxBytes()) {
             throw new MediaException(MediaException.Kind.TOO_LARGE, "the audio data is larger than the limit");
         }
-        String hint = normalizeMime(mimeHint);
+    }
+
+    /**
+     * Lists hinted codecs before the remaining registered codecs. / 힌트와 일치하는 코덱 뒤에 나머지 등록 코덱을 나열한다.
+     * @param hint normalized MIME hint or null / 정규화한 MIME 힌트 또는 null
+     * @return codecs in probing order / 판별 순서의 코덱
+     */
+    private static List<AudioDecoder> preferredDecoders(String hint) {
         List<AudioDecoder> order = new ArrayList<AudioDecoder>(DECODERS.size());
         // 힌트의 MIME 타입을 선언한 디코더를 앞에 둔다.
         for (AudioDecoder d : DECODERS) {
@@ -220,19 +307,46 @@ public final class AudioDecoders {
                 order.add(d);
             }
         }
-        // 시그니처가 맞는 첫 디코더로 연다.
-        for (AudioDecoder d : order) {
-            boolean accepted;
-            try {
-                accepted = d.accepts(data);
-            } catch (RuntimeException e) {
-                accepted = false;
-            }
-            if (accepted) {
-                return d;
-            }
+        return order;
+    }
+
+    /**
+     * Probes an array signature, treating malformed probes as unrelated data. / 배열 시그니처를 조사하며 손상 입력은 일치하지 않은 것으로 본다.
+     * @param decoder the codec / 코덱
+     * @param data encoded array / 인코딩 배열
+     * @return true when the signature matches / 시그니처가 맞으면 true
+     */
+    private static boolean accepts(AudioDecoder decoder, byte[] data) {
+        try {
+            return decoder.accepts(data);
+        } catch (RuntimeException e) {
+            return false;
         }
-        throw new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "unrecognized audio format"
+    }
+
+    /**
+     * Probes a seekable signature while preserving storage errors. / 탐색 가능한 원천의 시그니처를 조사하고 저장소 오류를 보존한다.
+     * @param decoder the codec / 코덱
+     * @param data encoded source / 인코딩 원천
+     * @return true when the signature matches / 시그니처가 맞으면 true
+     */
+    private static boolean accepts(ByteAudioDecoder decoder, ByteSource data) {
+        try {
+            return decoder.acceptsSource(data);
+        } catch (ByteSourceException e) {
+            throw e;
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Creates the failure when no registered codec recognizes an input. / 등록된 코덱이 입력을 알아보지 못했을 때의 오류를 만든다.
+     * @param hint normalized MIME hint or null / 정규화한 MIME 힌트 또는 null
+     * @return unsupported format error / 미지원 형식 오류
+     */
+    private static MediaException unsupported(String hint) {
+        return new MediaException(MediaException.Kind.UNSUPPORTED_FORMAT, "unrecognized audio format"
                 + (hint == null ? "" : " (declared as " + hint + ")"));
     }
 
@@ -251,8 +365,18 @@ public final class AudioDecoders {
         try {
             return d.open(data, lim);
         } catch (RuntimeException e) {
-            throw new MediaException(MediaException.Kind.CORRUPT, "damaged " + d.getFormatName() + " data: " + e, e);
+            throw damaged(d, e);
         }
+    }
+
+    /**
+     * Converts an unexpected decoder exception into a codec-data failure. / 디코더의 예상하지 못한 예외를 코덱 데이터 오류로 변환한다.
+     * @param decoder the chosen codec / 선택된 코덱
+     * @param cause unexpected failure / 예상하지 못한 오류
+     * @return corrupt data error / 데이터 손상 오류
+     */
+    private static MediaException damaged(AudioDecoder decoder, RuntimeException cause) {
+        return new MediaException(MediaException.Kind.CORRUPT, "damaged " + decoder.getFormatName() + " data: " + cause, cause);
     }
 
     /**

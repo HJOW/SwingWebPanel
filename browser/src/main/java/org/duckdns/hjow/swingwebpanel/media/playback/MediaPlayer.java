@@ -4,12 +4,12 @@ import java.lang.ref.WeakReference;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
 import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoders;
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaData;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
 
 /**
- * The player of one audio resource (plan items P18-08, P18-10): it keeps the encoded data of the resource in memory (within the limits of
- * {@link DecodeLimits}), decodes it block by block on its own daemon thread and writes every block to an {@link AudioOutput}. The decoded
- * PCM is never held as a whole, so a long recording costs the memory of its compressed data only. The class knows nothing about the DOM: the
+ * The player of one audio resource (plan items P18-08, P18-10). It owns the encoded data in memory or on disk (within
+ * {@link DecodeLimits}), decodes it block by block on a daemon thread and writes every PCM block to an {@link AudioOutput}. The
  * media element creates one player per loaded resource, calls {@link #play()}, {@link #pause()}, {@link #seek(double)} and the setters from
  * any thread, reads {@link #getPosition()} when a script asks for <code>currentTime</code>, and receives the facts through a
  * {@link PlaybackListener}.
@@ -24,9 +24,8 @@ import org.duckdns.hjow.swingwebpanel.media.audio.PcmSource;
  * output (also when the owner is garbage collected: the listener is held weakly, so an abandoned player ends itself). All outputs are closed on
  * the playback thread before it ends, and {@link #close()} waits a short time for that.
  * <p>
- * 오디오 리소스 하나의 재생기(계획 P18-08, P18-10): 리소스의 인코딩된 데이터를 메모리에 두고({@link DecodeLimits} 한도 안에서) 자신의 데몬 스레드에서
- * 블록 단위로 디코딩하여 블록마다 {@link AudioOutput} 에 쓴다. 디코딩된 PCM 을 통째로 두지 않으므로 긴 녹음도 압축된 데이터 크기만큼의 메모리만
- * 든다. 이 클래스는 DOM 을 모른다. 미디어 요소가 로드한 리소스마다 재생기 하나를 만들고, 어느 스레드에서나 {@link #play()}, {@link #pause()},
+ * 오디오 리소스 하나의 재생기(계획 P18-08, P18-10). 리소스의 인코딩된 데이터를 메모리나 디스크에 소유하며({@link DecodeLimits} 한도), 데몬
+ * 스레드에서 블록 단위로 디코딩해 PCM 블록을 {@link AudioOutput}에 쓴다. 미디어 요소가 로드한 리소스마다 재생기 하나를 만들고, 어느 스레드에서나 {@link #play()}, {@link #pause()},
  * {@link #seek(double)} 과 설정 메서드를 부르며, 스크립트가 <code>currentTime</code> 을 물으면 {@link #getPosition()} 을 읽고, 사실은
  * {@link PlaybackListener} 로 받는다.
  * <p>
@@ -157,7 +156,7 @@ public final class MediaPlayer {
      * <p>
      * 인코딩된 데이터(재생기가 끝날 때까지).
      */
-    private byte[] data;
+    private MediaData data;
 
     /**
      * The MIME type that the server declared, only a hint.
@@ -415,14 +414,25 @@ public final class MediaPlayer {
      * @throws IllegalStateException if called twice or after close / 두 번 부르거나 닫은 뒤에 부르면
      */
     public void load(byte[] encoded, String type) {
-        Thread t;
+        loadMedia(encoded == null ? null : MediaData.of(encoded), type);
+    }
+
+    /**
+     * Starts decoding a memory or file resource. After a successful call the player owns it until playback is closed.
+     * <p>
+     * 메모리 또는 파일 리소스의 디코딩을 시작한다. 호출이 성공하면 재생기를 닫을 때까지 재생기가 리소스를 소유한다.
+     * @param encoded owned media, or null for an empty input / 소유한 미디어. 빈 입력은 null
+     * @param type MIME type hint or null / MIME 타입 힌트 또는 null
+     * @throws IllegalStateException if already started or closed / 이미 시작했거나 닫았으면
+     */
+    public void loadMedia(MediaData encoded, String type) {
         synchronized (lock) {
             if (closed || thread != null) {
                 throw new IllegalStateException("the player was already loaded or closed");
             }
             this.data = encoded;
             this.mime = type;
-            t = new Thread(new Runnable() {
+            Thread t = new Thread(new Runnable() {
                 /**
                  * Runs the playback thread.
                  * <p>
@@ -434,8 +444,14 @@ public final class MediaPlayer {
             }, "swingwebpanel-audio");
             t.setDaemon(true);
             thread = t;
+            try {
+                t.start();
+            } catch (RuntimeException e) {
+                thread = null;
+                data = null;
+                throw e;
+            }
         }
-        t.start();
     }
 
     /**
@@ -769,7 +785,7 @@ public final class MediaPlayer {
         try {
             PcmSource opened;
             try {
-                opened = AudioDecoders.open(data, mime, limits);
+                opened = AudioDecoders.openMedia(data, mime, limits);
             } catch (MediaException e) {
                 if (e.getKind() != MediaException.Kind.CANCELLED) {
                     report(N_LOAD_FAILED, e, 0);
@@ -803,13 +819,23 @@ public final class MediaPlayer {
             closed = true;
             wantPlay = false;
         }
-        closeOutput();
         PcmSource s = source;
+        MediaData encoded = data;
         source = null;
-        if (s != null) {
-            s.close();
-        }
         data = null;
+        try {
+            closeOutput();
+        } finally {
+            try {
+                if (s != null) {
+                    s.close();
+                }
+            } finally {
+                if (encoded != null) {
+                    encoded.release();
+                }
+            }
+        }
         block = null;
         pending = null;
         converter = null;
@@ -1084,7 +1110,7 @@ public final class MediaPlayer {
             source.seekToFrame(0);
         } else {
             source.close();
-            source = AudioDecoders.open(data, mime, limits);
+            source = AudioDecoders.openMedia(data, mime, limits);
         }
     }
 

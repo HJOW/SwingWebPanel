@@ -116,6 +116,16 @@ public final class MediaData {
     }
 
     /**
+     * Returns the original in-memory bytes for the audio registry, or null for a file. The registry treats them as read-only.
+     * <p>
+     * 오디오 레지스트리에 메모리 원문을 반환한다. 파일이면 null이다. 레지스트리는 이를 읽기 전용으로 사용한다.
+     * @return the array, if still in memory / 메모리에 남아 있으면 배열
+     */
+    synchronized byte[] inMemoryBytes() {
+        return bytes;
+    }
+
+    /**
      * Returns the temporary file, or null when the bytes are in memory (for diagnostics and tests).
      * <p>
      * 임시 파일을 반환한다. 바이트가 메모리에 있으면 null(진단과 시험용).
