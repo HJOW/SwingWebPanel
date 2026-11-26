@@ -38,6 +38,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.WellKnownSymbols;
+import org.duckdns.hjow.swingwebpanel.js.host.web.AbortSignal;
 
 /**
  * The table of the DOM interfaces that scripts see (DOM Standard and the common HTML element interfaces) and the code that installs them
@@ -1478,19 +1479,7 @@ public final class DomInterfaces {
              * @return undefined / undefined
              */
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
-                EventTarget t = thisTarget(self);
-                JsValue cb = Js.arg(args, 1);
-                if (args.length < 2) {
-                    throw JsException.typeError("Failed to execute 'addEventListener' on 'EventTarget': 2 arguments required, but only "
-                            + args.length + " present.");
-                }
-                if (!cb.isObject()) {
-                    return Js.UNDEFINED;
-                }
-                JsValue opts = Js.arg(args, 2);
-                boolean capture = opts.isObject() ? flag(opts, "capture") : Ops.toBoolean(opts);
-                t.addEventListener(Ops.toString(args[0]), new JsListener(bridge, (JsObject) cb), capture, flag(opts, "once"),
-                        flag(opts, "passive"));
+                addListener(bridge, thisTarget(self), args);
                 return Js.UNDEFINED;
             }
         }), true, true, true);
@@ -1577,13 +1566,25 @@ public final class DomInterfaces {
             throw JsException.typeError("Failed to execute 'addEventListener' on 'EventTarget': 2 arguments required, but only " + args.length
                     + " present.");
         }
-        JsValue cb = args[1];
-        if (!cb.isObject()) {
-            return;
+        String type = Ops.toString(args[0]);
+        JsValue callback = args[1];
+        // nullable 콜백은 허용하되 다른 원시값은 사전 멤버 조회 전에 거부한다.
+        if (!callback.isObject() && !callback.isNull() && !callback.isUndefined()) {
+            throw JsException.typeError("The event listener must be an object or null");
         }
-        JsValue opts = Js.arg(args, 2);
-        boolean capture = opts.isObject() ? flag(opts, "capture") : Ops.toBoolean(opts);
-        t.addEventListener(Ops.toString(args[0]), new JsListener(bridge, (JsObject) cb), capture, flag(opts, "once"), flag(opts, "passive"));
+        JsValue options = Js.arg(args, 2);
+        // Web IDL 사전의 capture, once, passive, signal 순서로 접근자를 호출한다.
+        boolean capture = options.isObject() ? flag(options, "capture") : Ops.toBoolean(options);
+        boolean once = flag(options, "once");
+        boolean passive = flag(options, "passive");
+        JsValue value = options.isObject() ? ((JsObject) options).get("signal") : Js.UNDEFINED;
+        AbortSignal signal = (AbortSignal) DomBridge.targetOf(value, AbortSignal.class);
+        if (!value.isUndefined() && signal == null) {
+            throw JsException.typeError("The signal option must be an AbortSignal");
+        }
+        if (callback.isObject()) {
+            t.addEventListener(type, new JsListener(bridge, (JsObject) callback), capture, once, passive, signal);
+        }
     }
 
     /**

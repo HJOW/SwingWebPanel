@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P28-06-a 중단 신호를 사용한 이벤트 리스너 (2026-11-26) ===
+현재 작업 번호: P28-06-a 완료.
+완료한 내용: 공통 DOM 리스너 등록에서 signal을 검증하고, 중단 이벤트 전에 정확한 등록을 제거하도록 연결했다. 수동 제거, once 및 페이지 정리에서 신호 연결도 제거한다.
+변경 파일: EventTarget.java, DomInterfaces.java, AbortSignal.java, AbortListenerIntegrationTest.java, AGENTS.md, docs/FEATURE_MATRIX.md, 이 문서.
+검증 결과: JDK 6u45에서 변경 클래스를 제품 JAR와 함께 분리 컴파일했다. 실제 컴포넌트 AbortListenerIntegrationTest 2건과 DOM·Worker·Fetch·정적 상태 회귀를 합쳐 66건 통과, 실패·건너뜀 0건. DOM Standard 2.7절(https://dom.spec.whatwg.org/#interface-eventtarget, 2026-11-25 응답 판본, 2026-11-26 조회)과 등록·제거 순서를 대조했다. sourcecheck 0 위반.
+미해결 사항: 응답 스트림, 클립보드, blob: 및 file: 지원.
+다음 작업 번호: P28-06-b1.
+-----------------------------------------------------------------------------------------------
 === P28-06 웹 API와 로컬 주소 범위 정리 (2026-11-26) ===
 현재 작업 번호: P28-06 진행 중.
 완료한 내용: 리스너 중단, 스트림·Fetch 연동, 클립보드, 객체 URL과 로컬 파일 지원을 구현·검증 단위로 나눴다. P01-12 하단 계획과 사용자가 갱신한 상단 지원 스키마를 맞췄다.

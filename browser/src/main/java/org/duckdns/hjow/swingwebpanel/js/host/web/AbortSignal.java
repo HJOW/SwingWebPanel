@@ -20,7 +20,7 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
  * 래퍼이므로 <code>addEventListener</code> 와 <code>onabort</code> 가 다른 이벤트 대상과 똑같이 동작한다. 모든 메서드는 페이지 JavaScript 를 소유한
  * 스레드에서 실행된다.
  */
-public final class AbortSignal extends EventTarget {
+public final class AbortSignal extends EventTarget implements EventTarget.ListenerSignal {
 
     /** The page APIs (for creating the default reason and for scheduling). / 페이지 API(기본 이유 생성과 예약용). */
     private final WebApis api;
@@ -86,7 +86,7 @@ public final class AbortSignal extends EventTarget {
      *
      * @param algorithm the work / 작업
      */
-    void addAlgorithm(Runnable algorithm) {
+    public void addAlgorithm(Runnable algorithm) {
         if (!aborted) {
             algorithms.add(algorithm);
         }
@@ -99,7 +99,7 @@ public final class AbortSignal extends EventTarget {
      *
      * @param algorithm the work / 작업
      */
-    void removeAlgorithm(Runnable algorithm) {
+    public void removeAlgorithm(Runnable algorithm) {
         algorithms.remove(algorithm);
     }
 

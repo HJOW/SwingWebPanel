@@ -1,5 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.dom;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -42,6 +43,40 @@ public abstract class EventTarget {
     };
 
     /**
+     * Abort signal operations used by DOM listener registration on the document thread.
+     * <p>
+     * 문서 스레드에서 DOM 리스너를 등록할 때 쓰는 중단 신호의 동작.
+     */
+    public interface ListenerSignal {
+        /**
+         * Tells whether the signal has already aborted.
+         * <p>
+         * 신호가 이미 중단되었는지 알려 준다.
+         *
+         * @return true after abort / 중단 후 true
+         */
+        boolean isAborted();
+
+        /**
+         * Registers work to run before the abort event.
+         * <p>
+         * abort 이벤트 전에 실행할 작업을 등록한다.
+         *
+         * @param algorithm abort work / 중단 작업
+         */
+        void addAlgorithm(Runnable algorithm);
+
+        /**
+         * Unregisters work that is no longer needed.
+         * <p>
+         * 더 이상 필요하지 않은 작업을 해제한다.
+         *
+         * @param algorithm abort work / 중단 작업
+         */
+        void removeAlgorithm(Runnable algorithm);
+    }
+
+    /**
      * One registered listener.
      * <p>
      * 등록된 리스너 하나.
@@ -82,6 +117,9 @@ public abstract class EventTarget {
          */
         boolean removed;
 
+        /** Abort hook for this registration, if supplied. / 이 등록에 지정된 중단 작업. */
+        ListenerAbort abort;
+
         /**
          * Creates an entry.
          * <p>
@@ -97,6 +135,67 @@ public abstract class EventTarget {
             this.capture = capture;
             this.once = once;
             this.passive = passive;
+        }
+
+        /**
+         * Marks this entry as removed and detaches its abort hook.
+         * <p>
+         * 제거 표시를 하고 중단 신호에서 작업을 해제한다.
+         */
+        void deactivate() {
+            removed = true;
+            // 수동 제거와 once 뒤에 신호가 이 등록을 추적할 필요가 없다.
+            if (abort != null) {
+                abort.signal.removeAlgorithm(abort);
+                abort = null;
+            }
+        }
+    }
+
+    /**
+     * Removes a specific registration without retaining the target or callback through a long-lived signal.
+     * <p>
+     * 오래 사는 신호가 대상이나 콜백을 보유하지 않도록 약한 참조로 특정 등록을 제거한다.
+     */
+    private static final class ListenerAbort implements Runnable {
+        /** Signal that owns the abort hook. / 중단 작업을 보유한 신호. */
+        final ListenerSignal signal;
+        /** Event type used to find the registration. / 등록을 찾는 이벤트 종류. */
+        private final String type;
+        /** Target to remove the registration from. / 등록을 제거할 대상. */
+        private final WeakReference<EventTarget> target;
+        /** Registration owned by the target. / 대상이 보유한 등록. */
+        private final WeakReference<Entry> entry;
+
+        /**
+         * Creates a hook for a registered entry.
+         * <p>
+         * 등록된 항목의 중단 작업을 만든다.
+         *
+         * @param signal the signal / 신호
+         * @param type event type / 이벤트 종류
+         * @param target registration target / 등록 대상
+         * @param entry exact registration / 지정한 등록
+         */
+        ListenerAbort(ListenerSignal signal, String type, EventTarget target, Entry entry) {
+            this.signal = signal;
+            this.type = type;
+            this.target = new WeakReference<EventTarget>(target);
+            this.entry = new WeakReference<Entry>(entry);
+        }
+
+        /**
+         * Removes the entry if it still exists.
+         * <p>
+         * 등록이 남아 있으면 제거한다.
+         */
+        public void run() {
+            EventTarget owner = target.get();
+            Entry registration = entry.get();
+            // 제거 후 다시 등록한 동일 콜백에 이전 신호가 영향을 주지 않는다.
+            if (owner != null && registration != null && !registration.removed) {
+                owner.removeEntry(type, registration);
+            }
         }
     }
 
@@ -145,7 +244,25 @@ public abstract class EventTarget {
      * @param passive  ignore preventDefault in this listener / 이 리스너에서 preventDefault 무시
      */
     public void addEventListener(String type, EventListener listener, boolean capture, boolean once, boolean passive) {
-        if (listener == null) {
+        addEventListener(type, listener, capture, once, passive, null);
+    }
+
+    /**
+     * Registers a listener that can be removed by an abort signal.
+     * <p>
+     * 중단 신호로 제거할 수 있는 리스너를 등록한다.
+     *
+     * @param type event type / 이벤트 종류
+     * @param listener callback / 콜백
+     * @param capture capture phase flag / 캡처 단계 플래그
+     * @param once remove before the first callback / 첫 콜백 전에 제거
+     * @param passive ignore preventDefault in the listener / 리스너에서 preventDefault 무시
+     * @param signal optional signal / 선택 중단 신호
+     */
+    public void addEventListener(String type, EventListener listener, boolean capture, boolean once, boolean passive,
+            ListenerSignal signal) {
+        // 이미 중단된 신호는 새 등록을 만들지 않는다.
+        if (listener == null || (signal != null && signal.isAborted())) {
             return;
         }
         if (type == null) {
@@ -166,7 +283,12 @@ public abstract class EventTarget {
                 return;
             }
         }
-        list.add(new Entry(listener, capture, once, passive));
+        Entry entry = new Entry(listener, capture, once, passive);
+        list.add(entry);
+        if (signal != null) {
+            entry.abort = new ListenerAbort(signal, type, this, entry);
+            signal.addAlgorithm(entry.abort);
+        }
     }
 
     /**
@@ -202,11 +324,24 @@ public abstract class EventTarget {
         for (int i = 0; i < list.size(); i++) {
             Entry e = list.get(i);
             if (e.capture == capture && e.listener.equals(listener)) {
-                e.removed = true;
-                list.remove(i);
-                break;
+                removeEntry(type, e);
+                return;
             }
         }
+    }
+
+    /**
+     * Removes the exact entry and drops the type when no listener remains.
+     * <p>
+     * 지정한 항목을 제거하고 리스너가 없는 이벤트 종류를 정리한다.
+     *
+     * @param type event type / 이벤트 종류
+     * @param entry active registration / 활성 등록
+     */
+    private void removeEntry(String type, Entry entry) {
+        List<Entry> list = listeners.get(type);
+        entry.deactivate();
+        list.remove(entry);
         if (list.isEmpty()) {
             listeners.remove(type);
         }
@@ -224,7 +359,7 @@ public abstract class EventTarget {
         // 진행 중인 전달이 건너뛰도록 모든 항목에 제거 표시를 한다.
         for (List<Entry> list : listeners.values()) {
             for (int i = 0; i < list.size(); i++) {
-                list.get(i).removed = true;
+                list.get(i).deactivate();
             }
         }
         listeners = null;
@@ -372,7 +507,7 @@ public abstract class EventTarget {
                 continue;
             }
             if (e.once) {
-                removeEventListener(event.getType(), e.listener, e.capture);
+                removeEntry(event.getType(), e);
             }
             event.inPassiveListener = e.passive;
             try {
