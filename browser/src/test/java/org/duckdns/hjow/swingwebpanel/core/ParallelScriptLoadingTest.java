@@ -153,11 +153,14 @@ public class ParallelScriptLoadingTest {
                 });
             }
             String html = "<!doctype html><script async src='async.js'></script><script defer src='defer.js'></script>"
-                    + "<script src='blocking.js'></script><script>" + marker("inline") + "</script>";
+                    + "<script src='blocking.js'></script><script>" + marker("inline")
+                    + "window.addEventListener('load',function(){sessionStorage.setItem('loaded','yes');});</script>";
             server.routeFixed("/page", TestHttpServer.Response.html(html));
             server.start();
             panel.setPage(server.url("/page"));
             awaitPage(panel, server.url("/page"));
+            // URL 확정 뒤에도 async 응답이 도착할 수 있으므로 스크립트를 포함한 load를 기다린다.
+            awaitValue(panel, "loaded", "yes");
             Check.equal(0, arrived.getCount(), "all three requests were in flight together");
             String order = "," + value(panel, "order");
             Check.isTrue(order.indexOf(",blocking,") < order.indexOf(",inline,"), "blocking script before the next inline script: " + order);

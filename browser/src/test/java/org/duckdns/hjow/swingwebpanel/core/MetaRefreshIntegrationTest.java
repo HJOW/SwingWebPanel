@@ -170,6 +170,23 @@ public class MetaRefreshIntegrationTest {
     }
 
     /**
+     * Repeated zero-delay refreshes deliver every navigation on the Java 6 Swing timer. / JRE 6 Swing 타이머가 반복된 0초 갱신의 이동을 모두 전달한다.
+     * @throws Exception on failure / 실패 시
+     */
+    public void testRepeatedZeroDelayRefreshes() throws Exception {
+        SwingWebPanel p = panel();
+        String start = server.url("/a");
+        String target = server.url("/b");
+        // 이전 이동의 결과를 이번 이동으로 오인하지 않도록 매번 빈 페이지를 거친다.
+        for (int i = 0; i < 24; i++) {
+            p.setPage("about:blank");
+            Check.isTrue(await(p, "about:blank", 5000), "blank before refresh " + i);
+            p.setPage(start);
+            Check.isTrue(await(p, target, 5000), "zero-delay refresh " + i + " reached the target: " + p.getPage());
+        }
+    }
+
+    /**
      * The first valid refresh wins over later ones.
      * <p>
      * 처음의 올바른 refresh 가 뒤의 것보다 이긴다.

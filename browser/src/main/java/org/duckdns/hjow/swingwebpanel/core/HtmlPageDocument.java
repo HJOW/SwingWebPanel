@@ -153,6 +153,8 @@ public final class HtmlPageDocument implements PageDocument {
         }
         final javax.swing.Timer timer = new javax.swing.Timer(100, null);
         timer.setRepeats(false);
+        // 이 콜백에서 0ms로 다시 시작할 때 앞 이벤트의 정리가 새 알림까지 지우지 않게 한다.
+        timer.setCoalesce(false);
         timer.addActionListener(new java.awt.event.ActionListener() {
             /** Whether the document has loaded completely and the wait of the element has started. / 문서가 완전히 로드되어 요소의 기다림이 시작되었는지 여부. */
             private boolean waiting;
