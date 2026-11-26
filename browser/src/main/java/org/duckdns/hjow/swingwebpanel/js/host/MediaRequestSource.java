@@ -1,5 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.js.host;
 
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaData;
+
 /**
  * The service through which a page asks the component to fetch the resource of an <code>audio</code> or <code>video</code> element (plan
  * items P18-05-c, P18-08). The component fetches the whole resource with the common request layer (user agent, extra headers, cookies, the SSL
@@ -54,6 +56,23 @@ public interface MediaRequestSource {
          * @param total    the expected total, or -1 if not known / 예상 전체 크기. 모르면 -1
          */
         void progress(long received, long total);
+    }
+
+    /**
+     * Accepts an audio result backed by memory or a temporary file. Older request services can still use the array callback.
+     * <p>
+     * 메모리나 임시 파일을 사용하는 오디오 결과를 받는다. 기존 요청 서비스는 배열 콜백도 사용할 수 있다.
+     */
+    interface AudioCallback extends ProgressCallback {
+        /**
+         * Completes an audio request and transfers ownership of the encoded resource.
+         * <p>
+         * 오디오 요청을 완료하고 인코딩 리소스의 소유권을 받는 쪽으로 옮긴다.
+         * @param data the owned resource or null on failure / 소유하는 리소스. 실패 시 null
+         * @param mimeType the response MIME type / 응답 MIME 타입
+         * @param error failure text or null / 실패 설명 또는 null
+         */
+        void doneAudio(MediaData data, String mimeType, String error);
     }
 
     /**

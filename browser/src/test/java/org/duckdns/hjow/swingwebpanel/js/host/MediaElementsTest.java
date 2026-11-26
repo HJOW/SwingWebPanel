@@ -1,8 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.js.host;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaData;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
 import org.duckdns.hjow.swingwebpanel.media.playback.FakeOutputs;
 import org.duckdns.hjow.swingwebpanel.media.playback.ScriptedDecoder;
@@ -134,6 +136,15 @@ public class MediaElementsTest {
          */
         void ok(int index, byte[] data, String mime) {
             requests.get(index).callback.done(data, mime, null);
+        }
+
+        /**
+         * Transfers the ownership of a test file. / 시험 파일의 소유권을 넘긴다.
+         * @param index request number / 요청 번호
+         * @param data owned test resource / 소유한 시험 리소스
+         */
+        void okOwned(int index, MediaData data) {
+            ((AudioCallback) requests.get(index).callback).doneAudio(data, "audio/wav", null);
         }
 
         /**
@@ -738,6 +749,16 @@ public class MediaElementsTest {
         media.ok(0, wav(100), "audio/wav");
         settleBriefly(f);
         Check.equal("a:abort,a:emptied,a:loadstart", js(f, "events()"), "the late result of the old fetch is ignored");
+        File staleFile = File.createTempFile("swp-stale-audio-", ".wav");
+        MediaData stale = MediaData.ofTemporaryFile(staleFile);
+        try {
+            media.okOwned(0, stale);
+            settleBriefly(f);
+            Check.isTrue(stale.isReleased() && !staleFile.exists(), "a stale task releases the fetched file");
+            Check.equal("a:abort,a:emptied,a:loadstart", js(f, "events()"), "the stale file does not change element state");
+        } finally {
+            stale.release();
+        }
         media.ok(1, wav(16000), "audio/wav");
         until(f, "a.readyState === 4", "the new resource loaded");
         js(f, "a.play();");
@@ -795,12 +816,24 @@ public class MediaElementsTest {
         until(f, "events().indexOf('a:playing') >= 0", "playing");
         FakeOutputs.Out o = outs.await(0);
         o.awaitQueued(200);
-        f.scripts.dispose();
-        Check.equal(1, o.closeCalls(), "the output was closed by the disposal");
-        Check.isTrue(media.requests.get(1).cancelled, "the pending fetch was cancelled");
-        media.ok(1, wav(100), "audio/wav");
-        settleBriefly(f);
-        Check.equal(1, outs.outputs.size(), "no output was opened for the late result");
+        File queuedFile = File.createTempFile("swp-queued-audio-", ".wav");
+        File lateFile = File.createTempFile("swp-closed-audio-", ".wav");
+        MediaData queued = MediaData.ofTemporaryFile(queuedFile);
+        MediaData late = MediaData.ofTemporaryFile(lateFile);
+        try {
+            media.okOwned(1, queued);
+            f.scripts.dispose();
+            Check.equal(1, o.closeCalls(), "the output was closed by the disposal");
+            Check.isTrue(media.requests.get(1).cancelled, "the pending fetch was cancelled");
+            Check.isTrue(queued.isReleased() && !queuedFile.exists(), "disposal releases a queued file");
+            media.okOwned(1, late);
+            settleBriefly(f);
+            Check.isTrue(late.isReleased() && !lateFile.exists(), "disposal releases a late file");
+            Check.equal(1, outs.outputs.size(), "no output was opened for the late result");
+        } finally {
+            queued.release();
+            late.release();
+        }
     }
 
     /**

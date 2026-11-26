@@ -1,6 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.core;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,8 @@ import org.duckdns.hjow.swingwebpanel.css.cssom.StyleSheetDecoder;
 import org.duckdns.hjow.swingwebpanel.css.cssom.StyleSheetLoader;
 import org.duckdns.hjow.swingwebpanel.js.host.MediaRequestSource;
 import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaData;
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaSpool;
 import org.duckdns.hjow.swingwebpanel.media.image.DecodedImage;
 import org.duckdns.hjow.swingwebpanel.media.image.ImageDecoders;
 import org.duckdns.hjow.swingwebpanel.net.BlobUrlStore;
@@ -24,6 +27,7 @@ import org.duckdns.hjow.swingwebpanel.net.RequestPurpose;
 import org.duckdns.hjow.swingwebpanel.net.ResourceFetcher;
 import org.duckdns.hjow.swingwebpanel.net.ResourceRequest;
 import org.duckdns.hjow.swingwebpanel.net.ResourceResponse;
+import org.duckdns.hjow.swingwebpanel.net.ResponseHandler;
 import org.duckdns.hjow.swingwebpanel.net.UrlUtil;
 import org.duckdns.hjow.swingwebpanel.render.CanvasSource;
 import org.duckdns.hjow.swingwebpanel.render.ImageResource;
@@ -674,13 +678,11 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
      * Fetches the resource of an <code>audio</code> element on a thread of its own with the common request layer (user agent, extra headers,
      * cookies, SSL hook, scheme restrictions, HTTP cache; the purpose is audio, so a cross-origin resource may be played but its bytes never
      * reach a script). The result is the whole response body and its MIME type, or the reason of the failure; it is reported once, unless the
-     * request or the page was cancelled. Callable from any thread. The bytes are not kept here: the player of the element keeps them for as
-     * long as it lives.
+     * request or the page was cancelled. Callable from any thread. Large or size-unknown audio bodies can be spooled for playback.
      * <p>
      * <code>audio</code> 요소의 리소스를 공통 요청 계층(User-Agent, 추가 헤더, 쿠키, SSL 훅, 스키마 제한, HTTP 캐시)으로 전용 스레드에서 가져온다
      * (목적은 오디오이므로 교차 오리진 리소스도 재생할 수 있지만 바이트는 스크립트에 전달되지 않는다). 결과는 응답 본문 전체와 MIME 타입 또는 실패
-     * 이유이며, 요청이나 페이지가 취소되지 않는 한 한 번 알린다. 어느 스레드에서나 부를 수 있다. 바이트는 여기서 보관하지 않으며 요소의 재생기가 살아
-     * 있는 동안 보관한다.
+     * 이유이며, 요청이나 페이지가 취소되지 않는 한 한 번 알린다. 어느 스레드에서나 부를 수 있다. 크기가 크거나 알려지지 않은 오디오 본문은 재생용 스풀에 받을 수 있다.
      *
      * @param absoluteUrl the absolute URL / 절대 URL
      * @param callback    the receiver / 받는 쪽
@@ -704,7 +706,9 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
         Thread thread = new Thread(new Runnable() {
             /** Fetches the resource and reports the result. / 리소스를 가져와 결과를 알린다. */
             public void run() {
+                AudioBody audio = callback instanceof MediaRequestSource.AudioCallback ? new AudioBody() : null;
                 byte[] data = null;
+                MediaData encoded = null;
                 String mime = null;
                 String error = null;
                 try {
@@ -727,21 +731,40 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
                             }
                         });
                     }
-                    ResourceResponse response = fetcher.fetch(request);
+                    ResourceResponse response = fetcher.fetch(request, audio);
                     if (response.isError()) {
                         error = response.getStatus() + " " + response.getFailureMessage();
                     } else {
-                        data = response.getBody();
+                        if (audio == null) {
+                            data = response.getBody();
+                        } else {
+                            encoded = audio.finish(response);
+                        }
                         mime = response.getMimeType();
                     }
                 } catch (Exception e) {
                     error = String.valueOf(e);
                 } finally {
+                    if (audio != null) {
+                        audio.discard();
+                    }
                     cancel.removeHook(link);
                 }
-                // 요청이나 페이지가 취소되었으면 결과를 알리지 않는다.
-                if (!token.isCancelled() && !cancel.isCancelled() && reported.compareAndSet(false, true)) {
-                    callback.done(error == null ? data : null, mime, error);
+                try {
+                    // 요청과 페이지가 살아 있을 때만 결과를 알리고 오디오 저장소의 소유권을 넘긴다.
+                    if (!token.isCancelled() && !cancel.isCancelled() && reported.compareAndSet(false, true)) {
+                        if (audio == null) {
+                            callback.done(error == null ? data : null, mime, error);
+                        } else {
+                            MediaData owned = encoded;
+                            encoded = null;
+                            ((MediaRequestSource.AudioCallback) callback).doneAudio(owned, mime, error);
+                        }
+                    }
+                } finally {
+                    if (encoded != null) {
+                        encoded.release();
+                    }
                 }
             }
         }, "swingwebpanel-media-fetch");
@@ -754,6 +777,64 @@ final class PageResources implements CorsImageSource, CanvasSource, org.duckdns.
                 cancel.removeHook(link);
             }
         };
+    }
+
+    /**
+     * Chooses the audio body destination after headers arrive. / 헤더가 도착한 뒤 오디오 본문의 저장소를 정한다.
+     */
+    private static final class AudioBody implements ResponseHandler {
+
+        /** Body spool for the actual response, if selected. / 선택된 경우 실제 응답의 본문 스풀. */
+        private MediaSpool spool;
+
+        /** Creates the per-request handler. / 요청별 처리기를 만든다. */
+        AudioBody() {
+        }
+
+        /**
+         * Streams large, unknown-length, or transport-compressed bodies. / 크거나 길이 미상이거나 전송 중 압축된 본문을 스트림으로 받는다.
+         * @param head response head / 응답 헤더
+         * @return spool or null for the regular memory cache / 스풀 또는 일반 메모리 캐시를 쓰려면 null
+         * @throws IOException if the declared uncompressed body is too large / 선언한 비압축 본문이 너무 크면
+         */
+        public OutputStream onResponse(ResourceResponse head) throws IOException {
+            discard();
+            long size = head.getDeclaredLength();
+            String encoding = head.getHeader("Content-Encoding");
+            boolean uncompressed = encoding == null || encoding.trim().length() == 0 || "identity".equalsIgnoreCase(encoding.trim());
+            if (uncompressed && size > MediaSpool.MAX_BYTES) {
+                throw new IOException("audio body exceeds the encoded file limit");
+            }
+            if (uncompressed && size >= 0 && size <= MediaSpool.MEMORY_LIMIT) {
+                return null;
+            }
+            spool = new MediaSpool();
+            return spool;
+        }
+
+        /**
+         * Transfers the completed body to the caller. / 완료한 본문 소유권을 호출자에게 넘긴다.
+         * @param response final response / 최종 응답
+         * @return owned media data / 소유할 미디어 데이터
+         * @throws IOException if the spool cannot finish / 스풀을 마무리하지 못하면
+         */
+        MediaData finish(ResourceResponse response) throws IOException {
+            if (response.isStreamed()) {
+                if (spool == null) {
+                    throw new IOException("no storage for the streamed audio body");
+                }
+                return spool.finish();
+            }
+            return MediaData.of(response.getBody());
+        }
+
+        /** Removes the unfinished body, if any. / 미완성 본문이 있으면 없앤다. */
+        void discard() {
+            if (spool != null) {
+                spool.discard();
+                spool = null;
+            }
+        }
     }
 
     /**

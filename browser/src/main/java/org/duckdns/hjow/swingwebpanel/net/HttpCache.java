@@ -648,8 +648,15 @@ public final class HttpCache {
             revalidations++;
         }
         long start = clock.now();
-        // 조건부 요청의 본문은 메모리로 받고, 처리기의 결정은 응답이 정해진 뒤에 적용한다.
-        ResourceResponse response = net.fetch(conditional, null);
+        // 바뀐 오디오 본문은 클 수 있으므로 응답 헤더에서 바로 저장 방식을 정한다. 304는 병합한 저장본에서만 호출한다.
+        final ResponseHandler audioHandler = req.getPurpose() == RequestPurpose.AUDIO ? handler : null;
+        ResponseHandler conditionalHandler = audioHandler == null ? null : new ResponseHandler() {
+            /** Opens storage for a replacement response. / 교체 응답의 저장소를 연다. */
+            public OutputStream onResponse(ResourceResponse head) throws IOException {
+                return head.getStatus() == 304 ? null : audioHandler.onResponse(head);
+            }
+        };
+        ResourceResponse response = net.fetch(conditional, conditionalHandler);
         long end = clock.now();
         if (response.getFailureKind() == FailureKind.NONE && response.getStatus() == 304) {
             ResourceResponse confirmed;
@@ -661,7 +668,7 @@ public final class HttpCache {
             return applyHandler(req, handler, confirmed);
         }
         store(key, req, response, start, end);
-        return applyHandler(req, handler, response);
+        return audioHandler == null ? applyHandler(req, handler, response) : response;
     }
 
     /**

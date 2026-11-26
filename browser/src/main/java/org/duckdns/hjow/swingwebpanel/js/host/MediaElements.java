@@ -23,8 +23,11 @@ import org.duckdns.hjow.swingwebpanel.js.JsValue;
 import org.duckdns.hjow.swingwebpanel.js.NativeFunction;
 import org.duckdns.hjow.swingwebpanel.js.Ops;
 import org.duckdns.hjow.swingwebpanel.js.dom.DomExceptionObjects;
+import org.duckdns.hjow.swingwebpanel.media.DecodeLimits;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
 import org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoders;
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaData;
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaSpool;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutput;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
 import org.duckdns.hjow.swingwebpanel.media.playback.MediaInfo;
@@ -55,7 +58,7 @@ import org.duckdns.hjow.swingwebpanel.render.MediaControls;
  * element is held weakly, and its player ends when the element is collected.
  * <p>
  * Differences from the Recommendation (the more recent HTML standard in these points): <code>play()</code> returns a promise; a media resource
- * is fetched as a whole (progress is reported once, at the end, and <code>preload=none</code> defers the fetch until <code>play()</code>);
+ * becomes decodable after the full response arrives (progress is reported during transfer and <code>preload=none</code> defers the fetch);
  * <code>video</code> elements never load: their resource selection fails with <code>MEDIA_ERR_SRC_NOT_SUPPORTED</code> (plan item P18-09);
  * the text tracks (<code>track</code> elements, <code>addTextTrack()</code>, WebVTT cues and their events) are kept by {@link TextTracks}, which
  * this class tells about every change of the playback position; there are no audio or video tracks and no media controllers. The promise of
@@ -75,9 +78,9 @@ import org.duckdns.hjow.swingwebpanel.render.MediaControls;
  * 늦춘다. 재생 중인 미디어 요소는 스스로 도달 가능하게 유지하고(명세는 참조가 없어도 재생을 허용한다) 그 밖의 요소는 약하게 잡으며, 요소가
  * 수거되면 재생기가 끝난다.
  * <p>
- * 권고안과 다른 점(이 부분의 더 최근 HTML 표준을 따름): <code>play()</code> 는 프라미스를 반환한다. 미디어 리소스는 통째로 가져온다(진행 보고는 끝에서
- * 한 번이며 <code>preload=none</code> 은 <code>play()</code> 까지 가져오기를 미룬다). <code>video</code> 요소는 로드하지 않는다: 리소스 선택은
- * <code>MEDIA_ERR_SRC_NOT_SUPPORTED</code> 로 실패한다(계획 P18-09). 1.0 이 아닌 재생 속도는 <code>NotSupportedError</code> 로 거절한다. 텍스트 트랙(<code>track</code> 요소,
+ * 권고안과 다른 점(이 부분의 더 최근 HTML 표준을 따름): <code>play()</code> 는 프라미스를 반환한다. 전체 응답이 도착하면 미디어를 디코딩할 수 있다(진행 상황은
+ * 전송 중 알리며 <code>preload=none</code> 은 <code>play()</code> 까지 가져오기를 미룬다). <code>video</code> 요소의 리소스 선택은
+ * <code>MEDIA_ERR_SRC_NOT_SUPPORTED</code> 로 실패한다(계획 P18-09). 텍스트 트랙(<code>track</code> 요소,
  * <code>addTextTrack()</code>, WebVTT cue 와 그 이벤트)은 {@link TextTracks} 가 관리하며 이 클래스는 재생 위치가 바뀔 때마다 그것에 알린다. 오디오/비디오 트랙과
  * 미디어 컨트롤러는 없다. <code>play()</code> 의 프라미스는 소리 장치가 아니라 <code>playing</code> 을 내는 작업에서 이행된다(WHATWG "notify about playing the media
  * element"). 로드 뒤의 재생 실패는 4.7.10.5 의 치명적 디코딩 오류이다(오류 <code>MEDIA_ERR_DECODE</code>, 요소는 일시정지되지 않는다. 소리 장치가 없는 컴퓨터도
@@ -353,11 +356,11 @@ final class MediaElements implements MediaControlSource {
         Object arg;
 
         /**
-         * The fetched bytes.
+         * The fetched resource, owned by the pending task until delivery.
          * <p>
-         * 가져온 바이트.
+         * 가져온 리소스. 전달 전에는 대기 작업이 소유한다.
          */
-        byte[] data;
+        MediaData data;
 
         /**
          * The MIME type of the fetched resource.
@@ -955,6 +958,9 @@ final class MediaElements implements MediaControlSource {
      */
     private final List<MediaPlayer> live = new CopyOnWriteArrayList<MediaPlayer>();
 
+    /** Encoded resources waiting for task delivery, guarded by this set. / 작업 전달을 기다리는 인코딩 리소스. 이 집합으로 보호한다. */
+    private final Set<MediaData> pendingAudio = new HashSet<MediaData>();
+
     /**
      * The number of elements that delay the load event.
      * <p>
@@ -1164,6 +1170,7 @@ final class MediaElements implements MediaControlSource {
      */
     private void post(Task t) {
         if (disposed) {
+            discardAudio(t);
             return;
         }
         ScriptLoads.Load load = loads.beginExternal(t);
@@ -1265,6 +1272,7 @@ final class MediaElements implements MediaControlSource {
      */
     void deliver(final Task t) {
         if (disposed || (!t.sticky && t.epoch != t.media.epoch)) {
+            discardAudio(t);
             return;
         }
         runMediaTask(new Runnable() {
@@ -1289,6 +1297,7 @@ final class MediaElements implements MediaControlSource {
     private void handle(Task t) {
         Media m = t.media;
         if (disposed || (!t.sticky && t.epoch != m.epoch)) {
+            discardAudio(t);
             return;
         }
         switch (t.kind) {
@@ -1853,7 +1862,7 @@ final class MediaElements implements MediaControlSource {
             post(t);
             return;
         }
-        m.fetch = source.request(url, new MediaRequestSource.ProgressCallback() {
+        m.fetch = source.request(url, new MediaRequestSource.AudioCallback() {
             /**
              * Queues a progress report for the owner of the DOM; at most one is waiting at a time (may run on any thread).
              * <p>
@@ -1879,14 +1888,70 @@ final class MediaElements implements MediaControlSource {
              * @param error    the failure or null / 실패 원인 또는 null
              */
             public void done(byte[] data, String mimeType, String error) {
+                doneAudio(data == null ? null : MediaData.of(data), mimeType, error);
+            }
+
+            /**
+             * Hands the owned resource to the DOM task, or releases it if the page is closed.
+             * <p>
+             * 소유한 리소스를 DOM 작업에 넘기고 페이지가 닫혔으면 해제한다.
+             * @param data owned audio or null / 소유한 오디오 또는 null
+             * @param mimeType response MIME type / 응답 MIME 타입
+             * @param error failure or null / 실패 또는 null
+             */
+            public void doneAudio(MediaData data, String mimeType, String error) {
+                if (data != null) {
+                    synchronized (pendingAudio) {
+                        if (disposed) {
+                            data.release();
+                            return;
+                        }
+                        pendingAudio.add(data);
+                    }
+                }
                 Task t = new Task(m, epoch, K_FETCHED);
                 t.data = data;
                 t.mime = mimeType;
                 t.error = error;
-                post(t);
+                boolean queued = false;
+                try {
+                    post(t);
+                    queued = true;
+                } finally {
+                    if (!queued) {
+                        discardAudio(t);
+                    }
+                }
             }
         });
         armStall(m);
+    }
+
+    /**
+     * Takes the pending resource exactly once. / 대기 중인 리소스를 한 번만 가져간다.
+     * @param task the task owning it / 소유한 작업
+     * @return the resource, or null when none is still pending / 리소스. 대기하지 않으면 null
+     */
+    private MediaData takeAudio(Task task) {
+        MediaData data = task.data;
+        if (data == null) {
+            return null;
+        }
+        task.data = null;
+        synchronized (pendingAudio) {
+            return pendingAudio.remove(data) ? data : null;
+        }
+    }
+
+    /**
+     * Releases the encoded resource of a dropped task. / 버린 작업의 인코딩 리소스를 해제한다.
+     * @param task the dropped task / 버린 작업
+     */
+    private void discardAudio(Task task) {
+        MediaData data = takeAudio(task);
+        if (data != null) {
+            data.release();
+        }
     }
 
     /**
@@ -1978,29 +2043,38 @@ final class MediaElements implements MediaControlSource {
     private void fetched(Media m, Task t) {
         cancelStall(m);
         m.fetch = null;
-        if (t.error != null || t.data == null) {
-            resourceFailed(m, t.error == null ? "the resource could not be fetched" : t.error);
-            return;
+        MediaData encoded = takeAudio(t);
+        try {
+            if (t.error != null || encoded == null) {
+                resourceFailed(m, t.error == null ? "the resource could not be fetched" : t.error);
+                return;
+            }
+            PlayerLink link = new PlayerLink(m, m.epoch);
+            DecodeLimits limits = new DecodeLimits(DecodeLimits.DEFAULT_MAX_PIXELS, MediaSpool.MAX_BYTES,
+                    DecodeLimits.DEFAULT_MAX_FRAMES, DecodeLimits.DEFAULT_MAX_TOTAL_PIXELS);
+            MediaPlayer p = new MediaPlayer(new ElementOutputs(m, host().getAudioOutputFactory()), link, limits);
+            m.link = link;
+            m.player = p;
+            // 그래프에 연결된 요소는 새 리소스가 페이지에 읽혀도 되는 것인지(같은 오리진인지) 다시 정한다.
+            MediaElementTap connected = m.tap;
+            if (connected != null) {
+                connected.setOutputAllowed(mayReadAudio(m));
+            }
+            pruneLive();
+            live.add(p);
+            Element e = m.element();
+            p.setVolume(m.volume);
+            p.setMuted(m.muted);
+            p.setPreservesPitch(m.preservesPitch);
+            p.setRate(m.playbackRate);
+            p.setLoop(e != null && e.hasAttribute("loop"));
+            p.loadMedia(encoded, t.mime);
+            encoded = null;
+        } finally {
+            if (encoded != null) {
+                encoded.release();
+            }
         }
-        PlayerLink link = new PlayerLink(m, m.epoch);
-        MediaPlayer p = new MediaPlayer(new ElementOutputs(m, host().getAudioOutputFactory()), link);
-        m.link = link;
-        m.player = p;
-        // 그래프에 연결된 요소는 새 리소스가 페이지에 읽혀도 되는 것인지(같은 오리진인지) 다시 정한다.
-        MediaElementTap connected = m.tap;
-        if (connected != null) {
-            connected.setOutputAllowed(mayReadAudio(m));
-        }
-        pruneLive();
-        live.add(p);
-        Element e = m.element();
-        p.setVolume(m.volume);
-        p.setMuted(m.muted);
-        p.setPreservesPitch(m.preservesPitch);
-        p.setRate(m.playbackRate);
-        p.setLoop(e != null && e.hasAttribute("loop"));
-        p.load(t.data, t.mime);
-        t.data = null;
     }
 
     /**
@@ -2197,11 +2271,11 @@ final class MediaElements implements MediaControlSource {
     /**
      * The player opened the data: the metadata is known. Sets the duration and the ready state, and queues the events of HTML5 4.7.10.7 in
      * their order: durationchange, loadedmetadata, loadeddata, progress, suspend, canplay, (playing), (play, playing for autoplay),
-     * canplaythrough. All the data is in memory, so the state jumps from <code>HAVE_METADATA</code> to <code>HAVE_ENOUGH_DATA</code>.
+     * canplaythrough. The complete resource is available, so the state jumps from <code>HAVE_METADATA</code> to <code>HAVE_ENOUGH_DATA</code>.
      * <p>
      * 재생기가 데이터를 열었다: 메타데이터를 안다. 길이와 준비 상태를 정하고 HTML5 4.7.10.7 의 이벤트를 순서대로 올린다: durationchange,
-     * loadedmetadata, loadeddata, progress, suspend, canplay, (playing), (autoplay 이면 play, playing), canplaythrough. 모든 데이터가 메모리에
-     * 있으므로 상태는 <code>HAVE_METADATA</code> 에서 <code>HAVE_ENOUGH_DATA</code> 로 건너뛴다.
+     * loadedmetadata, loadeddata, progress, suspend, canplay, (playing), (autoplay 이면 play, playing), canplaythrough. 전체 응답이 준비되어
+     * 상태는 <code>HAVE_METADATA</code> 에서 <code>HAVE_ENOUGH_DATA</code> 로 건너뛴다.
      *
      * @param m    the element state / 요소 상태
      * @param info the facts about the media / 미디어 정보
@@ -2687,11 +2761,11 @@ final class MediaElements implements MediaControlSource {
 
     /**
      * A play request ends the wait of an element that stopped at its metadata because of <code>preload="metadata"</code>: the state rises
-     * to <code>HAVE_ENOUGH_DATA</code> (all the data is in memory) with the events <code>loadeddata</code>, <code>canplay</code>,
+     * to <code>HAVE_ENOUGH_DATA</code> (the complete resource is available) with the events <code>loadeddata</code>, <code>canplay</code>,
      * <code>playing</code> and <code>canplaythrough</code>.
      * <p>
      * 재생 요청은 <code>preload="metadata"</code> 때문에 메타데이터에서 멈춘 요소의 기다림을 끝낸다: 상태가 <code>HAVE_ENOUGH_DATA</code> 로
-     * 올라가며(모든 데이터가 메모리에 있다) <code>loadeddata</code>, <code>canplay</code>, <code>playing</code>, <code>canplaythrough</code> 이벤트가
+     * 올라가며(전체 응답을 사용할 수 있다) <code>loadeddata</code>, <code>canplay</code>, <code>playing</code>, <code>canplaythrough</code> 이벤트가
      * 따른다.
      *
      * @param m the element state / 요소 상태
@@ -2959,6 +3033,15 @@ final class MediaElements implements MediaControlSource {
      */
     void dispose() {
         disposed = true;
+        List<MediaData> unclaimed;
+        synchronized (pendingAudio) {
+            unclaimed = new ArrayList<MediaData>(pendingAudio);
+            pendingAudio.clear();
+        }
+        // 아직 재생기에 전달하지 않은 파일을 페이지와 함께 정리한다.
+        for (MediaData audio : unclaimed) {
+            audio.release();
+        }
         textTracks.dispose();
         List<Media> all = new ArrayList<Media>(states.values());
         // 가져오기를 취소하고 재생기를 먼저 모두 일시정지하여 소리부터 끈다.

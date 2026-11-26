@@ -9,17 +9,16 @@ import java.util.List;
  * The encoded bytes of one fetched media resource (plan item P18-08), either in memory (a short resource) or in a temporary file that this
  * object owns (a long one, see {@link MediaSpool}). Readers get a {@link ByteSource} from {@link #open()}; nothing reads the whole file into
  * memory. {@link #release()} closes every source that is still open and deletes the temporary file; it is idempotent and safe from any thread.
- * The intended owner chain (not wired into the page yet, see <code>docs/progress/media-play.md</code>, MEDIA-E) is: the page fetches into a {@link MediaSpool} and hands the finished data to the media element, which gives it to its player;
- * the element releases it when the resource is replaced (a new load), the player releases it when it ends (also when the element was garbage
- * collected), and the page releases every data it created when it is closed (navigation, <code>clean()</code>, <code>dispose()</code>), so
- * no file outlives its page. No JVM-wide state is used (no <code>deleteOnExit</code>): a file that a crashed process left behind stays for the
+ * The fetch worker gives the finished resource to a page task, which transfers it to the player. Cancelled requests, discarded tasks and closed
+ * players release the resources they own. A derived stream such as WebM audio remuxed to Ogg can tie its lifetime to a single reader using
+ * {@link #openOwned()}. No JVM-wide state is used (no <code>deleteOnExit</code>): a file that a crashed process left behind stays for the
  * temporary-file cleaning of the operating system, like the localStorage files.
  * <p>
  * 가져온 미디어 리소스 하나의 인코딩된 바이트(계획 P18-08). 메모리(짧은 리소스)나 이 객체가 소유한 임시 파일(긴 리소스, {@link MediaSpool} 참고)에 있다.
  * 읽는 쪽은 {@link #open()} 으로 {@link ByteSource} 를 받으며 파일 전체를 메모리로 읽는 곳은 없다. {@link #release()} 는 아직 열린 원천을 모두 닫고
- * 임시 파일을 지운다. 여러 번 불러도 되고 어느 스레드에서나 안전하다. 의도한 소유 관계(아직 페이지에 연결하지 않음. <code>docs/progress/media-play.md</code> 의 MEDIA-E 참고): 페이지가 {@link MediaSpool} 로 받아 완성된 데이터를 미디어 요소에
- * 넘기고 요소는 재생기에 준다. 리소스가 바뀌면(새 로드) 요소가, 재생기가 끝나면(요소가 가비지 컬렉션된 경우 포함) 재생기가, 페이지가 닫히면(이동,
- * <code>clean()</code>, <code>dispose()</code>) 페이지가 자기가 만든 데이터를 모두 놓으므로 파일이 페이지보다 오래 남지 않는다. JVM 전역 상태
+ * 임시 파일을 지운다. 여러 번 불러도 되고 어느 스레드에서나 안전하다. 스풀을 완성한 요청 작업자가 페이지 작업에 넘기고 페이지 작업은 재생기에 넘긴다.
+ * 요청의 취소, 페이지 작업의 폐기, 재생기의 닫힘 때 해당 소유자가 리소스를 해제한다. WebM을 Ogg로 재포장한 파생 리소스는
+ * {@link #openOwned()}로 단일 판독기와 수명을 맞출 수 있다. JVM 전역 상태
  * (<code>deleteOnExit</code>)는 쓰지 않는다. 비정상 종료한 프로세스가 남긴 파일은 localStorage 파일처럼 운영체제의 임시 파일 정리에 맡긴다.
  */
 public final class MediaData {

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P18-08-c3b HTTP와 로컬 페이지의 긴 오디오 스풀 (2026-11-26) ===
+현재 작업 번호: P18-08-c3b, P18-08-c3 및 P18-08-c 완료. P18-08 전체는 미완료.
+완료한 내용: 큰 응답·길이 미상·전송 압축 오디오를 받은 뒤 1 MiB가 넘으면 임시 파일을 쓴다. 작은 비압축 HTTP 응답과 304는 기존 메모리 캐시를 쓰며 변경된 큰 조건부 응답도 스트림으로 처리한다. 요청·대기 DOM 작업·재생기 소유 단계에서 실패·폐기·취소를 정리한다.
+변경 파일: PageResources.java, MediaRequestSource.java, MediaElements.java, MediaData.java, HttpCache.java, AudioIntegrationTest.java, MediaElementsTest.java, TestHttpServer.java, AGENTS.md, FEATURE_MATRIX.md, ARCHITECTURE.md, progress/media-play.md, 이 문서.
+검증 결과: JDK 6u45로 컴파일했다. JRE 6u45 -Xmx32m의 실제 HTTP 72 MiB WAV, 304/조건부 변경, 탐색·PCM·중단·스풀 삭제와 file/classpath를 포함한 통합 시험 10건 통과. HTTP 캐시·미디어·blob·텍스트 트랙 포함 집중 실행 127건 통과. 폐기·오래된 파일 콜백을 보강한 미디어 요소 24건 통과. sourcecheck·diff 검사 위반 0건.
+미해결 사항: 미디어의 기준 판본 이벤트와 데이터 가용성 대조, HTML·CSS·DOM 최종 적합성. 실제 스피커 청취는 개발자의 샘플 웹게임 확인으로 이월했다.
+다음 작업 번호: P18-08-d1.
+-----------------------------------------------------------------------------------------------
 === P18-08-c3a 오디오 레지스트리와 재생기에 파일 전달 (2026-11-26) ===
 현재 작업 번호: P18-08-c3a 완료.
 완료한 내용: 레지스트리는 같은 MIME 힌트·시그니처 순서로 파일을 열고 재생기는 소스와 데이터를 닫는다. 메모리 진입점은 유지하며 파일 전용 재생에서도 배열 전용 등록 코덱에는 기존 16 MiB 한도 안에서 복사한 입력을 준다.

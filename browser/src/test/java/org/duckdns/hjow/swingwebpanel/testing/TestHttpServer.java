@@ -71,6 +71,15 @@ public class TestHttpServer {
         void write(String text) throws IOException;
 
         /**
+         * Writes a binary body fragment and flushes it. / 이진 본문 조각을 쓰고 전송한다.
+         * @param bytes source bytes / 원본 바이트
+         * @param offset first byte / 첫 바이트 위치
+         * @param length number of bytes / 바이트 수
+         * @throws IOException if writing fails / 쓰기에 실패하면
+         */
+        void write(byte[] bytes, int offset, int length) throws IOException;
+
+        /**
          * Waits; returns false as soon as the server stops, so that a streamer ends with the test.
          * <p>
          * 기다린다. 서버가 멈추면 곧바로 false 를 반환하여 스트리머가 시험과 함께 끝나게 한다.
@@ -309,6 +318,9 @@ public class TestHttpServer {
          */
         public Streamer streamer;
 
+        /** Declared size of a streamed body, or -1 for chunked transfer. / 스트림 본문의 선언 크기. chunked이면 -1. */
+        private long streamedLength = -1;
+
         /**
          * Creates a response with a status code.
          * <p>
@@ -389,7 +401,18 @@ public class TestHttpServer {
          * @return this / 자기 자신
          */
         public Response streamedBy(Streamer s) {
+            return streamedBy(s, -1);
+        }
+
+        /**
+         * Produces a streamed body with a declared length. / 길이를 선언하는 스트림 본문을 만든다.
+         * @param s the streamer / 스트리머
+         * @param length declared length, -1 for chunked / 선언 길이. chunked이면 -1
+         * @return this response / 이 응답
+         */
+        public Response streamedBy(Streamer s, long length) {
             this.streamer = s;
+            this.streamedLength = length;
             return this;
         }
 
@@ -1100,11 +1123,19 @@ public class TestHttpServer {
             sb.append(resp.headers.get(i)[0]).append(": ").append(resp.headers.get(i)[1]).append("\r\n");
         }
         sb.append("Connection: close\r\n");
-        if (resp.streamer != null && !head) {
-            sb.append("Transfer-Encoding: chunked\r\n\r\n");
+        if (resp.streamer != null && (!head || resp.streamedLength >= 0)) {
+            boolean chunked = resp.streamedLength < 0;
+            if (chunked) {
+                sb.append("Transfer-Encoding: chunked\r\n");
+            } else {
+                sb.append("Content-Length: ").append(resp.streamedLength).append("\r\n");
+            }
+            sb.append("\r\n");
             out.write(sb.toString().getBytes("UTF-8"));
             out.flush();
-            writeStreamed(out, resp.streamer);
+            if (!head) {
+                writeStreamed(out, resp.streamer, chunked);
+            }
             return;
         }
         if (resp.chunked && !head) {
@@ -1150,9 +1181,10 @@ public class TestHttpServer {
      *
      * @param out      output / 출력
      * @param streamer the streamer / 스트리머
+     * @param chunked whether to encode chunks / chunked 인코딩 여부
      * @throws IOException on write failure / 쓰기 실패 시
      */
-    private void writeStreamed(final OutputStream out, Streamer streamer) throws IOException {
+    private void writeStreamed(final OutputStream out, Streamer streamer, final boolean chunked) throws IOException {
         Sink sink = new Sink() {
             /**
              * Writes one chunk.
@@ -1164,12 +1196,21 @@ public class TestHttpServer {
              */
             public void write(String text) throws IOException {
                 byte[] data = text.getBytes("UTF-8");
-                if (data.length == 0) {
+                write(data, 0, data.length);
+            }
+
+            /** Writes and flushes a nonempty binary fragment. / 비어 있지 않은 이진 조각을 쓰고 전송한다. */
+            public void write(byte[] data, int offset, int length) throws IOException {
+                if (length == 0) {
                     return;
                 }
-                out.write((Integer.toHexString(data.length) + "\r\n").getBytes("ISO-8859-1"));
-                out.write(data);
-                out.write("\r\n".getBytes("ISO-8859-1"));
+                if (chunked) {
+                    out.write((Integer.toHexString(length) + "\r\n").getBytes("ISO-8859-1"));
+                }
+                out.write(data, offset, length);
+                if (chunked) {
+                    out.write("\r\n".getBytes("ISO-8859-1"));
+                }
                 out.flush();
             }
 
@@ -1213,7 +1254,9 @@ public class TestHttpServer {
         } catch (Exception e) {
             throw new IOException("streamer failed: " + e);
         }
-        out.write("0\r\n\r\n".getBytes("ISO-8859-1"));
+        if (chunked) {
+            out.write("0\r\n\r\n".getBytes("ISO-8859-1"));
+        }
         out.flush();
     }
 

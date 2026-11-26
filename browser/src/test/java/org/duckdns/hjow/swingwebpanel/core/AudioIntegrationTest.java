@@ -3,9 +3,15 @@ package org.duckdns.hjow.swingwebpanel.core;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,6 +21,7 @@ import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
 import org.duckdns.hjow.swingwebpanel.js.host.MediaRequestSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.MediaSpool;
 import org.duckdns.hjow.swingwebpanel.media.audio.testkit.AudioKit;
 import org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory;
 import org.duckdns.hjow.swingwebpanel.media.playback.FakeOutputs;
@@ -162,6 +169,268 @@ public class AudioIntegrationTest {
      */
     private static byte[] wav(int frames) {
         return AudioKit.wav(1, 1, 8000, 16, ScriptedDecoder.pcm(0, frames), -1);
+    }
+
+    /**
+     * Builds a WAV header for a streamed payload. / 스트림 페이로드의 WAV 헤더를 만든다.
+     * @param payload encoded PCM byte count / 인코딩 PCM 바이트 수
+     * @return the WAV container header / WAV 컨테이너 헤더
+     */
+    private static byte[] wavHeader(int payload) {
+        byte[] header = AudioKit.wav(1, 1, 8000, 16, new byte[0], payload);
+        int riff = header.length + payload - 8;
+        // 전체 RIFF 길이를 리틀 엔디언으로 써서 뒤에 흐를 PCM을 포함한다.
+        for (int i = 0; i < 4; i++) {
+            header[4 + i] = (byte) (riff >> (8 * i));
+        }
+        return header;
+    }
+
+    /**
+     * Lists media spool files visible to the JVM. / JVM에 보이는 미디어 스풀 파일을 나열한다.
+     * @return the current paths / 현재 경로
+     */
+    private static Set<File> spoolFiles() {
+        Set<File> files = new HashSet<File>();
+        File[] all = new File(System.getProperty("java.io.tmpdir")).listFiles();
+        if (all != null) {
+            // 이 기능이 지정한 접두사와 확장자를 가진 파일만 모은다.
+            for (File file : all) {
+                if (file.getName().startsWith("swingwebpanel-media-") && file.getName().endsWith(".part")) {
+                    files.add(file);
+                }
+            }
+        }
+        return files;
+    }
+
+    /**
+     * Waits for this request's new spool to contain the given bytes. / 이 요청의 새 스풀에 주어진 바이트 수가 쌓일 때까지 기다린다.
+     * @param baseline files present before the request / 요청 전의 파일
+     * @param minimum minimum written size / 최소 기록 크기
+     * @return the observed file / 확인한 파일
+     * @throws Exception if interrupted / 인터럽트되면
+     */
+    private static File awaitSpool(Set<File> baseline, long minimum) throws Exception {
+        long end = System.currentTimeMillis() + 30000;
+        // 파일 이름은 실행마다 달라지므로 새 파일과 기록된 크기를 함께 확인한다.
+        while (System.currentTimeMillis() < end) {
+            for (File f : spoolFiles()) {
+                if (!baseline.contains(f) && f.length() >= minimum) {
+                    return f;
+                }
+            }
+            Thread.sleep(10);
+        }
+        throw new AssertionError("the audio spool did not reach " + minimum + " bytes");
+    }
+
+    /**
+     * Waits for the player or network worker to delete the file. / 재생기나 네트워크 작업자가 파일을 지울 때까지 기다린다.
+     * @param file the observed spool / 확인한 스풀
+     * @throws Exception if interrupted / 인터럽트되면
+     */
+    private static void awaitSpoolRemoved(File file) throws Exception {
+        long end = System.currentTimeMillis() + 30000;
+        // 네트워크와 재생 작업은 별도 스레드에서 종료된다.
+        while (file.exists() && System.currentTimeMillis() < end) {
+            Thread.sleep(10);
+        }
+        Check.isFalse(file.exists(), "the audio spool was removed");
+    }
+
+    /**
+     * Revalidates a small cached audio response and then replaces it with a chunked WAV larger than the heap.
+     * <p>
+     * 작은 캐시 오디오를 재검증한 뒤 힙보다 큰 chunked WAV로 교체한다.
+     * @throws Exception if setup or playback fails / 설정이나 재생에 실패하면
+     */
+    public void testLongAudioStreamsAfterCacheRevalidation() throws Exception {
+        final int payload = 72 * 1024 * 1024;
+        final byte[] tail = { 0x34, 0x12, 0x78, 0x56 };
+        final byte[] header = wavHeader(payload);
+        final AtomicInteger calls = new AtomicInteger();
+        final AtomicInteger validators = new AtomicInteger();
+        final TestHttpServer server = new TestHttpServer();
+        FakeOutputs outputs = new FakeOutputs();
+        SwingWebPanel panel = newPanel(outputs);
+        try {
+            server.route("/clip.wav", new TestHttpServer.Handler() {
+                /** Serves the small version, its validation, and the long replacement. / 작은 응답, 재검증, 긴 교체 응답을 준다. */
+                public TestHttpServer.Response handle(TestHttpServer.Request request) {
+                    int attempt = calls.incrementAndGet();
+                    if ("\"short\"".equals(request.header("If-None-Match"))) {
+                        validators.incrementAndGet();
+                    }
+                    if (attempt == 1) {
+                        return new TestHttpServer.Response(200).bytes("audio/wav", wav(100)).header("ETag", "\"short\"").header("Cache-Control", "max-age=0");
+                    }
+                    if (attempt == 2) {
+                        return new TestHttpServer.Response(304).header("ETag", "\"short\"").header("Cache-Control", "max-age=0");
+                    }
+                    return new TestHttpServer.Response(200).header("Content-Type", "audio/wav").streamedBy(new TestHttpServer.Streamer() {
+                        /** Streams PCM in bounded chunks. / 제한된 조각으로 PCM을 전송한다. */
+                        public void produce(TestHttpServer.Sink sink) throws IOException {
+                            sink.write(header, 0, header.length);
+                            byte[] zeros = new byte[64 * 1024];
+                            // 마지막 네 바이트 앞까지 조각 단위로 보낸다.
+                            for (int remaining = payload - tail.length; remaining > 0;) {
+                                int count = Math.min(zeros.length, remaining);
+                                sink.write(zeros, 0, count);
+                                remaining -= count;
+                            }
+                            sink.write(tail, 0, tail.length);
+                        }
+                    });
+                }
+            });
+            server.routeFixed("/first", TestHttpServer.Response.html(SCRIPT + "<audio id=warm autoplay src='/clip.wav'></audio>"));
+            server.routeFixed("/same", TestHttpServer.Response.html(SCRIPT + "<audio id=same autoplay src='/clip.wav'></audio>"));
+            server.routeFixed("/large", TestHttpServer.Response.html(SCRIPT + "<audio id=large src='/clip.wav'></audio>"
+                    + "<script>var clip=document.getElementById('large');"
+                    + "clip.addEventListener('loadedmetadata',function(){clip.currentTime=clip.duration-2/8000;});"
+                    + "clip.addEventListener('seeked',function(){clip.play();});</script>"));
+            server.start();
+            Set<File> baseline = spoolFiles();
+            panel.setPage(server.url("/first"));
+            awaitOrder(panel, "warm.ended,", "the first short response played");
+            panel.setPage(server.url("/same"));
+            awaitOrder(panel, "same.ended,", "the 304 reused the original PCM");
+            Check.equal(baseline, spoolFiles(), "small declared responses stay in the ordinary cache");
+            panel.setPage(server.url("/large"));
+            awaitOrder(panel, "large.ended,", "the long replacement played its chosen tail");
+            Check.equal(2, validators.get(), "both conditional audio requests used the validator");
+            Check.isTrue(Arrays.equals(tail, outputs.await(2).written()), "only the two selected samples reached the output");
+            File spool = awaitSpool(baseline, header.length + payload);
+            panel.setPage("about:blank");
+            awaitPage(panel, "about:blank");
+            awaitSpoolRemoved(spool);
+        } finally {
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
+     * Cancels a known-length audio body after it reached disk and checks that the partial file is removed.
+     * <p>
+     * 길이를 아는 오디오 본문이 디스크에 기록된 뒤 취소하고 부분 파일이 삭제되는지 확인한다.
+     * @throws Exception if setup or cancellation checks fail / 설정이나 취소 검증이 실패하면
+     */
+    public void testAudioSpoolIsRemovedWhenNavigationCancelsTransfer() throws Exception {
+        checkInterruptedAudioBody(true);
+    }
+
+    /**
+     * Removes an audio spool when the server closes before the declared body ends.
+     * <p>
+     * 서버가 선언한 본문 끝보다 먼저 연결을 닫으면 오디오 스풀을 없앤다.
+     * @throws Exception if setup or cleanup checks fail / 설정이나 정리 검증이 실패하면
+     */
+    public void testAudioSpoolIsRemovedAfterTruncation() throws Exception {
+        checkInterruptedAudioBody(false);
+    }
+
+    /**
+     * Exercises cancellation and premature response closure after data reached disk. / 파일에 기록한 뒤 취소와 조기 응답 종료를 확인한다.
+     * @param navigate true to cancel by navigation, false to close the server body / 이동으로 취소하려면 true, 서버 본문을 닫으려면 false
+     * @throws Exception if the case fails / 사례가 실패하면
+     */
+    private static void checkInterruptedAudioBody(boolean navigate) throws Exception {
+        final int payload = 72 * 1024 * 1024;
+        final byte[] header = wavHeader(payload);
+        final CountDownLatch leave = new CountDownLatch(1);
+        final TestHttpServer server = new TestHttpServer();
+        FakeOutputs outputs = new FakeOutputs();
+        SwingWebPanel panel = newPanel(outputs);
+        try {
+            server.routeFixed("/page", TestHttpServer.Response.html(SCRIPT + "<audio id=cancel src='/cancel.wav' autoplay></audio>"));
+            server.routeFixed("/cancel.wav", new TestHttpServer.Response(200).header("Content-Type", "audio/wav").streamedBy(new TestHttpServer.Streamer() {
+                /** Writes a file-sized prefix and holds the response open. / 파일에 저장될 앞부분을 쓰고 응답을 열린 채로 둔다. */
+                public void produce(TestHttpServer.Sink sink) throws Exception {
+                    sink.write(header, 0, header.length);
+                    byte[] block = new byte[64 * 1024];
+                    // 임시 파일로 넘어가는 양까지만 보내고 페이지 이동을 기다린다.
+                    for (int i = 0; i < 24; i++) {
+                        sink.write(block, 0, block.length);
+                    }
+                    leave.await(30, TimeUnit.SECONDS);
+                }
+            }, header.length + payload));
+            server.start();
+            Set<File> baseline = spoolFiles();
+            panel.setPage(server.url("/page"));
+            awaitPage(panel, server.url("/page"));
+            File spool = awaitSpool(baseline, MediaSpool.MEMORY_LIMIT);
+            if (navigate) {
+                panel.setPage("about:blank");
+                awaitPage(panel, "about:blank");
+            } else {
+                leave.countDown();
+                awaitOrder(panel, "cancel.error,", "the truncated response failed");
+            }
+            awaitSpoolRemoved(spool);
+            Check.equal(0, outputs.openCalls, "the incomplete audio was not played");
+        } finally {
+            leave.countDown();
+            panel.dispose();
+            server.stop();
+        }
+    }
+
+    /**
+     * Plays file and classpath resources through the same audio body handling.
+     * <p>
+     * file 및 classpath 리소스를 같은 오디오 본문 처리로 재생한다.
+     * @throws Exception if setup or playback fails / 설정이나 재생에 실패하면
+     */
+    public void testFileAndClasspathAudioPlayThroughCommonRequest() throws Exception {
+        int payload = 2 * 1024 * 1024;
+        byte[] header = wavHeader(payload);
+        byte[] tail = { 0x15, 0x21, 0x3A, 0x47 };
+        File page = File.createTempFile("swp-audio-local-", ".html");
+        File wave = File.createTempFile("swp-audio-local-", ".wav");
+        FakeOutputs outputs = new FakeOutputs();
+        SwingWebPanel panel = newPanel(outputs);
+        try {
+            RandomAccessFile audio = new RandomAccessFile(wave, "rw");
+            try {
+                audio.write(header);
+                audio.setLength(header.length + payload);
+                audio.seek(header.length + payload - tail.length);
+                audio.write(tail);
+            } finally {
+                audio.close();
+            }
+            FileOutputStream html = new FileOutputStream(page);
+            try {
+                String content = "<!doctype html><audio src='" + wave.getName() + "'"
+                        + " onloadedmetadata='this.currentTime=this.duration-2/8000' onseeked='this.play()'></audio>";
+                html.write(content.getBytes("UTF-8"));
+            } finally {
+                html.close();
+            }
+            Set<File> baseline = spoolFiles();
+            panel.setPage(page.toURI().toString());
+            FakeOutputs.Out fileOutput = outputs.await(0);
+            awaitClosed(fileOutput, "local WAV reached the end");
+            Check.isTrue(Arrays.equals(tail, fileOutput.written()), "file: playback used the chosen tail");
+            File spool = awaitSpool(baseline, header.length + payload);
+            panel.clean();
+            awaitPage(panel, "about:blank");
+            awaitSpoolRemoved(spool);
+            Check.isTrue(wave.isFile(), "the source file is owned by the caller");
+
+            panel.setContent("<!doctype html><audio autoplay src='classpath://media/audio/wav/wav_s16_44100_st.wav'></audio>", "text/html");
+            FakeOutputs.Out classpathOutput = outputs.await(1);
+            awaitClosed(classpathOutput, "classpath WAV reached the end");
+            Check.equal(44100, classpathOutput.sampleRate, "classpath PCM sample rate");
+            Check.isTrue(classpathOutput.written().length > 0, "classpath PCM reached the output");
+        } finally {
+            panel.dispose();
+            page.delete();
+            wave.delete();
+        }
     }
 
     /**
