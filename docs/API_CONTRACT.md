@@ -346,10 +346,22 @@ panel.postMessage("hello", "https://app.example");             // 대상 오리�
 
 - 페이지의 `window`에 `MessageEvent`를 보낸다. `data`는 수신 렐름의 복제값이고, `origin`은 `HOST_ORIGIN`, `source`는 호스트 창, `ports`는 빈 배열, `lastEventId`는 빈 문자열이다. 신뢰 이벤트이며 버블링·취소가 없다. `onmessage`와 `addEventListener`로 받을 수 있다. 작업으로만 실행하며 문서 교체, JavaScript 비활성, 오리진 불일치에서 버린다. 절대 URL은 스킴·호스트·유효 포트의 오리진을 비교한다. `reply`는 저장한 문서의 정체성까지 검사한다.
 - 호스트 창에는 `postMessage(message, targetOrigin[, transfer])`, `postMessage(message, {targetOrigin, transfer})`, `closed`, 동작이 없는 `close()/focus()/blur()`가 있다. 그 밖의 속성 접근에서 `SecurityError`가 발생한다. 대상 오리진이 `"*"` 또는 `HOST_ORIGIN`일 때 전달한다. `"/"`와 다른 절대 URL은 버리며 잘못된 주소에는 `SyntaxError`가 발생한다. 최상위 문서의 `opener`를 null로 끊어도 이후 이벤트 `source`는 같은 호스트 창 객체다. 하위 프레임의 `opener`는 null이며, 같은 오리진과 다른 오리진 프레임 모두 `top.opener`에 보낼 수 있다. Worker에는 호스트 창이 없다.
-- 값 변환(P27-02): Java→페이지는 호출 스레드에서 깊은 복사(null, Boolean, `BigInteger`→BigInt, 그 밖의 Number→double, 문자열, 문자열 키 `Map`, `List`/`Collection`/배열, `byte[]`→`ArrayBuffer`, `Date`), 페이지→Java 는 구조화 복제 뒤 수정할 수 없는 복사본(number 는 항상 `Double`, bigint 는 `BigInteger`, 배열은 `List`, 객체는 `Map`, `ArrayBuffer` 및 `BigInt64Array`/`Float16Array` 등 모든 `TypedArray`/`DataView` 는 현재 유효 바이트의 `byte[]`). 그 밖의 Java 객체·함수·순환·크기 초과는 거부(Java 는 IAE, 페이지는 `DataCloneError`). Java 객체는 스크립트에 노출하지 않는다(P15-02).
+- 값 변환(P27-02): Java → 페이지는 호출 스레드에서 복사한 뒤 수신 렐름의 프로토타입으로 복원한다. 페이지 → Java는 구조화 복제를 거쳐 Java 데이터로 복원한다. 같은 객체를 여러 번 가리킨 참조는 보존한다. 순환·지원 범위 외 값·한도 초과 시 Java 송신은 `IllegalArgumentException`, 페이지 송신은 `DataCloneError`이다.
 - 수명(P27-05): 대기 상한(기본안 1000), 리스너가 없으면 버림, 이동/`clean()` 은 대기 메시지를 버리고 리스너는 유지, `dispose()` 는 리스너와 대기 메시지 제거, `removeHyperlinkEvents()` 와 무관, JavaScript 비활성이면 메시지 없음.
 - 보안: 어떤 페이지와 그 안의 다른 오리진 프레임도 호스트에 보낼 수 있으므로 Java 쪽은 `getOrigin()` 과 데이터 형식을 먼저 검사한다. Java 가 보낼 때는 `"*"` 대신 정확한 대상 오리진을 쓴다.
 - 기본안에서 제외한 방식: 자기 `window` 로 보낸 메시지를 Java 가 엿듣기(페이지 자신의 리스너와 라이브러리의 자기 메시지가 섞임), `window.swingwebpanel` 같은 비표준 전역 객체(표준 관용구를 쓸 수 없음).
+
+| Java 송신값 | 페이지의 수신값 |
+| --- | --- |
+| `null`, `Boolean`, `BigInteger` | null, boolean, bigint |
+| 다른 `Number` | number(double). 큰 정수는 반올림될 수 있고 NaN, 무한대, 음의 0을 유지한다. |
+| `String`, `CharSequence`, `Character` | string. 호출 중 문자열을 확보한다. |
+| 문자열 키 `Map` | 일반 객체의 자체 데이터 프로퍼티. Map의 반복 순서로 만들며 정수 인덱스 키는 ECMAScript의 열거 순서를 따른다. |
+| `Collection`, `Object[]`, `byte[]` 외 기본형 배열 | 반복 또는 인덱스 순서의 Array |
+| `byte[]`, `java.util.Date` | 복사한 바이트의 ArrayBuffer, 유효 시간 범위의 Date |
+| 그 밖의 객체·살아 있는 핸들·호스트 함수·스크립트 값 | `IllegalArgumentException` |
+
+값·키·문자 단위와 바이트에 적용하는 메시지 한도는 `HostMessageValues.MAX_MESSAGE_UNITS`(262,144)이다. 중첩은 128단계까지 허용한다. Java → 페이지에서 사용한 Java 컬렉션·배열·날짜는 복사 후 바꿔도 수신값에 영향이 없다.
 
 ## 6. 허용 스킴 정책 (P01-12)
 
