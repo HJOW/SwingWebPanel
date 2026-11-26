@@ -1137,7 +1137,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
     - (g) 탭·창 사이의 쿠키 공유: 쿠키 저장소가 컴포넌트마다 따로 있어서(P01-11, `core.BrowserSession`은 저장소를 받는 생성자가 있지만 `SwingWebPanel`에서 지정할 수 없다) 한 탭의 로그인이 다른 탭에 보이지 않는다. 호스트가 여러 컴포넌트에 같은 쿠키 저장소를 지정하는 선택적 API를 추가하고, 기본값(컴포넌트별 저장소)과 `getCookies()`·`clean()`의 기존 계약은 유지한다. HTTP 캐시 공유 여부도 함께 정한다.
     - (h) 인쇄: 현재 실제 인쇄와 쪽 나눔 배치가 없고, `window.print()`는 빈 함수이며 `beforeprint`/`afterprint`는 이벤트 처리기 속성만 있다. `@page`는 CSSOM으로만 해석한다(P10-08-a). P31-10에서 인쇄 API를 추가한다.
   - 문서·도구 연결: `tools/sourcecheck`의 검사 경로, `docs/ARCHITECTURE.md`의 모듈 표, 루트 README의 모듈 안내에 `desktopapp`을 추가한다.
-- [ ] P31-02. 모듈 골격을 만든다.
+- [x] P31-02. 모듈 골격을 만든다. 완료(2026-11-26): `desktopapp/`(POM, `Main`, `BrowserApp`, `ui.BrowserWindow`, 조립 설명 `src/assembly/app.xml`, `run.sh`/`run.bat`, `README.md`/`AGENTS.md`)를 만들고 부모 POM에 등록했다. 시험은 엔진 시험 JAR의 자체 실행기로 JDK 6에서 실행한다. `mvn -B -o -pl desktopapp -am "-Dtest.filter=desktopapp" verify`에서 앱 시험 3건 통과, `run-app-smoke`가 JDK 6u45의 `java -jar swingwebpanel-desktopapp.jar --smoke`를 통과했다. 실행 JAR에 `Main-Class`가 있고 제품 JAR에는 앱 클래스가 없다. `tools/sourcecheck` 기본 경로에 `desktopapp`을 넣었고 위반 0건이다. P31-01의 "문서·도구 연결"도 여기서 처리했다.
   - POM, 진입 클래스(`main`), 빈 브라우저 창(`about:blank`의 `SwingWebPanel`을 `JScrollPane`에 담은 창)을 만든다.
   - 시험 실행을 연결한다. 기존 자체 시험 실행기를 재사용하거나 같은 규칙의 실행기를 두고 JDK 6 `java`로 실행한다.
   - 실행 JAR 패키징과 실행 스크립트를 만든다.

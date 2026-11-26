@@ -49,6 +49,7 @@ browser/src/main/java/        Swing 브라우저 소스
 browser/src/main/resources/   브라우저 제품 리소스
 browser/src/test/             브라우저 시험 java/와 resources/
 examples/src/main/            예제 java/와 resources/
+desktopapp/                   SwingWebPanel 로 만든 Swing 웹 브라우저 앱(P31). src/main/java, src/test/java, 실행 스크립트
 tools/<도구>/                 개발 보조 도구(제품 reactor와 분리, Java 6)
 <모듈>/target/                Maven 생성물
 build/                        도구 작업 자료
@@ -130,9 +131,10 @@ setPage(url) ─▶ NavigationController(요청 번호 N) ─▶ net.ResourceFet
 
 | 스크립트 | 설명 |
 | --- | --- |
-| `mvn package` / `build.sh` / `build.bat` | 제품 JAR 세 개와 예제 모듈을 빌드한다. 두 스크립트는 시험 컴파일과 실행을 생략하는 Maven 래퍼다. |
+| `mvn package` / `build.sh` / `build.bat` | 제품 JAR 세 개와 예제 모듈, 브라우저 앱 모듈(`desktopapp`, 실행 JAR `desktopapp/target/swingwebpanel-desktopapp.jar`)을 빌드한다. 두 스크립트는 시험 컴파일과 실행을 생략하는 Maven 래퍼다. |
 | `mvn test` / `mvn verify` / `test.sh` / `test.bat` | JDK 6의 `java`로 엔진(Headless)과 브라우저의 `TestRunner`를 실행한다. 각 모듈이 통과·실패·건너뜀 수를 출력하며 시험 실패는 Maven 실패로 전파된다. |
 | `mvn -pl engine test` | 엔진 제품과 엔진 시험만 클래스패스에 두고 실행한다. |
+| `mvn -pl desktopapp -am verify` / `desktopapp/run.sh` / `desktopapp/run.bat` | 브라우저 앱의 시험을 JDK 6 으로 실행하고, 실행 JAR 을 JDK 6 의 `java -jar ... --smoke` 로 실제 실행해 본다. 스크립트는 빌드한 뒤 앱을 시작한다. 앱은 제품 JAR 에 들어가지 않고 SwingWebPanel 의 공개 API 만 쓴다(`AppBoundaryTest`). 설계는 `docs/progress/desktopapp.md`. |
 | `tools/<도구>/build.*`, `run.*` | 각 도구의 빌드/실행 |
 
 Maven 실행 JDK는 8 이상이다. Maven이 컴파일과 시험에 쓰는 JDK 6은 `JAVA6_HOME`으로 지정한다.

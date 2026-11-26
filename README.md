@@ -87,7 +87,7 @@ The root and engine `build` and `test` scripts invoke Maven. The test scripts al
 | `browser/target/swingwebpanel-browser.jar` | Browser module. Add the engine JAR to the runtime classpath |
 | `engine/target/swingwebpanel-js.jar` | Standalone JavaScript engine and JSR 223 provider |
 
-When you use Maven, the browser artifact brings in the engine. For manual setup, `browser/target/swingwebpanel.jar` contains both. Examples are built separately under `examples/target/`.
+When you use Maven, the browser artifact brings in the engine. For manual setup, `browser/target/swingwebpanel.jar` contains both. Examples are built separately under `examples/target/`. A browser application built on SwingWebPanel (work in progress) is built as `desktopapp/target/swingwebpanel-desktopapp.jar` and started with `java -jar`; see [desktopapp/README.md](desktopapp/README.md).
 
 ### Publishing to Maven Central
 

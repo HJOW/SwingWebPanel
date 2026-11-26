@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P31-02 desktopapp 모듈 골격 (2026-11-26) ===
+현재 작업 번호: P31-02 완료. P31-03 진행 중.
+완료한 내용: Maven 모듈 desktopapp(swingwebpanel-desktopapp)을 만들어 부모 POM에 등록했다. Main(주소 인수, --smoke), BrowserApp(열린 창 목록, 마지막 창이 닫히면 종료), ui.BrowserWindow(JScrollPane 안의 SwingWebPanel, 제목 표시줄에 페이지 제목과 앱 이름). 실행 JAR desktopapp/target/swingwebpanel-desktopapp.jar는 앱과 SwingWebPanel, 엔진 클래스를 합친 단일 JAR이다. run.sh/run.bat, README.md, AGENTS.md를 두었다. sourcecheck 기본 경로와 ARCHITECTURE, 루트 README에 모듈을 추가했다.
+변경 파일: pom.xml, desktopapp/**(신규), tools/sourcecheck/src/sourcecheck/SourceCheck.java, tools/sourcecheck/AGENTS.md, docs/ARCHITECTURE.md, README.md, README.ko.md, AGENTS.md, 이 문서.
+검증 결과: JDK 8u202의 mvn -B -o -pl desktopapp -am "-Dtest.filter=desktopapp" verify 성공(JDK 6u45 javac·java). 앱 시험 3건 통과(AppBoundaryTest 1, BrowserAppTest 2), 건너뜀 0건. run-app-smoke: JDK 6u45에서 java -jar swingwebpanel-desktopapp.jar --smoke가 "desktopapp smoke ok"와 종료 코드 0. 실행 JAR의 MANIFEST에 Main-Class 확인, browser/target/swingwebpanel.jar에 desktopapp 클래스 0개. sourcecheck 위반 0건. 로그 build/p31/p3102.log.
+미해결 사항: 실제 창을 띄워 눈으로 확인하는 일은 P31-11에서 한다. 이 실행의 창은 보이지 않게 만든 것이다.
+다음 작업 번호: P31-03
+-----------------------------------------------------------------------------------------------
 === P31-01 desktopapp 범위와 구조 확정 (2026-11-26) ===
 현재 작업 번호: P31-01 완료. P31-02 진행 중.
 완료한 내용: docs/progress/desktopapp.md를 새로 써서 범위(필수 기능과 범위 밖), 모듈(desktopapp/, swingwebpanel-desktopapp, 실행 JAR), 구조(model/ui 분리, 탭 하나 = SwingWebPanel 하나), 사용자 데이터(사용자 홈/.swingwebpanel/desktopapp, UTF-8 텍스트, 임시 파일 후 교체, 손상 파일 보존), SwingWebPanel 보완 목록의 결정을 기록했다.

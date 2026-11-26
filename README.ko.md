@@ -101,7 +101,7 @@ Maven 없이 실행하는 애플리케이션은 **`browser/target/swingwebpanel.
 | `browser/target/swingwebpanel-browser.jar` | 브라우저. 실행 시 엔진 JAR 필요 |
 | `engine/target/swingwebpanel-js.jar` | 독립 JavaScript 엔진과 `javax.script` 제공자 |
 
-예제는 `examples/target/`에 별도로 빌드됩니다. Maven 플러그인은 빌드에만 쓰이며 제품에 외부 런타임 라이브러리가 추가되지 않습니다.
+예제는 `examples/target/`에 별도로 빌드됩니다. SwingWebPanel 로 만든 브라우저 앱(개발 중)은 `desktopapp/target/swingwebpanel-desktopapp.jar`로 빌드되며 `java -jar`로 실행합니다([desktopapp/README.md](desktopapp/README.md)). Maven 플러그인은 빌드에만 쓰이며 제품에 외부 런타임 라이브러리가 추가되지 않습니다.
 
 ### Maven Central 배포
 

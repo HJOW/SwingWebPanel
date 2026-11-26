@@ -26,7 +26,7 @@
 - 빌드: `tools/sourcecheck/build.sh` 또는 `tools\sourcecheck\build.bat` (JDK 6, `JAVA6_HOME`, 못 찾으면 종료 코드 1)
 - 실행: `tools/sourcecheck/run.sh [옵션] [경로...]` 또는 `tools\sourcecheck\run.bat ...` — 항상 **저장소 루트를 기준**으로 실행한다.
 - 옵션: `--root DIR`, `--only encoding,forbidden,javadoc,loops`, `--max N`(출력 줄 수, 기본 200), `--selftest`
-- 기본 경로: `browser engine examples tools scripts docs AGENTS.md build.sh build.bat test.sh test.bat`
+- 기본 경로: `browser engine examples desktopapp tools scripts docs AGENTS.md build.sh build.bat test.sh test.bat`
 - 출력: `경로:줄: [규칙] 메시지` 와 마지막 요약 줄 `N violation(s) in M file(s) checked`
 - 종료 코드: 0 위반 없음 / 1 위반 있음 / 2 사용법·입출력 오류. `--selftest` 는 불량 샘플이 종료 코드 1, 양호 샘플이 0 인지 검증해 0/1 반환.
 

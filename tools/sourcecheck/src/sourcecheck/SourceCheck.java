@@ -19,11 +19,11 @@ import java.util.Set;
  * Source tree checker for the SwingWebPanel project (plan items P02-07, P02-08, P02-09, P22-08). It verifies file encodings
  * (UTF-8 for java/md/sh, MS949 for bat), forbidden APIs and non-Java-6 syntax, native/binary artifacts, English+Korean Javadoc on
  * every declaration, and Korean comments on loops. Run <code>java -cp build/classes sourcecheck.SourceCheck [options] [paths]</code>;
- * the default paths include the browser, engine, examples and tools. Exit code: 0 = clean, 1 = violations, 2 = usage or I/O error.
+ * the default paths include the browser, engine, examples, desktopapp and tools. Exit code: 0 = clean, 1 = violations, 2 = usage or I/O error.
  * <p>
  * SwingWebPanel 프로젝트의 소스 트리 검사기(계획 P02-07, P02-08, P02-09, P22-08). 파일 인코딩(java/md/sh 는 UTF-8, bat 는 MS949),
  * 금지 API 와 Java 6 이후 구문, 네이티브/바이너리 산출물, 모든 선언의 영어+한국어 Javadoc, 반복문의 한국어 주석을 검사한다.
- * <code>java -cp build/classes sourcecheck.SourceCheck [옵션] [경로]</code> 로 실행하며 기본 경로는 browser, engine, examples, tools 등을 포함한다.
+ * <code>java -cp build/classes sourcecheck.SourceCheck [옵션] [경로]</code> 로 실행하며 기본 경로는 browser, engine, examples, desktopapp, tools 등을 포함한다.
  * 종료 코드: 0 = 위반 없음, 1 = 위반 있음, 2 = 사용법 또는 입출력 오류.
  */
 public final class SourceCheck {
@@ -123,7 +123,7 @@ public final class SourceCheck {
             return SelfTest.run(out, err);
         }
         if (paths.isEmpty()) {
-            paths.addAll(Arrays.asList("browser", "engine", "examples", "tools", "scripts", "docs", "AGENTS.md", "build.sh", "build.bat", "test.sh", "test.bat"));
+            paths.addAll(Arrays.asList("browser", "engine", "examples", "desktopapp", "tools", "scripts", "docs", "AGENTS.md", "build.sh", "build.bat", "test.sh", "test.bat"));
         }
         List<File> files = new ArrayList<File>();
         // 지정한 경로(파일 또는 디렉터리)마다 검사 대상 파일을 모은다.
