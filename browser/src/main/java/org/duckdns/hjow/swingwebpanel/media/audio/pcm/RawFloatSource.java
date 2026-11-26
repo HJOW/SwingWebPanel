@@ -2,6 +2,7 @@ package org.duckdns.hjow.swingwebpanel.media.audio.pcm;
 
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
 import org.duckdns.hjow.swingwebpanel.media.audio.BlockFloatSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 
 /**
  * The wide path of {@link RawPcmSource}: the PCM, float and companded samples of a WAV, AIFF or AU file as float samples in every channel of the
@@ -25,11 +26,13 @@ final class RawFloatSource extends BlockFloatSource {
     private static final int BLOCK_FRAMES = 2048;
 
     /**
-     * The file data.
+     * Scratch for one encoded block.
      * <p>
-     * 파일 데이터.
+     * 인코딩 블록 하나의 작업 공간.
      */
     private final byte[] data;
+    /** Source owned by this decoder. / 이 디코더가 소유하는 원천. */
+    private final ByteSource source;
 
     /**
      * Offset of the first sample.
@@ -78,21 +81,22 @@ final class RawFloatSource extends BlockFloatSource {
      * <p>
      * 소스를 만든다.
      *
-     * @param data       file data / 파일 데이터
+     * @param source     encoded input to own / 소유할 인코딩 입력
      * @param start      offset of the first sample / 첫 샘플의 위치
      * @param end        end offset of the samples / 샘플의 끝 위치
      * @param format     sample encoding / 샘플 인코딩
      * @param channels   channels / 채널 수
      * @param sampleRate frames per second / 초당 프레임 수
      */
-    RawFloatSource(byte[] data, int start, int end, SampleFormat format, int channels, int sampleRate) {
+    RawFloatSource(ByteSource source, int start, int end, SampleFormat format, int channels, int sampleRate) {
         super(sampleRate, channels, (long) (end - start) / ((long) format.getWidth() * channels), BLOCK_FRAMES);
-        this.data = data;
+        this.source = source;
         this.start = start;
         this.format = format;
         this.channels = channels;
         this.frameBytes = format.getWidth() * channels;
         this.frames = (long) (end - start) / frameBytes;
+        this.data = new byte[(int) Math.min(BLOCK_FRAMES, frames) * frameBytes];
     }
 
     /**
@@ -102,7 +106,7 @@ final class RawFloatSource extends BlockFloatSource {
      *
      * @param out one array per channel / 채널마다 배열 하나
      * @return frames written or -1 at the end / 쓴 프레임 수. 끝이면 -1
-     * @throws MediaException CANCELLED if the thread was interrupted / 스레드가 인터럽트되었으면 CANCELLED
+     * @throws MediaException if interrupted or the input could not be read / 인터럽트되거나 입력을 읽을 수 없으면
      */
     protected int fill(float[][] out) throws MediaException {
         if (Thread.currentThread().isInterrupted()) {
@@ -112,10 +116,11 @@ final class RawFloatSource extends BlockFloatSource {
         if (count <= 0) {
             return -1;
         }
+        PcmSources.readBlock(source, start + next * frameBytes, data, count * frameBytes);
         int width = format.getWidth();
         // 프레임마다 채널의 샘플을 float 로 바꾼다.
         for (int f = 0; f < count; f++) {
-            int pos = start + (int) ((next + f) * frameBytes);
+            int pos = f * frameBytes;
             // 채널마다 처리한다.
             for (int c = 0; c < channels; c++) {
                 out[c][f] = RawPcmSource.toFloat(format, data, pos + c * width);
@@ -123,5 +128,10 @@ final class RawFloatSource extends BlockFloatSource {
         }
         next += count;
         return count;
+    }
+
+    /** Releases the encoded input with the decoder. / 디코더와 함께 인코딩 입력을 해제한다. */
+    protected void release() {
+        source.close();
     }
 }

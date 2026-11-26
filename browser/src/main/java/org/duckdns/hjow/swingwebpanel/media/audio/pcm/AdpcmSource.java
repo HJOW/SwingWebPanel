@@ -1,7 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.pcm;
 
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ArrayByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.BlockPcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 import org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmConverter;
@@ -75,11 +77,13 @@ public final class AdpcmSource extends BlockPcmSource {
     static final int[] MS_ADAPT = { 230, 230, 230, 230, 307, 409, 512, 614, 768, 614, 512, 409, 307, 230, 230, 230 };
 
     /**
-     * The encoded data.
+     * Scratch for one encoded block.
      * <p>
-     * 인코딩된 데이터.
+     * 인코딩 블록 하나의 작업 공간.
      */
     private final byte[] data;
+    /** The encoded input owned by this decoder. / 디코더가 소유하는 인코딩 입력. */
+    private final ByteSource source;
 
     /**
      * Offset of the first block.
@@ -211,8 +215,27 @@ public final class AdpcmSource extends BlockPcmSource {
      */
     public AdpcmSource(byte[] data, int start, int end, int kind, int channels, int sampleRate, int blockAlign, int samplesPerBlock,
             int[] coefs, ChannelMixer mixer) {
+        this(new ArrayByteSource(data), start, end, kind, channels, sampleRate, blockAlign, samplesPerBlock, coefs, mixer);
+    }
+
+    /**
+     * Creates an ADPCM decoder from an owned byte source. / 소유하는 바이트 원천으로 ADPCM 디코더를 만든다.
+     * @param source encoded blocks / 인코딩된 블록
+     * @param start first block position / 첫 블록 위치
+     * @param end exclusive end of the blocks / 블록 끝 위치. 미포함
+     * @param kind ADPCM encoding / ADPCM 인코딩
+     * @param channels input channels / 입력 채널 수
+     * @param sampleRate frames per second / 초당 프레임 수
+     * @param blockAlign byte count of each full block / 완전한 블록의 바이트 수
+     * @param samplesPerBlock frames per full block / 완전한 블록의 프레임 수
+     * @param coefs Microsoft ADPCM coefficients or null / Microsoft ADPCM 계수 또는 null
+     * @param mixer optional stereo mixer / 선택적 스테레오 믹서
+     */
+    AdpcmSource(ByteSource source, int start, int end, int kind, int channels, int sampleRate, int blockAlign, int samplesPerBlock,
+            int[] coefs, ChannelMixer mixer) {
         super(sampleRate, Math.min(channels, 2), countFrames(end - start, kind, channels, blockAlign, samplesPerBlock), 4096);
-        this.data = data;
+        this.source = source;
+        this.data = new byte[Math.min(blockAlign, end - start)];
         this.start = start;
         this.end = end;
         this.kind = kind;
@@ -412,11 +435,9 @@ public final class AdpcmSource extends BlockPcmSource {
      *
      * @param index block number / 블록 번호
      * @return frames decoded / 디코딩한 프레임 수
-     * @throws MediaException if the block header is invalid / 블록 헤더가 올바르지 않으면
+     * @throws MediaException if the block cannot be read or its header is invalid / 블록을 읽을 수 없거나 헤더가 올바르지 않으면
      */
     private int decodeBlock(int index) throws MediaException {
-        int pos = start + index * blockAlign;
-        int len = Math.min(blockAlign, end - pos);
         if (kind == IMA_QT) {
             // 진행 상태가 이 블록 앞에 있도록 필요하면 처음부터 앞선 블록을 디코딩해 상태만 이어 간다.
             if (index < qtNext) {
@@ -426,15 +447,33 @@ public final class AdpcmSource extends BlockPcmSource {
             }
             // 건너뛴 블록의 패킷도 상태를 바꾸므로 차례로 디코딩해 버린다.
             while (qtNext < index) {
-                int p = start + qtNext * blockAlign;
-                decodeImaQt(p, Math.min(blockAlign, end - p));
+                decodeImaQt(0, readEncodedBlock(qtNext));
                 qtNext++;
             }
-            int frames = decodeImaQt(pos, len);
+            int frames = decodeImaQt(0, readEncodedBlock(index));
             qtNext = index + 1;
             return frames;
         }
-        return kind == IMA ? decodeIma(pos, len) : decodeMs(pos, len);
+        int len = readEncodedBlock(index);
+        return kind == IMA ? decodeIma(0, len) : decodeMs(0, len);
+    }
+
+    /**
+     * Reads the possibly short block into the scratch buffer. / 짧을 수 있는 블록을 작업 공간으로 읽는다.
+     * @param index block number / 블록 번호
+     * @return bytes read / 읽은 바이트 수
+     * @throws MediaException if the input cannot be read / 입력을 읽을 수 없으면
+     */
+    private int readEncodedBlock(int index) throws MediaException {
+        int offset = start + index * blockAlign;
+        int length = Math.min(blockAlign, end - offset);
+        PcmSources.readBlock(source, offset, data, length);
+        return length;
+    }
+
+    /** Releases the encoded input with the decoder. / 디코더와 함께 인코딩 입력을 해제한다. */
+    protected void release() {
+        source.close();
     }
 
     /**

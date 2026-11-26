@@ -1,5 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.pcm;
 
+import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ArrayByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSourceException;
+import org.duckdns.hjow.swingwebpanel.media.audio.Bytes;
 import org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer;
 
 /**
@@ -39,6 +44,22 @@ final class PcmSources {
      * @return a {@link RawFloatSource} or a {@link RawPcmSource} / {@link RawFloatSource} 또는 {@link RawPcmSource}
      */
     static Object raw(boolean wide, byte[] data, int start, int end, SampleFormat format, int channels, int sampleRate, ChannelMixer mixer) {
+        return raw(wide, new ArrayByteSource(data), start, end, format, channels, sampleRate, mixer);
+    }
+
+    /**
+     * Creates a source that owns an encoded PCM input. / 인코딩된 PCM 입력을 소유하는 소스를 만든다.
+     * @param wide true for float samples / 부동 소수점 표본이면 true
+     * @param data the input to own / 소유할 입력
+     * @param start first sample position / 첫 표본 위치
+     * @param end exclusive end of the samples / 표본 끝 위치. 미포함
+     * @param format sample encoding / 표본 인코딩
+     * @param channels input channels / 입력 채널 수
+     * @param sampleRate frames per second / 초당 프레임 수
+     * @param mixer optional stereo mixer / 선택적 스테레오 믹서
+     * @return the PCM source of the requested precision / 요청 정밀도의 PCM 소스
+     */
+    static Object raw(boolean wide, ByteSource data, int start, int end, SampleFormat format, int channels, int sampleRate, ChannelMixer mixer) {
         if (wide) {
             return new RawFloatSource(data, start, end, format, channels, sampleRate);
         }
@@ -65,7 +86,43 @@ final class PcmSources {
      */
     static Object adpcm(boolean wide, byte[] data, int start, int end, int kind, int channels, int sampleRate, int blockAlign, int samplesPerBlock, int[] coefs,
             ChannelMixer mixer) {
+        return adpcm(wide, new ArrayByteSource(data), start, end, kind, channels, sampleRate, blockAlign, samplesPerBlock, coefs, mixer);
+    }
+
+    /**
+     * Creates a source that owns an encoded ADPCM input. / 인코딩된 ADPCM 입력을 소유하는 소스를 만든다.
+     * @param wide true for float samples / 부동 소수점 표본이면 true
+     * @param data the input to own / 소유할 입력
+     * @param start first block position / 첫 블록 위치
+     * @param end exclusive end of the blocks / 블록 끝 위치. 미포함
+     * @param kind ADPCM algorithm / ADPCM 알고리즘
+     * @param channels input channels / 입력 채널 수
+     * @param sampleRate frames per second / 초당 프레임 수
+     * @param blockAlign bytes per block / 블록당 바이트 수
+     * @param samplesPerBlock frames per block / 블록당 프레임 수
+     * @param coefs Microsoft ADPCM coefficients or null / Microsoft ADPCM 계수 또는 null
+     * @param mixer optional stereo mixer / 선택적 스테레오 믹서
+     * @return the PCM source of the requested precision / 요청 정밀도의 PCM 소스
+     */
+    static Object adpcm(boolean wide, ByteSource data, int start, int end, int kind, int channels, int sampleRate, int blockAlign, int samplesPerBlock,
+            int[] coefs, ChannelMixer mixer) {
         AdpcmSource s = new AdpcmSource(data, start, end, kind, channels, sampleRate, blockAlign, samplesPerBlock, coefs, mixer);
         return wide ? new AdpcmFloatSource(s) : s;
+    }
+
+    /**
+     * Reads one encoded block and reports media input failures. / 인코딩 블록 하나를 읽고 미디어 입력 실패를 보고한다.
+     * @param source the encoded input / 인코딩된 입력
+     * @param offset first source byte / 원천의 시작 바이트 위치
+     * @param buffer destination block / 대상 블록
+     * @param count number of input bytes / 입력 바이트 수
+     * @throws MediaException when the input cannot be read / 입력을 읽을 수 없으면
+     */
+    static void readBlock(ByteSource source, long offset, byte[] buffer, int count) throws MediaException {
+        try {
+            Bytes.readFully(source, offset, buffer, 0, count);
+        } catch (ByteSourceException e) {
+            throw e.toMediaException();
+        }
     }
 }

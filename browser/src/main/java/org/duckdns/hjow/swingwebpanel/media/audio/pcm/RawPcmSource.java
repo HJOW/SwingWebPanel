@@ -1,7 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.media.audio.pcm;
 
 import org.duckdns.hjow.swingwebpanel.media.MediaException;
+import org.duckdns.hjow.swingwebpanel.media.audio.ArrayByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.BlockPcmSource;
+import org.duckdns.hjow.swingwebpanel.media.audio.ByteSource;
 import org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer;
 import org.duckdns.hjow.swingwebpanel.media.audio.PcmConverter;
 
@@ -25,11 +27,13 @@ public final class RawPcmSource extends BlockPcmSource {
     private static final int BLOCK_FRAMES = 2048;
 
     /**
-     * The encoded data.
+     * Scratch for one encoded block.
      * <p>
-     * 인코딩된 데이터.
+     * 인코딩 블록 하나의 작업 공간.
      */
     private final byte[] data;
+    /** The encoded input owned by this decoder. / 디코더가 소유하는 인코딩 입력. */
+    private final ByteSource source;
 
     /**
      * Offset of the first sample byte.
@@ -108,13 +112,28 @@ public final class RawPcmSource extends BlockPcmSource {
      * @param mixer      mixer for more than two channels, may be null (then the default layout is used) / 채널이 둘보다 많을 때의 믹서. null 이면 기본 배치를 쓴다
      */
     public RawPcmSource(byte[] data, int start, int end, SampleFormat format, int channels, int sampleRate, ChannelMixer mixer) {
+        this(new ArrayByteSource(data), start, end, format, channels, sampleRate, mixer);
+    }
+
+    /**
+     * Creates a decoder from an owned byte source. / 소유하는 바이트 원천으로 디코더를 만든다.
+     * @param source the encoded samples / 인코딩된 표본
+     * @param start first input position / 입력 시작 위치
+     * @param end exclusive end of the input / 입력 끝 위치. 미포함
+     * @param format sample encoding / 표본 인코딩
+     * @param channels input channels / 입력 채널 수
+     * @param sampleRate frames per second / 초당 프레임 수
+     * @param mixer optional stereo mixer / 선택적 스테레오 믹서
+     */
+    RawPcmSource(ByteSource source, int start, int end, SampleFormat format, int channels, int sampleRate, ChannelMixer mixer) {
         super(sampleRate, Math.min(channels, 2), (long) (end - start) / ((long) format.getWidth() * channels), BLOCK_FRAMES);
-        this.data = data;
+        this.source = source;
         this.start = start;
         this.format = format;
         this.inChannels = channels;
         this.inFrameBytes = format.getWidth() * channels;
         this.frames = (long) (end - start) / inFrameBytes;
+        this.data = new byte[(int) Math.min(BLOCK_FRAMES, frames) * inFrameBytes];
         this.mixer = channels > 2 ? (mixer != null ? mixer : ChannelMixer.forChannels(channels)) : null;
         this.frameBuf = new float[channels];
     }
@@ -126,7 +145,7 @@ public final class RawPcmSource extends BlockPcmSource {
      *
      * @param out output buffer / 출력 버퍼
      * @return bytes written or -1 at the end / 쓴 바이트 수. 끝이면 -1
-     * @throws MediaException if the thread was interrupted / 스레드가 인터럽트되었으면
+     * @throws MediaException if interrupted or the source could not be read / 인터럽트되거나 원천을 읽을 수 없으면
      */
     protected int fill(byte[] out) throws MediaException {
         if (Thread.currentThread().isInterrupted()) {
@@ -134,14 +153,15 @@ public final class RawPcmSource extends BlockPcmSource {
         }
         int outCh = getChannels();
         int maxFrames = out.length / (outCh * 2);
-        long count = Math.min(maxFrames, frames - next);
+        int count = (int) Math.min(maxFrames, frames - next);
         if (count <= 0) {
             return -1;
         }
+        PcmSources.readBlock(source, start + next * inFrameBytes, data, count * inFrameBytes);
         int o = 0;
         // 프레임마다 샘플을 읽어 16비트로 바꿔 쓴다.
-        for (long f = 0; f < count; f++) {
-            int pos = start + (int) ((next + f) * inFrameBytes);
+        for (int f = 0; f < count; f++) {
+            int pos = f * inFrameBytes;
             if (inChannels <= 2) {
                 // 채널마다 16비트 샘플로 바꿔 쓴다.
                 for (int c = 0; c < inChannels; c++) {
@@ -189,6 +209,11 @@ public final class RawPcmSource extends BlockPcmSource {
     protected long seekTo(long frame) {
         next = Math.min(frame, frames);
         return next;
+    }
+
+    /** Releases the encoded input with the decoder. / 디코더와 함께 인코딩 입력을 해제한다. */
+    protected void release() {
+        source.close();
     }
 
     /**

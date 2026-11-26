@@ -181,6 +181,12 @@
 
 ## 작업 기록
 
+### 2026-11-26 P18-08-c1a — PCM과 ADPCM에 바이트 원천 연결
+
+공통 PCM 소스는 배열이나 파일의 `ByteSource`를 소유한다. 16비트와 float PCM은 최대 2,048프레임을 재사용 버퍼로 읽고, IMA·QuickTime IMA·Microsoft ADPCM은 블록마다 읽는다. 이전 변환과 탐색 알고리즘을 재사용한다. 읽을 수 없는 파일은 `ACCESS_FAILED`를 반환하며, 결과 소스가 닫히면 입력 원천도 닫는다. 이 단계에서는 아직 파일 헤더나 페이지 요청을 연결하지 않았다.
+
+JDK 6u45로 변경 클래스를 컴파일하고 JRE 6u45에서 `PcmByteSourceTest`, PCM 디코더, `WidePcmTest`, `ByteSourceTest`, `BlockPcmSourceTest`, `ReferenceDecodeTest` 총 53건을 통과했다. 새 사례는 작은 파일 창, 2,048프레임 경계, 마지막 ADPCM 블록, 탐색, 파일 원천 닫힘을 확인했다.
+
 ### 2026-11-26 P18-08-b3c — 스크립트 없는 오디오의 기본 컨트롤
 
 문서가 스크립트를 실행하지 않을 때 `controls` 속성 없이도 오디오 컨트롤을 표시한다. CSS UA 스타일과 작성자 스타일의 `(scripting: none)` 질의가 같은 문서 상태를 읽는다. 속성을 추가하지 않으므로 `[controls]` 선택자와 수신 원문은 그대로다. 숨긴 오디오는 Tab 순서에 들어가지 않으며, 보이는 막대는 기존 키보드와 마우스 입력 경로를 이용한다.
