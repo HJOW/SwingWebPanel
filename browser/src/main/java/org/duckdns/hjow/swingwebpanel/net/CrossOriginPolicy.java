@@ -104,6 +104,41 @@ public final class CrossOriginPolicy {
     }
 
     /**
+     * Tells whether a navigation of a top-level window must move the window into a browsing context group of its own, which cuts its
+     * connection to its opener and to the windows that it opened (WHATWG HTML 7.1.3.1, "check if COOP values require a browsing
+     * context group switch").
+     * <p>
+     * 최상위 창의 이동이 그 창을 자기만의 브라우징 문맥 그룹으로 옮겨야 하는지 알려 준다. 옮기면 여는 창, 그리고 자기가 연 창들과의 관계가
+     * 끊긴다(WHATWG HTML 7.1.3.1, "check if COOP values require a browsing context group switch").
+     *
+     * @param initial     true if the window still shows its first <code>about:blank</code> document / 창이 아직 처음
+     *                    <code>about:blank</code> 문서를 보이면 true
+     * @param active      the opener policy value of the document that the window shows / 창이 보이는 문서의 opener 정책 값
+     * @param activeOrigin the origin of that document / 그 문서의 오리진
+     * @param response    the opener policy value of the response / 응답의 opener 정책 값
+     * @param responseOrigin the origin of the response / 응답의 오리진
+     * @return true if the window must leave its group / 창이 그룹을 떠나야 하면 true
+     */
+    public static boolean requiresGroupSwitch(boolean initial, String active, Origin activeOrigin, String response, Origin responseOrigin) {
+        if ("noopener-allow-popups".equals(response)) {
+            return true;
+        }
+        // 처음 빈 문서를 보이는 팝업은, 여는 쪽이 팝업을 허용했고 응답이 정책을 내지 않았으면 그룹에 남는다.
+        if (initial && ("same-origin-allow-popups".equals(active) || "noopener-allow-popups".equals(active)) && "unsafe-none".equals(response)) {
+            return false;
+        }
+        boolean activeNone = "unsafe-none".equals(active);
+        boolean responseNone = "unsafe-none".equals(response);
+        if (activeNone && responseNone) {
+            return false;
+        }
+        if (activeNone || responseNone) {
+            return true;
+        }
+        return !(active.equals(response) && activeOrigin != null && responseOrigin != null && activeOrigin.isSameOrigin(responseOrigin));
+    }
+
+    /**
      * Returns the opener policy before combination with the embedder policy.
      * <p>
      * 삽입 정책과 결합하기 전의 opener 정책을 반환한다.

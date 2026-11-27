@@ -119,6 +119,21 @@ final class TestPages {
         return new File(dir, name);
     }
 
+    /** The pages that a test gave for paths of the server. / 시험이 서버의 경로에 준 페이지. */
+    private final java.util.Map<String, String> served = java.util.Collections.synchronizedMap(new java.util.HashMap<String, String>());
+
+    /**
+     * Gives the HTTP server the page for a path.
+     * <p>
+     * HTTP 서버에 경로의 페이지를 준다.
+     *
+     * @param path the request path, for example <code>/page</code> / 요청 경로. 예: <code>/page</code>
+     * @param html the document / 문서
+     */
+    void serve(String path, String html) {
+        served.put(path, html);
+    }
+
     /**
      * Starts the HTTP server: every request is answered, after the delay, with a small HTML page whose title is the request path.
      * Some paths give special pages: <code>/set?name</code> sets a cookie, <code>/echo</code> shows the received cookies as
@@ -208,8 +223,11 @@ final class TestPages {
                 }
                 String extra = "";
                 String html = "<!doctype html><title>" + path + "</title><p>served " + path + "</p>";
-                // 몇 경로는 탭 시험을 위한 특별한 페이지를 준다.
-                if (path.startsWith("/set?")) {
+                String given = served.get(path);
+                // 시험이 준 페이지가 먼저이고, 몇 경로는 탭 시험을 위한 특별한 페이지를 준다.
+                if (given != null) {
+                    html = given;
+                } else if (path.startsWith("/set?")) {
                     extra = "Set-Cookie: " + path.substring("/set?".length()) + "=1; Path=/\r\n";
                     html = "<!doctype html><title>set</title><p>cookie set</p>";
                 } else if (path.equals("/echo")) {

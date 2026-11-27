@@ -48,6 +48,9 @@ import org.duckdns.hjow.swingwebpanel.core.ConsoleDispatcher;
 import org.duckdns.hjow.swingwebpanel.core.WebMessageDispatcher;
 import org.duckdns.hjow.swingwebpanel.core.ClipboardSink;
 import org.duckdns.hjow.swingwebpanel.core.ControlOverlays;
+import org.duckdns.hjow.swingwebpanel.core.DocumentLoop;
+import org.duckdns.hjow.swingwebpanel.core.OpenRequest;
+import org.duckdns.hjow.swingwebpanel.core.WindowOpener;
 import org.duckdns.hjow.swingwebpanel.core.FontDefaults;
 import org.duckdns.hjow.swingwebpanel.core.FormSubmitSink;
 import org.duckdns.hjow.swingwebpanel.core.UploadChooser;
@@ -179,6 +182,13 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      */
     public static final String PROPERTY_DEFAULT_FONTS = "defaultFonts";
 
+    /**
+     * Name of the property that announces a change of {@link #setPopupBlockingEnabled(boolean)}; the values are <code>Boolean</code>.
+     * <p>
+     * {@link #setPopupBlockingEnabled(boolean)} 의 변경을 알리는 속성 이름. 값은 <code>Boolean</code> 이다.
+     */
+    public static final String PROPERTY_POPUP_BLOCKING_ENABLED = "popupBlockingEnabled";
+
     /** Kind of default font: the font of content whose author named none. / 기본 글꼴의 종류: 작성자가 글꼴을 지정하지 않은 내용의 글꼴. */
     public static final String FONT_STANDARD = "standard";
 
@@ -261,6 +271,61 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * 이 컴포넌트의 쿠키(네트워크 페이지 로더와 공유한다): 자기 저장소, 또는 호스트가 넘긴 {@link CookieJar} 의 저장소.
      */
     private final transient CookieStore cookies;
+
+    /** The component whose page opened the window of this component, or null (plan item P31-08). / 페이지가 이 컴포넌트의 창을 연 컴포넌트. 없으면 null(계획 P31-08). */
+    private final transient SwingWebPanel creator;
+
+    /** Closes the window that shows this component after a script closed it; set by the default popup window, or null. / 스크립트가 닫은 뒤 이 컴포넌트를 보이는 창을 닫는다. 기본 팝업 창이 정한다. 없으면 null. */
+    private transient volatile Runnable windowCloser;
+
+    /**
+     * What a component needs to become the window that a page of another component opens (extension, API contract 5.28): it is passed
+     * to {@link SwingWebPanel#createPopupPanel(PopupSeed)} and from there to the constructor
+     * {@link SwingWebPanel#SwingWebPanel(PopupSeed)}. A seed can be used for one component only.
+     * <p>
+     * 컴포넌트가 다른 컴포넌트의 페이지가 연 창이 되는 데 필요한 것(확장, API 계약 5.28): {@link SwingWebPanel#createPopupPanel(PopupSeed)} 에
+     * 넘겨지고 거기서 생성자 {@link SwingWebPanel#SwingWebPanel(PopupSeed)} 로 넘긴다. 씨앗 하나는 컴포넌트 하나에만 쓸 수 있다.
+     */
+    public static final class PopupSeed {
+
+        /** The component whose page opens the window. / 페이지가 창을 여는 컴포넌트. */
+        private final SwingWebPanel creator;
+
+        /** The document loop that the new window shares with its opener, or null. / 새 창이 여는 창과 함께 쓰는 문서 루프. 없으면 null. */
+        private final DocumentLoop loop;
+
+        /** True once a component was created from the seed. / 씨앗으로 컴포넌트를 만든 뒤 true. */
+        private boolean used;
+
+        /**
+         * Creates a seed; only the component does this.
+         * <p>
+         * 씨앗을 만든다. 컴포넌트만 만든다.
+         *
+         * @param creator the component whose page opens the window / 페이지가 창을 여는 컴포넌트
+         * @param loop    the document loop to share, or null / 함께 쓸 문서 루프 또는 null
+         */
+        private PopupSeed(SwingWebPanel creator, DocumentLoop loop) {
+            this.creator = creator;
+            this.loop = loop;
+        }
+
+        /**
+         * Marks the seed as used.
+         * <p>
+         * 씨앗을 쓴 것으로 표시한다.
+         *
+         * @return this seed / 이 씨앗
+         * @throws IllegalStateException if a component was already created from it / 이미 컴포넌트를 만든 씨앗이면
+         */
+        private synchronized PopupSeed take() {
+            if (used) {
+                throw new IllegalStateException("a popup seed can be used for one component only");
+            }
+            used = true;
+            return this;
+        }
+    }
 
     /** The jar that the host passed, or null when the component has a store of its own. / 호스트가 넘긴 저장소. 컴포넌트가 자기 저장소를 가지면 null. */
     private final transient CookieJar cookieJar;
@@ -376,6 +441,41 @@ public class SwingWebPanel extends JPanel implements Scrollable {
     }
 
     /**
+     * Creates the component of a window that a page of another component opens (extension, API contract 5.28). A subclass that wants
+     * its own class for such windows overrides {@link #createPopupPanel(PopupSeed)} to call a constructor that passes the seed here.
+     * The component shares the cookies of the component that opened it and starts with its default fonts. Unlike the other
+     * constructors this one may run on a thread other than the event dispatch thread (the thread of the script that calls
+     * <code>window.open</code>), so a subclass constructor must not show anything or wait for the event dispatch thread.
+     * <p>
+     * 다른 컴포넌트의 페이지가 연 창의 컴포넌트를 만든다(확장, API 계약 5.28). 그런 창에 자기 클래스를 쓰려는 하위 클래스는
+     * {@link #createPopupPanel(PopupSeed)} 를 재정의하여, 씨앗을 여기로 넘기는 생성자를 부른다. 컴포넌트는 자신을 연 컴포넌트의 쿠키를 함께 쓰고
+     * 그 기본 글꼴로 시작한다. 다른 생성자와 달리 이 생성자는 이벤트 디스패치 스레드가 아닌 스레드(<code>window.open</code> 을 부른 스크립트의
+     * 스레드)에서 실행될 수 있으므로, 하위 클래스의 생성자는 아무것도 보이거나 이벤트 디스패치 스레드를 기다리면 안 된다.
+     *
+     * @param seed the seed that {@link #createPopupPanel(PopupSeed)} received / {@link #createPopupPanel(PopupSeed)} 가 받은 씨앗
+     * @throws IllegalArgumentException if the seed is null / 씨앗이 null 이면
+     * @throws IllegalStateException    if the seed was used already / 이미 쓴 씨앗이면
+     */
+    protected SwingWebPanel(PopupSeed seed) {
+        this(null, null, requireSeed(seed).take());
+    }
+
+    /**
+     * Rejects a missing seed before the component is built.
+     * <p>
+     * 컴포넌트를 만들기 전에 없는 씨앗을 거부한다.
+     *
+     * @param seed the seed / 씨앗
+     * @return the seed / 씨앗
+     */
+    private static PopupSeed requireSeed(PopupSeed seed) {
+        if (seed == null) {
+            throw new IllegalArgumentException("seed must not be null");
+        }
+        return seed;
+    }
+
+    /**
      * Creates the component with a page loader and a cookie jar.
      * <p>
      * 페이지 로더와 쿠키 저장소로 컴포넌트를 만든다.
@@ -384,17 +484,128 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * @param jar    the shared cookie jar, or null for a store of its own / 공유 쿠키 저장소. 자기 저장소를 쓰면 null
      */
     private SwingWebPanel(PageLoader loader, CookieJar jar) {
+        this(loader, jar, null);
+    }
+
+    /**
+     * Creates the component with a page loader, a cookie jar and, for a window that a page opened, the seed of that window.
+     * <p>
+     * 페이지 로더, 쿠키 저장소, 그리고 페이지가 연 창이면 그 창의 씨앗으로 컴포넌트를 만든다.
+     *
+     * @param loader page loader, or null for the standard loader / 페이지 로더. 표준 로더이면 null
+     * @param jar    the shared cookie jar, or null for a store of its own / 공유 쿠키 저장소. 자기 저장소를 쓰면 null
+     * @param seed   the seed of a window that a page opened, or null / 페이지가 연 창의 씨앗. 없으면 null
+     */
+    private SwingWebPanel(PageLoader loader, CookieJar jar, PopupSeed seed) {
         super(null);
-        cookieJar = jar;
-        cookies = jar == null ? new CookieStore() : jar.store();
+        creator = seed == null ? null : seed.creator;
+        // 페이지가 연 창은 자신을 연 컴포넌트의 쿠키를 함께 쓴다(같은 브라우저의 창이다).
+        cookieJar = creator != null ? creator.cookieJar : jar;
+        cookies = creator != null ? creator.cookies : jar == null ? new CookieStore() : jar.store();
         setOpaque(true);
         setBackground(java.awt.Color.WHITE);
         setFocusable(true);
         fetcher = createFetcher();
         PageLoader effective = loader == null ? createNetworkLoader() : loader;
-        session = new BrowserSession(effective, new Observer(), cookies);
-        // 공유 저장소는 이 컴포넌트를 폐기해도 비우지 않는다.
-        session.setCookiesShared(jar != null);
+        session = new BrowserSession(effective, new Observer(), cookies, org.duckdns.hjow.swingwebpanel.storage.LocalStorageManager.getInstance(),
+                seed == null ? null : seed.loop);
+        // 공유 저장소는 이 컴포넌트를 폐기해도 비우지 않는다. 여는 컴포넌트와 함께 쓰는 저장소도 그렇다.
+        session.setCookiesShared(jar != null || creator != null);
+        session.setWindowOpener(new WindowOpener() {
+            /**
+             * Creates the component of the window of a <code>window.open</code> call and asks the host, later on the event dispatch
+             * thread, to show it.
+             * <p>
+             * <code>window.open</code> 호출의 창의 컴포넌트를 만들고, 나중에 이벤트 디스패치 스레드에서 호스트에 그것을 보이도록 요청한다.
+             *
+             * @param request what the script asked for / 스크립트가 요청한 것
+             * @param shared  the document loop to share, or null / 함께 쓸 문서 루프 또는 null
+             * @return the session of the new window, or null / 새 창의 세션. 없으면 null
+             */
+            public BrowserSession openFromScript(OpenRequest request, DocumentLoop shared) {
+                final SwingWebPanel child = newPopupPanel(shared, request);
+                if (child == null) {
+                    return null;
+                }
+                final WindowRequest asked = new WindowRequest(SwingWebPanel.this, request, child);
+                SwingUtilities.invokeLater(new Runnable() {
+                    /** Lets the host show the window; a host that fails gets the window closed. / 호스트가 창을 보이게 한다. 실패한 호스트의 창은 닫는다. */
+                    public void run() {
+                        if (child.isDisposed()) {
+                            return;
+                        }
+                        try {
+                            openPopupWindow(asked);
+                        } catch (RuntimeException e) {
+                            asked.reject();
+                        }
+                    }
+                });
+                return child.session;
+            }
+
+            /**
+             * Asks the overridable method whether windows can be shown.
+             * <p>
+             * 재정의할 수 있는 메서드에 창을 보일 수 있는지 묻는다.
+             *
+             * @return true if a window can be shown / 창을 보일 수 있으면 true
+             */
+            public boolean canOpenWindows() {
+                return !disposed && canOpenPopupWindows();
+            }
+
+            /**
+             * Offers the request to the host on the event dispatch thread and runs the fallback if the host does not take it.
+             * <p>
+             * 이벤트 디스패치 스레드에서 요청을 호스트에 제안하고, 호스트가 받지 않으면 대체 동작을 실행한다.
+             *
+             * @param request  what was asked for / 요청한 것
+             * @param fallback what to do otherwise, or null / 받지 않으면 할 일 또는 null
+             */
+            public void openFromLink(final OpenRequest request, final Runnable fallback) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    /** Asks the host. / 호스트에 묻는다. */
+                    public void run() {
+                        if (disposed) {
+                            return;
+                        }
+                        WindowRequest asked = new WindowRequest(SwingWebPanel.this, request, null);
+                        boolean taken;
+                        try {
+                            taken = openNewWindow(asked);
+                        } catch (RuntimeException e) {
+                            taken = false;
+                        }
+                        // 호스트가 받지 않았으면 대체 동작을 한다. 팝업 차단이 막은 요청은 대체 동작도 하지 않는다.
+                        if (!taken && !asked.isBlocked()) {
+                            asked.reject();
+                            if (fallback != null) {
+                                fallback.run();
+                            }
+                        }
+                    }
+                });
+            }
+
+            /**
+             * Tells the host on the event dispatch thread that a window was blocked.
+             * <p>
+             * 창을 차단했음을 이벤트 디스패치 스레드에서 호스트에 알린다.
+             *
+             * @param request what was asked for / 요청한 것
+             */
+            public void popupBlocked(final OpenRequest request) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    /** Tells the host. / 호스트에 알린다. */
+                    public void run() {
+                        if (!disposed) {
+                            SwingWebPanel.this.popupBlocked(new WindowRequest(SwingWebPanel.this, request, null));
+                        }
+                    }
+                });
+            }
+        });
         session.setConsoleDispatcher(consoles);
         session.setWebMessageDispatcher(webMessages);
         session.setWindowCloseHandler(new org.duckdns.hjow.swingwebpanel.core.WindowCloseHandler() {
@@ -407,7 +618,12 @@ public class SwingWebPanel extends JPanel implements Scrollable {
              */
             public void closeWindow(boolean createdByWebContent) {
                 // 호스트가 만든 창만 본 창 닫기 정책(기본은 프로그램 종료)을 쓴다. 웹 콘텐츠가 만든 창은 그 창을 담은 쪽이 닫는다.
-                if (!createdByWebContent && !disposed) {
+                if (disposed) {
+                    return;
+                }
+                if (createdByWebContent) {
+                    closeOpenedWindow();
+                } else {
                     closeRootWindow();
                 }
             }
@@ -483,6 +699,10 @@ public class SwingWebPanel extends JPanel implements Scrollable {
         });
         if (effective instanceof ParsingPageLoader) {
             ((ParsingPageLoader) effective).bindScripts(session, fetcher, cookies, view);
+        }
+        // 페이지가 연 창은 자신을 연 컴포넌트의 기본 글꼴로 시작한다.
+        if (creator != null) {
+            view.setFontDefaults(creator.view.getFontDefaults());
         }
         downloads = new SwingDownloadHandler(this, fetcher, cookies, new DownloadStatusSink() {
             /** Shows a download message in the status text. / 다운로드 메시지를 상태 메시지에 보인다.
@@ -758,7 +978,8 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * @return the factory, or null for no sound output / 팩터리. 소리 출력이 없으면 null
      */
     protected AudioOutputFactory createAudioOutputFactory() {
-        return new JavaSoundOutputFactory();
+        // 페이지가 연 창은 자신을 연 컴포넌트가 고른 출력을 쓴다.
+        return creator != null ? creator.createAudioOutputFactory() : new JavaSoundOutputFactory();
     }
 
     /**
@@ -774,6 +995,10 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * @return the limit in milliseconds / 시간 한도(밀리초)
      */
     protected long getScriptTaskTimeLimitMillis(String url) {
+        // 페이지가 연 창은 자신을 연 컴포넌트의 한도를 따른다.
+        if (creator != null) {
+            return creator.getScriptTaskTimeLimitMillis(url);
+        }
         return org.duckdns.hjow.swingwebpanel.js.host.HostEnvironment.DEFAULT_TASK_TIME_LIMIT_MILLIS;
     }
 
@@ -794,7 +1019,8 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * @return the factory, or null for no Web Audio output / 팩터리. Web Audio 출력이 없으면 null
      */
     protected OutputFactory createWebAudioOutputFactory() {
-        return new SystemOutputFactory();
+        // 페이지가 연 창은 자신을 연 컴포넌트가 고른 출력을 쓴다.
+        return creator != null ? creator.createWebAudioOutputFactory() : new SystemOutputFactory();
     }
 
     /**
@@ -807,7 +1033,8 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * @return the directory or null / 디렉터리. 없으면 null
      */
     protected java.io.File getDownloadDirectory() {
-        return null;
+        // 페이지가 연 창은 자신을 연 컴포넌트의 다운로드 폴더를 쓴다.
+        return creator != null ? creator.getDownloadDirectory() : null;
     }
 
     /**
@@ -1184,6 +1411,258 @@ public class SwingWebPanel extends JPanel implements Scrollable {
     }
 
     /**
+     * Turns the popup blocker of this component on or off (extension, API contract 5.28). While it is on, which it is at first, a
+     * window that a page asks for with <code>window.open</code> is opened only if the user did something in the page shortly before (a
+     * press of a mouse button or a key, within about five seconds), and one such action opens one window; a form that a script submits
+     * into a new window follows the same rule. A blocked window is reported to {@link #popupBlocked(WindowRequest)} and
+     * <code>window.open</code> returns null. While it is off, every such window is opened. Links that the user clicks are never
+     * blocked. A window that a page opens takes the setting of its opener. The setting stays through {@link #clean()}.
+     * <p>
+     * 이 컴포넌트의 팝업 차단을 켜거나 끈다(확장, API 계약 5.28). 켜져 있는 동안(처음에 켜져 있다) 페이지가 <code>window.open</code> 으로 요청한
+     * 창은 사용자가 직전에 페이지에서 무언가 했을 때만(마우스 단추나 키를 누름, 약 5초 안) 열리고, 그런 조작 한 번이 창 하나를 연다. 스크립트가
+     * 새 창으로 제출한 폼도 같은 규칙을 따른다. 차단한 창은 {@link #popupBlocked(WindowRequest)} 에 알리고 <code>window.open</code> 은 null 을
+     * 돌려준다. 꺼져 있으면 그런 창을 모두 연다. 사용자가 누른 링크는 차단하지 않는다. 페이지가 연 창은 여는 창의 설정을 이어받는다. 설정은
+     * {@link #clean()} 뒤에도 유지된다.
+     *
+     * @param enabled true to block / 차단하려면 true
+     * @throws IllegalStateException if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void setPopupBlockingEnabled(final boolean enabled) {
+        checkAlive();
+        if (!session.setPopupBlockingEnabled(enabled)) {
+            return;
+        }
+        final Boolean old = Boolean.valueOf(!enabled);
+        if (SwingUtilities.isEventDispatchThread()) {
+            firePropertyChange(PROPERTY_POPUP_BLOCKING_ENABLED, old, Boolean.valueOf(enabled));
+        } else {
+            SwingUtilities.invokeLater(new Runnable() {
+                /** Announces the change on the EDT. / EDT 에서 변경을 알린다. */
+                public void run() {
+                    firePropertyChange(PROPERTY_POPUP_BLOCKING_ENABLED, old, Boolean.valueOf(enabled));
+                }
+            });
+        }
+    }
+
+    /**
+     * Tells whether the popup blocker of this component is on (extension, API contract 5.28).
+     * <p>
+     * 이 컴포넌트의 팝업 차단이 켜져 있는지 알려 준다(확장, API 계약 5.28).
+     *
+     * @return true if windows that a page asks for without an action of the user are blocked; true at first / 페이지가 사용자의 조작 없이
+     *         요청한 창을 차단하면 true. 처음에 true
+     */
+    public boolean isPopupBlockingEnabled() {
+        return session.isPopupBlockingEnabled();
+    }
+
+    /**
+     * Creates the component of a window for a page of this component (plan item P31-08): asks the overridable factory, checks that the
+     * result really was made from the seed, and gives it the size that the page asked for.
+     * <p>
+     * 이 컴포넌트의 페이지를 위한 창의 컴포넌트를 만든다(계획 P31-08): 재정의할 수 있는 팩터리에 묻고, 결과가 정말 그 씨앗으로 만든 것인지
+     * 확인하고, 페이지가 요청한 크기를 준다.
+     *
+     * @param shared  the document loop that the window shares with its opener, or null / 창이 여는 창과 함께 쓰는 문서 루프 또는 null
+     * @param request what the page asked for / 페이지가 요청한 것
+     * @return the component, or null if none could be created / 컴포넌트. 만들 수 없었으면 null
+     */
+    private SwingWebPanel newPopupPanel(DocumentLoop shared, OpenRequest request) {
+        if (disposed) {
+            return null;
+        }
+        PopupSeed seed = new PopupSeed(this, shared);
+        SwingWebPanel child;
+        try {
+            child = createPopupPanel(seed);
+        } catch (RuntimeException e) {
+            child = null;
+        }
+        // 씨앗으로 만들지 않은 컴포넌트는 여는 창과 이어져 있지 않으므로 쓸 수 없다.
+        if (child == null || child.creator != this || !seed.used) {
+            if (child != null && child != this) {
+                child.disposeKeepingStorage();
+            }
+            return null;
+        }
+        int w = request.getWidth() > 0 ? request.getWidth() : DEFAULT_WIDTH;
+        int h = request.getHeight() > 0 ? request.getHeight() : DEFAULT_HEIGHT;
+        // 창이 보이기 전에도 페이지가 요청한 크기의 뷰포트를 본다(innerWidth 등).
+        child.setSize(w, h);
+        child.view.setViewport(w, h);
+        return child;
+    }
+
+    /**
+     * Creates the component of a new window for a link, a form or a choice of the user, and starts it; called by
+     * {@link WindowRequest#getPanel()} on the event dispatch thread.
+     * <p>
+     * 링크, 폼, 사용자의 선택을 위한 새 창의 컴포넌트를 만들고 시작한다. {@link WindowRequest#getPanel()} 이 이벤트 디스패치 스레드에서 부른다.
+     *
+     * @param request what was asked for / 요청한 것
+     * @return the component, or null if none could be created / 컴포넌트. 만들 수 없었으면 null
+     */
+    SwingWebPanel createLinkedPanel(OpenRequest request) {
+        SwingWebPanel child = newPopupPanel(null, request);
+        if (child != null) {
+            child.session.startAsOpenedWindow(session, request, false);
+        }
+        return child;
+    }
+
+    /**
+     * Creates the component of a new window that a page of this component opens (extension point, API contract 5.28). The default
+     * creates a plain {@link SwingWebPanel}. A subclass overrides it to use its own class:
+     * <code>return new MyPanel(seed);</code>, where the constructor of <code>MyPanel</code> calls <code>super(seed)</code>. For
+     * <code>window.open</code> it is called on the thread that runs the calling script, not on the event dispatch thread: it must
+     * only construct the component and return. The new window is shown later through {@link #openPopupWindow(WindowRequest)} or
+     * {@link #openNewWindow(WindowRequest)}.
+     * <p>
+     * 이 컴포넌트의 페이지가 연 새 창의 컴포넌트를 만든다(확장 지점, API 계약 5.28). 기본 구현은 보통의 {@link SwingWebPanel} 을 만든다. 하위
+     * 클래스는 자기 클래스를 쓰려고 재정의한다: <code>return new MyPanel(seed);</code>. 이때 <code>MyPanel</code> 의 생성자가
+     * <code>super(seed)</code> 를 부른다. <code>window.open</code> 에서는 이벤트 디스패치 스레드가 아니라 호출한 스크립트를 실행하는 스레드에서
+     * 불리므로, 컴포넌트를 만들어 돌려주기만 해야 한다. 새 창은 나중에 {@link #openPopupWindow(WindowRequest)} 나
+     * {@link #openNewWindow(WindowRequest)} 를 거쳐 보인다.
+     *
+     * @param seed the seed to pass to the constructor / 생성자에 넘길 씨앗
+     * @return the component, or null to open no window / 컴포넌트. 창을 열지 않으려면 null
+     */
+    protected SwingWebPanel createPopupPanel(PopupSeed seed) {
+        return new SwingWebPanel(seed);
+    }
+
+    /**
+     * Tells whether this component can show windows that pages open with <code>window.open</code> (extension point, API contract
+     * 5.28). The default says yes when the JVM has a display. If it says no, <code>window.open</code> returns null for a target that
+     * needs a new window, as it did before windows were supported. It is called on the thread that runs the calling script and must
+     * return at once. A window that a page opened asks the component that opened it.
+     * <p>
+     * 이 컴포넌트가 페이지가 <code>window.open</code> 으로 연 창을 보일 수 있는지 알려 준다(확장 지점, API 계약 5.28). 기본 구현은 JVM 에
+     * 화면이 있으면 그렇다고 답한다. 아니라고 답하면, 창을 지원하기 전과 같이 새 창이 필요한 대상에 <code>window.open</code> 이 null 을
+     * 돌려준다. 호출한 스크립트를 실행하는 스레드에서 불리며 곧바로 돌아와야 한다. 페이지가 연 창은 자신을 연 컴포넌트에 묻는다.
+     *
+     * @return true if a window can be shown / 창을 보일 수 있으면 true
+     */
+    protected boolean canOpenPopupWindows() {
+        if (creator != null) {
+            return creator.canOpenPopupWindows();
+        }
+        return !java.awt.GraphicsEnvironment.isHeadless();
+    }
+
+    /**
+     * Shows the window that a script opened with <code>window.open</code> (extension point, API contract 5.28). It is called on the
+     * event dispatch thread shortly after the call of the script; the component of the window is {@link WindowRequest#getPanel()}.
+     * The default shows it in a window of its own: a modeless dialog that belongs to the window of this component, with the size and
+     * place that the page asked for, the title of the page as its title, and a scroll pane around the component. The dialog is closed
+     * when the user closes it, when a script closes the window, and together with the window that it belongs to; the component is
+     * then disposed with {@link #disposeKeepingStorage()}. A host overrides the method to show the component elsewhere (a tab, a
+     * frame of its own) and then disposes it itself, or calls {@link WindowRequest#reject()} to open nothing. A window that a page
+     * opened passes the request to the component that opened it.
+     * <p>
+     * 스크립트가 <code>window.open</code> 으로 연 창을 보인다(확장 지점, API 계약 5.28). 스크립트의 호출 직후에 이벤트 디스패치 스레드에서
+     * 불리며, 창의 컴포넌트는 {@link WindowRequest#getPanel()} 이다. 기본 구현은 그것을 자기 창에 보인다: 이 컴포넌트의 창에 속한 비모달 대화
+     * 상자이며, 페이지가 요청한 크기와 위치를 갖고, 페이지의 제목이 창의 제목이며, 컴포넌트를 스크롤 창으로 감싼다. 대화 상자는 사용자가 닫을
+     * 때, 스크립트가 창을 닫을 때, 자신이 속한 창이 닫힐 때 함께 닫히고, 그때 컴포넌트를 {@link #disposeKeepingStorage()} 로 폐기한다. 호스트는
+     * 메서드를 재정의하여 컴포넌트를 다른 곳(탭, 자기 프레임)에 보이고 폐기도 직접 하거나, {@link WindowRequest#reject()} 를 불러 아무것도 열지
+     * 않는다. 페이지가 연 창은 요청을 자신을 연 컴포넌트에 넘긴다.
+     *
+     * @param request the window to show / 보일 창
+     */
+    protected void openPopupWindow(WindowRequest request) {
+        if (creator != null) {
+            creator.openPopupWindow(request);
+            return;
+        }
+        if (java.awt.GraphicsEnvironment.isHeadless()) {
+            request.reject();
+            return;
+        }
+        PopupDialog.show(this, request);
+    }
+
+    /**
+     * Offers a new window that a link, a form or the user asked for (extension point, API contract 5.28): the target of a link or a
+     * form names no existing window ({@link WindowRequest#LINK}), or the user chose to open a link in a new tab or window with Ctrl,
+     * Shift or the middle button ({@link WindowRequest#USER}). It is called on the event dispatch thread. The default returns false,
+     * and the page then behaves as it does without new windows: the link or form navigates the context that it is in, and a click
+     * with a modifier is an ordinary click. A host that opens such windows shows {@link WindowRequest#getPanel()} (or opens
+     * {@link WindowRequest#getUrl()} in a component of its own) and returns true. A window that a page opened passes the request to
+     * the component that opened it.
+     * <p>
+     * 링크, 폼, 사용자가 요청한 새 창을 제안한다(확장 지점, API 계약 5.28): 링크나 폼의 대상이 기존 창을 가리키지 않거나
+     * ({@link WindowRequest#LINK}), 사용자가 Ctrl, Shift, 가운데 단추로 링크를 새 탭이나 창에서 열기로 골랐다({@link WindowRequest#USER}).
+     * 이벤트 디스패치 스레드에서 불린다. 기본 구현은 false 를 반환하고, 그러면 페이지는 새 창이 없을 때처럼 동작한다: 링크나 폼은 자기가 있는
+     * 문맥을 이동시키고, 보조 키를 누른 클릭은 보통의 클릭이다. 그런 창을 여는 호스트는 {@link WindowRequest#getPanel()} 을 보이고(또는
+     * {@link WindowRequest#getUrl()} 을 자기 컴포넌트에서 열고) true 를 반환한다. 페이지가 연 창은 요청을 자신을 연 컴포넌트에 넘긴다.
+     *
+     * @param request the window that was asked for / 요청한 창
+     * @return true if the host opened the window (or decided to open nothing) / 호스트가 창을 열었으면(또는 아무것도 열지 않기로 했으면) true
+     */
+    protected boolean openNewWindow(WindowRequest request) {
+        return creator != null && creator.openNewWindow(request);
+    }
+
+    /**
+     * Receives a window that was not opened because the popup blocker is on and the page asked without an action of the user
+     * (extension point, API contract 5.28). It is called on the event dispatch thread. The default shows a message in the status text
+     * and tells the console listeners a warning. A host overrides it to tell the user and to offer to open the address after all
+     * (which then is a window without a connection to the page that asked). A window that a page opened passes the request to the
+     * component that opened it.
+     * <p>
+     * 팝업 차단이 켜져 있고 페이지가 사용자의 조작 없이 요청했기 때문에 열지 않은 창을 받는다(확장 지점, API 계약 5.28). 이벤트 디스패치
+     * 스레드에서 불린다. 기본 구현은 상태 문구에 메시지를 보이고 콘솔 리스너에 경고를 알린다. 호스트는 이것을 재정의하여 사용자에게 알리고, 그
+     * 주소를 그래도 열 수 있게 제안한다(그렇게 연 창은 요청한 페이지와 관계가 없는 창이다). 페이지가 연 창은 요청을 자신을 연 컴포넌트에 넘긴다.
+     *
+     * @param request the window that was blocked; it has no component / 차단한 창. 컴포넌트가 없다
+     */
+    protected void popupBlocked(WindowRequest request) {
+        if (creator != null) {
+            creator.popupBlocked(request);
+            return;
+        }
+        String what = request.getUrl().length() == 0 ? "about:blank" : request.getUrl();
+        session.setStatusMessage("Popup blocked: " + what);
+        consoles.publish(ConsoleEvent.Level.WARN, ConsoleEvent.Kind.HOST_ERROR, "open", "Popup blocked: " + what
+                + " (the page asked for a window without an action of the user)", new ArrayList<String>(), ConsoleEvent.Origin.DOCUMENT,
+                request.getDocumentUrl(), "", 0, 0);
+    }
+
+    /**
+     * Closes the window that shows this component after a script of its page closed it with <code>window.close()</code> (extension
+     * point, API contract 5.28). It is called on the event dispatch thread, and only for a component that a page opened (a script
+     * closes the window of any other component through {@link #closeRootWindow()}, and only if the host allowed it). The default
+     * closes the popup window that the default {@link #openPopupWindow(WindowRequest)} created; a component that the host placed
+     * elsewhere is only disposed with {@link #disposeKeepingStorage()}. A host that shows such components overrides the method to
+     * remove the tab or close the frame.
+     * <p>
+     * 페이지의 스크립트가 <code>window.close()</code> 로 닫은 뒤, 이 컴포넌트를 보이는 창을 닫는다(확장 지점, API 계약 5.28). 이벤트 디스패치
+     * 스레드에서 불리며, 페이지가 연 컴포넌트에만 불린다(그 밖의 컴포넌트의 창은 스크립트가 {@link #closeRootWindow()} 를 거쳐, 호스트가 허용했을
+     * 때만 닫는다). 기본 구현은 기본 {@link #openPopupWindow(WindowRequest)} 가 만든 팝업 창을 닫는다. 호스트가 다른 곳에 둔 컴포넌트는
+     * {@link #disposeKeepingStorage()} 로 폐기만 한다. 그런 컴포넌트를 보이는 호스트는 메서드를 재정의하여 탭을 없애거나 프레임을 닫는다.
+     */
+    protected void closeOpenedWindow() {
+        Runnable closer = windowCloser;
+        if (closer != null) {
+            closer.run();
+        } else {
+            disposeKeepingStorage();
+        }
+    }
+
+    /**
+     * Sets what closes the window that shows this component when a script closes it; used by the default popup window.
+     * <p>
+     * 스크립트가 닫을 때 이 컴포넌트를 보이는 창을 닫는 것을 정한다. 기본 팝업 창이 쓴다.
+     *
+     * @param closer the action, or null / 동작 또는 null
+     */
+    void setWindowCloser(Runnable closer) {
+        windowCloser = closer;
+    }
+
+    /**
      * Goes back one entry in the history; does nothing if there is no previous entry.
      * <p>
      * 이력을 한 칸 뒤로 이동한다. 이전 항목이 없으면 아무 동작도 하지 않는다.
@@ -1513,6 +1992,33 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * 헤더를 잊는다. 다시 호출해도 아무 일도 없다. 이후 변경 메서드는 IllegalStateException 을 던지고 조회 메서드는 빈 상태를 반환한다.
      */
     public void dispose() {
+        dispose(false);
+    }
+
+    /**
+     * Disposes the component like {@link #dispose()} but leaves the process-wide <code>localStorage</code> as it is (extension, API
+     * contract 5.28). {@link #dispose()} clears it, as the contract of the component says, which also empties it for every other
+     * component of the process; a host that shows several components side by side (tabs, popup windows) closes one of them with this
+     * method so that the others keep their stored data. Everything else is as in {@link #dispose()}: the page, the history, the
+     * session storage, the cache of the component, the listeners. Calling it again, or after {@link #dispose()}, does nothing.
+     * <p>
+     * {@link #dispose()} 처럼 컴포넌트를 폐기하되 프로세스 공용 <code>localStorage</code> 는 그대로 둔다(확장, API 계약 5.28). {@link #dispose()}
+     * 는 컴포넌트의 계약대로 그것을 비우는데, 그러면 프로세스의 다른 모든 컴포넌트에서도 비워진다. 여러 컴포넌트를 나란히 보이는 호스트(탭, 팝업
+     * 창)는 그중 하나를 이 메서드로 닫아 나머지가 저장 데이터를 유지하게 한다. 그 밖의 것은 {@link #dispose()} 와 같다: 페이지, 이력,
+     * sessionStorage, 컴포넌트의 캐시, 리스너. 다시 부르거나 {@link #dispose()} 뒤에 불러도 아무 일도 없다.
+     */
+    public void disposeKeepingStorage() {
+        dispose(true);
+    }
+
+    /**
+     * Disposes the component.
+     * <p>
+     * 컴포넌트를 폐기한다.
+     *
+     * @param keepLocalStorage true to leave the process-wide localStorage untouched / 프로세스 공용 localStorage 를 건드리지 않으려면 true
+     */
+    private void dispose(boolean keepLocalStorage) {
         synchronized (internalListeners) {
             if (disposed) {
                 return;
@@ -1524,7 +2030,7 @@ public class SwingWebPanel extends JPanel implements Scrollable {
         keyboard.dispose();
         composition.dispose();
         downloads.dispose();
-        session.dispose();
+        session.dispose(keepLocalStorage);
         view.dispose();
         fetcher.getCache().clear();
         links.clear();
@@ -2206,6 +2712,11 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * @throws IOException to abort the connection / 연결을 중단하려면 던진다
      */
     protected void configureSsl(HttpsURLConnection connection) throws IOException {
+        // 페이지가 연 창은 자신을 연 컴포넌트의 SSL 설정을 따른다(호스트가 좁혀 둔 설정을 팝업이 벗어나지 않게 한다).
+        if (creator != null) {
+            creator.configureSsl(connection);
+            return;
+        }
         // 기본 동작: JRE 기본 신뢰 저장소와 호스트 이름 검증을 쓰고, 연결별로 이 JRE 가 지원하는 프로토콜만 고른다(전역 설정은 바꾸지 않는다).
         DefaultSslConfigurer.INSTANCE.configureSsl(connection);
     }

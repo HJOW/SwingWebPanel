@@ -29,6 +29,18 @@ public interface BrowsingContext {
     PageScripts getScripts();
 
     /**
+     * Returns the script host that receives a message which another window posts to the window of this context. A top-level window
+     * that is loading a new page gives the host of that page as soon as its scripts can run, so that a page which announces itself
+     * to its opener while it is parsed gets the answer; otherwise it is {@link #getScripts()}.
+     * <p>
+     * 다른 창이 이 문맥의 window 로 보낸 메시지를 받는 스크립트 호스트를 반환한다. 새 페이지를 읽는 최상위 창은 그 페이지의 스크립트가 실행될 수
+     * 있게 되면 곧 그 페이지의 호스트를 준다. 그래서 파싱 중에 여는 창에 자신을 알린 페이지가 답을 받는다. 그 밖에는 {@link #getScripts()} 와 같다.
+     *
+     * @return the script host, or null / 스크립트 호스트. 없으면 null
+     */
+    PageScripts getMessageScripts();
+
+    /**
      * Returns the DOM document that the context shows now.
      * <p>
      * 문맥이 지금 보여 주는 DOM 문서를 반환한다.
@@ -127,6 +139,31 @@ public interface BrowsingContext {
      * @return the context that the target names, or null if no window is opened / 대상이 고르는 문맥. 창을 열지 않으면 null
      */
     BrowsingContext open(String url, String target);
+
+    /**
+     * Opens a window for a script (<code>window.open</code>) like {@link #open(String, String)}, with the window features text. A
+     * name that needs a new context opens a new window if the component can show one and the popup blocker allows it (plan item
+     * P31-08); the features can ask for a window without a connection to its opener (<code>noopener</code>), which gives null.
+     * <p>
+     * {@link #open(String, String)} 처럼 스크립트를 위해 창을 열되(<code>window.open</code>) 창 기능 문자열을 함께 받는다. 새 문맥이 필요한
+     * 이름은 컴포넌트가 창을 보일 수 있고 팝업 차단이 허용하면 새 창을 연다(계획 P31-08). 기능으로 여는 창과 관계가 없는 창
+     * (<code>noopener</code>)을 요청할 수 있고 그때는 null 을 준다.
+     *
+     * @param url      the absolute address, or an empty string to navigate nothing / 절대 주소. 아무것도 이동시키지 않으려면 빈 문자열
+     * @param target   the target name or keyword / 대상 이름 또는 키워드
+     * @param features the window features text, or the empty string / 창 기능 문자열 또는 빈 문자열
+     * @return the context that the target names or the new window, or null / 대상이 고르는 문맥이나 새 창. 없으면 null
+     */
+    BrowsingContext open(String url, String target, String features);
+
+    /**
+     * Returns the context of the document that opened the window of this context with <code>window.open</code>.
+     * <p>
+     * <code>window.open</code> 으로 이 문맥의 창을 연 문서의 문맥을 반환한다.
+     *
+     * @return the opener, or null for a nested context and for a window without one / opener. 중첩 문맥이거나 opener 가 없는 창이면 null
+     */
+    BrowsingContext getOpener();
 
     /**
      * Tells whether a script of this context may navigate another context: a context that is not sandboxed may navigate any, a sandboxed

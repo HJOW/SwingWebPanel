@@ -85,6 +85,20 @@ final class TopContext implements BrowsingContext {
     }
 
     /**
+     * Returns the script host that receives the messages of other windows: the page whose scripts were installed last, even before
+     * it is confirmed, like a message of the Java host.
+     * <p>
+     * 다른 창의 메시지를 받는 스크립트 호스트를 반환한다: 확정 전이라도 스크립트가 가장 최근에 설치된 페이지이며, Java 호스트의 메시지와 같다.
+     *
+     * @return the script host or null / 스크립트 호스트 또는 null
+     */
+    public PageScripts getMessageScripts() {
+        PageRuntime running = executingRuntime();
+        PageRuntime runtime = running != null ? running : session.messageTargetRuntime();
+        return runtime == null ? null : runtime.scripts();
+    }
+
+    /**
      * Returns the DOM document.
      * <p>
      * DOM 문서를 반환한다.
@@ -162,7 +176,9 @@ final class TopContext implements BrowsingContext {
      */
     public String getName() {
         PageRuntime runtime = activeRuntime();
-        return runtime == null ? "" : runtime.getTopWindowName();
+        String own = runtime == null ? "" : runtime.getTopWindowName();
+        // 페이지가 이름을 정하지 않았으면 창을 열 때 준 이름이 창의 이름이다.
+        return own.length() == 0 ? session.windowName() : own;
     }
 
     /**
@@ -201,7 +217,8 @@ final class TopContext implements BrowsingContext {
      */
     public void navigate(String url, boolean replace) {
         PageRuntime runtime = activeRuntime();
-        if (runtime != null) {
+        // 그룹이 갈라진 창의 스크립트는 이 창을 이동시킬 수 없다.
+        if (runtime != null && !isClosed()) {
             runtime.navigate(url, replace);
         }
     }
@@ -216,8 +233,33 @@ final class TopContext implements BrowsingContext {
      * @return the context that the target selects, or null / 대상이 고르는 문맥. 없으면 null
      */
     public BrowsingContext open(String url, String target) {
+        return open(url, target, "");
+    }
+
+    /**
+     * Opens a window for a script of the top-level document, with the window features text.
+     * <p>
+     * 최상위 문서의 스크립트를 위해 창 기능 문자열과 함께 창을 연다.
+     *
+     * @param url      the absolute address or an empty string / 절대 주소 또는 빈 문자열
+     * @param target   the target name / 대상 이름
+     * @param features the window features text / 창 기능 문자열
+     * @return the context that the target selects or the new window, or null / 대상이 고르는 문맥이나 새 창. 없으면 null
+     */
+    public BrowsingContext open(String url, String target, String features) {
         PageRuntime runtime = activeRuntime();
-        return runtime == null ? null : FrameNavigator.open(session, runtime.frameSet(), null, this, target, url);
+        return runtime == null ? null : FrameNavigator.open(session, runtime.frameSet(), null, this, target, url, features);
+    }
+
+    /**
+     * Returns the context of the document that opened this window.
+     * <p>
+     * 이 창을 연 문서의 문맥을 반환한다.
+     *
+     * @return the opener, or null / opener. 없으면 null
+     */
+    public BrowsingContext getOpener() {
+        return session.openerContext();
     }
 
     /**
@@ -240,7 +282,26 @@ final class TopContext implements BrowsingContext {
      * @return true if closed / 닫혔으면 true
      */
     public boolean isClosed() {
-        return session.isDisposed();
+        if (session.isDisposed()) {
+            return true;
+        }
+        // 다른 창의 스크립트가 묻는 경우: 브라우징 문맥 그룹이 갈라졌으면(COOP) 그 스크립트에게 이 창은 닫힌 창이다.
+        HostEnvironment env = PageScripts.currentHostEnvironment();
+        BrowsingContext from = env == null ? null : env.getBrowsingContext();
+        BrowsingContext top = from == null ? null : from.getTop();
+        return top instanceof TopContext && top != this && !((TopContext) top).sharesGroupWith(session);
+    }
+
+    /**
+     * Tells whether the window of this context and the window of a session are in the same browsing context group.
+     * <p>
+     * 이 문맥의 창과 어떤 세션의 창이 같은 브라우징 문맥 그룹에 있는지 알려 준다.
+     *
+     * @param other the session of the other window / 다른 창의 세션
+     * @return true if they share a group / 그룹이 같으면 true
+     */
+    boolean sharesGroupWith(BrowserSession other) {
+        return session.sharesGroupWith(other);
     }
 
     /**

@@ -149,6 +149,26 @@ public final class SessionStorage {
     }
 
     /**
+     * Copies every entry of another session storage into this one (the session storage of a window that a page opens starts as a copy
+     * of the storage of its opener, WHATWG HTML 12.2.2).
+     * <p>
+     * 다른 sessionStorage 의 모든 항목을 여기로 복사한다(페이지가 연 창의 sessionStorage 는 여는 창의 저장소의 복사본으로 시작한다, WHATWG HTML
+     * 12.2.2).
+     *
+     * @param other the storage to copy from / 복사해 올 저장소
+     */
+    public void copyFrom(SessionStorage other) {
+        List<StorageEntry> entries = other.entries();
+        synchronized (this) {
+            // 항목마다 같은 오리진의 영역에 넣는다.
+            for (int i = 0; i < entries.size(); i++) {
+                StorageEntry e = entries.get(i);
+                area(e.getOrigin()).setItem(e.getKey(), e.getValue());
+            }
+        }
+    }
+
+    /**
      * Registers a listener of a document of this component.
      * <p>
      * 이 컴포넌트의 문서의 리스너를 등록한다.

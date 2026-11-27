@@ -1152,7 +1152,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
   - 홈 버튼은 설정의 홈 페이지로 이동한다. 멈춤 버튼은 `stop()`을 호출하며 로딩 중에만 활성화한다. 새로고침 버튼은 `refresh()`를 호출하고, Shift 클릭은 `refresh(true)`를 호출한다.
   - 상태 표시줄: 상태 문구(`getStatusText()`, `PROPERTY_STATUS_TEXT`), 진행 막대(`getProgress()` 0~100, -1이면 indeterminate), 확대 비율을 보인다. 링크 위에 마우스가 있으면 `HyperlinkListener`의 ENTERED/EXITED로 링크 주소를 보인다.
   - 완료 조건: 실제 페이지 이동·로딩·오류 페이지에서 각 부품이 올바르게 갱신되는지 JRE 6 통합 시험으로 확인한다.
-- [ ] P31-04. 탭 브라우징을 구현한다.
+- [x] P31-04. 탭 브라우징을 구현한다. 완료(2026-11-27): 하위 a·b.
   - 탭 부품: `JTabbedPane`과 Java 6의 탭 부품(`setTabComponentAt`)으로 탭마다 제목(없으면 주소), 로딩 표시, 닫기 단추를 보인다. 긴 제목은 줄이고 전체 제목은 도구 설명으로 보인다.
   - 탭 동작: 새 탭(설정의 새 탭 페이지: 빈 페이지 또는 홈), 탭 닫기, 닫은 탭 다시 열기(창마다 최근 닫은 탭의 주소 목록), 탭 전환(클릭, 단축키), 링크를 새 탭에서 열기(가운데 클릭, Ctrl+클릭, 링크 문맥 메뉴)를 제공한다.
   - 활성 탭 연결: 탭을 바꾸면 제목 표시줄·주소 표시줄·뒤로/앞으로/멈춤 상태·상태 표시줄·확대 비율을 그 탭의 SwingWebPanel 상태로 바꾼다. 비활성 탭의 속성 변경 알림은 그 탭의 제목과 로딩 표시에만 반영한다.
@@ -1160,7 +1160,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
   - 비활성 탭: 페이지는 계속 실행된다. 화면에 보이지 않는 탭의 `document.visibilityState`/`visibilitychange`가 SwingWebPanel의 화면 표시 상태 연결(`isShowing()`, P20-13)대로 바뀌는지 확인한다.
   - 탭 사이 공유: 같은 프로세스의 탭과 창은 쿠키를 공유한다(P31-01의 보완 후보 (g)). sessionStorage는 탭(컴포넌트)마다 따로 두고, localStorage는 프로세스 공용(P16)이다.
   - [x] P31-04-a. 탭 부품, 탭 동작(새 탭, 닫기, 닫은 탭 다시 열기, 전환), 활성 탭 연결, 탭 수명, 비활성 탭, 탭 사이 공유. 입력: 파일·루프백 HTTP 페이지를 연 여러 탭. 기대: 위 항목의 동작. 구현: `ui.BrowserWindow`, `ui.BrowserTab`, `ui.TabHeader`, SwingWebPanel의 `CookieJar`(계약 5.24)와 살아 있는 문서 제목(계약 5.25). 완료(2026-11-27): desktopapp `BrowserTabsTest` 4건과 브라우저 `CookieJarTest` 4건·`LiveTitleTest` 3건이 JRE 6u45에서 통과했다. 탭 전환은 메서드와 탭 클릭으로 하며 단축키는 P31-05에서 메뉴와 함께 건다. 구현 중 `getTitle()`이 확정 시점의 제목에서 멈추는 것을 발견해 살아 있는 문서의 제목을 따르게 고쳤다.
-  - [ ] P31-04-b. 링크를 새 탭에서 열기. 입력: 링크의 가운데 클릭, Ctrl+클릭, 링크 문맥 메뉴의 "새 탭에서 열기". 기대: 설정에 따라 배경 또는 활성 새 탭에 그 주소가 열리고 현재 탭은 그대로이다. 구현: P31-08의 새 브라우징 문맥 확장 지점("먼저 구현하는 부분")에 연결한다. 완료 조건: 실제 AWT 마우스 이벤트를 쓰는 창 시험 통과. 이 하위 항목이 끝나야 P31-04 상위 항목을 체크한다.
+  - [x] P31-04-b. 링크를 새 탭에서 열기. 입력: 링크의 가운데 클릭, Ctrl+클릭, 링크 문맥 메뉴의 "새 탭에서 열기". 기대: 설정에 따라 배경 또는 활성 새 탭에 그 주소가 열리고 현재 탭은 그대로이다. 구현: P31-08의 새 브라우징 문맥 확장 지점("먼저 구현하는 부분")에 연결한다. 완료 조건: 실제 AWT 마우스 이벤트를 쓰는 창 시험 통과. 이 하위 항목이 끝나야 P31-04 상위 항목을 체크한다. 완료(2026-11-27): `SwingWebPanel.openNewWindow(WindowRequest)`(USER 요청)를 `ui.TabPanel`·`BrowserWindow.windowRequested` 가 받아 새 탭(설정 `tabs.selectNew` 에 따라 배경·활성)이나 새 창(Shift+클릭)을 열고, 링크의 문맥 메뉴(`BrowserWindow.contextMenu`)가 새 탭·새 창에서 열기와 주소 복사를 제안한다. `ui.PopupsTest.testLinksOpenInNewTabsAndWindows` 가 화면 밖에 보인 창에 실제 AWT 마우스 이벤트를 보내 확인한다(JRE 6u45). 문맥 메뉴는 페이지가 `contextmenu` 를 취소해도 보인다(한계).
 - [x] P31-05. 메뉴와 단축키를 구현한다. 기본안은 다음과 같다. 완료(2026-11-27): 하위 a·b. 북마크·설정·찾기·인쇄·원본·콘솔·방문 기록·개인 정보 삭제 항목은 메뉴에 자리가 있고, 그 명령은 각 기능의 계획 항목(P31-06~10)에서 구현한다.
   - 파일: 새 탭(Ctrl+T), 새 창(Ctrl+N), 위치 열기(Ctrl+L), 파일 열기(Ctrl+O), 페이지 저장(Ctrl+S, `getContent()` 원문을 UTF-8로 저장), 페이지 설정, 인쇄 미리 보기, 인쇄(Ctrl+P), 탭 닫기(Ctrl+W), 창 닫기(Ctrl+Shift+W), 끝내기
   - 편집: 복사, 붙여넣기, 모두 선택, 찾기(Ctrl+F)
@@ -1195,7 +1195,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
     - 값을 바꾸면 스타일을 다시 계산하고 다시 배치·그린다.
     - 웹 글꼴(`@font-face`)과 작성자가 지정한 글꼴에는 영향이 없다. `clean()` 뒤에도 유지되며, 다른 컴포넌트에 영향을 주지 않는다(정적 공유 상태 금지).
     - 오류 화면, `text/plain`·Markdown 표시, 일반 글꼴 이름을 쓰는 캔버스 글꼴에 적용할 범위도 정한다.
-- [ ] P31-08. 새 탭·새 창·팝업과 창·탭 닫기를 구현한다.
+- [x] P31-08. 새 탭·새 창·팝업과 창·탭 닫기를 구현한다. 완료(2026-11-27): 하위 a~g. 계약 5.28, 기능 표 API-36, 설계와 기본안에서 바꾼 점은 `docs/progress/desktopapp.md` 7.7절. 기본안과 다른 점: (1) 팝업의 컴포넌트는 세션을 먼저 만들지 않고 `createPopupPanel(PopupSeed)` 로 스크립트의 스레드에서 곧바로 만든다. (2) 샌드박스 문서는 `allow-popups-to-escape-sandbox` 가 있을 때만 새 창을 연다(샌드박스 상속은 구현하지 않았다). (3) 파싱 중의 `window.open` 은 관계없는 창을 열고 null 을 준다. (4) 창이나 탭 하나를 닫을 때 localStorage 를 남기는 `disposeKeepingStorage()` 를 추가했다.
   - 확장 지점: SwingWebPanel에 새 브라우징 문맥 요청을 호스트에 넘기는 확장 지점(보호 메서드 또는 리스너)을 추가한다.
     - 대상: 링크·폼의 `target="_blank"`나 없는 이름, 사용자의 "새 탭에서 열기"·"새 창에서 열기"(Ctrl/Shift/가운데 클릭, 링크 문맥 메뉴), `window.open`의 새 창.
     - 페이지가 요청한 창(`window.open`, 링크·폼의 `_blank`와 없는 이름)은 SwingWebPanel의 요청 객체로 만들어, P30의 "웹 콘텐츠가 만든 창" 표시를 붙인다. `noopener`여도 같다. 그래야 그 창의 `window.close()`가 표준대로 그 창만 닫는다. 사용자가 고른 "새 탭에서 열기"·가운데 클릭으로 연 창은 "호스트가 만든 창"이다.
@@ -1208,36 +1208,36 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
     - 채택안: 표준의 구조와 같이, opener 관계로 이어진 창들(브라우징 문맥 그룹)이 **문서 스레드(이벤트 루프)를 하나 공유**하게 한다. 그러면 팝업은 별도 SwingWebPanel(자기 이력·상태·화면·공개 API)이면서도 여는 창과 같은 스레드에서 실행되므로, 프레임과 같은 경로로 동기 접근과 오리진 검사를 할 수 있다. 관계가 없는 창(`noopener`, `_blank` 링크, COOP으로 끊긴 창, 사용자가 연 새 탭·새 창)은 지금처럼 자기 스레드를 쓴다.
     - 대가: 같은 그룹 안에서 한 창의 긴 스크립트가 다른 창을 함께 멈추게 한다. 같은 프로세스를 쓰는 실제 브라우저(Chromium의 같은 사이트 팝업)와 같다. 표준은 사이트가 다른 창을 다른 에이전트(이벤트 루프)에 두지만, 1차는 그룹당 스레드 하나로 단순화한다. 이 차이는 실행 시점 말고는 스크립트가 관찰할 수 없으며, 기능 표에 기록한다.
   - 하위 작업(기본안):
-    - [ ] P31-08-a. 문서 스레드를 공유할 수 있게 분리한다. `core.NavigationController`가 직접 만드는 문서 실행기를, 참조 수를 세는 별도 이벤트 루프 객체로 옮긴다. 기본값은 지금처럼 컴포넌트마다 하나이다. 공유할 때 지켜야 할 점은 다음과 같다.
+    - [x] P31-08-a. (완료 2026-11-27: `core.DocumentLoop`, `NavigationController(DocumentLoop)`. `core.DocumentLoopTest` 2건, `PopupWindowsTest` C-POPUP-7, 전체 회귀는 PROGRESS 참고.) 문서 스레드를 공유할 수 있게 분리한다. `core.NavigationController`가 직접 만드는 문서 실행기를, 참조 수를 세는 별도 이벤트 루프 객체로 옮긴다. 기본값은 지금처럼 컴포넌트마다 하나이다. 공유할 때 지켜야 할 점은 다음과 같다.
       - 컴포넌트 하나를 폐기할 때 실행기 전체를 멈추면(`shutdownNow`) 안 된다. 그 컴포넌트의 대기 작업만 무효화하고, 마지막 구성원이 폐기될 때 스레드를 끝낸다.
       - 미완료 작업 수(`awaitIdle`)는 컴포넌트별로 센다. `isDocumentThread()`의 다섯 사용처와 스레드에 묶인 상태(`PageScripts`의 실행 중 문서 등)를 점검한다.
       - 완료 조건: 기존 전체 회귀가 바뀌지 않고, 공유 스레드에서 두 컴포넌트를 독립적으로 이동·폐기하는 시험을 통과한다.
-    - [ ] P31-08-b. 보조 브라우징 문맥을 동기적으로 만든다. `window.open`은 스크립트 실행 중(문서 스레드)에 반환해야 하는데, 문서 스레드는 EDT를 기다리면 안 된다. 그래서 다음 순서로 만든다.
+    - [x] P31-08-b. (완료 2026-11-27: `BrowserSession.openWindowFromScript`·`startAsOpenedWindow`·`installInitialDocument`, `SwingWebPanel.createPopupPanel(PopupSeed)`. 세션만 먼저 만드는 대신 컴포넌트를 스크립트의 스레드에서 만들고 보이는 일만 EDT 로 넘긴다. C-POPUP-2, C-POPUP-7.) 보조 브라우징 문맥을 동기적으로 만든다. `window.open`은 스크립트 실행 중(문서 스레드)에 반환해야 하는데, 문서 스레드는 EDT를 기다리면 안 된다. 그래서 다음 순서로 만든다.
       - 먼저 Swing 부품 없이 새 세션(`BrowserSession`)과 최상위 문맥을 문서 스레드에서 만든다. 표준대로 처음 문서는 스크립트를 실행할 수 있는 `about:blank`이고, 오리진은 여는 문서에서 물려받는다. 프레임의 처음 빈 문서 처리(`core.FrameContext`)를 재사용한다. 이렇게 하면 `w = window.open('')` 직후의 `w.document.write(...)`가 동작한다.
       - 주소가 있으면 그 주소로 비동기 이동을 시작하고, 처음 빈 문서는 표준대로 이력에서 교체한다.
       - 그 뒤 EDT에서 호스트에게 새 창 부품을 요청한다(`invokeLater`). 호스트는 이미 만들어진 세션을 받는 SwingWebPanel(새 생성자 또는 생성 메서드)을 새 창이나 탭에 붙인다. 호스트가 거절하거나 실패하면 그 문맥을 닫힌 상태로 만든다(`w.closed`가 true).
       - 팝업을 허용할지는 `window.open` 호출 안에서 동기적으로 판정한다(P31-08-f의 차단 판정, 화면이 없는 환경 여부).
       - 부품이 붙기 전의 뷰포트 크기(`innerWidth` 등)는 창 기능 문자열의 `width`/`height`나 기본 크기를 쓴다.
-    - [ ] P31-08-c. 창 관계와 대상 선택을 연결한다.
+    - [x] P31-08-c. (완료 2026-11-27: opener, `WindowGroup` 의 이름 있는 창, 창 기능 문자열, sessionStorage 복사, COOP 로 그룹 떠나기(`applyOpenerPolicy`). 샌드박스는 상속 대신 `allow-popups-to-escape-sandbox` 가 있을 때만 새 창을 연다. `noopener` 창과 COOP 로 끊긴 창의 opener 는 호스트 창이다. C-POPUP-2, 4, 8, 9.) 창 관계와 대상 선택을 연결한다.
       - `BrowsingContext`에 opener를 추가하고, 팝업의 `window.opener`는 여는 창의 `WindowProxy`로 한다. 교차 오리진이면 제한된 창을 준다.
       - P27에서 본 창의 `window.opener`를 Java 호스트 창으로 정했으므로 이 계약과의 관계를 정한다. 기본안: 팝업은 실제로 연 창을 opener로 갖고, 호스트가 보낸 메시지의 `event.source`로는 계속 호스트에 응답할 수 있다. `noopener` 창은 지금처럼 호스트 창을 opener로 둔다.
       - 이름 있는 대상(`window.open(url, 'name')`, 링크·폼의 `target`)은 같은 그룹의 최상위 문맥에서도 찾는다(`core.FrameNavigator`).
       - 창 기능 문자열을 해석한다(`noopener`, `noreferrer`, `popup`, `width`, `height`, `left`, `top`).
       - 샌드박스의 `allow-popups`/`allow-popups-to-escape-sandbox`에 따라 샌드박스를 물려준다. COOP(P29-10-c3)이면 관계를 끊는다.
       - sessionStorage는 표준대로 여는 창의 것을 복사한다.
-    - [ ] P31-08-d. 수명과 닫기를 처리한다.
+    - [x] P31-08-d. (완료 2026-11-27: `closeOpenedWindow()`, 여는 창의 familiar 규칙, `disposeKeepingStorage()`. C-POPUP-3, 7, 10.) 수명과 닫기를 처리한다.
       - 팝업과 `_blank`로 연 탭·창의 `window.close()`는 P30의 "웹 콘텐츠가 만든 창" 경로로 그 창(또는 탭)만 닫는다. P30 설정과는 무관하고, `closeRootWindow()`와 `System.exit(0)`은 불리지 않는다. 여는 창이 `w.close()`를 불러도 같다(표준의 familiar·샌드박스 조건). 여는 창에서 `w.closed`가 true가 된다.
       - 로딩 중(`w = window.open(url); w.close()`)이나 Swing 부품이 붙기 전에 닫아도 닫힌다(P30의 취소 규칙).
       - 여는 페이지(탭이나 SwingWebPanel)가 닫혀도 팝업은 남고, 팝업의 `opener` 창은 닫힌 상태가 된다. 그룹의 이벤트 루프는 마지막 창이 닫힐 때 끝난다. 다만 팝업을 담은 `JDialog`의 소유자 Swing 창이 닫히면 팝업도 함께 닫힌다(P31-08-g).
       - 닫힌 창의 `WindowProxy`가 DOM과 세션을 계속 붙잡지 않게 한다(P21).
-    - [ ] P31-08-e. 검증한다(JRE 6, 실제 SwingWebPanel 두 개 이상, 시험용 호스트 처리기).
+    - [x] P31-08-e. (완료 2026-11-27: `PopupWindowsTest` 10건, `core.DocumentLoopTest` 2건, desktopapp `ui.PopupsTest` 4건, 기존 프레임·메시지·P27·P30 스위트 통과. 모달 대화 상자 안의 컴포넌트가 연 팝업의 조작은 실제 창 확인(P31-11)에 남긴다.) 검증한다(JRE 6, 실제 SwingWebPanel 두 개 이상, 시험용 호스트 처리기).
       - 동작: `window.open`의 반환값으로 `document.write`·DOM 변경·`location` 이동·`close()`·`closed`·`postMessage`, 팝업 쪽의 `opener` 접근, 이름 있는 창의 재사용.
       - 제한: 교차 오리진 제한, `noopener`/`noreferrer`, 샌드박스·COOP.
       - 닫기(P30 연계): 팝업의 `window.close()`와 여는 창의 `w.close()`가 그 팝업만 닫고 `closeRootWindow()`를 부르지 않는지. 로딩 중이거나 부품이 붙기 전의 닫기. 설정이 true인 본 창을 팝업의 `opener.close()`가 끝내지 못하는지.
       - 수명: 여는 창이나 팝업을 먼저 폐기하는 경우, 같은 그룹에서 무한 반복이 일어나는 경우(실행 제한으로 끝나는지), EDT와 문서 스레드 사이 교착이 없는지, 수거.
       - 차단과 위치(P31-08-f·g): 실제 AWT 클릭 안의 `window.open`은 열리고 타이머·로드 이벤트 안의 것은 막히는지, 한 번의 클릭으로 하나만 열리는지(활성화 소비), 설정을 끈 경우, 샌드박스, `popupBlocked` 알림. 기본 팝업 창(`JDialog`)의 소유자·크기·제목·닫기, 모달 대화 상자 안의 SwingWebPanel에서 연 팝업을 조작할 수 있는지, 소유자 창을 닫을 때 팝업 SwingWebPanel의 `dispose()`, headless에서 null 반환, 재정의한 위치(시험용 호스트).
       - 기존 프레임·메시지·P27 시험이 그대로 통과하는지 확인한다.
-    - [ ] P31-08-f. 팝업 차단을 구현한다. 사용자 결정(2026-11-26): 사용자 조작 없이 연 팝업은 기본적으로 차단하고, SwingWebPanel의 메서드로 바꿀 수 있어야 한다.
+    - [x] P31-08-f. (완료 2026-11-27: `setPopupBlockingEnabled`/`isPopupBlockingEnabled`, `popupBlocked(WindowRequest)`, 앱의 상태 표시줄 알림과 "이 팝업 열기" 단추. 스크립트가 제출한 `_blank` 폼은 호스트가 새 창을 열 때 차단한다. C-POPUP-1, 5, `ui.PopupsTest.testBlockedPopupNoticeAndButton`.) 팝업 차단을 구현한다. 사용자 결정(2026-11-26): 사용자 조작 없이 연 팝업은 기본적으로 차단하고, SwingWebPanel의 메서드로 바꿀 수 있어야 한다.
       - 공개 API: `public void setPopupBlockingEnabled(boolean enabled)`, `public boolean isPopupBlockingEnabled()`(기본안 이름).
         - 생성 직후 true이다. 어느 스레드에서나 호출할 수 있고 다음 판정부터 적용한다.
         - 속성 변경 알림(`PROPERTY_POPUP_BLOCKING_ENABLED`)을 EDT에서 발생시킨다.
@@ -1252,7 +1252,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
         - 샌드박스의 `allow-popups`가 없는 문서는 이 설정과 상관없이 막는다(P20-02).
       - 알림: 막을 때마다 `protected void popupBlocked(...)`(기본안 이름)를 EDT에서 호출한다. 인수는 요청한 주소, 대상 이름, 창 기능 문자열, 요청한 문서의 주소이다. 기본 구현은 상태 문구와 콘솔 경고(P24)로 알린다.
       - 데스크톱 앱: 상태 표시줄(또는 알림 막대)에 차단 사실과 "이 팝업 열기" 단추를 보인다. 이 단추로 연 창은 원래 스크립트의 실행이 이미 끝났으므로 여는 창과 관계가 없는 창(`noopener`와 같음)으로 연다. 이 차이를 기능 표에 기록한다.
-    - [ ] P31-08-g. 팝업을 열 위치를 구현한다. 사용자 결정(2026-11-26): 기본은 팝업 창이고, 데스크톱 앱의 설정에서 바꿀 수 있어야 한다.
+    - [x] P31-08-g. (완료 2026-11-27: `openPopupWindow(WindowRequest)` 와 기본 `PopupDialog`(비모달 `JDialog`), 앱의 `ui.PopupWindow`·새 창·새 탭(설정 `popups.place`, `links.place`). C-POPUP-10, `ui.PopupsTest.testScriptWindowsFollowThePlaceSetting`.) 팝업을 열 위치를 구현한다. 사용자 결정(2026-11-26): 기본은 팝업 창이고, 데스크톱 앱의 설정에서 바꿀 수 있어야 한다.
       - SwingWebPanel 기본 동작: 다운로드 팝업(P11-09)과 같이 재정의할 수 있는 보호 메서드(기본안: `protected void openPopupWindow(PopupRequest request)`)로 연다.
         - 기본 구현은 새 SwingWebPanel을 `JScrollPane`에 담은 비모달 `JDialog`(`Dialog.ModalityType.MODELESS`)이다. 소유자는 여는 SwingWebPanel이 속한 창(`SwingUtilities.getWindowAncestor`)이다. 소유자가 없으면 null 소유자로 연다. 다운로드 팝업(`download.SwingDownloadDialog`)과 같은 방식이다.
         - `JFrame` 대신 `JDialog`를 쓰는 이유: 호스트가 SwingWebPanel을 모달 대화 상자 안에 넣어 쓰는 경우가 있다. 이때 `JFrame` 팝업은 그 모달 대화 상자에 막혀 조작할 수 없다. 반면 그 대화 상자가 소유한 `JDialog`는 조작할 수 있다. 또 팝업이 여는 창 위에 머물고 작업 표시줄에 따로 생기지 않아서, 부품으로 끼워 쓰는 프로그램에 어울린다.

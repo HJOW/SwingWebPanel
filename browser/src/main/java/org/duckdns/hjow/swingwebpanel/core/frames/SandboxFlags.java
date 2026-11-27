@@ -17,7 +17,7 @@ public final class SandboxFlags {
      * <p>
      * 샌드박스 없음: 아무것도 제한하지 않는다.
      */
-    public static final SandboxFlags NONE = new SandboxFlags(false, true, true, true, true, true, true);
+    public static final SandboxFlags NONE = new SandboxFlags(false, true, true, true, true, true, true, true);
 
     /**
      * True if a <code>sandbox</code> attribute applies (even an empty one).
@@ -65,6 +65,13 @@ public final class SandboxFlags {
     private final boolean downloads;
 
     /**
+     * True if a window that the document opens is not sandboxed (<code>allow-popups-to-escape-sandbox</code>).
+     * <p>
+     * 문서가 연 창이 샌드박스가 아니면(<code>allow-popups-to-escape-sandbox</code>) true.
+     */
+    private final boolean popupsEscape;
+
+    /**
      * Creates a flag set.
      * <p>
      * 플래그 집합을 만든다.
@@ -76,9 +83,10 @@ public final class SandboxFlags {
      * @param topNavigation true if top-level navigation is allowed / 최상위 이동 허용이면 true
      * @param popups        true if popups are allowed / 팝업 허용이면 true
      * @param downloads     true if object URL downloads are allowed / 객체 URL 다운로드 허용이면 true
+     * @param popupsEscape  true if opened windows leave the sandbox / 연 창이 샌드박스를 벗어나면 true
      */
     private SandboxFlags(boolean sandboxed, boolean scripts, boolean sameOrigin, boolean forms, boolean topNavigation, boolean popups,
-            boolean downloads) {
+            boolean downloads, boolean popupsEscape) {
         this.sandboxed = sandboxed;
         this.scripts = scripts;
         this.sameOrigin = sameOrigin;
@@ -86,6 +94,7 @@ public final class SandboxFlags {
         this.topNavigation = topNavigation;
         this.popups = popups;
         this.downloads = downloads;
+        this.popupsEscape = popupsEscape;
     }
 
     /**
@@ -108,6 +117,7 @@ public final class SandboxFlags {
         boolean top = false;
         boolean popups = false;
         boolean downloads = false;
+        boolean escape = false;
         String[] tokens = attribute.trim().split("[ \\t\\n\\r\\f]+");
         // 토큰을 하나씩 보며 허용 키워드를 켠다.
         for (int i = 0; i < tokens.length; i++) {
@@ -124,9 +134,11 @@ public final class SandboxFlags {
                 popups = true;
             } else if ("allow-downloads".equals(t)) {
                 downloads = true;
+            } else if ("allow-popups-to-escape-sandbox".equals(t)) {
+                escape = true;
             }
         }
-        return new SandboxFlags(true, scripts, sameOrigin, forms, top, popups, downloads);
+        return new SandboxFlags(true, scripts, sameOrigin, forms, top, popups, downloads, escape);
     }
 
     /**
@@ -143,7 +155,20 @@ public final class SandboxFlags {
             return this;
         }
         return new SandboxFlags(true, scripts && parent.scripts, sameOrigin && parent.sameOrigin, forms && parent.forms,
-                topNavigation && parent.topNavigation, popups && parent.popups, downloads && parent.downloads);
+                topNavigation && parent.topNavigation, popups && parent.popups, downloads && parent.downloads,
+                popupsEscape && parent.popupsEscape);
+    }
+
+    /**
+     * Tells whether a window that the document opens leaves the sandbox (<code>allow-popups-to-escape-sandbox</code>). Without it the
+     * new window would have to carry the sandbox of the document.
+     * <p>
+     * 문서가 연 창이 샌드박스를 벗어나는지(<code>allow-popups-to-escape-sandbox</code>) 알려 준다. 없으면 새 창이 문서의 샌드박스를 지녀야 한다.
+     *
+     * @return true if opened windows are not sandboxed / 연 창이 샌드박스가 아니면 true
+     */
+    public boolean allowsPopupsToEscapeSandbox() {
+        return popupsEscape;
     }
 
     /**

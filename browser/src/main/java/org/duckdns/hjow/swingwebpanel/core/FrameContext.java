@@ -1234,6 +1234,17 @@ final class FrameContext implements BrowsingContext {
     }
 
     /**
+     * Returns the script host that receives the messages of other windows: the one of the document that the frame shows now.
+     * <p>
+     * 다른 창의 메시지를 받는 스크립트 호스트를 반환한다: 프레임이 지금 보여 주는 문서의 것이다.
+     *
+     * @return the script host or null / 스크립트 호스트 또는 null
+     */
+    public PageScripts getMessageScripts() {
+        return getScripts();
+    }
+
+    /**
      * Returns the script host of the document that the frame shows now.
      * <p>
      * 프레임이 지금 보여 주는 문서의 스크립트 호스트를 반환한다.
@@ -1383,7 +1394,32 @@ final class FrameContext implements BrowsingContext {
      * @return the context that the target selects, or null / 대상이 고르는 문맥. 없으면 null
      */
     public BrowsingContext open(String url, String target) {
-        return FrameNavigator.open(owner.tree.session, owner.rootSet(), this, owner.tree.topContext(), target, url);
+        return open(url, target, "");
+    }
+
+    /**
+     * Opens a window for a script of the document of this frame, with the window features text.
+     * <p>
+     * 이 프레임의 문서의 스크립트를 위해 창 기능 문자열과 함께 창을 연다.
+     *
+     * @param url      the absolute address or an empty string / 절대 주소 또는 빈 문자열
+     * @param target   the target name / 대상 이름
+     * @param features the window features text / 창 기능 문자열
+     * @return the context that the target selects or the new window, or null / 대상이 고르는 문맥이나 새 창. 없으면 null
+     */
+    public BrowsingContext open(String url, String target, String features) {
+        return FrameNavigator.open(owner.tree.session, owner.rootSet(), this, owner.tree.topContext(), target, url, features);
+    }
+
+    /**
+     * A nested context has no opener.
+     * <p>
+     * 중첩 문맥에는 opener 가 없다.
+     *
+     * @return null / null
+     */
+    public BrowsingContext getOpener() {
+        return null;
     }
 
     /**

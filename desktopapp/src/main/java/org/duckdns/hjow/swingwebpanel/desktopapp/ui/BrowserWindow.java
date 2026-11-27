@@ -25,6 +25,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
@@ -33,6 +34,7 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
+import org.duckdns.hjow.swingwebpanel.WindowRequest;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
 import org.duckdns.hjow.swingwebpanel.desktopapp.Texts;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkModel;
@@ -89,6 +91,12 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
     /** The bookmark manager of this window while it is open, or null. / 열려 있는 동안 이 창의 북마크 관리 창. 없으면 null. */
     private transient BookmarkDialog bookmarkDialog;
 
+    /** The open popup windows that belong to this window. / 이 창에 속한 열린 팝업 창. */
+    private final transient List<PopupWindow> popups = new ArrayList<PopupWindow>();
+
+    /** The context menu that was built last, kept for the tests. / 마지막으로 만든 문맥 메뉴. 시험을 위해 보관한다. */
+    private transient JPopupMenu lastContextMenu;
+
     /** The largest number of bookmarks that a folder opens in tabs without asking. / 묻지 않고 폴더가 탭으로 여는 북마크의 최대 개수. */
     private static final int OPEN_ALL_WITHOUT_ASKING = 10;
 
@@ -100,6 +108,19 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
      * @param app the application that owns the window / 창을 소유할 응용 프로그램
      */
     public BrowserWindow(BrowserApp app) {
+        this(app, null);
+    }
+
+    /**
+     * Creates a window with one tab: a tab for the component of a window that a page opened, or a tab with the empty page.
+     * <p>
+     * 탭 하나가 있는 창을 만든다: 페이지가 연 창의 컴포넌트를 위한 탭, 또는 빈 페이지가 있는 탭.
+     *
+     * @param app   the application that owns the window / 창을 소유할 응용 프로그램
+     * @param first the component of a window that a page opened (created by a tab of this application), or null for the empty page /
+     *              페이지가 연 창의 컴포넌트(이 응용 프로그램의 탭이 만든 것). 빈 페이지이면 null
+     */
+    public BrowserWindow(BrowserApp app, SwingWebPanel first) {
         super(BrowserApp.NAME);
         this.app = app;
         navigation = new NavigationBar(this);
@@ -152,7 +173,11 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         });
         installKeys();
         app.getSettings().addListener(this);
-        newTab(null, true);
+        if (first == null) {
+            newTab(null, true);
+        } else {
+            addTab(new BrowserTab(app, first), true);
+        }
         settingsChanged(app.getSettings());
     }
 
@@ -301,6 +326,351 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
      */
     public void tabCloseRequested(BrowserTab tab) {
         closeTab(tab);
+    }
+
+    /**
+     * Returns the place that a setting chooses.
+     * <p>
+     * 설정이 고른 곳을 반환한다.
+     *
+     * @param key the key of the setting / 설정의 키
+     * @return {@link Settings#PLACE_POPUP}, {@link Settings#PLACE_WINDOW} or {@link Settings#PLACE_TAB} / {@link Settings#PLACE_POPUP},
+     *         {@link Settings#PLACE_WINDOW}, {@link Settings#PLACE_TAB} 중 하나
+     */
+    private String placeOf(String key) {
+        return app.getSettings().getChoice(key, Settings.LINK_PLACE.equals(key) ? new String[] { Settings.PLACE_TAB, Settings.PLACE_WINDOW }
+                : new String[] { Settings.PLACE_POPUP, Settings.PLACE_WINDOW, Settings.PLACE_TAB });
+    }
+
+    /**
+     * Shows a window that a script opened where the settings say (plan item P31-08-g): in a popup window that belongs to this
+     * window, in a browser window of its own, or in a new tab of this window that becomes the active one. The script keeps its
+     * connection to the window wherever it is shown.
+     * <p>
+     * 스크립트가 연 창을 설정이 정한 곳에 보인다(계획 P31-08-g): 이 창에 속한 팝업 창, 독립된 브라우저 창, 또는 활성 탭이 되는 이 창의 새 탭.
+     * 어디에 보이든 스크립트와 그 창의 관계는 그대로이다.
+     *
+     * @param opener  the tab whose page opened the window / 페이지가 창을 연 탭
+     * @param request the window / 창
+     * @return true if the window is shown / 창을 보였으면 true
+     */
+    public boolean popupOpened(BrowserTab opener, WindowRequest request) {
+        SwingWebPanel panel = request.getPanel();
+        // 그 사이 스크립트가 닫았거나 이 창이 닫혔으면 보일 것이 없다.
+        if (closed || panel == null || panel.isDisposed()) {
+            return false;
+        }
+        String place = placeOf(Settings.POPUP_PLACE);
+        if (Settings.PLACE_TAB.equals(place)) {
+            addTab(new BrowserTab(app, panel), true);
+        } else if (Settings.PLACE_WINDOW.equals(place)) {
+            showBeside(app.adoptWindow(panel));
+        } else {
+            showPopup(new BrowserTab(app, panel), request.getWidth(), request.getHeight(), request.getLeft(), request.getTop());
+        }
+        return true;
+    }
+
+    /**
+     * Opens what a link, a form or the user asks to open elsewhere (plan items P31-04-b and P31-08). A link or a form that asks for
+     * a new window gets a tab that becomes the active one, or a window, as the settings say. A link that the user opens with Ctrl or
+     * the middle button gets a new tab, which becomes the active one only if the settings say so; with Shift it gets a new window.
+     * <p>
+     * 링크, 폼, 사용자가 다른 곳에서 열어 달라고 한 것을 연다(계획 P31-04-b, P31-08). 새 창을 요청하는 링크나 폼은 설정에 따라 활성 탭이 되는 새
+     * 탭이나 새 창을 얻는다. 사용자가 Ctrl 이나 가운데 단추로 연 링크는 새 탭을 얻고, 그 탭은 설정이 그렇게 정했을 때만 활성 탭이 된다. Shift
+     * 로 열면 새 창을 얻는다.
+     *
+     * @param source  the tab of the page / 페이지의 탭
+     * @param request what was asked for / 요청한 것
+     * @return true if it was opened (or blocked) here / 여기서 열었으면(또는 차단했으면) true
+     */
+    public boolean windowRequested(BrowserTab source, WindowRequest request) {
+        if (closed) {
+            return false;
+        }
+        if (request.getKind() == WindowRequest.USER) {
+            String url = request.getUrl();
+            if (url == null || url.length() == 0) {
+                return false;
+            }
+            if (WindowRequest.PLACE_WINDOW.equals(request.getPlace())) {
+                newWindow(url);
+            } else {
+                newTab(url, app.getSettings().getBoolean(Settings.SELECT_NEW_TABS));
+            }
+            return true;
+        }
+        SwingWebPanel panel = request.getPanel();
+        // 팝업 차단이 막았으면 알림은 이미 갔다. 컴포넌트를 만들 수 없었으면 링크는 제자리에서 열린다.
+        if (panel == null) {
+            return request.isBlocked();
+        }
+        if (Settings.PLACE_WINDOW.equals(placeOf(Settings.LINK_PLACE))) {
+            showBeside(app.adoptWindow(panel));
+        } else {
+            addTab(new BrowserTab(app, panel), true);
+        }
+        return true;
+    }
+
+    /**
+     * Shows a popup window for a page.
+     * <p>
+     * 페이지를 위한 팝업 창을 보인다.
+     *
+     * @param tab    the page / 페이지
+     * @param width  the width of the page that was asked for, or -1 / 요청한 페이지 폭. 없으면 -1
+     * @param height the height of the page that was asked for, or -1 / 요청한 페이지 높이. 없으면 -1
+     * @param left   the left edge on the screen, or -1 / 화면의 왼쪽 가장자리. 없으면 -1
+     * @param top    the top edge on the screen, or -1 / 화면의 위쪽 가장자리. 없으면 -1
+     * @return the popup window; it is visible if this window is / 팝업 창. 이 창이 보이면 팝업도 보인다
+     */
+    private PopupWindow showPopup(BrowserTab tab, int width, int height, int left, int top) {
+        PopupWindow popup = new PopupWindow(this, tab, width, height, left, top);
+        popups.add(popup);
+        if (isVisible()) {
+            popup.setVisible(true);
+        }
+        return popup;
+    }
+
+    /**
+     * Forgets a popup window that was closed; called by the popup itself.
+     * <p>
+     * 닫힌 팝업 창을 목록에서 뺀다. 팝업 자신이 부른다.
+     *
+     * @param popup the closed popup / 닫힌 팝업
+     */
+    void popupClosed(PopupWindow popup) {
+        popups.remove(popup);
+    }
+
+    /**
+     * Returns the open popup windows that belong to this window.
+     * <p>
+     * 이 창에 속한 열린 팝업 창들을 반환한다.
+     *
+     * @return a copy of the list / 목록의 복사본
+     */
+    List<PopupWindow> getPopups() {
+        return new ArrayList<PopupWindow>(popups);
+    }
+
+    /**
+     * Shows the button that opens the popup that was blocked last on a page, or hides it when there is none (plan item P31-08-f).
+     * <p>
+     * 페이지에서 마지막으로 차단된 팝업을 여는 단추를 보인다. 없으면 숨긴다(계획 P31-08-f).
+     *
+     * @param bar the status bar that shows the page / 페이지를 보이는 상태 표시줄
+     * @param tab the page / 페이지
+     */
+    void offerBlockedPopup(StatusBar bar, final BrowserTab tab) {
+        String url = tab.getBlockedPopup();
+        // 주소 없는 팝업은 다시 열 것이 없으므로 알림만 보인다.
+        if (url == null || url.length() == 0) {
+            bar.offer(null, null);
+            return;
+        }
+        bar.offer(Texts.of("Open this popup", "이 팝업 열기"), new Runnable() {
+            /** Opens the blocked popup. / 차단된 팝업을 연다. */
+            public void run() {
+                openBlockedPopup(tab);
+            }
+        });
+    }
+
+    /**
+     * Opens the popup that was blocked last on a page, where the settings show popups. The script that asked for it has finished, so
+     * the new window has no connection to the page, like a window opened with <code>noopener</code>.
+     * <p>
+     * 페이지에서 마지막으로 차단된 팝업을 설정이 팝업을 보이는 곳에 연다. 그것을 요청한 스크립트는 이미 끝났으므로, 새 창은
+     * <code>noopener</code> 로 연 창처럼 그 페이지와 관계가 없다.
+     *
+     * @param tab the page whose popup was blocked / 팝업이 차단된 페이지
+     */
+    void openBlockedPopup(BrowserTab tab) {
+        String url = tab.getBlockedPopup();
+        if (closed || url == null || url.length() == 0) {
+            return;
+        }
+        tab.clearBlockedPopup();
+        String place = placeOf(Settings.POPUP_PLACE);
+        if (Settings.PLACE_TAB.equals(place)) {
+            newTab(url, true);
+        } else if (Settings.PLACE_WINDOW.equals(place)) {
+            newWindow(url);
+        } else {
+            BrowserTab fresh = new BrowserTab(app);
+            showPopup(fresh, -1, -1, -1, -1);
+            fresh.navigate(url);
+        }
+    }
+
+    /**
+     * Builds the context menu of a page and shows it at the mouse (plan item P31-04-b). Over a link it offers to open the link in a
+     * new tab or a new window and to copy its address; then come the commands of the page.
+     * <p>
+     * 페이지의 문맥 메뉴를 만들어 마우스 위치에 보인다(계획 P31-04-b). 링크 위에서는 링크를 새 탭이나 새 창에서 열기, 주소 복사를 제안하고, 이어서
+     * 페이지의 명령이 온다.
+     *
+     * @param tab  the tab of the page / 페이지의 탭
+     * @param link the address of the link under the mouse, or null / 마우스 아래 링크의 주소. 없으면 null
+     * @param x    the horizontal position in the component of the page / 페이지 컴포넌트 안의 가로 위치
+     * @param y    the vertical position in the component of the page / 페이지 컴포넌트 안의 세로 위치
+     */
+    public void contextMenuRequested(BrowserTab tab, String link, int x, int y) {
+        if (closed) {
+            return;
+        }
+        JPopupMenu menu = contextMenu(tab, link);
+        lastContextMenu = menu;
+        // 보이지 않는 창(시험)에서는 메뉴를 만들기만 한다.
+        if (tab.getPanel().isShowing()) {
+            menu.show(tab.getPanel(), x, y);
+        }
+    }
+
+    /**
+     * Returns the context menu that was built last.
+     * <p>
+     * 마지막으로 만든 문맥 메뉴를 반환한다.
+     *
+     * @return the menu, or null if none was asked for yet / 메뉴. 아직 요청이 없었으면 null
+     */
+    JPopupMenu getLastContextMenu() {
+        return lastContextMenu;
+    }
+
+    /**
+     * Builds the context menu of a page.
+     * <p>
+     * 페이지의 문맥 메뉴를 만든다.
+     *
+     * @param tab  the tab of the page / 페이지의 탭
+     * @param link the address of the link under the mouse, or null / 마우스 아래 링크의 주소. 없으면 null
+     * @return the menu; its items are named <code>open-link-tab</code>, <code>open-link-window</code>, <code>copy-link</code>,
+     *         <code>back</code>, <code>forward</code>, <code>reload</code>, <code>copy</code> and <code>select-all</code> / 메뉴. 항목의
+     *         이름은 <code>open-link-tab</code>, <code>open-link-window</code>, <code>copy-link</code>, <code>back</code>,
+     *         <code>forward</code>, <code>reload</code>, <code>copy</code>, <code>select-all</code> 이다
+     */
+    JPopupMenu contextMenu(final BrowserTab tab, final String link) {
+        JPopupMenu menu = new JPopupMenu();
+        final SwingWebPanel panel = tab.getPanel();
+        if (link != null && link.length() > 0) {
+            menu.add(contextItem("open-link-tab", Texts.of("Open link in new tab", "새 탭에서 링크 열기"), true, new Runnable() {
+                /** Opens the link in a new tab. / 링크를 새 탭에서 연다. */
+                public void run() {
+                    newTab(link, app.getSettings().getBoolean(Settings.SELECT_NEW_TABS));
+                }
+            }));
+            menu.add(contextItem("open-link-window", Texts.of("Open link in new window", "새 창에서 링크 열기"), true, new Runnable() {
+                /** Opens the link in a new window. / 링크를 새 창에서 연다. */
+                public void run() {
+                    newWindow(link);
+                }
+            }));
+            menu.add(contextItem("copy-link", Texts.of("Copy link address", "링크 주소 복사"), true, new Runnable() {
+                /** Puts the address of the link on the clipboard. / 링크의 주소를 클립보드에 넣는다. */
+                public void run() {
+                    copyText(link);
+                }
+            }));
+            menu.addSeparator();
+        }
+        menu.add(contextItem("back", Texts.of("Back", "뒤로"), tab.canGoBack(), new Runnable() {
+            /** Goes back in the history of the page. / 페이지의 이력에서 뒤로 간다. */
+            public void run() {
+                panel.back();
+            }
+        }));
+        menu.add(contextItem("forward", Texts.of("Forward", "앞으로"), tab.canGoForward(), new Runnable() {
+            /** Goes forward in the history of the page. / 페이지의 이력에서 앞으로 간다. */
+            public void run() {
+                panel.forward();
+            }
+        }));
+        menu.add(contextItem("reload", Texts.of("Reload", "새로고침"), true, new Runnable() {
+            /** Loads the page again. / 페이지를 다시 읽는다. */
+            public void run() {
+                panel.refresh();
+            }
+        }));
+        menu.addSeparator();
+        menu.add(contextItem("copy", Texts.of("Copy", "복사"), true, new Runnable() {
+            /** Copies the selection of the page. / 페이지의 선택을 복사한다. */
+            public void run() {
+                panel.copy();
+            }
+        }));
+        menu.add(contextItem("select-all", Texts.of("Select all", "모두 선택"), true, new Runnable() {
+            /** Selects everything on the page. / 페이지의 모든 것을 선택한다. */
+            public void run() {
+                panel.selectAll();
+            }
+        }));
+        return menu;
+    }
+
+    /**
+     * Creates an item of the context menu.
+     * <p>
+     * 문맥 메뉴의 항목을 만든다.
+     *
+     * @param name    the name of the item for the tests / 시험을 위한 항목 이름
+     * @param text    the text / 글
+     * @param enabled whether the item can be chosen / 항목을 고를 수 있는지
+     * @param work    what the item does / 항목이 하는 일
+     * @return the item / 항목
+     */
+    private static JMenuItem contextItem(String name, String text, boolean enabled, final Runnable work) {
+        JMenuItem item = new JMenuItem(text);
+        item.setName(name);
+        item.setEnabled(enabled);
+        item.addActionListener(new ActionListener() {
+            /**
+             * Does the work of the item.
+             * <p>
+             * 항목의 일을 한다.
+             *
+             * @param e the event / 이벤트
+             */
+            public void actionPerformed(ActionEvent e) {
+                work.run();
+            }
+        });
+        return item;
+    }
+
+    /**
+     * Puts text on the system clipboard; a clipboard that cannot be used leaves a message in the status bar.
+     * <p>
+     * 글을 시스템 클립보드에 넣는다. 클립보드를 쓸 수 없으면 상태 표시줄에 메시지를 남긴다.
+     *
+     * @param text the text / 글
+     */
+    private void copyText(String text) {
+        try {
+            java.awt.Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new java.awt.datatransfer.StringSelection(text), null);
+        } catch (RuntimeException e) {
+            getActiveTab().showNotice(Texts.of("The clipboard cannot be used.", "클립보드를 쓸 수 없습니다."));
+        }
+    }
+
+    /**
+     * Puts another window a little beside this one, with the size of this one, and shows it if this window is shown.
+     * <p>
+     * 다른 창을 이 창과 같은 크기로 조금 비켜 두고, 이 창이 보이면 그 창도 보인다.
+     *
+     * @param w the other window / 다른 창
+     * @return the other window / 그 창
+     */
+    private BrowserWindow showBeside(BrowserWindow w) {
+        w.setSize(getSize());
+        w.setLocation(getX() + 30, getY() + 30);
+        if (isVisible()) {
+            w.setVisible(true);
+        }
+        return w;
     }
 
     /**
@@ -503,13 +873,7 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         if (first == null && Settings.NEW_TAB_HOME.equals(app.getSettings().get(Settings.NEW_TAB_PAGE))) {
             first = app.getSettings().get(Settings.HOME_PAGE);
         }
-        BrowserWindow w = app.openWindow(first);
-        w.setSize(getSize());
-        w.setLocation(getX() + 30, getY() + 30);
-        if (isVisible()) {
-            w.setVisible(true);
-        }
-        return w;
+        return showBeside(app.openWindow(first));
     }
 
     /**
@@ -604,6 +968,10 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         // 탭마다 페이지에 관한 설정(스크립트, 글꼴, 확대 비율 등)을 적용한다.
         for (int i = 0; i < tabs.size(); i++) {
             tabs.get(i).applySettings();
+        }
+        // 팝업 창의 페이지에도 적용한다.
+        for (int i = 0; i < popups.size(); i++) {
+            popups.get(i).getTab().applySettings();
         }
     }
 
@@ -881,7 +1249,24 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
      * @return the new tab / 새 탭
      */
     public BrowserTab newTab(String url, boolean select) {
-        final BrowserTab tab = new BrowserTab(app);
+        BrowserTab tab = new BrowserTab(app);
+        // 빈 페이지는 컴포넌트의 처음 상태이므로 다시 읽지 않는다.
+        if (url != null && url.trim().length() > 0 && !BrowserApp.BLANK.equals(url.trim())) {
+            tab.open(url);
+        }
+        return addTab(tab, select);
+    }
+
+    /**
+     * Puts a tab at the end of the tab strip.
+     * <p>
+     * 탭을 탭 줄 끝에 둔다.
+     *
+     * @param tab    the tab / 탭
+     * @param select true to make it the active tab / 활성 탭으로 만들려면 true
+     * @return the tab / 그 탭
+     */
+    private BrowserTab addTab(final BrowserTab tab, boolean select) {
         tab.setListener(this);
         tabs.add(tab);
         tabPane.addTab(null, tab.getComponent());
@@ -892,10 +1277,6 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
                 closeTab(tab);
             }
         }));
-        // 빈 페이지는 컴포넌트의 처음 상태이므로 다시 읽지 않는다.
-        if (url != null && url.trim().length() > 0 && !BrowserApp.BLANK.equals(url.trim())) {
-            tab.open(url);
-        }
         showHeader(tab);
         if (select) {
             tabPane.setSelectedIndex(index);
@@ -1087,6 +1468,7 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         }
         navigation.setState(tab.canGoBack(), tab.canGoForward(), tab.isLoading());
         status.show(tab.getStatusText(), tab.getPanel().getProgress(), tab.getPanel().getZoom());
+        offerBlockedPopup(status, tab);
     }
 
     /**
@@ -1274,6 +1656,11 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         if (bookmarkDialog != null) {
             bookmarkDialog.dispose();
             bookmarkDialog = null;
+        }
+        // 이 창에 속한 팝업 창을 먼저 닫는다.
+        List<PopupWindow> open = new ArrayList<PopupWindow>(popups);
+        for (int i = 0; i < open.size(); i++) {
+            open.get(i).close();
         }
         // 탭마다 페이지를 폐기한다.
         for (int i = 0; i < tabs.size(); i++) {

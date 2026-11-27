@@ -27,7 +27,9 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 | `src/main/java/.../desktopapp/model/` | `AddressInput`(주소 입력 정규화), `Settings`(설정 값과 리스너) |
 | `src/main/java/.../desktopapp/ui/BrowserWindow.java` | 브라우저 창(JFrame). `NavigationBar.Actions` 와 `BrowserTab.Listener` 를 구현한다. 탭 목록(`JTabbedPane`)과 닫은 탭 목록을 가진다 |
 | `src/main/java/.../desktopapp/ui/TabHeader.java` | 탭 줄의 탭 머리(제목, 읽는 중 표시, 닫기 단추) |
-| `src/main/java/.../desktopapp/ui/BrowserTab.java` | 페이지 하나(SwingWebPanel + JScrollPane)와 그 상태(읽는 중인 주소, 알림 문구) |
+| `src/main/java/.../desktopapp/ui/BrowserTab.java` | 페이지 하나(SwingWebPanel + JScrollPane)와 그 상태(읽는 중인 주소, 알림 문구, 마우스 아래 링크, 차단된 팝업) |
+| `src/main/java/.../desktopapp/ui/TabPanel.java` | 탭의 컴포넌트(`SwingWebPanel` 하위 클래스): 다운로드 폴더, 페이지가 여는 창·차단 알림·스크립트의 닫기를 탭에 넘긴다. 페이지가 연 창의 컴포넌트도 이 클래스이다(`createPopupPanel`) |
+| `src/main/java/.../desktopapp/ui/PopupWindow.java` | 스크립트가 연 창을 보이는 팝업 창(브라우저 창이 소유한 비모달 `JDialog`) |
 | `src/main/java/.../desktopapp/ui/NavigationBar.java`, `StatusBar.java`, `Icons.java` | 탐색 도구 모음(버튼, 주소 표시줄, 이력 메뉴), 상태 표시줄, Java2D 로 그린 아이콘 |
 | `src/test/java/.../desktopapp/ui/TestPages.java` | 창 시험 도우미: 임시 파일 페이지, 루프백 HTTP 서버, EDT 조건 대기 |
 | `src/test/java/...` | 자체 실행기(`testing.TestRunner`, 엔진 모듈의 시험 JAR)로 실행하는 시험 |

@@ -136,6 +136,18 @@ final class FrameApi {
         if (scripts != null && !scripts.isDisposed() && !c.isClosed() && sameOrigin(c)) {
             return scripts.getRealm().getGlobalObject();
         }
+        return restrictedTarget(c);
+    }
+
+    /**
+     * Returns the restricted view of a window for this document: the members that every origin may use.
+     * <p>
+     * 이 문서를 위한 창의 제한 객체를 반환한다: 어느 오리진이나 쓸 수 있는 멤버만 있다.
+     *
+     * @param c target browsing context / 대상 브라우징 문맥
+     * @return the restricted view / 제한 객체
+     */
+    CrossOriginWindow restrictedTarget(BrowsingContext c) {
         WeakReference<CrossOriginWindow> ref = proxies.get(c);
         CrossOriginWindow proxy = ref == null ? null : ref.get();
         if (proxy == null) {
@@ -328,6 +340,7 @@ final class FrameApi {
             public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
                 String url = args.length > 0 && args[0] != Js.UNDEFINED ? Ops.toString(args[0]) : "";
                 String target = args.length > 1 && args[1] != Js.UNDEFINED ? Ops.toString(args[1]) : "_blank";
+                String features = args.length > 2 && args[2] != Js.UNDEFINED && args[2] != Js.NULL ? Ops.toString(args[2]) : "";
                 BrowsingContext c = context();
                 if (c == null) {
                     return Js.NULL;
@@ -342,7 +355,7 @@ final class FrameApi {
                                 + url + "'."));
                     }
                 }
-                BrowsingContext opened = c.open(absolute, target);
+                BrowsingContext opened = c.open(absolute, target, features);
                 return opened == null ? Js.NULL : windowOf(opened);
             }
         }), true, false, true);
@@ -620,7 +633,7 @@ final class FrameApi {
      * @param transfer     the transfer argument / 전달 인수
      */
     void postMessageTo(BrowsingContext target, JsValue message, String targetOrigin, JsValue transfer) {
-        PageScripts receiver = target.getScripts();
+        PageScripts receiver = target.getMessageScripts();
         PageScripts sender = PageScripts.messageSender(page);
         String senderUrl = sender.getDocument().getOriginUrl();
         // 대상 오리진은 받는 문서의 오리진과 비교하며 문법이 틀리면 SyntaxError 이다.
@@ -638,7 +651,8 @@ final class FrameApi {
             }
         }
         org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue cloned = sender.messaging().cloneForPost(message, transfer);
-        if (receiver == null || receiver.isDisposed()) {
+        // 닫힌 창(호출한 쪽과 그룹이 갈라진 창 포함)에는 보내지 않는다.
+        if (receiver == null || receiver.isDisposed() || target.isClosed()) {
             return;
         }
         receiver.messaging().receiveFromOther(targetOrigin, cloned, Origin.of(senderUrl).serialize(), senderUrl,

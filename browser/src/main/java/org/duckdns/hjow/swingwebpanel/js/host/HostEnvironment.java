@@ -83,6 +83,16 @@ public abstract class HostEnvironment {
     }
 
     /**
+     * Notes an action of the user in the document (a press of a mouse button or a key), which allows the page to open one window for a
+     * short time (the transient activation of the HTML Standard). The default does nothing.
+     * <p>
+     * 문서에서 일어난 사용자의 조작(마우스 단추나 키를 누름)을 기록한다. 잠시 동안 페이지가 창 하나를 열 수 있게 한다(HTML 표준의 일시적 활성화).
+     * 기본 구현은 아무것도 하지 않는다.
+     */
+    public void noteUserActivation() {
+    }
+
+    /**
      * Returns the browsing context of the document: the top-level document of the component or a nested context of a frame. The scripts use
      * it for <code>parent</code>, <code>top</code>, <code>frames</code> and <code>frameElement</code>; the default is null, a document that
      * stands alone (it is its own parent and top).

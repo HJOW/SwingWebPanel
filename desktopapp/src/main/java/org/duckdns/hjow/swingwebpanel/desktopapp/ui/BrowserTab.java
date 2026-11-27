@@ -2,6 +2,8 @@ package org.duckdns.hjow.swingwebpanel.desktopapp.ui;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -10,7 +12,10 @@ import java.util.Vector;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
+import org.duckdns.hjow.swingwebpanel.WindowRequest;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
 import org.duckdns.hjow.swingwebpanel.desktopapp.Texts;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.AddressInput;
@@ -51,6 +56,42 @@ public final class BrowserTab {
          * @param tab the tab / 탭
          */
         void tabCloseRequested(BrowserTab tab);
+
+        /**
+         * Called on the event dispatch thread when a script of the page of the tab opened a window: the receiver shows the component
+         * of the request somewhere.
+         * <p>
+         * 탭의 페이지의 스크립트가 창을 열었을 때 이벤트 디스패치 스레드에서 호출된다: 받는 쪽이 요청의 컴포넌트를 어딘가에 보인다.
+         *
+         * @param tab     the tab whose page opened the window / 페이지가 창을 연 탭
+         * @param request the window / 창
+         * @return true if the window is shown; false declines it / 창을 보였으면 true. false 이면 거절한다
+         */
+        boolean popupOpened(BrowserTab tab, WindowRequest request);
+
+        /**
+         * Called on the event dispatch thread when a link or a form of the page asks for a new window, or the user chose to open a
+         * link in a new tab or window.
+         * <p>
+         * 페이지의 링크나 폼이 새 창을 요청했거나, 사용자가 링크를 새 탭이나 창에서 열기로 골랐을 때 이벤트 디스패치 스레드에서 호출된다.
+         *
+         * @param tab     the tab of the page / 페이지의 탭
+         * @param request what was asked for / 요청한 것
+         * @return true if the receiver opened it / 받는 쪽이 열었으면 true
+         */
+        boolean windowRequested(BrowserTab tab, WindowRequest request);
+
+        /**
+         * Called on the event dispatch thread when the user asks for the context menu of the page.
+         * <p>
+         * 사용자가 페이지의 문맥 메뉴를 요청하면 이벤트 디스패치 스레드에서 호출된다.
+         *
+         * @param tab  the tab / 탭
+         * @param link the address of the link under the mouse, or null / 마우스 아래 링크의 주소. 없으면 null
+         * @param x    the horizontal position in the component of the page / 페이지 컴포넌트 안의 가로 위치
+         * @param y    the vertical position in the component of the page / 페이지 컴포넌트 안의 세로 위치
+         */
+        void contextMenuRequested(BrowserTab tab, String link, int x, int y);
     }
 
     /** The application. / 응용 프로그램. */
@@ -71,54 +112,14 @@ public final class BrowserTab {
     /** The default zoom of the settings that this tab follows, as a factor. / 이 탭이 따르는 설정의 기본 확대 비율(배율). */
     private double followedZoom = 1.0;
 
-    /**
-     * The component of a tab: a {@link SwingWebPanel} whose extension points ask the application.
-     * <p>
-     * 탭의 컴포넌트: 확장 지점이 응용 프로그램에 묻는 {@link SwingWebPanel}.
-     */
-    private final class TabPanel extends SwingWebPanel {
+    /** The User-Agent that a new component has before any setting changes it. / 설정이 바꾸기 전에 새 컴포넌트가 가지는 User-Agent. */
+    private static volatile String defaultUserAgent;
 
-        /** Serialization version. / 직렬화 버전. */
-        private static final long serialVersionUID = 1L;
+    /** The address of the link under the mouse, or null. / 마우스 아래 링크의 주소. 없으면 null. */
+    private String hoveredLink;
 
-        /**
-         * Creates the component with the cookie jar of the application.
-         * <p>
-         * 응용 프로그램의 쿠키 저장소로 컴포넌트를 만든다.
-         */
-        TabPanel() {
-            super(app.getCookieJar());
-        }
-
-        /**
-         * Returns the download folder of the settings, if one is set and exists.
-         * <p>
-         * 설정의 다운로드 폴더가 정해져 있고 실제로 있으면 그것을 반환한다.
-         *
-         * @return the folder, or the default of the component / 폴더. 없으면 컴포넌트의 기본값
-         */
-        protected java.io.File getDownloadDirectory() {
-            String dir = app.getSettings().get(Settings.DOWNLOAD_DIRECTORY).trim();
-            if (dir.length() > 0) {
-                java.io.File f = new java.io.File(dir);
-                if (f.isDirectory()) {
-                    return f;
-                }
-            }
-            return super.getDownloadDirectory();
-        }
-
-        /**
-         * Closes only this tab when a script of its page closes the window; the program does not end unless it was the last tab.
-         * <p>
-         * 페이지의 스크립트가 창을 닫으면 이 탭만 닫는다. 마지막 탭이 아니면 프로그램은 끝나지 않는다.
-         */
-        protected void closeRootWindow() {
-            if (listener != null) {
-                listener.tabCloseRequested(BrowserTab.this);
-            }
-        }
-    }
+    /** The address of the popup that was blocked last on this page, or null. / 이 페이지에서 마지막으로 차단된 팝업의 주소. 없으면 null. */
+    private String blockedPopup;
 
     /** The address that the user opened and that is still loading (shown in the address bar before the page arrives), or null. / 사용자가 열었고 아직 읽는 중인 주소(페이지가 도착하기 전에 주소 표시줄에 보인다). 없으면 null. */
     private String pendingUrl;
@@ -134,10 +135,39 @@ public final class BrowserTab {
      * @param app the application / 응용 프로그램
      */
     public BrowserTab(BrowserApp app) {
+        this(app, null);
+    }
+
+    /**
+     * Creates a tab for the component of a window that a page opened (see {@link WindowRequest#getPanel()}); the tab shows the page
+     * that the component already has or is loading.
+     * <p>
+     * 페이지가 연 창의 컴포넌트를 위한 탭을 만든다({@link WindowRequest#getPanel()} 참고). 탭은 컴포넌트가 이미 가졌거나 읽는 중인 페이지를
+     * 보인다.
+     *
+     * @param app     the application / 응용 프로그램
+     * @param adopted the component of the window, created by a tab of this application; null creates a tab with an empty page /
+     *                이 응용 프로그램의 탭이 만든 창의 컴포넌트. null 이면 빈 페이지가 있는 탭을 만든다
+     * @throws IllegalArgumentException if the component was not created by a tab of this application / 컴포넌트가 이 응용 프로그램의
+     *                                  탭이 만든 것이 아니면
+     */
+    public BrowserTab(BrowserApp app, SwingWebPanel adopted) {
         this.app = app;
-        // 응용 프로그램의 모든 탭은 쿠키 저장소 하나를 함께 쓴다.
-        panel = new TabPanel();
-        builtInUserAgent = panel.getUserAgent();
+        if (adopted == null) {
+            // 응용 프로그램의 모든 탭은 쿠키 저장소 하나를 함께 쓴다.
+            panel = new TabPanel(app);
+            if (defaultUserAgent == null) {
+                defaultUserAgent = panel.getUserAgent();
+            }
+        } else {
+            if (!(adopted instanceof TabPanel) || !((TabPanel) adopted).belongsTo(app)) {
+                throw new IllegalArgumentException("the component was not created by a tab of this application");
+            }
+            panel = adopted;
+        }
+        ((TabPanel) panel).bind(this);
+        // 페이지가 연 창의 컴포넌트는 여는 창의 User-Agent 를 이어받았으므로, 설정을 비웠을 때 돌아갈 값은 새 컴포넌트의 값이다.
+        builtInUserAgent = adopted != null && defaultUserAgent != null ? defaultUserAgent : panel.getUserAgent();
         scroll = new JScrollPane(panel);
         scroll.setBorder(null);
         // 스크롤 창의 Ctrl+PageUp/PageDown(가로 쪽 넘김)은 탭 전환에 쓰도록 끈다.
@@ -157,6 +187,11 @@ public final class BrowserTab {
                 if (SwingWebPanel.PROPERTY_PAGE.equals(e.getPropertyName()) || SwingWebPanel.PROPERTY_STATUS_TEXT.equals(e.getPropertyName())) {
                     notice = null;
                 }
+                // 페이지가 바뀌면 이전 페이지에서 차단된 팝업과 가리키던 링크는 잊는다.
+                if (SwingWebPanel.PROPERTY_PAGE.equals(e.getPropertyName())) {
+                    blockedPopup = null;
+                    hoveredLink = null;
+                }
                 // 페이지가 도착했거나 읽기가 끝났으면(멈춤 포함) 읽는 중이던 주소는 더 이상 보이지 않는다.
                 if (SwingWebPanel.PROPERTY_PAGE.equals(e.getPropertyName())
                         || (SwingWebPanel.PROPERTY_PROGRESS.equals(e.getPropertyName()) && Integer.valueOf(100).equals(e.getNewValue()))) {
@@ -170,6 +205,141 @@ public final class BrowserTab {
         panel.addPropertyChangeListener(SwingWebPanel.PROPERTY_PROGRESS, changes);
         panel.addPropertyChangeListener(SwingWebPanel.PROPERTY_STATUS_TEXT, changes);
         panel.addPropertyChangeListener(SwingWebPanel.PROPERTY_ZOOM, changes);
+        panel.addHyperlinkListener(new HyperlinkListener() {
+            /**
+             * Remembers the link under the mouse for the context menu.
+             * <p>
+             * 문맥 메뉴를 위해 마우스 아래의 링크를 기억한다.
+             *
+             * @param e the event / 이벤트
+             */
+            public void hyperlinkUpdate(HyperlinkEvent e) {
+                if (e.getEventType() == HyperlinkEvent.EventType.ENTERED) {
+                    hoveredLink = e.getURL() != null ? e.getURL().toString() : e.getDescription();
+                } else if (e.getEventType() == HyperlinkEvent.EventType.EXITED) {
+                    hoveredLink = null;
+                }
+            }
+        });
+        panel.addMouseListener(new MouseAdapter() {
+            /**
+             * Asks for the context menu where the platform shows it on a press.
+             * <p>
+             * 플랫폼이 누를 때 문맥 메뉴를 보이면 그때 문맥 메뉴를 요청한다.
+             *
+             * @param e the event / 이벤트
+             */
+            public void mousePressed(MouseEvent e) {
+                askForMenu(e);
+            }
+
+            /**
+             * Asks for the context menu where the platform shows it on a release.
+             * <p>
+             * 플랫폼이 뗄 때 문맥 메뉴를 보이면 그때 문맥 메뉴를 요청한다.
+             *
+             * @param e the event / 이벤트
+             */
+            public void mouseReleased(MouseEvent e) {
+                askForMenu(e);
+            }
+        });
+    }
+
+    /**
+     * Passes a mouse event that asks for the context menu to the window.
+     * <p>
+     * 문맥 메뉴를 요청하는 마우스 이벤트를 창에 넘긴다.
+     *
+     * @param e the event / 이벤트
+     */
+    private void askForMenu(MouseEvent e) {
+        if (e.isPopupTrigger() && listener != null) {
+            listener.contextMenuRequested(this, hoveredLink, e.getX(), e.getY());
+        }
+    }
+
+    /**
+     * Returns the address of the link under the mouse.
+     * <p>
+     * 마우스 아래 링크의 주소를 반환한다.
+     *
+     * @return the address, or null / 주소. 없으면 null
+     */
+    public String getHoveredLink() {
+        return hoveredLink;
+    }
+
+    /**
+     * Passes a window that a script of the page opened to the window of the tab.
+     * <p>
+     * 페이지의 스크립트가 연 창을 탭의 창에 넘긴다.
+     *
+     * @param request the window / 창
+     * @return true if it is shown / 보였으면 true
+     */
+    boolean popupOpened(WindowRequest request) {
+        return listener != null && listener.popupOpened(this, request);
+    }
+
+    /**
+     * Passes what a link, a form or the user asks to open elsewhere to the window of the tab.
+     * <p>
+     * 링크, 폼, 사용자가 다른 곳에서 열어 달라고 한 것을 탭의 창에 넘긴다.
+     *
+     * @param request what was asked for / 요청한 것
+     * @return true if it was opened / 열었으면 true
+     */
+    boolean windowRequested(WindowRequest request) {
+        return listener != null && listener.windowRequested(this, request);
+    }
+
+    /**
+     * Notes that the popup blocker refused a window of the page: the status bar tells so and offers to open it.
+     * <p>
+     * 팝업 차단이 페이지의 창을 거부했음을 기록한다: 상태 표시줄이 그것을 알리고 열기를 제안한다.
+     *
+     * @param request the blocked window / 차단된 창
+     */
+    void popupBlocked(WindowRequest request) {
+        String url = request.getUrl();
+        blockedPopup = url == null ? "" : url;
+        notice = Texts.of("A popup was blocked", "팝업을 차단했습니다") + (blockedPopup.length() == 0 ? "" : ": " + blockedPopup);
+        fireChanged();
+    }
+
+    /**
+     * Returns the address of the popup that was blocked last on this page, for the button that opens it.
+     * <p>
+     * 이 페이지에서 마지막으로 차단된 팝업의 주소를 반환한다. 그것을 여는 단추에 쓴다.
+     *
+     * @return the address (empty for a popup without one), or null if none was blocked / 주소(주소 없는 팝업이면 빈 문자열). 차단된 것이
+     *         없으면 null
+     */
+    public String getBlockedPopup() {
+        return blockedPopup;
+    }
+
+    /**
+     * Forgets the blocked popup, after the user opened it.
+     * <p>
+     * 사용자가 연 뒤에 차단된 팝업을 잊는다.
+     */
+    void clearBlockedPopup() {
+        blockedPopup = null;
+        notice = null;
+        fireChanged();
+    }
+
+    /**
+     * Asks the window of the tab to close this tab, as a script of its page asked.
+     * <p>
+     * 페이지의 스크립트가 요청한 대로, 탭의 창에 이 탭을 닫아 달라고 요청한다.
+     */
+    void requestClose() {
+        if (listener != null) {
+            listener.tabCloseRequested(this);
+        }
     }
 
     /**
@@ -205,6 +375,10 @@ public final class BrowserTab {
         boolean closing = s.getBoolean(Settings.SCRIPTS_CLOSE_WINDOWS);
         if (panel.isRootWindowClosingEnabled() != closing) {
             panel.setRootWindowClosingEnabled(closing);
+        }
+        boolean blocking = s.getBoolean(Settings.BLOCK_POPUPS);
+        if (panel.isPopupBlockingEnabled() != blocking) {
+            panel.setPopupBlockingEnabled(blocking);
         }
         String agent = s.get(Settings.USER_AGENT).trim();
         String wanted = agent.length() == 0 ? builtInUserAgent : agent;
@@ -485,12 +659,13 @@ public final class BrowserTab {
     }
 
     /**
-     * Closes the tab: disposes its component. Calling it again does nothing.
+     * Closes the tab: disposes its component. The local storage that all tabs share stays. Calling it again does nothing.
      * <p>
-     * 탭을 닫는다: 그 컴포넌트를 폐기한다. 다시 불러도 아무 일도 없다.
+     * 탭을 닫는다: 그 컴포넌트를 폐기한다. 모든 탭이 함께 쓰는 localStorage 는 남는다. 다시 불러도 아무 일도 없다.
      */
     public void close() {
         listener = null;
-        panel.dispose();
+        ((TabPanel) panel).bind(null);
+        panel.disposeKeepingStorage();
     }
 }

@@ -130,6 +130,12 @@ final class FrameNavigator {
                     return new Choice(false, null, "the sandbox of the frame does not allow it to open new browsing contexts");
                 }
                 if (!reuse) {
+                    // 샌드박스 문서가 연 창은 그 샌드박스를 물려받아야 하는데 컴포넌트의 최상위 창은 샌드박스를 지닐 수 없다. 그래서 샌드박스를
+                    // 벗어나도 되는 문서(allow-popups-to-escape-sandbox)만 새 창을 열고, 아니면 새 창이 없던 때와 같이 동작한다.
+                    if (source != null && source.flags().isSandboxed() && !source.flags().allowsPopupsToEscapeSandbox()) {
+                        return new Choice(false, null, "a new window of a sandboxed frame would have to stay in the sandbox, which windows"
+                                + " of the component cannot (allow-popups-to-escape-sandbox is missing)");
+                    }
                     return new Choice(false, null, null, true);
                 }
                 top = source == null;
@@ -246,11 +252,52 @@ final class FrameNavigator {
      * @param name    the target name / 대상 이름
      * @param href    the absolute address / 절대 주소
      */
-    static void navigate(BrowserSession session, HtmlPageDocument top, FrameContext source, String name, String href) {
+    static void navigate(final BrowserSession session, final HtmlPageDocument top, final FrameContext source, final String name, final String href) {
         String from = sourceUrl(session, source, href);
         if (!NavigationPolicy.allowed(from, href)) {
             return;
         }
+        // 대상이 새 창을 필요로 하면 먼저 같은 그룹의 이름 있는 창을 찾고, 없으면 호스트에 새 창을 제안한다(계획 P31-08).
+        Choice strict = choose(top == null ? null : top.frames(), source, name, false);
+        if (strict.blocked == null && strict.newContext) {
+            BrowsingContext named = FrameTargets.classify(name) == FrameTargets.NAMED ? session.findWindow(name) : null;
+            if (named != null) {
+                named.navigate(href, false);
+                return;
+            }
+            BrowsingContext caller = source != null ? source : session.topContext();
+            org.duckdns.hjow.swingwebpanel.dom.Document doc = caller.getDocument();
+            OpenRequest request = new OpenRequest(OpenRequest.LINK, href, name, "", from, caller, doc == null ? null : doc.getOriginUrl(),
+                    doc == null ? null : doc.getBaseUri(), null, "");
+            session.openWindowFromLink(request, new Runnable() {
+                /** The host opens no new window: the link navigates the context that it is in, as before. / 호스트가 새 창을 열지 않는다: 링크는 전처럼 자기 문맥을 이동시킨다. */
+                public void run() {
+                    session.submitDocumentTask(new Runnable() {
+                        /** Navigates on the document thread. / 문서 스레드에서 이동한다. */
+                        public void run() {
+                            navigateInPlace(session, top, source, name, href);
+                        }
+                    });
+                }
+            });
+            return;
+        }
+        navigateInPlace(session, top, source, name, href);
+    }
+
+    /**
+     * Navigates the existing context that a target name selects; a name that would need a new window selects the context of the link
+     * itself.
+     * <p>
+     * 대상 이름이 고르는 기존 문맥을 이동시킨다. 새 창이 필요한 이름은 링크가 있는 문맥을 고른다.
+     *
+     * @param session the component / 컴포넌트
+     * @param top     the top-level document / 최상위 문서
+     * @param source  the frame of the document that navigates, or null / 이동을 요청한 문서의 프레임. 없으면 null
+     * @param name    the target name / 대상 이름
+     * @param href    the absolute address / 절대 주소
+     */
+    private static void navigateInPlace(BrowserSession session, HtmlPageDocument top, FrameContext source, String name, String href) {
         Choice choice = choose(top == null ? null : top.frames(), source, name);
         if (choice.blocked != null) {
             session.setStatusMessage("Navigation blocked: " + choice.blocked);
@@ -294,13 +341,47 @@ final class FrameNavigator {
      * @return the context that the target selected, or null / 대상이 고른 문맥. 없으면 null
      */
     static BrowsingContext open(BrowserSession session, FrameSet scope, FrameContext source, BrowsingContext top, String name, String href) {
+        return open(session, scope, source, top, name, href, "");
+    }
+
+    /**
+     * Opens a window for a script (<code>window.open</code>) with the window features text: like the form without features, but a
+     * target that needs a new window first selects an open window of the same group with that name and otherwise opens a new window
+     * (plan item P31-08), if the component can show one and the popup blocker allows it.
+     * <p>
+     * 창 기능 문자열과 함께 스크립트를 위해 창을 연다(<code>window.open</code>): 기능 없는 형태와 같지만, 새 창이 필요한 대상은 먼저 같은 그룹에서
+     * 그 이름의 열린 창을 고르고, 없으면 새 창을 연다(계획 P31-08). 컴포넌트가 창을 보일 수 있고 팝업 차단이 허용할 때에 한한다.
+     *
+     * @param session  the component / 컴포넌트
+     * @param scope    the frame set of the top-level document, or null / 최상위 문서의 프레임 집합. 없으면 null
+     * @param source   the frame of the document that calls, or null for the top-level document / 호출한 문서의 프레임. 최상위 문서이면 null
+     * @param top      the context of the top-level document / 최상위 문서의 문맥
+     * @param name     the target name / 대상 이름
+     * @param href     the absolute address, or an empty string / 절대 주소. 없으면 빈 문자열
+     * @param features the window features text / 창 기능 문자열
+     * @return the context that the target selected or the new window, or null / 대상이 고른 문맥이나 새 창. 없으면 null
+     */
+    static BrowsingContext open(BrowserSession session, FrameSet scope, FrameContext source, BrowsingContext top, String name, String href,
+            String features) {
         Choice choice = choose(scope, source, name, false);
         if (choice.blocked != null) {
             session.setStatusMessage("Window blocked: " + choice.blocked);
             return null;
         }
         if (choice.newContext) {
-            return null;
+            String from = sourceUrl(session, source, href);
+            // 정책이 막은 주소로는 창을 열지 않는다.
+            if (href.length() > 0 && !NavigationPolicy.allowed(from, href)) {
+                return null;
+            }
+            BrowsingContext named = FrameTargets.classify(name) == FrameTargets.NAMED ? session.findWindow(name) : null;
+            if (named != null) {
+                if (href.length() > 0) {
+                    named.navigate(href, false);
+                }
+                return named;
+            }
+            return session.openWindowFromScript(source != null ? source : top, name, href, features);
         }
         BrowsingContext target = choice.top ? top : choice.frame;
         if (target == null) {
@@ -357,7 +438,7 @@ final class FrameNavigator {
              *
              * @param submission the submission / 제출 정보
              */
-            public void submit(FormSubmission submission) {
+            public void submit(final FormSubmission submission) {
                 if (submission == null) {
                     return;
                 }
@@ -370,7 +451,45 @@ final class FrameNavigator {
                     return;
                 }
                 FrameSet own = presentation.frameSet();
-                FrameSet scope = own == null ? null : own.rootSet();
+                final FrameSet scope = own == null ? null : own.rootSet();
+                // 대상이 새 창을 필요로 하면 호스트에 새 창을 제안한다(계획 P31-08). 호스트가 받지 않으면 전처럼 폼이 있는 문맥에서 제출한다.
+                Choice strict = choose(scope, source, submission.getTarget(), false);
+                if (strict.blocked == null && strict.newContext && submission.getUrl() != null) {
+                    BrowsingContext caller = source != null ? source : session.topContext();
+                    org.duckdns.hjow.swingwebpanel.dom.Document doc = caller.getDocument();
+                    String from = sourceUrl(session, source, submission.getUrl());
+                    boolean post = FormSubmission.POST.equals(submission.getMethod());
+                    byte[] body = submission.getBody();
+                    PostData data = post ? new PostData(submission.getContentType(), body == null ? new byte[0] : body, from) : null;
+                    OpenRequest request = new OpenRequest(OpenRequest.LINK, submission.getUrl().trim(), submission.getTarget(), "", from, caller,
+                            doc == null ? null : doc.getOriginUrl(), doc == null ? null : doc.getBaseUri(), data, "")
+                                    .withActivation(session.consumeUserActivation());
+                    session.openWindowFromLink(request, new Runnable() {
+                        /** The host opens no new window: the form is submitted where it is, as before. / 호스트가 새 창을 열지 않는다: 폼은 전처럼 제자리에서 제출된다. */
+                        public void run() {
+                            session.submitDocumentTask(new Runnable() {
+                                /** Submits on the document thread. / 문서 스레드에서 제출한다. */
+                                public void run() {
+                                    submitInPlace(scope, submission);
+                                }
+                            });
+                        }
+                    });
+                    return;
+                }
+                submitInPlace(scope, submission);
+            }
+
+            /**
+             * Submits the form into the existing context that its target selects; a target that would need a new window selects the
+             * context of the form itself.
+             * <p>
+             * 대상이 고르는 기존 문맥으로 폼을 제출한다. 새 창이 필요한 대상은 폼이 있는 문맥을 고른다.
+             *
+             * @param scope      the frame set of the top-level document, or null / 최상위 문서의 프레임 집합. 없으면 null
+             * @param submission what to send / 보낼 내용
+             */
+            private void submitInPlace(FrameSet scope, FormSubmission submission) {
                 Choice choice = choose(scope, source, submission.getTarget());
                 if (choice.blocked != null) {
                     session.setStatusMessage("Form blocked: " + choice.blocked);

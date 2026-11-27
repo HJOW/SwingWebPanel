@@ -795,6 +795,11 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         return type == NavigationType.REFRESH ? "reload" : type == NavigationType.HISTORY ? "back_forward" : "navigate";
     }
 
+    /** Notes an action of the user for the window of this page (plan item P31-08-f). / 이 페이지의 창에 사용자의 조작을 기록한다(계획 P31-08-f). */
+    public void noteUserActivation() {
+        session.noteUserActivation();
+    }
+
     /** Tells whether the host says that it is online (<code>navigator.onLine</code>). / 호스트가 연결되어 있다고 하는지 알려 준다(<code>navigator.onLine</code>).
      * @return true while online / 연결된 동안 true */
     public boolean isOnline() {

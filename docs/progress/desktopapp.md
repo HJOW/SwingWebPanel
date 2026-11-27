@@ -108,6 +108,7 @@ P31-08-a(이벤트 루프 공유)와 P31-08-b(팝업의 동기 생성)는 이 �
 | 2026-11-27 | P31-05-a | 보완 후보 (e): `copy()`/`cut()`/`paste()`/`selectAll()` 과 명령 키 소비(계약 5.26). 집중 시험 5건 통과. 전체 회귀: 엔진 892 통과, 브라우저 3,845 통과·1 실패(P22-16-c4 의 기존 실패)·12 건너뜀 |
 | 2026-11-27 | P31-07 | 설정: 항목(`model.Settings`), 파일(`SettingsStore`), 세션(`SessionStore`), 대화 상자(`ui.SettingsDialog`), 탭별 적용, 시작 페이지와 세션 복원, 창 위치 기억. 보완 후보 (a)를 컴포넌트별 기본 글꼴 API 로 추가(계약 5.27). 브라우저 시험 5건, 앱 시험 35건 통과 |
 | 2026-11-27 | P31-06 | 북마크: 모델(`BookmarkNode`, `BookmarkModel`), 파일(`BookmarkStore`, `TextFiles`), Netscape HTML 가져오기·내보내기(`BookmarkHtml`), 북마크 메뉴, 관리 창(`ui.BookmarkDialog`). 앱 시험 27건 통과 |
+| 2026-11-27 | P31-08, P31-04-b | 보완 후보 (b): 페이지가 여는 창과 팝업 차단(계약 5.28). 앱: `ui.TabPanel`, `ui.PopupWindow`, 팝업·링크의 열 위치, 차단 알림과 단추, 링크의 새 탭·새 창(Ctrl·Shift·가운데 단추·문맥 메뉴), 탭을 닫을 때 `disposeKeepingStorage()`. 브라우저 시험 12건, 앱 시험 39건 통과 |
 | 2026-11-27 | P31-05-b | 메뉴 막대(`ui.BrowserMenu`), 명령(`ui.Commands`, `BrowserWindow.perform`), 가속 키와 메뉴 항목 없는 키, 페이지 저장(`model.PageFiles`), 확대 단계(`model.ZoomSteps`), 새 창, 끝내기, 정보. 앱 시험 21건 통과 |
 
 ## 7. 구현하면서 정한 것
@@ -203,3 +204,38 @@ P31-08-a(이벤트 루프 공유)와 P31-08-b(팝업의 동기 생성)는 이 �
 - 창 위치: 창을 닫을 때 최대화되지 않았을 때의 경계와 최대화 여부를 설정(`window.*`)에 적는다. 다음 창은 그 크기와 위치로 열리고(제목 줄이 어느 화면에도 걸치지 않으면 위치는 플랫폼에 맡긴다) 추가 창은 30픽셀씩 비켜 둔다.
 - 컴포넌트의 기본 글꼴 구현(계약 5.27): 일반 이름의 패밀리는 페이지의 `WebFontSet` 에 두어 `FontResolver` 가 배치 동안 읽는다(정적 상태 없음). 기본 크기는 `StyleResolver.setDefaultFontSize` 가 기준 컨텍스트의 글꼴 크기로 넘기고
   `StyleComputer` 가 루트의 시작 크기와 크기 키워드에 쓴다. 표준 글꼴과 고정폭 크기는 사용자 출처 스타일 시트(`FontDefaults.userStyleSheet()`)이다. `PageView` 가 자기가 만든 표현(프레임 포함)에 값을 전달한다.
+
+### 7.7 새 탭·새 창·팝업 (P31-08, P31-04-b, 2026-11-27)
+
+SwingWebPanel 쪽(계약 5.28):
+
+- 문서 스레드는 `core.DocumentLoop`(참조 수를 세는 단일 스레드 실행기)로 옮겼다. `NavigationController` 는 자기 루프를 만들거나 받은 루프를 쓴다.
+  닫힌 제어기의 대기 작업은 실행 직전에 걸러 버리고(`closed`), 마지막 사용자가 떠날 때만 스레드를 끝낸다.
+- **계획의 기본안과 다르게** 세션을 먼저 만들고 Swing 부품을 나중에 붙이지 않는다. `SwingWebPanel` 의 생성자가 세션을 만들기 때문에,
+  `window.open` 은 스크립트의 스레드에서 `createPopupPanel(PopupSeed)` 로 컴포넌트 전체를 만들고(화면에 붙기 전의 Swing 컴포넌트는 어느 스레드에서 만들어도 된다)
+  보이는 일만 `invokeLater` 로 EDT 에 넘긴다. 호스트가 자기 하위 클래스를 쓰려면 이 팩터리를 재정의한다(앱의 `TabPanel`).
+- 팝업은 여는 컴포넌트의 정책을 따른다: 재정의하지 않은 `configureSsl`, `getDownloadDirectory`, 스크립트 시간 한도, 오디오 팩터리, 새 창 확장 지점은 `creator` 에 위임한다.
+- 관계는 문서 스레드에서 부른 `window.open` 에만 맺는다. 파싱 중인 스크립트는 로더 스레드에서 실행되므로(5절의 P30 확인 사실) 그 호출은 관계없는 창을 열고 null 을 준다.
+- 팝업 차단은 `window.open` 안에서 판정한다. 링크·폼의 새 창은 호스트가 받을 때만 생기므로, 스크립트가 제출한 폼의 차단은 `WindowRequest.getPanel()` 에서 판정한다
+  (새 창을 다루지 않는 호스트의 기존 동작, 곧 제자리 제출을 바꾸지 않기 위해서이다).
+- `dispose()` 는 계약상 localStorage 를 비운다. 탭·팝업을 하나씩 닫는 호스트를 위해 `disposeKeepingStorage()` 를 추가했다. P31-04-a 의 탭 닫기가
+  `dispose()` 를 써서 다른 탭의 localStorage 까지 지우던 것을 이번에 고쳤다(`ui.PopupsTest.testClosingATabKeepsLocalStorage`).
+- 샌드박스 상속은 구현하지 않았다. 최상위 창이 샌드박스를 지니려면 스크립트 허용·불투명 오리진·폼·다운로드·최상위 이동 판정 열 군데를 고쳐야 한다.
+  대신 안전한 쪽으로, 샌드박스를 벗어나도 되는 문서(`allow-popups-to-escape-sandbox`)만 새 창을 열게 했다. 그 밖의 샌드박스 문서는 전과 같이 동작한다.
+- COOP: 응답을 받은 뒤 문서를 만들기 전에 `BrowserSession.applyOpenerPolicy` 가 그룹 전환을 판정한다. 그룹을 떠난 창은 다른 그룹의 스크립트에게 닫힌 창이다(`TopContext.isClosed()` 가 호출한 쪽의 그룹을 본다).
+- 읽는 중인 창으로 보낸 `postMessage` 는 설치된(확정 전) 페이지가 받는다(`BrowsingContext.getMessageScripts()`). P27 의 호스트 메시지와 같은 대상 선택이다.
+
+앱 쪽:
+
+- 탭의 컴포넌트를 `ui.TabPanel`(최상위 클래스)로 뺐다. 페이지가 연 창의 컴포넌트는 탭보다 먼저 만들어지므로 탭은 나중에 묶는다(`bind`). `BrowserTab(app, panel)` 이 그런 컴포넌트를 받는다.
+- 스크립트가 연 창은 설정 `popups.place` 에 따라 `ui.PopupWindow`(기본), 새 `BrowserWindow`, 새 탭(활성)에 보인다. 어디에 보이든 opener 관계와 `window.close()` 는 같다.
+- `ui.PopupWindow`: 여는 브라우저 창이 소유한 비모달 `JDialog`. 제목, 읽기 전용 주소, 페이지, 상태 표시줄만 있다. 요청한 크기는 페이지 영역의 크기이다.
+  브라우저 창을 닫으면 함께 닫힌다(실제 브라우저의 팝업과 다르다). 팝업의 페이지가 요청한 창과 문맥 메뉴는 소유한 브라우저 창이 처리한다.
+- 새 창을 요청하는 링크·폼은 설정 `links.place` 에 따라 새 탭(활성) 또는 새 창. 사용자가 고른 것: Ctrl+클릭·가운데 단추는 새 탭(설정 `tabs.selectNew` 에 따라 활성), Shift+클릭은 새 창.
+- 차단: 탭이 마지막으로 차단된 주소를 기억하고 상태 표시줄이 "팝업을 차단했습니다: 주소"와 "이 팝업 열기" 단추를 보인다. 페이지가 바뀌면 사라진다.
+  단추로 연 창은 관계없는 창이다. 주소 없는 팝업(`window.open()` 뒤 `document.write`)은 다시 열 것이 없어 알림만 보인다.
+- 문맥 메뉴: 링크 위에서는 새 탭·새 창에서 열기, 주소 복사. 이어서 뒤로·앞으로·새로고침·복사·모두 선택. 링크는 `HyperlinkListener` 의 ENTERED/EXITED 로 안다.
+  페이지가 `contextmenu` 이벤트를 취소해도 메뉴가 보인다(컴포넌트가 그 결과를 알려 주지 않는다. 한계).
+- 스크립트의 닫기: 호스트가 만든 탭은 설정(스크립트의 본 창 닫기 허용)에 따라 `closeRootWindow()`, 페이지가 연 탭·팝업은 `closeOpenedWindow()` 로 오며 둘 다 그 탭(팝업)만 닫는다.
+  창의 마지막 탭이면 창이 닫히고, 마지막 창이면 프로그램이 끝난다.
+

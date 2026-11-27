@@ -101,6 +101,21 @@ public final class ParsingPageLoader implements PageLoader, CacheOwner {
     }
 
     /**
+     * Builds the DOM, the presentation and the script host of the first empty document of a window that a page opened (plan item
+     * P31-08-b). It runs on the thread of the script that opened the window, without any loading.
+     * <p>
+     * 페이지가 연 창의 처음 빈 문서의 DOM, 표현 상태, 스크립트 호스트를 만든다(계획 P31-08-b). 창을 연 스크립트의 스레드에서 실행되며 읽기는
+     * 하지 않는다.
+     *
+     * @param snapshot the empty source / 빈 원문
+     * @param request  the request of the window, with the origin to inherit / 물려받을 오리진이 든 창의 요청
+     * @return the snapshot with a document / 문서가 붙은 스냅샷
+     */
+    PageSnapshot attachInitial(PageSnapshot snapshot, NavigationRequest request) {
+        return attach(snapshot, request.isJavascriptEnabled(), new PageRequestContext(request, snapshot.getCrossOriginPolicy()), services, request);
+    }
+
+    /**
      * Creates the decorator.
      * <p>
      * 장식 로더를 만든다.
@@ -125,6 +140,11 @@ public final class ParsingPageLoader implements PageLoader, CacheOwner {
      */
     public PageSnapshot load(NavigationRequest request) throws Exception {
         PageSnapshot snapshot = delegate.load(request);
+        ScriptServices bound = services;
+        // 문서를 만들기 전에 응답의 opener 정책을 적용한다: 새 문서의 window.opener 가 그 결과를 본다.
+        if (bound != null && snapshot != null) {
+            bound.session.applyOpenerPolicy(request, snapshot);
+        }
         PageSnapshot result = attach(snapshot, request.isJavascriptEnabled(), new PageRequestContext(request, snapshot.getCrossOriginPolicy()), services,
                 request);
         if (request.getCancelToken().isCancelled()) {
@@ -358,6 +378,14 @@ public final class ParsingPageLoader implements PageLoader, CacheOwner {
         final FrameContext frame = request == null ? null : request.getFrame();
         if (frame != null) {
             frame.prepareDocument(doc);
+        }
+        // 페이지가 연 창의 처음 빈 문서는 창을 연 문서의 오리진과 기준 주소를 물려받는다.
+        if (frame == null && request != null && request.getInheritedOrigin() != null) {
+            doc.setUrl("about:blank");
+            doc.setOriginUrl(request.getInheritedOrigin());
+            if (request.getInheritedBase() != null) {
+                doc.setBaseUri(request.getInheritedBase());
+            }
         }
         final PagePresentation presentation = services == null ? null : services.view.createPresentation(doc, requests);
         if (presentation != null) {

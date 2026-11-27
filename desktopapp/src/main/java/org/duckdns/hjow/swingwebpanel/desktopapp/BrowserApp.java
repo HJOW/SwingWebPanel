@@ -394,6 +394,22 @@ public final class BrowserApp {
     }
 
     /**
+     * Opens a new browser window whose one tab shows the component of a window that a page opened. The window is created but not
+     * shown; the caller makes it visible.
+     * <p>
+     * 페이지가 연 창의 컴포넌트를 탭 하나로 보이는 새 브라우저 창을 연다. 창은 만들기만 하고 보이게 하지는 않는다. 보이게 하는 것은 호출자이다.
+     *
+     * @param panel the component of the window that a page opened, created by a tab of this application / 페이지가 연 창의 컴포넌트.
+     *              이 응용 프로그램의 탭이 만든 것
+     * @return the new window / 새 창
+     */
+    public BrowserWindow adoptWindow(org.duckdns.hjow.swingwebpanel.SwingWebPanel panel) {
+        BrowserWindow window = new BrowserWindow(this, panel);
+        windows.add(window);
+        return window;
+    }
+
+    /**
      * Returns the open windows.
      * <p>
      * 열린 창들을 반환한다.

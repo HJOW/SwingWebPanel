@@ -183,6 +183,51 @@ public final class NavigationRequest {
         return this;
     }
 
+    /** The origin address that the document of this request inherits from the document that created its window, or null. / 이 요청의 문서가 자기 창을 만든 문서에서 물려받는 오리진 주소. 없으면 null. */
+    private String inheritedOrigin;
+
+    /** The base address that the document of this request inherits, or null. / 이 요청의 문서가 물려받는 기준 주소. 없으면 null. */
+    private String inheritedBase;
+
+    /**
+     * Makes the document of this request inherit the origin and the base address of the document that created its window: the first
+     * <code>about:blank</code> document of a window that a page opened (WHATWG HTML 7.3.1).
+     * <p>
+     * 이 요청의 문서가 자기 창을 만든 문서의 오리진과 기준 주소를 물려받게 한다: 페이지가 연 창의 처음 <code>about:blank</code> 문서(WHATWG HTML
+     * 7.3.1).
+     *
+     * @param originUrl the origin address, or null to inherit nothing / 오리진 주소. 물려받지 않으면 null
+     * @param baseUri   the base address, or null / 기준 주소. 없으면 null
+     * @return this request / 이 요청
+     */
+    NavigationRequest withInheritedOrigin(String originUrl, String baseUri) {
+        this.inheritedOrigin = originUrl;
+        this.inheritedBase = baseUri;
+        return this;
+    }
+
+    /**
+     * Returns the origin address that the document inherits.
+     * <p>
+     * 문서가 물려받는 오리진 주소를 반환한다.
+     *
+     * @return the address, or null / 주소. 없으면 null
+     */
+    String getInheritedOrigin() {
+        return inheritedOrigin;
+    }
+
+    /**
+     * Returns the base address that the document inherits.
+     * <p>
+     * 문서가 물려받는 기준 주소를 반환한다.
+     *
+     * @return the address, or null / 주소. 없으면 null
+     */
+    String getInheritedBase() {
+        return inheritedBase;
+    }
+
     /**
      * Returns the nested browsing context that this navigation loads into.
      * <p>

@@ -987,6 +987,11 @@ public final class PageScripts {
      */
     JsValue initialHostOpener() {
         BrowsingContext context = env.getBrowsingContext();
+        // 페이지가 window.open 으로 연 창은 실제로 연 창이 opener 이다(계획 P31-08-c). 그 밖의 최상위 창은 Java 호스트의 창이다.
+        BrowsingContext opener = context == null || context.getParent() != null ? null : context.getOpener();
+        if (opener != null) {
+            return WindowProxy.forContext(opener);
+        }
         return hostMessageWindow != null && (context == null || context.getParent() == null) ? hostMessageWindow : Js.NULL;
     }
 
@@ -999,6 +1004,10 @@ public final class PageScripts {
      */
     JsValue crossOriginHostOpener() {
         Property slot = realm.getGlobalObject().getOwnPropertySlot("opener");
+        // 다른 오리진에서도 opener 는 읽을 수 있다: 스크립트가 바꾸지 않은 원래 값(호스트 창이나 여는 창)만 돌려준다.
+        if (slot != null && !slot.accessor && slot.value instanceof WindowProxy) {
+            return slot.value;
+        }
         return hostMessageWindow != null && slot != null && !slot.accessor && slot.value == hostMessageWindow ? hostMessageWindow : Js.NULL;
     }
 
@@ -1374,6 +1383,22 @@ public final class PageScripts {
     }
 
     /**
+     * Returns the restricted view of a context for the innermost executing page script: the members that every origin may use.
+     * <p>
+     * 가장 안쪽에서 실행 중인 페이지 스크립트를 위한 문맥의 제한 객체를 반환한다: 어느 오리진이나 쓸 수 있는 멤버만 있다.
+     *
+     * @param context browsing context being accessed / 접근 대상 브라우징 문맥
+     * @return the restricted view / 제한 객체
+     */
+    static JsObject restrictedWindowTarget(BrowsingContext context) {
+        PageScripts caller = currentPage();
+        if (caller == null || caller.isDisposed()) {
+            throw JsException.typeError("Window access requires an active document");
+        }
+        return caller.globals.frameApi().restrictedTarget(context);
+    }
+
+    /**
      * Returns the environment of the active script or document task.
      * <p>
      * 실행 중인 스크립트 또는 문서 작업의 환경을 반환한다.
@@ -1661,7 +1686,12 @@ public final class PageScripts {
                     // JavaScript의 dispatchEvent나 요소 click 호출에는 호스트 입력 권한을 부여하지 않는다.
                     if (trusted) {
                         clipboardReadActivation |= pasteAction;
-                        clipboardWriteActivation |= pasteAction || activatesClipboardWrite(event);
+                        boolean activates = activatesClipboardWrite(event);
+                        clipboardWriteActivation |= pasteAction || activates;
+                        // 단추나 키를 누른 것은 창의 일시적 활성화이다: 잠시 동안 페이지가 창 하나를 열 수 있다(계획 P31-08-f).
+                        if (activates) {
+                            env.noteUserActivation();
+                        }
                     }
                     result[0] = trusted ? target.dispatchTrustedEvent(event) : target.dispatchEvent(event);
                 } catch (DomException e) {

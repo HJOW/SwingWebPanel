@@ -44,6 +44,7 @@ public class SwingWebPanel extends javax.swing.JPanel implements javax.swing.Scr
 | `new SwingWebPanel(CookieJar)`, `getCookieJar()`, `clearCookies()`, `CookieJar` | 공유 쿠키 저장소 | - / `CookieJar` / void | IAE(null 저장소), ISE(폐기, `clearCookies`) | 컴포넌트 사이의 쿠키 공유와 쿠키 삭제(확장, 5.24) |
 | `copy()`, `cut()`, `paste()`, `selectAll()` | - | void | ISE(폐기) | 호스트의 편집 명령(확장, 5.26) |
 | `setDefaultFontFamily(String,String)`/`getDefaultFontFamily(String)`, `setDefaultFontSize(int)`/`getDefaultFontSize()`, `setDefaultMonospaceFontSize(int)`/`getDefaultMonospaceFontSize()` | 종류와 패밀리, 크기 | void / String / int | IAE, ISE(폐기, 변경만) | 컴포넌트별 기본 글꼴(확장, 5.27) |
+| `setPopupBlockingEnabled(boolean)`/`isPopupBlockingEnabled()`, `disposeKeepingStorage()`, `WindowRequest`, `PopupSeed`, 보호 메서드 `createPopupPanel`·`canOpenPopupWindows`·`openPopupWindow`·`openNewWindow`·`popupBlocked`·`closeOpenedWindow` | 차단 여부, 창 요청 | void / boolean | ISE(폐기, 변경만) | 페이지가 여는 창(팝업)과 팝업 차단(확장, 5.28) |
 | `clean()` | - | void | ISE | 빈 페이지 + 캐시/저장소 삭제 |
 | `dispose()` | - | void | - | 반복 호출 안전 |
 | `addHeaders(Map<String,String>)` | 헤더 | void | IAE | 덮어쓰기 |
@@ -68,13 +69,14 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 | JavaScript | **활성**(`true`). 사용자 문서에도 기록한다 |
 | `isRootWindowClosingEnabled()` | `false`(본 창의 `window.close()` 는 무시한다, 5.23) |
 | 기본 글꼴(5.27) | 패밀리 네 종류 모두 `""`(내장 글꼴), `getDefaultFontSize()` = 16, `getDefaultMonospaceFontSize()` = 0 |
+| `isPopupBlockingEnabled()` | `true`(사용자의 조작 없이 부른 `window.open` 은 차단한다, 5.28) |
 | `getProgress()` | 100 |
 | `getStatusText()` | `""` |
 | `getLocalStorage()`/`getSessionStorage()` | 빈 컬렉션(저장된 것이 없을 때) |
 
 ## 4. 속성 변경 통지 (P03-06)
 
-`PropertyChangeListener` 로 `"page"`(String), `"statusText"`(String), `"progress"`(Integer), `"title"`(String), `"rootWindowClosingEnabled"`(Boolean, 5.23), `"defaultFonts"`(String, 5.27)를 EDT 에서 통지한다.
+`PropertyChangeListener` 로 `"page"`(String), `"statusText"`(String), `"progress"`(Integer), `"title"`(String), `"rootWindowClosingEnabled"`(Boolean, 5.23), `"defaultFonts"`(String, 5.27), `"popupBlockingEnabled"`(Boolean, 5.28)를 EDT 에서 통지한다.
 값이 실제로 달라졌을 때만 통지한다. `"title"` 은 새 페이지가 확정될 때와, 스크립트가 문서의 제목을 바꿀 때 통지한다(5.25).
 
 ## 5. 메서드별 상세
@@ -199,7 +201,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 
 - 진행 중 작업(요청, 스크립트, 타이머, 미디어, 다운로드 팝업과 다운로드)을 취소하고 `about:blank` 로 전환, **이력을 `about:blank` 하나로 초기화**한다.
 - 이 컴포넌트의 모든 **캐시**와 **sessionStorage**, 그리고 **프로세스 공용 localStorage 전체**를 비운다.
-- **유지**: User-Agent, 추가 헤더, **쿠키**, JavaScript 설정, 본 창 닫기 허용 설정(5.23), 기본 글꼴(5.27), 사용자 리스너(하이퍼링크·콘솔·웹 메시지 포함). 대기 중인 웹 메시지는 비운다. 예약된 창 닫기(5.23)는 취소한다.
+- **유지**: User-Agent, 추가 헤더, **쿠키**, JavaScript 설정, 본 창 닫기 허용 설정(5.23), 기본 글꼴(5.27), 팝업 차단 설정(5.28), 사용자 리스너(하이퍼링크·콘솔·웹 메시지 포함). 대기 중인 웹 메시지는 비운다. 예약된 창 닫기(5.23)는 취소한다.
 - 공유 localStorage 삭제는 같은 JVM 의 **다른 컴포넌트에도 영향**을 준다(그 컴포넌트의 이후 조회가 빈 값을 반환하고, 같은 오리진의 문서에는 storage 이벤트가 전달된다). 이 영향은 사용자 문서에 명시한다.
 - 완료된 다운로드 파일은 지우지 않는다. 이미 폐기된 컴포넌트에서의 호출은 `IllegalStateException`.
 
@@ -207,9 +209,10 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 
 - 한 번만 자원을 해제한다. **반복 호출은 안전**하게 끝난다(예외 없음).
 - `clean()` 과 같은 정리 후, 이 객체에 등록된 모든 사용자 리스너와 자체 생성 이벤트 연결, 타이머, 작업, 미디어, 하위 프레임을 제거한다.
-- 폐기 후 **변경 메서드**(`setPage`, `setContent`, `back`, `forward`, `refresh`, `setUserAgent`, `addHeaders`, `setJavascriptEnabled`, `setRootWindowClosingEnabled`, 기본 글꼴 설정(5.27), `clean`, `postMessage`, 리스너 등록)는 `IllegalStateException`.
+- 폐기 후 **변경 메서드**(`setPage`, `setContent`, `back`, `forward`, `refresh`, `setUserAgent`, `addHeaders`, `setJavascriptEnabled`, `setRootWindowClosingEnabled`, 기본 글꼴 설정(5.27), `setPopupBlockingEnabled`(5.28), `clean`, `postMessage`, 리스너 등록)는 `IllegalStateException`.
   **조회 메서드**는 마지막 빈 상태를 반환한다: `getPage()`=`about:blank`, `getContent()`=`""`, `getHistories()`=`[about:blank]`, `getStatusText()`=`""`, `getProgress()`=100,
   `getHeaders()`=빈 맵, `getCookies()`=`""`, 저장소 조회=빈 컬렉션, `getUserAgent()`=마지막으로 설정한 값, `isRootWindowClosingEnabled()`=마지막으로 설정한 값.
+- `disposeKeepingStorage()`(5.28)는 프로세스 공용 localStorage 를 남기는 것만 다르다. 이 컴포넌트가 연 팝업 창은 폐기하지 않는다(기본 팝업 대화 상자는 소유자 창과 함께 닫힌다).
 - 제거 대상 표:
 
 | 대상 | dispose 시 | 구분 방법 |
@@ -526,6 +529,47 @@ JavaScript 를 실행하지 않는 페이지(`setJavascriptEnabled(false)`, `tex
 
 같이 고친 것: 다른 문서(프레임 등)의 요소를 `window.getComputedStyle` 에 넘기면 Java 예외가 스크립트 작업 밖으로 새던 것을 고쳐, 초기값의 선언 객체를 돌려준다. 그 요소의 계산 스타일은 그 문서의 창에서 얻는다.
 
+### 5.28 확장: 페이지가 여는 창(팝업)과 팝업 차단 (P31-08, 확장이며 AGENTS.md 의 공개 메서드 목록에는 없다)
+
+기준: WHATWG HTML Living Standard [7.2.2.1 Opening and closing windows](https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open)
+(`tools/webfetch` 로 2026-11-27 조회, 2026-11-26 00:20:43 GMT 판본).
+
+**바뀐 기본 동작(2026-11-26 사용자 결정).** 이전에는 새 창이 필요한 `window.open` 이 언제나 `null` 을 돌려주었다. 이제 사용자의 조작이 있은 직후의
+`window.open` 은 컴포넌트가 제공하는 팝업 창(비모달 `JDialog`)에 새 창을 열고 그 창의 객체를 돌려주며, 조작 없이 부른 호출은 차단한다(`null`, `popupBlocked`).
+링크와 폼의 `target="_blank"`(와 없는 이름)는 호스트가 `openNewWindow` 를 재정의하지 않으면 전과 같이 자기 문맥에서 열린다.
+
+공개 메서드: `public void setPopupBlockingEnabled(boolean)`, `public boolean isPopupBlockingEnabled()`, `public void disposeKeepingStorage()`.
+속성 이름 `PROPERTY_POPUP_BLOCKING_ENABLED`(`"popupBlockingEnabled"`). 공개 타입: `WindowRequest`, `SwingWebPanel.PopupSeed`.
+보호 확장 지점: `protected SwingWebPanel(PopupSeed)`, `createPopupPanel(PopupSeed)`, `canOpenPopupWindows()`, `openPopupWindow(WindowRequest)`,
+`openNewWindow(WindowRequest)`, `popupBlocked(WindowRequest)`, `closeOpenedWindow()`.
+
+| 항목 | 계약 |
+| --- | --- |
+| 팝업 차단 설정 | 생성 직후 `true`. 어느 스레드에서나 바꿀 수 있고 다음 판정부터 적용한다. 값이 달라지면 `"popupBlockingEnabled"`(Boolean)을 EDT 에서 통지한다. `clean()` 뒤에도 유지하고, 폐기 뒤 변경은 `IllegalStateException`, 조회는 마지막 값이다. 페이지가 연 창의 컴포넌트는 여는 창의 값을 이어받는다 |
+| 사용자의 조작 | 신뢰할 수 있는 입력 이벤트(주 단추의 `mousedown`/`pointerdown`/`click`, 보조 키와 Esc 를 뺀 반복 아닌 `keydown`)가 전달되면 그 창은 5초 동안 "조작이 있은" 상태이다. `window.open` 한 번이 그 상태를 소비하므로 조작 한 번은 창 하나만 연다. 스크립트가 만든 이벤트(`dispatchEvent`, `element.click()`)는 해당하지 않는다 |
+| 차단 판정 | 설정이 켜져 있고 조작이 없으면 `window.open` 은 `null` 을 돌려주고 `popupBlocked` 가 불린다. 설정을 끄면 조작과 무관하게 연다(이때도 조작 상태는 소비한다). 스크립트가 조작 없이 새 창으로 제출한 폼도 호스트가 그 창의 컴포넌트를 요청하는 시점(`WindowRequest.getPanel()`)에 같은 규칙으로 차단하며, 차단하면 폼은 제자리에서도 제출되지 않는다. 사용자가 직접 누른 링크와 제출 단추는 차단하지 않는다 |
+| 창을 보일 수 없는 컴포넌트 | `canOpenPopupWindows()` 가 `false` 이면(기본 구현: 화면이 없는 환경) `window.open` 은 차단 알림 없이 `null` 을 돌려준다 |
+| `window.open` 의 결과 | 새 창의 `WindowProxy` 를 호출 안에서 곧바로 돌려준다. 새 창은 스크립트를 실행할 수 있는 빈 `about:blank` 문서를 이미 가지며(오리진과 기준 주소는 여는 문서의 것), 주소가 있으면 그 주소를 비동기로 읽어 그 빈 문서의 이력 항목을 대신한다. 여는 창은 그 객체로 문서 읽기·쓰기(`document.write` 포함), `location` 이동, `close()`/`closed`, `postMessage` 를 하고, 새 창의 `window.opener` 는 여는 창이다. 다른 오리진의 문서가 되면 교차 오리진에 허용된 멤버만 쓸 수 있다. sessionStorage 는 여는 창의 것을 복사해서 시작한다 |
+| 이름 있는 창 | `window.open(url, 'name')`, 링크·폼의 `target="name"` 은 먼저 프레임을, 다음에 같은 그룹(서로 연 창들)의 창을 이름(`window.name` 또는 열 때의 이름)으로 찾아 그 창을 쓴다 |
+| 창 기능 문자열 | `noopener`/`noreferrer` 는 관계없는 창을 연다(호출은 `null`). `width`/`innerWidth`, `height`/`innerHeight`, `left`/`screenX`, `top`/`screenY` 는 `WindowRequest` 로 호스트에 전달한다. 그 밖의 토큰은 무시한다 |
+| 관계없는 창 | `noopener` 창, 링크·폼이 연 창, 사용자가 고른 새 탭·새 창은 여는 페이지와 관계가 없다: 그 페이지의 `window.opener` 는 다른 컴포넌트와 같이 Java 호스트 창(5.22)이고 자기 문서 스레드를 쓴다 |
+| 파싱 중의 호출 | 문서를 아직 읽는 중에 실행되는 스크립트(인라인 스크립트 등)의 `window.open` 은 창을 열지만 관계를 맺지 못하므로 `noopener` 처럼 `null` 을 돌려준다(한계) |
+| 문서 스레드 | 관계있는 창들은 문서 스레드 하나를 함께 쓴다(표준의 이벤트 루프 공유). 그래서 한 창의 긴 스크립트가 같은 그룹의 다른 창을 함께 멈추게 한다. 컴포넌트 하나를 폐기해도 나머지는 계속 동작하고, 마지막 창이 폐기되면 스레드가 끝난다 |
+| 새 창의 컴포넌트 | `createPopupPanel(PopupSeed)` 가 만든다(기본 구현 `new SwingWebPanel(seed)`). **`window.open` 의 경우 스크립트의 스레드에서 불리므로** Swing 부품을 붙이거나 보이는 일은 하지 말고 `super(seed)` 를 부르는 생성자로 컴포넌트만 만든다. 씨앗 하나는 컴포넌트 하나에만 쓸 수 있다. 새 컴포넌트는 여는 컴포넌트의 쿠키 저장소(5.24), JavaScript 설정, User-Agent, 추가 헤더, 팝업 차단 설정, 기본 글꼴(5.27)을 이어받고, 재정의하지 않은 정책 메서드(`configureSsl`, `getDownloadDirectory`, 스크립트 시간 한도, 오디오 출력 팩터리, 이 절의 확장 지점)는 여는 컴포넌트에 묻는다 |
+| 창을 보이기 | 스크립트가 연 창은 EDT 에서 `openPopupWindow(WindowRequest)` 로 넘긴다. 기본 구현은 여는 컴포넌트가 속한 창을 소유자로 하는 비모달 `JDialog` 에 `JScrollPane` 과 함께 보인다: 내용 크기는 요청한 크기(없으면 640x480)를 화면에 맞춘 것, 위치는 요청한 곳 또는 소유자 위, 제목은 페이지의 제목(없으면 주소)이다. 대화 상자가 닫히면(사용자, `window.close()`, 소유자와 함께) 컴포넌트를 `disposeKeepingStorage()` 로 폐기한다. 재정의한 호스트는 `request.getPanel()` 을 원하는 곳에 두거나 `request.reject()` 로 거절한다(거절한 창은 스크립트에게 닫힌 창이다) |
+| 링크·폼·사용자의 요청 | 대상이 새 창을 필요로 하는 링크와 폼(`LINK`), 그리고 사용자가 고른 것(`USER`: Ctrl+클릭과 가운데 단추는 `PLACE_TAB`, Shift+클릭은 `PLACE_WINDOW`)은 EDT 에서 `openNewWindow(WindowRequest)` 로 제안한다. 기본 구현은 `false` 를 돌려주며 그러면 전과 같다: 링크·폼은 자기 문맥에서 열리고, 보조 키를 누른 클릭은 보통의 클릭이며, 가운데 클릭은 아무 일도 하지 않는다. `true` 를 돌려주는 호스트는 `request.getPanel()` 로 새 창의 컴포넌트를 얻거나(주소를 읽거나 폼을 받는다. `LINK` 창은 웹 콘텐츠가 만든 창이다) `request.getUrl()` 을 자기 컴포넌트에서 연다. DOM 에서 취소된 클릭(`click`, 가운데 단추는 `auxclick`)은 제안하지 않는다 |
+| 차단 알림 | `popupBlocked(WindowRequest)` 를 EDT 에서 부른다. 기본 구현은 상태 문구와 콘솔 경고(`HOST_ERROR`, 5.20)로 알린다. 요청에는 주소, 대상 이름, 창 기능 문자열, 요청한 문서의 주소가 있다 |
+| 닫기 | 페이지가 연 창(스크립트·링크·폼)은 웹 콘텐츠가 만든 창이다(5.23): 그 창의 `window.close()` 와 여는 창의 `w.close()` 가 본 창 닫기 설정과 무관하게 그 창만 닫는다. 읽는 중이어도, 아직 보이지 않았어도 닫힌다. `closeRootWindow()` 는 불리지 않고 EDT 에서 `closeOpenedWindow()` 가 불린다(기본 구현: 창을 보인 쪽이 등록한 닫기 동작을 실행하거나 컴포넌트를 폐기한다). 여는 창은 다른 오리진이 된 자기 팝업도 닫을 수 있다. 팝업은 `opener.close()` 로 호스트가 만든 여는 창을 닫을 수 없다 |
+| 수명 | 여는 컴포넌트가 폐기되어도 팝업은 남고 `opener.closed` 가 `true` 가 된다. **`dispose()` 는 계약대로 프로세스 공용 localStorage 를 비우므로**, 다른 창이 남아 있을 때 창이나 탭 하나를 닫는 호스트는 `disposeKeepingStorage()` 를 쓴다: `dispose()` 와 같지만 localStorage 를 남긴다 |
+| Cross-Origin-Opener-Policy | 최상위 이동의 응답이 가진 COOP 와 보이는 문서의 COOP 가 표준의 규칙(HTML 7.1.3, 처음 빈 문서의 `same-origin-allow-popups` 예외 포함)으로 그룹 전환을 요구하면 그 창은 그룹을 떠난다: `window.opener` 가 없어지고(호스트 창이 된다), 이전에 관계있던 창의 스크립트는 그 창을 닫힌 창으로 보며 메시지·이동·닫기를 할 수 없고, 이름으로도 찾지 못한다 |
+| 샌드박스 | `allow-popups` 가 없는 샌드박스 문서는 전과 같이 새 창을 열 수 없다. 샌드박스 문서가 연 창은 그 샌드박스를 이어받아야 하는데 컴포넌트의 최상위 창은 샌드박스를 지닐 수 없으므로, **`allow-popups-to-escape-sandbox` 가 함께 있을 때만** 새 창을 연다(그 창은 샌드박스가 아니다). 없으면 전과 같다: `window.open` 은 `null`, 링크·폼은 자기 프레임에서 열린다(한계: 샌드박스의 상속은 구현하지 않았다) |
+| 메시지 | 읽는 중인 창으로 보낸 `postMessage` 는, 새 페이지의 스크립트가 이미 실행되고 있으면 확정 전이라도 그 페이지가 받는다(파싱 중에 여는 창에 자신을 알린 페이지가 답을 받는다). 그 밖의 접근(`w.document` 등)은 확정될 때까지 이전 문서를 본다 |
+
+`WindowRequest`: `getKind()`(`SCRIPT`/`LINK`/`USER`), `getSource()`, `getUrl()`, `getTargetName()`, `getFeatures()`, `getDocumentUrl()`, `getWidth()`/`getHeight()`/`getLeft()`/`getTop()`(없으면 -1),
+`getPlace()`(`PLACE_TAB`/`PLACE_WINDOW`), `getPanel()`, `hasPanel()`, `reject()`, `isRejected()`, `isBlocked()`. EDT 에서 쓴다.
+
+알려진 한계: (1) 처음 빈 문서의 Window 를 첫 같은 오리진 문서가 다시 쓰지 않으므로 `w = window.open(url)` 직후에 건 `w.onload` 는 새 문서에서 실행되지 않는다. (2) 처음 빈 문서의 `document.domain` 은 여는 문서의 것과 같지 않다. (3) `blob:` 주소는 만든 컴포넌트의 것이어서 팝업이 여는 창의 객체 URL 을 열 수 없다. (4) `popup` 등 나머지 창 기능과 `BarProp` 은 반영하지 않는다. (5) 문맥 메뉴는 컴포넌트가 제공하지 않는다(호스트의 일).
+
 ## 6. 허용 스킴 정책 (P01-12)
 
 | 스킴 | 정책 |
@@ -604,5 +648,6 @@ HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도�
 | C-EDITCMD-1~5 | 호스트의 편집 명령과 명령 키 소비(5.26, P31-05-a) | `core.EditCommandsTest`: 1 편집 호스트에서 모두 선택·복사·잘라내기·붙여넣기와 이벤트 순서, 키 이벤트 없음, 2 폼 텍스트 컨트롤, 3 편집할 수 없는 페이지와 다른 스레드의 호출, 4 폐기 뒤 예외, 5 소비하는 키와 소비하지 않는 키 |
 
 | C-FONT-1~5 | 컴포넌트별 기본 글꼴(5.27, P31-07) | `DefaultFontsTest`: 1 기본 크기와 크기 키워드·루트 백분율·rem, 살아 있는 페이지의 재계산, 2 표준 글꼴과 작성자 규칙, 3 일반 이름의 패밀리와 설치되지 않은 패밀리, 4 고정폭 크기(제목 안, 중첩, 작성자 규칙), 5 인수·통지·`clean()`·프레임·다른 컴포넌트·폐기 |
+| C-POPUP-1~10 | 페이지가 여는 창과 팝업 차단(5.28, P31-08) | `PopupWindowsTest`: 1 차단과 사용자 조작(한 번에 창 하나, 설정 끔, 속성 통지, 창 기능), 2 여는 창의 제어(동기 `about:blank`, `document.write`, DOM, `location`, `opener`, sessionStorage 복사, 이름 재사용), 3 닫기(여는 창·자신·읽는 중, 언로드 한 번, 본 창 정책 미사용), 4 `noopener` 와 다른 오리진(메시지 왕복, 접근 거부, 여는 창의 닫기), 5 새 창이 필요한 링크·폼(제안, 기존 동작, POST 본문, 스크립트 제출 차단), 6 사용자의 선택(Ctrl·Shift·가운데 단추, 취소된 클릭), 7 수명(거절, 여는 창 폐기, localStorage 유지, 폐기 뒤 예외, 스레드 종료), 8 한계(창을 보일 수 없음, 파싱 중 호출, 샌드박스), 9 COOP 로 관계 끊기, 10 기본 팝업 대화 상자(실제 창). `core.DocumentLoopTest`: 공유 문서 루프 |
 
 사례 ID는 구현 시 `browser/src/test/java`의 메서드 이름에 포함하고 `FEATURE_MATRIX.md`의 검증 사례 열과 일치시킨다.

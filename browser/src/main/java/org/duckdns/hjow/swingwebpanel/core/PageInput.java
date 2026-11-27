@@ -434,6 +434,10 @@ public final class PageInput extends MouseAdapter implements MouseMotionListener
         }
         final Pointer pointer = new Pointer(event, view.getZoom());
         final boolean primary = event.getButton() == MouseEvent.BUTTON1;
+        final boolean middle = event.getButton() == MouseEvent.BUTTON2;
+        // Ctrl 클릭과 가운데 클릭은 새 탭, Shift 클릭은 새 창을 사용자가 고른 것이다(호스트가 새 창을 다룰 때만 그렇게 열린다).
+        final String place = primary && event.isShiftDown() && !event.isControlDown() ? OpenRequest.PLACE_WINDOW
+                : (primary && event.isControlDown()) || middle ? OpenRequest.PLACE_TAB : null;
         final int x = pointer.x;
         final int y = pointer.y;
         final PageSnapshot snapshot = session.getSnapshot();
@@ -459,11 +463,15 @@ public final class PageInput extends MouseAdapter implements MouseMotionListener
                     fire(snapshot, target, mouseEvent("dblclick", pointer, loc, null, true, true, 0, 2));
                 }
                 if (!primary) {
+                    // 가운데 단추로 누른 링크를 새 탭에서 열도록 호스트에 제안한다. 호스트가 받지 않으면 아무 일도 없다.
+                    if (middle && link != null && !click.isDefaultPrevented()) {
+                        offerLink(snapshot, link, place);
+                    }
                     return;
                 }
                 // img 의 ismap 속성이 있는 서버 쪽 이미지 맵을 클릭했으면 주소 뒤에 ?x,y 를 붙인다(HTML5 2014 §4.5.1).
                 String suffix = ImageMaps.serverSideSuffix(loc.hit.getBox(), target, link, loc.x, loc.y, loc.scrollX, loc.scrollY);
-                followLink(snapshot, link, click.isDefaultPrevented(), navigation, suffix);
+                followLink(snapshot, link, click.isDefaultPrevented(), navigation, suffix, place);
             }
         });
     }
@@ -481,7 +489,25 @@ public final class PageInput extends MouseAdapter implements MouseMotionListener
      * @param navigation the navigation count before the click was sent / 클릭을 보내기 전의 이동 횟수
      */
     private void followLink(final PageSnapshot snapshot, Element link, final boolean prevented, final long navigation) {
-        followLink(snapshot, link, prevented, navigation, "");
+        followLink(snapshot, link, prevented, navigation, "", null);
+    }
+
+    /**
+     * Offers a link that the user clicked with the middle button to the host, to be opened in a new tab (plan item P31-08). Call it
+     * on the document thread.
+     * <p>
+     * 사용자가 가운데 단추로 누른 링크를 새 탭에서 열도록 호스트에 제안한다(계획 P31-08). 문서 스레드에서 부른다.
+     *
+     * @param snapshot the page of the link / 링크의 페이지
+     * @param link     the link / 링크
+     * @param place    where the user wants it / 사용자가 원하는 곳
+     */
+    private void offerLink(PageSnapshot snapshot, Element link, String place) {
+        String href = resolve(link);
+        if (href == null || !current(snapshot) || link.hasAttribute("download") || !allowed(snapshot, href)) {
+            return;
+        }
+        session.openWindowFromLink(new OpenRequest(OpenRequest.USER, href, "", "", snapshot.getUrl(), null, null, null, null, place), null);
     }
 
     /**
@@ -496,7 +522,8 @@ public final class PageInput extends MouseAdapter implements MouseMotionListener
      * @param navigation the navigation count before the click was sent / 클릭을 보내기 전의 이동 횟수
      * @param suffix     the hyperlink suffix / 하이퍼링크 접미사
      */
-    private void followLink(final PageSnapshot snapshot, Element link, final boolean prevented, final long navigation, String suffix) {
+    private void followLink(final PageSnapshot snapshot, Element link, final boolean prevented, final long navigation, String suffix,
+            final String place) {
         final String href = link == null ? null : withSuffix(resolve(link), suffix);
         if (href == null || !current(snapshot)) {
             return;
@@ -523,6 +550,27 @@ public final class PageInput extends MouseAdapter implements MouseMotionListener
                 }
                 links.fire(event(HyperlinkEvent.EventType.ACTIVATED, href));
                 // DOM과 Swing 리스너가 시작한 이동·clean·dispose를 오래된 기본 동작이 덮어쓰지 못하게 한다.
+                // 사용자가 보조 키로 새 탭이나 새 창을 골랐으면 먼저 호스트에 제안한다. 호스트가 받지 않으면 보통의 클릭으로 처리한다.
+                if (place != null && downloadName == null && !prevented && current(snapshot) && navigation == session.getNavigationCount()
+                        && allowed(snapshot, href)) {
+                    session.openWindowFromLink(new OpenRequest(OpenRequest.USER, href, "", "", snapshot.getUrl(), null, null, null, null, place),
+                            new Runnable() {
+                                /** The host opens no new window: the click is an ordinary one. / 호스트가 새 창을 열지 않는다: 보통의 클릭이다. */
+                                public void run() {
+                                    follow();
+                                }
+                            });
+                    return;
+                }
+                follow();
+            }
+
+            /**
+             * Performs the default action of the click unless it was cancelled or overtaken by another navigation.
+             * <p>
+             * 클릭이 취소되었거나 다른 이동에 추월당하지 않았으면 클릭의 기본 동작을 수행한다.
+             */
+            private void follow() {
                 if (!prevented && current(snapshot) && navigation == session.getNavigationCount() && allowed(snapshot, href)) {
                     if (downloadName != null && blob != null) {
                         if (source == null || source.flags().allowsDownloads()) {

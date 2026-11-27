@@ -1,6 +1,5 @@
 package org.duckdns.hjow.swingwebpanel.core;
 
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
@@ -46,21 +45,21 @@ final class NavigationController {
     private final ThreadPoolExecutor loaders;
 
     /**
-     * The component's single document thread: every change of the confirmed page and of document state is applied here, one task at a
-     * time (plan item P03-04). Like the loader threads it ends after a few idle seconds.
+     * The document thread that this controller uses: every change of the confirmed page and of document state is applied there, one task
+     * at a time (plan item P03-04). Normally the controller has a loop of its own; a window that a page opened shares the loop of its
+     * opener (plan item P31-08-a).
      * <p>
-     * 컴포넌트의 단일 문서 스레드: 확정된 페이지와 문서 상태의 모든 변경이 여기서 한 번에 하나씩 적용된다(계획 P03-04).
-     * 읽기 스레드와 마찬가지로 몇 초 놀면 끝난다.
+     * 이 제어기가 쓰는 문서 스레드: 확정된 페이지와 문서 상태의 모든 변경이 거기서 한 번에 하나씩 적용된다(계획 P03-04). 보통은 제어기가 자기
+     * 루프를 가지며, 페이지가 연 창은 여는 창의 루프를 함께 쓴다(계획 P31-08-a).
      */
-    private final ThreadPoolExecutor documentThread;
+    private final DocumentLoop loop;
 
     /**
-     * The thread that the document thread pool created last (the pool has one thread at a time), so that a caller can tell whether it runs
-     * on the document thread.
+     * True once {@link #shutdown()} ran: tasks of this controller that are still queued on a shared loop are skipped.
      * <p>
-     * 문서 스레드 풀이 마지막으로 만든 스레드(풀에는 한 번에 스레드가 하나뿐). 호출자가 문서 스레드에서 실행 중인지 알 수 있게 한다.
+     * {@link #shutdown()} 이 실행된 뒤 true: 공유 루프에 아직 줄 서 있는 이 제어기의 작업은 건너뛴다.
      */
-    private volatile Thread documentOwner;
+    private volatile boolean closed;
 
     /**
      * Last number that was handed out.
@@ -91,18 +90,30 @@ final class NavigationController {
     private volatile CancelToken currentToken;
 
     /**
-     * Creates the controller and its pool.
+     * Creates the controller with a document loop of its own. No thread is started until the first load.
      * <p>
-     * 컨트롤러와 풀을 만든다.
+     * 자기 문서 루프를 가진 제어기를 만든다. 첫 읽기 전에는 스레드를 시작하지 않는다.
      */
     NavigationController() {
+        this(null);
+    }
+
+    /**
+     * Creates the controller on a document loop. No thread is started until the first load.
+     * <p>
+     * 문서 루프 위에 제어기를 만든다. 첫 읽기 전에는 스레드를 시작하지 않는다.
+     *
+     * @param shared the loop of another component to share, or null for a loop of its own; a loop that has already ended is replaced
+     *               by a new one / 함께 쓸 다른 컴포넌트의 루프. 자기 루프이면 null. 이미 끝난 루프는 새 루프로 대신한다
+     */
+    NavigationController(DocumentLoop shared) {
         ThreadFactory factory = new ThreadFactory() {
             /**
-             * Creates a named daemon thread.
+             * Creates a daemon loader thread.
              * <p>
-             * 이름이 있는 데몬 스레드를 만든다.
+             * 데몬 읽기 스레드를 만든다.
              *
-             * @param r work to run / 실행할 작업
+             * @param r the work of the thread / 스레드의 일
              * @return the thread / 스레드
              */
             public Thread newThread(Runnable r) {
@@ -112,24 +123,24 @@ final class NavigationController {
             }
         };
         loaders = new ThreadPoolExecutor(0, Integer.MAX_VALUE, IDLE_SECONDS, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), factory);
-        ThreadFactory docFactory = new ThreadFactory() {
-            /**
-             * Creates the named daemon document thread.
-             * <p>
-             * 이름이 있는 데몬 문서 스레드를 만든다.
-             *
-             * @param r work to run / 실행할 작업
-             * @return the thread / 스레드
-             */
-            public Thread newThread(Runnable r) {
-                Thread t = new Thread(r, "swingwebpanel-document-" + THREAD_COUNTER.incrementAndGet());
-                t.setDaemon(true);
-                documentOwner = t;
-                return t;
-            }
-        };
-        documentThread = new ThreadPoolExecutor(1, 1, IDLE_SECONDS, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), docFactory);
-        documentThread.allowCoreThreadTimeOut(true);
+        DocumentLoop chosen = shared;
+        // 함께 쓰려던 루프가 이미 끝났으면(여는 창이 그 사이 폐기되었다) 자기 루프를 만든다.
+        if (chosen == null || !chosen.retain()) {
+            chosen = new DocumentLoop();
+            chosen.retain();
+        }
+        loop = chosen;
+    }
+
+    /**
+     * Returns the document loop of this controller, so that a window opened by a page of this component can share it.
+     * <p>
+     * 이 제어기의 문서 루프를 반환한다. 이 컴포넌트의 페이지가 연 창이 함께 쓸 수 있게 한다.
+     *
+     * @return the loop / 루프
+     */
+    DocumentLoop loop() {
+        return loop;
     }
 
     /**
@@ -243,18 +254,41 @@ final class NavigationController {
      * @return false if the thread was already shut down / 문서 스레드가 이미 종료되었으면 false
      */
     boolean submitDocumentTask(final Runnable work) {
-        return execute(documentThread, work);
+        if (closed) {
+            return false;
+        }
+        active.incrementAndGet();
+        boolean queued = loop.execute(new Runnable() {
+            /**
+             * Runs the task unless the component was disposed while the task waited on a shared loop, and counts it as finished.
+             * <p>
+             * 작업이 공유 루프에서 기다리는 동안 컴포넌트가 폐기되지 않았으면 작업을 실행하고, 끝난 것으로 센다.
+             */
+            public void run() {
+                try {
+                    if (!closed) {
+                        work.run();
+                    }
+                } finally {
+                    active.decrementAndGet();
+                }
+            }
+        });
+        if (!queued) {
+            active.decrementAndGet();
+        }
+        return queued;
     }
 
     /**
-     * Tells whether the calling thread is the document thread of this component.
+     * Tells whether the calling thread is the document thread of this component (which other components may share).
      * <p>
-     * 호출한 스레드가 이 컴포넌트의 문서 스레드인지 알려 준다.
+     * 호출한 스레드가 이 컴포넌트의 문서 스레드(다른 컴포넌트와 함께 쓸 수 있다)인지 알려 준다.
      *
      * @return true on the document thread / 문서 스레드이면 true
      */
     boolean isDocumentThread() {
-        return Thread.currentThread() == documentOwner;
+        return loop.isLoopThread();
     }
 
     /**
@@ -321,7 +355,9 @@ final class NavigationController {
      * 두 실행기를 종료하고 실행 중인 작업을 인터럽트한다.
      */
     void shutdown() {
+        closed = true;
         loaders.shutdownNow();
-        documentThread.shutdownNow();
+        // 루프를 혼자 쓰고 있었으면 스레드가 끝난다. 다른 컴포넌트와 함께 쓰는 루프는 계속 돌고, 이 제어기의 줄 선 작업은 건너뛴다.
+        loop.release();
     }
 }

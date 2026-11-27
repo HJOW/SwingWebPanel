@@ -85,7 +85,37 @@ public final class BrowserSession implements FormSubmitSink {
      * <p>
      * 요청 번호 발급과 문서 스레드.
      */
-    private final NavigationController nav = new NavigationController();
+    private final NavigationController nav;
+
+    /** Opens new windows for the pages, or null if the component has none (plan item P31-08). / 페이지를 위해 새 창을 연다. 컴포넌트에 없으면 null(계획 P31-08). */
+    private volatile WindowOpener windowOpener;
+
+    /** True if a window that a page asks for without an action of the user is not opened (API contract 5.28). / 페이지가 사용자의 조작 없이 요청한 창을 열지 않으면 true(API 계약 5.28). */
+    private volatile boolean popupBlocking = true;
+
+    /** The time (system clock, milliseconds) until which the last action of the user counts as an activation; 0 if none or consumed. / 사용자의 마지막 조작이 활성화로 인정되는 시각(시스템 시계, 밀리초). 없거나 소비했으면 0. */
+    private long activationUntil;
+
+    /** How long an action of the user allows a page to open a window, in milliseconds (the transient activation duration). / 사용자의 조작이 페이지의 창 열기를 허용하는 시간(밀리초, 일시적 활성화 시간). */
+    private static final long ACTIVATION_MILLIS = 5000L;
+
+    /** The context of the document that opened this window with <code>window.open</code>, or null. / <code>window.open</code> 으로 이 창을 연 문서의 문맥. 없으면 null. */
+    private volatile BrowsingContext opener;
+
+    /** The target name that this window was opened with, or the empty string. / 이 창을 열 때 준 대상 이름. 없으면 빈 문자열. */
+    private volatile String windowName = "";
+
+    /** The windows that can reach each other through their openers; a window starts alone. / opener 를 통해 서로 닿을 수 있는 창들. 창은 혼자로 시작한다. */
+    private volatile WindowGroup group = new WindowGroup();
+
+    /** True while the window shows the first empty document of a window that a page opened. / 페이지가 연 창의 처음 빈 문서를 보이는 동안 true. */
+    private volatile boolean initialDocument;
+
+    /** The opener policy value that the first empty document took over from the opening window. / 처음 빈 문서가 여는 창에서 이어받은 opener 정책 값. */
+    private volatile String creatorOpenerPolicy = "unsafe-none";
+
+    /** The origin address that the first empty document took over. / 처음 빈 문서가 이어받은 오리진 주소. */
+    private volatile String creatorOriginUrl;
 
     /**
      * Observer of state changes, or null.
@@ -446,6 +476,22 @@ public final class BrowserSession implements FormSubmitSink {
      * @param local    localStorage manager, not null / localStorage 관리자(null 불가)
      */
     public BrowserSession(PageLoader loader, SessionListener listener, CookieStore cookies, LocalStorageManager local) {
+        this(loader, listener, cookies, local, null);
+    }
+
+    /**
+     * Creates a session that runs its document tasks on a given document loop: the session of a window that a page opened shares the
+     * loop of its opener (plan item P31-08-a).
+     * <p>
+     * 주어진 문서 루프에서 문서 작업을 실행하는 세션을 만든다: 페이지가 연 창의 세션은 여는 창의 루프를 함께 쓴다(계획 P31-08-a).
+     *
+     * @param loader   strategy that loads pages, not null / 페이지를 읽는 전략(null 불가)
+     * @param listener observer or null / 관찰자 또는 null
+     * @param cookies  cookie store of the component, not null / 컴포넌트의 쿠키 저장소(null 불가)
+     * @param local    localStorage manager, not null / localStorage 관리자(null 불가)
+     * @param loop     the document loop to share, or null for a loop of its own / 함께 쓸 문서 루프. 자기 루프이면 null
+     */
+    public BrowserSession(PageLoader loader, SessionListener listener, CookieStore cookies, LocalStorageManager local, DocumentLoop loop) {
         if (loader == null || cookies == null || local == null) {
             throw new IllegalArgumentException("loader, cookies and localStorage manager must not be null");
         }
@@ -453,6 +499,349 @@ public final class BrowserSession implements FormSubmitSink {
         this.listener = listener;
         this.cookies = cookies;
         this.localStorage = local;
+        this.nav = new NavigationController(loop);
+        group.add(this);
+    }
+
+    /**
+     * Returns the document loop of this session, so that a window opened by one of its pages can share it.
+     * <p>
+     * 이 세션의 문서 루프를 반환한다. 이 세션의 페이지가 연 창이 함께 쓸 수 있게 한다.
+     *
+     * @return the loop / 루프
+     */
+    public DocumentLoop documentLoop() {
+        return nav.loop();
+    }
+
+    /**
+     * Sets what opens new windows for the pages of this session.
+     * <p>
+     * 이 세션의 페이지를 위해 새 창을 여는 것을 정한다.
+     *
+     * @param opener the opener, or null if no window can be opened / 여는 것. 창을 열 수 없으면 null
+     */
+    public void setWindowOpener(WindowOpener opener) {
+        windowOpener = opener;
+    }
+
+    /**
+     * Turns the popup blocker on or off (API contract 5.28).
+     * <p>
+     * 팝업 차단을 켜거나 끈다(API 계약 5.28).
+     *
+     * @param enabled true to block windows that a page asks for without an action of the user / 페이지가 사용자의 조작 없이 요청한 창을
+     *                막으려면 true
+     * @return true if the value changed / 값이 바뀌었으면 true
+     */
+    public boolean setPopupBlockingEnabled(boolean enabled) {
+        checkAlive();
+        synchronized (lock) {
+            if (popupBlocking == enabled) {
+                return false;
+            }
+            popupBlocking = enabled;
+            return true;
+        }
+    }
+
+    /**
+     * Tells whether the popup blocker is on.
+     * <p>
+     * 팝업 차단이 켜져 있는지 알려 준다.
+     *
+     * @return true if on / 켜져 있으면 true
+     */
+    public boolean isPopupBlockingEnabled() {
+        return popupBlocking;
+    }
+
+    /**
+     * Notes an action of the user in a page of this window (a press of a mouse button or a key): for a few seconds a page may open one
+     * window (the transient activation of the HTML Standard, kept per window).
+     * <p>
+     * 이 창의 페이지에서 일어난 사용자의 조작(마우스 단추나 키를 누름)을 기록한다: 몇 초 동안 페이지가 창 하나를 열 수 있다(HTML 표준의 일시적
+     * 활성화. 창마다 보관한다).
+     */
+    public void noteUserActivation() {
+        synchronized (lock) {
+            activationUntil = System.currentTimeMillis() + ACTIVATION_MILLIS;
+        }
+    }
+
+    /**
+     * Uses up the activation of the last action of the user, if it is still valid: one action opens one window.
+     * <p>
+     * 사용자의 마지막 조작의 활성화가 아직 유효하면 소비한다: 조작 한 번이 창 하나를 연다.
+     *
+     * @return true if there was a valid activation / 유효한 활성화가 있었으면 true
+     */
+    public boolean consumeUserActivation() {
+        synchronized (lock) {
+            boolean valid = activationUntil != 0 && System.currentTimeMillis() <= activationUntil;
+            activationUntil = 0;
+            return valid;
+        }
+    }
+
+    /**
+     * Returns the context of the document that opened this window.
+     * <p>
+     * 이 창을 연 문서의 문맥을 반환한다.
+     *
+     * @return the context, or null if this window has no opener / 문맥. 이 창에 opener 가 없으면 null
+     */
+    BrowsingContext openerContext() {
+        return opener;
+    }
+
+    /**
+     * Tells whether this window and another one are in the same browsing context group, so that their scripts may reach each other.
+     * <p>
+     * 이 창과 다른 창이 같은 브라우징 문맥 그룹에 있어 스크립트가 서로 닿을 수 있는지 알려 준다.
+     *
+     * @param other the session of the other window / 다른 창의 세션
+     * @return true if they share a group / 그룹이 같으면 true
+     */
+    boolean sharesGroupWith(BrowserSession other) {
+        return other == this || other != null && other.group == group;
+    }
+
+    /**
+     * Applies the Cross-Origin-Opener-Policy of the response of a top-level navigation before its document is built (WHATWG HTML
+     * 7.1.3): if the policy of the response and the one of the shown document require it, this window leaves its browsing context
+     * group. It then has no opener, the windows that it opened and the window that opened it see it as closed, and target names no
+     * longer find it. A window without related windows has nothing to cut.
+     * <p>
+     * 최상위 이동의 응답이 가진 Cross-Origin-Opener-Policy 를 문서를 만들기 전에 적용한다(WHATWG HTML 7.1.3): 응답의 정책과 보이는 문서의
+     * 정책이 요구하면 이 창은 브라우징 문맥 그룹을 떠난다. 그러면 opener 가 없고, 이 창이 연 창과 이 창을 연 창이 이 창을 닫힌 것으로 보며,
+     * 대상 이름으로도 찾지 못한다. 관계가 있는 창이 없으면 끊을 것이 없다.
+     *
+     * @param request the navigation / 이동
+     * @param loaded  the response / 응답
+     */
+    void applyOpenerPolicy(NavigationRequest request, PageSnapshot loaded) {
+        if (request == null || request.getFrame() != null || loaded == null) {
+            return;
+        }
+        String next = loaded.getCrossOriginPolicy().getOpener();
+        String nextUrl = loaded.getBaseUrl() != null ? loaded.getBaseUrl() : loaded.getUrl();
+        synchronized (lock) {
+            boolean initial = initialDocument;
+            initialDocument = false;
+            // 관계가 있는 창이 없으면(여는 창도, 같은 그룹의 다른 창도 없음) 할 일이 없다.
+            if (disposed || opener == null && group.members().size() <= 1) {
+                return;
+            }
+            String now;
+            String nowUrl;
+            if (initial) {
+                now = creatorOpenerPolicy;
+                nowUrl = creatorOriginUrl;
+            } else {
+                PageDocument page = current.getDocument();
+                now = current.getCrossOriginPolicy().getOpener();
+                nowUrl = page instanceof HtmlPageDocument ? ((HtmlPageDocument) page).getDocument().getOriginUrl() : current.getUrl();
+            }
+            if (!org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy.requiresGroupSwitch(initial, now, nowUrl == null ? null : Origin.of(nowUrl),
+                    next, nextUrl == null ? null : Origin.of(nextUrl))) {
+                return;
+            }
+            opener = null;
+            group.remove(this);
+            group = new WindowGroup();
+            group.add(this);
+        }
+    }
+
+    /**
+     * Returns the target name that this window was opened with.
+     * <p>
+     * 이 창을 열 때 준 대상 이름을 반환한다.
+     *
+     * @return the name, or the empty string / 이름. 없으면 빈 문자열
+     */
+    String windowName() {
+        return windowName;
+    }
+
+    /**
+     * Finds an open window of the group of this window by its name, for a link target or <code>window.open</code>.
+     * <p>
+     * 링크의 target 이나 <code>window.open</code> 을 위해, 이 창의 그룹에서 이름으로 열린 창을 찾는다.
+     *
+     * @param name the target name / 대상 이름
+     * @return the top-level context of that window, or null / 그 창의 최상위 문맥. 없으면 null
+     */
+    BrowsingContext findWindow(String name) {
+        if (name == null || name.length() == 0) {
+            return null;
+        }
+        List<BrowserSession> members = group.members();
+        // 그룹의 창마다 열 때의 이름이나 지금의 window.name 을 비교한다.
+        for (int i = 0; i < members.size(); i++) {
+            BrowserSession s = members.get(i);
+            if (s != this && !s.disposed && !s.windowClosing && (name.equals(s.windowName) || name.equals(s.topContext.getName()))) {
+                return s.topContext;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Opens a new window for a <code>window.open</code> call of a page of this session (plan item P31-08). No window is opened if
+     * the component cannot show one, or if the popup blocker is on and the user did nothing that allows it; the host is told about a
+     * blocked window. The new window shares the document loop of this one and knows the caller as its opener, unless the features say
+     * <code>noopener</code> or the calling script runs while its document is still being parsed (then the window is independent and
+     * the call gives null, like <code>noopener</code>).
+     * <p>
+     * 이 세션의 페이지가 부른 <code>window.open</code> 을 위해 새 창을 연다(계획 P31-08). 컴포넌트가 창을 보일 수 없거나, 팝업 차단이 켜져 있는데
+     * 그것을 허용하는 사용자의 조작이 없었으면 창을 열지 않는다. 차단한 창은 호스트에 알린다. 새 창은 이 창의 문서 루프를 함께 쓰고 호출한 쪽을
+     * opener 로 안다. 단, 기능에 <code>noopener</code> 가 있거나 호출한 스크립트가 문서를 아직 읽는 중에 실행되면 창은 독립적이고 호출은
+     * <code>noopener</code> 처럼 null 을 준다.
+     *
+     * @param caller   the context of the calling document / 호출한 문서의 문맥
+     * @param name     the target name / 대상 이름
+     * @param href     the absolute address or the empty string / 절대 주소 또는 빈 문자열
+     * @param features the window features text / 창 기능 문자열
+     * @return the top-level context of the new window, or null / 새 창의 최상위 문맥. 없으면 null
+     */
+    BrowsingContext openWindowFromScript(BrowsingContext caller, String name, String href, String features) {
+        WindowOpener o = windowOpener;
+        org.duckdns.hjow.swingwebpanel.dom.Document doc = caller == null ? null : caller.getDocument();
+        if (disposed || o == null || doc == null) {
+            return null;
+        }
+        OpenRequest request = new OpenRequest(OpenRequest.SCRIPT, href, name, features, doc.getUrl(), caller, doc.getOriginUrl(), doc.getBaseUri(),
+                null, "");
+        if (!o.canOpenWindows()) {
+            return null;
+        }
+        // 사용자의 조작 한 번은 창 하나를 연다. 차단을 꺼 두어도 활성화는 소비한다.
+        boolean activated = consumeUserActivation();
+        if (popupBlocking && !activated) {
+            o.popupBlocked(request);
+            return null;
+        }
+        // 여는 창과 같은 스레드에서 실행될 수 있을 때만 관계를 맺는다. 읽는 중인 문서의 스크립트는 로더 스레드에서 실행된다.
+        boolean related = !request.isNoOpener() && nav.isDocumentThread();
+        BrowserSession child = o.openFromScript(request, related ? nav.loop() : null);
+        if (child == null) {
+            return null;
+        }
+        child.startAsOpenedWindow(this, request, related);
+        return related ? child.topContext : null;
+    }
+
+    /**
+     * Offers a link, a form submission or a choice of the user that needs a new window to the host of the component.
+     * <p>
+     * 새 창이 필요한 링크, 폼 제출, 사용자의 선택을 컴포넌트의 호스트에 제안한다.
+     *
+     * @param request  what was asked for / 요청한 것
+     * @param fallback what to do if the host does not take it (run on the event dispatch thread), or null / 호스트가 받지 않으면 할
+     *                 일(이벤트 디스패치 스레드에서 실행). 없으면 null
+     */
+    void openWindowFromLink(OpenRequest request, final Runnable fallback) {
+        WindowOpener o = windowOpener;
+        if (disposed) {
+            return;
+        }
+        if (o == null) {
+            if (fallback != null) {
+                SwingUtilities.invokeLater(fallback);
+            }
+            return;
+        }
+        o.openFromLink(request, fallback);
+    }
+
+    /**
+     * Makes this new session the window that a page opened (plan item P31-08): the window counts as created by web content, takes over
+     * the settings of the window that opened it, and gets its scriptable first <code>about:blank</code> document at once. A related
+     * window also gets the opener, the group and a copy of the session storage. Then the requested address is loaded. It is called by
+     * the opening session right after the component of the new window was created.
+     * <p>
+     * 이 새 세션을 페이지가 연 창으로 만든다(계획 P31-08): 창은 웹 콘텐츠가 만든 것으로 치고, 자신을 연 창의 설정을 이어받으며, 스크립트를 실행할
+     * 수 있는 처음 <code>about:blank</code> 문서를 곧바로 가진다. 관계가 있는 창은 opener, 그룹, sessionStorage 의 복사본도 받는다. 그 뒤 요청한
+     * 주소를 읽는다. 새 창의 컴포넌트를 만든 직후에 여는 세션이 부른다.
+     *
+     * @param from    the session that opened the window / 창을 연 세션
+     * @param request what was asked for / 요청한 것
+     * @param related true if the window keeps a connection to its opener / 창이 여는 창과 관계를 유지하면 true
+     */
+    public void startAsOpenedWindow(BrowserSession from, OpenRequest request, boolean related) {
+        synchronized (lock) {
+            createdByWebContent = request.getKind() != OpenRequest.USER;
+            windowName = request.getTarget();
+            popupBlocking = from.popupBlocking;
+            javascriptEnabled = from.javascriptEnabled;
+            userAgent = from.userAgent;
+            headers.addAll(from.headers.toMap());
+        }
+        if (related) {
+            synchronized (lock) {
+                opener = request.getOpener();
+                group.remove(this);
+                group = from.group;
+                group.add(this);
+                // 처음 빈 문서는 창을 연 쪽의 opener 정책과 오리진을 이어받는다(첫 이동의 COOP 판정에 쓴다).
+                creatorOpenerPolicy = from.current.getCrossOriginPolicy().getOpener();
+                creatorOriginUrl = request.getOriginUrl();
+            }
+            sessionStorage.copyFrom(from.sessionStorage);
+            installInitialDocument(request.getOriginUrl(), request.getBaseUri());
+        }
+        String url = request.getUrl();
+        if (url.length() == 0 || "about:blank".equals(url)) {
+            return;
+        }
+        SchemePolicy.Kind kind = SchemePolicy.classify(url);
+        if (kind == SchemePolicy.Kind.INVALID || kind == SchemePolicy.Kind.ABOUT_TEXT || kind == SchemePolicy.Kind.BLOCKED
+                || !NavigationPolicy.allowed(request.getDocumentUrl(), url)) {
+            return;
+        }
+        synchronized (lock) {
+            // 처음 빈 문서는 이력에 남지 않는다: 첫 이동이 그 항목을 대신한다.
+            startLocked(NavigationType.REPLACE, canonical(url.trim()), null, null, false, null, -1, request.getPost(), null);
+        }
+    }
+
+    /**
+     * Gives this window its first document at once, on the calling thread: an empty <code>about:blank</code> document that can run
+     * scripts and has the origin and the base address of the document that opened the window (WHATWG HTML 7.3.1). The script that
+     * called <code>window.open</code> can therefore use the document of the window as soon as the call returns.
+     * <p>
+     * 이 창에 첫 문서를 호출한 스레드에서 곧바로 준다: 스크립트를 실행할 수 있고, 창을 연 문서의 오리진과 기준 주소를 가진 빈
+     * <code>about:blank</code> 문서(WHATWG HTML 7.3.1). 그래서 <code>window.open</code> 을 부른 스크립트는 호출이 돌아오자마자 창의 문서를 쓸
+     * 수 있다.
+     *
+     * @param originUrl the origin address to inherit / 물려받을 오리진 주소
+     * @param baseUri   the base address to inherit / 물려받을 기준 주소
+     */
+    private void installInitialDocument(String originUrl, String baseUri) {
+        if (!(loader instanceof ParsingPageLoader)) {
+            return;
+        }
+        NavigationRequest request;
+        synchronized (lock) {
+            if (disposed) {
+                return;
+            }
+            NavigationController.Ticket ticket = nav.begin();
+            request = new NavigationRequest(ticket.id, NavigationType.REPLACE, "about:blank", null, null, false, null, -1, userAgent, headers.copy(),
+                    javascriptEnabled, ticket.token, sink, null, null).withInheritedOrigin(originUrl, baseUri);
+        }
+        PageSnapshot snapshot;
+        try {
+            snapshot = ((ParsingPageLoader) loader).attachInitial(PageSnapshot.loaded("about:blank", "", "text/html", baseUri, 200), request);
+        } catch (RuntimeException e) {
+            return;
+        }
+        if (snapshot != null) {
+            commit(request, snapshot);
+            initialDocument = true;
+        }
     }
 
     /**
@@ -746,6 +1135,19 @@ public final class BrowserSession implements FormSubmitSink {
         // 복사 중 이동이 일어나도 잡아 둔 문서의 큐에만 보낸다.
         if (target != null) {
             target.postHostMessage(copied, origin);
+        }
+    }
+
+    /**
+     * Returns the top-level runtime that receives a message now: the installed one, or the one of the confirmed document.
+     * <p>
+     * 지금 메시지를 받는 최상위 실행 환경을 반환한다: 설치된 것, 없으면 확정 문서의 것.
+     *
+     * @return the runtime, or null when scripts cannot run / 실행 환경. 스크립트를 실행할 수 없으면 null
+     */
+    PageRuntime messageTargetRuntime() {
+        synchronized (lock) {
+            return disposed ? null : messageRuntime();
         }
     }
 
@@ -2542,6 +2944,16 @@ public final class BrowserSession implements FormSubmitSink {
         // familiar: 호출한 문서의 최상위가 이 창이거나, 두 문서가 같은 오리진이다.
         boolean familiar = caller.getTop() == topContext
                 || Origin.of(caller.getOriginUrl()).isSameOrigin(Origin.of(topContext.getOriginUrl()));
+        // 브라우징 문맥 그룹이 갈라진 창(COOP)의 스크립트에게 이 창은 닫힌 창이다.
+        if (caller.getTop() instanceof TopContext && !((TopContext) caller.getTop()).sharesGroupWith(this)) {
+            return "window.close() was ignored: the calling document is not allowed to close this window.";
+        }
+        BrowsingContext from = opener;
+        // 이 창이 다른 창이 연 창이면, 그 여는 창과 familiar 관계인 문서도 이 창과 familiar 관계이다(오리진이 달라도 여는 창은 자기 팝업을 닫는다).
+        if (!familiar && from != null) {
+            familiar = caller == from || caller.getTop() == from
+                    || Origin.of(caller.getOriginUrl()).isSameOrigin(Origin.of(from.getOriginUrl()));
+        }
         if (!familiar) {
             return "window.close() was ignored: the calling document is not allowed to close this window.";
         }
@@ -2606,7 +3018,7 @@ public final class BrowserSession implements FormSubmitSink {
      */
     public void clean() {
         checkAlive();
-        resetToBlank();
+        resetToBlank(true);
     }
 
     /**
@@ -2614,7 +3026,7 @@ public final class BrowserSession implements FormSubmitSink {
      * <p>
      * 폐기 여부를 확인하지 않고 빈 페이지로 되돌린다.
      */
-    private void resetToBlank() {
+    private void resetToBlank(boolean clearLocalStorage) {
         // 보이던 페이지의 언로드 이벤트를 먼저 실행한다(잠금 밖에서 기다린다).
         unloadCurrentPage();
         PageSnapshot old;
@@ -2628,7 +3040,10 @@ public final class BrowserSession implements FormSubmitSink {
             current = PageSnapshot.blank();
             dropped = history.reset(PageSnapshot.blank());
             sessionStorage.clear();
-            localStorage.clearAll();
+            // 프로세스 공용 localStorage 는 다른 컴포넌트도 쓴다. 그것을 남기는 폐기(disposeKeepingStorage)에서는 지우지 않는다.
+            if (clearLocalStorage) {
+                localStorage.clearAll();
+            }
             // 로더가 컴포넌트의 캐시(HTTP 캐시 등)를 가지고 있으면 함께 비운다.
             if (loader instanceof CacheOwner) {
                 ((CacheOwner) loader).clearCache();
@@ -2651,12 +3066,25 @@ public final class BrowserSession implements FormSubmitSink {
      * 세션을 폐기한다: 정리하고, 문서 스레드를 멈추며, 헤더와 관찰자를 잊는다. 다시 호출해도 아무 일도 없다.
      */
     public void dispose() {
+        dispose(false);
+    }
+
+    /**
+     * Disposes the session like {@link #dispose()}, optionally leaving the process-wide localStorage as it is: a window that a page
+     * opened, or a tab of a browser, goes away without taking the stored data of the other windows with it (API contract 5.28).
+     * <p>
+     * {@link #dispose()} 처럼 세션을 폐기하되, 원하면 프로세스 공용 localStorage 를 그대로 둔다: 페이지가 연 창이나 브라우저의 탭이 다른 창의
+     * 저장 데이터를 함께 가져가지 않고 사라진다(API 계약 5.28).
+     *
+     * @param keepLocalStorage true to leave localStorage untouched / localStorage 를 건드리지 않으려면 true
+     */
+    public void dispose(boolean keepLocalStorage) {
         synchronized (lock) {
             if (disposed) {
                 return;
             }
         }
-        resetToBlank();
+        resetToBlank(!keepLocalStorage);
         synchronized (lock) {
             disposed = true;
         }

@@ -122,6 +122,13 @@ final class WindowProxy extends JsObject {
                 return child;
             }
         }
+        // 창이 새 페이지를 읽는 중이고 그 페이지의 스크립트가 이미 실행되고 있으면(확정 전), 메시지는 떠나는 문서가 아니라 새 페이지가 받아야 한다.
+        if ("postMessage".equals(key) && !(visible instanceof CrossOriginWindow)) {
+            PageScripts receiving = context.getMessageScripts();
+            if (receiving != null && receiving != context.getScripts()) {
+                return PageScripts.restrictedWindowTarget(context).get(key, receiver);
+            }
+        }
         return visible.get(key, receiver);
     }
 
