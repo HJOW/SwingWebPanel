@@ -15,6 +15,18 @@ TLS 모듈(`tls13`, 루트 `AGENTS.md` 의 P32-03)의 암호 기본 요소를 **
   - JRE 6·7·8u202 에는 필요한 알고리즘(AES-GCM, ChaCha20-Poly1305, X25519, RSASSA-PSS 등)이 없어 종료 코드 2 로 끝난다.
 - 보통의 사용: `tools\tlsvectors\run.bat tls13\src\test\resources\jca-vectors.txt`
 
+## 인증서 사슬 기록 (ChainCapture)
+
+같은 도구의 둘째 진입점 `tlsvectors.ChainCapture` 는 실제 HTTPS 서버가 내놓는 인증서 사슬을 기록한다(P32-04 의 경로 검증 시험 입력).
+실행 중인 JRE 의 TLS 구현으로 연결하므로(그 구현이 사슬도 검증한다) 새 JRE 로 실행한다. 스크립트는 없고 직접 실행한다:
+
+`"%TLSVECTORS_JAVA_HOME%\bin\java" -cp tools\tlsvectors\build\classes tlsvectors.ChainCapture tls13\src\test\resources\real-chains.txt www.google.com github.com ...`
+
+- 출력: 한 줄에 `chain 호스트 기록시각(1970년부터의 밀리초) 프로토콜 인증서들(Base64 DER, 서버 인증서가 먼저)`. 머리 줄에 JRE 판.
+- 종료 코드: 0 모든 호스트 기록 / 1 사용법 오류 / 2 닿지 못한 호스트가 있음.
+- 인증서는 만료되므로 시험(`x509.TrustStoreTest`)은 기록한 시각으로 검증한다. 2026-11-28 에 14개 호스트를 기록했다(Zulu 25, 모두 TLSv1.3).
+- 외부 서버에 접속하는 도구이다. 호스트 이름 외에 보내는 정보는 없다.
+
 ## 종료 코드
 
 0 기록함 / 1 사용법 오류(인수, 실행 JRE 미지정) / 2 실행 중인 JRE 에 알고리즘이 없음

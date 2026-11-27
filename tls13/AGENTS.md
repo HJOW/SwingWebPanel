@@ -23,9 +23,12 @@ Java 6·7 에서 쓰는 TLS 1.3·1.2 클라이언트를 순수 Java 로 구현�
 | 경로 | 내용 |
 | --- | --- |
 | `pom.xml` | 모듈 POM. 부모의 JDK 6 컴파일 설정을 쓴다. 산출물 `target/swingwebpanel-tls13.jar` |
+| `src/main/java/.../tls13/x509/` | 인증서: `Der`(엄격한 DER), `X509Cert`, `SubjectKey`, `SignatureAlgorithm`, `NameConstraints`, `HostNames`, `TrustRoot`, `TrustStore`, `PathValidator`, `X509Exception`(거부 이유) |
+| `src/main/resources/.../x509/mozilla-roots.txt` | 내장 루트 목록. `tools/cabundle` 이 CCADB 보고서로 만든다. **손으로 고치지 않는다. 자동 갱신도 없다** |
+| `src/main/resources/META-INF/LICENSE-ccadb.txt` | 루트 목록의 출처 고지와 CDLA-Permissive-2.0 문구. JAR 에 함께 들어가야 한다 |
 | `src/main/java/.../tls13/crypto/` | 암호 기본 요소: `Bytes`, `HashAlg`(해시·HMAC), `Hkdf`, `KeySchedule13`, `Prf12`, `Aead`·`Aes`·`Ghash`·`AesGcm`, `ChaCha20Poly1305`·`Poly1305`, `X25519`, `EcCurve`·`Ecdh`·`Ecdsa`, `RsaVerify` |
-| `src/test/java/.../tls13/` | 자체 실행기(`testing.TestRunner`)로 실행하는 시험. `Hex`(16진수), `Rfc8448`(RFC 8448 추적 읽기), `Vectors`(줄 단위 벡터 자료 읽기)는 도우미 |
-| `src/test/resources/` | `rfc8448.txt`(RFC 원문), `ec-vectors.txt`(RFC 6979·5903 에서 뽑은 값), `jca-vectors.txt`(`tools/tlsvectors` 가 더 새 JRE 로 만든 대조 벡터. 다시 만들면 내용이 달라진다) |
+| `src/test/java/.../tls13/` | 자체 실행기(`testing.TestRunner`)로 실행하는 시험. `Hex`(16진수), `Rfc8448`(RFC 8448 추적 읽기), `Vectors`(줄 단위 벡터 자료 읽기), `DerWriter`·`TestKey`·`CertBuilder`(JRE 6 에서 시험용 키와 인증서를 만들고 서명한다)는 도우미 |
+| `src/test/resources/` | `rfc8448.txt`(RFC 원문), `ec-vectors.txt`(RFC 6979·5903 에서 뽑은 값), `jca-vectors.txt`(`tools/tlsvectors` 가 더 새 JRE 로 만든 대조 벡터. 다시 만들면 내용이 달라진다), `real-chains.txt`(`tools/tlsvectors` 의 `ChainCapture` 가 기록한 실제 서버의 인증서 사슬. 기록한 시각으로 검증한다) |
 
 ## 빌드와 시험 명령 (저장소 루트에서, Maven 은 JDK 8 이상으로 실행)
 

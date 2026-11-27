@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32-04 X.509 해석·경로 검증·신뢰 저장소 완료 (2026-11-28) ===
+현재 작업 번호: P32-04(a~c) 완료. P32-05 진행 중.
+완료한 내용: (P32-04-c) tools/cabundle: CCADB "Mozilla Included CA Certificate Report" CSV 를 모듈 자료 mozilla-roots.txt 로 변환(웹 사이트 신뢰 비트가 있는 루트만, 지문 대조, 불신 날짜와 적용 제약 옮김, 지문 순 정렬). 2026-11-28 에 tools/webfetch 로 받은 보고서(460,554 바이트, SHA-256 f069fdc3699ef77359b3d7bc8ded208e473234b59c61065e507fd7210ad591b9)에서 루트 112개. META-INF/LICENSE-ccadb.txt(출처 고지 + CDLA-Permissive-2.0 문구, SPDX license-list-data 에서 2026-11-28 조회). (P32-04-a 마무리) tools/tlsvectors 에 ChainCapture(실제 HTTPS 서버의 사슬 기록) 추가, 14개 호스트의 사슬을 real-chains.txt 로 기록. 시험 x509.TrustStoreTest(내장 목록 적재와 루트별 키·CA 확인, 실제 사슬 검증과 네 가지 거부, KeyStore 저장소, 목록 형식 오류).
+변경 파일: tools/cabundle/(신규), tools/tlsvectors/{src/tlsvectors/ChainCapture.java(신규),build.bat,AGENTS.md,README.md}, tls13/src/main/resources/{META-INF/LICENSE-ccadb.txt,org/.../x509/mozilla-roots.txt}(신규), tls13/src/test/resources/real-chains.txt(신규), tls13/src/test/java/.../x509/TrustStoreTest.java(신규), tls13/AGENTS.md, docs/ARCHITECTURE.md, docs/progress/tls13.md(4절), AGENTS.md, 이 문서.
+검증 결과: mvn -B -o -pl tls13 -am "-Dtest.filter=tls13" verify(Maven 3.8.9 를 Zulu 25 로 실행, 컴파일·시험은 JDK 6u45, Windows 10): BUILD SUCCESS, 모듈 시험 62건 통과/0 실패/0 건너뜀. JAR(169,663 바이트)에 META-INF/LICENSE-ccadb.txt 와 x509/mozilla-roots.txt 가 들어 있다. tools\cabundle\build.bat 종료 코드 0, run.bat 종료 코드 0(루트 112개, 저장소의 자료와 같은 파일), 인수 없음은 1, 잘못된 입력은 2. tools\tlsvectors\build.bat 종료 코드 0(ChainCapture 포함). sourcecheck(tls13, tools/cabundle, tools/tlsvectors, docs/ARCHITECTURE.md) 위반 0건.
+미해결 사항: tools/cabundle 의 sh 스크립트는 실행해 보지 않았다. 한계는 docs/progress/tls13.md 4.3절(폐기 확인 없음, SCT 미확인, 이름의 바이트 비교, 정책 확장 미강제).
+다음 작업 번호: P32-05-a
+-----------------------------------------------------------------------------------------------
 === P32-04-a·b 진행: X.509 해석, 경로 검증, 호스트 이름 검증 (2026-11-28) ===
 현재 작업 번호: P32-04-b 완료. P32-04-a 는 구현과 생성 인증서 시험을 마쳤고 실제 사이트 인증서 시험이 남았다(P32-04-c 의 루트 목록과 함께 한다). P32-04-c 진행 중.
 완료한 내용: x509.Der(엄격한 DER: 한 바이트 태그, 확정·최소 길이, 최소 INTEGER, OID, 이름 붙은 비트), X509Exception(Reason 열거형), SubjectKey(RSA, P-256/384/521 EC, 그 밖은 지원하지 않는 키로 보관), SignatureAlgorithm(인증서 AlgorithmIdentifier 와 TLS SignatureScheme, RSA PKCS #1 v1.5·PSS·ECDSA 검증, SHA-1·MD5 는 WEAK_SIGNATURE), X509Cert(버전·일련번호·이름·유효 기간·키·서명과 basicConstraints, keyUsage, extendedKeyUsage, subjectAltName, nameConstraints, 모르는 critical 확장), NameConstraints, HostNames(subjectAltName 만 사용, 맨 왼쪽 레이블 전체 와일드카드, IP 리터럴), TrustRoot, TrustStore(내장 목록 읽기, KeyStore, 인증서 목록, 제한 부여), PathValidator. 시험 도우미 DerWriter, TestKey, CertBuilder.

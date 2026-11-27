@@ -24,6 +24,14 @@ TLSVECTORS_JAVA_HOME=/path/to/jdk tools/tlsvectors/run.sh tls13/src/test/resourc
 
 만든 파일의 첫 줄들에 계산에 쓴 Java 버전이 기록됩니다. 다시 실행하면 키 쌍과 서명은 새로 만들어지므로 파일 내용이 달라지지만 모두 올바른 벡터입니다.
 
+## 실제 사이트의 인증서 사슬 기록
+
+인증서 검증 시험에 쓰는 실제 HTTPS 사이트의 인증서 사슬도 이 도구로 기록합니다. 지정한 사이트에 접속해 서버가 보낸 인증서를 파일에 적습니다.
+
+```bat
+"%TLSVECTORS_JAVA_HOME%\bin\java" -cp tools\tlsvectors\build\classes tlsvectors.ChainCapture tls13\src\test\resources\real-chains.txt www.google.com github.com
+```
+
 ## 주의
 
 - Java 6, 7 과 오래된 Java 8 에는 필요한 알고리즘이 없어 실행할 수 없습니다(오류 메시지와 함께 끝납니다).
