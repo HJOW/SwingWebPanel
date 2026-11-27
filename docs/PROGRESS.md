@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32-03-c ChaCha20-Poly1305 (2026-11-28) ===
+현재 작업 번호: P32-03-c 완료. P32-03-d 진행 중.
+완료한 내용: crypto.ChaCha20Poly1305(RFC 8439 의 AEAD. 카운터 0 블록이 일회용 Poly1305 키, 데이터는 카운터 1부터. 태그를 먼저 검증), crypto.Poly1305(26비트 림, 최종 감산을 마스크로 선택).
+변경 파일: tls13/src/main/java/.../crypto/{ChaCha20Poly1305,Poly1305}.java, tls13/src/test/java/.../crypto/ChaChaPolyTest.java, AGENTS.md, 이 문서.
+검증 결과: JDK 6u45 javac 로 컴파일해 자체 실행기로 실행(Windows 10): ChaChaPolyTest 5건 통과/0 실패. 임시 측정: seal 약 130 MB/s(16 KiB 레코드). sourcecheck 위반 0건.
+미해결 사항: 없음.
+다음 작업 번호: P32-03-d
+-----------------------------------------------------------------------------------------------
 === P32-03-b AES(비트슬라이스)와 AES-GCM (2026-11-28) ===
 현재 작업 번호: P32-03-b 완료. P32-03-c 진행 중.
 완료한 내용: crypto.Aes(128/192/256비트 키의 암호화. 상태를 long 여덟 개의 비트 평면으로 두고 S-box 는 Boyar-Peralta 113 게이트 회로, ShiftRows·MixColumns 는 마스크와 이동. 표 조회와 비밀에 따른 분기가 없다. 키 확장의 SubWord 도 같은 회로), Ghash(구멍 기법의 캐리리스 64비트 곱과 카라추바, x^128 = x^7+x^2+x+1 접기), AesGcm(96비트 nonce, 128비트 태그, 태그를 먼저 검증한 뒤 복호화), 인터페이스 Aead.
