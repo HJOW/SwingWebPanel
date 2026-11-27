@@ -27,6 +27,18 @@ TLS 모듈(`tls13`, 루트 `AGENTS.md` 의 P32-03)의 암호 기본 요소를 **
 - 인증서는 만료되므로 시험(`x509.TrustStoreTest`)은 기록한 시각으로 검증한다. 2026-11-28 에 14개 호스트를 기록했다(Zulu 25, 모두 TLSv1.3).
 - 외부 서버에 접속하는 도구이다. 호스트 이름 외에 보내는 정보는 없다.
 
+## 실제 HTTPS 연결 확인 (LiveProbe)
+
+`tlsvectors.LiveProbe`는 JRE 6u45 또는 7u80에서 제품 TLS 모듈을 리플렉션으로 불러와 지정한 URL에 직접 연결한다.
+HTTPS HEAD만 요청하고, 리디렉션을 따라가거나 인증서 실패 시 다른 TLS·HTTP 경로를 시도하지 않는다.
+저장소 루트에서 도구와 모듈을 빌드한 뒤 실행한다.
+
+`"%JAVA6_HOME%\bin\java" -cp "tools\tlsvectors\build\classes;tls13\target\swingwebpanel-tls13.jar" tlsvectors.LiveProbe https://example.com/ https://expired.badssl.com/`
+
+- 입력은 하나 이상의 HTTPS URL이다. 출력은 URL별 TLS 버전·스위트·HTTP 상태 또는 실패 이유다.
+- 종료 코드는 전체 주소를 조회했으면 0(의도적으로 거부한 주소 포함), 사용법 오류나 초기화 실패면 1이다.
+- JRE 6u45와 7u80에서 실행했다. 결과는 `docs/progress/tls13.md` 6절에 있다.
+
 ## 종료 코드
 
 0 기록함 / 1 사용법 오류(인수, 실행 JRE 미지정) / 2 실행 중인 JRE 에 알고리즘이 없음

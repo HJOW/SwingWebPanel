@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32-05-c·P32-06 독립 JSSE 상호 운용, 실제 사이트 및 성능 검증 (2026-11-28) ===
+현재 작업 번호: P32-05(a~e) 및 P32-06(a~c) 완료.
+완료한 내용: Zulu 25 루프백 서버로 두 TLS 버전과 정책·인증서 오류를 검증했다. Java 6u45·7u80의 실제 HTTPS 응답과 처리량을 기록했다.
+변경 파일: tls13/src/test의 JsseServer·JsseFixture·JsseInteropTest, tools/tlsvectors의 LiveProbe·빌드·문서, docs/progress/tls13.md, AGENTS.md.
+검증 결과: 모듈 회귀 97건씩 통과(JRE 6u45·7u80·8u202), Java 6·7에서 조사 대상 14개 호스트와 TLS 1.2 전용 주소의 HTTPS 응답 확인, 잘못된 인증서 4건 거부.
+미해결 사항: 실제 HTTPS와 성능의 조건·결과는 docs/progress/tls13.md 6절에 있다. 브라우저와 앱 연동은 이어서 검증한다.
+다음 작업 번호: P32-07
+
 === P32-05-a·b·d·e TLS 1.3·1.2 핸드셰이크, 레코드 계층, JSSE 소켓 ===
 현재 작업 번호: P32-05 (a, b, d, e 완료. c 는 P32-06 의 상호 운용 서버와 함께 진행)
 완료한 내용:

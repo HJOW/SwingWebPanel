@@ -235,3 +235,41 @@ www.daum.net, www.rfc-editor.org, www.mozilla.org, www.apple.com, www.kakao.com.
 RFC 8448 재현에서 ClientHello 는 추적의 것을 그대로 보낸다(추적의 클라이언트가 보내는 확장이 모듈과 다르다). 모듈이 만드는 ClientHello 는 시험 서버가 해석해 내용을 확인하고(`HandshakeTest`), P32-06 에서 JSSE 서버가 받아들이는지 본다.
 
 실행한 JRE: JDK 6u45 에서 모듈 시험 92건 통과. `proto` 시험 30건은 JDK 7u80, 8u202, Zulu 25 에서도 통과했다(JDK 6 으로 컴파일한 클래스).
+
+## 6. 상호 운용·실환경·성능 (P32-05-c, P32-06, 2026-11-28)
+
+### 6.1 자동 검증
+
+`JsseFixture`가 `SWP_TLS_SERVER_JAVA_HOME`의 Java 11 이상으로 별도 JVM을 실행한다. 이번 서버는 Zulu OpenJDK 25였다.
+`JsseServer`는 표준 JSSE와 JCA만 쓰며 시험용 루프백 주소로 제한한다. 알고리즘 설정은 자식 JVM에만 적용한다.
+클라이언트는 인증서 시험용 루트를 사용하며 상호 운용 행렬에서는 고정 난수로 ClientHello를 구성한다.
+
+| 대상 | 확인 |
+| --- | --- |
+| TLS 1.3 | AES-128/256-GCM, ChaCha20-Poly1305, X25519·P-256·P-384, 두 NIST 곡선의 HelloRetryRequest, RSA·ECDSA 인증서, 클라이언트 인증서 요청에 빈 응답, JSSE가 보낸 KeyUpdate로 수신 키 변경 |
+| TLS 1.2 | ECDHE_RSA·ECDHE_ECDSA × AES-128/256-GCM·ChaCha20-Poly1305 여섯 스위트, X25519·P-256·P-384, EMS 사용·미사용, 독립 JSSE 서명·Finished와 4 MiB 응답 |
+| 실패 | TLS 1.1 전용·TLS 1.2 CBC 전용 서버의 협상 실패, 만료·호스트 이름 불일치 인증서의 거부, 예고한 4 MiB보다 짧게 끝난 응답 |
+| 상태 기계 | `RecordProtocolTest`의 HelloRequest 거절과 `HandshakeFailureTest`의 세션 재개 시도 거부 |
+
+`mvn -B -o -pl tls13 -am "-Dtest.filter=tls13" verify`로 JDK 6u45에서 97건이 통과했다. 같은 JDK 6 클래스의 전체 모듈 시험을 7u80·8u202로 실행해 각 97건이 통과했다.
+`SWP_TLS_SERVER_JAVA_HOME`을 지정하지 않거나 해당 실행 파일이 없으면 독립 JSSE를 쓰는 다섯 시험이 이유와 함께 건너뛴다.
+
+### 6.2 서명·신뢰와 실제 HTTPS 응답
+
+`tools/tlsvectors`의 `LiveProbe`를 JRE 6u45와 7u80에서 수동 실행했다. 날짜는 2026-11-28 KST이며, HTTPS HEAD의 첫 응답을 확인했다.
+두 JRE에서 4.4절의 14개 호스트 모두 TLS 1.3으로 접속했다. Google, GitHub, Naver, Let's Encrypt, Cloudflare, Example Domain, Wikipedia, Microsoft, Amazon, RFC Editor, Mozilla, Apple은 200을 반환했다.
+Daum은 404, Kakao는 302를 반환했다. 두 상태 모두 인증서 검증과 TLS 협상이 끝난 후 받은 HTTP 응답이다.
+`https://tls-v1-2.badssl.com:1012/`는 두 JRE 모두 TLS 1.2의 ECDHE_RSA AES-256-GCM SHA-384로 200을 반환했다.
+`expired.badssl.com`은 EXPIRED, `wrong.host.badssl.com`은 NAME_MISMATCH, `self-signed.badssl.com`과 `untrusted-root.badssl.com`은 UNTRUSTED로 각각 거부했다.
+
+### 6.3 성능
+
+Zulu 25 루프백 서버의 X25519·RSA 2048·AES-128-GCM 구성에서 `TestRunner --filter testBenchmark org.duckdns.hjow.swingwebpanel.tls13.proto.JsseInteropTest`만 각각 새 JVM에서 실행했다.
+첫 연결은 TCP 연결 이후 난수와 TLS 상태를 준비하는 시점부터 측정했다. 예열 후 핸드셰이크는 다섯 번의 중앙값, 처리량은 해당 다섯 번의 4 MiB 응답 중 최저값이다.
+
+| 클라이언트 | 첫 핸드셰이크 | 예열 뒤 | 최저 수신 처리량 |
+| --- | ---: | ---: | ---: |
+| JRE 6u45 | 480.0 ms | 17.3 ms | 5.50 MB/s |
+| JRE 7u80 | 300.0 ms | 15.9 ms | 6.80 MB/s |
+
+두 실행 환경 모두 1.7절의 목표(1초, 150 ms, 3 MB/s)를 충족했다.

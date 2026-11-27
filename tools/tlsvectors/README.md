@@ -34,5 +34,15 @@ TLSVECTORS_JAVA_HOME=/path/to/jdk tools/tlsvectors/run.sh tls13/src/test/resourc
 
 ## 주의
 
-- Java 6, 7 과 오래된 Java 8 에는 필요한 알고리즘이 없어 실행할 수 없습니다(오류 메시지와 함께 끝납니다).
+- 벡터 생성과 인증서 사슬 기록에는 최신 Java를 사용합니다.
 - 이 도구는 제품에 포함되지 않습니다.
+
+## 실제 HTTPS 연결 확인
+
+벡터 생성과 별도로 Java 6·7에서 선택 TLS 모듈로 직접 서버에 연결해 볼 수 있습니다. 모듈과 도구를 먼저 빌드합니다.
+
+```bat
+"%JAVA6_HOME%\bin\java" -cp "tools\tlsvectors\build\classes;tls13\target\swingwebpanel-tls13.jar" tlsvectors.LiveProbe https://example.com/ https://expired.badssl.com/
+```
+
+각 URL의 TLS 버전, 암호 스위트, HTTP 상태 또는 인증서 거부 등의 실패 이유를 출력합니다. 연결 확인에는 HEAD를 사용합니다.
