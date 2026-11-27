@@ -42,14 +42,14 @@ public final class Ecdh {
     }
 
     /**
-     * Creates the key pair of a given private scalar (for test vectors).
+     * Creates the key pair of a given private scalar (for test vectors and recorded traces).
      * <p>
-     * 주어진 개인 스칼라의 키 쌍을 만든다(시험 벡터용).
+     * 주어진 개인 스칼라의 키 쌍을 만든다(시험 벡터와 기록된 추적용).
      *
      * @param curve the curve / 곡선
      * @param priv  the private scalar in [1, n - 1] / [1, n - 1] 의 개인 스칼라
      */
-    Ecdh(EcCurve curve, BigInteger priv) {
+    public Ecdh(EcCurve curve, BigInteger priv) {
         if (priv.signum() <= 0 || priv.compareTo(curve.order()) >= 0) {
             throw new IllegalArgumentException("private scalar out of range");
         }

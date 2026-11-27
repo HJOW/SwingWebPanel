@@ -11,6 +11,30 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32-05-a·b·d·e TLS 1.3·1.2 핸드셰이크, 레코드 계층, JSSE 소켓 ===
+현재 작업 번호: P32-05 (a, b, d, e 완료. c 는 P32-06 의 상호 운용 서버와 함께 진행)
+완료한 내용:
+ - tls13 모듈의 프로토콜 계층(proto: RecordLayer, HandshakeIo, ClientHello, ServerHello, ClientHandshake, Connection, CipherSuite, Parameters)과
+   공개 진입점(Tls13SocketFactory, Tls13Config, Tls13Exception, Tls13Failures)을 구현했다. TlsSocket/TlsSession 은 패키지 전용 JSSE 구현이다.
+ - ClientHello 하나로 TLS 1.3 과 1.2 를 제안하고 서버가 고른 버전으로 진행한다. 세션 재개·재협상·클라이언트 인증서는 없다.
+ - 실패를 종류로 구분한다(NEGOTIATION, CERTIFICATE, PROTOCOL, PEER_ALERT). JRE 로 다시 시도해도 되는 것은 NEGOTIATION 뿐이다.
+ - 인수 없는 createSocket() 을 거절해 JRE 의 HttpsURLConnection 이 호스트 이름과 함께 소켓을 넘기게 한다(SNI 전송).
+ - 시험용 TLS 서버(proto.ScriptedServer: 결함 주입, 조각·패딩·손상 레코드)와 공용 자료(proto.TlsFixture)를 만들었다.
+변경 파일: tls13/src/main/java/.../tls13/{Tls13SocketFactory,Tls13Config,Tls13Exception,Tls13Failures,TlsSocket,TlsSession}.java,
+ tls13/src/main/java/.../tls13/proto/*, tls13/src/main/java/.../tls13/crypto/Ecdh.java(개인 스칼라 생성자 공개),
+ tls13/src/test/java/.../tls13/proto/{Rfc8448TraceTest,HandshakeTest,HandshakeFailureTest,RecordProtocolTest,SocketFactoryTest,ScriptedServer,TlsFixture}.java,
+ tls13/AGENTS.md, docs/progress/tls13.md(5절), AGENTS.md(P32-05-a·b·d·e 완료 표시)
+검증 결과:
+ - mvn -B -o -pl tls13 -am "-Dtest.filter=tls13" verify (Maven 은 Zulu 25, 컴파일과 시험은 JDK 6u45): 92 passed, 0 failed, 0 skipped. BUILD SUCCESS.
+ - proto 시험 30건을 JDK 7u80, JDK 8u202, Zulu 25 의 java 로도 실행: 모두 통과(JDK 6 으로 컴파일한 클래스).
+ - tools\sourcecheck\run.bat tls13: 0 violation(s).
+ - RFC 8448 추적 재현(3·5·7절)에서 클라이언트가 쓴 레코드가 추적과 바이트 단위로 같다.
+미해결 사항:
+ - P32-05-c: 시험 서버는 모듈의 암호 기본 요소로 만든 것이라 TLS 1.2 의 "독립 구현이 만든 서버 메시지" 검증이 아니다.
+   JSSE 서버(더 새 JDK)의 메시지로 확인하는 일은 P32-06 의 상호 운용 서버와 함께 한다.
+ - 실제 사이트 연결과 성능 측정은 P32-06, 브라우저 연결은 P32-07, desktopapp 은 P32-08.
+다음 작업 번호: P32-05-c, P32-06
+-----------------------------------------------------------------------------------------------
 === P32-04 X.509 해석·경로 검증·신뢰 저장소 완료 (2026-11-28) ===
 현재 작업 번호: P32-04(a~c) 완료. P32-05 진행 중.
 완료한 내용: (P32-04-c) tools/cabundle: CCADB "Mozilla Included CA Certificate Report" CSV 를 모듈 자료 mozilla-roots.txt 로 변환(웹 사이트 신뢰 비트가 있는 루트만, 지문 대조, 불신 날짜와 적용 제약 옮김, 지문 순 정렬). 2026-11-28 에 tools/webfetch 로 받은 보고서(460,554 바이트, SHA-256 f069fdc3699ef77359b3d7bc8ded208e473234b59c61065e507fd7210ad591b9)에서 루트 112개. META-INF/LICENSE-ccadb.txt(출처 고지 + CDLA-Permissive-2.0 문구, SPDX license-list-data 에서 2026-11-28 조회). (P32-04-a 마무리) tools/tlsvectors 에 ChainCapture(실제 HTTPS 서버의 사슬 기록) 추가, 14개 호스트의 사슬을 real-chains.txt 로 기록. 시험 x509.TrustStoreTest(내장 목록 적재와 루트별 키·CA 확인, 실제 사슬 검증과 네 가지 거부, KeyStore 저장소, 목록 형식 오류).

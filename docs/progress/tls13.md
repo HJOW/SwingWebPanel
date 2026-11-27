@@ -132,6 +132,7 @@ Java 에서는 JIT 과 GC 때문에 상수 시간 실행을 보장할 수 없다
 | 2026-11-28 | P32-02 | 모듈 골격(`tls13/`, 경계 시험, 문서) |
 | 2026-11-28 | P32-03 | 암호 기본 요소 a~f 와 대조 벡터 도구 `tools/tlsvectors`. 모듈 시험 40건 |
 | 2026-11-28 | P32-04 | X.509 해석, 경로 검증, 호스트 이름 검증, 내장 루트 목록(4절). 모듈 시험 62건 |
+| 2026-11-28 | P32-05-a·b·d·e | 핸드셰이크·레코드 계층·JSSE 소켓(5절). 모듈 시험 92건. P32-05-c(독립 구현의 TLS 1.2 서버 메시지)는 P32-06 의 상호 운용 서버와 함께 진행한다 |
 
 ## 4. 인증서 검증과 루트 목록 (P32-04)
 
@@ -176,3 +177,61 @@ www.google.com, github.com, www.naver.com, letsencrypt.org, www.cloudflare.com, 
 www.daum.net, www.rfc-editor.org, www.mozilla.org, www.apple.com, www.kakao.com. 시험 `x509.TrustStoreTest.testRealServerChains` 가 JDK 6u45 에서
 기록한 시각으로 내장 루트에 대해 모두 검증하고(RSA 와 EC 서버 인증서 모두 포함), 다른 호스트 이름(NAME_MISMATCH), 3년 뒤(EXPIRED), 다른 신뢰 저장소(UNTRUSTED),
 서명 한 비트 변조(BAD_SIGNATURE)를 거부함을 확인한다.
+
+## 5. 핸드셰이크, 레코드 계층, JSSE 소켓 (P32-05)
+
+### 5.1 구조
+
+| 클래스 | 하는 일 |
+| --- | --- |
+| `Tls13SocketFactory` | 공개 진입점. 연결된 소켓 위에 TLS 를 얹는다. 인수 없는 `createSocket()` 은 원인이 `UnsupportedOperationException` 인 `SocketException` 으로 거절한다. 그러면 JRE 의 `HttpsURLConnection` 이 일반 소켓을 직접 연결하고 호스트 이름과 함께 `createSocket(Socket, host, port, autoClose)` 를 부르므로 서버 이름(SNI)을 보낼 수 있다 |
+| `Tls13Config` | 신뢰 저장소, 프로토콜 버전, 암호 스위트, 그룹. 변경할 수 없는 객체이다. 인증서 검사나 호스트 이름 검사를 끄는 항목은 없다 |
+| `Tls13Exception` | 실패의 종류(`NEGOTIATION`, `CERTIFICATE`, `PROTOCOL`, `PEER_ALERT`)와 경보 코드 |
+| `Tls13Failures` | `isNegotiationFailure(Throwable)`. JRE 형식만 받는 static 메서드라서 모듈에 컴파일 의존성이 없는 브라우저가 리플렉션으로 부른다(P32-07) |
+| `proto.ClientHandshake` | ClientHello 하나로 TLS 1.3 과 1.2 를 제안하고 서버가 고른 버전의 핸드셰이크를 한다 |
+| `proto.RecordLayer` | 두 버전의 레코드 보호. 소켓 제한 시간으로 끊긴 읽기를 바이트를 잃지 않고 이어 간다 |
+| `proto.Connection` | 핸드셰이크 뒤의 응용 데이터, 경보, KeyUpdate, NewSessionTicket(버림), TLS 1.2 HelloRequest(경고 `no_renegotiation` 으로 거절) |
+
+### 5.2 협상 실패의 판정
+
+다른 TLS 구현(JRE)으로 한 번 더 시도해도 되는 실패는 `Kind.NEGOTIATION` 뿐이다.
+
+| 상황 | 종류 |
+| --- | --- |
+| 서버가 ClientHello 에 `handshake_failure`, `protocol_version`, `insufficient_security` 경보로 답함 | NEGOTIATION |
+| 서버가 TLS 1.1 이하의 ServerHello 로 답함(모르는 확장이 있어도 버전을 먼저 본다) | NEGOTIATION |
+| 서버가 모듈이 제안하지 않은 버전(예: TLS 1.3 전용 설정에 TLS 1.2)을 고름 | NEGOTIATION |
+| 인증서 사슬이나 호스트 이름 거부 | CERTIFICATE |
+| 틀린 서명·Finished·레코드 태그, 다운그레이드 표식, 제안하지 않은 스위트·그룹·확장, 세션 재개 시도, 순서가 틀린 메시지 | PROTOCOL |
+| ServerHello 를 받아들인 뒤의 치명적 경보, 그 밖의 경보 | PEER_ALERT |
+| 연결이 끊김(`EOFException`), 시간 초과 | 모듈의 예외가 아니다 |
+
+### 5.3 구현하면서 정한 것
+
+- ClientHello 의 세션 식별자는 항상 난수 32바이트이다(미들박스 호환 모드). TLS 1.2 서버가 그 값을 되돌려 보내면 세션 재개 시도로 보고 거절한다.
+- TLS 1.3 에서 서버의 `change_cipher_spec` 은 핸드셰이크 동안만 버린다. 핸드셰이크 뒤에 오면 `unexpected_message` 이다.
+- 키는 핸드셰이크 메시지의 경계에서만 바꾼다. 메시지가 키 변경에 걸쳐 있으면 `unexpected_message` 이다.
+- TLS 1.3 레코드는 바깥 길이(2^14 + 256), 내부 평문 길이(2^14 + 1), 내용 길이(2^14)를 각각 검사한다.
+- TLS 1.2 AES-GCM 의 명시적 nonce 로는 순서 번호를 쓴다(같은 키에서 되풀이되지 않는다). 받을 때는 레코드에 실린 값을 쓴다.
+- `close_notify` 없이 레코드 사이에서 닫힌 연결은 스트림 끝으로 돌려준다(HTTP 는 길이로 본문 끝을 판정한다). 레코드 도중에 끊기면 `EOFException` 이다.
+- 핸드셰이크가 실패하면 그 실패를 기억하고 이후의 읽기·쓰기에서 같은 예외를 다시 던진다. 핸드셰이크 도중의 소켓 제한 시간도 연결을 끝낸다. 핸드셰이크 뒤의 읽기 제한 시간은 연결을 끝내지 않는다.
+- `close()` 는 쓰기 잠금을 기다리지 않는다. 다른 스레드가 쓰는 중이면 `close_notify` 를 보내지 않고 아래 소켓을 닫는다.
+- `createSocket(InetAddress, ...)` 는 주소 문자열을 호스트로 쓴다(역방향 조회는 위조될 수 있다). 그 경우 인증서에 그 IP 주소가 있어야 하고 서버 이름은 보내지 않는다.
+- `SSLSession.getPeerCertificateChain()`(옛 `javax.security.cert`)은 그 구현이 없는 JRE(15 이상)에서 `SSLPeerUnverifiedException` 이다. `getPeerCertificates()` 는 모든 JRE 에서 동작한다.
+
+### 5.4 자동 시험
+
+| 시험 | 내용 |
+| --- | --- |
+| `proto.Rfc8448TraceTest` 4건 | RFC 8448 의 3절(단순 1-RTT), 5절(HelloRetryRequest), 7절(호환 모드)을 재현한다. 추적의 개인 키와 ClientHello 를 주고 서버의 레코드를 먹이면 클라이언트가 쓰는 모든 레코드(Finished, 응용 데이터, 경보, `change_cipher_spec`)가 추적과 바이트 단위로 같다. 6절(인증서 요청)은 빈 Certificate 로 답하므로 추적과 같을 수 없어, 클라이언트의 비행을 추적의 키로 복호화해 확인한다 |
+| `proto.HandshakeTest` 6건 | 시험 서버와의 완전한 핸드셰이크: TLS 1.3 스위트 3종, 그룹 3종(HelloRetryRequest 포함), RSA·ECDSA(P-256, P-384) 인증서, TLS 1.2 스위트 6종 × 그룹 × 서명 방식 × 확장 마스터 비밀 사용·미사용, 인증서 요청, 한 버전 전용 설정, 서버가 본 ClientHello 의 내용 |
+| `proto.HandshakeFailureTest` 6건 | 5.2 절의 판정과, 결함마다 클라이언트가 보내는 경보 |
+| `proto.RecordProtocolTest` 5건 | 1바이트·3바이트 레코드로 조각난 핸드셰이크, TLS 1.3 패딩과 빈 레코드, 너무 큰·손상된·보호되지 않은 레코드, 양방향 KeyUpdate, NewSessionTicket, HelloRequest, 경보, 끊긴 연결 |
+| `proto.SocketFactoryTest` 9건 | 소켓 팩터리와 `SSLSocket`·`SSLSession`, 읽기 제한 시간 뒤 이어 읽기, 다른 스레드의 `close`, 동시 읽기·쓰기(각 방향 300 KiB), `HttpsURLConnection` 에 설치(서버가 받은 서버 이름으로 SNI 전송을 확인) |
+
+시험 서버(`proto.ScriptedServer`)는 모듈의 암호 기본 요소로 만든 시험 코드이다. 레코드는 자체 코드로 쓰고(패딩, 분할, 손상, TLS 1.2 의 임의 명시적 nonce) 클라이언트의 레코드는 모듈의 레코드 계층으로 읽는다.
+따라서 이 시험들은 상태 기계와 오류 처리의 검증이고, 다른 구현과의 일치는 RFC 8448 재현(TLS 1.3)과 P32-06 의 JSSE 서버(TLS 1.3·1.2)로 확인한다.
+
+RFC 8448 재현에서 ClientHello 는 추적의 것을 그대로 보낸다(추적의 클라이언트가 보내는 확장이 모듈과 다르다). 모듈이 만드는 ClientHello 는 시험 서버가 해석해 내용을 확인하고(`HandshakeTest`), P32-06 에서 JSSE 서버가 받아들이는지 본다.
+
+실행한 JRE: JDK 6u45 에서 모듈 시험 92건 통과. `proto` 시험 30건은 JDK 7u80, 8u202, Zulu 25 에서도 통과했다(JDK 6 으로 컴파일한 클래스).
