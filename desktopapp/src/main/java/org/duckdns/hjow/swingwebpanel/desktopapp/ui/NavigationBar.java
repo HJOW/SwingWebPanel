@@ -17,6 +17,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
@@ -178,7 +179,23 @@ final class NavigationBar extends JPanel {
         super(new BorderLayout(4, 0));
         this.actions = actions;
         setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 4));
-        JToolBar buttons = new JToolBar();
+        JToolBar buttons = new JToolBar() {
+            /** Serialization version. / 직렬화 버전. */
+            private static final long serialVersionUID = 1L;
+
+            /**
+             * Restores the Nimbus toolbar style after the ancestor notification.
+             * <p>
+             * 상위 컴포넌트 변경 알림 뒤 Nimbus 도구 모음 스타일을 복원한다.
+             */
+            public void addNotify() {
+                super.addNotify();
+                // Java 6 Nimbus는 상위 컴포넌트 변경 알림에서 끌기 창의 스타일로 도구 모음의 여백과 불투명도를 덮어쓴다.
+                if ("Nimbus".equals(UIManager.getLookAndFeel().getID())) {
+                    updateUI();
+                }
+            }
+        };
         buttons.setFloatable(false);
         buttons.setRollover(true);
         buttons.add(back);

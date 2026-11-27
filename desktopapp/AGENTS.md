@@ -17,6 +17,7 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 - 룩앤필은 실행 중에 바뀐다. 컴포넌트에서 읽은 글꼴·색을 보관해 두고 다시 쓰지 않으며(`TabHeader.updateUI`, `FindBar.showResult` 참고),
   룩앤필의 테두리를 없애려면 `setBorder(null)` 이 아니라 빈 테두리를 준다(null 은 룩앤필을 바꿀 때 다시 채워진다).
   단추의 테두리는 Windows 룩앤필이 덮어쓰므로 그 단추의 `updateUI` 에서 다시 준다(`TabHeader` 의 닫기 단추).
+  Java 6 Nimbus에서는 `addNotify` 의 상위 컴포넌트 변경 알림이 도구 모음의 여백과 불투명도를 덮어쓴다. `NavigationBar` 의 도구 모음은 알림 뒤 UI를 다시 설치한다.
 
 ## 구조
 

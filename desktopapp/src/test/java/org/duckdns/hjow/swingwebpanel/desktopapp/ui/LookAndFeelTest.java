@@ -4,9 +4,11 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.AbstractButton;
 import javax.swing.JComboBox;
@@ -206,13 +208,14 @@ public class LookAndFeelTest extends WindowCase {
     }
 
     /**
-     * Draws the window into an image, so that a look and feel that cannot paint a component fails the case.
+     * Draws a component into an image, so that a look and feel that cannot paint a component fails the case.
      * <p>
-     * 창을 이미지에 그린다. 컴포넌트를 그리지 못하는 룩앤필이면 사례가 실패한다.
+     * 컴포넌트를 이미지에 그린다. 컴포넌트를 그리지 못하는 룩앤필이면 사례가 실패한다.
      *
      * @param root the component to draw / 그릴 컴포넌트
+     * @return the rendered image / 그린 이미지
      */
-    private static void paint(Component root) {
+    private static BufferedImage paint(Component root) {
         BufferedImage image = new BufferedImage(Math.max(1, root.getWidth()), Math.max(1, root.getHeight()), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
         try {
@@ -220,6 +223,74 @@ public class LookAndFeelTest extends WindowCase {
         } finally {
             g.dispose();
         }
+        return image;
+    }
+
+    /**
+     * Compares the navigation bar and tab strip after switching to Nimbus with a window created under Nimbus.
+     * <p>
+     * Nimbus로 바꾼 탐색 도구 모음과 탭 줄을 처음부터 Nimbus로 만든 창과 비교한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testNimbusNavigationAndTabsMatchNewWindow() throws Exception {
+        if (skipped()) {
+            return;
+        }
+        String installedNimbus = null;
+        // JRE마다 Nimbus 클래스 이름이 다르므로 설치 목록에서 찾는다.
+        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                installedNimbus = info.getClassName();
+                break;
+            }
+        }
+        if (installedNimbus == null) {
+            Check.skip("Nimbus is not installed");
+            return;
+        }
+        final String nimbus = installedNimbus;
+        onEdt(new Runnable() {
+            /** Compares the two layouts and paint results. / 두 창의 배치와 그리기 결과를 비교한다. */
+            public void run() {
+                app.getSettings().set(Settings.LOOK_AND_FEEL, MetalLookAndFeel.class.getName());
+                window.newTab(null, true);
+                window.addNotify();
+                window.validate();
+                app.getSettings().set(Settings.LOOK_AND_FEEL, nimbus);
+                Check.equal(nimbus, LookAndFeels.currentClassName(), "Nimbus is in use");
+                Check.equal(window.getTabs().get(1), window.getActiveTab(), "the active tab remains selected");
+                BrowserWindow fresh = app.openWindow(null);
+                fresh.newTab(null, true);
+                fresh.setSize(window.getSize());
+                fresh.addNotify();
+                try {
+                    Check.isTrue(Arrays.equals(navigationAndTabPixels(fresh), navigationAndTabPixels(window)),
+                            "changing to Nimbus draws the navigation bar and tabs like a new Nimbus window");
+                } finally {
+                    fresh.closeWindow();
+                }
+            }
+        });
+    }
+
+    /**
+     * Draws the window and reads the pixels from the navigation bar through the tab row.
+     * <p>
+     * 창을 그린 뒤 탐색 도구 모음부터 탭 줄 끝까지의 픽셀을 읽는다.
+     *
+     * @param browser the window to lay out / 배치할 창
+     * @return the painted pixels above the page / 페이지 위쪽의 그린 픽셀
+     */
+    private static int[] navigationAndTabPixels(BrowserWindow browser) {
+        browser.validate();
+        JTabbedPane pane = (JTabbedPane) SwingUtilities.getAncestorOfClass(JTabbedPane.class, browser.getTabHeader(0));
+        Container content = browser.getContentPane();
+        Rectangle tab = SwingUtilities.convertRectangle(pane, pane.getBoundsAt(0), content);
+        int height = tab.y + tab.height;
+        Check.isTrue(tab.height > 0, "the tabs have been laid out");
+        BufferedImage image = paint(content);
+        return image.getRGB(0, 0, image.getWidth(), height, null, 0, image.getWidth());
     }
 
     /**

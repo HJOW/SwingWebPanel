@@ -12,11 +12,11 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 
 ```text
 === P31-12 설정의 콘텐츠 구역에 룩앤필 선택 (2026-11-27) ===
-현재 작업 번호: P31-12 완료(2026-11-27 사용자 요청).
-완료한 내용: desktopapp 설정 대화 상자의 "콘텐츠" 구역에 룩앤필 목록을 추가했다((기본값) = Java 의 처음 것, 설치된 룩앤필). 확인하면 모든 창에 바로 적용·저장하고, 시작할 때에는 첫 창 전에 적용한다. 쓸 수 없는 값은 쓰던 룩앤필을 두고 설정을 보존하며 한 번 알린다. 실행 중 변경에 어긋나던 탭 머리 글꼴, 탭 닫기 단추 테두리, 찾기 필드 바탕색, 탭 스크롤 창 테두리를 고쳤다. SwingWebPanel(브라우저·엔진)은 바꾸지 않았다. 여기서 사용자 요청으로 작업을 중단했다.
-변경 파일: desktopapp 의 BrowserApp.java, model/Settings.java, ui/LookAndFeels.java(신규), ui/SettingsDialog.java, ui/TabHeader.java, ui/FindBar.java, ui/BrowserTab.java, 시험 ui/LookAndFeelTest.java(신규)·model/SettingsStoreTest.java, README.md, AGENTS.md. AGENTS.md(P31-12), docs/FEATURE_MATRIX.md(DESK-06), docs/progress/desktopapp.md(7.11절), 이 문서.
-검증 결과: (1) mvn -B -o -pl desktopapp -am "-Dtest.filter=desktopapp" verify(Maven 3.8.8 을 JDK 21 로 실행, JDK 6u45 javac·java, Windows 11): 앱 57건 통과/0 실패/0 건너뜀, run-app-smoke 통과(로그 build/p31/laf-1.log). (1)의 건수와 smoke 는 마지막 수정(닫기 단추) 뒤의 재실행 결과도 같다(build/p31/laf-2.log). (2) TabHeader, FindBar, BrowserTab 의 수정을 하나씩 되돌리면 LookAndFeelTest 가 각각 2건, 1건, 2건 실패했고, 닫기 단추 수정만 되돌리면 1건 실패했다(build/p31/laf-revert-*.log). (3) 설치된 룩앤필 다섯 개의 창·설정 화면을 JRE 6u45 에서 이미지로 그려 눈으로 확인했고, 같은 일회성 점검이 JRE 8u202·21.0.3 에서 예외 없이 끝났다(둘 다 닫기 단추 수정 전). (4) 닫기 단추 수정 뒤 JRE 6u45 에서 처음부터 시작한 화면과 실행 중 바꾼 화면(15단계)을 픽셀 비교했다: 설정 화면은 모두 같고, 창은 Nimbus 로 바꾼 3단계만 다르다. (5) sourcecheck desktopapp docs AGENTS.md: 위반 0건. 브라우저·엔진 회귀는 그 소스를 바꾸지 않아 다시 실행하지 않았다.
-미해결 사항: 실행 중에 Nimbus 로 바꾸면 탭 줄 영역 (8,29)–(206,56)의 1,099 픽셀이 처음부터 Nimbus 인 화면과 다르다(눈 비교와 원인 확인을 하지 않았다). 실제 창에서 실제 마우스·키보드로 룩앤필을 바꾸어 보지 않았다(자동 시험과 화면 밖 그리기만). 시작할 때 저장된 룩앤필을 쓸 수 없으면 바로 알리지 않고 다음에 설정을 확인할 때 알린다.
+현재 작업 번호: P31-12 완료. Nimbus 표시 차이 수정과 실제 창 확인을 마쳤다(2026-11-27).
+완료한 내용: desktopapp 설정의 "콘텐츠" 구역에서 설치된 룩앤필을 선택하면 열린 창에 적용하고 저장한다. 초기 구현에서 탭 머리 글꼴, 닫기 단추 테두리, 찾기 필드 바탕색, 스크롤 창 테두리를 바로잡았다(b2cdf0b). 후속 작업에서 Java 6 Nimbus의 상위 컴포넌트 변경 알림이 탐색 도구 모음의 여백과 불투명도를 덮어쓰는 것을 재현했다. 도구 모음이 표시 가능해질 때 알림이 끝난 뒤 Nimbus UI를 다시 설치한다.
+변경 파일: desktopapp의 ui/NavigationBar.java, 시험 ui/LookAndFeelTest.java, desktopapp/AGENTS.md, 루트 AGENTS.md(P31-12), docs/FEATURE_MATRIX.md(DESK-06), docs/progress/desktopapp.md(7.11절), 이 문서.
+검증 결과: mvn -B -o -pl desktopapp -am "-Dtest.filter=desktopapp" verify(Maven 3.8.9, Zulu 25, 컴파일·시험은 JDK 6u45, Windows 10): 앱 시험 58건 통과/0 실패/0 건너뜀, 실행 JAR의 run-app-smoke 통과(build/p31/laf-nimbus-verify.log). 새 픽셀 비교 시험은 수정 전 실패했고, 수정 후 JRE 6u45·8u202·Zulu 25에서 통과했다. JRE 6u45에서 설치된 다섯 룩앤필을 섞은 15개 전환 단계는 모두 새 창과 내용 영역 위쪽의 픽셀 차이가 0이었다(build/p31/laf-nimbus-matrix.log). tools/uicheck로 실제 창의 키보드·마우스 조작과 재시작을 확인했다. Nimbus 전환·재시작 화면에서 탐색 버튼과 탭 줄의 픽셀 차이는 0이었다(build/p31/laf-nimbus-ui/). sourcecheck desktopapp docs AGENTS.md 위반 0건. 검증 범위는 desktopapp 모듈이다.
+미해결 사항: 관찰된 Nimbus 표시 차이는 해결했다. 시작할 때 저장된 룩앤필을 쓸 수 없는 경우의 메시지는 설정 화면을 확인할 때 표시한다(7.11절의 기존 정책).
 다음 작업 번호: P22-16(선행: P22-16-c4, P22-16-e, P18-08-d)
 -----------------------------------------------------------------------------------------------
 === P31-11 검증과 문서화, P31 완료 (2026-11-27) ===
@@ -1866,6 +1866,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-27 · P31-12 Nimbus 탐색 도구 모음 표시 수정
+
+- 탐색 도구 모음에 Nimbus 스타일을 다시 적용해 실행 중에 바꾼 창과 Nimbus로 시작한 창의 도구 모음·탭 줄이 같게 보이도록 했다. 회귀 시험과 실제 창 검증 결과는 위 현재 상태의 P31-12 블록에 있다.
 
 ### 2026-11-27 · P31-12 desktopapp 룩앤필 선택
 
