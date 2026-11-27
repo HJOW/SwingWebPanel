@@ -158,6 +158,7 @@ bat 는 MS949(현재는 ASCII 만 사용), sh/java/md 는 UTF-8 이다.
 | `tools/brotlidict` | RFC 7932 부록 A/B 의 텍스트에서 Brotli 정적 사전(122,784바이트)·변환 표·문맥 조회표를 읽고 RFC 가 적은 CRC-32 와 대조한 뒤 `media.font.BrotliData` 를 생성(P10-08-e) | `tools/brotlidict/AGENTS.md`, `README.md` |
 | `tools/hrtfgen` | MIT KEMAR compact 자료(`tools/webfetch` 로 받은 `compact.zip`)를 귀마다 최소 위상 커널 + 지연으로 바꿔 제품 자원 `media/webaudio/dsp/kemar-compact.hrtf` 를 생성(P25 A2). 저자 표기 조건과 원본 URL·조회일은 도구 문서와 README 에 있음 | `tools/hrtfgen/AGENTS.md`, `README.md` |
 | `tools/netstormparse` | 외부 NetstormReborn 경로의 webpack 번들, `debug.html` inline module, `dist` 밖 모든 ES 모듈과 상대 static import를 JDK 6의 자체 JavaScript 파서로 검사한다(P28-02-f). 자산은 저장소에 복사하지 않는다 | `tools/netstormparse/AGENTS.md`, `README.md` |
+| `tools/tlsvectors` | TLS 모듈(`tls13`, P32-03)의 암호 기본 요소를 독립 구현과 대조하기 위한 벡터(AES-GCM, ChaCha20-Poly1305, X25519, ECDH, ECDSA, RSA 서명)를 더 새 JRE 의 표준 공급자로 만들어 `tls13/src/test/resources/jca-vectors.txt` 에 쓴다. 실행 JRE 는 `TLSVECTORS_JAVA_HOME`(Java 11 이상) | `tools/tlsvectors/AGENTS.md`, `README.md` |
 | `tools/unicodegen` | Unicode 18.0.0 UCD의 속성 구간, 정확한 별칭과 대소문자 매핑을 `js.text.UnicodePropertyData` 소스로 생성한다(P29-02-g). 렉서와 정규식이 `UnicodeProperties`를 공유하며 문자열 대소문자 변환과 정규식이 `UnicodeCase`를 사용한다. 이모지 전용 속성에는 EXC-15가 적용된다. | `tools/unicodegen/AGENTS.md`, `README.md` |
 
 (도구가 추가되면 이 표에 갱신한다.)

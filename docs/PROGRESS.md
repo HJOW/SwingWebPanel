@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32-03-f RSA 서명 검증, 대조 벡터 도구 tools/tlsvectors, P32-03 완료 (2026-11-28) ===
+현재 작업 번호: P32-03-f 완료, P32-03(a~f) 완료. P32-04 진행 중.
+완료한 내용: crypto.RsaVerify(RSASSA-PKCS1-v1_5 와 RSASSA-PSS 검증. 서명 길이 = 법 길이, s < n, 홀수 법, 3 이상의 홀수 지수). tools/tlsvectors(Java 6 문법 소스, 실행은 TLSVECTORS_JAVA_HOME 의 Java 11 이상. GCMParameterSpec 과 Cipher.updateAAD 는 리플렉션으로 호출. JRE 6 으로 실행하면 종료 코드 2)와 그 build/run 스크립트(sh, bat), AGENTS.md, README.md. 생성한 대조 자료 tls13/src/test/resources/jca-vectors.txt(168건, 머리 줄에 jre: 25 (Azul Systems, Inc.)). 시험 crypto.RsaVerifyTest, crypto.JcaCrossCheckTest. docs/ARCHITECTURE.md 도구 표와 tls13/AGENTS.md 구조 표 갱신.
+변경 파일: tls13/src/main/java/.../crypto/RsaVerify.java, tls13/src/test/java/.../crypto/{RsaVerifyTest,JcaCrossCheckTest}.java, tls13/src/test/resources/jca-vectors.txt, tools/tlsvectors/(신규), docs/ARCHITECTURE.md, tls13/AGENTS.md, AGENTS.md, 이 문서.
+검증 결과: JDK 6u45 javac 로 컴파일해 자체 실행기로 모듈 전체 실행(Windows 10): 40건 통과/0 실패/0 건너뜀(약 14초). 도구: tools\tlsvectors\build.bat 종료 코드 0, run.bat(Zulu 25) 종료 코드 0·172줄, run.bat(JDK 6u45) 종료 코드 2. sourcecheck(tls13, tools/tlsvectors, docs/ARCHITECTURE.md) 위반 0건. 작업 중 문서 치환 스크립트의 배열 구문 실수로 docs/ARCHITECTURE.md 와 tls13/AGENTS.md 의 줄바꿈이 깨졌으나 커밋 전에 git 으로 되돌리고 다시 적용했다(diff 는 각각 1줄, 3줄 추가).
+미해결 사항: Maven 경로(mvn -pl tls13 -am verify)의 전체 실행은 P32-04 뒤에 함께 한다. TLS 1.2 PRF 의 SHA-384 와 KeyUpdate 비밀은 상호 운용(P32-06)에서 확인한다.
+다음 작업 번호: P32-04-a
+-----------------------------------------------------------------------------------------------
 === P32-03-e NIST 곡선의 ECDH 와 ECDSA 검증 (2026-11-28) ===
 현재 작업 번호: P32-03-e 완료. P32-03-f 진행 중.
 완료한 내용: crypto.EcCurve(y^2 = x^3 - 3x + b 의 P-256/P-384/P-521. BigInteger 위의 야코비 좌표 덧셈·두 배, 비밀 스칼라용 몽고메리 사다리 multiply, 공개 값용 multiplyTwo(u1*G + u2*Q), 비압축 점 decodePoint(길이·접두사·범위·곡선 방정식 검증)·encodePoint), crypto.Ecdh(기각 추출로 [1, n-1] 스칼라, 공유 비밀은 x 좌표), crypto.Ecdsa.verify(r·s 범위, 해시 왼쪽 비트, 공개 키의 곡선 검사). 시험 도우미 Vectors(줄 단위 벡터 자료 읽기)와 자료 ec-vectors.txt(RFC 6979, RFC 5903 원문에서 스크립트로 추출).
