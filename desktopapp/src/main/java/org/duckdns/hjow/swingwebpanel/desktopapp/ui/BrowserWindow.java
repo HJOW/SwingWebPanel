@@ -53,7 +53,7 @@ import org.duckdns.hjow.swingwebpanel.desktopapp.model.ZoomSteps;
  * 모음, 상태 표시줄은 활성 탭의 상태를 보인다. 탭마다 자기 페이지가 있다. 탭을 닫으면 그 페이지를 폐기하고, 마지막 탭을 닫으면 창을 닫으며, 창을
  * 닫으면 모든 페이지를 폐기하고 응용 프로그램에 알린다. 이벤트 디스패치 스레드에서 쓴다.
  */
-public final class BrowserWindow extends JFrame implements NavigationBar.Actions, BrowserTab.Listener, Settings.Listener {
+public final class BrowserWindow extends JFrame implements NavigationBar.Actions, BrowserTab.Listener, Settings.Listener, FindBar.Actions {
 
     /** Serialization version. / 직렬화 버전. */
     private static final long serialVersionUID = 1L;
@@ -94,6 +94,18 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
     /** The open popup windows that belong to this window. / 이 창에 속한 열린 팝업 창. */
     private final transient List<PopupWindow> popups = new ArrayList<PopupWindow>();
 
+    /** The find bar, above the status bar. / 상태 표시줄 위의 찾기 막대. */
+    private final FindBar findBar = new FindBar(this);
+
+    /** The console window of this window while it exists, or null. / 이 창의 콘솔 창. 없으면 null. */
+    private transient ConsoleWindow consoleWindow;
+
+    /** The history window of this window while it exists, or null. / 이 창의 방문 기록 창. 없으면 null. */
+    private transient HistoryDialog historyDialog;
+
+    /** The source window that was opened last, kept for the tests. / 마지막으로 연 원본 창. 시험을 위해 보관한다. */
+    private transient SourceWindow lastSourceWindow;
+
     /** The context menu that was built last, kept for the tests. / 마지막으로 만든 문맥 메뉴. 시험을 위해 보관한다. */
     private transient JPopupMenu lastContextMenu;
 
@@ -129,7 +141,10 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(navigation, BorderLayout.NORTH);
         getContentPane().add(tabPane, BorderLayout.CENTER);
-        getContentPane().add(status, BorderLayout.SOUTH);
+        javax.swing.JPanel south = new javax.swing.JPanel(new BorderLayout());
+        south.add(findBar, BorderLayout.NORTH);
+        south.add(status, BorderLayout.SOUTH);
+        getContentPane().add(south, BorderLayout.SOUTH);
         placeFromSettings();
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -837,8 +852,196 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
             showSettings();
             return true;
         }
+        if (Commands.FIND.equals(command)) {
+            findBar.open();
+            return true;
+        }
+        if (Commands.FIND_NEXT.equals(command) || Commands.FIND_PREVIOUS.equals(command)) {
+            // 닫힌 막대는 다시 열고(남아 있던 글로 다시 찾는다), 열린 막대는 그 방향으로 간다.
+            if (!findBar.isOpen() || findBar.getText().length() == 0) {
+                findBar.open();
+            } else {
+                findBar.search(Commands.FIND_NEXT.equals(command));
+            }
+            return true;
+        }
+        if (Commands.VIEW_SOURCE.equals(command)) {
+            showSource();
+            return true;
+        }
+        if (Commands.CONSOLE.equals(command)) {
+            showConsole();
+            return true;
+        }
+        if (Commands.HISTORY.equals(command)) {
+            showHistory();
+            return true;
+        }
+        if (Commands.CLEAR_PRIVATE_DATA.equals(command)) {
+            clearPrivateData();
+            return true;
+        }
         tab.showNotice(Texts.of("This command is not available yet: ", "아직 쓸 수 없는 명령입니다: ") + command);
         return false;
+    }
+
+    /**
+     * Searches the page of the active tab for the text of the find bar (plan item P31-09); an empty text ends the search.
+     * <p>
+     * 활성 탭의 페이지에서 찾기 막대의 글을 찾는다(계획 P31-09). 빈 글은 찾기를 끝낸다.
+     *
+     * @param text      the text of the find bar / 찾기 막대의 글
+     * @param matchCase true to tell upper and lower case apart / 대소문자를 구분하려면 true
+     * @param forward   true for the next match / 다음 일치이면 true
+     */
+    public void find(String text, boolean matchCase, boolean forward) {
+        if (closed) {
+            return;
+        }
+        SwingWebPanel p = getPanel();
+        if (text == null || text.trim().length() == 0) {
+            p.clearFind();
+        } else {
+            p.find(text, matchCase, forward);
+        }
+    }
+
+    /**
+     * Ends the search after the find bar was closed and gives the keyboard focus back to the page.
+     * <p>
+     * 찾기 막대가 닫힌 뒤 찾기를 끝내고 키보드 포커스를 페이지에 돌려준다.
+     */
+    public void findClosed() {
+        if (closed) {
+            return;
+        }
+        getPanel().clearFind();
+        getPanel().requestFocusInWindow();
+    }
+
+    /**
+     * Returns the find bar; for tests.
+     * <p>
+     * 찾기 막대를 반환한다. 시험용이다.
+     *
+     * @return the find bar / 찾기 막대
+     */
+    FindBar getFindBar() {
+        return findBar;
+    }
+
+    /**
+     * Opens a window with the source of the page of the active tab (plan item P31-09): the text that was received, shown as plain
+     * text. It is shown if this window is shown.
+     * <p>
+     * 활성 탭 페이지의 원본을 보이는 창을 연다(계획 P31-09): 수신한 글을 평문으로 보인다. 이 창이 보이면 그 창도 보인다.
+     *
+     * @return the source window / 원본 창
+     */
+    SourceWindow showSource() {
+        SwingWebPanel p = getPanel();
+        SourceWindow w = new SourceWindow(this, p.getPage(), p.getMimeType(), p.getContent());
+        lastSourceWindow = w;
+        if (isVisible()) {
+            w.setVisible(true);
+        }
+        return w;
+    }
+
+    /**
+     * Returns the source window that was opened last; for tests.
+     * <p>
+     * 마지막으로 연 원본 창을 반환한다. 시험용이다.
+     *
+     * @return the window, or null if none was opened / 창. 연 적이 없으면 null
+     */
+    SourceWindow getLastSourceWindow() {
+        return lastSourceWindow;
+    }
+
+    /**
+     * Shows the console window of this window with the messages of the active tab (plan item P31-09), creating it if needed.
+     * <p>
+     * 활성 탭의 메시지가 든 이 창의 콘솔 창을 보인다(계획 P31-09). 없으면 만든다.
+     *
+     * @return the console window / 콘솔 창
+     */
+    ConsoleWindow showConsole() {
+        if (consoleWindow == null) {
+            consoleWindow = new ConsoleWindow(this);
+        }
+        BrowserTab tab = getActiveTab();
+        consoleWindow.showLog(tab.getConsole(), tab.getTitleText());
+        if (isVisible()) {
+            consoleWindow.setVisible(true);
+            consoleWindow.toFront();
+        }
+        return consoleWindow;
+    }
+
+    /**
+     * Shows the history window of this window with the session history of the active tab (plan item P31-09), creating it if needed.
+     * <p>
+     * 활성 탭의 세션 이력이 든 이 창의 방문 기록 창을 보인다(계획 P31-09). 없으면 만든다.
+     *
+     * @return the history window / 방문 기록 창
+     */
+    HistoryDialog showHistory() {
+        if (historyDialog == null) {
+            historyDialog = new HistoryDialog(this);
+        }
+        historyDialog.showTab(getActiveTab());
+        if (isVisible()) {
+            historyDialog.setVisible(true);
+            historyDialog.toFront();
+        }
+        return historyDialog;
+    }
+
+    /**
+     * Asks the user and then removes the private data of the whole application (plan item P31-09): every tab and popup of every
+     * window is emptied, and the cookies and the local storage that they share are removed.
+     * <p>
+     * 사용자에게 물은 뒤 응용 프로그램 전체의 개인 정보를 지운다(계획 P31-09): 모든 창의 모든 탭과 팝업을 비우고, 그것들이 함께 쓰는 쿠키와
+     * localStorage 를 지운다.
+     *
+     * @return true if the data was removed / 지웠으면 true
+     */
+    boolean clearPrivateData() {
+        String question = Texts.of("Clear the private data?\n\n"
+                + "All tabs and popup windows of all windows will show the empty page, and their history, cache and session storage are removed.\n"
+                + "The cookies and the local storage, which all tabs and windows share, are removed too.\n"
+                + "Bookmarks and settings are kept.",
+                "개인 정보를 지울까요?\n\n"
+                + "모든 창의 모든 탭과 팝업 창이 빈 페이지가 되고, 그 방문 기록, 캐시, sessionStorage 가 지워집니다.\n"
+                + "모든 탭과 창이 함께 쓰는 쿠키와 localStorage 도 지워집니다.\n"
+                + "북마크와 설정은 그대로 남습니다.");
+        if (!app.getPrompts().confirm(this, question)) {
+            return false;
+        }
+        app.clearPrivateData();
+        return true;
+    }
+
+    /**
+     * Empties the pages of this window for the clearing of the private data: every tab and popup, and the list of closed tabs.
+     * <p>
+     * 개인 정보를 지우기 위해 이 창의 페이지를 비운다: 모든 탭과 팝업, 그리고 닫은 탭의 목록.
+     */
+    public void clearPages() {
+        if (closed) {
+            return;
+        }
+        findBar.close();
+        closedTabs.clear();
+        // 탭마다 페이지와 그 기록을 지운다.
+        for (int i = 0; i < tabs.size(); i++) {
+            tabs.get(i).clearPrivateData();
+        }
+        // 팝업 창의 페이지도 지운다.
+        for (int i = 0; i < popups.size(); i++) {
+            popups.get(i).getTab().clearPrivateData();
+        }
     }
 
     /**
@@ -1461,14 +1664,30 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         }
         // 다른 탭으로 바뀌었으면 이전 탭을 두고 편집하던 글은 버린다.
         if (tab != shownTab) {
+            BrowserTab before = shownTab;
             shownTab = tab;
             navigation.switchPage(tab.getAddressText());
+            // 찾기는 활성 탭에서만 한다: 이전 탭의 찾기를 끝내고, 막대가 열려 있으면 새 탭에서 같은 글을 찾는다.
+            if (before != null && !before.getPanel().isDisposed()) {
+                before.getPanel().clearFind();
+            }
+            if (findBar.isOpen()) {
+                find(findBar.getText(), findBar.isMatchCase(), true);
+            }
         } else {
             navigation.showPage(tab.getAddressText());
         }
         navigation.setState(tab.canGoBack(), tab.canGoForward(), tab.isLoading());
         status.show(tab.getStatusText(), tab.getPanel().getProgress(), tab.getPanel().getZoom());
         offerBlockedPopup(status, tab);
+        findBar.showResult(tab.getPanel().getFindResult());
+        // 열려 있는 보조 창은 활성 탭을 따라간다.
+        if (consoleWindow != null) {
+            consoleWindow.showLog(tab.getConsole(), tab.getTitleText());
+        }
+        if (historyDialog != null) {
+            historyDialog.showTab(tab);
+        }
     }
 
     /**
@@ -1656,6 +1875,15 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         if (bookmarkDialog != null) {
             bookmarkDialog.dispose();
             bookmarkDialog = null;
+        }
+        if (consoleWindow != null) {
+            consoleWindow.close();
+            consoleWindow = null;
+        }
+        if (historyDialog != null) {
+            historyDialog.showTab(null);
+            historyDialog.dispose();
+            historyDialog = null;
         }
         // 이 창에 속한 팝업 창을 먼저 닫는다.
         List<PopupWindow> open = new ArrayList<PopupWindow>(popups);

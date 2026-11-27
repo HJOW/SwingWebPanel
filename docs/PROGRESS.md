@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P31-09 페이지 보조 기능: 페이지 안 찾기 API, 찾기 막대, 원본·콘솔·방문 기록 창, 개인 정보 삭제 (2026-11-27) ===
+현재 작업 번호: P31-09 완료. P31-10(인쇄) 진행 중.
+완료한 내용: (브라우저, 계약 5.29, 기능 표 API-37) SwingWebPanel.find(String, boolean, boolean)/clearFind()/getFindResult(), 공개 타입 FindResult(검색어, 대소문자 구분, 개수, 현재 번호), 속성 findResult. core.PageFind 가 문서 큐에서 찾고 결과와 강조를 EDT 에서 게시하며 현재 일치로 스크롤한다. render.TextSearch 가 현재 렌더링의 그려진 글을 모은다(블록 안에서는 접힌 공백을 한 칸으로 잇고 블록 사이에는 일치하지 않는 문자). 모든 일치는 노랑, 현재 일치는 주황으로 선택 강조 아래에 그린다(core.PageView.paint). 새 레이아웃마다 다시 찾고, 페이지가 교체되면 끝난다. (앱) ui.FindBar(창마다 하나, 활성 탭에서만 찾기, Enter/Shift+Enter/Esc), ui.SourceWindow(수신 원문을 고정폭 평문으로), model.ConsoleLog(탭마다 최근 1,000개)와 ui.ConsoleWindow(수준별 색, 수준 목록, 지우기, 활성 탭 따라가기), ui.HistoryDialog(세션 이력, 현재 항목 표시, 고른 항목으로 back/forward), BrowserTab.getConsole/goToHistory/clearPrivateData, BrowserWindow.find/findClosed/showSource/showConsole/showHistory/clearPrivateData/clearPages, BrowserApp.clearPrivateData(모든 탭·팝업 clean(), CookieJar.clear(), session.txt 비움). 명령 find, find-next, find-previous, view-source, console, history, clear-private-data 가 동작한다.
+변경 파일: browser 의 SwingWebPanel.java, FindResult.java(신규), core/PageFind.java(신규), core/PageView.java, render/TextSearch.java(신규), render/TextSelections.java(패키지 전용 다리 메서드), 시험 FindInPageTest.java(신규). desktopapp 의 BrowserApp.java, model/ConsoleLog.java(신규), ui/FindBar.java·SourceWindow.java·ConsoleWindow.java·HistoryDialog.java(신규), ui/BrowserTab.java, ui/BrowserWindow.java, 시험 model/ConsoleLogTest.java·ui/PageToolsTest.java(신규), AGENTS.md. docs/API_CONTRACT.md, docs/FEATURE_MATRIX.md, docs/progress/desktopapp.md, AGENTS.md, 이 문서.
+검증 결과: JDK 6u45 javac 로 덧컴파일해 자체 실행기로 실행(Windows 11). 브라우저 FindInPageTest 5건 통과(C-FIND-1~5: 개수와 순환, 표시되는 글, 강조 화소와 스크롤, 페이지 따라가기, 인수와 폐기). 앱 시험 46건 통과/0 실패/0 건너뜀(PageToolsTest 5: 찾기 막대, 원본 창, 콘솔 창, 방문 기록 창, 개인 정보 삭제; ConsoleLogTest 2 추가). sourcecheck(browser/src, desktopapp) 위반 0건/2,803 파일. 전체 회귀(mvn -B -o verify)는 P31-10 뒤에 함께 실행한다.
+미해결 사항: 찾기는 폼 컨트롤·프레임·캔버스 안의 글을 찾지 않고, 낱말 단위·정규식 찾기가 없다. 팝업 창에는 찾기 막대가 없다. 찾기 막대·보조 창의 실제 키보드·마우스 조작은 실제 창 확인(P31-11)에 남는다. 개발 중 확인한 사실: 편집 도구가 Java 소스의 유니코드 이스케이프(백슬래시 u 00A0 형태)를 실제 문자로 바꿔 쓸 수 있으므로 그런 문자는 (char) 0x00A0 처럼 수로 적는다(sourcecheck 의 invisible-char 규칙이 잡는다).
+다음 작업 번호: P31-10
+-----------------------------------------------------------------------------------------------
 === 모듈별 Javadoc 생성 스크립트 (2026-11-27) ===
 현재 작업 번호: 별도 사용자 요청. 개발 계획의 다음 작업은 P31-09.
 완료한 내용: 루트의 javadoc.bat과 javadoc.sh가 기존 JDK 6 탐색 스크립트로 JDK를 찾고, 네 모듈의 src/main/java를 docs/javadoc/<모듈> 아래에 UTF-8로 문서화한다. 의존 타입은 모듈의 소스 경로에서 해석하므로 Maven 빌드가 필요 없다. 생성물은 Git에서 무시한다.

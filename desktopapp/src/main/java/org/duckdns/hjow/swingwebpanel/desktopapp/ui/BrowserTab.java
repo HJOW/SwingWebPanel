@@ -14,11 +14,14 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import org.duckdns.hjow.swingwebpanel.ConsoleEvent;
+import org.duckdns.hjow.swingwebpanel.ConsoleListener;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
 import org.duckdns.hjow.swingwebpanel.WindowRequest;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
 import org.duckdns.hjow.swingwebpanel.desktopapp.Texts;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.AddressInput;
+import org.duckdns.hjow.swingwebpanel.desktopapp.model.ConsoleLog;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.ZoomSteps;
 
@@ -118,6 +121,12 @@ public final class BrowserTab {
     /** The address of the link under the mouse, or null. / 마우스 아래 링크의 주소. 없으면 null. */
     private String hoveredLink;
 
+    /** The message that the status bar shows after the private data was cleared, until the tab opens a page again; or null. / 개인 정보를 지운 뒤 탭이 다시 페이지를 열 때까지 상태 표시줄에 보이는 메시지. 없으면 null. */
+    private String clearedNotice;
+
+    /** The console messages of the pages of this tab. / 이 탭의 페이지들의 콘솔 메시지. */
+    private final ConsoleLog console = new ConsoleLog();
+
     /** The address of the popup that was blocked last on this page, or null. / 이 페이지에서 마지막으로 차단된 팝업의 주소. 없으면 null. */
     private String blockedPopup;
 
@@ -191,6 +200,10 @@ public final class BrowserTab {
                 if (SwingWebPanel.PROPERTY_PAGE.equals(e.getPropertyName())) {
                     blockedPopup = null;
                     hoveredLink = null;
+                    // 빈 페이지가 아닌 페이지가 도착하면 개인 정보를 지웠다는 알림도 물러난다.
+                    if (!BrowserApp.BLANK.equals(e.getNewValue())) {
+                        clearedNotice = null;
+                    }
                 }
                 // 페이지가 도착했거나 읽기가 끝났으면(멈춤 포함) 읽는 중이던 주소는 더 이상 보이지 않는다.
                 if (SwingWebPanel.PROPERTY_PAGE.equals(e.getPropertyName())
@@ -205,6 +218,21 @@ public final class BrowserTab {
         panel.addPropertyChangeListener(SwingWebPanel.PROPERTY_PROGRESS, changes);
         panel.addPropertyChangeListener(SwingWebPanel.PROPERTY_STATUS_TEXT, changes);
         panel.addPropertyChangeListener(SwingWebPanel.PROPERTY_ZOOM, changes);
+        panel.addPropertyChangeListener(SwingWebPanel.PROPERTY_FIND_RESULT, changes);
+        panel.addConsoleListener(new ConsoleListener() {
+            /**
+             * Keeps the message for the console window.
+             * <p>
+             * 콘솔 창을 위해 메시지를 보관한다.
+             *
+             * @param e the message / 메시지
+             */
+            public void consoleMessage(ConsoleEvent e) {
+                String where = e.getScriptUrl() == null || e.getScriptUrl().length() == 0 ? "" : e.getScriptUrl()
+                        + (e.getLineNumber() > 0 ? ":" + e.getLineNumber() : "");
+                console.add(e.getLevel().name(), e.getMessage(), where);
+            }
+        });
         panel.addHyperlinkListener(new HyperlinkListener() {
             /**
              * Remembers the link under the mouse for the context menu.
@@ -617,12 +645,68 @@ public final class BrowserTab {
         try {
             panel.setPage(url);
             pendingUrl = url;
+            clearedNotice = null;
             fireChanged();
             return true;
         } catch (IllegalArgumentException e) {
             showNotice(Texts.of("This address cannot be opened: ", "열 수 없는 주소입니다: ") + url);
             return false;
         }
+    }
+
+    /**
+     * Returns the console messages of the pages of this tab.
+     * <p>
+     * 이 탭의 페이지들의 콘솔 메시지를 반환한다.
+     *
+     * @return the log / 로그
+     */
+    public ConsoleLog getConsole() {
+        return console;
+    }
+
+    /**
+     * Goes to an entry of the session history of this tab by going back or forward as many entries as it is away.
+     * <p>
+     * 이 탭의 세션 이력의 한 항목으로 간다. 떨어진 칸 수만큼 뒤로 또는 앞으로 간다.
+     *
+     * @param index the position of the entry in <code>getHistories()</code>; the current one or a position outside does nothing /
+     *              <code>getHistories()</code> 안에서 항목의 위치. 지금의 항목이거나 범위 밖이면 아무것도 하지 않는다
+     * @return true if a navigation was started / 이동을 시작했으면 true
+     */
+    public boolean goToHistory(int index) {
+        int current = panel.getHistoryIndex();
+        if (index < 0 || index >= panel.getHistories().size() || index == current) {
+            return false;
+        }
+        if (index < current) {
+            panel.back(current - index);
+        } else {
+            panel.forward(index - current);
+        }
+        return true;
+    }
+
+    /**
+     * Removes what this tab remembers of the pages it showed (plan item P31-09): the page, the history, the cache and the session
+     * storage of the component (its <code>clean()</code>), and the console messages. The shared local storage is emptied by the same
+     * call; the cookies are removed by the application.
+     * <p>
+     * 이 탭이 보였던 페이지에 대해 기억하는 것을 지운다(계획 P31-09): 컴포넌트의 페이지, 이력, 캐시, sessionStorage(<code>clean()</code>)와 콘솔
+     * 메시지. 공유 localStorage 도 같은 호출로 비워진다. 쿠키는 응용 프로그램이 지운다.
+     */
+    public void clearPrivateData() {
+        if (panel.isDisposed()) {
+            return;
+        }
+        pendingUrl = null;
+        blockedPopup = null;
+        hoveredLink = null;
+        notice = null;
+        clearedNotice = Texts.of("The private data was cleared.", "개인 정보를 지웠습니다.");
+        panel.clean();
+        console.clear();
+        fireChanged();
     }
 
     /**
@@ -655,7 +739,10 @@ public final class BrowserTab {
      * @return the text / 글
      */
     public String getStatusText() {
-        return notice != null ? notice : panel.getStatusText();
+        if (notice != null) {
+            return notice;
+        }
+        return clearedNotice != null ? clearedNotice : panel.getStatusText();
     }
 
     /**

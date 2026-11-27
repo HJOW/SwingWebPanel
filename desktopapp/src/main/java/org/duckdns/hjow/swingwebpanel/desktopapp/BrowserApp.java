@@ -376,6 +376,29 @@ public final class BrowserApp {
     }
 
     /**
+     * Removes the private data of the application (plan item P31-09): every tab and popup of every window shows the empty page and
+     * loses its history, cache and session storage, and the cookies and the local storage that all of them share are removed.
+     * Bookmarks and settings stay.
+     * <p>
+     * 응용 프로그램의 개인 정보를 지운다(계획 P31-09): 모든 창의 모든 탭과 팝업이 빈 페이지를 보이고 이력, 캐시, sessionStorage 를 잃으며,
+     * 그것들이 함께 쓰는 쿠키와 localStorage 가 지워진다. 북마크와 설정은 남는다.
+     */
+    public void clearPrivateData() {
+        List<BrowserWindow> open = getWindows();
+        // 창마다 그 페이지들을 비운다(컴포넌트의 clean() 이 공유 localStorage 도 비운다).
+        for (int i = 0; i < open.size(); i++) {
+            open.get(i).clearPages();
+        }
+        cookieJar.clear();
+        // 지난 세션의 탭 목록도 방문의 흔적이므로 비운다.
+        try {
+            sessionStore.save(new ArrayList<SessionStore.Window>());
+        } catch (java.io.IOException e) {
+            storageProblem = Texts.of("The session could not be saved: ", "세션을 저장할 수 없습니다: ") + e.getMessage();
+        }
+    }
+
+    /**
      * Opens a new browser window with one tab that shows an address. The window is created but not shown; the caller makes it visible.
      * <p>
      * 주소를 보여 주는 탭 하나가 있는 새 브라우저 창을 연다. 창은 만들기만 하고 보이게 하지는 않는다. 보이게 하는 것은 호출자이다.

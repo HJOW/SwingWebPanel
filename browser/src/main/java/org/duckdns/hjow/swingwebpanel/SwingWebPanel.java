@@ -189,6 +189,14 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      */
     public static final String PROPERTY_POPUP_BLOCKING_ENABLED = "popupBlockingEnabled";
 
+    /**
+     * Name of the property that announces a new result of the search in the page ({@link #find(String, boolean, boolean)}); the values
+     * are {@link FindResult} objects.
+     * <p>
+     * 페이지 안 찾기({@link #find(String, boolean, boolean)})의 새 결과를 알리는 속성 이름. 값은 {@link FindResult} 객체이다.
+     */
+    public static final String PROPERTY_FIND_RESULT = "findResult";
+
     /** Kind of default font: the font of content whose author named none. / 기본 글꼴의 종류: 작성자가 글꼴을 지정하지 않은 내용의 글꼴. */
     public static final String FONT_STANDARD = "standard";
 
@@ -254,6 +262,9 @@ public class SwingWebPanel extends JPanel implements Scrollable {
 
     /** Internal keyboard and focus input. / 내부 키보드와 포커스 입력. */
     private final transient PageKeyboard keyboard;
+
+    /** The search in the page. / 페이지 안 찾기. */
+    private final transient org.duckdns.hjow.swingwebpanel.core.PageFind finder;
 
     /** Internal pointer input, separate from user hyperlink listeners. / 사용자 하이퍼링크 리스너와 독립된 내부 포인터 입력. */
     private final transient PageInput input;
@@ -741,6 +752,16 @@ public class SwingWebPanel extends JPanel implements Scrollable {
         addMouseMotionListener(input);
         addMouseWheelListener(input);
         keyboard = new PageKeyboard(this, session, view, input);
+        finder = new org.duckdns.hjow.swingwebpanel.core.PageFind(this, session, view, new org.duckdns.hjow.swingwebpanel.core.PageFind.Listener() {
+            /** Announces the new result as a property change (event dispatch thread). / 새 결과를 속성 변경으로 알린다(이벤트 디스패치 스레드).
+             * @param result the new result / 새 결과 */
+            public void findResultChanged(FindResult result) {
+                FindResult old = announcedFind;
+                announcedFind = result;
+                firePropertyChange(PROPERTY_FIND_RESULT, old, result);
+            }
+        });
+        view.setFind(finder);
         internalListeners.add(keyboard);
         addKeyListener(keyboard);
         addFocusListener(keyboard);
@@ -2028,6 +2049,7 @@ public class SwingWebPanel extends JPanel implements Scrollable {
         webMessages.close();
         input.dispose();
         keyboard.dispose();
+        finder.dispose();
         composition.dispose();
         downloads.dispose();
         session.dispose(keepLocalStorage);
@@ -2554,6 +2576,80 @@ public class SwingWebPanel extends JPanel implements Scrollable {
             return;
         }
         keyboard.editCommand(command);
+    }
+
+    /** The result of the search that was announced last; event dispatch thread only. / 마지막으로 알린 찾기 결과. 이벤트 디스패치 스레드에서만 쓴다. */
+    private transient FindResult announcedFind = FindResult.NONE;
+
+    /**
+     * Searches the text of the page that is shown (extension method, API contract 5.29). A call with a new text starts a search: every
+     * place of the page where the text is shown is highlighted, the first one that is not above the visible area becomes the current
+     * match, drawn in another color, and the view scrolls to it. A call with the text of the active search goes to the next match
+     * (<code>forward</code>) or the previous one, going around at the ends. While the user types, each call with the longer text keeps
+     * the current match where it started if it still matches. The result (count and number of the current match) is announced as the
+     * {@link #PROPERTY_FIND_RESULT} property on the event dispatch thread and returned by {@link #getFindResult()}; the call itself
+     * returns at once and may come from any thread.
+     * <p>
+     * The search sees the text as it is displayed: white space is collapsed, a phrase is found across a line break and across inline
+     * elements, but not across paragraphs or table cells; hidden text is not found. Text in form controls and in frames is not
+     * searched. While a search is active it follows the page: after a change of the page the highlights and the count are updated.
+     * Showing another page ends the search. An empty text is the same as {@link #clearFind()}.
+     * <p>
+     * 보이는 페이지의 글을 찾는다(확장 메서드, API 계약 5.29). 새 글로 부르면 찾기를 시작한다: 그 글이 보이는 페이지의 모든 곳을 강조하고, 보이는
+     * 영역보다 위에 있지 않은 첫 일치가 현재 일치가 되어 다른 색으로 그려지며, 뷰가 그곳으로 스크롤한다. 활성 찾기의 글로 부르면 다음
+     * 일치(<code>forward</code>)나 이전 일치로 가고 끝에서는 반대쪽 끝으로 돈다. 사용자가 입력하는 동안 더 긴 글로 부를 때마다, 현재 일치가 여전히
+     * 일치하면 그 자리를 유지한다. 결과(개수와 현재 일치의 번호)는 {@link #PROPERTY_FIND_RESULT} 속성으로 이벤트 디스패치 스레드에서 알리고
+     * {@link #getFindResult()} 가 반환한다. 호출 자체는 곧바로 돌아오며 어느 스레드에서나 부를 수 있다.
+     * <p>
+     * 찾기는 표시되는 그대로의 글을 본다: 공백은 접혀 있고, 줄 바꿈과 인라인 요소에 걸친 구절은 찾지만 문단이나 표 셀에 걸친 것은 찾지 않으며,
+     * 숨겨진 글은 찾지 않는다. 폼 컨트롤과 프레임 안의 글은 찾지 않는다. 찾기가 활성인 동안에는 페이지를 따라간다: 페이지가 바뀌면 강조와 개수를
+     * 갱신한다. 다른 페이지를 보이면 찾기는 끝난다. 빈 글은 {@link #clearFind()} 와 같다.
+     * <p>
+     * 사용 예 / Example:
+     * <pre>
+     * panel.find("license", false, true);   // start, or go to the next match
+     * panel.find("license", false, false);  // go to the previous match
+     * panel.clearFind();                    // remove the highlights
+     * </pre>
+     *
+     * @param text      the text to search for / 찾을 글
+     * @param matchCase true to tell upper and lower case apart / 대소문자를 구분하려면 true
+     * @param forward   true to go forward, false to go backward / 앞으로 가려면 true, 뒤로 가려면 false
+     * @throws IllegalArgumentException if the text is null / 글이 null 이면
+     * @throws IllegalStateException    if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void find(String text, boolean matchCase, boolean forward) {
+        checkAlive();
+        if (text == null) {
+            throw new IllegalArgumentException("text must not be null");
+        }
+        finder.find(text, matchCase, forward);
+    }
+
+    /**
+     * Ends the search in the page (extension method, API contract 5.29): the highlights are removed and the result becomes
+     * {@link FindResult#NONE}. It does nothing when no search is active. It may be called from any thread.
+     * <p>
+     * 페이지 안 찾기를 끝낸다(확장 메서드, API 계약 5.29): 강조를 지우고 결과는 {@link FindResult#NONE} 이 된다. 활성 찾기가 없으면 아무 일도
+     * 없다. 어느 스레드에서나 부를 수 있다.
+     *
+     * @throws IllegalStateException if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void clearFind() {
+        checkAlive();
+        finder.clear();
+    }
+
+    /**
+     * Returns the last result of the search in the page (extension method, API contract 5.29).
+     * <p>
+     * 페이지 안 찾기의 마지막 결과를 반환한다(확장 메서드, API 계약 5.29).
+     *
+     * @return the result; {@link FindResult#NONE} while nothing is searched for and after {@link #dispose()} / 결과. 아무것도 찾지 않는
+     *         동안과 {@link #dispose()} 뒤에는 {@link FindResult#NONE}
+     */
+    public FindResult getFindResult() {
+        return finder.getResult();
     }
 
     /**

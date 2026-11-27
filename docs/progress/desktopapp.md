@@ -109,6 +109,7 @@ P31-08-a(이벤트 루프 공유)와 P31-08-b(팝업의 동기 생성)는 이 �
 | 2026-11-27 | P31-07 | 설정: 항목(`model.Settings`), 파일(`SettingsStore`), 세션(`SessionStore`), 대화 상자(`ui.SettingsDialog`), 탭별 적용, 시작 페이지와 세션 복원, 창 위치 기억. 보완 후보 (a)를 컴포넌트별 기본 글꼴 API 로 추가(계약 5.27). 브라우저 시험 5건, 앱 시험 35건 통과 |
 | 2026-11-27 | P31-06 | 북마크: 모델(`BookmarkNode`, `BookmarkModel`), 파일(`BookmarkStore`, `TextFiles`), Netscape HTML 가져오기·내보내기(`BookmarkHtml`), 북마크 메뉴, 관리 창(`ui.BookmarkDialog`). 앱 시험 27건 통과 |
 | 2026-11-27 | P31-08, P31-04-b | 보완 후보 (b): 페이지가 여는 창과 팝업 차단(계약 5.28). 앱: `ui.TabPanel`, `ui.PopupWindow`, 팝업·링크의 열 위치, 차단 알림과 단추, 링크의 새 탭·새 창(Ctrl·Shift·가운데 단추·문맥 메뉴), 탭을 닫을 때 `disposeKeepingStorage()`. 브라우저 시험 12건, 앱 시험 39건 통과 |
+| 2026-11-27 | P31-09 | 보완 후보 (d): 페이지 안 찾기 API(계약 5.29). 앱: 찾기 막대, 원본 창, 콘솔 창, 방문 기록 창, 개인 정보 삭제. 브라우저 시험 5건, 앱 시험 46건 통과 |
 | 2026-11-27 | P31-05-b | 메뉴 막대(`ui.BrowserMenu`), 명령(`ui.Commands`, `BrowserWindow.perform`), 가속 키와 메뉴 항목 없는 키, 페이지 저장(`model.PageFiles`), 확대 단계(`model.ZoomSteps`), 새 창, 끝내기, 정보. 앱 시험 21건 통과 |
 
 ## 7. 구현하면서 정한 것
@@ -238,4 +239,29 @@ SwingWebPanel 쪽(계약 5.28):
   페이지가 `contextmenu` 이벤트를 취소해도 메뉴가 보인다(컴포넌트가 그 결과를 알려 주지 않는다. 한계).
 - 스크립트의 닫기: 호스트가 만든 탭은 설정(스크립트의 본 창 닫기 허용)에 따라 `closeRootWindow()`, 페이지가 연 탭·팝업은 `closeOpenedWindow()` 로 오며 둘 다 그 탭(팝업)만 닫는다.
   창의 마지막 탭이면 창이 닫히고, 마지막 창이면 프로그램이 끝난다.
+
+### 7.8 페이지 보조 기능 (P31-09, 2026-11-27)
+
+SwingWebPanel 쪽(계약 5.29):
+
+- 찾기는 `core.PageFind` 가 문서 큐에서 실행한다. 글은 `render.TextSearch` 가 현재 렌더링의 텍스트 조각에서 모은다(그려진 글, 한 블록 안에서는 접힌 공백을 한 칸으로 이어 붙이고 블록 사이에는 일치하지 않는 문자를 둔다).
+  일치는 이 글 안의 위치 쌍이며 DOM `Range` 를 만들지 않는다(살아 있는 범위 수백 개가 문서에 등록되는 것을 피한다).
+- 강조는 선택 강조(`render.SelectionHighlight`)와 같은 방식의 도형 두 개(다른 일치들, 현재 일치)이고 `core.PageView.paint` 가 선택 강조 아래에 그린다.
+- 새 레이아웃마다 `PageView` 가 `PageFind.layoutChanged` 를 불러 전체를 다시 찾는다. 페이지가 교체되면 `pageClosed` 가 찾기를 끝낸다.
+- 소스 파일에 ` ` 같은 유니코드 이스케이프 대신 `(char) 0x00A0` 을 쓴다(`tools/sourcecheck` 의 `invisible-char` 규칙).
+
+앱 쪽:
+
+- 찾기 막대(`ui.FindBar`)는 창마다 하나이고 상태 표시줄 위에 있다. Ctrl+F 로 열고, 입력하는 즉시 찾으며, Enter·F3·Ctrl+G 는 다음, Shift+Enter·Shift+F3·Ctrl+Shift+G 는 이전, Esc 와 닫기 단추는 닫는다.
+  닫으면 찾기를 끝내고 포커스를 페이지에 돌려준다. 글은 다음에 열 때를 위해 남고, 닫힌 막대에서 "다음 찾기"를 하면 막대를 다시 열어 그 글로 찾는다.
+- 찾기는 활성 탭에서만 한다: 탭을 바꾸면 이전 탭의 찾기를 끝내고(`clearFind`), 막대가 열려 있으면 새 탭에서 같은 글을 찾는다. 팝업 창에는 찾기 막대가 없다.
+- 찾지 못하면 개수 자리에 "일치 없음"을 보이고 필드의 바탕을 연한 빨강으로 바꾼다.
+- 원본 창(`ui.SourceWindow`, Ctrl+U): 명령마다 새 창. `getContent()` 의 글을 `JTextArea`(고정폭, 읽기 전용)에 평문으로 넣고 주소·MIME·글자 수를 위에 보인다. 열 때의 복사본이며 페이지를 따라가지 않는다.
+- 콘솔 창(`ui.ConsoleWindow`, Ctrl+Shift+J): 탭마다 `model.ConsoleLog`(최근 1,000개, 탭이 만들어질 때부터 `ConsoleListener` 로 모은다)가 있고, 창은 활성 탭의 로그를 수준별 색으로 보인다.
+  수준 목록(모든 수준/log 이상/경고와 오류/오류만)과 지우기 단추가 있다. 줄의 형식은 `[수준] 메시지  (스크립트 주소:줄)`.
+- 방문 기록 창(`ui.HistoryDialog`, Ctrl+H): 활성 탭의 `getHistories()` 를 오래된 것부터 보이고 지금 항목을 `>` 로 표시한다. 두 번 누르거나 단추를 누르면 `BrowserTab.goToHistory` 가 그 칸 수만큼 `back`/`forward` 한다.
+- 개인 정보 삭제(Ctrl+Shift+Delete): 먼저 묻는다(모든 탭과 팝업이 비워지고, 공유 쿠키와 localStorage 가 지워지며, 북마크와 설정은 남는다는 것을 적는다).
+  동의하면 `BrowserApp.clearPrivateData()` 가 창마다 `clearPages()`(탭·팝업의 `SwingWebPanel.clean()`, 콘솔 로그, 닫은 탭 목록)를 부르고 `CookieJar.clear()` 를 부르며 `session.txt` 를 비운다.
+  탭은 닫지 않는다. 비워진 탭의 상태 표시줄은 다시 페이지를 열 때까지 "개인 정보를 지웠습니다"를 보인다.
+- 확대·축소(P31-05)와 다운로드 폴더(P31-07, `TabPanel.getDownloadDirectory`)는 이미 연결되어 있다.
 

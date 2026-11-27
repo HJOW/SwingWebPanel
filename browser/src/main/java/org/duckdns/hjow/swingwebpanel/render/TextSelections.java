@@ -249,7 +249,7 @@ public final class TextSelections {
      *
      * @return the fragments / 조각
      */
-    private synchronized LayoutBox[] textBoxes() {
+    synchronized LayoutBox[] textBoxes() {
         if (texts == null) {
             List<LayoutBox> list = new ArrayList<LayoutBox>();
             List<LayoutBox> stack = new ArrayList<LayoutBox>();
@@ -1226,6 +1226,58 @@ public final class TextSelections {
     }
 
     /**
+     * Returns the rectangle of a part of a text fragment, given by indexes of its painted text, in document coordinates (before the
+     * transform of the box); the page search uses it, which works on the painted text.
+     * <p>
+     * 그려진 텍스트의 인덱스로 준 텍스트 조각의 한 부분의 사각형을 문서 좌표로 반환한다(상자의 변환 전). 그려진 텍스트로 일하는 페이지 찾기가 쓴다.
+     *
+     * @param b    the fragment / 조각
+     * @param from the start index in the painted text / 그려진 텍스트의 시작 인덱스
+     * @param to   the end index in the painted text / 그려진 텍스트의 끝 인덱스
+     * @return the rectangle / 사각형
+     */
+    static Rectangle2D paintedRect(LayoutBox b, int from, int to) {
+        double a0 = along(b, from);
+        double a1 = along(b, to);
+        double lo = Math.min(a0, a1);
+        double hi = Math.max(a0, a1);
+        int rot = b.getTextRotation();
+        if (rot == 0) {
+            return new Rectangle2D.Double(b.getX() + lo, b.getY(), hi - lo, b.getHeight());
+        }
+        if (rot == 1) {
+            return new Rectangle2D.Double(b.getX(), b.getY() + lo, b.getWidth(), hi - lo);
+        }
+        return new Rectangle2D.Double(b.getX(), b.getY() + b.getHeight() - hi, b.getWidth(), hi - lo);
+    }
+
+    /**
+     * Tells whether two text fragments are on one line (see the rules of the copied text); for the page search.
+     * <p>
+     * 두 텍스트 조각이 한 줄에 있는지 알려 준다(복사 문자열 규칙 참고). 페이지 찾기가 쓴다.
+     *
+     * @param a the first fragment / 첫째 조각
+     * @param b the second fragment / 둘째 조각
+     * @return true if on one line / 한 줄이면 true
+     */
+    static boolean onOneLine(LayoutBox a, LayoutBox b) {
+        return Extractor.sameLine(a, b);
+    }
+
+    /**
+     * Tells whether the source between two text fragments holds white space that the layout collapsed away; for the page search.
+     * <p>
+     * 두 텍스트 조각 사이의 원본에 레이아웃이 접어 없앤 공백이 있는지 알려 준다. 페이지 찾기가 쓴다.
+     *
+     * @param prev the first fragment / 첫째 조각
+     * @param cur  the second fragment / 둘째 조각
+     * @return true if white space was collapsed between them / 둘 사이에서 공백이 접혔으면 true
+     */
+    static boolean collapsedGap(LayoutBox prev, LayoutBox cur) {
+        return Extractor.gapHasWhitespace(prev, cur);
+    }
+
+    /**
      * Returns the area that the padding boxes of the clipping ancestors of a box leave visible, or null if nothing clips it.
      * <p>
      * 상자의 자르는 조상들의 padding box 가 남기는 보이는 영역을 반환한다. 자르는 것이 없으면 null.
@@ -1257,7 +1309,7 @@ public final class TextSelections {
      * @param r    the rectangle / 사각형
      * @return true if something was added / 무언가 더했으면 true
      */
-    private static boolean add(Path2D.Double path, LayoutBox box, Rectangle2D r) {
+    static boolean add(Path2D.Double path, LayoutBox box, Rectangle2D r) {
         Rectangle2D shown = r;
         Rectangle2D clip = clipOf(box);
         if (clip != null) {

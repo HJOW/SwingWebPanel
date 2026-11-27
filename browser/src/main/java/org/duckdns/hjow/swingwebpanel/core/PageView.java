@@ -77,6 +77,8 @@ public final class PageView {
     private volatile Point rawScroll = new Point();
     /** The selection controller of the component (highlight and Shift/drag selection), or null. / 컴포넌트의 선택 제어기(강조와 Shift/드래그 선택). 없으면 null. */
     private volatile PageSelection selection;
+    /** The search in the page of the component (highlights of the matches), or null. / 컴포넌트의 페이지 안 찾기(일치의 강조). 없으면 null. */
+    private volatile PageFind finder;
     /** Stops new work after disposal. / 폐기 후 새 작업을 막는 표시. */
     private volatile boolean disposed;
 
@@ -470,6 +472,18 @@ public final class PageView {
     }
 
     /**
+     * Sets the search in the page of the component (null for none): its highlights are painted over the page and it is told about every
+     * new layout.
+     * <p>
+     * 컴포넌트의 페이지 안 찾기를 정한다(없으면 null). 그 강조를 페이지 위에 그리고, 새 레이아웃을 알게 된다.
+     *
+     * @param find the search or null / 찾기. 없으면 null
+     */
+    public void setFind(PageFind find) {
+        this.finder = find;
+    }
+
+    /**
      * Returns the selection controller of the component, or null.
      * <p>
      * 컴포넌트의 선택 제어기를 반환한다. 없으면 null.
@@ -525,6 +539,18 @@ public final class PageView {
             // JScrollPane 이 컴포넌트를 옮겨 그래픽스가 이미 스크롤되어 있으므로 옮김은 0 이고, fixed 와 sticky 상자는 뷰포트 위치를 알아야 한다.
             java.awt.Point view = scroll;
             page.paint(graphics, graphics.getClipBounds(), 0, 0, factor, 0L, view.x, view.y);
+            PageFind find = finder;
+            // 찾기의 강조는 선택 강조 아래에 그린다: 다른 일치들을 먼저, 현재 일치를 그 위에.
+            if (find != null) {
+                org.duckdns.hjow.swingwebpanel.render.SelectionHighlight matches = find.getMatches();
+                if (matches != null && matches.getPage() == page) {
+                    matches.paint(graphics, factor);
+                }
+                org.duckdns.hjow.swingwebpanel.render.SelectionHighlight current = find.getCurrent();
+                if (current != null && current.getPage() == page) {
+                    current.paint(graphics, factor);
+                }
+            }
             PageSelection controller = selection;
             org.duckdns.hjow.swingwebpanel.render.SelectionHighlight highlight = controller == null ? null : controller.getHighlight();
             // 선택 강조는 지금 그리는 렌더링에 대해 계산된 것일 때만 그 위에 덧칠한다.
@@ -576,6 +602,11 @@ public final class PageView {
         // 선택 강조와 드래그 상태도 옛 페이지를 붙잡지 않도록 버린다.
         if (controller != null) {
             controller.pageClosed();
+        }
+        PageFind find = finder;
+        // 찾기도 옛 페이지와 함께 끝난다.
+        if (find != null) {
+            find.pageClosed();
         }
         if (previous != null) {
             previous.closed = true;
@@ -670,6 +701,11 @@ public final class PageView {
                 // 새 레이아웃이 게시되면 선택 강조를 새 좌표로 다시 계산한다.
                 if (controller != null) {
                     controller.layoutChanged(snapshot);
+                }
+                PageFind find = finder;
+                // 찾기가 활성이면 새 레이아웃의 글에서 다시 찾는다.
+                if (find != null) {
+                    find.layoutChanged(snapshot);
                 }
                 // 페이지의 기하 관찰자(IntersectionObserver, ResizeObserver)가 새 배치를 보게 한다.
                 holder.layoutPublished();

@@ -44,6 +44,7 @@ public class SwingWebPanel extends javax.swing.JPanel implements javax.swing.Scr
 | `new SwingWebPanel(CookieJar)`, `getCookieJar()`, `clearCookies()`, `CookieJar` | 공유 쿠키 저장소 | - / `CookieJar` / void | IAE(null 저장소), ISE(폐기, `clearCookies`) | 컴포넌트 사이의 쿠키 공유와 쿠키 삭제(확장, 5.24) |
 | `copy()`, `cut()`, `paste()`, `selectAll()` | - | void | ISE(폐기) | 호스트의 편집 명령(확장, 5.26) |
 | `setDefaultFontFamily(String,String)`/`getDefaultFontFamily(String)`, `setDefaultFontSize(int)`/`getDefaultFontSize()`, `setDefaultMonospaceFontSize(int)`/`getDefaultMonospaceFontSize()` | 종류와 패밀리, 크기 | void / String / int | IAE, ISE(폐기, 변경만) | 컴포넌트별 기본 글꼴(확장, 5.27) |
+| `find(String, boolean, boolean)`, `clearFind()`, `getFindResult()`, `FindResult` | 검색어, 대소문자 구분, 방향 | void / `FindResult` | IAE(null 글), ISE(폐기, `find`·`clearFind`) | 페이지 안 찾기(확장, 5.29) |
 | `setPopupBlockingEnabled(boolean)`/`isPopupBlockingEnabled()`, `disposeKeepingStorage()`, `WindowRequest`, `PopupSeed`, 보호 메서드 `createPopupPanel`·`canOpenPopupWindows`·`openPopupWindow`·`openNewWindow`·`popupBlocked`·`closeOpenedWindow` | 차단 여부, 창 요청 | void / boolean | ISE(폐기, 변경만) | 페이지가 여는 창(팝업)과 팝업 차단(확장, 5.28) |
 | `clean()` | - | void | ISE | 빈 페이지 + 캐시/저장소 삭제 |
 | `dispose()` | - | void | - | 반복 호출 안전 |
@@ -70,13 +71,14 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 | `isRootWindowClosingEnabled()` | `false`(본 창의 `window.close()` 는 무시한다, 5.23) |
 | 기본 글꼴(5.27) | 패밀리 네 종류 모두 `""`(내장 글꼴), `getDefaultFontSize()` = 16, `getDefaultMonospaceFontSize()` = 0 |
 | `isPopupBlockingEnabled()` | `true`(사용자의 조작 없이 부른 `window.open` 은 차단한다, 5.28) |
+| `getFindResult()` | `FindResult.NONE`(찾는 글 없음, 5.29) |
 | `getProgress()` | 100 |
 | `getStatusText()` | `""` |
 | `getLocalStorage()`/`getSessionStorage()` | 빈 컬렉션(저장된 것이 없을 때) |
 
 ## 4. 속성 변경 통지 (P03-06)
 
-`PropertyChangeListener` 로 `"page"`(String), `"statusText"`(String), `"progress"`(Integer), `"title"`(String), `"rootWindowClosingEnabled"`(Boolean, 5.23), `"defaultFonts"`(String, 5.27), `"popupBlockingEnabled"`(Boolean, 5.28)를 EDT 에서 통지한다.
+`PropertyChangeListener` 로 `"page"`(String), `"statusText"`(String), `"progress"`(Integer), `"title"`(String), `"rootWindowClosingEnabled"`(Boolean, 5.23), `"defaultFonts"`(String, 5.27), `"popupBlockingEnabled"`(Boolean, 5.28), `"findResult"`(`FindResult`, 5.29)를 EDT 에서 통지한다.
 값이 실제로 달라졌을 때만 통지한다. `"title"` 은 새 페이지가 확정될 때와, 스크립트가 문서의 제목을 바꿀 때 통지한다(5.25).
 
 ## 5. 메서드별 상세
@@ -570,6 +572,31 @@ JavaScript 를 실행하지 않는 페이지(`setJavascriptEnabled(false)`, `tex
 
 알려진 한계: (1) 처음 빈 문서의 Window 를 첫 같은 오리진 문서가 다시 쓰지 않으므로 `w = window.open(url)` 직후에 건 `w.onload` 는 새 문서에서 실행되지 않는다. (2) 처음 빈 문서의 `document.domain` 은 여는 문서의 것과 같지 않다. (3) `blob:` 주소는 만든 컴포넌트의 것이어서 팝업이 여는 창의 객체 URL 을 열 수 없다. (4) `popup` 등 나머지 창 기능과 `BarProp` 은 반영하지 않는다. (5) 문맥 메뉴는 컴포넌트가 제공하지 않는다(호스트의 일).
 
+### 5.29 확장: 페이지 안 찾기 (P31-09, 확장이며 AGENTS.md 의 공개 메서드 목록에는 없다)
+
+데스크톱 브라우저(`desktopapp`)의 찾기 막대를 위해 추가했다. 기존 메서드와 기본 동작은 바뀌지 않는다(찾기를 부르지 않으면 아무것도 달라지지 않는다).
+
+공개 메서드: `public void find(String text, boolean matchCase, boolean forward)`, `public void clearFind()`, `public FindResult getFindResult()`.
+공개 타입: `org.duckdns.hjow.swingwebpanel.FindResult`(불변: `getText()`, `isMatchCase()`, `getCount()`, `getIndex()`, `isActive()`, 상수 `NONE`).
+속성: `PROPERTY_FIND_RESULT` = `"findResult"`(값은 `FindResult`).
+
+| 항목 | 계약 |
+| --- | --- |
+| 스레드 | 세 메서드 모두 어느 스레드에서나 부를 수 있다. `find`/`clearFind` 는 곧바로 돌아오고, 찾기는 문서 큐에서 실행되며, 결과는 EDT 에서 `findResult` 속성 변경으로 알린다. `getFindResult()` 는 마지막으로 알린 결과이다 |
+| 새 찾기 | 활성 찾기와 글이나 대소문자 구분이 다른 호출. 모든 일치를 강조하고, 보이는 영역보다 위에 있지 않은 첫 일치(`forward` 가 false 이면 보이는 영역보다 아래에 있지 않은 마지막 일치)를 현재 일치로 삼는다. 같은 렌더링에서 글만 바뀐 경우(이어 입력, 대소문자 구분 전환)에는 지금의 현재 일치가 시작한 곳부터 찾아 자리를 유지한다 |
+| 이어 찾기 | 활성 찾기와 같은 글·같은 대소문자 구분의 호출. `forward` 이면 다음, 아니면 이전 일치로 가고 끝에서는 반대쪽 끝으로 돈다 |
+| 현재 일치 | 다른 색으로 강조하고, 보이는 영역 밖이면 컴포넌트가 `scrollRectToVisible` 로 그곳까지 스크롤한다(`JScrollPane` 안에 있을 때). 보이는 일치는 스크롤하지 않는다 |
+| 찾는 글 | 화면에 표시되는 그대로의 글이다: 접힌 공백은 한 칸, 모든 종류의 공백(줄 바꿈 없는 공백 포함)은 공백으로 친다. 인라인 요소와 자동으로 바뀐 줄에 걸친 구절을 찾는다. 다른 블록(문단, 표 셀)에 걸쳐서는 찾지 않는다. `visibility: hidden`·`display: none` 인 글과 스크립트·스타일의 글은 찾지 않는다. `text-transform` 이 바꾼 글은 바뀐 모양으로 찾는다 |
+| 검색어 | 이어진 공백은 한 칸으로 줄인다. 대소문자를 구분하지 않을 때는 문자 하나씩 접어 비교한다(`ß` 와 `ss` 같은 여러 문자 대응은 같게 보지 않는다). 일치는 겹치지 않으며 최대 10,000개이다 |
+| 결과 | `FindResult`: 검색어(손질한 글), 대소문자 구분, 일치 개수, 현재 일치의 번호(1 부터, 없으면 0). 같은 결과는 다시 알리지 않는다 |
+| 페이지 변경 | 찾기가 활성인 동안 새 레이아웃마다 다시 찾아 강조와 개수를 갱신하고, 현재 일치의 번호를 유지한다(개수가 줄면 마지막 일치). 다른 페이지가 보이면(이동, `setContent`, `clean()`) 찾기는 끝나고 `FindResult.NONE` 을 알린다 |
+| 끝내기 | `clearFind()`, 빈 글이나 공백뿐인 글의 `find`. 강조를 지우고 `FindResult.NONE` 을 알린다. 활성 찾기가 없으면 아무 일도 없다 |
+| 인수와 폐기 | `find(null, ...)` 은 `IllegalArgumentException`. 폐기 뒤 `find`/`clearFind` 는 `IllegalStateException`, `getFindResult()` 는 `FindResult.NONE` |
+| `clean()`/`dispose()` | `clean()` 은 페이지와 함께 찾기를 끝낸다. `dispose()` 는 찾기를 끝내고 속성 리스너를 제거한다 |
+| 한계 | 폼 컨트롤 안의 글, 프레임 안의 글, 캔버스와 이미지의 글은 찾지 않는다. 낱말 단위 찾기와 정규식은 없다. 현재 일치를 문서의 선택으로 만들지 않는다 |
+
+검증: `FindInPageTest`(C-FIND-1~5).
+
 ## 6. 허용 스킴 정책 (P01-12)
 
 | 스킴 | 정책 |
@@ -648,6 +675,7 @@ HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도�
 | C-EDITCMD-1~5 | 호스트의 편집 명령과 명령 키 소비(5.26, P31-05-a) | `core.EditCommandsTest`: 1 편집 호스트에서 모두 선택·복사·잘라내기·붙여넣기와 이벤트 순서, 키 이벤트 없음, 2 폼 텍스트 컨트롤, 3 편집할 수 없는 페이지와 다른 스레드의 호출, 4 폐기 뒤 예외, 5 소비하는 키와 소비하지 않는 키 |
 
 | C-FONT-1~5 | 컴포넌트별 기본 글꼴(5.27, P31-07) | `DefaultFontsTest`: 1 기본 크기와 크기 키워드·루트 백분율·rem, 살아 있는 페이지의 재계산, 2 표준 글꼴과 작성자 규칙, 3 일반 이름의 패밀리와 설치되지 않은 패밀리, 4 고정폭 크기(제목 안, 중첩, 작성자 규칙), 5 인수·통지·`clean()`·프레임·다른 컴포넌트·폐기 |
+| C-FIND-1~5 | 페이지 안 찾기(5.29, P31-09) | `FindInPageTest`: 1 개수와 다음·이전·끝에서 돌기·대소문자 구분·없는 글·지우기, 2 표시되는 글(인라인 요소, 접힌 공백, 자동 줄 바꿈, 블록 경계, 숨겨진 글, 스크립트 글, 한글), 3 강조의 화소 색과 현재 일치로 스크롤·지운 뒤의 화소, 4 페이지 변경 따라가기·다른 페이지에서 끝남·EDT 통지, 5 인수·빈 페이지·평문 페이지·폐기 |
 | C-POPUP-1~10 | 페이지가 여는 창과 팝업 차단(5.28, P31-08) | `PopupWindowsTest`: 1 차단과 사용자 조작(한 번에 창 하나, 설정 끔, 속성 통지, 창 기능), 2 여는 창의 제어(동기 `about:blank`, `document.write`, DOM, `location`, `opener`, sessionStorage 복사, 이름 재사용), 3 닫기(여는 창·자신·읽는 중, 언로드 한 번, 본 창 정책 미사용), 4 `noopener` 와 다른 오리진(메시지 왕복, 접근 거부, 여는 창의 닫기), 5 새 창이 필요한 링크·폼(제안, 기존 동작, POST 본문, 스크립트 제출 차단), 6 사용자의 선택(Ctrl·Shift·가운데 단추, 취소된 클릭), 7 수명(거절, 여는 창 폐기, localStorage 유지, 폐기 뒤 예외, 스레드 종료), 8 한계(창을 보일 수 없음, 파싱 중 호출, 샌드박스), 9 COOP 로 관계 끊기, 10 기본 팝업 대화 상자(실제 창). `core.DocumentLoopTest`: 공유 문서 루프 |
 
 사례 ID는 구현 시 `browser/src/test/java`의 메서드 이름에 포함하고 `FEATURE_MATRIX.md`의 검증 사례 열과 일치시킨다.
