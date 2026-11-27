@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32-03-e NIST 곡선의 ECDH 와 ECDSA 검증 (2026-11-28) ===
+현재 작업 번호: P32-03-e 완료. P32-03-f 진행 중.
+완료한 내용: crypto.EcCurve(y^2 = x^3 - 3x + b 의 P-256/P-384/P-521. BigInteger 위의 야코비 좌표 덧셈·두 배, 비밀 스칼라용 몽고메리 사다리 multiply, 공개 값용 multiplyTwo(u1*G + u2*Q), 비압축 점 decodePoint(길이·접두사·범위·곡선 방정식 검증)·encodePoint), crypto.Ecdh(기각 추출로 [1, n-1] 스칼라, 공유 비밀은 x 좌표), crypto.Ecdsa.verify(r·s 범위, 해시 왼쪽 비트, 공개 키의 곡선 검사). 시험 도우미 Vectors(줄 단위 벡터 자료 읽기)와 자료 ec-vectors.txt(RFC 6979, RFC 5903 원문에서 스크립트로 추출).
+변경 파일: tls13/src/main/java/.../crypto/{EcCurve,Ecdh,Ecdsa}.java, tls13/src/test/java/.../{Vectors.java,crypto/EcTest.java}, tls13/src/test/resources/ec-vectors.txt, AGENTS.md, 이 문서.
+검증 결과: JDK 6u45 javac 로 컴파일해 자체 실행기로 실행(Windows 10): EcTest 6건 통과/0 실패(약 3.7초). sourcecheck 위반 0건.
+미해결 사항: P-256/P-384 ECDH 는 BigInteger 라 상수 시간이 아니다(docs/progress/tls13.md 1.6절의 한계). 더 새 JRE(JCA)가 만든 서명과의 대조는 P32-03-f 의 대조 자료에서 함께 한다.
+다음 작업 번호: P32-03-f
+-----------------------------------------------------------------------------------------------
 === P32-03-d X25519 (2026-11-28) ===
 현재 작업 번호: P32-03-d 완료. P32-03-e 진행 중.
 완료한 내용: crypto.X25519(RFC 7748. publicKey, sharedSecret. 스칼라 클램프, u 의 최상위 비트 무시, 비밀에 따른 분기 없는 사다리, 결과가 모두 0 이면 SSLException).
