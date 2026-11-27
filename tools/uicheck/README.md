@@ -38,3 +38,18 @@
 
 이 도구는 실제 마우스와 키보드를 움직이므로 실행하는 동안 컴퓨터를 만지지 마세요(키가 다른 창으로 갈 수 있습니다). 소리를 귀로 듣는 확인은 이 도구로 할 수 없습니다.
 
+## 데스크톱 앱과 PDF 인쇄 확인 (P31-11)
+
+- 데스크톱 브라우저 앱의 실제 창을 확인하려면 예제 이름 자리에 완전한 클래스 이름을 줍니다.
+
+  ```sh
+  SWP_CLASSES=desktopapp/target/swingwebpanel-desktopapp.jar   UICHECK_JVM_OPTS="-Dswingwebpanel.desktopapp.home=build/uicheck-home -Dswingwebpanel.desktopapp.lang=ko"   tools/uicheck/run.sh --out build/uicheck --example org.duckdns.hjow.swingwebpanel.desktopapp.Main --shot first --key ctrl+F --type swing --shot find
+  ```
+
+- `--usepanel` 은 탭을 바꾼 뒤 지금 보이는 탭의 페이지를 이어지는 단계의 대상으로 삼습니다.
+- `--printpdf 파일.pdf` 는 페이지를 실제 인쇄 시스템으로 인쇄하되 **이름에 PDF 가 든 인쇄 서비스로만**(예: Microsoft Print to PDF) 대화 상자 없이 그 파일에 씁니다.
+  그런 서비스가 없으면 아무것도 인쇄하지 않고 실패합니다. 종이 프린터로는 절대 보내지 않습니다.
+- `--closedialogs` 는 열려 있는 대화 상자를 실제 입력 없이 모두 닫습니다. 창을 닫으려고 `--key alt+F4` 를 쓰지 마십시오.
+- **실제 키는 그때의 활성 창으로 갑니다.** 그래서 `--key` 와 `--type` 은 이 도구가 띄운 프로그램의 창이 활성 창일 때만 키를 보냅니다.
+  활성 창이 아니면 창을 앞으로 가져오고 제목 줄을 한 번 눌러 본 뒤, 그래도 아니면 키를 보내지 않고 그 단계를 실패로 셉니다(`[SKIPPED] ... the keys were NOT sent`).
+  실행하는 동안 다른 창을 누르지 않는 것이 좋습니다. 키를 받은 창은 출력의 `(active window: 제목)` 에서 확인합니다.

@@ -24,7 +24,9 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 | `src/main/java/.../desktopapp/Main.java` | 진입점. `[주소]` 또는 `--smoke` |
 | `src/main/java/.../desktopapp/BrowserApp.java` | 프로세스 전체 상태(설정, 열린 창, 마지막 창이 닫힐 때의 종료) |
 | `src/main/java/.../desktopapp/Texts.java` | UI 글의 언어 선택. 글은 쓰는 곳에 `Texts.of("English", "한국어")` 로 함께 적는다 |
-| `src/main/java/.../desktopapp/model/` | `AddressInput`(주소 입력 정규화), `Settings`(설정 값과 리스너) |
+| `src/main/java/.../desktopapp/model/` | `AddressInput`(주소 입력 정규화), `Settings`·`SettingsStore`·`SessionStore`(설정과 세션), `BookmarkModel`·`BookmarkStore`·`BookmarkHtml`(북마크), `ConsoleLog`(탭의 콘솔 메시지), `PageFiles`, `ZoomSteps`, `TextFiles` |
+| `src/main/java/.../desktopapp/ui/BrowserMenu.java`, `Commands.java` | 메뉴 막대와 명령 이름. 모든 명령은 `BrowserWindow.perform(이름)` 으로 실행한다 |
+| `src/main/java/.../desktopapp/ui/SettingsDialog.java`, `BookmarkDialog.java` | 설정 대화 상자(모달), 북마크 관리 창(비모달) |
 | `src/main/java/.../desktopapp/ui/BrowserWindow.java` | 브라우저 창(JFrame). `NavigationBar.Actions` 와 `BrowserTab.Listener` 를 구현한다. 탭 목록(`JTabbedPane`)과 닫은 탭 목록을 가진다 |
 | `src/main/java/.../desktopapp/ui/TabHeader.java` | 탭 줄의 탭 머리(제목, 읽는 중 표시, 닫기 단추) |
 | `src/main/java/.../desktopapp/ui/BrowserTab.java` | 페이지 하나(SwingWebPanel + JScrollPane)와 그 상태(읽는 중인 주소, 알림 문구, 마우스 아래 링크, 차단된 팝업) |
@@ -50,7 +52,9 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 
 - 산출물: `desktopapp/target/swingwebpanel-desktopapp.jar`(실행 JAR), `desktopapp/target/swingwebpanel-desktopapp-<판>.jar`(앱 클래스만).
 - 종료 코드(`--smoke`): 0 성공, 1 실패.
-- 창 시험은 버튼을 `doClick()` 으로 누르고 창을 보이지 않게 만든다. 실제 마우스·키보드 확인은 `tools/uicheck` 로 따로 한다(P31-11).
+- 창 시험은 버튼을 `doClick()` 으로 누르고 창을 보이지 않게 만든다. 실제 마우스·키보드 확인은 `tools/uicheck` 로 따로 한다(P31-11, 기록 `docs/progress/uicheck.md` 2026-11-27 절).
+- 창에 텍스트 필드를 더하면 `BrowserTab.releaseCommandKeys(필드)` 를 부른다. Swing 텍스트 필드가 편집에 쓰는 Ctrl+H 가 브라우저의 방문 기록 명령을 가로채지 않게 한다(`PageToolsTest.testHistoryKeyInTextFields`).
+- 실제 창 확인에서 "인쇄..."와 "페이지 설정..."(운영 체제의 대화 상자)은 실행하지 않는다. 메뉴 항목은 방향키 횟수가 아니라 글이 일치하는 `--press` 로 누른다.
 - 프레임이 필요한 시험은 headless JVM 에서 `Check.skip` 으로 건너뛴다. 건너뛴 경우 이유를 `docs/PROGRESS.md` 에 기록한다.
 - 사용자 데이터 위치는 시스템 속성 `swingwebpanel.desktopapp.home` 으로 바꾼다. 시험과 smoke 실행은 `target` 아래를 쓴다.
 - **인쇄 시험은 프린터에 닿지 않는다**: 프린터에 닿는 코드는 `BrowserApp.Printing` 의 기본 구현(`PrinterJob`) 하나뿐이고, 창 시험(`WindowCase`)은 그것을 `FakePrinting` 으로 바꾼다.
@@ -58,4 +62,5 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 
 ## 실제로 실행해 본 JRE
 
-- JDK 6u45(`1.6.0_45`, Windows 10): 시험과 `java -jar ... --smoke`.
+- JDK 6u45(`1.6.0_45`, Windows 10 과 Windows 11): 시험과 `java -jar ... --smoke`, 실제 창 확인(`tools/uicheck`).
+- JDK 8u202(Windows 11): `java -jar ... --smoke`.

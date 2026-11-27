@@ -76,3 +76,40 @@ JDK 6 의 `Robot.keyPress(KeyEvent.VK_KANA)`(한/영 키)는 `IllegalArgumentExc
 | 오디오 | OS 오디오 엔진 피크 미터로 출력 크기·음량·음소거·일시정지·혼합 | **사람의 귀로 듣는 확인**(음색·잡음의 주관적 품질), 속도 변환 음질 |
 
 스크린샷(사용자 정보가 없는 것만): `docs/progress/uicheck/2026-11-19-*.png`.
+
+## 2026-11-27 데스크톱 브라우저 앱(`desktopapp`)의 실제 창, 실제 키·마우스, PDF 인쇄 (P31-11)
+
+환경: Windows 11, JDK 6u45, 입력 언어 한국어. 앱은 `desktopapp/target/swingwebpanel-desktopapp.jar` 를 `--example org.duckdns.hjow.swingwebpanel.desktopapp.Main` 으로 띄웠고
+(`-Dswingwebpanel.desktopapp.lang=ko`, 사용자 데이터는 `build/uicheck-desk/home`), 페이지는 도구의 내장 서버가 준 `tools/uicheck/pages/desk.html`·`desk2.html` 이다.
+아래는 모두 **실제 창에서 본 것**이며 자동 시험(앱 53건)과 구분한다.
+
+| 확인한 것 | 단계 | 결과 |
+| --- | --- | --- |
+| 창 구성 | `--url {base}desk.html --shot` | 한국어 메뉴 막대, 아이콘 도구 모음, 주소 표시줄, 탭 줄(제목과 닫기 단추), 페이지, 상태 표시줄(Done, 100%) (`2026-11-27-desk-page.png`) |
+| 찾기 막대(실제 키) | `--key ctrl+F --type swing --key ENTER --key ENTER` | 막대가 열리고 입력한 즉시 찾는다. 모든 일치가 노랑, 현재 일치가 주황, 개수 `3 / 63`. Esc 로 닫힌다 (`2026-11-27-desk-find-next.png`) |
+| 주소 표시줄(실제 키) | `--key alt+D --type {base}desk2.html --key ENTER`, `--key alt+LEFT` | 입력한 주소로 이동하고 Alt+← 로 돌아온다(앞으로 버튼이 켜진다) |
+| 북마크, 새 탭 | `--key ctrl+D`, `--key ctrl+T` | 상태 표시줄에 "북마크에 추가했습니다: 제목", 새 탭 "빈 페이지"가 활성 탭이 된다 |
+| 콘솔 창 | 단추를 실제로 클릭한 뒤 `--key ctrl+shift+J` | 읽을 때의 `log` 와 단추의 `log`/`warn`/`error` 가 수준별 색으로 보인다 (`2026-11-27-desk-console.png`) |
+| 방문 기록, 원본 | `--key ctrl+H`, `--key ctrl+U` | 각각 창이 열린다(`--closedialogs` 가 닫은 수 1) |
+| 링크 위 주소 | `--hover 210 163` | 상태 문구가 링크 주소가 된다 |
+| 파일 메뉴 | `--key alt+F`, 방향키 | 메뉴가 열리고 항목과 단축키 표시가 보인다 |
+| 인쇄 미리 보기 | `--key alt+F --press "인쇄 미리 보기"` | `1 / 4`, 머리글(제목, 날짜와 시각), 바닥글(주소, `1 / 4`), 인쇄 전용 문단(`@media print`), `@page` 여백, 배경 없음(설정 기본값) (`2026-11-27-desk-preview.png`) |
+| 설정 대화 상자 | `--key alt+O --key ENTER` | 구역 다섯 개와 일반 구역의 항목이 보인다 (`2026-11-27-desk-settings.png`) |
+| 설정의 홈 페이지와 글꼴 크기 | `settings.properties` 에 홈 페이지와 `font.size=22` 를 적고 시작, `--key alt+HOME` | 시작할 때 홈 페이지가 열리고 Alt+Home 으로 돌아가며, 글이 22px 로 보인다 |
+| 팝업 창 | "팝업 열기" 단추를 실제로 클릭 | 요청한 크기(360x240)의 팝업 창에 페이지, 읽기 전용 주소, 상태 표시줄이 보인다 (`2026-11-27-desk-popup.png`) |
+| **PDF 인쇄** | `--printpdf build/uicheck-desk/desk.pdf` | 인쇄 서비스 "Microsoft Print to PDF" 로 대화 상자 없이 4쪽 PDF 가 만들어졌다. PDF 를 열어 확인: 인쇄 전용 문단이 보이고 화면 전용 문단은 없으며, 줄이 쪽 경계에서 잘리지 않고, `break-before: page` 인 제목이 새 쪽에서 시작하고, 표와 한글 글자가 정상이며, 글자가 텍스트로 추출된다(벡터) |
+
+### 관찰한 것 (숨기지 않는다)
+
+- **결함을 찾아 고쳤다**: 주소 표시줄이나 찾기 막대에 포커스가 있으면 Ctrl+H(방문 기록)가 동작하지 않고 글자를 지웠다(Swing 텍스트 필드가 Ctrl+H 를 "앞 글자 지우기"에 묶는다).
+  `BrowserTab.releaseCommandKeys` 로 그 필드에서 키를 떼었고, 시험 `PageToolsTest.testHistoryKeyInTextFields`(수정 전에는 실패함을 확인)와 실제 키로 확인했다.
+- **도구의 결함을 찾아 고쳤다**: 실제 키는 그때의 활성 창으로 간다. 처음 몇 번의 실행에서 앱 창이 운영 체제의 활성 창이 아니어서 키 일부(Ctrl+Shift+J, Ctrl+H, Alt+F4)가
+  사용자가 쓰던 다른 창으로 갔다(사용자가 알려 줌). `tools/uicheck` 의 키 단계에 보호 장치를 넣었다: 이 프로그램의 창이 활성일 때만 키를 보내고(아니면 앞으로 가져오고 제목 줄을 한 번 누른 뒤 다시 확인),
+  그래도 활성이 아니면 **키를 보내지 않고** 단계를 실패로 센다. 키마다 활성 창의 제목을 기록한다. 대화 상자를 닫는 데 Alt+F4 를 쓰지 않도록 `--closedialogs` 를 더했다.
+  위 표의 결과는 모두 보호 장치를 넣은 뒤 다시 실행한 것이다.
+- **인쇄는 종이 프린터로 보내지 않았다**: 실제 인쇄 시스템을 거친 출력은 `--printpdf` 한 가지뿐이고, 이 단계는 이름에 PDF 가 든 인쇄 서비스만 고른다.
+  앱의 "인쇄..." 명령(운영 체제의 인쇄 대화 상자)은 실제 창에서 실행하지 않았다. 파일 메뉴를 방향키로 내려가면 "인쇄..."에 닿을 수 있으므로, 미리 보기는 메뉴를 실제 키로 연 뒤 글이 정확히 일치하는 항목을 눌렀다.
+- 미리 보기의 "쪽 맞춤" 크기에서는 8포인트 머리글·바닥글의 한글이 작아 뭉개져 보인다(100% 이상에서는 또렷하다).
+- 확인하지 않은 것: 운영 체제의 페이지 설정·인쇄 대화 상자 조작, 실제 종이 출력, 설정 대화 상자의 글꼴 목록 조작, 북마크 관리 창의 마우스 조작, 탭의 가운데 단추 클릭, 한글 입력기로 찾기 막대에 입력하기.
+
+스크린샷: `docs/progress/uicheck/2026-11-27-desk-*.png`.

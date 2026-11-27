@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P31-11 검증과 문서화, P31 완료 (2026-11-27) ===
+현재 작업 번호: P31-11 완료. 이로써 P31(P31-01 ~ P31-11)이 모두 끝났다. 남은 것은 P22 와 실환경 마무리(P18-08-d, P18-11, P22-16-c4, P22-16-e, P22-16).
+완료한 내용: (검증) 전체 회귀, 앱 모듈 재검증, JRE 6u45·8u202 의 java -jar --smoke, sourcecheck 전체, 실제 창 확인(tools/uicheck: 실제 키·마우스, 화면 캡처, PDF 프린터 출력). (앱) 탭·창을 반복해 열고 닫은 뒤의 문서 스레드와 컴포넌트 수거 시험(ui.WindowLifecycleTest). 실제 키로 찾은 결함 수정: 주소 표시줄·찾기 막대에 포커스가 있을 때 Ctrl+H 가 방문 기록을 열지 않고 글자를 지우던 것(BrowserTab.releaseCommandKeys, 시험 PageToolsTest.testHistoryKeyInTextFields). (도구) tools/uicheck: --example/--window 에 완전한 클래스 이름, --usepanel, --printpdf(이름에 PDF 가 든 인쇄 서비스로만 대화 상자 없이 파일에 인쇄), --closedialogs, --type 의 {base} 치환, 그리고 실제 키 단계의 활성 창 보호 장치(이 프로그램의 창이 활성이 아니면 키를 보내지 않는다). (문서) desktopapp/README.md 를 사용자 안내로 다시 썼고, 루트 README 두 개에 찾기·인쇄·기본 글꼴·팝업 메서드와 앱 소개, 기능 표 15절(DESK-01~09)과 API-37·API-38, ARCHITECTURE, desktopapp/AGENTS.md, tools/uicheck 의 AGENTS.md·README.md, docs/progress/uicheck.md(2026-11-27 절), docs/progress/desktopapp.md 를 갱신했다.
+변경 파일: desktopapp 의 ui/BrowserTab.java, ui/NavigationBar.java, ui/FindBar.java, 시험 ui/WindowLifecycleTest.java(신규)·ui/PageToolsTest.java, README.md, AGENTS.md. tools/uicheck 의 src/uicheck/UiCheck.java, pages/desk.html·desk2.html(신규), AGENTS.md, README.md. README.md, README.ko.md, docs/FEATURE_MATRIX.md, docs/ARCHITECTURE.md, docs/progress/uicheck.md, docs/progress/uicheck/2026-11-27-desk-*.png(6개), docs/progress/desktopapp.md, AGENTS.md, 이 문서.
+검증 결과: (1) 전체 회귀 mvn -B -o verify(Maven 3.8.8 을 JDK 21 로 실행, JDK 6u45 javac·java, Windows 11, HEAD 1204e9a 에 누수 시험을 더한 작업 트리): BUILD SUCCESS, 10분 16초. 엔진 892건 통과/0 실패/0 건너뜀. 브라우저 3,874건 통과/0 실패/12 건너뜀(건너뛴 12건은 선택 자료인 Opus 원본 벡터). 앱 52건 통과/0 실패/0 건너뜀, run-app-smoke 통과. 이전 실행들에서 실패하던 WebAudioOutputComponentTest(P22-16-c4)는 이번 실행에서는 통과했다(원인을 고친 것이 아니므로 P22-16-c4 는 그대로 둔다). 로그 build/p31/regress-11.log. (2) Ctrl+H 수정 뒤 mvn -B -o -pl desktopapp -am "-Dtest.filter=desktopapp" verify: 앱 53건 통과/0 실패/0 건너뜀, run-app-smoke 통과(로그 build/p31/regress-11b.log). (3) java -jar desktopapp/target/swingwebpanel-desktopapp.jar --smoke: JRE 6u45 와 JRE 8u202 에서 "desktopapp smoke ok", 종료 코드 0. (4) sourcecheck 전체(기본 경로): 위반 0건/4,691 파일. (5) 실제 창 확인: docs/progress/uicheck.md 의 2026-11-27 절(찾기 막대, 주소 입력, 뒤로, 북마크, 새 탭, 콘솔·방문 기록·원본 창, 링크 위 주소, 파일 메뉴, 인쇄 미리 보기, 설정 대화 상자, 설정의 홈 페이지와 글꼴 크기, 팝업 창). (6) PDF 인쇄: 인쇄 서비스 "Microsoft Print to PDF" 로만 4쪽 PDF 를 출력해 내용을 확인했다(인쇄 매체 스타일, @page 여백, 줄을 가르지 않는 쪽 나눔, 강제 쪽 나눔, 벡터 글자). 종이 프린터로 보낸 것은 없다.
+미해결 사항: 실제 창에서 확인하지 않은 것: 운영 체제의 페이지 설정·인쇄 대화 상자 조작과 종이 출력(사용자 요청에 따라 PDF 로만 확인), 설정 대화 상자의 글꼴 목록 조작, 북마크 관리 창의 마우스 조작, 탭의 가운데 단추 클릭, 한글 입력기로 찾기 막대에 입력하기. 실제 키 확인의 처음 몇 실행에서 앱 창이 활성 창이 아니어서 키 일부가 사용자의 다른 창으로 갔다(도구에 보호 장치를 넣고 다시 실행했다). 기능의 한계는 기능 표 API-37(찾기), API-38(인쇄), DESK-01~09 에 있다. P31 밖의 미완료: P18-08-d, P18-11, P22-16-c4, P22-16-e, P22-16(전체 완료 판정).
+다음 작업 번호: P22-16(선행: P22-16-c4, P22-16-e, P18-08-d)
+-----------------------------------------------------------------------------------------------
 === P31-10 인쇄: 인쇄 API(createPrintout, PagePrintout), 쪽 나눔, 인쇄 이벤트, desktopapp 페이지 설정·미리 보기·인쇄 (2026-11-27) ===
 현재 작업 번호: P31-10 완료. P31-11(검증과 문서화) 진행 중.
 완료한 내용: (브라우저, 계약 5.30, 기능 표 API-38) SwingWebPanel.createPrintout(PageFormat, boolean, PrintoutListener), 공개 타입 PagePrintout(java.awt.print.Pageable·Printable)과 PrintoutListener, 확장 지점 printRequested()(window.print()). core.PrintLayout: 같은 스타일 시트를 print 매체의 두 번째 StyleResolver 로 계산해 쪽 영역 폭으로 배치하고(화면의 엔진·레이아웃·스크롤·확대는 그대로), @page 의 size·margin(:first/:left/:right)으로 쪽마다의 PageFormat 을 만들며, 넓은 내용은 폭에 맞게 줄이고(0.4 까지), 쪽을 그린다(고정 배치 상자는 쪽마다 되풀이, 배경을 넣을 때 캔버스 색으로 쪽 영역 채우기). layout.PageBreaks: 강제 나눔(break-before/after 의 page 계열과 page-break-* 별칭), 줄·치환 요소·표의 행·변환 상자를 가르지 않기, break-inside: avoid, orphans/widows, avoid 로 묶인 이웃. render.DisplayListBuilder 의 배경 빼기(print-color-adjust: exact 예외). 인쇄 이벤트 beforeprint → 배치 → afterprint(js.host.PageLifecycle.printing, core.PageView.print). window.print() → HostEnvironment.print → BrowserSession.printFromPage → EDT 의 printRequested(). css.cascade.PageStyles 에 호스트 용지 기본값과 isMarginSet, layout.CssStyleSource 에 리졸버 바꾸기. (앱) BrowserApp.Printing(프린터에 닿는 유일한 경계: PrinterJob 의 페이지 설정·인쇄 대화 상자·작업)과 getPaper/setPaper, model.PaperFormat(설정 print.paper), model.PrintDocument(머리글: 제목·날짜, 바닥글: 주소·쪽/전체 쪽), ui.PrintPreview(쪽 넘기기, 크기, 인쇄), BrowserWindow.pageSetup/printTab/showPreview/startPrint/printRequested, TabPanel.printRequested. 명령 page-setup, print-preview, print 가 동작한다.
@@ -1850,6 +1858,11 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-27 · P31 데스크톱 웹 브라우저(desktopapp) 완료
+
+- P31-01~11을 모두 끝냈다. 항목별 내용은 위 현재 상태의 P31 블록들, 설계와 결정은 `docs/progress/desktopapp.md`, 실제 창 확인은 `docs/progress/uicheck.md`의 2026-11-27 절에 있다.
+- 인쇄 확인은 PDF 인쇄 서비스로만 했다. 실제 창 확인을 다시 할 때도 `tools/uicheck --printpdf` 만 쓰고, 앱의 "인쇄..." 명령은 실제 창에서 실행하지 않는다.
 
 ### 2026-11-27 · 모듈별 Javadoc 생성 스크립트
 

@@ -312,6 +312,59 @@ public class PageToolsTest extends WindowCase {
     }
 
     /**
+     * Ctrl+H opens the history also while a text field of the window has the keyboard focus: the field does not use the key to delete
+     * a character (a defect that real keys showed).
+     * <p>
+     * 창의 텍스트 필드가 키보드 포커스를 가진 동안에도 Ctrl+H 가 방문 기록을 연다: 필드는 그 키로 글자를 지우지 않는다(실제 키로 드러난 결함).
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testHistoryKeyInTextFields() throws Exception {
+        if (skipped()) {
+            return;
+        }
+        onEdt(new Runnable() {
+            /** Presses the key in the address bar and in the find bar. / 주소 표시줄과 찾기 막대에서 키를 누른다. */
+            public void run() {
+                showOffScreen();
+                javax.swing.JTextField address = window.getNavigationBar().getAddressField();
+                address.setText("typed text");
+                address.setCaretPosition(address.getText().length());
+                Check.equal(0, historyDialogs(), "no history window at first");
+                press(address, java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK);
+                Check.equal("typed text", address.getText(), "Ctrl+H does not delete a character of the address bar");
+                Check.equal(1, historyDialogs(), "Ctrl+H in the address bar opens the history");
+                window.perform(Commands.FIND);
+                javax.swing.JTextField find = window.getFindBar().getField();
+                find.setText("abc");
+                press(find, java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK);
+                Check.equal("abc", find.getText(), "Ctrl+H does not delete a character of the find bar");
+                press(address, java.awt.event.KeyEvent.VK_BACK_SPACE, 0);
+                Check.equal("typed tex", address.getText(), "Backspace still deletes");
+            }
+        });
+    }
+
+    /**
+     * Counts the history windows that the browser window owns.
+     * <p>
+     * 브라우저 창이 소유한 방문 기록 창을 센다.
+     *
+     * @return the number of history windows / 방문 기록 창의 수
+     */
+    private int historyDialogs() {
+        int n = 0;
+        java.awt.Window[] owned = window.getOwnedWindows();
+        // 소유한 창마다 방문 기록 창인지 본다.
+        for (int i = 0; i < owned.length; i++) {
+            if (owned[i] instanceof HistoryDialog) {
+                n++;
+            }
+        }
+        return n;
+    }
+
+    /**
      * Clearing the private data asks first, then empties every tab of every window, forgets the closed tabs and the console messages,
      * and removes the cookies and the session storage; bookmarks and settings stay.
      * <p>

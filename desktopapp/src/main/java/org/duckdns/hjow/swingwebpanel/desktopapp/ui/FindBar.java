@@ -92,6 +92,7 @@ final class FindBar extends JPanel {
         setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY));
         setName("find-bar");
         field.setName("find-text");
+        BrowserTab.releaseCommandKeys(field);
         normalBackground = field.getBackground();
         JButton previous = button("find-previous", Texts.of("Previous", "이전"), new Runnable() {
             /** Goes to the previous match. / 이전 일치로 간다. */

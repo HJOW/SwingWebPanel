@@ -388,6 +388,7 @@ final class NavigationBar extends JPanel {
             }
         });
         address.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "revert-address");
+        BrowserTab.releaseCommandKeys(address);
         address.getActionMap().put("revert-address", new AbstractAction() {
             /** Serialization version. / 직렬화 버전. */
             private static final long serialVersionUID = 1L;

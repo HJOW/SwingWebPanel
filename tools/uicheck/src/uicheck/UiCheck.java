@@ -168,6 +168,12 @@ public final class UiCheck {
                 openPlainWindow(steps.get(++i));
             } else if ("--dialogshot".equals(s)) {
                 dialogShot(steps.get(++i));
+            } else if ("--printpdf".equals(s)) {
+                printPdf(steps.get(++i));
+            } else if ("--usepanel".equals(s)) {
+                usePanel();
+            } else if ("--closedialogs".equals(s)) {
+                closeDialogs();
             } else if ("--wheel".equals(s)) {
                 wheel(Integer.parseInt(steps.get(++i)));
             } else if ("--press".equals(s)) {
@@ -177,7 +183,8 @@ public final class UiCheck {
             } else if ("--key".equals(s)) {
                 key(steps.get(++i));
             } else if ("--type".equals(s)) {
-                type(steps.get(++i));
+                // 글 안의 {base} 는 내장 서버의 주소로 바뀐다(주소 표시줄에 서버 주소를 입력할 때 쓴다).
+                type(withBase(steps.get(++i)));
             } else if ("--hangul".equals(s)) {
                 hangul("on".equals(steps.get(++i)));
             } else if ("--hover".equals(s)) {
@@ -262,7 +269,7 @@ public final class UiCheck {
         if ("--url".equals(step) || "--shot".equals(step) || "--scroll".equals(step) || "--wait".equals(step) || "--expect-title".equals(step)
                 || "--example".equals(step) || "--press".equals(step) || "--window".equals(step) || "--dialogshot".equals(step) || "--wheel".equals(step)
                 || "--key".equals(step) || "--type".equals(step) || "--hangul".equals(step) || "--clickbutton".equals(step)
-                || "--expect-file".equals(step)) {
+                || "--expect-file".equals(step) || "--printpdf".equals(step)) {
             return 1;
         }
         return 0;
@@ -328,7 +335,8 @@ public final class UiCheck {
      * @throws Exception if the example or its window cannot be found / 예제나 그 창을 찾지 못한 경우
      */
     private void openExample(String name) throws Exception {
-        Class<?> type = Class.forName("org.duckdns.hjow.swingwebpanel.examples." + name);
+        // 점이 든 이름은 완전한 클래스 이름으로 본다(예: 데스크톱 앱의 Main).
+        Class<?> type = Class.forName(name.indexOf('.') >= 0 ? name : "org.duckdns.hjow.swingwebpanel.examples." + name);
         type.getMethod("main", String[].class).invoke(null, (Object) new String[0]);
         long end = System.currentTimeMillis() + 15000;
         // 예제 창이 나타날 때까지 제한 시간 안에서 반복해서 찾는다.
@@ -376,7 +384,8 @@ public final class UiCheck {
      * @throws Exception if no window appears / 창이 나타나지 않은 경우
      */
     private void openPlainWindow(String name) throws Exception {
-        Class<?> type = Class.forName("org.duckdns.hjow.swingwebpanel.examples." + name);
+        // 점이 든 이름은 완전한 클래스 이름으로 본다.
+        Class<?> type = Class.forName(name.indexOf('.') >= 0 ? name : "org.duckdns.hjow.swingwebpanel.examples." + name);
         type.getMethod("main", String[].class).invoke(null, (Object) new String[0]);
         long end = System.currentTimeMillis() + 15000;
         // 예제 창이 나타날 때까지 제한 시간 안에서 반복해서 찾는다.
@@ -402,6 +411,218 @@ public final class UiCheck {
         }
         Thread.sleep(1200);
         robot.waitForIdle();
+    }
+
+    /**
+     * Makes sure that a window of this program is the active window of the desktop before real keys are sent, because real keys go to
+     * whatever window is active: if none of ours is, the window of the steps is brought to the front and, if that does not help, its
+     * title bar is clicked once. If our program still has no active window the keys are <b>not sent</b> and the step counts as failed,
+     * so that keys never reach a window of another program.
+     * <p>
+     * 실제 키를 보내기 전에 이 프로그램의 창이 데스크톱의 활성 창인지 확인한다. 실제 키는 활성 창이 무엇이든 그리로 가기 때문이다: 우리 창이
+     * 활성이 아니면 단계의 창을 앞으로 가져오고, 그래도 안 되면 그 제목 줄을 한 번 누른다. 그래도 우리 프로그램에 활성 창이 없으면 키를
+     * <b>보내지 않고</b> 단계를 실패로 센다. 그래서 키가 다른 프로그램의 창에 닿는 일이 없다.
+     *
+     * @param what the step, for the message / 메시지에 쓸 단계
+     * @return true if a window of this program is active / 이 프로그램의 창이 활성이면 true
+     * @throws Exception on failure / 실패 시
+     */
+    private boolean ensureActive(String what) throws Exception {
+        // 세 번까지 확인하며, 사이에 창을 앞으로 가져오거나 제목 줄을 눌러 본다.
+        for (int attempt = 0; attempt < 3; attempt++) {
+            final boolean[] active = new boolean[1];
+            runOnEdt(new Runnable() {
+                /** Reads the active window and asks for the front if there is none. / 활성 창을 읽고, 없으면 앞으로 가져오기를 요청한다. */
+                public void run() {
+                    active[0] = java.awt.KeyboardFocusManager.getCurrentKeyboardFocusManager().getActiveWindow() != null;
+                    if (!active[0] && frame != null) {
+                        frame.toFront();
+                        frame.requestFocus();
+                    }
+                }
+            });
+            if (active[0]) {
+                return true;
+            }
+            Thread.sleep(500);
+            if (attempt == 1 && frame != null && frame.isShowing()) {
+                // 앞으로 가져오기가 통하지 않으면(운영 체제가 포커스 가로채기를 막는다) 제목 줄을 실제로 한 번 누른다.
+                Point at = frame.getLocationOnScreen();
+                Point before = java.awt.MouseInfo.getPointerInfo().getLocation();
+                robot.mouseMove(at.x + frame.getWidth() / 2, at.y + 12);
+                robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+                robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
+                robot.waitForIdle();
+                robot.mouseMove(before.x, before.y);
+                Thread.sleep(500);
+            }
+        }
+        failures++;
+        System.out.println("[SKIPPED] " + what + ": no window of this program is active, so the keys were NOT sent");
+        return false;
+    }
+
+    /**
+     * Returns the title of the active window of this program, for the log of the key steps.
+     * <p>
+     * 이 프로그램의 활성 창의 제목을 반환한다. 키 단계의 기록에 쓴다.
+     *
+     * @return the title, or <code>none</code> / 제목. 없으면 <code>none</code>
+     * @throws Exception on failure / 실패 시
+     */
+    private String activeTitle() throws Exception {
+        final String[] title = new String[1];
+        runOnEdt(new Runnable() {
+            /** Reads the title of the active window. / 활성 창의 제목을 읽는다. */
+            public void run() {
+                java.awt.Window w = java.awt.KeyboardFocusManager.getCurrentKeyboardFocusManager().getActiveWindow();
+                title[0] = w == null ? "none" : w instanceof java.awt.Frame ? ((java.awt.Frame) w).getTitle()
+                        : w instanceof java.awt.Dialog ? ((java.awt.Dialog) w).getTitle() : w.getClass().getName();
+            }
+        });
+        return title[0];
+    }
+
+    /**
+     * Closes every showing dialog of this program without real input (so that no key such as Alt+F4 has to be sent).
+     * <p>
+     * 이 프로그램의 보이는 모든 대화 상자를 실제 입력 없이 닫는다(Alt+F4 같은 키를 보낼 필요가 없게 한다).
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    private void closeDialogs() throws Exception {
+        final int[] closed = new int[1];
+        runOnEdt(new Runnable() {
+            /** Disposes the showing dialogs. / 보이는 대화 상자를 닫는다. */
+            public void run() {
+                java.awt.Window[] all = java.awt.Window.getWindows();
+                // 창마다 보이는 대화 상자이면 닫는다.
+                for (int i = 0; i < all.length; i++) {
+                    if (all[i] instanceof java.awt.Dialog && all[i].isShowing()) {
+                        all[i].dispose();
+                        closed[0]++;
+                    }
+                }
+                if (frame != null) {
+                    frame.toFront();
+                }
+            }
+        });
+        Thread.sleep(400);
+        System.out.println("[closedialogs] " + closed[0]);
+    }
+
+    /**
+     * Uses the browser panel that is showing in the window now for the following steps (after the application switched to another
+     * tab, the panel of the steps is otherwise still the one of the first tab).
+     * <p>
+     * 지금 창에 보이는 브라우저 패널을 이어지는 단계에 쓴다(응용 프로그램이 다른 탭으로 바꾼 뒤에도, 그러지 않으면 단계의 패널은 첫 탭의 것이다).
+     *
+     * @throws Exception if no panel is showing / 보이는 패널이 없는 경우
+     */
+    private void usePanel() throws Exception {
+        runOnEdt(new Runnable() {
+            /** Looks for the showing panel of the window. / 창에서 보이는 패널을 찾는다. */
+            public void run() {
+                SwingWebPanel found = findShowingPanel(frame);
+                if (found != null) {
+                    panel = found;
+                    scroll = (JScrollPane) SwingUtilities.getAncestorOfClass(JScrollPane.class, found);
+                }
+            }
+        });
+        System.out.println("[usepanel] page=" + panel.getPage());
+    }
+
+    /**
+     * Finds the first browser panel below a container that is showing on the screen.
+     * <p>
+     * 컨테이너 아래에서 화면에 보이는 첫 브라우저 패널을 찾는다.
+     *
+     * @param parent the container / 컨테이너
+     * @return the panel or null / 패널 또는 null
+     */
+    private static SwingWebPanel findShowingPanel(java.awt.Container parent) {
+        // 자식을 차례로 훑으며 보이는 패널을 찾는다.
+        for (int i = 0; i < parent.getComponentCount(); i++) {
+            Component c = parent.getComponent(i);
+            if (c instanceof SwingWebPanel && c.isShowing()) {
+                return (SwingWebPanel) c;
+            }
+            if (c instanceof java.awt.Container) {
+                SwingWebPanel inner = findShowingPanel((java.awt.Container) c);
+                if (inner != null) {
+                    return inner;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Prints the page of the panel into a PDF file through the real print system of the platform, without a dialog: only a print
+     * service whose name contains "PDF" (for example "Microsoft Print to PDF") is used, with the file as its destination. If there is
+     * no such service nothing is printed and the step fails; a printer that puts ink on paper is never chosen.
+     * <p>
+     * 패널의 페이지를 플랫폼의 실제 인쇄 시스템으로 대화 상자 없이 PDF 파일에 인쇄한다: 이름에 "PDF" 가 든 인쇄 서비스(예: "Microsoft Print to
+     * PDF")만 쓰고 파일을 그 대상으로 지정한다. 그런 서비스가 없으면 아무것도 인쇄하지 않고 단계가 실패한다. 종이에 인쇄하는 프린터는 절대 고르지
+     * 않는다.
+     *
+     * @param path the PDF file to write / 쓸 PDF 파일
+     * @throws Exception if there is no PDF print service or printing fails / PDF 인쇄 서비스가 없거나 인쇄가 실패한 경우
+     */
+    private void printPdf(String path) throws Exception {
+        File out = new File(path).getAbsoluteFile();
+        if (out.getParentFile() != null) {
+            out.getParentFile().mkdirs();
+        }
+        out.delete();
+        javax.print.PrintService pdf = null;
+        javax.print.PrintService[] all = javax.print.PrintServiceLookup.lookupPrintServices(null, null);
+        // 이름에 PDF 가 든 서비스만 고른다(Microsoft 의 것을 먼저).
+        for (int i = 0; i < all.length; i++) {
+            String name = all[i].getName();
+            if (name.toUpperCase().indexOf("PDF") >= 0 && (pdf == null || name.indexOf("Microsoft") >= 0)) {
+                pdf = all[i];
+            }
+        }
+        if (pdf == null) {
+            failures++;
+            System.out.println("[printpdf] FAILED: no print service with PDF in its name; nothing was printed");
+            return;
+        }
+        final java.awt.print.PrinterJob job = java.awt.print.PrinterJob.getPrinterJob();
+        job.setPrintService(pdf);
+        job.setJobName("uicheck");
+        final org.duckdns.hjow.swingwebpanel.PagePrintout[] got = new org.duckdns.hjow.swingwebpanel.PagePrintout[1];
+        final java.util.concurrent.CountDownLatch ready = new java.util.concurrent.CountDownLatch(1);
+        panel.createPrintout(job.defaultPage(), true, new org.duckdns.hjow.swingwebpanel.PrintoutListener() {
+            /** Keeps the printout. / 인쇄물을 보관한다. */
+            public void printoutReady(org.duckdns.hjow.swingwebpanel.PagePrintout printout) {
+                got[0] = printout;
+                ready.countDown();
+            }
+        });
+        if (!ready.await(60, java.util.concurrent.TimeUnit.SECONDS) || got[0] == null) {
+            failures++;
+            System.out.println("[printpdf] FAILED: the page could not be laid out for printing");
+            return;
+        }
+        job.setPageable(got[0]);
+        javax.print.attribute.PrintRequestAttributeSet attributes = new javax.print.attribute.HashPrintRequestAttributeSet();
+        attributes.add(new javax.print.attribute.standard.Destination(out.toURI()));
+        job.print(attributes);
+        long end = System.currentTimeMillis() + 30000;
+        // 드라이버가 파일을 다 쓸 때까지 잠깐 기다린다.
+        while (System.currentTimeMillis() < end && !(out.isFile() && out.length() > 0)) {
+            Thread.sleep(200);
+        }
+        Thread.sleep(1000);
+        System.out.println("[printpdf] service=" + pdf.getName() + " pages=" + got[0].getNumberOfPages() + " file=" + out + " size=" + out.length());
+        if (!out.isFile() || out.length() == 0) {
+            failures++;
+            System.out.println("[printpdf] FAILED: the PDF file was not written");
+        }
     }
 
     /**
@@ -787,8 +1008,11 @@ public final class UiCheck {
      * @throws Exception if interrupted / 중단된 경우
      */
     private void key(String spec) throws Exception {
+        if (!ensureActive("key " + spec)) {
+            return;
+        }
         keys().press(spec);
-        System.out.println("[key] " + spec);
+        System.out.println("[key] " + spec + "  (active window: " + activeTitle() + ")");
         afterInput();
     }
 
@@ -803,6 +1027,9 @@ public final class UiCheck {
      * @throws Exception if interrupted / 중단된 경우
      */
     private void type(String text) throws Exception {
+        if (!ensureActive("type " + text)) {
+            return;
+        }
         keys().type(text);
         System.out.println("[type] " + text);
         afterInput();

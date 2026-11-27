@@ -404,6 +404,21 @@ public final class BrowserTab {
     }
 
     /**
+     * Takes the keys away from a text field of the window that the field would use for editing but that are commands of the browser:
+     * Ctrl+H, which Swing text fields bind to "delete the character before the caret", opens the history. Without this the command
+     * does not work while the address bar or the find bar has the keyboard focus (found with real keys, plan item P31-11).
+     * <p>
+     * 창의 텍스트 필드가 편집에 쓰려 하지만 브라우저의 명령인 키를 필드에서 뗀다: Swing 텍스트 필드가 "캐럿 앞 글자 지우기"에 묶는 Ctrl+H 는
+     * 방문 기록을 연다. 이것이 없으면 주소 표시줄이나 찾기 막대가 키보드 포커스를 가진 동안 그 명령이 동작하지 않는다(실제 키로 찾았다, 계획
+     * P31-11).
+     *
+     * @param field a text field of the window / 창의 텍스트 필드
+     */
+    static void releaseCommandKeys(JComponent field) {
+        field.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK), "none");
+    }
+
+    /**
      * Applies the settings of the application to the component of this tab: scripts, closing by scripts, the User-Agent, the default
      * fonts and the default zoom. Only what differs is changed, so a call with unchanged settings does nothing. A tab whose zoom the
      * user changed keeps it when the default zoom changes.

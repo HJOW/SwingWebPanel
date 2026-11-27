@@ -29,15 +29,18 @@ P09-08-b-2 같은 항목의 근거를 만든다. 제품 코드가 아니며 제�
 | `--back`, `--forward`, `--refresh` | 같은 이름의 `SwingWebPanel` 메서드를 부르고 기다린다 |
 | `--wait MS` | 쉰다 |
 | `--expect-title TEXT` | 수신 원문에 `<title>` 과 `TEXT` 가 있는지 확인한다(없으면 실패 계수 증가) |
-| `--example NAME` | `org.duckdns.hjow.swingwebpanel.examples.NAME` 의 `main`을 실행해 그 창을 쓴다. 예제 클래스는 Maven이 `examples/target/classes`에 컴파일한다. |
+| `--example NAME` | `org.duckdns.hjow.swingwebpanel.examples.NAME` 의 `main`을 실행해 그 창을 쓴다. 점이 든 이름은 완전한 클래스 이름으로 본다(예: `org.duckdns.hjow.swingwebpanel.desktopapp.Main`. 이때 `SWP_CLASSES=desktopapp/target/swingwebpanel-desktopapp.jar` 로 실행하고 `UICHECK_JVM_OPTS=-Dswingwebpanel.desktopapp.home=<build 아래 폴더>` 로 사용자 데이터를 돌린다). 예제 클래스는 Maven이 `examples/target/classes`에 컴파일한다. |
 | `--press TEXT` | 열려 있는 모든 창(팝업 대화상자 포함)에서 단추(글이 `TEXT` 인 `AbstractButton`)를 `doClick()` 으로 누르고 기다린다(예: `--press "<"`) |
+| `--usepanel` | 지금 창에 보이는 브라우저 패널을 이어지는 단계의 패널로 쓴다(탭을 바꾼 데스크톱 앱에서 활성 탭의 패널을 고른다) |
+| `--printpdf FILE` | 패널의 페이지를 `createPrintout` 으로 배치해 **이름에 PDF 가 든 인쇄 서비스**(예: Microsoft Print to PDF)로만, 대상 파일을 지정해 대화 상자 없이 인쇄하고 `[printpdf] service= pages= file= size=` 를 출력한다. 그런 서비스가 없으면 아무것도 인쇄하지 않고 실패한다. 종이에 인쇄하는 프린터는 고르지 않는다 |
+| `--closedialogs` | 이 프로그램의 보이는 모든 대화 상자(`java.awt.Dialog`)를 실제 입력 없이 `dispose()` 하고 `[closedialogs] 수` 를 출력한다. 창을 닫으려고 `alt+F4` 를 보내지 않는다(활성 창이 다른 프로그램이면 그 프로그램을 닫는다) |
 | `--window NAME` | `--example` 와 같지만 브라우저 패널이 없는 예제(예: `DownloadPopupExample`)의 첫 보이는 JFrame 을 창으로 쓴다 |
 | `--dialogshot NAME` | 보이는 첫 JDialog(예: 다운로드 팝업)의 내용 영역을 `DIR/NAME.png` 로 저장한다(최대 10 초 기다림) |
 | `--wheel N` | Robot 으로 **실제 OS 마우스 휠**을 `N` 칸(양수 = 아래) 돌리고 `[wheel] notches=N scroll 전 -> 후` 를 출력한다(포인터는 되돌린다) |
 | `--dispose` | 패널과 창을 폐기한다 |
 | `--serve` | 내장 HTTP/1.0 서버(`EchoServer`, 127.0.0.1 의 빈 포트)를 켜고 `[serve] 주소` 를 출력한다. `tools/uicheck/pages/*.html` 을 내주고, `/echo...` 는 요청(메서드, 대상, Content-Type, UTF-8 본문)을 `[echo]` 줄로 출력하며 같은 내용을 페이지로 돌려주고, `/download?name=&size=&unknown=1&slow=1&fail=1` 은 첨부 파일(한글 `filename*`, 길이 없음, 약 4초, 절반 뒤 끊김)을 돌려준다. 이후 `--url` 값의 `{base}` 가 서버 주소로 바뀐다 |
-| `--key SPEC` | Robot 으로 **실제 OS 키**를 누른다(`TAB`, `shift+TAB`, `ctrl+C`, `BACK_SPACE*2` 등; 이름은 `KeyEvent.VK_` 뒤). 키는 포커스를 가진 창(파일 선택기 등 대화상자 포함)으로 간다 |
-| `--type TEXT` | ASCII 글을 실제 키로 친다(미국/한국 자판 배열). 입력기가 한글 모드이면 **Windows 한국어 입력기가 조합**한다(`gksrmf` → 한글) |
+| `--key SPEC` | Robot 으로 **실제 OS 키**를 누른다(`TAB`, `shift+TAB`, `ctrl+C`, `BACK_SPACE*2` 등; 이름은 `KeyEvent.VK_` 뒤). 키는 포커스를 가진 창(파일 선택기 등 대화상자 포함)으로 간다. **보호 장치**: 이 프로그램(JVM)의 창이 데스크톱의 활성 창일 때만 키를 보낸다. 아니면 창을 앞으로 가져오고, 그래도 아니면 제목 줄을 실제로 한 번 누른 뒤 다시 확인하며, 끝내 활성이 아니면 키를 **보내지 않고** `[SKIPPED] ... the keys were NOT sent` 를 출력하고 실패 계수를 올린다. 출력 `[key] SPEC  (active window: 제목)` 로 키를 받은 창을 확인한다. `--type` 도 같다 |
+| `--type TEXT` | ASCII 글을 실제 키로 친다(미국/한국 자판 배열). 글 안의 `{base}` 는 `--serve` 의 서버 주소로 바뀐다. 입력기가 한글 모드이면 **Windows 한국어 입력기가 조합**한다(`gksrmf` → 한글) |
 | `--hangul on\|off` | 포커스 소유자의 `InputContext` 를 한국어로 고르고 `setCharacterSubsets(HANGUL_SYLLABLES 또는 BASIC_LATIN)` 로 한글/영문 모드를 바꾼다(한/영 키 대신: JDK 6 Robot 은 `VK_KANA` 를 `Invalid key code` 로 거부). 페이지 패널(contenteditable)에서는 `off` 가 듣지 않았다(아래 제약) |
 | `--realclick X Y` | `--realmouse` 없이도 그 클릭만 실제 마우스로 한다 |
 | `--mousedown X Y`, `--mouseup` | 실제 왼쪽 단추를 누른 채 두었다가 뗀다(`:active` 확인) |

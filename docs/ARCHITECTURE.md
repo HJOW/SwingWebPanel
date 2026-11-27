@@ -49,7 +49,7 @@ browser/src/main/java/        Swing 브라우저 소스
 browser/src/main/resources/   브라우저 제품 리소스
 browser/src/test/             브라우저 시험 java/와 resources/
 examples/src/main/            예제 java/와 resources/
-desktopapp/                   SwingWebPanel 로 만든 Swing 웹 브라우저 앱(P31). src/main/java, src/test/java, 실행 스크립트
+desktopapp/                   SwingWebPanel 로 만든 Swing 웹 브라우저 앱(P31: 탭, 북마크, 설정, 찾기, 인쇄). src/main/java(model, ui), src/test/java, 실행 스크립트
 tools/<도구>/                 개발 보조 도구(제품 reactor와 분리, Java 6)
 <모듈>/target/                Maven 생성물
 build/                        도구 작업 자료

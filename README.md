@@ -93,7 +93,7 @@ Open `index.html` in `docs/javadoc/engine/`, `docs/javadoc/browser/`, `docs/java
 | `browser/target/swingwebpanel-browser.jar` | Browser module. Add the engine JAR to the runtime classpath |
 | `engine/target/swingwebpanel-js.jar` | Standalone JavaScript engine and JSR 223 provider |
 
-When you use Maven, the browser artifact brings in the engine. For manual setup, `browser/target/swingwebpanel.jar` contains both. Examples are built separately under `examples/target/`. A browser application built on SwingWebPanel (work in progress) is built as `desktopapp/target/swingwebpanel-desktopapp.jar` and started with `java -jar`; see [desktopapp/README.md](desktopapp/README.md).
+When you use Maven, the browser artifact brings in the engine. For manual setup, `browser/target/swingwebpanel.jar` contains both. Examples are built separately under `examples/target/`. A web browser application built on SwingWebPanel (tabs, bookmarks, settings, find, printing and more) is built as `desktopapp/target/swingwebpanel-desktopapp.jar` and started with `java -jar`; see [desktopapp/README.md](desktopapp/README.md).
 
 ### Publishing to Maven Central
 
@@ -135,6 +135,10 @@ Call `panel.dispose()` when closing the window. Property notifications, includin
 | `getCookies()` | Return unexpired cookies from the component's cookie jar as one string of name-value pairs. |
 | `new SwingWebPanel(CookieJar)`, `getCookieJar()`, `clearCookies()` | Let several components share cookies: create one `CookieJar` and pass it to each constructor, so that a login in one component holds in the others (the tabs of a browser). A shared jar survives the disposal of a component. `clearCookies()` and `CookieJar.clear()` remove the cookies (`clean()` keeps them). |
 | `copy()`, `cut()`, `paste()`, `selectAll()` | Edit commands that the host runs, for example from a menu item. They do what the matching keys (Ctrl+C/X/V/A) do; the page gets the clipboard events but no key events. The component consumes these keys and the zoom keys when it handles them itself, so a menu accelerator of the host does not run a second time for the same key. |
+| `find(String, boolean, boolean)`, `clearFind()`, `getFindResult()` | Search the displayed text of the page: every match is highlighted, the view scrolls to the current one, and a call with the same text goes to the next or previous match. The result (`FindResult`: count and current number) is announced as the `findResult` property. |
+| `createPrintout(PageFormat, boolean, PrintoutListener)` | Lay the shown page out for printing and receive a `PagePrintout` (`java.awt.print.Pageable`). `@media print`, the size and margins of `@page` and page breaks are honored. Choosing the printer and running the `PrinterJob` is up to the host. `window.print()` of a page arrives at the overridable `printRequested()`, which does nothing by default. |
+| `setDefaultFontFamily(String, String)`, `setDefaultFontSize(int)`, `setDefaultMonospaceFontSize(int)` | Default fonts and sizes of this component for text whose page names no font. |
+| `setPopupBlockingEnabled(boolean)` / `isPopupBlockingEnabled()` | Popup blocker (on by default): `window.open` without an action of the user is blocked. An allowed window opens in a default popup window (`JDialog`); override `openPopupWindow`, `openNewWindow` and `popupBlocked` to show it in a tab or a window of your own. Close one of several components with `disposeKeepingStorage()`. |
 | `setJavascriptEnabled(boolean)`, `isJavascriptEnabled()` | JavaScript starts enabled. Disabling it stops scripts, inline handlers and timers. HTML, CSS, links and forms keep working. Re-enabling takes effect on the next load. |
 | `getStatusText()`, `getProgress()` | Read status text and navigation progress. |
 | `addHyperlinkListener`, `removeHyperlinkListener`, `removeHyperlinkEvents()` | Manage Swing listeners for link enter, exit and activation. Link navigation works without listeners. |

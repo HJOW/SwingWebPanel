@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>데스크톱 앱 확인 페이지</title>
+<style>
+body { font-family: sans-serif; margin: 16px; }
+h1 { font-size: 24px; margin: 0 0 8px 0; }
+.box { border: 2px solid #336; padding: 8px; margin: 8px 0; background: #eef; }
+.screen-only { color: #060; }
+.print-only { display: none; color: #900; }
+.chapter { break-before: page; }
+@media print {
+  .screen-only { display: none; }
+  .print-only { display: block; }
+}
+@page { margin: 20mm 15mm; }
+</style>
+</head>
+<body>
+<h1>데스크톱 앱 확인 페이지</h1>
+<p class="screen-only">이 문단은 화면에서만 보입니다 (screen only).</p>
+<p class="print-only">이 문단은 인쇄할 때만 보입니다 (print only).</p>
+<p>The quick brown fox jumps over the lazy dog. 찾기 시험을 위한 문장입니다: swing, Swing, SWING 이 세 번 나옵니다.</p>
+<div class="box">상자 안의 글. <a id="next" href="desk2.html">다음 페이지로 가는 링크</a> 와
+<a id="blank" href="desk2.html" target="_blank">새 창 링크</a>.</div>
+<p><button id="popup" onclick="window.open('desk2.html', 'pop', 'width=360,height=240')">팝업 열기</button>
+<button id="log" onclick="console.log('버튼을 눌렀습니다'); console.warn('경고 한 줄'); console.error('오류 한 줄')">콘솔에 쓰기</button></p>
+<script>
+console.log('desk.html 을 읽었습니다');
+var lines = '';
+for (var i = 1; i <= 60; i++) {
+  lines += '<p>본문 ' + i + '번째 줄입니다. swing 은 여기에도 있습니다.</p>';
+}
+document.write(lines);
+</script>
+<h2 class="chapter">둘째 장 (새 쪽에서 시작)</h2>
+<p>강제 쪽 나눔 뒤의 내용입니다.</p>
+<table border="1" cellpadding="4"><tr><th>이름</th><th>값</th></tr><tr><td>가</td><td>1</td></tr><tr><td>나</td><td>2</td></tr></table>
+</body>
+</html>
